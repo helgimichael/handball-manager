@@ -68,7 +68,8 @@ export function buildObjectives(state: CareerState, clubId: string): { objective
     Object.assign(lg, { label: `Lyft laget från ${now}:e plats`, why: `Du tar över mitt i säsongen när laget ligger ${now}:a (förhandstipset var ${p}:a). Styrelsen vill se laget klättra.`, target: Math.max(1, now - 2), minimum: now });
   }
   if (isDevelopmentClub(state, clubId, competitionId)) out.push({ id: "youth", kind: "YOUTH", label: "Ge unga spelare speltid", why: "Klubben satsar mer än de flesta på sin akademi och vill se det i A-laget.", target: 0.15, weight: 1, status: "ON_TRACK", progress: "" });
-  if (competitionId === HANDBOLLSLIGAN && p <= 3) out.push({ id: "cup", kind: "CUP", label: "Nå Final4 i Svenska cupen", why: "Med en topptrupp förväntas klubben gå långt i cupen.", target: 1, weight: 1, status: "ON_TRACK", progress: "" });
+  const outOfCup = Object.values(state.competitionTies ?? {}).some((t) => t.competitionId === SVENSKA_CUPEN && t.loserClubId === clubId);
+  if (competitionId === HANDBOLLSLIGAN && p <= 3 && !outOfCup) out.push({ id: "cup", kind: "CUP", label: "Nå Final4 i Svenska cupen", why: "Med en topptrupp förväntas klubben gå långt i cupen.", target: 1, weight: 1, status: "ON_TRACK", progress: "" });
   return { objectives: out, predicted: p };
 }
 
@@ -84,7 +85,9 @@ export function ensureBoard(state: CareerState, date: string, emit?: Emit): Care
   const carried = b && b.clubId === state.playerClubId ? b : undefined;
   const confidence = carried ? Math.round(55 + (carried.confidence - 55) * 0.5) : 65;
   const meeting: BoardMeeting = { id: `meeting:${state.seasonId}:start`, date, kind: "SEASON_START", title: `Styrelsens mål för ${state.seasonId}`, summary: objectives.map((o) => o.label).join(" · "), verdict: "SATISFIED" };
-  const next: BoardState = { clubId: state.playerClubId, seasonId: state.seasonId, predictedPosition: predicted, objectives, confidence, targetConfidence: confidence, factors: [], history: [...(carried?.history ?? []), { date, confidence }].slice(-40), meetings: [...(carried?.meetings ?? []), meeting].slice(-20), warnings: 0, contractOffer: carried?.contractOffer };
+  // A new relationship mid-season: what happened before today belongs to the previous coach.
+  const startsBaseline = carried ? undefined : Object.fromEntries(getCareerClubSquad(state, state.playerClubId).map((p) => [p.id, state.playerSeasonStats[p.id]?.starts ?? 0]).filter(([, n]) => (n as number) > 0));
+  const next: BoardState = { clubId: state.playerClubId, seasonId: state.seasonId, since: date, startsBaseline, predictedPosition: predicted, objectives, confidence, targetConfidence: confidence, factors: [], history: [...(carried?.history ?? []), { date, confidence }].slice(-40), meetings: [...(carried?.meetings ?? []), meeting].slice(-20), warnings: 0, contractOffer: carried?.contractOffer };
   emit?.(buildClubEvent("BOARD_UPDATE", meeting.id + ":" + state.playerClubId, date, "IMPORTANT", meeting.title, `${meeting.summary}. Förhandstipset för truppen: ${predicted}:a.`, [{ route: "BOARDROOM" }]));
   return { ...state, board: next };
 }
@@ -95,17 +98,17 @@ function currentPosition(state: CareerState): number | null {
   return i >= 0 && (table[i]?.played ?? 0) > 0 ? i + 1 : null;
 }
 
-function youthShare(state: CareerState): number {
+function youthShare(state: CareerState, baseline: Record<string, number> = {}): { share: number; starts: number } {
   const squad = getCareerClubSquad(state, state.playerClubId);
   let young = 0, total = 0;
   for (const p of squad) {
-    const starts = state.playerSeasonStats[p.id]?.starts ?? 0;
+    const starts = Math.max(0, (state.playerSeasonStats[p.id]?.starts ?? 0) - (baseline[p.id] ?? 0));
     total += starts;
     // Age at the start of the season, so a youngster who turns 22 in March still counts.
     const age = playerAgeAtDate(p.dateOfBirth, p.birthYear, `${state.seasonId.slice(0, 4)}-07-01`);
     if (age !== null && age <= 21) young += starts;
   }
-  return total > 0 ? young / total : 0;
+  return { share: total > 0 ? young / total : 0, starts: total };
 }
 
 function cupReachedFinal4(state: CareerState): boolean {
@@ -135,7 +138,9 @@ export function evaluateObjectives(state: CareerState, b: BoardState, final = fa
         progress = overBudget ? "Spelarlönerna är över budget." : "Spelarlönerna ryms i budgeten.";
         break;
       case "YOUTH": {
-        const share = youthShare(state);
+        const { share, starts } = youthShare(state, b.startsBaseline);
+        // Nothing to judge before the manager's first matches.
+        if (starts === 0) { s = final ? "PARTLY_MET" : "ON_TRACK"; progress = "Inga matcher spelade ännu."; break; }
         progress = `${Math.floor(share * 100)} % av starterna går till spelare 21 år eller yngre (mål ${Math.round(o.target * 100)} %).`;
         s = share >= o.target ? (final ? "MET" : "ON_TRACK") : final ? (share >= o.target * 0.6 ? "PARTLY_MET" : "FAILED") : "AT_RISK";
         break;
@@ -158,17 +163,22 @@ export function objectivesScore(objectives: BoardObjective[]): number {
   return w > 0 ? got / w : 1;
 }
 
+/** From when this board judges the manager: his appointment, or the season's start. */
+export function boardSince(b: BoardState, state: CareerState): string {
+  return b.since ?? b.meetings.find((m) => m.id === `meeting:${b.seasonId}:start`)?.date ?? `${state.seasonId.slice(0, 4)}-07-01`;
+}
+
 /** The explained factors behind the board's target confidence. */
 export function confidenceFactors(state: CareerState, b: BoardState): ConfidenceFactor[] {
   const out: ConfidenceFactor[] = [];
   const objectives = evaluateObjectives(state, b);
   const league = objectives.find((o) => o.kind === "LEAGUE");
   const pos = currentPosition(state);
-  const played = managerMatchesPlayed(state).filter((m) => m.date >= `${state.seasonId.slice(0, 4)}-07-01`);
+  const played = managerMatchesPlayed(state).filter((m) => m.date >= boardSince(b, state));
   if (league && pos !== null && played.length >= 4) {
     const gap = league.target - pos;
     const pts = Math.max(-22, Math.min(15, gap * 4));
-    out.push({ label: gap >= 0 ? `${pos}:a i serien -- i linje med målet (${league.target}:a)` : `${pos}:a i serien -- målet är ${league.target}:a`, points: pts });
+    out.push({ label: gap >= 0 ? `${pos}:a i serien – i linje med målet (${league.target}:a)` : `${pos}:a i serien – målet är ${league.target}:a`, points: pts });
   }
   const recent = played.slice(-5);
   if (recent.length >= 3) {
@@ -229,7 +239,7 @@ export function boardSeasonEnd(state: CareerState, date: string, emit: Emit, onD
   const b = state.board;
   if (!b || b.clubId !== state.playerClubId || b.seasonId !== state.seasonId || b.seasonReviewDone || state.managerCareer?.seekingJob) return state;
   // A manager appointed after the last match has nothing to be reviewed on.
-  const since = b.meetings.find((m) => m.kind === "SEASON_START" && m.id === `meeting:${b.seasonId}:start`)?.date ?? "";
+  const since = boardSince(b, state);
   if (!managerMatchesPlayed(state).some((m) => m.date >= since)) return { ...state, board: { ...b, seasonReviewDone: true, midSeasonDone: true } };
   return seasonReview(state, date, emit, onDismissed);
 }

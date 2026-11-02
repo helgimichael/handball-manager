@@ -161,7 +161,7 @@ export function clubWish(state: CareerState, clubId: string): ClubWish {
 export function interviewQuestions(state: CareerState, clubId: string): InterviewQuestion[] {
   const short = shortOf(clubId);
   return [
-    { id: "goal", question: `Vad är ditt mål med ${short} den första säsongen?`, answers: [{ id: "AMBITIOUS", label: "Att utmana om topplaceringarna direkt." }, { id: "REALISTIC", label: "Att etablera laget där det hör hemma och ta steg därifrån." }, { id: "PATIENT", label: "Att bygga långsiktigt -- resultaten kommer med tiden." }] },
+    { id: "goal", question: `Vad är ditt mål med ${short} den första säsongen?`, answers: [{ id: "AMBITIOUS", label: "Att utmana om topplaceringarna direkt." }, { id: "REALISTIC", label: "Att etablera laget där det hör hemma och ta steg därifrån." }, { id: "PATIENT", label: "Att bygga långsiktigt – resultaten kommer med tiden." }] },
     { id: "youth", question: "Hur ser du på klubbens egna unga spelare?", answers: [{ id: "YOUTH", label: "De ska få chansen i A-laget, även när det kostar." }, { id: "MERIT", label: "De får förtjäna sin plats som alla andra." }] },
     { id: "money", question: "Hur vill du arbeta med truppbudgeten?", answers: [{ id: "PRUDENT", label: "Inom ramarna, även om det betyder färre värvningar." }, { id: "INVEST", label: "Satsa nu för att nå målen snabbare." }] },
   ];
@@ -238,7 +238,7 @@ export function dismissManager(state: CareerState, date: string, reason: string,
   const clubId = next.playerClubId;
   next = withCareer(next, (c) => milestone({ ...c, reputation: Math.max(5, c.reputation - 6), stints: c.stints.map((s, i) => (i === c.stints.length - 1 && !s.to ? { ...s, to: date, leftReason: "DISMISSED" } : s)), seekingJob: { since: date, reason: "DISMISSED" } }, { date, kind: "DISMISSED", text: `Sparkad av ${nameOf(clubId)}. ${reason}`, clubId }));
   next = offersAfterDismissal(next, date, emit);
-  emit(buildClubEvent("MANAGER_CAREER", `dismissed:${clubId}:${date}`, date, "ACTION_REQUIRED", `${shortOf(clubId)} har sparkat dig`, `${reason} Du leder laget tills en ny klubb är klar -- välj bland erbjudandena på jobbmarknaden för att fortsätta.`, [{ route: "JOB_MARKET" }]));
+  emit(buildClubEvent("MANAGER_CAREER", `dismissed:${clubId}:${date}`, date, "ACTION_REQUIRED", `${shortOf(clubId)} har sparkat dig`, `${reason} Du leder laget tills en ny klubb är klar – välj bland erbjudandena på jobbmarknaden för att fortsätta.`, [{ route: "JOB_MARKET" }]));
   return next;
 }
 

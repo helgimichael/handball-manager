@@ -20,11 +20,12 @@
 // `RecruitmentStatus` itself is almost entirely DERIVED from the
 // systems above; the only stored inputs to it are shortlisted/priority.
 import type { CareerState } from "./types";
+import { careerPlayerVisibility } from "../knowledge/careerVisibility";
 import { getCareerPlayer } from "./careerWorld";
 import { getCareerPlayerRating } from "./careerRatingNormalization";
 import { getPlayerKnowledgePct } from "../knowledge/knowledgeIntegration";
 import { knowledgeTier, type KnowledgeTier } from "../knowledge/types";
-import { resolvePlayerVisibility, type PlayerVisibleView } from "../knowledge/playerVisibility";
+import { type PlayerVisibleView } from "../knowledge/playerVisibility";
 import { buildScoutReportView, type ScoutReportView } from "../knowledge/scoutReportVisibility";
 import { getPlayerContract, getPlayerContractStatus, getPlayerMarketValueEur } from "../economy/contractIntegration";
 import type { ContractStatus } from "../economy/types";
@@ -211,7 +212,7 @@ function buildCandidate(state: CareerState, playerId: string): RecruitmentCandid
   const knowledgePct = getPlayerKnowledgePct(state, playerId, clubId);
   const tier = knowledgeTier(knowledgePct);
   const rating = getCareerPlayerRating(state, playerId, clubId);
-  const visibility = rating ? resolvePlayerVisibility(rating, knowledgePct) : null;
+  const visibility = rating ? careerPlayerVisibility(state, rating, playerId, knowledgePct) : null;
 
   const contract = getPlayerContract(state, playerId);
   const contractStatus = getPlayerContractStatus(state, playerId) ?? null;

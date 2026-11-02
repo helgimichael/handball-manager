@@ -35,7 +35,8 @@ export interface DelegationProposal {
   /** What approving does and costs, shown before approval. */
   consequence: string;
   action: ProposalAction;
-  status: "PENDING" | "APPROVED" | "REJECTED" | "EXPIRED" | "FAILED";
+  /** WITHDRAWN: the area was taken back by the manager, or the proposing staff member left the club. */
+  status: "PENDING" | "APPROVED" | "REJECTED" | "EXPIRED" | "FAILED" | "WITHDRAWN";
   decidedOn?: string;
   outcome?: string;
 }
@@ -48,7 +49,7 @@ export interface DelegationLogEntry {
   action: string;
   reason: string;
   /** "DONE" for a delegated action carried out, "PROPOSED" when it waits for approval, "SKIPPED" when a rule stopped it. */
-  result: "DONE" | "PROPOSED" | "SKIPPED" | "APPROVED" | "REJECTED";
+  result: "DONE" | "PROPOSED" | "SKIPPED" | "APPROVED" | "REJECTED" | "WITHDRAWN";
 }
 
 export interface DelegationState {

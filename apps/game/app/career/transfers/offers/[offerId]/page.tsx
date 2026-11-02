@@ -22,7 +22,7 @@ import { acceptIncomingOffer, counterIncomingOffer, rejectIncomingOffer } from "
 import { moraleOf } from "@/lib/players/morale";
 import { activePromises } from "@/lib/players/promises";
 
-const STATUS_LABEL: Record<string, string> = { OPEN: "Väntar på ditt svar", COUNTERED: "Ditt motbud ligger hos köparen", ACCEPTED: "Klubbarna är överens", AWAITING_WINDOW: "Klar -- går igenom när fönstret öppnar", COMPLETED: "Såld", REJECTED: "Avvisat", WITHDRAWN: "Köparen drog sig ur", PLAYER_REFUSED: "Spelaren sa nej", EXPIRED: "Gick ut utan svar" };
+const STATUS_LABEL: Record<string, string> = { OPEN: "Väntar på ditt svar", COUNTERED: "Ditt motbud ligger hos köparen", ACCEPTED: "Klubbarna är överens", AWAITING_WINDOW: "Klar – går igenom när fönstret öppnar", COMPLETED: "Såld", REJECTED: "Avvisat", WITHDRAWN: "Köparen drog sig ur", PLAYER_REFUSED: "Spelaren sa nej", EXPIRED: "Gick ut utan svar" };
 
 export default function IncomingOfferPage() {
   const params = useParams<{ offerId: string }>();

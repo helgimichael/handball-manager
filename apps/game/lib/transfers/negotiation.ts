@@ -186,8 +186,8 @@ export function computePlayerWageDemand(inputs: PlayerWageDemandInputs): PlayerW
   const ambitious = (inputs.potentialGap ?? 0) >= AMBITIOUS_TALENT_POTENTIAL_GAP;
   const roleGap = TIER_RANK[inputs.promisedRole] - TIER_RANK[inputs.expectedRole];
   const refusesRole = roleGap >= 3;
-  if (roleGap > 0) apply(1 + (ambitious ? 0.18 : 0.12) * roleGap, ambitious ? "Ambitiös talang -- den utlovade rollen ger för lite speltid." : "Den utlovade rollen är mindre än spelaren anser sig förtjäna.");
-  else if (roleGap < 0) apply(Math.pow(ambitious ? 0.95 : 0.97, Math.min(2, -roleGap)), ambitious ? "Ambitiös talang -- en större roll väger tungt." : "Uppskattar en större roll än väntat.");
+  if (roleGap > 0) apply(1 + (ambitious ? 0.18 : 0.12) * roleGap, "Den utlovade rollen är mindre än spelaren anser sig förtjäna.");
+  else if (roleGap < 0) apply(Math.pow(ambitious ? 0.95 : 0.97, Math.min(2, -roleGap)), "Uppskattar en större roll än väntat.");
 
   if (inputs.age !== null && inputs.age >= 30 && inputs.contractYears < 2) apply(1.1, "Vill ha trygghet i ett längre avtal.");
   else if (inputs.age !== null && inputs.age <= 23 && inputs.contractYears > 4) apply(1.08, "Vill inte binda sig för länge i början av karriären.");

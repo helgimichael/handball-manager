@@ -127,3 +127,31 @@ test("staff hiring is always a proposal; approval hires within the staff limit",
   assert.ok(status === "APPROVED" || status === "FAILED");
   if (status === "APPROVED") assert.equal((after.staffRoster[SKOVDE] ?? []).length, before + 1);
 });
+
+test("revoking an area withdraws its pending proposals; a proposal from someone who left cannot be approved", () => {
+  let s: CareerState = ensureStaffMarket({ ...career(), gameDate: MONDAY });
+  const scout = Object.values(s.staffMarket!.freeAgents).find((m) => m.roles.includes("SCOUT"))!;
+  s = hireFreeAgent(s, scout.id, SKOVDE, 900, "2028-05-31");
+  const advise = progressDelegation(setDelegation(s, "SCOUTING_ASSIGNMENTS", "ADVISE"), MONDAY, noEmit);
+  const proposal = pendingProposals(advise)[0]!;
+  const revoked = setDelegation(advise, "SCOUTING_ASSIGNMENTS", "MANAGER");
+  assert.equal(pendingProposals(revoked).length, 0);
+  assert.equal(delegationOf(revoked).proposals[proposal.id]!.status, "WITHDRAWN");
+  assert.ok(delegationOf(revoked).log.some((l) => l.result === "WITHDRAWN"), "the withdrawal is in the history");
+  // The proposer leaves the club: approval is refused.
+  const roster = advise.staffRoster[SKOVDE]!.filter((m) => m.id !== proposal.staffId);
+  const gone = { ...advise, staffRoster: { ...advise.staffRoster, [SKOVDE]: roster } };
+  assert.throws(() => approveProposal(gone, proposal.id), /inte längre i klubben/);
+});
+
+test("every screen resolves the same star ranges for a scouted player (no cross-referencing to the truth)", async () => {
+  const { careerPlayerVisibility } = await import("../knowledge/careerVisibility");
+  const s0 = career();
+  const r = external(s0).find((x) => x.ca > 0)!;
+  const report = { id: "rep:test", scoutStaffId: "x", targetPlayerId: r.playerId, createdDate: "2026-09-01", knowledgePctAtReport: 55, scoutSuitability: 19 };
+  const s = { ...s0, scoutReports: { ...s0.scoutReports, [report.id]: report as never } };
+  const shared = careerPlayerVisibility(s, r, r.playerId, 55);
+  const reportView = resolvePlayerVisibility({ ...r, playerId: r.playerId }, 55, 19);
+  assert.deepEqual(shared.abilityRange, reportView.abilityRange);
+  assert.deepEqual(shared.potentialRange, reportView.potentialRange);
+});

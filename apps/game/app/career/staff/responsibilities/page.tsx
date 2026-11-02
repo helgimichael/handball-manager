@@ -84,13 +84,13 @@ export default function ResponsibilitiesPage() {
             );
           })}</div>
         )}
-        {decided.length > 0 && <ul className="dg-decided">{decided.map((p) => <li key={p.id} data-status={p.status}><b>{p.title}</b><small>{p.status === "APPROVED" ? "Godkänt" : p.status === "REJECTED" ? "Avslaget" : p.status === "FAILED" ? `Gick inte: ${money.text(p.outcome ?? "")}` : "Gick ut"} · {p.decidedOn}{p.status === "APPROVED" && p.outcome ? ` · ${p.outcome}` : ""}</small>{p.status === "APPROVED" && p.action.kind === "OPEN_NEGOTIATION" && <Link href={`/career/transfers/${encodeURIComponent(p.action.playerId)}`}>Öppna förhandlingsrummet →</Link>}</li>)}</ul>}
+        {decided.length > 0 && <ul className="dg-decided">{decided.map((p) => <li key={p.id} data-status={p.status}><b>{p.title}</b><small>{p.status === "APPROVED" ? "Godkänt" : p.status === "REJECTED" ? "Avslaget" : p.status === "FAILED" ? `Gick inte: ${money.text(p.outcome ?? "")}` : p.status === "WITHDRAWN" ? `Återkallat: ${p.outcome ?? ""}` : "Gick ut"} · {p.decidedOn}{p.status === "APPROVED" && p.outcome ? ` · ${p.outcome}` : ""}</small>{p.status === "APPROVED" && p.action.kind === "OPEN_NEGOTIATION" && <Link href={`/career/transfers/${encodeURIComponent(p.action.playerId)}`}>Öppna förhandlingsrummet →</Link>}</li>)}</ul>}
       </section>
 
       <section className="dg-panel" aria-labelledby="log-title">
         <header><span className="xp-eyebrow">Revision</span><h2 id="log-title">Vad staben har gjort</h2></header>
         {log.length === 0 ? <p className="pd-note">Inget delegerat arbete ännu.</p> : (
-          <ol className="dg-log">{log.map((l, i) => <li key={i} data-result={l.result}><time>{l.date}</time><b>{l.staffName}</b><span>{money.text(l.action)}</span><small>{money.text(l.reason)}</small><em>{l.result === "DONE" ? "Utfört" : l.result === "PROPOSED" ? "Föreslaget" : l.result === "APPROVED" ? "Godkänt" : l.result === "REJECTED" ? "Avslaget" : "Stoppat"}</em></li>)}</ol>
+          <ol className="dg-log">{log.map((l, i) => <li key={i} data-result={l.result}><time>{l.date}</time><b>{l.staffName}</b><span>{money.text(l.action)}</span><small>{money.text(l.reason)}</small><em>{l.result === "DONE" ? "Utfört" : l.result === "PROPOSED" ? "Föreslaget" : l.result === "APPROVED" ? "Godkänt" : l.result === "REJECTED" ? "Avslaget" : l.result === "WITHDRAWN" ? "Återkallat" : "Stoppat"}</em></li>)}</ol>
         )}
       </section>
     </div>

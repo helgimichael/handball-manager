@@ -50,8 +50,8 @@ export function moraleFactors(state: CareerState, playerId: string): MoraleFacto
   const recent = played.slice(-5);
   if (recent.length >= 3) {
     const ppg = recent.reduce((s, r) => s + r.points, 0) / recent.length;
-    if (ppg >= 1.5) out.push({ key: "RESULTS", label: "Laget vinner -- stämningen är god", points: 5 });
-    else if (ppg <= 0.6) out.push({ key: "RESULTS", label: "Laget förlorar -- tung stämning", points: -5 });
+    if (ppg >= 1.5) out.push({ key: "RESULTS", label: "Laget vinner – stämningen är god", points: 5 });
+    else if (ppg <= 0.6) out.push({ key: "RESULTS", label: "Laget förlorar – tung stämning", points: -5 });
   }
 
   // Contract situation.
@@ -61,7 +61,7 @@ export function moraleFactors(state: CareerState, playerId: string): MoraleFacto
     const talks = Object.values(state.renewalTalks ?? {}).some((t) => t.playerId === playerId && t.status === "OPEN");
     if (monthsLeft <= 7 && !talks && !state.preContracts?.[playerId]) out.push({ key: "CONTRACT", label: "Avtalet går ut snart och ingen har pratat förlängning", points: -Math.round(3 + p.ambition / 4) });
     const renewed = Object.values(state.renewalTalks ?? {}).some((t) => t.playerId === playerId && t.status === "AGREED" && t.closedOn && addDaysIso(t.closedOn, 60) >= state.gameDate);
-    if (renewed) out.push({ key: "CONTRACT", label: "Nytt avtal -- känner sig uppskattad", points: 6 });
+    if (renewed) out.push({ key: "CONTRACT", label: "Nytt avtal – känner sig uppskattad", points: 6 });
   }
 
   // Promises.

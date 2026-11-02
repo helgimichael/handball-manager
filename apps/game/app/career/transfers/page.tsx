@@ -7,6 +7,7 @@
 // single negotiation workflow the Recruitment Centre and player profiles
 // link to as well.
 import { Suspense, useEffect, useMemo, useState } from "react";
+import { careerPlayerVisibility } from "@/lib/knowledge/careerVisibility";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { ClubLink, PlayerLink } from "@/components/entityLinks";
@@ -28,7 +29,7 @@ import { CONTRACT_STATUS_LABEL, CONTRACT_STATUS_TONE } from "@/lib/economy/label
 import { getPlayerContract, getPlayerContractStatus, getPlayerMarketValueEur } from "@/lib/economy/contractIntegration";
 import { getClub, positionLabel, type Club, type HandballPosition, type PlayerMock } from "@/lib/game-data";
 import { getPlayerKnowledgePct } from "@/lib/knowledge/knowledgeIntegration";
-import { resolvePlayerVisibility, type KnowledgeRatingInput } from "@/lib/knowledge/playerVisibility";
+import { type KnowledgeRatingInput } from "@/lib/knowledge/playerVisibility";
 import { resolveMarketValueRange } from "@/lib/knowledge/scoutReportVisibility";
 import { isShortlisted } from "@/lib/career/recruitment";
 import {
@@ -291,7 +292,7 @@ function Dossier({ career, player, onShortlist, onClose }: { career: CareerState
     return () => { cancelled = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps -- keyed on the selected player, matching Player Profile's fetch pattern.
   }, [player.id, player.clubId, player.dataSource]);
-  const view = ratingRow ? resolvePlayerVisibility(ratingRow, knowledge) : null;
+  const view = ratingRow ? careerPlayerVisibility(career, ratingRow, player.id, knowledge) : null;
 
   return (
     <aside className="game-target-dossier" aria-label="Vald spelare">

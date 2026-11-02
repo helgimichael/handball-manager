@@ -1,5 +1,6 @@
 "use client";
 import PlayerActions from '@/components/manager/PlayerActions';
+import { careerPlayerVisibility } from "@/lib/knowledge/careerVisibility";
 import PlayerPerformance from '@/components/manager/PlayerPerformance';
 import { PlayerHero } from '@/components/game/Identity';
 import ContractRenewal from '@/components/ContractRenewal';
@@ -29,7 +30,6 @@ import { useMoney } from "@/lib/settings/usePreferences";
 import { getPlayerClubHistory } from "@/lib/economy/clubHistoryIntegration";
 import { getPlayerTrainingCompensation } from "@/lib/economy/trainingCompensationIntegration";
 import { getPlayerKnowledgePct } from "@/lib/knowledge/knowledgeIntegration";
-import { resolvePlayerVisibility } from "@/lib/knowledge/playerVisibility";
 import { KnowledgeGatedAbilityPanel, KnowledgeGatedAttributesPanel } from "@/components/KnowledgeGatedProfilePanels";
 import { buildScoutReportView } from "@/lib/knowledge/scoutReportVisibility";
 import { getClubScouts, getPlayerScoutReports } from "@/lib/career/scouting";
@@ -122,7 +122,7 @@ export default function PlayerProfilePage() {
   // never exposes raw CA/PA or the raw 1-20 attribute grid at any tier.
   const isOwnPlayer = player.clubId === career.playerClubId;
   const knowledgePct = isOwnPlayer ? 100 : getPlayerKnowledgePct(career, player.id, player.clubId);
-  const knowledgeView = !isOwnPlayer && ratingRow ? resolvePlayerVisibility(ratingRow, knowledgePct) : null;
+  const knowledgeView = !isOwnPlayer && ratingRow ? careerPlayerVisibility(career, ratingRow, player.id, knowledgePct) : null;
   const contract = getPlayerContract(career, player.id);
   const contractStatus = getPlayerContractStatus(career, player.id);
   const marketValue = getPlayerMarketValueEur(career, player.id);

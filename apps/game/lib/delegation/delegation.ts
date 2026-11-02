@@ -48,8 +48,25 @@ export function delegateFor(state: CareerState, area: ResponsibilityArea): { sta
 
 export function setDelegation(state: CareerState, area: ResponsibilityArea, mode: DelegationMode, staffId?: string): CareerState {
   const d = delegationOf(state);
-  return { ...state, delegation: { ...d, settings: { ...d.settings, [area]: { mode, ...(staffId ? { staffId } : {}) } } } };
+  let next: CareerState = { ...state, delegation: { ...d, settings: { ...d.settings, [area]: { mode, ...(staffId ? { staffId } : {}) } } } };
+  // Taking an area back withdraws what the staff had proposed in it -- nothing waits to be approved by habit.
+  if (mode === "MANAGER") next = withdrawProposals(next, (p) => p.area === area, "Du tog tillbaka ansvaret.");
+  return next;
 }
+
+/** Withdraws matching pending proposals, logged with the reason. */
+function withdrawProposals(state: CareerState, match: (p: DelegationProposal) => boolean, reason: string): CareerState {
+  let next = state;
+  for (const p of Object.values(delegationOf(state).proposals)) {
+    if (p.status !== "PENDING" || !match(p)) continue;
+    const d = delegationOf(next);
+    next = { ...next, delegation: { ...d, proposals: { ...d.proposals, [p.id]: { ...p, status: "WITHDRAWN", decidedOn: next.gameDate, outcome: reason } } } };
+    next = log(next, { date: next.gameDate, area: p.area, staffId: p.staffId, action: p.title, reason, result: "WITHDRAWN" });
+  }
+  return next;
+}
+
+const staffStillHere = (state: CareerState, staffId: string) => findStaffMember(state, staffId)?.clubId === state.playerClubId;
 
 function log(state: CareerState, entry: Omit<DelegationLogEntry, "staffName">): CareerState {
   const d = delegationOf(state);
@@ -75,6 +92,7 @@ function propose(state: CareerState, date: string, emit: Emit, p: Omit<Delegatio
 /** Weekly (Mondays): each delegated or advising area does its work. */
 export function progressDelegation(state: CareerState, date: string, emit: Emit): CareerState {
   let next = expireProposals(state, date);
+  next = withdrawProposals(next, (p) => !staffStillHere(next, p.staffId), "Den som föreslog det har lämnat klubben.");
   const d = delegationOf(next);
   const monday = new Date(`${date}T00:00:00Z`).getUTCDay() === 1;
   if (!monday || d.lastRun === date) return next;
@@ -183,7 +201,7 @@ function contractRenewals(state: CareerState, date: string, emit: Emit, done: st
     const reason = `Avtalet går ut ${c.contractEndDate}. Han begär ${formatEur(demand.demandEurPerMonth)} i månaden (nu ${formatEur(c.wageEurPerMonth)}).`;
     handled++;
     if (key || mode === "ADVISE" || !affordable) {
-      next = propose(next, date, emit, { area: "CONTRACT_RENEWALS", staffId: who.staffId, title: `Förläng ${name}`, reason: key ? `${reason} Han är en nyckelspelare -- ditt beslut.` : affordable ? reason : `${reason} Kräver mer lönebudget än som finns.`, consequence: `${who.name} förhandlar fram ${formatEur(demand.demandEurPerMonth)} i månaden, ${years} år.`, action: { kind: "RENEW", playerId: id, wageEurPerMonth: demand.demandEurPerMonth, years } });
+      next = propose(next, date, emit, { area: "CONTRACT_RENEWALS", staffId: who.staffId, title: `Förläng ${name}`, reason: key ? `${reason} Han är en nyckelspelare – ditt beslut.` : affordable ? reason : `${reason} Kräver mer lönebudget än som finns.`, consequence: `${who.name} förhandlar fram ${formatEur(demand.demandEurPerMonth)} i månaden, ${years} år.`, action: { kind: "RENEW", playerId: id, wageEurPerMonth: demand.demandEurPerMonth, years } });
       continue;
     }
     try {
@@ -225,6 +243,7 @@ function staffHiring(state: CareerState, date: string, emit: Emit, done: string[
 export function approveProposal(state: CareerState, proposalId: string): CareerState {
   const p = delegationOf(state).proposals[proposalId];
   if (!p || p.status !== "PENDING") throw new Error("Förslaget är inte längre aktuellt.");
+  if (!staffStillHere(state, p.staffId)) throw new Error("Den som föreslog det arbetar inte längre i klubben.");
   let next = state;
   let outcome = "Genomfört.";
   try {

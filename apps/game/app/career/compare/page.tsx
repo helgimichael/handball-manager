@@ -1,11 +1,11 @@
 'use client';
 import { Suspense, useMemo } from 'react';
+import { careerPlayerVisibility } from "@/lib/knowledge/careerVisibility";
 import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useCareer } from '@/lib/career/CareerContext';
 import { managementPlayers, squadEnergy } from '@/lib/career/management';
 import { getCareerPlayerRating } from '@/lib/career/careerRatingNormalization';
-import { resolvePlayerVisibility } from '@/lib/knowledge/playerVisibility';
 import { getPlayerKnowledgePct } from '@/lib/knowledge/knowledgeIntegration';
 import { getAttributeLabel } from '@/lib/rating/attributeVocabulary';
 import type { OutcourtAttribute, GoalkeeperAttribute } from '@/lib/rating/types';
@@ -42,7 +42,7 @@ function Comparison() {
     const own = p.clubId === career.playerClubId;
     const rating = getCareerPlayerRating(career, p.id, p.clubId);
     const knowledge = own ? 100 : getPlayerKnowledgePct(career, p.id, p.clubId);
-    return { player: p, own, rating, knowledge, visibility: rating ? resolvePlayerVisibility(rating, knowledge) : null, stats: career.playerSeasonStats[p.id] ?? emptyPlayerSeasonStats(p.id), contract: career.playerContracts[p.id] };
+    return { player: p, own, rating, knowledge, visibility: rating ? careerPlayerVisibility(career, rating, p.id, knowledge) : null, stats: career.playerSeasonStats[p.id] ?? emptyPlayerSeasonStats(p.id), contract: career.playerContracts[p.id] };
   });
   function select(side: string, id: string) { const next = new URLSearchParams(params.toString()); if (id) next.set(side, id); else next.delete(side); router.replace(`/career/compare?${next}`); }
   const keys = [...new Set(sides.flatMap(p => p ? RELEVANT[p.position] ?? [] : []))];

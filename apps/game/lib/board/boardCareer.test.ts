@@ -9,7 +9,7 @@ import type { CareerEvent } from "../career/careerEvents";
 import { ensureClubFinances } from "../economy/ledger";
 import { competitionClubIds } from "../competition/tables";
 import { HANDBOLLSLIGAN } from "../competition/rules";
-import { buildObjectives, ensureBoard, predictedPositionOf, progressBoard, DISMISSAL_LINE } from "./board";
+import { buildObjectives, confidenceFactors, ensureBoard, predictedPositionOf, progressBoard, DISMISSAL_LINE } from "./board";
 import { acceptJobOffer, clubChangeBlocker } from "../manager/changeClub";
 import { acceptBoardContract, answerInterview, applyForJob, clubStature, clubWish, dismissManager, ensureManagerCareer, interviewVerdict, openOffers, progressManagerCareer } from "../manager/managerCareer";
 import { boardSeasonEnd } from "./board";
@@ -127,4 +127,18 @@ test("a good season with under a year left earns a contract offer, and signing e
   assert.ok(signed.managerCareer!.contract.endDate > "2027-05-31");
   assert.equal(signed.board!.contractOffer, undefined);
   assert.ok(signed.managerCareer!.milestones.some((m) => m.kind === "CONTRACT"));
+});
+
+test("a manager appointed mid-season is not judged on the matches or youth minutes before he took charge", () => {
+  let s = career();
+  // Six heavy defeats under the previous coach, all before the appointment.
+  const before = s.fixtures.filter((f) => f.homeClubId === SKOVDE || f.awayClubId === SKOVDE).slice(0, 6);
+  const results = { ...s.results };
+  for (const f of before) results[f.id] = { homeClubId: f.homeClubId, awayClubId: f.awayClubId, homeGoals: f.homeClubId === SKOVDE ? 20 : 35, awayGoals: f.homeClubId === SKOVDE ? 35 : 20 } as never;
+  const appointed = before.at(-1)!.date > "2026-12-01" ? before.at(-1)!.date : "2026-12-01";
+  s = { ...s, results, gameDate: appointed };
+  const b = ensureBoard(s, appointed).board!;
+  assert.equal(b.since, appointed);
+  const factors = confidenceFactors({ ...s, board: b }, b);
+  assert.ok(!factors.some((f) => f.label.includes("form") || f.label.includes("i serien")), `no factor from the previous coach's matches: ${JSON.stringify(factors)}`);
 });

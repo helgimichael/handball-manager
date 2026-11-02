@@ -5,6 +5,7 @@
 // squad's needs and a side-by-side comparison. Everything shown is an
 // estimate from the club's own knowledge -- ranges, never true values.
 import Link from "next/link";
+import { careerPlayerVisibility } from "@/lib/knowledge/careerVisibility";
 import { useMemo, useState } from "react";
 import ClubCrest from "@/components/ClubCrest";
 import { MomentHero } from "@/components/experience/Moment";
@@ -19,7 +20,7 @@ import { computeAssignmentProgressPct, createScoutingAssignment, getClubScouts }
 import { scopeLabelSv } from "@/lib/career/scoutDiscovery";
 import { getClub } from "@/lib/game-data";
 import { getPlayerKnowledgePct } from "@/lib/knowledge/knowledgeIntegration";
-import { resolvePlayerVisibility, type StarRange } from "@/lib/knowledge/playerVisibility";
+import { type StarRange } from "@/lib/knowledge/playerVisibility";
 import { useMoney } from "@/lib/settings/usePreferences";
 import { recruitmentRecommendations, type Recommendation } from "@/lib/scouting/recommendations";
 import { roleSuitabilityStars } from "@/lib/staff/presentation";
@@ -47,11 +48,11 @@ export function ScoutingCentre() {
   const scouts = getClubScouts(career);
   const assignments = Object.values(career.scoutingAssignments ?? {}).filter((a) => a.status === "IN_PROGRESS");
   const recs = useMemo(() => recruitmentRecommendations(career, 8), [career]);
-  const discoveries = Object.values(career.scoutDiscoveries ?? {}).sort((a, b) => b.discoveredDate.localeCompare(a.discoveredDate)).slice(0, 8);
+  const discoveries = Object.values(career.scoutDiscoveries ?? {}).sort((a, b) => b.discoveredDate.localeCompare(a.discoveredDate) || a.playerId.localeCompare(b.playerId)).slice(0, 8);
   const known = Object.values(career.playerKnowledge ?? {}).filter((k) => k >= 50).length;
   const viewOf = (playerId: string, clubId: string) => {
     const rating = getCareerPlayerRating(career, playerId, clubId || undefined);
-    return rating ? resolvePlayerVisibility({ ...rating, playerId }, getPlayerKnowledgePct(career, playerId, clubId)) : null;
+    return rating ? careerPlayerVisibility(career, rating, playerId, getPlayerKnowledgePct(career, playerId, clubId)) : null;
   };
   // The newest discovery whose estimated potential reaches four stars or more: the club's find of the month.
   const spotlight = discoveries.map((d) => ({ d, v: viewOf(d.playerId, d.clubId), p: getCareerPlayer(career, d.playerId) })).find((x) => x.v?.potentialRange && x.v.potentialRange.max >= 4 && x.p);
@@ -100,7 +101,7 @@ export function ScoutingCentre() {
           )}
           {chosen.length === 2 && (
             <div className="sc-compare" aria-label="Jämförelse">
-              {chosen.map((r) => <div key={r.player.id}><b>{r.player.firstName} {r.player.lastName}</b><span>Nivå</span><StarRangeView range={r.abilityRange} label="Nivå" /><span>Potential</span>{r.potentialRange ? <StarRangeView range={r.potentialRange} label="Potential" /> : <i className="pd-note">Okänd -- scouta mer</i>}<span>Säkerhet {r.confidencePct} %</span><span>{r.valueRange ? `${money.format(r.valueRange.min, { compact: true })}–${money.format(r.valueRange.max, { compact: true })}` : "—"}</span></div>)}
+              {chosen.map((r) => <div key={r.player.id}><b>{r.player.firstName} {r.player.lastName}</b><span>Nivå</span><StarRangeView range={r.abilityRange} label="Nivå" /><span>Potential</span>{r.potentialRange ? <StarRangeView range={r.potentialRange} label="Potential" /> : <i className="pd-note">Okänd – scouta mer</i>}<span>Säkerhet {r.confidencePct} %</span><span>{r.valueRange ? `${money.format(r.valueRange.min, { compact: true })}–${money.format(r.valueRange.max, { compact: true })}` : "—"}</span></div>)}
               <p className="pd-note">Överlappande spann betyder att scouterna inte kan skilja dem åt ännu.</p>
             </div>
           )}

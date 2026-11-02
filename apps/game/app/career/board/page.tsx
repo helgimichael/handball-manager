@@ -64,9 +64,9 @@ export default function BoardroomPage() {
         <section className="bd-panel" aria-labelledby="bd-conf">
           <header><span className="xp-eyebrow">Förtroende</span><h2 id="bd-conf">Hur styrelsen ser på dig</h2></header>
           <MeterBar label="Förtroende" value={board.confidence / 100} figure={`${board.confidence} / 100`} tone={confidenceTone(board.confidence)} />
-          <p className="pd-note">{board.targetConfidence > board.confidence ? `På väg upp mot ${board.targetConfidence}` : board.targetConfidence < board.confidence ? `På väg ner mot ${board.targetConfidence}` : "Stabilt"} -- förtroendet rör sig högst 8 steg i månaden. {board.warnings > 0 ? <b>{board.warnings === 1 ? "Du har fått en varning." : "Du har fått sista varningen."}</b> : null}</p>
+          <p className="pd-note">{board.targetConfidence > board.confidence ? `På väg upp mot ${board.targetConfidence}` : board.targetConfidence < board.confidence ? `På väg ner mot ${board.targetConfidence}` : "Stabilt"} – förtroendet rör sig högst 8 steg i månaden. {board.warnings > 0 ? <b>{board.warnings === 1 ? "Du har fått en varning." : "Du har fått sista varningen."}</b> : null}</p>
           <ConfidenceTrend history={board.history} />
-          <ul className="bd-factors">{board.factors.length === 0 ? <li><span>Inga tydliga signaler ännu -- styrelsen bedömer dig efter några matcher.</span></li> : board.factors.map((f) => <li key={f.label} data-sign={f.points >= 0 ? "plus" : "minus"}><span>{f.label}</span><b>{f.points > 0 ? `+${f.points}` : f.points}</b></li>)}</ul>
+          <ul className="bd-factors">{board.factors.length === 0 ? <li><span>Inga tydliga signaler ännu – styrelsen bedömer dig efter några matcher.</span></li> : board.factors.map((f) => <li key={f.label} data-sign={f.points >= 0 ? "plus" : "minus"}><span>{f.label}</span><b>{f.points > 0 ? `+${f.points}` : f.points}</b></li>)}</ul>
           <p className="pd-note">Under {WARNING_LINE} varnar styrelsen, under {FINAL_WARNING_LINE} kommer sista varningen. Faller förtroendet under {DISMISSAL_LINE} efter två varningar bryter styrelsen samarbetet.</p>
         </section>
 

@@ -268,14 +268,15 @@ export function runDiscoveryCycle(state: CareerState, assignment: ScoutingAssign
 
 /** Every discovery for the manager's own career, most recent first -- the "Upptäckta spelare" view's own data source. */
 export function getAllScoutDiscoveries(state: CareerState): ScoutDiscovery[] {
-  return Object.values(state.scoutDiscoveries).sort((a, b) => (a.discoveredDate < b.discoveredDate ? 1 : a.discoveredDate > b.discoveredDate ? -1 : 0));
+  // Within a day, by player id: the order discoveries were made in follows their true ability.
+  return Object.values(state.scoutDiscoveries).sort((a, b) => (a.discoveredDate < b.discoveredDate ? 1 : a.discoveredDate > b.discoveredDate ? -1 : a.playerId.localeCompare(b.playerId)));
 }
 
 /** Every discovery for one player, most recent first. */
 export function getPlayerScoutDiscoveries(state: CareerState, playerId: string): ScoutDiscovery[] {
   return Object.values(state.scoutDiscoveries)
     .filter((d) => d.playerId === playerId)
-    .sort((a, b) => (a.discoveredDate < b.discoveredDate ? 1 : a.discoveredDate > b.discoveredDate ? -1 : 0));
+    .sort((a, b) => (a.discoveredDate < b.discoveredDate ? 1 : a.discoveredDate > b.discoveredDate ? -1 : a.playerId.localeCompare(b.playerId)));
 }
 
 /** Swedish label for every NationCode a scoutable competition can carry -- lib/game-data/nations.ts's own NATIONS only lists the 8 New-Game-selectable nations, not the 8 international-pool-only ones (HM-WORLD-PLAYER-POOL-1.0), so this is a superset kept here rather than widening NATIONS itself (NATIONS' own New-Game-gate meaning must not change). */

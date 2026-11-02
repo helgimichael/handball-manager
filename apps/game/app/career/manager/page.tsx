@@ -10,7 +10,7 @@ import ClubCrest from "@/components/ClubCrest";
 import { DecisionCard, MomentHero } from "@/components/experience/Moment";
 import { MeterBar } from "@/components/experience/primitives";
 import { BOARDROOM_BACKDROP } from "@/components/board/boardVisuals";
-import { EmptyState, PageHeading } from "@/components/manager/Workspace";
+import { EmptyState } from "@/components/manager/Workspace";
 import { useCareer } from "@/lib/career/CareerContext";
 import { getClub, COMPETITIONS } from "@/lib/game-data";
 import { clubCompetitionId } from "@/lib/career/competitionMembership";
@@ -52,13 +52,13 @@ function ManagerCareer() {
   return (
     <div className="bd-page">
       {mc.seekingJob ? (
-        <MomentHero kind="DISMISSAL" backdrop={{ kind: "photo", style: BOARDROOM_BACKDROP }} tags={[mc.seekingJob.since]} stamp={mc.seekingJob.reason === "DISMISSED" ? "Sparkad" : "Avtalet slut"} headline={mc.seekingJob.reason === "DISMISSED" ? `${getClub(career.playerClubId)?.shortName ?? ""} har sparkat dig` : "Ditt avtal har gått ut"} lede={`${[...mc.milestones].reverse().find((m) => m.kind === "DISMISSED")?.text ?? "Styrelsen valde att gå vidare utan dig."} Världen fortsätter -- välj ditt nästa jobb bland erbjudandena nedan.`} />
+        <MomentHero kind="DISMISSAL" backdrop={{ kind: "photo", style: BOARDROOM_BACKDROP }} tags={[mc.seekingJob.since]} stamp={mc.seekingJob.reason === "DISMISSED" ? "Sparkad" : "Avtalet slut"} headline={mc.seekingJob.reason === "DISMISSED" ? `${getClub(career.playerClubId)?.shortName ?? ""} har sparkat dig` : "Ditt avtal har gått ut"} lede={`${[...mc.milestones].reverse().find((m) => m.kind === "DISMISSED")?.text ?? "Styrelsen valde att gå vidare utan dig."} Världen fortsätter – välj ditt nästa jobb bland erbjudandena nedan.`} />
       ) : freshStart ? (
         <MomentHero kind="STAFF_APPOINTMENT" tone="success" backdrop={{ kind: "photo", style: BOARDROOM_BACKDROP }} tags={[false, "Ny klubb", lastAppointment!.date]} stamp="Påskrivet" headline={`Välkommen till ${clubName(career.playerClubId)}`} lede={`${lastAppointment!.text} Styrelsens mål väntar och truppen är din.`}>
           <div className="sc-hero-actions"><Link className="hm-btn hm-btn-primary" href="/career/board">Möt styrelsen →</Link> <Link className="hm-btn" href="/career/squad">Din nya trupp →</Link></div>
         </MomentHero>
       ) : (
-        <PageHeading eyebrow="Din karriär" title="Tränarkarriären" description="Ditt rykte, ditt avtal, klubbarna du har lett och jobben som finns där ute." />
+        <MomentHero tone="ink" size="compact" backdrop={{ kind: "photo", style: BOARDROOM_BACKDROP }} tags={[false, "Din karriär", clubName(career.playerClubId)]} stamp={null} headline="Tränarkarriären" lede={`${repLabel(mc.reputation)}. Huvudtränare i ${clubName(career.playerClubId)} sedan ${mc.stints.at(-1)?.from ?? mc.contract.startDate}, avtal till ${mc.contract.endDate}.`} aside={<div className="bd-hero-figure"><b>{mc.reputation}</b><small>rykte av 100</small></div>} />
       )}
 
       <div className="bd-tabs" role="tablist" aria-label="Karriär">

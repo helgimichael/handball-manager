@@ -65,9 +65,9 @@ export function recruitmentRecommendations(state: CareerState, limit = 12): Reco
     if (needLevel === "HIGH" || needLevel === "MEDIUM") reasons.push(`Fyller ett behov på ${player.position}`);
     if (ability >= squadLevel + 0.5) reasons.push("Bedöms höja lagets nivå");
     if (youth >= 0.5) reasons.push("Ung med utvecklingspotential");
-    if (status === "FREE_AGENT") reasons.push("Kontraktslös -- ingen övergångssumma");
-    else if (status === "EXPIRING" || status === "EXPIRING_SOON") reasons.push("Kort avtal kvar -- billigare");
-    if (width >= 2) reasons.push("Osäker bild -- scouta mer innan beslut");
+    if (status === "FREE_AGENT") reasons.push("Kontraktslös – ingen övergångssumma");
+    else if (status === "EXPIRING" || status === "EXPIRING_SOON") reasons.push("Kort avtal kvar – billigare");
+    if (width >= 2) reasons.push("Osäker bild – scouta mer innan beslut");
     out.push({
       player, clubId, knowledgePct,
       abilityRange: view.abilityRange, potentialRange: view.potentialRange,

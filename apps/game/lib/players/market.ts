@@ -79,7 +79,7 @@ export function findBuyer(state: CareerState, playerId: string, salt: string): B
   if (!pick) return null;
   const need = assessPositionNeed(state, pick.club.id, player.position, getCareerClubSquad(state, pick.club.id));
   const role = ca >= pick.level ? "en självklar startspelare" : "en viktig förstärkning";
-  return { clubId: pick.club.id, foreign: false, level: pick.level, motive: `${pick.club.shortName} söker en ${positionLabel(player.position).toLowerCase()} -- de har ${need.usableCount} på positionen -- och ser honom som ${role}.` };
+  return { clubId: pick.club.id, foreign: false, level: pick.level, motive: `${pick.club.shortName} söker en ${positionLabel(player.position).toLowerCase()} – de har ${need.usableCount} på positionen – och ser honom som ${role}.` };
 }
 
 /** Weekly: at most one new bid, for the player with the strongest reason to attract one. */
@@ -176,7 +176,7 @@ export function playerStance(state: CareerState, offer: IncomingOffer): { willin
   const morale = moraleOf(state, offer.playerId);
   if (offer.foreign) {
     if (p.loyalty >= 17 && morale >= 75) return { willing: false, reason: "Han trivs och vill inte flytta utomlands nu." };
-    return { willing: true, reason: "Ett steg utomlands lockar -- både sportsligt och ekonomiskt." };
+    return { willing: true, reason: "Ett steg utomlands lockar – både sportsligt och ekonomiskt." };
   }
   const myTier = clubCompetitionTier(state, state.playerClubId) ?? 1;
   const theirTier = clubCompetitionTier(state, offer.fromClubId) ?? 1;
@@ -263,7 +263,7 @@ export function progressIncomingOffers(state: CareerState, date: string, emit: E
         const raised = round500(Math.min(o.maxFeeEur, (o.feeEur + ask) / 2));
         const final = raised >= o.maxFeeEur;
         next = put(next, { ...o, status: "OPEN", feeEur: raised, answerOn: undefined, respondBy: addDaysIso(date, RESPOND_DAYS), rounds: [...o.rounds, { date, by: "BUYER", feeEur: raised, note: final ? "Sista bud." : "Höjt bud." }] });
-        emit(buildClubEvent("TRANSFER_OFFER", `offer:${o.id}:r${o.rounds.length}`, date, "IMPORTANT", `${getClub(o.fromClubId)?.shortName ?? ""} höjer budet på ${playerName(next, o.playerId)}`, `${formatEur(raised)}${final ? " -- deras sista bud" : ""}.`, [{ route: "TRANSFER_OFFER", offerId: o.id }]));
+        emit(buildClubEvent("TRANSFER_OFFER", `offer:${o.id}:r${o.rounds.length}`, date, "IMPORTANT", `${getClub(o.fromClubId)?.shortName ?? ""} höjer budet på ${playerName(next, o.playerId)}`, `${formatEur(raised)}${final ? " – deras sista bud" : ""}.`, [{ route: "TRANSFER_OFFER", offerId: o.id }]));
       } else {
         next = put(next, { ...o, status: "WITHDRAWN", closedOn: date, answerOn: undefined, rounds: [...o.rounds, { date, by: "BUYER", feeEur: o.feeEur, note: "Köparen drar sig ur." }] });
         emit(buildClubEvent("TRANSFER_OFFER", `offer:${o.id}:withdrawn`, date, "INFORMATION", `${getClub(o.fromClubId)?.shortName ?? ""} drar sig ur`, `Ditt pris (${formatEur(ask)}) var för högt.`, [{ route: "TRANSFER_OFFER", offerId: o.id }]));
@@ -314,6 +314,9 @@ export function progressPreContracts(state: CareerState, date: string, emit: Emi
       if (!buyer) continue;
       next = { ...next, preContracts: { ...next.preContracts, [id]: { playerId: id, toClubId: buyer.clubId, foreign: buyer.foreign, agreedOn: date, effectiveOn: c.contractEndDate, wageEurPerMonth: Math.round(c.wageEurPerMonth * (buyer.foreign ? 1.5 : 1.15)) } } };
       for (const t of Object.values(next.renewalTalks ?? {})) if (t.playerId === id && t.status === "OPEN") next = { ...next, renewalTalks: { ...next.renewalTalks, [t.id]: { ...t, status: "WITHDRAWN", closedOn: date, answerOn: undefined } } };
+      // His wish to leave is settled by the agreement: the open transfer request closes.
+      const dd = dynamicsOf(next);
+      if (dd.requests[id]?.status === "OPEN") next = { ...next, playerDynamics: { ...dd, requests: { ...dd.requests, [id]: { ...dd.requests[id]!, status: "WITHDRAWN", decidedOn: date } } } };
       emit(dynamicsEvent(`precontract:${id}:${date}`, date, "IMPORTANT", `${playerName(next, id)} har skrivit förhandsavtal`, `Han går till ${getClub(buyer.clubId)?.name ?? buyer.clubId} när avtalet går ut ${c.contractEndDate}. Klubben får ingen ersättning.`, id));
     }
   }

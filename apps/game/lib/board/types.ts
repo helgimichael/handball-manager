@@ -53,6 +53,10 @@ export interface BoardState {
   lastMonthly?: string;
   midSeasonDone?: boolean;
   seasonReviewDone?: boolean;
+  /** The day this board started judging this manager this season (appointment, or the season start). Matches before it are not his. */
+  since?: string;
+  /** Starts per player before the manager took over mid-season -- subtracted when the board measures youth minutes. */
+  startsBaseline?: Record<string, number>;
   /** A contract extension the board has offered, waiting for the manager. */
   contractOffer?: { years: number; wageEurPerMonth: number; offeredOn: string; expiresOn: string };
 }

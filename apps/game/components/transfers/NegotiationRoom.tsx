@@ -217,7 +217,7 @@ function ClubParty({ career, negotiation, fromClubId, isLoan, playerId }: { care
   const contractStatus = getPlayerContractStatus(career, playerId);
   const contract = getPlayerContract(career, playerId);
   const value = getPlayerMarketValueEur(career, playerId);
-  const range = value !== undefined ? resolveMarketValueRange(value, getPlayerKnowledgePct(career, playerId, fromClubId)) : null;
+  const range = value !== undefined ? resolveMarketValueRange(value, getPlayerKnowledgePct(career, playerId, fromClubId), playerId) : null;
   const lastClub = negotiation?.rounds.filter((r) => r.party === "CLUB").at(-1);
   const rivals = negotiation?.rivals ?? [];
   const agreed = negotiation?.agreedFeeEur !== undefined || negotiation?.agreedWageSharePct !== undefined;
@@ -372,7 +372,7 @@ function Decision({ negotiation, run, contractWage, contractEnd }: { negotiation
   const agentFee = isLoan ? 0 : getNegotiationAgentFeeEur(career, negotiation);
   // Default first bid: the middle of the knowledge-gated value range the manager can see -- never the hidden exact value.
   const marketValue = getPlayerMarketValueEur(career, negotiation.playerId) ?? 0;
-  const visibleRange = resolveMarketValueRange(marketValue, getPlayerKnowledgePct(career, negotiation.playerId, negotiation.fromClubId));
+  const visibleRange = resolveMarketValueRange(marketValue, getPlayerKnowledgePct(career, negotiation.playerId, negotiation.fromClubId), negotiation.playerId);
   const clock = deadlineUrgency(career.gameDate, negotiation.expiresDate);
   const budgetEur = getClubBudgets(career, career.playerClubId)?.transferBudgetEur ?? 0;
 

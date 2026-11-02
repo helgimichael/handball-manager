@@ -62,7 +62,7 @@ export function PlayerDynamicsPanel({ playerId }: { playerId: string }) {
         </DecisionCard>
       ))}
 
-      {request?.status === "OPEN" && (
+      {request?.status === "OPEN" && !pre && (
         <DecisionCard tone="loss" title="Han begär att få lämna" status={<span className="tc-pill">{request.submittedOn}</span>}>
           <p className="pd-note">{request.reason}</p>
           <div className="pd-options">
