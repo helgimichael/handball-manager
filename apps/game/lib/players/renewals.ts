@@ -11,7 +11,7 @@ import type { CareerState } from "../career/types";
 import { getClubFinancialHealth } from "../economy/clubEconomyIntegration";
 import { findStaffMember } from "../staff/staffCareerIntegration";
 import { getPlayerFairWageEurPerMonth } from "../economy/contractIntegration";
-import { assessTransferAffordability } from "../transfers/affordability";
+import { assessRenewalAffordability } from "../transfers/affordability";
 import { computePlayerWageDemand, expectedRoleFromSquadRank } from "../transfers/negotiation";
 import { addMoraleShock, moraleOf } from "./morale";
 import { makePromise } from "./promises";
@@ -118,7 +118,7 @@ export function submitRenewalOffer(state: CareerState, talkId: string, offer: { 
   if (offer.wageEurPerMonth < current.wageEurPerMonth) throw new Error("Ett förlängningsbud kan inte sänka lönen.");
   const increase = offer.wageEurPerMonth - current.wageEurPerMonth;
   if (increase > 0) {
-    const a = assessTransferAffordability(state, state.playerClubId, 0, 0, increase);
+    const a = assessRenewalAffordability(state, state.playerClubId, talk.playerId, offer.wageEurPerMonth);
     if (!a.affordable) throw new Error(a.reasons.join(" "));
   }
   const round = { date: state.gameDate, offer };

@@ -7,7 +7,8 @@ import assert from "node:assert/strict";
 import { createNewCareerState } from "./newCareer";
 import { migrateCareerState } from "./saveMigration";
 import { getCareerClubSquad } from "./careerWorld";
-import { TUMBA_CLUB_ID } from "../game-data";
+import { CLUBS, TUMBA_CLUB_ID } from "../game-data";
+import { competitionClubIds } from "../competition/tables";
 import { CONTRACT_WAGE_FORMULA_VERSION, getPlayerFairWageEurPerMonth } from "../economy/contractIntegration";
 import type { CareerState } from "./types";
 import type { CompetitionTie } from "../competition/types";
@@ -102,4 +103,15 @@ test("season rollover trims old working records but keeps history and anything s
   assert.deepEqual(out.playerContracts, state.playerContracts);
   assert.deepEqual(out.clubFinances, state.clubFinances);
   assert.deepEqual(compactCareerHistory(out, today), out, "idempotent");
+});
+
+test("Division 1 groups that drifted apart are evened out at rollover, so every group can get a fixture list", () => {
+  const s0 = createNewCareerState("m10-div1", TUMBA_CLUB_ID);
+  const sodra = CLUBS.filter((c) => c.competitionId === "se_division1_sodra").slice(0, 3).map((c) => c.id);
+  const drifted: CareerState = { ...s0, seasonComplete: true, competitionMembership: { ...s0.competitionMembership, ...Object.fromEntries(sodra.map((id) => [id, "se_division1_norra"])) } };
+  const size = (s: CareerState, g: string) => competitionClubIds(s, g).length;
+  assert.equal(size(drifted, "se_division1_norra") - size(drifted, "se_division1_sodra"), 6);
+  const after = rolloverSeason(drifted);
+  assert.ok(Math.abs(size(after, "se_division1_norra") - size(after, "se_division1_sodra")) <= 1);
+  assert.equal(size(after, "se_division1_norra") + size(after, "se_division1_sodra"), size(drifted, "se_division1_norra") + size(drifted, "se_division1_sodra"));
 });

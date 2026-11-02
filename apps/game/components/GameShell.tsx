@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useMoney } from "@/lib/settings/usePreferences";
 import { usePathname, useRouter } from "next/navigation";
 import Link from 'next/link';
@@ -113,6 +113,15 @@ export default function GameShell({ children }: { children: ReactNode }) {
   // is deferred until the reveal finishes or the manager skips it.
   const [processing, setProcessing] = useState<{ days: ProcessingDay[]; notice: ProgressionNotice } | null>(null);
   const [notice, setNotice] = useState<ProgressionNotice | null>(null);
+  // HM-ALPHA3-M10: on a phone the sidebar is a menu the header opens; it closes on navigation and Escape.
+  const [navOpen, setNavOpen] = useState(false);
+  useEffect(() => { setNavOpen(false); }, [pathname]);
+  useEffect(() => {
+    if (!navOpen) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setNavOpen(false); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [navOpen]);
 
   function handleContinue() {
     // HM-MATCH-1.3A Part G (hard invariant): while a match is actively
@@ -153,7 +162,8 @@ export default function GameShell({ children }: { children: ReactNode }) {
   return (
     <div className="hm-shell" data-game-state={career.productionMatch ? 'live' : career.seasonComplete ? 'season-complete' : career.fixtures.some(f => f.date===career.gameDate && !career.results[f.id] && (f.homeClubId===career.playerClubId || f.awayClubId===career.playerClubId)) ? 'matchday' : 'season'}>
       <a href="#manager-content" className="hm-skip-link">Till innehållet</a>
-      <aside className="hm-sidebar">
+      {navOpen && <div className="hm-nav-scrim" aria-hidden="true" onClick={() => setNavOpen(false)} />}
+      <aside className="hm-sidebar" id="hm-sidebar" data-open={navOpen}>
         <Link href="/career" className="hm-wordmark"><span className="hm-monogram">HM</span><span>HANDBALL<br /><strong>MANAGER</strong></span></Link>
         <div className="hm-club-badge">
           <ClubCrest shortName={club.shortName} primaryColor={club.primaryColor} clubId={club.id} size={64} />
@@ -186,10 +196,13 @@ export default function GameShell({ children }: { children: ReactNode }) {
             );
           })}
         </div>
-        <div className="hm-sidebar-footer"><span>{save.manager.name}</span><Link href="/load-game">Sparade karriärer →</Link></div>
+        <div className="hm-sidebar-footer"><span>{save.manager.name}</span><Link href="/load-game">Sparade karriärer →</Link>{navOpen && <div className="hm-sidebar-save"><CareerSaveControl /></div>}</div>
       </aside>
 
       <header className="hm-header">
+        <button type="button" className="hm-btn hm-btn-ghost hm-nav-toggle" aria-controls="hm-sidebar" aria-expanded={navOpen} aria-label={navOpen ? "Stäng menyn" : "Öppna menyn"} onClick={() => setNavOpen((open) => !open)}>
+          <span aria-hidden="true">{navOpen ? "✕" : "☰"}</span>
+        </button>
         <div className="hm-header-title">
           <div className="hm-header-title-text">{club.name} <span className="hm-text-muted"> / {career.seasonId}</span></div>
           <div className="hm-header-sub">

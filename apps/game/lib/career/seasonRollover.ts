@@ -2,10 +2,10 @@ import { getLiveStandings } from './standings';
 import type { CareerState } from './types';
 import { buildNewSeasonCalendar } from '../competition/seasonCalendar';
 import { competitionTable, hasLeagueCalendar } from '../competition/tables';
-import { ALLSVENSKAN, HANDBOLLSLIGAN } from '../competition/rules';
+import { ALLSVENSKAN, DIVISION_1, HANDBOLLSLIGAN } from '../competition/rules';
+import { CLUBS } from '../game-data';
 import { recordSeasonQuietly } from '../manager/managerCareer';
 import { clubCompetitionId } from './competitionMembership';
-import { latestSavedPlan } from './manualLineup';
 import type { SeasonOutcome } from '../competition/types';
 import { compactCareerHistory } from './historyCompaction';
 
@@ -23,6 +23,29 @@ function repairedNextMembership(state: CareerState, outcome: SeasonOutcome): Rec
     if (!division || division === ALLSVENSKAN) continue;
     next[tie.winnerClubId] = ALLSVENSKAN;
     next[tie.loserClubId] = division;
+  }
+  return next;
+}
+
+/**
+ * HM-ALPHA3-M10: Division 1 groups are drawn again each season. Relegated
+ * clubs used to all land in one group, so over a few seasons the groups
+ * drifted apart (10 and 14 clubs after four seasons) until one was odd --
+ * harmless while Division 1 is not simulated, but a manager relegated into
+ * an odd group could not get a fixture list. The groups are evened out,
+ * moving the newest arrivals first; the manager's club is never moved.
+ */
+function balanceDivisionOne(membership: Record<string, string>, arrivals: readonly string[], playerClubId: string): Record<string, string> {
+  const next = { ...membership };
+  const groupOf = (id: string) => next[id] ?? CLUBS.find((c) => c.id === id)?.competitionId;
+  const members = (g: string) => CLUBS.filter((c) => groupOf(c.id) === g).map((c) => c.id);
+  for (let guard = 0; guard < 24; guard++) {
+    const [small, large] = [...DIVISION_1].sort((a, b) => members(a).length - members(b).length);
+    if (members(large!).length - members(small!).length <= 1) break;
+    const movable = members(large!).filter((id) => id !== playerClubId);
+    const pick = arrivals.find((id) => movable.includes(id)) ?? movable.sort().at(-1);
+    if (!pick) break;
+    next[pick] = small!;
   }
   return next;
 }
@@ -46,7 +69,9 @@ export function rolloverSeason(input: CareerState): CareerState {
   const seasonId = `${year}/${String(year + 1).slice(-2)}`;
   const kickoff = `${year}-09-20`;
   const outcome = state.seasonOutcome?.seasonId === state.seasonId ? state.seasonOutcome : undefined;
-  const competitionMembership = { ...state.competitionMembership, ...(outcome ? repairedNextMembership(state, outcome) : {}) };
+  const moved = outcome ? repairedNextMembership(state, outcome) : {};
+  const arrivals = Object.entries(moved).filter(([, to]) => (DIVISION_1 as readonly string[]).includes(to)).map(([id]) => id);
+  const competitionMembership = balanceDivisionOne({ ...state.competitionMembership, ...moved }, arrivals, state.playerClubId);
   const competitionId = competitionMembership[state.playerClubId] ?? state.competitionId;
   const tables = Object.fromEntries([HANDBOLLSLIGAN, ALLSVENSKAN].filter((c) => hasLeagueCalendar(state, c)).map((c) => [c, competitionTable(state, c)]));
   const archived = {

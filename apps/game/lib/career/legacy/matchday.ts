@@ -17,6 +17,7 @@ import { checkSeasonComplete, getPlayerFixtureOn } from "../calendar";
 import { buildMatchCompletedEvent, buildPlayerInjuredEvent } from "../careerEvents";
 import { getCareerClubSquad, getCareerSquad } from "../careerWorld";
 import { withoutNationalDuty } from "../../nationalTeam/duty";
+import { isManualLineupCareer, resolveManualMatchPlan } from "../manualLineup";
 import { careerEventToInboxMessage } from "../inboxBridge";
 import { computeAttackActiveWindows, computeTeamUsageTrace, resolveMatchUsageTimeline } from "../matchUsageEngine";
 import { applyMatchResultBookkeeping } from "../matchResultApplication";
@@ -96,7 +97,9 @@ export function playManagerFixtureLegacy(state: CareerState): PlayManagerFixture
   // builds one on the fly from the currently selected squad. Never
   // throws: a squad too small to build a plan resolves to `null`, which
   // playerMatchStrength.ts treats as a neutral (zero-effect) side.
-  let managerPlan = resolveClubMatchPlanForFixture(state.playerClubId, fixture.id, getCareerSquad(state), state.matchPlans[fixture.id], state.tactics[state.playerClubId], state.playerMatchDefaults);
+  // HM-ALPHA3-M10: a manual career's carried preferred lineup is its saved plan here too (quick result).
+  const savedManagerPlan = isManualLineupCareer(state) ? resolveManualMatchPlan(state, fixture.id, getCareerSquad(state).filter((p) => isSelectableForMatch(state.playerStatuses, p.id))) : state.matchPlans[fixture.id];
+  let managerPlan = resolveClubMatchPlanForFixture(state.playerClubId, fixture.id, getCareerSquad(state), savedManagerPlan, state.tactics[state.playerClubId], state.playerMatchDefaults);
   // HM-INJURIES-1.0 Part 16/25: a saved MatchPlan can go stale if a
   // selected player became injured/suspended AFTER it was saved --
   // "validation must catch it before match start; do not silently allow

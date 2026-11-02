@@ -28,3 +28,5 @@
   .career-initialization-scene { grid-template-columns:1fr; margin:40px auto; gap:32px; }
   .career-initialization-club { padding:24px 0 0; border-left:0; border-top:1px solid #43516a; }
 }
+/* HM-ALPHA3-M10: elapsed time on a long load. */
+.career-initialization-elapsed { font-variant-numeric: tabular-nums; white-space: nowrap; opacity: .8; }

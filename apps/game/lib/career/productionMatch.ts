@@ -166,12 +166,16 @@ export function createProductionSession(state: CareerState, fixture: CareerFixtu
   return session;
 }
 
-export function startProductionMatch(state: CareerState, fixtureId?: string): CareerState {
+export function startProductionMatch(state: CareerState, fixtureId?: string, options: { quick?: boolean } = {}): CareerState {
   if (state.productionMatch) return state;
   const fixture = fixtureId ? state.fixtures.find(f => f.id === fixtureId) : getPlayerFixtureOn(state, state.gameDate);
   if (!fixture || state.results[fixture.id]) return state;
   if (fixture.date !== state.gameDate || !state.careerEvents.some(e => e.id === `MATCHDAY_READY:${fixture.id}` && !e.resolved)) return state;
-  return { ...state, activeMatchSession: null, productionMatch: createProductionSession(state, fixture) };
+  const session = createProductionSession(state, fixture);
+  // HM-ALPHA3-M10: a quick result has nobody coaching from the bench. The assistant makes the substitutions
+  // and takes the timeouts, as for a suspended manager -- otherwise the starting seven played all 60 minutes.
+  if (options.quick) { const own = fixture.homeClubId === state.playerClubId ? 'HOME' : 'AWAY'; session.core.coaching[own].rotation = true; session.core.coaching[own].timeouts = true; }
+  return { ...state, activeMatchSession: null, productionMatch: session };
 }
 
 export function advanceProductionMatch(state: CareerState, ticks: number, stopAtHalf = true, observer?:ProductionMatchObserver, stopWhen?:(core:Readonly<CoreState>,events:readonly CoreEvent[])=>boolean): CareerState {

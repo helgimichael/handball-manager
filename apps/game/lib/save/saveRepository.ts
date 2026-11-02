@@ -316,6 +316,7 @@ export async function touchSave(saveId: string): Promise<void> {
 }
 
 export async function deleteSave(saveId: string): Promise<void> {
+  lastActiveRead = null;
   await flushCareerSave(saveId);
   await ensureLegacySavesMigrated();
   const save = await resolveBackend().getSave(saveId);
@@ -333,6 +334,7 @@ const careerWrites = new Map<string, CareerWriteQueue>();
 export function saveCareerState(saveId: string, careerState: CareerState): Promise<void> {
   const queue = careerWrites.get(saveId) ?? { running: false };
   careerWrites.set(saveId, queue);
+  lastActiveRead = null;
   const promise = new Promise<void>((resolve, reject) => {
     // Keep the latest pending snapshot and all its callers. A live match can
     // advance faster than IndexedDB; retaining every intermediate snapshot
@@ -388,6 +390,7 @@ export function setActiveSaveId(saveId: string): void {
   if (!isBrowser()) {
     return;
   }
+  lastActiveRead = null;
   window.localStorage.setItem(ACTIVE_SAVE_KEY, saveId);
 }
 
@@ -398,12 +401,25 @@ export function getActiveSaveId(): string | null {
   return window.localStorage.getItem(ACTIVE_SAVE_KEY);
 }
 
+// HM-ALPHA3-M10: opening a career reads the active save twice in a row (the
+// career layout for its loading screen, then the provider). A large career
+// is tens of megabytes, so the second read reuses the first one's result,
+// once, if it is no more than a few seconds old and nothing was written since.
+const ACTIVE_READ_REUSE_MS = 15_000;
+let lastActiveRead: { id: string; at: number; promise: Promise<CareerSave | null> } | null = null;
+
 export async function getActiveSave(): Promise<CareerSave | null> {
   const id = getActiveSaveId();
   if (!id) {
     return null;
   }
-  return getSave(id);
+  const reuse = lastActiveRead;
+  lastActiveRead = null;
+  if (reuse && reuse.id === id && Date.now() - reuse.at <= ACTIVE_READ_REUSE_MS) return reuse.promise;
+  const promise = getSave(id);
+  lastActiveRead = { id, at: Date.now(), promise };
+  promise.catch(() => { if (lastActiveRead?.promise === promise) lastActiveRead = null; });
+  return promise;
 }
 
 /** Export the committed record, with strict archive reads: an incomplete backup

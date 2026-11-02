@@ -22,7 +22,7 @@ import { marketCandidates } from "../staff/staffMarket";
 import { hireFreeAgent, openNegotiationFor, staffSpendingLimit, startStaffNegotiation, submitStaffOffer, vacancyFunding, wageDemand } from "../staff/staffNegotiation";
 import type { StaffRole } from "../staff/types";
 import { getManagerRecruitmentNeeds } from "../transfers/transferCentre";
-import { assessTransferAffordability } from "../transfers/affordability";
+import { assessRenewalAffordability, assessTransferAffordability } from "../transfers/affordability";
 import type { DelegationLogEntry, DelegationMode, DelegationProposal, DelegationState, ProposalAction } from "./types";
 
 type Emit = (event: CareerEvent) => void;
@@ -78,12 +78,19 @@ function log(state: CareerState, entry: Omit<DelegationLogEntry, "staffName">): 
   return { ...state, delegation: { ...d, log: [...d.log, { ...entry, staffName }].slice(-120) } };
 }
 
+const proposalTarget = (a: ProposalAction) => `${a.kind}:${"playerId" in a ? a.playerId : "staffId" in a ? a.staffId : "position" in a ? a.position : ""}`;
+/** HM-ALPHA3-M10: a declined, failed or lapsed proposal is not put forward again for this long. */
+const PROPOSAL_COOLDOWN_DAYS = 28;
+/** Pending, or decided against within the cooldown -- the same proposal is not raised again yet. */
+function recentlyProposed(state: CareerState, area: DelegationProposal["area"], target: string, date: string): boolean {
+  return Object.values(delegationOf(state).proposals).some((x) => x.area === area && proposalTarget(x.action) === target && (x.status === "PENDING" || (x.status !== "APPROVED" && (x.decidedOn ?? x.expiresOn) >= addDaysIso(date, -PROPOSAL_COOLDOWN_DAYS))));
+}
+
 function propose(state: CareerState, date: string, emit: Emit, p: Omit<DelegationProposal, "id" | "createdOn" | "expiresOn" | "status">): CareerState {
   const d = delegationOf(state);
   // One pending proposal per area, action and target -- a changed wage or date is not a new proposal.
-  const target = (a: ProposalAction) => `${a.kind}:${"playerId" in a ? a.playerId : "staffId" in a ? a.staffId : "position" in a ? a.position : ""}`;
-  const pending = Object.values(d.proposals).some((x) => x.status === "PENDING" && x.area === p.area && target(x.action) === target(p.action));
-  if (pending) return state;
+  // HM-ALPHA3-M10: nor one the manager just declined or that just failed (it was raised every Monday).
+  if (recentlyProposed(state, p.area, proposalTarget(p.action), date)) return state;
   const id = `proposal:${p.area}:${date}:${Object.keys(d.proposals).length}`;
   const proposal: DelegationProposal = { ...p, id, createdOn: date, expiresOn: addDaysIso(date, PROPOSAL_DAYS), status: "PENDING" };
   const name = findStaffMember(state, p.staffId)?.displayName ?? "Staben";
@@ -193,7 +200,8 @@ function contractRenewals(state: CareerState, date: string, emit: Emit, done: st
   for (const id of managerSquadIds(state)) {
     if (handled >= 2) break;
     const c = next.playerContracts[id];
-    if (!c || c.contractEndDate > horizon || openTalkFor(next, id) || renewalBlocker(next, id) || next.playerDynamics?.listings[id]) continue;
+    // HM-ALPHA3-M10: a player already waiting on, or recently refused, a proposal does not take a weekly slot.
+    if (!c || c.contractEndDate > horizon || openTalkFor(next, id) || renewalBlocker(next, id) || next.playerDynamics?.listings[id] || recentlyProposed(next, "CONTRACT_RENEWALS", `RENEW:${id}`, date)) continue;
     const tier = tierOf(next, id);
     const key = tier === "KEY_PLAYER" || tier === "FIRST_CHOICE";
     const name = playerName(next, id);
@@ -201,7 +209,7 @@ function contractRenewals(state: CareerState, date: string, emit: Emit, done: st
     const age = getCareerPlayer(next, id)?.birthYear ? Number(date.slice(0, 4)) - getCareerPlayer(next, id)!.birthYear! : 25;
     const years = age >= 30 ? 1 : 2;
     const increase = demand.demandEurPerMonth - c.wageEurPerMonth;
-    const affordable = increase <= 0 || assessTransferAffordability(next, next.playerClubId, 0, 0, increase).affordable;
+    const affordable = increase <= 0 || assessRenewalAffordability(next, next.playerClubId, id, demand.demandEurPerMonth).affordable;
     const reason = `Avtalet går ut ${c.contractEndDate}. Han begär ${formatEur(demand.demandEurPerMonth)} i månaden (nu ${formatEur(c.wageEurPerMonth)}).`;
     handled++;
     if (key || mode === "ADVISE" || !affordable) {

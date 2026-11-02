@@ -82,7 +82,7 @@ export default function MatchPreviewPage() {
 
   function handleQuickResult() {
     try {
-      updateCareer(state => startProductionMatch(state, fixture!.id));
+      updateCareer(state => startProductionMatch(state, fixture!.id, { quick: true }));
       router.push(`/career/match-day/${fixture!.id}?finish=1`);
     } catch (cause) { setError(cause instanceof Error ? cause.message : 'Matchen kunde inte startas.'); }
   }
@@ -130,7 +130,7 @@ export default function MatchPreviewPage() {
             <span className="hm-panel-title">Din matchförberedelse</span>
           </div>
           <div className="hm-panel-body" style={{ fontSize: "var(--hm-text-xs)", color: "var(--hm-text-secondary)", lineHeight: 1.6 }}>
-            {career.matchPlans[fixture.id] ? <p>Matchtruppen innehåller {career.matchPlans[fixture.id].squad.players.length} spelare. Försvar: {career.matchPlans[fixture.id].defencePlan.baseFormation}. Öppna Taktik för att granska startsjuan och dina instruktioner.</p> : <p>Granska truppens tillgänglighet och välj startsju och instruktioner i Taktik innan avkast.</p>}
+            {savedPlan ? <p>Matchtruppen innehåller {savedPlan.squad.players.length} spelare{career.matchPlans[fixture.id] ? '' : ' (senaste uppställningen)'}. Försvar: {savedPlan.defencePlan.baseFormation}. Öppna Taktik för att granska startsjuan och dina instruktioner.</p> : <p>Granska truppens tillgänglighet och välj startsju och instruktioner i Taktik innan avkast.</p>}
             {lowReadiness.length > 0 && <div aria-label="Lägre beredskap"><strong>Lägre beredskap inför matchen</strong><ul style={{ margin: "4px 0 0", paddingLeft: 16 }}>{lowReadiness.map(({ player, summary }) => <li key={player.id}><PlayerLink playerId={player.id}>{player.firstName} {player.lastName}</PlayerLink> · {Math.round(summary.readiness)}% energi{summary.week.complete ? ` · ${Math.round(summary.week.total)} i belastning senaste 7 d` : ""}{summary.outlook === "REDUCED" ? " · nedsatt återhämtning" : ""}</li>)}</ul></div>}
           </div>
         </div>

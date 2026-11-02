@@ -245,3 +245,15 @@ test("M10: a fixture with its own saved selection is never overridden by the car
   assert.equal(resolveManualMatchPlan(withBoth, own[1].id, available), empty, "the manager's explicit (even empty) choice wins");
   assert.equal(carriedLineupFor(state, own[0].id, available), null, "nothing carries before any selection");
 });
+
+test("M10: a quick result is coached by the assistant (substitutions and timeouts); a live match stays the manager's", () => {
+  const state = onMatchday(newGameCareer("se_club_ik_savehof", "se_handbollsligan_herr"));
+  const fixture = getNextPlayerFixture(state)!;
+  const withPlan = { ...state, matchPlans: { [fixture.id]: selectByHand(state, fixture.id) } };
+  const team = fixture.homeClubId === state.playerClubId ? "HOME" : "AWAY";
+  const quick = startProductionMatch(withPlan, fixture.id, { quick: true }).productionMatch!;
+  assert.equal(quick.core.coaching[team].rotation, true);
+  assert.equal(quick.core.coaching[team].timeouts, true);
+  const live = startProductionMatch(withPlan, fixture.id).productionMatch!;
+  assert.equal(live.core.coaching[team].timeouts, false);
+});

@@ -92,11 +92,18 @@ export function clearStartingPosition(plan: MatchPlan, position: Position): Matc
   return { ...plan, attackStartingUnit: { ...plan.attackStartingUnit, slots: plan.attackStartingUnit.slots.map((slot) => (slot.position === position ? { ...slot, playerId: EMPTY_SLOT } : slot)) } };
 }
 
-/** The most recent saved selection before `fixtureId` (this season, else the one carried over the summer), re-keyed to it. */
+/**
+ * The manager's selection nearest before `fixtureId`, re-keyed to it. With none
+ * before it (a cup tie drawn in ahead of a fixture already picked for), the
+ * nearest one after it; then the one carried over the summer.
+ */
 export function latestSavedPlan(state: CareerState, fixtureId: string): MatchPlan | null {
   const date = state.fixtures.find((f) => f.id === fixtureId)?.date ?? "9999-12-31";
-  const playedOrder = state.fixtures.filter((f) => f.id !== fixtureId && f.date <= date && state.matchPlans[f.id]?.squad.players.length).sort((a, b) => b.date.localeCompare(a.date) || (b.kickoffTime ?? "").localeCompare(a.kickoffTime ?? ""));
-  const source = (playedOrder[0] && state.matchPlans[playedOrder[0].id]) || state.preferredLineup;
+  const saved = state.fixtures.filter((f) => f.id !== fixtureId && state.matchPlans[f.id]?.squad.players.length);
+  const before = saved.filter((f) => f.date <= date).sort((a, b) => b.date.localeCompare(a.date) || (b.kickoffTime ?? "").localeCompare(a.kickoffTime ?? ""));
+  const after = saved.filter((f) => f.date > date).sort((a, b) => a.date.localeCompare(b.date));
+  const nearest = before[0] ?? after[0];
+  const source = (nearest && state.matchPlans[nearest.id]) || state.preferredLineup;
   return source ? { ...source, fixtureId, squad: { ...source.squad, fixtureId } } : null;
 }
 

@@ -69,3 +69,21 @@ export function assessTransferAffordability(
 
   return { affordable: reasons.length === 0, reasons };
 }
+
+/**
+ * HM-ALPHA3-M10: a renewal is weighed against NEXT season's wage commitments --
+ * the contracts that run past this player's current end date, plus his new
+ * wage. Weighing it against the whole current wage bill counted every other
+ * contract expiring the same summer, so in a year when much of a squad was
+ * out of contract no renewal could ever fit and the whole group left.
+ */
+export function assessRenewalAffordability(state: CareerState, clubId: string, playerId: string, newWageEurPerMonth: number): TransferAffordabilityResult {
+  const budgets = getClubBudgets(state, clubId);
+  if (!budgets) return { affordable: false, reasons: ["Ingen ekonomidata finns för klubben."] };
+  const from = state.playerContracts[playerId]?.contractEndDate ?? state.gameDate;
+  let committed = 0;
+  for (const c of Object.values(state.playerContracts)) if (c.clubId === clubId && c.playerId !== playerId && c.contractEndDate > from) committed += c.wageEurPerMonth * 12;
+  const projected = committed + newWageEurPerMonth * 12;
+  if (projected > budgets.wageBudgetEur) return { affordable: false, reasons: [`Lönekostnaden nästa säsong (${Math.round(projected)} €/år) skulle överstiga lönebudgeten (${Math.round(budgets.wageBudgetEur)} €/år).`] };
+  return { affordable: true, reasons: [] };
+}
