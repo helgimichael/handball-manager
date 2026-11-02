@@ -57,9 +57,9 @@ const INITIAL_EVALUATION_SPREAD_DAYS = 45;
 // bara 1 MV ska alltså fortfarande kunna söka MV". Deliberately reuses
 // the SAME number the audit script's own "squad size >= 24" outlier
 // flag uses, rather than inventing a separate figure.
-// HM-ALPHA3-M10: defined beside the contract decisions, which now use it too.
-export { SQUAD_SIZE_LARGE_THRESHOLD } from "./cpuContractDecisions";
-import { SQUAD_SIZE_LARGE_THRESHOLD } from "./cpuContractDecisions";
+// HM-ALPHA3-M10: defined in squadPlanning.ts, shared with the contract decisions.
+export { SQUAD_SIZE_LARGE_THRESHOLD } from "./squadPlanning";
+import { SQUAD_SIZE_LARGE_THRESHOLD } from "./squadPlanning";
 
 // HM-CPU-SQUAD-BUILDING-1.0C Part 3/4: successful-signing cooldown --
 // "position solved -> längre cooldown; fortfarande HIGH efter recompute
@@ -223,20 +223,24 @@ function evaluateClub(state: CareerState, clubId: string, date: string): { state
   const squadSize = projectedSquadSize(next, clubId);
 
   for (const need of needy) {
-    if (slotsRemaining <= 0) break;
+    const existing = existingPlan(next, clubId, need.position);
+    const isRetry = existing?.status === "SEARCHING";
+    if (slotsRemaining <= 0 && !isRetry) continue;
     // Part 1/5: a MEDIUM ("could still use an upgrade") pursuit is not
     // even attempted once the squad is already large -- HIGH need
     // (a real hole/contract-risk replacement/genuine shortage) is never
     // gated by squad size.
     if (need.level === "MEDIUM" && squadSize >= SQUAD_SIZE_LARGE_THRESHOLD) continue;
 
-    const existing = existingPlan(next, clubId, need.position);
-    if (existing?.status === "SEARCHING") continue; // Part: "duplicate pursuit prevention" -- already actively pursuing this position.
+    // Part: "duplicate pursuit prevention" -- already actively pursuing this position. HM-ALPHA3-M10: a search
+    // that found nobody is tried again once it has waited as long as a failed deal would (as the emergency
+    // path already does); skipped for good, it held its slot and a club could stop recruiting for years.
+    if (isRetry && existing.lastEvaluatedAt && daysBetweenIso(existing.lastEvaluatedAt, date) < CPU_RECRUITMENT_COOLDOWN_DAYS) continue;
     if (existing?.cooldownUntil !== null && existing?.cooldownUntil !== undefined && !isSameOrBefore(existing.cooldownUntil, date)) continue; // Part 3/4: cooldown active -- covers both a failed deal AND a recently-solved position, regardless of the existing plan's own status.
 
     const result = pursuePosition(next, clubId, need.position, need.level, date);
     next = result.state;
-    if (result.pursued) slotsRemaining -= 1;
+    if (result.pursued && !isRetry) slotsRemaining -= 1;
   }
 
   // HM-CPU-SQUAD-QUALITY-UPGRADES-1.0: replacement recruitment, strictly

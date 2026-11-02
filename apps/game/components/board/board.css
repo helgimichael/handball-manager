@@ -40,8 +40,8 @@
 .bd-meetings li[data-verdict="PLEASED"] { border-left-color: #3f7a52; }
 .bd-meetings li[data-verdict="CONCERNED"], .bd-meetings li[data-verdict="WARNING"] { border-left-color: #c08a2c; }
 .bd-meetings li[data-verdict="DISMISSED"] { border-left-color: #a93219; }
-.bd-tabs { display: inline-flex; border: 1px solid var(--hm-border-strong); justify-self: start; }
-.bd-tabs button { font: inherit; font-size: 13px; font-weight: 700; padding: 8px 14px; border: 0; background: transparent; color: var(--hm-text-secondary); cursor: pointer; }
+.bd-tabs { display: inline-flex; max-width: 100%; overflow-x: auto; border: 1px solid var(--hm-border-strong); justify-self: start; }
+.bd-tabs button { flex: none; font: inherit; font-size: 13px; font-weight: 700; padding: 8px 14px; border: 0; background: transparent; color: var(--hm-text-secondary); cursor: pointer; }
 .bd-tabs button + button { border-left: 1px solid var(--hm-border-strong); }
 .bd-tabs button[aria-selected="true"] { background: var(--game-ink); color: #f8f3e9; }
 .bd-tabs button:focus-visible { outline: 3px solid var(--hm-accent); outline-offset: -3px; }

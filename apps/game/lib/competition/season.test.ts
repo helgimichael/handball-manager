@@ -9,6 +9,7 @@ import { continueCareerRhythm } from "../career/continueController";
 import { playManagerFixtureLegacy } from "../career/legacy/matchday";
 import { rolloverSeason } from "../career/seasonRollover";
 import type { CareerState } from "../career/types";
+import { CLUBS } from "../game-data";
 import { ALLSVENSKAN, HANDBOLLSLIGAN, KVAL_HBL, SM_SLUTSPEL, SVENSKA_CUPEN } from "./rules";
 import { competitionTable } from "./tables";
 import { tieWins } from "./season";
@@ -97,7 +98,14 @@ test("rollover applies promotion and relegation and builds both leagues for the 
   const state = finished();
   const next = rolloverSeason(state);
   const o = state.seasonOutcome!;
-  for (const [club, competitionId] of Object.entries(o.nextMembership)) assert.equal(next.competitionMembership![club], competitionId);
+  // HM-ALPHA3-M10: a club relegated into Division 1 may be placed in the other group to keep the groups even.
+  const division1 = ["se_division1_norra", "se_division1_sodra"];
+  for (const [club, competitionId] of Object.entries(o.nextMembership)) {
+    if (division1.includes(competitionId)) assert.ok(division1.includes(next.competitionMembership![club]!), `${club} is in Division 1`);
+    else assert.equal(next.competitionMembership![club], competitionId);
+  }
+  const groupSize = (g: string) => CLUBS.filter((c) => (next.competitionMembership![c.id] ?? c.competitionId) === g).length;
+  assert.ok(Math.abs(groupSize(division1[0]!) - groupSize(division1[1]!)) <= 1, "Division 1 groups stay even");
   for (const c of [HANDBOLLSLIGAN, ALLSVENSKAN]) {
     const clubs = new Set(next.fixtures.filter((f) => f.competitionId === c).flatMap((f) => [f.homeClubId, f.awayClubId]));
     assert.equal(clubs.size, 14, `${c} still has 14 clubs`);

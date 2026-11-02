@@ -280,25 +280,29 @@ function leagueLine(state: CareerState, w: NationalWindow): string {
 }
 
 /**
- * HM-ALPHA3-M10: everyone called up comes back tired -- the energy cap reaches
- * CPU squads too, through their tracked condition. Injury risk is applied to
- * the manager's players, the only squad whose injuries the game tracks.
- * Foreign players are assumed to play two matches in a qualifier week and
- * six in a tournament.
+ * HM-ALPHA3-M10: everyone called up comes back tired (the energy cap reaches
+ * CPU squads through their tracked condition) and carries the same bounded
+ * injury risk -- one roll per match played, by the same model as club matches,
+ * once per window (the window closes once; a player already injured is skipped).
+ * Injured CPU players miss their club's matches through the shared selection
+ * filter and recover with their club's medical staff. Foreign players are
+ * assumed to play two matches in a qualifier week and six in a tournament.
  */
 function returnPlayers(state: CareerState, w: NationalWindow, st: NationalWindowState, date: string, swedenMatches: number): { state: CareerState; own: string[]; injured: string[] } {
   let next = state;
+  const called = [...st.squad, ...(st.foreign ?? [])].map((s) => s.playerId);
   const own = [...st.squad, ...(st.foreign ?? [])].filter((s) => s.clubId === state.playerClubId).map((s) => s.playerId);
   const matchesFor = (id: string) => (st.foreign?.some((f) => f.playerId === id) ? (w.kind === "TOURNAMENT" ? 6 : 2) : swedenMatches);
-  const injured: string[] = [];
-  const rounds = Math.max(0, ...own.map(matchesFor));
+  const injuredAll: string[] = [];
+  const rounds = Math.max(0, ...called.map(matchesFor));
   for (let i = 0; i < rounds; i++) {
-    const playing = own.filter((id) => matchesFor(id) > i && !injured.includes(id));
+    const playing = called.filter((id) => matchesFor(id) > i && !injuredAll.includes(id));
     if (!playing.length) continue;
     const exposure = new Map<string, MatchExposureForInjury>(playing.map((id) => [id, { attackExposure: 0.45, defenceExposure: 0.45, goalkeeperExposure: 0 }]));
     const r = applyMatchInjuryResolution(next, date, `nt:${w.id}:${i}`, exposure);
-    next = r.state; injured.push(...r.newlyInjuredPlayerIds);
+    next = r.state; injuredAll.push(...r.newlyInjuredPlayerIds);
   }
+  const injured = injuredAll.filter((id) => own.includes(id));
   const cap = w.kind === "TOURNAMENT" ? 70 : 82;
   for (const { playerId: id } of [...st.squad, ...(st.foreign ?? [])]) { const ps = next.playerPhysicalState[id] ?? { playerId: id, currentEnergy: 100, lastUpdatedDate: date, recentLoad: 0 }; if (ps.currentEnergy > cap) next = { ...next, playerPhysicalState: { ...next.playerPhysicalState, [id]: { ...ps, currentEnergy: cap, lastUpdatedDate: date } } }; }
   return { state: next, own, injured };

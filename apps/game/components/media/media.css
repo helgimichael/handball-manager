@@ -1,7 +1,7 @@
 /* HM-ALPHA3-M08: the Media Centre -- an editorial page: Impact headlines,
    outlet chips in a neutral tint per outlet (never their logos), paper
    cards, and a clear label that the stories are the game's own fiction. */
-.md-page, .md-article-page, .md-press-page { display: grid; gap: 16px; padding-bottom: 24px; min-width: 0; }
+.md-page, .md-article-page, .md-press-page { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; padding-bottom: 24px; min-width: 0; }
 .md-page > .hm-btn, .md-article-page > .hm-btn, .md-press-page > .hm-btn { justify-self: start; }
 .md-alert { margin: 0; padding: 10px 14px; background: #f0d5cf; color: #5c1a0d; border-left: 4px solid #a93219; }
 .md-outlet { display: inline-flex; align-items: baseline; gap: 6px; padding: 3px 8px; background: var(--md-tint, #3c4a5c); color: #fff; font-size: 11px; letter-spacing: .02em; }

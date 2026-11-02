@@ -31,7 +31,7 @@ import { addDays } from "../career/dateUtils";
 import { clubCompetitionId, clubCompetitionTier } from "../career/competitionMembership";
 import type { CareerFixture, CareerState } from "../career/types";
 import { getClub } from "../game-data";
-import { computeCalibrationBridgeEur, getClubEconomyBaseline, getClubPlayerWageCostsEurAnnual, getClubStaffCostsEurAnnual, STARTING_MARGIN_BAND, tierRevenueFactor } from "./clubEconomyIntegration";
+import { clubOperationsCostEurAnnual, computeCalibrationBridgeEur, getClubEconomyBaseline, getClubPlayerWageCostsEurAnnual, getClubStaffCostsEurAnnual, STARTING_MARGIN_BAND, tierRevenueFactor } from "./clubEconomyIntegration";
 import type { ClubEconomyBaseline, EconomicBand } from "./clubEconomyTypes";
 import { CPU_STATEMENT_HISTORY_MONTHS, type ClubFinanceState, type FinancialStatus, type HomeMatchRevenue, type LedgerLine, type MonthlyStatement } from "./ledgerTypes";
 
@@ -202,7 +202,7 @@ export function recurringLinesForMonth(state: CareerState, clubId: string, month
     { category: "PLAYER_WAGES", amountEur: -Math.round(getClubPlayerWageCostsEurAnnual(state, clubId) / 12) },
     { category: "STAFF_WAGES", amountEur: -Math.round(getClubStaffCostsEurAnnual(state, clubId) / 12) },
     { category: "OPERATIONS", amountEur: -Math.round(baseline.operatingCostsBaselineEur / 12) },
-    ...(bridge > 0 ? [{ category: "CLUB_OPERATIONS" as const, amountEur: -Math.round(bridge / 12) }] : []),
+    ...(bridge > 0 ? [{ category: "CLUB_OPERATIONS" as const, amountEur: -Math.round(clubOperationsCostEurAnnual(state, clubId, bridge) / 12) }] : []),
   ];
   return { lines: lines.filter((l) => l.amountEur !== 0), homeMatches };
 }
@@ -312,6 +312,7 @@ export function projectClubFinances(state: CareerState, clubId: string, minMonth
   const homeGames = Math.max(1, seasonHomeLeagueFixtures(state, clubId).length);
   const hasCalendar = homeGames > 0 && state.fixtures.some((f) => f.homeClubId === clubId);
   const staffMonthly = getClubStaffCostsEurAnnual(state, clubId) / 12;
+  const clubOperationsMonthly = clubOperationsCostEurAnnual(state, clubId, finance.bridgeEurAnnual) / 12;
   const out: ProjectionMonth[] = [];
   let cash = baseline.cashEur; // pending one-offs have already moved cash
   let month = start;
@@ -323,12 +324,12 @@ export function projectClubFinances(state: CareerState, clubId: string, minMonth
     const matchday = hasCalendar ? (homeThisMonth * baseline.revenue.matchdayRevenueEur * tierFactor) / homeGames : (baseline.revenue.matchdayRevenueEur * tierFactor) / 12;
     const support = finance.bridgeEurAnnual < 0 ? -finance.bridgeEurAnnual / 12 : 0;
     const wages = contractWagesForMonth(state, clubId, monthEnd);
-    const expenses = wages + staffMonthly + baseline.operatingCostsBaselineEur / 12 + Math.max(0, finance.bridgeEurAnnual) / 12;
+    const expenses = wages + staffMonthly + baseline.operatingCostsBaselineEur / 12 + clubOperationsMonthly;
     const income = baseIncome + matchday + support;
     cash += income - expenses;
     out.push({
       month, incomeEur: Math.round(income), expensesEur: Math.round(expenses), closingCashEur: Math.round(cash),
-      breakdown: { recurringIncomeEur: Math.round(baseIncome), matchdayEstimateEur: Math.round(matchday), homeLeagueGames: homeThisMonth, associationSupportEur: Math.round(support), playerWagesEur: Math.round(wages), staffWagesEur: Math.round(staffMonthly), operationsEur: Math.round(baseline.operatingCostsBaselineEur / 12), clubOperationsEur: Math.round(Math.max(0, finance.bridgeEurAnnual) / 12) },
+      breakdown: { recurringIncomeEur: Math.round(baseIncome), matchdayEstimateEur: Math.round(matchday), homeLeagueGames: homeThisMonth, associationSupportEur: Math.round(support), playerWagesEur: Math.round(wages), staffWagesEur: Math.round(staffMonthly), operationsEur: Math.round(baseline.operatingCostsBaselineEur / 12), clubOperationsEur: Math.round(clubOperationsMonthly) },
     });
     month = nextMonth(month);
   }

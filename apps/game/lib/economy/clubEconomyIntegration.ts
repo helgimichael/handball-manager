@@ -288,12 +288,33 @@ export function computeCalibrationBridgeEur(state: CareerState, clubId: string, 
   return Math.round(margin - target);
 }
 
-/** Revenue scale when a club plays in a different tier than its generated baseline assumes (M03 promotion/relegation). */
+/**
+ * HM-ALPHA3-M10: the economic tier. The static data lists Division 1 at tier 2 like Allsvenskan, so a club
+ * relegated to Division 1 (or promoted from it) kept the same income. Financially Division 1 is a level below.
+ */
+function economicTier(state: Pick<CareerState, "competitionMembership">, clubId: string): number | undefined {
+  const tier = clubCompetitionTier(state, clubId);
+  const competitionId = state.competitionMembership?.[clubId] ?? getClub(clubId)?.competitionId;
+  return tier !== undefined && competitionId?.startsWith("se_division1") ? tier + 1 : tier;
+}
+
+/** Revenue scale when a club plays in a different tier than its generated baseline assumes (M03 promotion/relegation): x1.35 per level up, x0.72 per level down. */
 export function tierRevenueFactor(state: CareerState, clubId: string): number {
-  const current = clubCompetitionTier(state, clubId);
-  const original = getClub(clubId)?.competitionId ? clubCompetitionTier({}, clubId) : current;
+  const current = economicTier(state, clubId);
+  const original = getClub(clubId)?.competitionId ? economicTier({}, clubId) : current;
   if (!current || !original || current === original) return 1;
-  return current < original ? 1.35 : 0.72;
+  return current < original ? 1.35 ** (original - current) : 0.72 ** (current - original);
+}
+
+/**
+ * HM-ALPHA3-M10: the club-operations cost (a positive bridge: association
+ * running and travel) at the club's current tier. The bridge is calibrated
+ * at the generated tier; a club that drops a level runs a smaller operation
+ * as its revenue falls, and a promoted club a larger one. At its own tier
+ * the factor is 1, so nothing changes for a club that has not moved.
+ */
+export function clubOperationsCostEurAnnual(state: CareerState, clubId: string, bridgeEurAnnual: number): number {
+  return Math.max(0, bridgeEurAnnual) * tierRevenueFactor(state, clubId);
 }
 
 /**
@@ -305,7 +326,7 @@ export function tierRevenueFactor(state: CareerState, clubId: string): number {
  */
 export function ledgerRecurringInputs(state: CareerState, clubId: string, baseline: ClubEconomyBaseline): { revenueEur: number; extraCostsEur: number } {
   const bridge = state.clubFinances?.[clubId]?.bridgeEurAnnual ?? computeCalibrationBridgeEur(state, clubId, baseline);
-  return { revenueEur: sumRevenue(baseline) * tierRevenueFactor(state, clubId) + Math.max(0, -bridge), extraCostsEur: Math.max(0, bridge) };
+  return { revenueEur: sumRevenue(baseline) * tierRevenueFactor(state, clubId) + Math.max(0, -bridge), extraCostsEur: clubOperationsCostEurAnnual(state, clubId, bridge) };
 }
 
 /** The lowest structural result the health model still calls BALANCED (-8 % of revenue). */

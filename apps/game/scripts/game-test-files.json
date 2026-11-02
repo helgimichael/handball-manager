@@ -256,5 +256,6 @@
     "lib/career/m10SaveIntegrity.test.ts",
     "lib/nationalTeam/m10NationalTeam.test.ts",
     "lib/format/ordinal.test.ts",
+    "lib/career/m10WorldBalance.test.ts",
     "lib/matchday/matchday.test.ts"
 ]

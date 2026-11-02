@@ -16,6 +16,7 @@ import { getExternalCandidateClubs, WORLD_POOL_COMPETITION_IDS } from "./careerW
 import { projectedSquadSize } from "./cpuSquadNeeds";
 import { FREE_AGENT_CLUB_ID, getFreeAgents } from "./contractExpiry";
 import type { CareerState } from "./types";
+import { SQUAD_PLANNING_SIZE } from "./squadPlanning";
 
 /**
  * HM-CPU-SQUAD-BUILDING-1.0C Part 1: squad-size recruitment brake --
@@ -31,7 +32,7 @@ import type { CareerState } from "./types";
  * "no new MEDIUM/luxury pursuits at all" gate lives in cpuRecruitment.ts
  * (Part: "mycket stor squad -> inga nya LOW/MEDIUM luxury pursuits").
  */
-const SQUAD_SIZE_PENALTY_START = 20;
+const SQUAD_SIZE_PENALTY_START = SQUAD_PLANNING_SIZE;
 const SQUAD_SIZE_PENALTY_PER_PLAYER = 4;
 
 /**

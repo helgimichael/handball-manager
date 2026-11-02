@@ -11,7 +11,7 @@ import { ensureClubFinances } from "../economy/ledger";
 import { getPlayerMarketValueEur } from "../economy/contractIntegration";
 import { applyMoraleToRatings, moraleMatchFactor, updateMoraleWeekly } from "./morale";
 import { openRenewalTalks, progressRenewalTalks, renewalDemand, submitRenewalOffer } from "./renewals";
-import { acceptIncomingOffer, completeSale, counterIncomingOffer, findBuyer, generateIncomingOffers, progressIncomingOffers, progressPreContracts, releaseCost, releasePlayer } from "./market";
+import { acceptIncomingOffer, closeDepartedPlayerBusiness, completeSale, counterIncomingOffer, findBuyer, generateIncomingOffers, progressIncomingOffers, progressPreContracts, releaseCost, releasePlayer, requestBidFor } from "./market";
 import { listPlayer, progressTalks } from "./talks";
 import { evaluatePromises, makePromise } from "./promises";
 import { addDaysIso, managerSquadIds, personalityOf } from "./dynamicsState";
@@ -166,4 +166,33 @@ test("a pre-contract moves the player on the last day of his contract, with no f
   assert.equal(s.clubEconomies[SKOVDE]!.cashEur, cash);
   assert.equal(s.preContracts?.[id], undefined);
   assert.equal(s.playerDynamics!.departures.at(-1)!.kind, "PRE_CONTRACT");
+});
+
+test("HM-ALPHA3-M10: no club bids for a player whose contract ends before the deal could complete", () => {
+  let s = at(career(), "2026-11-02"); // window shut
+  const id = managerSquadIds(s)[4]!;
+  s = listPlayer(s, id, "MANAGER");
+  s = { ...s, playerContracts: { ...s.playerContracts, [id]: { ...s.playerContracts[id]!, contractEndDate: "2026-12-15" } } };
+  assert.equal(requestBidFor(s, id, s.gameDate, noEmit), s, "his contract runs out before the window opens");
+  let date = s.gameDate;
+  for (let i = 0; i < 6; i++, date = addDaysIso(date, 7)) s = generateIncomingOffers(at(s, date), date, noEmit);
+  assert.ok(!Object.values(s.incomingOffers ?? {}).some((o) => o.playerId === id), "listed or not, buyers wait for him as a free agent");
+});
+
+test("HM-ALPHA3-M10: a player who has left takes his listing and open bids with him", () => {
+  let s = at(career(), "2027-05-20");
+  const id = managerSquadIds(s)[6]!;
+  const buyer = findBuyer(s, id, "t");
+  if (!buyer) return;
+  s = listPlayer(s, id, "MANAGER");
+  const offer = { id: "in:gone", playerId: id, fromClubId: buyer.clubId, foreign: buyer.foreign, openedOn: s.gameDate, feeEur: 5000, maxFeeEur: 8000, wageEurPerMonth: 1500, contractYears: 2, status: "OPEN" as const, respondBy: "2027-06-09", rounds: [], motive: "test" };
+  s = { ...s, incomingOffers: { [offer.id]: offer } };
+  const closed = closeDepartedPlayerBusiness(s, id, "2027-05-31");
+  assert.equal(closed.playerDynamics!.listings[id], undefined);
+  assert.equal(closed.incomingOffers![offer.id]!.status, "WITHDRAWN");
+  // An older save where he already left with the listing still open is repaired by the daily offer pass.
+  const elsewhere = { ...s, playerContracts: { ...s.playerContracts, [id]: { ...s.playerContracts[id]!, clubId: buyer.clubId } } };
+  const repaired = progressIncomingOffers(at(elsewhere, "2027-06-01"), "2027-06-01", noEmit);
+  assert.equal(repaired.playerDynamics!.listings[id], undefined);
+  assert.equal(repaired.incomingOffers![offer.id]!.status, "WITHDRAWN");
 });

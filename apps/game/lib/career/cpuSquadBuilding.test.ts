@@ -275,6 +275,20 @@ test("(15) duplicate pursuit prevention: a club with an existing SEARCHING plan 
   assert.equal(new Set(positions).size, positions.length);
 });
 
+test("(15b) HM-ALPHA3-M10: a search that found nobody is retried after the failed-deal pause, even with every slot held, and not before", () => {
+  const state = fullWorldState("cpu-cycle-stale", "se_club_hammarby_if_hf");
+  const date = state.gameDate;
+  const clubId = cpuRecruiterClubIds(state).find((id) => (state.worldSquads[id] ?? []).length < 20 && priorityNeeds(assessSquadNeeds(state, id, date)).length >= 2)!;
+  assert.ok(clubId, "a club with two open needs");
+  const [stale, recent] = priorityNeeds(assessSquadNeeds(state, clubId, date));
+  const key = (position: string) => `${clubId}:${position}`;
+  const searching = (position: typeof stale.position, lastEvaluatedAt: string) => ({ id: key(position), clubId, targetPosition: position, need: "MEDIUM" as const, candidatePlayerId: null, status: "SEARCHING" as const, createdAt: addDays(date, -400), lastEvaluatedAt, offerId: null, cooldownUntil: null, reason: "Inga verkliga kandidater hittades på positionen." });
+  const plans = { [key(stale.position)]: searching(stale.position, addDays(date, -400)), [key(recent.position)]: searching(recent.position, addDays(date, -10)) };
+  const next = progressCpuRecruitment({ ...state, cpuRecruitmentPlans: plans, cpuClubEvaluationSchedule: { ...state.cpuClubEvaluationSchedule, [clubId]: date } }, date);
+  assert.equal(next.cpuRecruitmentPlans[key(stale.position)]!.lastEvaluatedAt, date, "the stale search is looked at again");
+  assert.equal(next.cpuRecruitmentPlans[key(recent.position)]!.lastEvaluatedAt, addDays(date, -10), "a recent one is left alone");
+});
+
 test("(16) human club exclusion: progressCpuRecruitment never creates a plan or schedule entry for state.playerClubId", () => {
   const state = fullWorldState("cpu-human-exclusion", "se_club_hammarby_if_hf");
   const next = progressCpuRecruitment(state, state.gameDate);

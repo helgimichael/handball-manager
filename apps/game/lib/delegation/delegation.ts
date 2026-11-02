@@ -174,7 +174,7 @@ function playerRecruitment(state: CareerState, date: string, emit: Emit, done: s
   }
   // Listed players: the delegate asks around for bids (the first Monday of the month). Any bid still needs your answer.
   if (date.slice(8, 10) <= "07") {
-    for (const listing of Object.values(state.playerDynamics?.listings ?? {})) {
+    for (const listing of Object.values(state.playerDynamics?.listings ?? {}).filter((l) => state.playerContracts[l.playerId]?.clubId === state.playerClubId)) {
       const name = playerName(next, listing.playerId);
       if (mode === "DELEGATE") {
         const before = Object.keys(next.incomingOffers ?? {}).length;

@@ -21,9 +21,11 @@ export function IncomingOffersBoard() {
   const money = useMoney();
   const { career } = useCareer();
   const d = dynamicsOf(career);
-  const live = Object.values(career.incomingOffers ?? {}).filter((o) => STATUS[o.status]).sort((a, b) => a.respondBy.localeCompare(b.respondBy));
-  const listings = Object.values(d.listings);
-  const requests = Object.values(d.requests).filter((r) => r.status === "OPEN");
+  // HM-ALPHA3-M10: only players still under contract here (one who left at the end of his contract stayed listed).
+  const ours = (id: string) => career.playerContracts[id]?.clubId === career.playerClubId;
+  const live = Object.values(career.incomingOffers ?? {}).filter((o) => STATUS[o.status] && (ours(o.playerId) || o.status === "COMPLETED")).sort((a, b) => a.respondBy.localeCompare(b.respondBy));
+  const listings = Object.values(d.listings).filter((l) => ours(l.playerId));
+  const requests = Object.values(d.requests).filter((r) => r.status === "OPEN" && ours(r.playerId));
   const departures = [...d.departures].reverse().slice(0, 5);
   const preContracts = Object.values(career.preContracts ?? {});
   const name = (id: string) => { const p = getCareerPlayer(career, id); return p ? `${p.firstName} ${p.lastName}` : id; };

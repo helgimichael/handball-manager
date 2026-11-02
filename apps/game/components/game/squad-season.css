@@ -2,7 +2,7 @@
 .hm-training-screen,
 .hm-calendar-screen,
 .hm-contract-screen,
-.hm-statistics-screen { display: grid; gap: 14px; min-width: 0; }
+.hm-statistics-screen { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; min-width: 0; }
 
 .hm-roster-heading { background: var(--game-navy); color: var(--game-paper); padding: 22px 26px 0; border-left: 4px solid var(--game-signal); }
 .hm-roster-heading .hm-page-heading { margin: 0 0 24px; }

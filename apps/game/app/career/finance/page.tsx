@@ -15,7 +15,7 @@ import { CashLineChart, CategoryBars, StackedBars, type CashPoint } from "@/comp
 import { useCareer } from "@/lib/career/CareerContext";
 import { getCareerClub, getCareerPlayer } from "@/lib/career/careerWorld";
 import { getClub } from "@/lib/game-data";
-import { getClubBudgets, getClubEconomyBaseline, getClubPlayerWageCostsEurAnnual, getClubStaffCostsEurAnnual, ledgerRecurringInputs, MAX_BUDGET_SHIFT_SHARE } from "@/lib/economy/clubEconomyIntegration";
+import { clubOperationsCostEurAnnual, getClubBudgets, getClubEconomyBaseline, getClubPlayerWageCostsEurAnnual, getClubStaffCostsEurAnnual, ledgerRecurringInputs, MAX_BUDGET_SHIFT_SHARE } from "@/lib/economy/clubEconomyIntegration";
 import { contractWagesForMonth, overdraftLimitEur, projectClubFinances, seasonStatements, sumLines } from "@/lib/economy/ledger";
 import { boardBudgets, setBudgetPlan } from "@/lib/economy/budgetPlan";
 import { monthLabelSv } from "@/lib/economy/financeTick";
@@ -352,12 +352,13 @@ function CalibrationNote({ career, clubId }: { career: CareerState; clubId: stri
   const money = useMoney();
   const bridge = career.clubFinances?.[clubId]?.bridgeEurAnnual ?? 0;
   if (!bridge) return null;
+  const cost = clubOperationsCostEurAnnual(career, clubId, bridge);
   return (
     <section className="fc-panel fc-span-2" aria-labelledby="calib-title">
       <header><span className="xp-eyebrow">Om en rad i bokslutet</span><h2 id="calib-title">{bridge > 0 ? "Föreningsdrift och resor" : "Föreningsstöd och bidrag"}</h2></header>
       <p className="fc-note">
-        {bridge > 0 ? `En fast kostnad på ${money.format(bridge, { compact: true })} per år (${money.format(bridge / 12, { compact: true })} i månaden).` : `En fast intäkt på ${money.format(-bridge, { compact: true })} per år (${money.format(-bridge / 12, { compact: true })} i månaden).`}
-        {" "}Spelets ekonomidata saknar kostnader och bidrag som svenska klubbar har vid sidan av laget: resor, hallhyror, ungdomsverksamhet och kommunalt stöd. När bokföringen startade lade styrelsen därför in en fast årlig post så att klubbens marginal började nära noll (inom ±6 % av intäkterna). Posten räknas aldrig om: allt som händer sedan, löner, transfers och resultat, syns fullt ut i kassan.
+        {bridge > 0 ? `En kostnad på ${money.format(cost, { compact: true })} per år (${money.format(cost / 12, { compact: true })} i månaden).` : `En fast intäkt på ${money.format(-bridge, { compact: true })} per år (${money.format(-bridge / 12, { compact: true })} i månaden).`}
+        {" "}Spelets ekonomidata saknar kostnader och bidrag som svenska klubbar har vid sidan av laget: resor, hallhyror, ungdomsverksamhet och kommunalt stöd. När bokföringen startade lade styrelsen därför in en fast årlig post så att klubbens marginal började nära noll (inom ±6 % av intäkterna). Posten räknas aldrig om{bridge > 0 ? ", men kostnaden följer klubbens serienivå som intäkterna gör (mindre verksamhet och kortare resor en serie ned)" : ""}: allt som händer sedan, löner, transfers och resultat, syns fullt ut i kassan.
       </p>
     </section>
   );

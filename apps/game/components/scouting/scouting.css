@@ -44,8 +44,8 @@
 .dg-matrix tr[data-mode="DELEGATE"] td:first-child { box-shadow: inset 4px 0 0 #3f7a52; }
 .dg-matrix tr[data-mode="ADVISE"] td:first-child { box-shadow: inset 4px 0 0 #c08a2c; }
 .dg-who { display: inline-flex; align-items: center; gap: 8px; }
-.dg-modes { display: inline-flex; border: 1px solid var(--hm-border-strong); }
-.dg-modes button { font: inherit; font-size: 12px; font-weight: 700; padding: 6px 10px; border: 0; background: transparent; color: var(--hm-text-secondary); cursor: pointer; }
+.dg-modes { display: inline-flex; max-width: 100%; overflow-x: auto; border: 1px solid var(--hm-border-strong); }
+.dg-modes button { flex: none; font: inherit; font-size: 12px; font-weight: 700; padding: 6px 10px; border: 0; background: transparent; color: var(--hm-text-secondary); cursor: pointer; }
 .dg-modes button + button { border-left: 1px solid var(--hm-border-strong); }
 .dg-modes button[data-active="true"] { background: var(--game-ink); color: #f8f3e9; }
 .dg-modes button:focus-visible { outline: 3px solid var(--hm-accent); outline-offset: -3px; }

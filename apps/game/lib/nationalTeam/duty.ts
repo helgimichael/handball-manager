@@ -17,14 +17,16 @@ export function nationalDutyIds(state: Pick<CareerState, "nationalTeam">): Set<s
 
 /**
  * A CPU squad without its players on national duty -- the case where its
- * league keeps playing through the window. If that would leave fewer than a
- * goalkeeper and six outfield players, the full squad is kept (a club never
- * fails to field a team because of a call-up).
+ * league keeps playing through the window -- or injured (national-duty
+ * injuries are the CPU injuries the game tracks; LIMITED players may play,
+ * as for the manager). If that would leave fewer than a goalkeeper and six
+ * outfield players, the full squad is kept (a club never fails to field a team).
  */
-export function withoutNationalDuty<T extends Pick<PlayerMock, "id" | "position">>(state: Pick<CareerState, "nationalTeam">, squad: readonly T[]): T[] {
+export function withoutNationalDuty<T extends Pick<PlayerMock, "id" | "position">>(state: Pick<CareerState, "nationalTeam" | "playerStatuses">, squad: readonly T[]): T[] {
   const away = nationalDutyIds(state);
-  if (away.size === 0) return [...squad];
-  const left = squad.filter((p) => !away.has(p.id));
+  const out = (id: string) => away.has(id) || state.playerStatuses?.[id]?.availability === "INJURED";
+  if (!squad.some((p) => out(p.id))) return [...squad];
+  const left = squad.filter((p) => !out(p.id));
   const keepers = left.filter((p) => p.position === "MV").length;
   return keepers >= 1 && left.length - keepers >= 6 ? left : [...squad];
 }

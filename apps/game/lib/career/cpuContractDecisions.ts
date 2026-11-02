@@ -22,7 +22,7 @@
 // codebase) so it stays trivially unit-testable without constructing a
 // full CareerState.
 import type { HandballPosition, PlayerMock } from "../game-data";
-import { getClubFinancialHealth } from "../economy/clubEconomyIntegration";
+import { getClubBudgets, getClubFinancialHealth, getClubPlayerWageCostsEurAnnual } from "../economy/clubEconomyIntegration";
 import { getPlayerContract, getPlayerContractStatus, getPlayerFairWageEurPerMonth } from "../economy/contractIntegration";
 import { daysUntilContractEnd } from "../economy/contractLifecycle";
 import { computeNewContractEndDate } from "../transfers/transferExecution";
@@ -60,8 +60,8 @@ const TALENT_PA_HEADROOM_THRESHOLD = 15;
 const TALENT_PROTECT_AGE = 23;
 /** Part 3: the minimum genuine CA gap (in the same 90-185-ish economy-scale CA population marketValue.ts's own curve is anchored to) before another teammate at the same position counts as "clearly better", not just marginally ahead -- the season-boundary audit's own first run found positionRank>=2 alone firing on essentially EVERY KEY_PLAYER whenever a club happened to carry two similarly-elite players at one position (co-starters, rotation goalkeepers), releasing 71/71 of the season's total RELEASE volume this way. A real gap requirement fixes that without removing the signal item 3 itself asks for. */
 export const CLEARLY_REPLACED_CA_GAP = 12;
-/** A squad this size is large (shared with cpuRecruitment.ts, which stops adding non-urgent depth at it). */
-export const SQUAD_SIZE_LARGE_THRESHOLD = 24;
+import { SQUAD_PLANNING_SIZE } from "./squadPlanning";
+export { SQUAD_SIZE_LARGE_THRESHOLD } from "./squadPlanning";
 
 function clubUnderPressure(pressure: FinancialPressureLevel): boolean {
   return pressure === "SERIOUS" || pressure === "CRITICAL";
@@ -90,8 +90,10 @@ export interface ContractDecisionInputs {
   needIfLeavesSaturated: boolean;
   /** An AGREED_AWAITING_WINDOW incoming signee already exists at this exact position -- Part 9. */
   hasAgreedReplacement: boolean;
-  /** HM-ALPHA3-M10: the club's usable squad size; absent means "not large". */
+  /** HM-ALPHA3-M10: the club's usable squad size; absent means "within plan". */
   squadSize?: number;
+  /** HM-ALPHA3-M10: the club's player wage bill is above its own wage budget. */
+  wageBillOverBudget?: boolean;
 }
 
 export interface ContractDecisionResult {
@@ -114,8 +116,15 @@ export function decideContractAction(inputs: ContractDecisionInputs): ContractDe
   const veryOld = inputs.age !== null && inputs.age >= VERY_OLD_AGE_THRESHOLD;
   const overpaidForWait = inputs.wageEurPerMonth > inputs.fairWageEurPerMonth * WAGE_OVERPAY_RATIO_WAIT;
   const overpaidForRelease = inputs.wageEurPerMonth > inputs.fairWageEurPerMonth * WAGE_OVERPAY_RATIO_RELEASE;
-  const underPressure = clubUnderPressure(inputs.financialPressure);
+  // HM-ALPHA3-M10: a wage bill above the club's own budget is pressure too -- lower-tier clubs otherwise kept
+  // renewing at a loss and were rescued by the board season after season.
+  const underPressure = clubUnderPressure(inputs.financialPressure) || !!inputs.wageBillOverBudget;
   const positionWouldBeThin = inputs.needIfLeaves === "HIGH";
+  // HM-ALPHA3-M10: squad planning. Youth intake adds one to three players a year; above the planned size a
+  // surplus player (position not thin, below the club's level or third choice) is not renewed and moves on
+  // through free agency, so squads hold a believable size without any cap or deletion.
+  const overPlan = (inputs.squadSize ?? 0) > SQUAD_PLANNING_SIZE;
+  const surplus = overPlan && !positionWouldBeThin && (inputs.caVsClubAvg < 1.0 || inputs.positionRank >= 3);
 
   // --- KEY_PLAYER ----------------------------------------------------------
   // Part 3: normally RENEW, but not absolutely immune.
@@ -147,6 +156,11 @@ export function decideContractAction(inputs: ContractDecisionInputs): ContractDe
     if (positionWouldBeThin) {
       return { decision: "RENEW", reasons: ["Begränsad utvecklingsprofil, men positionen behöver honom just nu."] };
     }
+    if (surplus) {
+      return veryClose
+        ? { decision: "RELEASE", reasons: ["Truppen är större än klubben planerar för.", "Begränsad utvecklingsprofil och positionen klarar sig utan honom."] }
+        : { decision: "WAIT", reasons: ["Truppen är stor -- avvaktar innan beslut."] };
+    }
     if (inputs.needIfLeavesSaturated || overpaidForWait) {
       if (!veryClose) return { decision: "WAIT", reasons: ["Oklar utvecklingsprofil -- avvaktar innan beslut."] };
       return { decision: "RELEASE", reasons: ["Begränsad potential och positionen klarar sig utan honom.", "Nära kontraktsslut."] };
@@ -174,9 +188,9 @@ export function decideContractAction(inputs: ContractDecisionInputs): ContractDe
   if (inputs.needIfLeavesSaturated) {
     // HM-ALPHA3-M10: a club under serious financial pressure does not keep surplus depth, however cheap -- in long
     // careers Division 1 clubs grew to 26-28 players and were rescued with board money six seasons running.
-    // HM-ALPHA3-M10: nor does a club whose squad is already large -- renewing cheap depth at full positions grew
-    // the median top-flight squad from 19 to 26 over nine seasons.
-    const roomInSquad = (inputs.squadSize ?? 0) < SQUAD_SIZE_LARGE_THRESHOLD;
+    // HM-ALPHA3-M10: nor does a club already above its planned squad size -- renewing cheap depth at full
+    // positions grew the median top-flight squad from 19 to 26 over nine seasons.
+    const roomInSquad = !overPlan;
     const cheapAndUseful = roomInSquad && !underPressure && !overpaidForWait && inputs.caVsClubAvg >= 0.9 && inputs.tier !== "SQUAD_PLAYER";
     if (cheapAndUseful) {
       return { decision: "RENEW", reasons: ["Billig och användbar spelare trots god positionsdjup."] };
@@ -188,6 +202,12 @@ export function decideContractAction(inputs: ContractDecisionInputs): ContractDe
         overpaidForWait ? "Dessutom dyr relativt roll och nivå." : "Ingen tydlig anledning att behålla honom.",
       ],
     };
+  }
+
+  if (surplus) {
+    return veryClose
+      ? { decision: "RELEASE", reasons: ["Truppen är större än klubben planerar för.", inputs.positionRank >= 3 ? `Alternativ ${inputs.positionRank} på positionen.` : "Under klubbens egen nivå."] }
+      : { decision: "WAIT", reasons: ["Truppen är stor -- avvaktar innan beslut."] };
   }
 
   // MEDIUM zone -- normal depth, secondary factors (wage, level relative to club) decide.
@@ -304,6 +324,8 @@ export function progressCpuContractDecisions(state: CareerState, date: string, c
       const pa = rating?.pa ?? player.potentialAbility;
       const fairWage = getPlayerFairWageEurPerMonth(next, player.id) ?? contract.wageEurPerMonth;
       const financialPressure = getClubFinancialHealth(next, clubId)?.pressure ?? "NONE";
+      const wageBudget = getClubBudgets(next, clubId)?.wageBudgetEur;
+      const wageBillOverBudget = wageBudget !== undefined && getClubPlayerWageCostsEurAnnual(next, clubId) > wageBudget;
 
       const positionPeers = squad.filter((p) => p.position === player.position);
       const clubAvgCA = averageCA(next, clubId, squad);
@@ -326,6 +348,7 @@ export function progressCpuContractDecisions(state: CareerState, date: string, c
         needIfLeaves: needIfLeaves.level,
         needIfLeavesSaturated: needIfLeaves.saturated,
         squadSize: squad.length,
+        wageBillOverBudget,
         hasAgreedReplacement: needIfLeaves.pendingIncoming > 0,
       });
       const reason = reasons.join(" ");

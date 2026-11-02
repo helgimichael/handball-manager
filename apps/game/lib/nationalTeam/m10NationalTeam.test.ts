@@ -118,3 +118,20 @@ test("delegated staff hiring proposes filling a coaching vacancy, never the head
   assert.ok(hires.every((p) => p.action.kind === "HIRE_STAFF" && p.action.role !== "HEAD_COACH"));
   if (hasCandidate) assert.ok(hires.some((p) => p.action.kind === "HIRE_STAFF" && p.action.role === "ASSISTANT_COACH") || pendingProposals(s).length > 0);
 });
+
+test("CPU players called up carry the same bounded injury risk, miss their club while injured, and a window is processed once", () => {
+  const w = windowById("wc27");
+  let s = run(career(), w.start, w.start);
+  const called = [...nationalTeamOf(s).windows[w.id]!.squad, ...(nationalTeamOf(s).windows[w.id]!.foreign ?? [])].filter((p) => p.clubId !== SKOVDE);
+  // The risk per match is small (about 0.4 %); exhausted, overloaded players make an injury likely.
+  const tired = Object.fromEntries(called.map((p) => [p.playerId, { playerId: p.playerId, currentEnergy: 5, recentLoad: 900, lastUpdatedDate: w.start }]));
+  s = run({ ...s, playerPhysicalState: { ...s.playerPhysicalState, ...tired } }, addDaysIso(w.start, 1), addDaysIso(w.end, 1));
+  const hurt = called.filter((p) => s.playerInjuries[p.playerId]?.activeInjury);
+  assert.ok(hurt.length > 0, "CPU internationals are exposed to the same model as the manager's players");
+  for (const p of hurt) {
+    assert.equal(s.playerStatuses[p.playerId]?.availability, "INJURED");
+    assert.ok(!withoutNationalDuty(s, getCareerClubSquad(s, p.clubId)).some((x) => x.id === p.playerId), "his club plays without him");
+  }
+  const again = run(s, addDaysIso(w.end, 1), addDaysIso(w.end, 2));
+  assert.deepEqual(Object.keys(again.playerInjuries).filter((id) => again.playerInjuries[id]?.activeInjury).sort(), Object.keys(s.playerInjuries).filter((id) => s.playerInjuries[id]?.activeInjury).sort(), "a closed window is never processed twice");
+});

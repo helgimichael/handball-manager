@@ -43,6 +43,7 @@ import {
   type CareerEvent,
 } from "./careerEvents";
 import { progressContractExpiry } from "./contractExpiry";
+import { closeDepartedPlayerBusiness } from "../players/market";
 import { progressYouthIntake } from "./youthIntake";
 import { progressPlayerLifecycle } from "./playerLifecycle";
 import { progressWorldDevelopment } from "./worldDevelopment";
@@ -245,6 +246,9 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
   next = afterContractExpiry;
   for (const departure of departures) {
     if (departure.fromClubId === next.playerClubId) {
+      // HM-ALPHA3-M10: a player who leaves at the end of his contract takes his listing, transfer request and open
+      // bids with him (the transfer page showed him as listed, wanting to leave and with a bid to answer).
+      next = closeDepartedPlayerBusiness(next, departure.playerId, date);
       emit(buildPlayerContractExpiredEvent(departure.playerId, date));
     }
   }

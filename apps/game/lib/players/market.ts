@@ -91,7 +91,7 @@ export function generateIncomingOffers(state: CareerState, date: string, emit: E
   const soon = !windowOpen && nextTransferWindowOpenDate(date) <= addDaysIso(date, 42);
   const top = managerSquadIds(state).map((id) => ({ id, ca: caOf(state, id) })).sort((a, b) => b.ca - a.ca).slice(0, 3).map((x) => x.id);
   const candidates = managerSquadIds(state)
-    .filter((id) => !open.some((o) => o.playerId === id) && !state.preContracts?.[id])
+    .filter((id) => !open.some((o) => o.playerId === id) && !state.preContracts?.[id] && contractOutlastsCompletion(state, id, date))
     .filter((id) => !Object.values(state.incomingOffers ?? {}).some((o) => o.playerId === id && o.closedOn && addDaysIso(o.closedOn, 30) > date && !d.listings[id]))
     .map((id) => {
       let p = 0.012;
@@ -120,6 +120,7 @@ export function generateIncomingOffers(state: CareerState, date: string, emit: E
 /** Asks the market for a bid on one player now (a delegated sporting director shopping a listed player around; QA). Same buyer search and bid rules as the weekly market. */
 export function requestBidFor(state: CareerState, playerId: string, date: string, emit: Emit): CareerState {
   if (Object.values(state.incomingOffers ?? {}).some((o) => o.playerId === playerId && (o.status === "OPEN" || o.status === "COUNTERED"))) return state;
+  if (!contractOutlastsCompletion(state, playerId, date)) return state; // HM-ALPHA3-M10: his contract ends first -- clubs wait for him as a free agent.
   const buyer = findBuyer(state, playerId, `${state.saveSeed}:ask:${playerId}:${date}`);
   const offer = buyer ? buildOffer(state, playerId, buyer, date) : null;
   if (!buyer || !offer) return state;
@@ -246,6 +247,11 @@ export function completeSale(state: CareerState, offerId: string, date: string, 
 /** Daily: buyer answers to counters, expiries and completions at the window. */
 export function progressIncomingOffers(state: CareerState, date: string, emit: Emit): CareerState {
   let next = state;
+  // HM-ALPHA3-M10: a listing or request left behind by a player who is no longer here (saves from before the
+  // contract-expiry cleanup) is closed, so nobody keeps shopping him around.
+  for (const playerId of new Set([...Object.keys(dynamicsOf(next).listings), ...Object.values(dynamicsOf(next).requests).filter((r) => r.status === "OPEN").map((r) => r.playerId)])) {
+    if (next.playerContracts[playerId]?.clubId !== next.playerClubId) next = closePlayerDynamics(next, playerId);
+  }
   for (const offer of Object.values(state.incomingOffers ?? {})) {
     const o = next.incomingOffers![offer.id]!;
     if (next.playerContracts[o.playerId]?.clubId !== next.playerClubId && (o.status === "OPEN" || o.status === "COUNTERED" || o.status === "AWAITING_WINDOW")) {
@@ -338,6 +344,19 @@ export function progressPreContracts(state: CareerState, date: string, emit: Emi
 }
 
 /** Ends everything that belonged to the player's time at the club. */
+/** HM-ALPHA3-M10: a player gone at the end of his contract -- his listing, request and open bids close with him. */
+export function closeDepartedPlayerBusiness(state: CareerState, playerId: string, date: string): CareerState {
+  let next = closePlayerDynamics(state, playerId);
+  for (const o of Object.values(next.incomingOffers ?? {})) if (o.playerId === playerId && (o.status === "OPEN" || o.status === "COUNTERED" || o.status === "AWAITING_WINDOW")) next = put(next, { ...o, status: "WITHDRAWN", closedOn: date });
+  return next;
+}
+
+/** A bid can only be completed while the player is still under contract: with the window shut, not before it opens. */
+function contractOutlastsCompletion(state: CareerState, playerId: string, date: string): boolean {
+  const end = state.playerContracts[playerId]?.contractEndDate;
+  return !!end && end >= (isTransferWindowOpen(date) ? date : nextTransferWindowOpenDate(date));
+}
+
 export function closePlayerDynamics(state: CareerState, playerId: string): CareerState {
   const d = dynamicsOf(state);
   const { [playerId]: _m, ...morale } = d.morale;

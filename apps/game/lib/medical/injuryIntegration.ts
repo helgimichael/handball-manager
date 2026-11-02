@@ -3,7 +3,8 @@
 // "pure math below, CareerState glue here" split exactly. dailyTick.ts
 // calls applyTrainingDayInjuryResolution + progressDailyRehab;
 // matchdayAction.ts calls applyMatchInjuryResolution.
-import { getCareerSquad } from "../career/careerWorld";
+import { getCareerPlayer, getCareerSquad } from "../career/careerWorld";
+import { getCareerPlayerRating } from "../career/careerRatingNormalization";
 import { playerAgeAtDate } from "../development/developmentIntegration";
 import { mondayOf } from "../training/trainingSchedule";
 import type { CareerState } from "../career/types";
@@ -36,14 +37,15 @@ function injuryStateFor(state: CareerState, playerId: string): PlayerInjuryState
 }
 
 function buildRiskInputs(state: CareerState, playerId: string, asOfDate: string, ratingsById: Map<string, GameplayPlayerRating>): InjuryRiskInputs {
-  const player = getCareerSquad(state).find((p) => p.id === playerId);
+  // HM-ALPHA3-M10: any player in the world (national duty exposes CPU players too), not only the manager's squad.
+  const player = getCareerSquad(state).find((p) => p.id === playerId) ?? getCareerPlayer(state, playerId);
   const age = player ? playerAgeAtDate(player.dateOfBirth, player.birthYear, asOfDate) : null;
   const physical = state.playerPhysicalState[playerId];
   return {
     age,
     currentEnergy: physical?.currentEnergy ?? 100,
     recentLoad: physical?.recentLoad ?? 0,
-    physicalResilience: physicalResilienceOf(ratingsById.get(playerId)),
+    physicalResilience: physicalResilienceOf(ratingsById.get(playerId) ?? getCareerPlayerRating(state, playerId)),
     injuryHistory: injuryStateFor(state, playerId).injuryHistory,
     asOfDate,
   };
@@ -204,8 +206,13 @@ export function applyMatchInjuryResolution(
  * keeps INJURED (Part 19: never jumps straight to full availability).
  */
 export function progressDailyRehab(state: CareerState, date: string): CareerState {
-  const roster = state.staffRoster[state.playerClubId] ?? [];
-  const medicalQuality = computeMedicalRehabQuality(roster);
+  // HM-ALPHA3-M10: each player recovers with his own club's medical staff (CPU players injured on national duty).
+  const qualityByClub = new Map<string, ReturnType<typeof computeMedicalRehabQuality>>();
+  const medicalQualityFor = (playerId: string) => {
+    const clubId = state.playerStatuses[playerId] && getCareerSquad(state).some((p) => p.id === playerId) ? state.playerClubId : (getCareerPlayer(state, playerId)?.clubId ?? state.playerClubId);
+    if (!qualityByClub.has(clubId)) qualityByClub.set(clubId, computeMedicalRehabQuality(state.staffRoster[clubId] ?? state.staffRoster[state.playerClubId] ?? []));
+    return qualityByClub.get(clubId)!;
+  };
 
   let playerInjuries = state.playerInjuries;
   let playerStatuses = state.playerStatuses;
@@ -216,7 +223,7 @@ export function progressDailyRehab(state: CareerState, date: string): CareerStat
     if (!injury) continue;
     if (injury.lastRehabProcessedDate === date) continue; // idempotency guard (Part 30/35)
 
-    const advanced = advanceRehabOneDay(injury, date, medicalQuality);
+    const advanced = advanceRehabOneDay(injury, date, medicalQualityFor(injuryState.playerId));
     changed = true;
 
     if (isFullyRecovered(advanced)) {
