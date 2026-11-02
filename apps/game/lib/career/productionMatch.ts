@@ -27,6 +27,7 @@ import { engineOffensiveTempo } from '../matchPlan/offensiveTempo';
 import { assistantRotationAtKickoff, engineRotationStrategy } from '../matchPlan/rotationStrategy';
 import { engineSevenVSixMode } from '../matchPlan/sevenVSix';
 import { getClub } from '../game-data';
+import { matchControl, type MatchControl } from '../media/discipline';
 import { encodeFrames, decodeFrames, type MatchFrame } from './matchFrames';
 export type { MatchFrame } from './matchFrames';
 
@@ -37,7 +38,7 @@ export type MatchPerson = { id: string; name: string; number: number; team: Team
 export type ArchivedTeamTactics = { defence: TeamTactics['defence']; aggression: DefensiveAggression; tempo: TeamTactics['tempo']; rotationStrategy?: RotationStrategy; assistantRotation?: boolean; sevenVSix?: SevenVSixMode };
 export type PlayedMatchArchive = { format: 1 | 2; fixture: CareerFixture; version: string; behaviorRevision?:string; seed: number; people: MatchPerson[]; frames?: MatchFrame[]; frameData?: string; events: CoreEvent[]; result: FastMatchResult; load: Record<string, { minutes: number; energy: number; distance: number; workload?: number; workloadQuality?: WorkloadQuality }>; tactics?: { kickoff?: Record<TeamId, ArchivedTeamTactics>; final: Record<TeamId, ArchivedTeamTactics> } };
 export function archiveFrames(archive: PlayedMatchArchive): MatchFrame[] { return archive.frameData ? decodeFrames(archive.frameData) : archive.frames ?? []; }
-export type ProductionMatchSession = { format: 1; behaviorRevision?:string; fixture: CareerFixture; core: CoreState; people: MatchPerson[]; frames: MatchFrame[]; pausedAtHalf: boolean; error: string | null; kickoffTactics?: Record<TeamId, ArchivedTeamTactics> };
+export type ProductionMatchSession = { format: 1; behaviorRevision?:string; fixture: CareerFixture; core: CoreState; people: MatchPerson[]; frames: MatchFrame[]; pausedAtHalf: boolean; error: string | null; kickoffTactics?: Record<TeamId, ArchivedTeamTactics>; control?: MatchControl };
 /** Developer measurement hook. Readers must not mutate state or consume RNG. */
 export type ProductionMatchObserver=(core:Readonly<CoreState>,newEvents:readonly CoreEvent[])=>void;
 export const MATCH_BEHAVIOR_REVISION = 'career-seven-v-six-v1';
@@ -153,10 +154,14 @@ export function createProductionSession(state: CareerState, fixture: CareerFixtu
     if (value && typeof value === 'object') return Object.fromEntries(Object.entries(value).map(([key, val]) => [replacements[key] ?? key, remap(val)]));
     return value;
   }
+  // HM-ALPHA3-M08: a suspended manager's bench is run by the assistant, as
+  // a CPU bench is: rotation and timeouts from the engine's own coaching.
+  const control = matchControl(state);
+  if (control.by === 'ASSISTANT') { const own = fixture.homeClubId === state.playerClubId ? 'HOME' : 'AWAY'; core.coaching[own].rotation = true; core.coaching[own].timeouts = true; }
   core.players = players;
   core = remap(core) as CoreState;
   core.events = [];
-  const session: ProductionMatchSession = { format: 1, behaviorRevision:MATCH_BEHAVIOR_REVISION, fixture: { ...fixture }, core, people, frames: [], pausedAtHalf: false, error: null, kickoffTactics: teamTactics(core) };
+  const session: ProductionMatchSession = { format: 1, behaviorRevision:MATCH_BEHAVIOR_REVISION, fixture: { ...fixture }, core, people, frames: [], pausedAtHalf: false, error: null, kickoffTactics: teamTactics(core), ...(control.by === 'ASSISTANT' ? { control } : {}) };
   session.frames.push(observedFrame(session));
   return session;
 }
@@ -200,6 +205,7 @@ export function commandProductionMatch(state: CareerState, command: MatchCommand
   if (!state.productionMatch) return state;
   const session = structuredClone(state.productionMatch);
   let accepted = false;
+  if (command.kind !== 'SECOND_HALF' && session.control?.by === 'ASSISTANT') throw new Error(`${session.control.name} leder laget i den här matchen. ${session.control.reason}`);
   if (command.kind === 'SECOND_HALF') { session.pausedAtHalf = false; accepted = true; }
   else if (command.kind === 'TACTICS') accepted = setTactics(session.core, command.team, command.patch);
   else if (command.kind === 'SUBSTITUTION') accepted = requestExchange(session.core, command.team, command.outId, command.inId);

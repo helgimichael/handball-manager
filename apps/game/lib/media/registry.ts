@@ -101,10 +101,9 @@ const REGIONAL: MediaOutlet[] = [
 export const MEDIA_OUTLETS: Readonly<Record<string, MediaOutlet>> = Object.fromEntries([...NATIONAL, ...REGIONAL].map((o) => [o.id, o]));
 
 /**
- * Where each club really plays and who covers it, nearest first. The real
- * location is used here even where the game's club data says otherwise
- * (Amo HK plays in Alstermo, Uppvidinge; IF Hallby HK in Jönköping) --
- * see the M08 media registry report.
+ * Where each club really plays and who covers it, nearest first. The town is
+ * the one the media write from (Partille for Sävehof, Märsta for Skånela);
+ * the club data keeps the municipality.
  */
 export const CLUB_MEDIA: Readonly<Record<string, { town: string; region: string; outlets: string[] }>> = {
   se_club_alingsas_hk: { town: "Alingsås", region: "VAST", outlets: ["alingsas-tidning", "gp", "p4-goteborg", "svt-vast"] },

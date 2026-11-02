@@ -61,12 +61,14 @@ export function outletsFor(state: CareerState, e: WorldEvent): { outletId: strin
     const papers = media.outlets.filter((id) => ["LOCAL", "REGIONAL_DAILY", "NATIONAL_DAILY"].includes(MEDIA_OUTLETS[id]?.category ?? ""));
     const chosen = e.importance >= 3 ? papers : papers.length ? [papers[Math.floor(hash(e.key) * papers.length)]!] : [];
     for (const p of chosen) add(p, MEDIA_OUTLETS[p]!.category === "LOCAL" ? "LOCAL" : "REGIONAL");
-    if (e.importance >= 3) { const desk = rest.find((id) => MEDIA_OUTLETS[id]?.category === "REGIONAL_RADIO" || MEDIA_OUTLETS[id]?.category === "REGIONAL_TV"); if (desk) desks.push(desk); }
+    // Regional radio and tv share the bigger stories: one of them in turn, both for the biggest.
+    if (e.importance >= 3) { const all = rest.filter((id) => MEDIA_OUTLETS[id]?.category === "REGIONAL_RADIO" || MEDIA_OUTLETS[id]?.category === "REGIONAL_TV"); desks.push(...(e.importance >= 4 || all.length < 2 ? all : [all[Math.floor(hash(`${e.key}:desk`) * all.length)]!])); }
   });
   if (e.importance >= 2 || e.kind === "TRANSFER" || e.kind === "COACH_CHANGE") add("handbollskanalen", "SPECIALIST");
   if (e.importance >= 4 && e.topFlight !== false) {
     const tabloidKinds: StoryKind[] = ["MANAGER_DISMISSED", "CRISIS", "DISCIPLINE", "RIVAL_COMMENT", "CONTROVERSY", "TITLE", "MANAGER_APPOINTED"];
-    add(tabloidKinds.includes(e.kind) ? (hash(e.key) < 0.5 ? "aftonbladet" : "expressen") : "svt-sport", "NATIONAL");
+    const broadcasters = ["svt-sport", "svt-sport", "radiosporten", "tt"];
+    add(tabloidKinds.includes(e.kind) ? (hash(e.key) < 0.5 ? "aftonbladet" : "expressen") : broadcasters[Math.floor(hash(`${e.key}:nat`) * broadcasters.length)]!, "NATIONAL");
     if (e.importance >= 5) add(tabloidKinds.includes(e.kind) ? "svt-sport" : "dn", "NATIONAL");
   }
   // Regional radio and tv come after the papers, specialists and national media.
@@ -146,6 +148,8 @@ export function writeStory(state: CareerState, e: WorldEvent, outletId: string, 
       return { headline: String(f.headline ?? "Disciplinnämnden har beslutat"), standfirst: String(f.detail ?? ""), body: [String(f.provision ?? "")].filter(Boolean) };
     case "CONTROVERSY":
       return { headline: pick([`Domarbesluten i fokus efter ${home}–${away}`, `Ilska efter utvisningarna`], s), standfirst: `${f.detail}`, body: [] };
+    case "NATIONAL_TEAM":
+      return { headline: String(f.headline), standfirst: String(f.standfirst), body: f.body ? [String(f.body)] : [] };
     case "FORM":
       return f.leaderChange ? { headline: pick([`${club} ny serieledare`, `${club} tar över toppen`], s), standfirst: String(f.detail), body: [] } : { headline: pick([`Krisen fördjupas i ${club}`, `${club} har tappat greppet`], s), standfirst: `${f.detail}`, body: [] };
   }

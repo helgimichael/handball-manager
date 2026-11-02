@@ -139,7 +139,9 @@ export function openPress(state: CareerState, date: string, spec: { key: string;
 /** What an answer does, in the situation it was given. Bounded and explained. */
 export function effectsOf(state: CareerState, q: PressQuestion, tone: Tone, ctx: PressContext, damp = 1): Consequence[] {
   const out: Consequence[] = [];
-  const add = (area: Consequence["area"], delta: number, text: string) => { const d = Math.round(delta * damp); if (d !== 0) out.push({ area, delta: d, text }); };
+  // Words lift the stands less the higher they already are: talk alone cannot carry sentiment.
+  const headroom = 1 - Math.max(0, mediaOf(state).supporters) / 60;
+  const add = (area: Consequence["area"], delta: number, text: string) => { const d = Math.round(delta * damp * (area === "SUPPORTERS" && delta > 0 ? headroom : 1)); if (d !== 0) out.push({ area, delta: d, text }); };
   const rival = ctx.rivalStaffId ? coachPersona(state, ctx.rivalStaffId) : null;
   const touchy = rival ? rival.sensitivity >= 4 || rival.style === "PROUD" : false;
   switch (`${ctx.topic}:${tone}`) {

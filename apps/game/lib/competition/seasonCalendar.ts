@@ -12,6 +12,7 @@ import { getRealLeagueSchedule } from "../game-data/realLeagueSchedules";
 import { ALLSVENSKAN, HANDBOLLSLIGAN } from "./rules";
 import { createSvenskaCupen, ensureSeasonOutcome, newSeasonOutcome } from "./season";
 import { competitionClubIds, hasLeagueCalendar } from "./tables";
+import { avoidNationalBreaks } from "../nationalTeam/nationalTeam";
 
 function leagueFixtures(state: CareerState, competitionId: string, kickoff: string, idPrefix: string, preferReal: boolean): CareerFixture[] {
   const real = preferReal ? getRealLeagueSchedule(competitionId) : undefined;
@@ -19,7 +20,8 @@ function leagueFixtures(state: CareerState, competitionId: string, kickoff: stri
   if (real && real.season === state.seasonId && real.fixtures.every((f) => clubIds.includes(f.homeClubId) && clubIds.includes(f.awayClubId))) {
     return real.fixtures.map((f) => ({ id: f.id, competitionId, round: f.round, date: f.date, homeClubId: f.homeClubId, awayClubId: f.awayClubId, type: "LEAGUE" as const, kickoffTime: f.kickoffTime, sourceMatchId: f.profixioMatchId }));
   }
-  return generateDoubleRoundRobin({ competitionId, clubIds, seasonStartDate: kickoff, daysBetweenRounds: 7 }).map((f) => ({
+  // The league pauses for the national team, as the real Handbollsligan does (HM-ALPHA3-M08, 8E).
+  return avoidNationalBreaks(generateDoubleRoundRobin({ competitionId, clubIds, seasonStartDate: kickoff, daysBetweenRounds: 7 })).map((f) => ({
     id: `${idPrefix}${f.id}`, competitionId: f.competitionId, round: f.round, date: f.date, homeClubId: f.homeClubId, awayClubId: f.awayClubId, type: "LEAGUE" as const,
   }));
 }

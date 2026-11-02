@@ -71,6 +71,30 @@ export function activeSuspension(state: CareerState): DisciplineCase | null {
   return Object.values(mediaOf(state).discipline).find((c) => c.outcome === "AVSTANGNING" && (c.servedMatches ?? 0) < (c.matches ?? 0)) ?? null;
 }
 
+/** Who leads the team on the bench. A suspended manager may prepare the
+ *  team during the week, but on matchday the assistant coach takes every
+ *  decision the suspension covers: substitutions, timeouts and tactical
+ *  changes during the match. Control returns once the matches are served. */
+export type MatchControl =
+  | { by: "MANAGER" }
+  | { by: "ASSISTANT"; name: string; staffId?: string; reason: string; remaining: number; caseId: string };
+
+export function matchControl(state: CareerState): MatchControl {
+  const c = activeSuspension(state);
+  if (!c) return { by: "MANAGER" };
+  const staff = state.staffRoster[state.playerClubId] ?? [];
+  const assistant = staff.find((m) => m.roles[0] === "ASSISTANT_COACH") ?? staff.find((m) => m.roles.includes("ASSISTANT_COACH"));
+  const remaining = (c.matches ?? 0) - (c.servedMatches ?? 0);
+  return {
+    by: "ASSISTANT",
+    name: assistant?.displayName ?? "Lagledaren",
+    staffId: assistant?.id,
+    reason: `Du är avstängd av Disciplinnämnden (${remaining} ${remaining === 1 ? "match" : "matcher"} kvar, 14 kap. 6 § RF:s stadgar).`,
+    remaining,
+    caseId: c.id,
+  };
+}
+
 /** Appeal to RIN within three weeks of the decision (fee 1 000 kr). */
 export function appealCase(state: CareerState, caseId: string): CareerState {
   const c = mediaOf(state).discipline[caseId];
@@ -87,7 +111,8 @@ export function progressDiscipline(state: CareerState, date: string, emit: Emit)
     if (c.status === "REPORTED" && c.decisionOn <= date) next = decide(next, c, date, emit);
     else if (c.status === "APPEALED" && c.appeal && c.appeal.decisionOn <= date) next = rin(next, c, date, emit);
     if (c.outcome === "AVSTANGNING" && (c.servedMatches ?? 0) < (c.matches ?? 0)) {
-      const served = Math.min(c.matches ?? 0, managerMatchesPlayed(next).filter((x) => x.date > c.decisionOn).length);
+      // The decision is taken in the morning tick, so a match the same day is already covered.
+      const served = Math.min(c.matches ?? 0, managerMatchesPlayed(next).filter((x) => x.date >= c.decisionOn).length);
       if (served !== (c.servedMatches ?? 0)) next = withMedia(next, (m) => ({ ...m, discipline: { ...m.discipline, [c.id]: { ...m.discipline[c.id]!, servedMatches: served } } }));
     }
   }

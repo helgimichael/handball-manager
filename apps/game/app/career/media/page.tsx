@@ -14,7 +14,7 @@ import { FictionNote, OutletChip, PRESSROOM_BACKDROP, StoryCard } from "@/compon
 import { useCareer } from "@/lib/career/CareerContext";
 import { getClub } from "@/lib/game-data";
 import { appealAction, setRoutinePressDelegation } from "@/lib/media/actions";
-import { activeSuspension, OUTCOME_LABEL } from "@/lib/media/discipline";
+import { activeSuspension, matchControl, OUTCOME_LABEL } from "@/lib/media/discipline";
 import { feed } from "@/lib/media/newsEngine";
 import { COACH_STYLE_LABEL, coachPersona, mediaOf, relationLabel, rivalryBetween } from "@/lib/media/people";
 import { openPressConferences, TONE_LABEL } from "@/lib/media/press";
@@ -42,6 +42,7 @@ function MediaCentre() {
   const top = feed(career, { limit: 12 }).find((s) => s.importance >= 4 && s.date >= addDays(career.gameDate, -4));
   const open = openPressConferences(career);
   const suspension = activeSuspension(career);
+  const control = matchControl(career);
   const run = (fn: () => void, ok: string) => { try { fn(); setMessage(ok); } catch (e) { setMessage(e instanceof Error ? e.message : "Det gick inte."); } };
   const local = CLUB_MEDIA[career.playerClubId];
 
@@ -54,7 +55,7 @@ function MediaCentre() {
       ) : (
         <MomentHero tone="ink" backdrop={{ kind: "photo", style: PRESSROOM_BACKDROP }} tags={[false, "Mediecentret", local?.town ?? ""]} stamp={null} headline="Handbollsvärlden" lede={`Vad lokalpressen, handbollsmedierna och rikspressen skriver om dig, din klubb och resten av handbollssverige.`} aside={<div className="bd-hero-figure"><b>{open.length}</b><small>presskonferenser väntar</small></div>} />
       )}
-      {suspension && <p className="md-alert" role="status"><b>Du är avstängd</b> i {(suspension.matches ?? 0) - (suspension.servedMatches ?? 0)} match(er) till. Assisterande tränaren leder laget på matchdagen.</p>}
+      {control.by === "ASSISTANT" && <p className="md-alert" role="status"><b>Du är avstängd</b> i {control.remaining === 1 ? "en match" : `${control.remaining} matcher`} till. {control.name} leder laget på matchdagen.</p>}
 
       <div className="bd-tabs" role="tablist" aria-label="Mediecentret">
         {TABS.map((t) => <button key={t.id} type="button" role="tab" aria-selected={tab === t.id} onClick={() => router.replace(t.id === "feed" ? "/career/media" : `/career/media?tab=${t.id}`)}>{t.label}{t.id === "press" && open.length ? ` (${open.length})` : ""}</button>)}

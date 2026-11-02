@@ -71,6 +71,8 @@ export function resolveDestinationHref(destination: EventDestination): string | 
       return "/career/manager?tab=jobs";
     case "MEDIA":
       return "/career/media";
+    case "CLUB_HQ":
+      return "/career/klubbhuset";
     case "MEDIA_STORY":
       return `/career/media/story/${encodeURIComponent(destination.storyId)}`;
     case "PRESS":
@@ -146,6 +148,8 @@ export function destinationLabel(destination: EventDestination): string {
       return "Öppna jobbmarknaden";
     case "MEDIA":
       return "Öppna mediecentret";
+    case "CLUB_HQ":
+      return "Öppna klubbhuset";
     case "MEDIA_STORY":
       return "Läs artikeln";
     case "PRESS":

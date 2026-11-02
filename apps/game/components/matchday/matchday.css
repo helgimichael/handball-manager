@@ -28,3 +28,6 @@
 .mday-banner { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; margin: 0 0 10px; padding: 8px 12px; background: var(--game-ink, #10202b); color: #f8f3e9; border-left: 4px solid #c0612b; font-size: 13px; }
 .mday-banner b { font-family: var(--game-font-display); font-weight: 400; font-size: 18px; text-transform: uppercase; letter-spacing: .02em; }
 @media (max-width: 1100px) { .mday-grid, .mday-after .mday-grid { grid-template-columns: minmax(0, 1fr); } }
+.mday-control { display: grid; gap: 6px; padding: 14px 16px; border-left: 4px solid #c0612b; background: var(--hm-surface-2); }
+.mday-control b { font-family: var(--game-font-display); font-weight: 400; font-size: 20px; text-transform: uppercase; }
+.mday-control p { margin: 0; font-size: 13px; color: var(--hm-text-secondary); }

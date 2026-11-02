@@ -1,0 +1,31 @@
+/* HM-ALPHA3-M09 (9D): Klubbhuset. Reuses the board panels (bd-*) and the
+   Moment hero; its own classes are prefixed kh-. */
+.kh-page { display: grid; gap: 18px; min-width: 0; }
+.kh-hero { position: relative; }
+.kh-hero .xp-moment-hero { box-shadow: inset 0 -5px 0 var(--kh-club, #c0612b); }
+.kh-crest { display: grid; place-items: center; padding: 8px; }
+.kh-h { margin: 0 0 8px; font-family: var(--game-font-display); font-weight: 400; font-size: 24px; text-transform: uppercase; }
+.kh-rooms { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; }
+.kh-room { display: grid; gap: 3px; height: 100%; padding: 12px 14px; background: var(--hm-surface-2); border-left: 4px solid var(--kh-club, var(--hm-border-strong)); color: inherit; text-decoration: none; }
+.kh-room:hover, .kh-room:focus-visible { background: var(--hm-surface-3, var(--hm-surface-2)); outline: 2px solid var(--hm-border-strong); outline-offset: -2px; }
+.kh-room b { font-family: var(--game-font-display); font-weight: 400; font-size: 19px; text-transform: uppercase; }
+.kh-room span { font-size: 13px; color: var(--hm-text-secondary); }
+.kh-room small { font-size: 12px; font-weight: 700; }
+.kh-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; align-items: start; }
+.kh-grid .bd-panel h3 { margin: 2px 0 0; font-family: var(--game-font-display); font-weight: 400; font-size: 22px; text-transform: uppercase; }
+.kh-facts { display: grid; gap: 6px; margin: 0; }
+.kh-facts div { display: grid; grid-template-columns: 9em minmax(0, 1fr); gap: 8px; padding: 6px 8px; background: var(--hm-surface-2); }
+.kh-facts dt { font-size: 12px; color: var(--hm-text-secondary); }
+.kh-facts dd { margin: 0; font-weight: 700; }
+.kh-colors { display: flex; gap: 6px; }
+.kh-colors i { display: inline-block; width: 22px; height: 22px; border: 1px solid var(--hm-border-strong); }
+.kh-sub { margin: 12px 0 4px; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--hm-text-secondary); }
+.kh-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; font-size: 14px; }
+.kh-list small { color: var(--hm-text-secondary); }
+.kh-windows { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.kh-windows li { display: grid; gap: 2px; padding: 10px 12px; background: var(--hm-surface-2); border-left: 4px solid #2f5d8a; }
+.kh-windows b { font-size: 15px; }
+.kh-windows span, .kh-windows small { font-size: 12px; color: var(--hm-text-secondary); }
+.kh-windows p { margin: 4px 0 0; font-size: 13px; }
+.kh-last { margin: 10px 0 0; font-size: 13px; }
+@media (max-width: 1100px) { .kh-grid { grid-template-columns: minmax(0, 1fr); } }

@@ -252,5 +252,6 @@
     "lib/delegation/scoutingDelegation.test.ts",
     "lib/board/boardCareer.test.ts",
     "lib/media/media.test.ts",
+    "lib/media/releaseReadiness.test.ts",
     "lib/matchday/matchday.test.ts"
 ]

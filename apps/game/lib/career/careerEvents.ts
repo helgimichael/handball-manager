@@ -96,6 +96,7 @@ export type EventDestination =
   | { route: "JOB_MARKET" }
   | { route: "MEDIA" }
   | { route: "MEDIA_STORY"; storyId: string }
+  | { route: "CLUB_HQ" }
   | { route: "PRESS"; pressId: string }
   | { route: "ANALYSIS_OVERVIEW" }
   | { route: "ANALYSIS_OPPONENT" }

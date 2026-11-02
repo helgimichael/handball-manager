@@ -7,7 +7,7 @@ export type StoryKind =
   | "MATCH_REPORT" | "UPSET" | "DERBY_PREVIEW" | "BIG_MATCH_PREVIEW" | "TRANSFER" | "TRANSFER_RUMOUR" | "SALE"
   | "COACH_CHANGE" | "MANAGER_DISMISSED" | "MANAGER_APPOINTED" | "BOARD_PRESSURE" | "PLAYER_UNHAPPY" | "CRISIS"
   | "TITLE" | "PROMOTION" | "RELEGATION" | "AWARD" | "RECORD" | "TALENT" | "INTERVIEW" | "RIVAL_COMMENT"
-  | "DISCIPLINE" | "CONTROVERSY" | "FORM";
+  | "DISCIPLINE" | "CONTROVERSY" | "FORM" | "NATIONAL_TEAM";
 
 export type StoryScope = "NATIONAL" | "SPECIALIST" | "REGIONAL" | "LOCAL";
 
@@ -141,6 +141,8 @@ export interface MediaState {
   outletRelations: Record<string, number>;
   /** Supporter sentiment towards the manager, -50..50. */
   supporters: number;
+  /** Season verdicts already felt in the stands (once per season). */
+  moodMarks?: string[];
   /** Media handling as the board sees it, -6..6 (decays monthly). */
   boardMood: number;
   /** Pressure going into a specific fixture, from what was said before it. */

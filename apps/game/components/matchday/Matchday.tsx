@@ -47,7 +47,7 @@ export function MatchdayStage({ fixture, matchday }: { fixture: CareerFixture; m
       <MomentHero kind="ANNOUNCEMENT" tone={tone} size={big ? undefined : "compact"} headingLevel={2} backdrop={{ kind: "photo", style: ARENA_BACKDROP }} tags={[false, matchday ? "Matchdag" : "Inför matchen", `${fixture.date}${fixture.kickoffTime ? ` · ${fixture.kickoffTime}` : ""}`, b.headline]} stamp={null}
         headline={`${home?.shortName ?? ""} – ${away?.shortName ?? ""}`} lede={lede || "En seriematch av många – men varje poäng räknas."}
         aside={<div className="mday-crests"><Crest id={fixture.homeClubId} size={big ? 64 : 44} /><span>mot</span><Crest id={fixture.awayClubId} size={big ? 64 : 44} /></div>} />
-      {b.suspended && <p className="md-alert" role="status"><b>Du är avstängd.</b> Assisterande tränaren leder laget från bänken i den här matchen. Du kan fortfarande förbereda laget.</p>}
+      {b.control.by === "ASSISTANT" && <p className="md-alert" role="status"><b>{b.control.name} leder laget i den här matchen.</b> {b.control.reason} Du kan förbereda laget och matchplanen, men under matchen gör assisterande tränaren byten, tar timeout och står för instruktionerna.</p>}
       <div className="mday-grid">
         <section className="bd-panel" aria-labelledby="mday-state">
           <header><span className="xp-eyebrow">Läget</span><h3 id="mday-state">Tabell och form</h3></header>

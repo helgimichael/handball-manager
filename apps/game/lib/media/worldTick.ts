@@ -20,6 +20,9 @@ import { clubShort, playerName, publish, type WorldEvent } from "./newsEngine";
 import { apologise, progressDiscipline } from "./discipline";
 import { openPress, progressPress } from "./press";
 import { geographicTie } from "./registry";
+import { predictedPositionOf } from "../board/board";
+import { tieWins } from "../competition/season";
+import { progressNationalTeam } from "../nationalTeam/nationalTeam";
 
 type Emit = (e: CareerEvent) => void;
 
@@ -78,7 +81,11 @@ export function progressMedia(state: CareerState, date: string, dayEvents: Caree
   next = coachChanges(next, date);
   next = transfers(next, date);
   next = seasonStories(next, date);
+  next = progressNationalTeam(next, date, emit);
   if (new Date(`${date}T00:00:00Z`).getUTCDay() === 1) next = weekly(next, date);
+  // Supporters remember, but not for ever: a tenth of the feeling fades each week,
+  // while a table that keeps telling a different story from the expectations is felt every week.
+  if (new Date(`${date}T00:00:00Z`).getUTCDay() === 1) next = withMedia(next, (m) => ({ ...m, supporters: Math.max(-50, Math.min(50, m.supporters - Math.round(m.supporters * 0.1) + tableMood(next))) }));
   if (date.endsWith("-01")) next = withMedia(next, (m) => ({ ...m, boardMood: m.boardMood > 0 ? m.boardMood - 1 : m.boardMood < 0 ? m.boardMood + 1 : 0 }));
   return next;
 }
@@ -130,7 +137,9 @@ function ownResult(state: CareerState, f: CareerFixture, date: string, emit: Emi
   const heavy = lost && oppG - ownG >= 8;
   const topics = [] as Parameters<typeof openPress>[2]["topics"];
   if (controversy) topics.push({ topic: "REFEREE", opponentId: opp, detail: `${ownSusp} utvisningar mot ${oppSusp}.` });
-  if (stakes.level >= 4 || (stakes.level >= 3 && (stakes.derby || stakes.formerClub)) || upsetWin || heavy || controversy) topics.push({ topic: won ? "AFTER_WIN" : "AFTER_DEFEAT", opponentId: opp, derby: !!stakes.derby });
+  // Mid-series games speak through the match report; the press gathers after the opener and the games that decide.
+  const seriesMoment = seriesTalkGame(state, f) || !!state.competitionTies?.[f.stage?.tieId ?? ""]?.winnerClubId;
+  if ((seriesMoment && (stakes.level >= 4 || (stakes.level >= 3 && (stakes.derby || stakes.formerClub)))) || upsetWin || heavy || controversy) topics.push({ topic: won ? "AFTER_WIN" : "AFTER_DEFEAT", opponentId: opp, derby: !!stakes.derby });
   if (topics.length) next = openPress(next, date, { key: `post:${f.id}`, kind: "POST_MATCH", title: `Efter ${clubShort(f.homeClubId)}–${clubShort(f.awayClubId)}`, context: `${r.homeGoals}–${r.awayGoals}.${stakes.labels.length ? ` ${stakes.labels.join(" · ")}.` : ""}`, fixtureId: f.id, expiresOn: addDaysIso(date, 2), topics }, emit);
   next = aftermath(next, f, stakes, won, lost);
   // The rival coach has his say.
@@ -150,9 +159,11 @@ function rivalAfter(state: CareerState, f: CareerFixture, date: string, won: boo
   const rel = relationOf(state, "manager", staffId).score;
   let line: string | null = null;
   let delta = 0;
-  if (lost && margin >= 5 && (coach.style === "FIERY" || coach.style === "PROUD" || rel <= -15)) { line = `Vi visade vilka som är bäst. Det var inte ens nära.`; delta = -4; }
-  else if (won && coach.style === "PROUD" && rel <= -10) { line = `De hade tur med domarna i dag.`; delta = -5; }
-  else if (won && (coach.style === "DIPLOMAT" || rel >= 15)) { line = `Stort grattis. De förtjänade segern.`; delta = 3; }
+  if (!seriesTalkGame(state, f) && !state.competitionTies?.[f.stage?.tieId ?? ""]?.winnerClubId) return state;
+  const pick = (pool: string[]) => freshLine(state, staffId, pool, `${f.id}:after`);
+  if (lost && margin >= 5 && (coach.style === "FIERY" || coach.style === "PROUD" || rel <= -15)) { line = pick(["Vi visade vilka som är bäst. Det var inte ens nära.", "Det där var en lektion. Hoppas de lyssnade."]); delta = -4; }
+  else if (won && coach.style === "PROUD" && rel <= -10) { line = pick(["De hade tur med domarna i dag.", "Vi förlorade mot visslan, inte mot dem."]); delta = -5; }
+  else if (won && (coach.style === "DIPLOMAT" || rel >= 15)) { line = pick(["Stort grattis. De förtjänade segern.", "De var bättre i dag, det ska vi erkänna.", "Bra jobbat av dem. Vi får ta revansch."]); delta = 3; }
   if (!line) return state;
   const next = withMedia(state, (m) => adjustRelation(m, "manager", staffId, delta, date, `${coach.name} efter matchen: ”${line}”`));
   return publish(next, { key: `rival-after:${f.id}`, kind: "RIVAL_COMMENT", date, importance: delta < 0 ? 3 : 2, clubIds: [coach.clubId, state.playerClubId], personIds: [staffId], fixtureId: f.id, topFlight: topFlight(state, coach.clubId), facts: { coach: coach.name, club: coach.clubId, target: state.playerClubId, after: true, headline: `${coach.name}: ”${line}”` }, quote: { who: `${coach.name}, ${getClub(coach.clubId)?.shortName ?? ""}`, text: line }, destinations: [{ route: "MEDIA" }] });
@@ -162,15 +173,30 @@ function rivalAfter(state: CareerState, f: CareerFixture, date: string, won: boo
 // Previews: two days before a match that matters
 // ---------------------------------------------------------------------------
 
+/** In a play-off series the talk belongs to the opener and to the games that can decide it -- not to every game in between. */
+export function seriesTalkGame(state: CareerState, f: CareerFixture): boolean {
+  const tie = f.stage ? state.competitionTies?.[f.stage.tieId] : undefined;
+  if (!tie || tie.format.kind !== "SERIES" || f.stage!.game <= 1) return true;
+  const need = Math.ceil(tie.format.series.bestOf / 2);
+  return Object.values(tieWins(state, tie)).some((w) => w >= need - 1);
+}
+
+/** A line the coach has not just used: the most recent quote from him is left out of the draw. */
+function freshLine(state: CareerState, staffId: string, pool: readonly string[], seed: string): string {
+  const last = Object.values(mediaOf(state).stories).filter((x) => x.kind === "RIVAL_COMMENT" && x.personIds?.includes(staffId)).sort((a, b) => b.date.localeCompare(a.date))[0]?.quote?.text;
+  const options = pool.filter((l) => l !== last);
+  return (options.length ? options : pool)[Math.floor(hash(seed) * (options.length || pool.length))]!;
+}
+
 const PROVOCATIONS = ["De pratar mycket i {opp}. Vi får se vem som pratar efter matchen.", "Jag har sett deras matcher. Det finns inget där som skrämmer oss.", "{mgr} har haft tur hittills. Turen tar slut någon gång."];
-const PRAISE = ["{opp} har gjort ett fantastiskt jobb. Det blir en riktig kamp.", "Jag har stor respekt för {mgr} och hans lag."];
+const PRAISE = ["{opp} har gjort ett fantastiskt jobb. Det blir en riktig kamp.", "Jag har stor respekt för {mgr} och hans lag.", "Två lag som vill spela handboll. Det kan bli en fin match."];
 
 function previews(state: CareerState, date: string, emit: Emit): CareerState {
   const me = state.playerClubId;
   const f = state.fixtures.find((x) => x.date === addDaysIso(date, 2) && !state.results[x.id] && (x.homeClubId === me || x.awayClubId === me));
   if (!f) return state;
   const stakes = matchStakes(state, f);
-  if (stakes.level < 3) return state;
+  if (stakes.level < 3 || !seriesTalkGame(state, f)) return state;
   const opp = f.homeClubId === me ? f.awayClubId : f.homeClubId;
   const rivalry = rivalryBetween(state, me, opp);
   const lastMeeting = rivalry.meetings.at(-1);
@@ -183,12 +209,14 @@ function previews(state: CareerState, date: string, emit: Emit): CareerState {
     const praise = !provoke && (coach.style === "DIPLOMAT" || stakes.rival.relation >= 15);
     if (provoke || praise) {
       const mgr = "deras tränare";
-      const line = (provoke ? PROVOCATIONS : PRAISE)[Math.floor(hash(`${f.id}:line`) * (provoke ? PROVOCATIONS : PRAISE).length)]!.replace("{opp}", clubShort(me)).replace("{mgr}", mgr);
+      const line = freshLine(next, coach.staffId, (provoke ? PROVOCATIONS : PRAISE).map((l) => l.replace("{opp}", clubShort(me)).replace("{mgr}", "deras tränare")), `${f.id}:line`).replace("{opp}", clubShort(me)).replace("{mgr}", mgr);
       next = withMedia(next, (m) => adjustRelation(m, "manager", coach.staffId, provoke ? -4 : 2, date, `${coach.name} före matchen: ”${line}”`));
       next = publish(next, { key: `rival-pre:${f.id}`, kind: "RIVAL_COMMENT", date, importance: provoke ? 3 : 2, clubIds: [coach.clubId, me], personIds: [coach.staffId], fixtureId: f.id, topFlight: topFlight(next, coach.clubId), facts: { coach: coach.name, club: coach.clubId, target: me, headline: `${coach.name} ${provoke ? "laddar" : "hyllar"} inför mötet: ”${line}”` }, quote: { who: `${coach.name}, ${getClub(coach.clubId)?.shortName ?? ""}`, text: line }, destinations: [{ route: "MATCH_PREVIEW" }] });
       if (provoke) topics.push({ topic: "RIVAL_RESPONSE", opponentId: opp, rivalStaffId: coach.staffId } as never);
     }
   }
+  // One press conference a day: after a match the post-match questions come first.
+  if (Object.values(mediaOf(next).press).some((p) => p.date === date && p.kind === "POST_MATCH")) return next;
   return openPress(next, date, { key: `pre:${f.id}`, kind: "PRE_MATCH", title: `Presskonferens inför ${clubShort(f.homeClubId)}–${clubShort(f.awayClubId)}`, context: stakes.labels.join(" · "), fixtureId: f.id, expiresOn: f.date, topics }, emit);
 }
 
@@ -261,8 +289,25 @@ function seasonStories(state: CareerState, date: string): CareerState {
   if (o.champion) next = publish(next, { key: `title:${o.seasonId}`, kind: "TITLE", date, importance: 5, clubIds: [o.champion], topFlight: true, facts: { club: o.champion, season: o.seasonId }, destinations: [{ route: "SEASON" }] });
   for (const c of o.promoted) next = publish(next, { key: `promoted:${o.seasonId}:${c}`, kind: "PROMOTION", date, importance: c === state.playerClubId ? 4 : 3, clubIds: [c], topFlight: true, facts: { club: c }, destinations: [{ route: "SEASON" }] });
   for (const c of o.relegated) next = publish(next, { key: `relegated:${o.seasonId}:${c}`, kind: "RELEGATION", date, importance: c === state.playerClubId ? 4 : 3, clubIds: [c], topFlight: true, facts: { club: c }, destinations: [{ route: "SEASON" }] });
+  next = seasonMood(next, o);
   for (const a of o.awards.filter((x) => x.id === "MVP" || x.id === "TOP_SCORER")) next = publish(next, { key: `award:${o.seasonId}:${a.id}:${a.competitionId}`, kind: "AWARD", date, importance: 3, clubIds: [a.clubId], playerIds: [a.playerId], topFlight: a.competitionId === HANDBOLLSLIGAN, facts: { award: a.label, detail: `${a.value} för ${clubShort(a.clubId)}.`, name: playerName(next, a.playerId) }, destinations: [{ route: "SEASON" }] });
   return next;
+}
+
+/** The season verdict in the stands: titles and promotion lift, relegation and missing expectations hurt. Once per season. */
+function seasonMood(state: CareerState, o: NonNullable<CareerState["seasonOutcome"]>): CareerState {
+  const me = state.playerClubId;
+  const mark = `${o.seasonId}:${me}`;
+  if (mediaOf(state).moodMarks?.includes(mark)) return state;
+  const comp = clubCompetitionId(state, me);
+  const final = comp ? competitionTable(state, comp).findIndex((r) => r.clubId === me) + 1 : 0;
+  const predicted = comp ? predictedPositionOf(state, me, comp) : 0;
+  let delta = 0;
+  if (o.champion === me) delta += 8;
+  if (o.promoted.includes(me)) delta += 8;
+  if (o.relegated.includes(me)) delta -= 10;
+  if (final > 0 && predicted > 0) delta += final <= predicted - 3 ? 3 : final >= predicted + 3 ? -4 : 0;
+  return withMedia(state, (m) => ({ ...m, supporters: Math.max(-50, Math.min(50, m.supporters + delta)), moodMarks: [...(m.moodMarks ?? []), mark].slice(-20) }));
 }
 
 // ---------------------------------------------------------------------------
@@ -326,11 +371,44 @@ function roundUp(state: CareerState, date: string): CareerState {
 }
 
 
+/** Weekly: the league table against the board's predicted position (once six rounds are played). */
+function tableMood(state: CareerState): number {
+  const me = state.playerClubId, comp = clubCompetitionId(state, me);
+  if (!comp) return 0;
+  const row = competitionTable(state, comp).find((r) => r.clubId === me);
+  if (!row || row.played < 6) return 0;
+  const pos = competitionTable(state, comp).indexOf(row) + 1, predicted = predictedPositionOf(state, me, comp);
+  return pos <= predicted - 3 ? 1 : pos >= predicted + 3 ? -1 : 0;
+}
+
+/** How the stands take a result, given who was expected to win: favourites are expected to win, underdogs are cheered for trying. */
+function expectationMood(state: CareerState, f: CareerFixture, won: boolean, lost: boolean): { delta: number; text: string } | null {
+  const me = state.playerClubId, opp = f.homeClubId === me ? f.awayClubId : f.homeClubId;
+  const r = state.results[f.id];
+  const margin = r ? Math.abs(r.homeGoals - r.awayGoals) : 0;
+  const comp = clubCompetitionId(state, me), oppComp = clubCompetitionId(state, opp);
+  let gap = 0;
+  if (comp && comp === oppComp) gap = predictedPositionOf(state, opp, comp) - predictedPositionOf(state, me, comp);
+  else if (comp && oppComp) gap = comp === HANDBOLLSLIGAN ? 6 : oppComp === HANDBOLLSLIGAN ? -6 : 0;
+  const role = gap >= 4 ? "FAVOURITE" : gap <= -4 ? "UNDERDOG" : "EVEN";
+  let delta = role === "FAVOURITE" ? (won ? 0 : lost ? -2 : -1) : role === "UNDERDOG" ? (won ? 2 : lost ? 0 : 1) : (won ? 1 : lost ? -1 : 0);
+  if (lost && margin >= 8) delta -= 1;
+  if (won && margin >= 8 && role !== "FAVOURITE") delta += 1;
+  if (!delta) return null;
+  const text = role === "FAVOURITE" ? (lost ? (margin >= 8 ? "Utklassade som favoriter – publiken buade" : "Förlust som favorit – supportrarna är besvikna") : "Bara oavgjort som favorit")
+    : role === "UNDERDOG" ? (won ? "Skräll! Supportrarna jublar" : "Ett starkt kryss mot ett bättre lag")
+    : won ? (margin >= 8 ? "En storseger som minns" : "En välkommen seger") : (margin >= 8 ? "En storförlust som svider" : "En förlust i en jämn match");
+  return { delta, text };
+}
+
 /** What a result means beyond the table: words before the match are judged, derbies and finals are felt. Bounded and recorded. */
 function aftermath(state: CareerState, f: CareerFixture, stakes: MatchStakes, won: boolean, lost: boolean): CareerState {
   const out: Consequence[] = [];
   const pressure = mediaOf(state).pressure[f.id];
   let supporters = 0, board = 0, team = 0;
+  // Every result is judged against what was expected of it.
+  const mood = expectationMood(state, f, won, lost);
+  if (mood) { supporters += mood.delta; out.push({ area: "SUPPORTERS", delta: mood.delta, text: mood.text }); }
   if (pressure && pressure.level >= 2) {
     if (lost) { supporters -= 2; board -= 1; out.push({ area: "SUPPORTERS", delta: -2, text: "Du lovade mer före matchen" }, { area: "BOARD", delta: -1, text: "Styrelsen noterade de stora orden" }); }
     else if (won) { supporters += 1; out.push({ area: "SUPPORTERS", delta: 1, text: "Orden före matchen höll" }); }

@@ -9,7 +9,7 @@ import { getClubEconomyBaseline } from "../economy/clubEconomyIntegration";
 import { homeAttendance } from "../economy/ledger";
 import { competitionTable } from "../competition/tables";
 import { getClub } from "../game-data";
-import { activeSuspension } from "../media/discipline";
+import { matchControl, type MatchControl } from "../media/discipline";
 import { coachPersona, mediaOf, relationOf, rivalryBetween, type Rivalry } from "../media/people";
 import { matchStakes, type MatchStakes } from "../media/worldTick";
 import type { Consequence, NewsStory, PressConference } from "../media/types";
@@ -32,6 +32,8 @@ export interface MatchdayBriefing {
   attendance: { expected: number; capacity: number } | null;
   analysisReady: boolean;
   suspended: boolean;
+  /** Who leads the team on the bench, and why. */
+  control: MatchControl;
   /** A short line that sets the scene, built from the stakes. */
   headline: string;
 }
@@ -64,6 +66,7 @@ export function matchdayBriefing(state: CareerState, f: CareerFixture): Matchday
   if (baseline) { const a = homeAttendance(state, f, baseline); attendance = { expected: a.attendance, capacity: a.capacity }; }
   const press = Object.values(media.press).find((p) => p.fixtureId === f.id && p.kind === "PRE_MATCH") ?? null;
   const analysisReady = state.tasks.some((t) => t.id === `task:OPPONENT_ANALYSIS:${f.id}` && t.status === "COMPLETED");
+  const control = matchControl(state);
   const headline = stakes.labels[0] ?? (f.type === "LEAGUE" ? "Seriematch" : "Cupmatch");
   return {
     fixture: f, opponentId: opp, home, stakes, rivalry,
@@ -76,7 +79,8 @@ export function matchdayBriefing(state: CareerState, f: CareerFixture): Matchday
     press,
     attendance,
     analysisReady,
-    suspended: !!activeSuspension(state),
+    suspended: control.by === "ASSISTANT",
+    control,
     headline,
   };
 }

@@ -19,7 +19,8 @@ export type NavIconName =
   | "finance"
   | "board"
   | "manager"
-  | "media";
+  | "media"
+  | "hq";
 
 const PATHS: Record<NavIconName, string> = {
   home: "M2 7L8 2l6 5v6.5a.5.5 0 0 1-.5.5H10v-4H6v4H2.5a.5.5 0 0 1-.5-.5V7z",
@@ -48,6 +49,8 @@ const PATHS: Record<NavIconName, string> = {
   manager: "M2 5.5h12v7.5H2z M6 5.5V3.5h4v2 M2 9h12",
   // a folded newspaper
   media: "M2.5 3h9v10h-8a1 1 0 0 1-1-1z M11.5 6h2v6a1 1 0 0 1-2 0 M4.5 5.5h5 M4.5 8h5 M4.5 10.5h3",
+  // the club building: a hall with a pitched entrance and a flag
+  hq: "M1.5 13.5h13 M2.5 13.5V7h11v6.5 M6.5 13.5v-3h3v3 M2.5 7l5.5-3 5.5 3 M12 4V1.5l2 .8-2 .8",
 };
 
 export default function NavIcon({ name }: { name: NavIconName }) {

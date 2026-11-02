@@ -30,6 +30,8 @@ export interface CareerNavItem {
 
 export const CAREER_NAV_ITEMS: readonly CareerNavItem[] = [
   { id: "home", label: "Hem", href: "/career", icon: "home", ownsPrefixes: [] },
+  // HM-ALPHA3-M09 (9D): Klubbhuset -- the club's home, its rooms, identity and the national team calendar.
+  { id: "klubbhuset", label: "Klubbhuset", href: "/career/klubbhuset", icon: "hq", ownsPrefixes: [] },
   { id: "inbox", label: "Inkorg", href: "/career/inbox", icon: "inbox", ownsPrefixes: [] },
   // HM-ALPHA3-M08: the Media Centre -- news, press conferences, rivals, discipline.
   { id: "media", label: "Media", href: "/career/media", icon: "media", ownsPrefixes: ["/career/media/"] },
