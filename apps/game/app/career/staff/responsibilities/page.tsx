@@ -21,7 +21,7 @@ const AREA_SCOPE: Record<string, string> = {
   SCOUTING_ASSIGNMENTS: "Lediga scouter skickas till positionerna där truppen är tunnast.",
   PLAYER_RECRUITMENT: "Kortlistar rekommenderade spelare och marknadsför transferlistade. Bud och förhandlingar kräver alltid dig.",
   CONTRACT_RENEWALS: "Förlänger rotations- och truppspelare inom lönebudgeten. Nyckelspelare kräver ditt godkännande.",
-  STAFF_HIRING: "Föreslår kandidater till vakanta tjänster utanför tränarstaben. Anställningar kräver alltid ditt godkännande.",
+  STAFF_HIRING: "Föreslår förlängningar av personalens avtal och kandidater till vakanta tjänster, även assisterande tränare (inte huvudtränaren). Allt kräver ditt godkännande.",
   YOUTH_INTAKE: "Inte delegerbart i den här versionen.",
   TRAINING_SCHEDULE: "Inte delegerbart i den här versionen.",
   OPPONENT_ANALYSIS: "Inte delegerbart i den här versionen.",

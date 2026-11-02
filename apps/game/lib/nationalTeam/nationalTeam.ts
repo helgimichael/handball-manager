@@ -256,7 +256,7 @@ function open(state: CareerState, w: NationalWindow, date: string, emit: Emit): 
   if (w.requires && !qualified(state)) {
     let next = withWindow(state, w.id, { status: "NOT_QUALIFIED", squad: [], foreign, away: foreign.length > 0, results: [], summary: "Sverige tog sig inte till mästerskapet." });
     next = depart(next, w, ownForeign.map((s) => s.playerId));
-    if (ownForeign.length) emit(buildClubEvent("MEDIA", `nt:${w.id}:callup`, date, "IMPORTANT", `Landslagsuppehåll: ${w.title}`, `${foreignLine.trim()} Ligan står still ${w.start}–${w.end}.`, [{ route: "CLUB_HQ" }]));
+    if (ownForeign.length) emit(buildClubEvent("MEDIA", `nt:${w.id}:callup`, date, "IMPORTANT", `Landslagsuppehåll: ${w.title}`, `${foreignLine.trim()} ${leagueLine(state, w)}`, [{ route: "CLUB_HQ" }]));
     return publish(next, { key: `nt:${w.id}:missed`, kind: "NATIONAL_TEAM", date, importance: 4, clubIds: [], onlyOutlets: NATIONAL_OUTLETS, topFlight: true, facts: { headline: `Sverige missar ${w.title}`, standfirst: `Landslaget tog sig inte vidare från kvalet. Ligan står ändå still under mästerskapet.`, body: "Spelets simulering av kvalet." }, destinations: [{ route: "CLUB_HQ" }] });
   }
   const squad = callUp(state, w);
@@ -264,9 +264,19 @@ function open(state: CareerState, w: NationalWindow, date: string, emit: Emit): 
   let next = withWindow(state, w.id, { status: "CALLED", squad, foreign, away: true, results: [] });
   next = depart(next, w, [...own, ...ownForeign.map((s) => s.playerId)]);
   const ownLine = (own.length ? `${names(next, own)} från din klubb är med.` : ownForeign.length ? "Ingen spelare från din klubb är uttagen till Sverige." : "Ingen spelare från din klubb är uttagen.") + foreignLine;
-  next = publish(next, { key: `nt:${w.id}:squad`, kind: "NATIONAL_TEAM", date, importance: 4, clubIds: own.length ? [state.playerClubId] : [], playerIds: own, onlyOutlets: outletsWith(state, own.length), topFlight: true, facts: { headline: own.length ? `${names(next, own.slice(0, 1))} uttagen till landslaget` : `Truppen inför ${w.title}`, standfirst: `Förbundskaptenen har tagit ut truppen till ${w.competition}. Från klubbarna i Sverige: ${names(next, squad.map((s) => s.playerId))}.`, body: `${ownLine} Ligan gör uppehåll ${w.start}–${w.end}.` }, destinations: [{ route: "CLUB_HQ" }] });
-  emit(buildClubEvent("MEDIA", `nt:${w.id}:callup`, date, own.length || ownForeign.length ? "IMPORTANT" : "INFORMATION", `Landslagsuppehåll: ${w.title}`, `${ownLine} Ligan står still ${w.start}–${w.end}. Uttagna spelare tränar med landslaget och kommer tillbaka med ett tröttare ben och en viss skaderisk.`, [{ route: "CLUB_HQ" }]));
+  next = publish(next, { key: `nt:${w.id}:squad`, kind: "NATIONAL_TEAM", date, importance: 4, clubIds: own.length ? [state.playerClubId] : [], playerIds: own, onlyOutlets: outletsWith(state, own.length), topFlight: true, facts: { headline: own.length ? `${names(next, own.slice(0, 1))} uttagen till landslaget` : `Truppen inför ${w.title}`, standfirst: `Förbundskaptenen har tagit ut truppen till ${w.competition}. Från klubbarna i Sverige: ${names(next, squad.map((s) => s.playerId))}.`, body: `${ownLine} ${leagueLine(state, w)}` }, destinations: [{ route: "CLUB_HQ" }] });
+  emit(buildClubEvent("MEDIA", `nt:${w.id}:callup`, date, own.length || ownForeign.length ? "IMPORTANT" : "INFORMATION", `Landslagsuppehåll: ${w.title}`, `${ownLine} ${leagueLine(state, w)} Uttagna spelare tränar med landslaget och kommer tillbaka med ett tröttare ben och en viss skaderisk.`, [{ route: "CLUB_HQ" }]));
   return next;
+}
+
+/**
+ * HM-ALPHA3-M10: Handbollsligan stops for the window; Allsvenskan's real schedule plays on, so a
+ * manager there loses called-up players for those games instead.
+ */
+function leagueLine(state: CareerState, w: NationalWindow): string {
+  const me = state.playerClubId;
+  const playsOn = state.fixtures.some((f) => f.type === "LEAGUE" && f.date >= w.start && f.date <= w.end && (f.homeClubId === me || f.awayClubId === me));
+  return playsOn ? `Din serie spelar vidare ${w.start}–${w.end}; uttagna spelare missar de matcherna.` : `Ligan står still ${w.start}–${w.end}.`;
 }
 
 /**

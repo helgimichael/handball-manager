@@ -29,6 +29,7 @@ import { getClubKnowledgePct } from "@/lib/knowledge/knowledgeIntegration";
 import { resolveClubVisibility } from "@/lib/knowledge/clubVisibility";
 import { KNOWLEDGE_TIER_LABEL_SV } from "@/lib/knowledge/types";
 import { getClubPartnerships, getPermanentBTeamParentClubId } from "@/lib/career/clubPartnerships";
+import { svOrdinal } from "@/lib/format/ordinal";
 
 const CLUB_IDENTITY_DOMAIN_LABELS: Record<keyof Omit<ClubIdentityProfile, "clubId" | "seasonReference">, string> = {
   structuralIdentity: "Struktur & styrning",
@@ -144,7 +145,7 @@ export default function ClubProfilePage() {
         <button type="button" className="hm-btn hm-btn-sm" onClick={() => router.back()}>Tillbaka</button>
       </ClubHero>
       <section className="hm-world-facts" aria-label="Klubbens säsong">
-        <div><small>Tabellplacering</small><strong>{tablePosition ? `${tablePosition}:a` : "—"}</strong></div>
+        <div><small>Tabellplacering</small><strong>{tablePosition ? `${svOrdinal(tablePosition)}` : "—"}</strong></div>
         <div><small>Poäng</small><strong>{tableRow?.points ?? "—"}</strong></div>
         <div><small>Trupp</small><strong>{squad.length}</strong></div>
         <div><small>Personal</small><strong>{staffRoster.length}</strong></div>

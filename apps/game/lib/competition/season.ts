@@ -32,6 +32,7 @@ import { competitionClubIds, competitionTable, hasLeagueCalendar, remainingLeagu
 import { nationalBreaks } from "../nationalTeam/nationalTeam";
 import { clubCompetitionId } from "../career/competitionMembership";
 import type { CompetitionTie, SeasonAward, SeasonOutcome, TieStage } from "./types";
+import { svOrdinal } from "../format/ordinal";
 
 type Emit = (event: CareerEvent) => void;
 
@@ -277,7 +278,7 @@ function announcePostseasonPlace(state: CareerState, date: string, emit: Emit): 
   const table = competitionTable(state, state.competitionId);
   const position = table.findIndex((r) => r.clubId === me) + 1;
   let next = announce(state, "regular-season-end", emit, () => buildClubEvent("SEASON_MILESTONE", `${state.seasonId}:regular-end`, date, "IMPORTANT",
-    o.regularSeasonWinners[state.competitionId] === me ? "Seriesegrare!" : `Grundserien är slut -- ${position}:a plats`,
+    o.regularSeasonWinners[state.competitionId] === me ? "Seriesegrare!" : `Grundserien är slut -- ${svOrdinal(position)} plats`,
     myTie ? `${myTie.label} väntar: ${clubName(myTie.highClubId)} mot ${clubName(myTie.lowClubId)}.` : o.promoted.includes(me) ? "Klubben är klar för spel en serie upp nästa säsong." : o.relegated.includes(me) ? "Klubben flyttas ned efter säsongen." : "Säsongen är slut för laget. Följ slutspelet och kvalet under våren.",
     [{ route: "SEASON" }]));
   if (o.promoted.includes(me)) next = announce(next, "promoted-direct", emit, () => buildClubEvent("SEASON_MILESTONE", `${state.seasonId}:promoted`, date, "IMPORTANT", "Uppflyttade!", "Klubben vann serien och spelar en serie högre nästa säsong.", [{ route: "SEASON" }]));

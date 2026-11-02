@@ -60,6 +60,8 @@ const TALENT_PA_HEADROOM_THRESHOLD = 15;
 const TALENT_PROTECT_AGE = 23;
 /** Part 3: the minimum genuine CA gap (in the same 90-185-ish economy-scale CA population marketValue.ts's own curve is anchored to) before another teammate at the same position counts as "clearly better", not just marginally ahead -- the season-boundary audit's own first run found positionRank>=2 alone firing on essentially EVERY KEY_PLAYER whenever a club happened to carry two similarly-elite players at one position (co-starters, rotation goalkeepers), releasing 71/71 of the season's total RELEASE volume this way. A real gap requirement fixes that without removing the signal item 3 itself asks for. */
 export const CLEARLY_REPLACED_CA_GAP = 12;
+/** A squad this size is large (shared with cpuRecruitment.ts, which stops adding non-urgent depth at it). */
+export const SQUAD_SIZE_LARGE_THRESHOLD = 24;
 
 function clubUnderPressure(pressure: FinancialPressureLevel): boolean {
   return pressure === "SERIOUS" || pressure === "CRITICAL";
@@ -88,6 +90,8 @@ export interface ContractDecisionInputs {
   needIfLeavesSaturated: boolean;
   /** An AGREED_AWAITING_WINDOW incoming signee already exists at this exact position -- Part 9. */
   hasAgreedReplacement: boolean;
+  /** HM-ALPHA3-M10: the club's usable squad size; absent means "not large". */
+  squadSize?: number;
 }
 
 export interface ContractDecisionResult {
@@ -168,7 +172,12 @@ export function decideContractAction(inputs: ContractDecisionInputs): ContractDe
   }
 
   if (inputs.needIfLeavesSaturated) {
-    const cheapAndUseful = !overpaidForWait && inputs.caVsClubAvg >= 0.9 && inputs.tier !== "SQUAD_PLAYER";
+    // HM-ALPHA3-M10: a club under serious financial pressure does not keep surplus depth, however cheap -- in long
+    // careers Division 1 clubs grew to 26-28 players and were rescued with board money six seasons running.
+    // HM-ALPHA3-M10: nor does a club whose squad is already large -- renewing cheap depth at full positions grew
+    // the median top-flight squad from 19 to 26 over nine seasons.
+    const roomInSquad = (inputs.squadSize ?? 0) < SQUAD_SIZE_LARGE_THRESHOLD;
+    const cheapAndUseful = roomInSquad && !underPressure && !overpaidForWait && inputs.caVsClubAvg >= 0.9 && inputs.tier !== "SQUAD_PLAYER";
     if (cheapAndUseful) {
       return { decision: "RENEW", reasons: ["Billig och användbar spelare trots god positionsdjup."] };
     }
@@ -316,6 +325,7 @@ export function progressCpuContractDecisions(state: CareerState, date: string, c
         daysUntilExpiry: daysUntilContractEnd(contract.contractEndDate, date),
         needIfLeaves: needIfLeaves.level,
         needIfLeavesSaturated: needIfLeaves.saturated,
+        squadSize: squad.length,
         hasAgreedReplacement: needIfLeaves.pendingIncoming > 0,
       });
       const reason = reasons.join(" ");

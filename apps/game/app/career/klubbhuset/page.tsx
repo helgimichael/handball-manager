@@ -65,14 +65,14 @@ export default function KlubbhusetPage() {
             {hq.national.upcoming.map(({ window: w, state: st, own }) => (
               <li key={w.id}>
                 <b>{w.title}</b><span>{w.competition}</span>
-                <small>Ligan gör uppehåll {w.start}–{w.end}{w.group ? ` · ${w.group.name} i ${w.group.venue}: ${SWEDEN}, ${w.group.opponents.join(", ")}` : ""}</small>
+                <small>Handbollsligan gör uppehåll {w.start}–{w.end}{w.group ? ` · ${w.group.name} i ${w.group.venue}: ${SWEDEN}, ${w.group.opponents.join(", ")}` : ""}</small>
                 {w.matches && <small>{w.matches.filter((m) => m.home === SWEDEN || m.away === SWEDEN).map((m) => `${m.dateLabel}: ${m.home}–${m.away}${m.venue ? ` (${m.venue})` : ""}`).join(" · ")}</small>}
                 {st?.status === "CALLED" ? <p>Uttagna från din klubb: {own.length ? own.map(name).join(", ") : "ingen"}.</p> : st?.status === "NOT_QUALIFIED" ? <p>{st.summary}</p> : <p className="pd-note">Truppen tas ut när samlingen börjar.</p>}
               </li>
             ))}
           </ul>
           {hq.national.last?.state.summary && <p className="kh-last"><b>Senast, {hq.national.last.window.title}:</b> {hq.national.last.state.summary}{hq.national.last.own.length ? ` Från din klubb: ${hq.national.last.own.map(name).join(", ")}.` : ""}</p>}
-          <p className="pd-note">Kalendern är verklig (EHF och IHF). Truppen tas ut bland svenska spelare i spelets klubbar, och resultaten är spelets egen simulering. Uttagna spelare kommer tillbaka tröttare och med en viss skaderisk.</p>
+          <p className="pd-note">Kalendern är verklig (EHF och IHF). Sverige tar ut svenska spelare i spelets klubbar; spelare från andra länder kallas av sina landslag (vilka nationer som spelar mästerskapen är delvis spelets antagande). Resultaten är spelets egen simulering. Uttagna spelare missar klubbens matcher under fönstret och kommer tillbaka tröttare, dina egna med en viss skaderisk. Allsvenskan spelar vidare under fönstren.</p>
         </section>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import { GAME_CURRENT_DATE, getClub, getClubsByCompetition, type PlayerMock } from '../game-data';
+import { ALLSVENSKAN, HANDBOLLSLIGAN } from '../competition/rules';
 import { createSave, saveCareerState, type CareerSave } from '../save/saveRepository';
 import { createNewCareerState } from './newCareer';
 import { migrateCareerState } from './saveMigration';
@@ -153,11 +154,16 @@ export async function getOrCreateCareerState(save: CareerSave, persist = true): 
     // ensureCareerCompetitionStaffRoster is a true no-op once every
     // competition club is already present, so this is cheap on every
     // subsequent load.
+    // HM-ALPHA3-M10: both playable leagues, not only the manager's own -- a job offer can come from
+    // either, and a club taken over mid-session had no staff at all (no assistant, scouts or physio).
     const club = getClub(migrated.playerClubId);
-    if (club?.dataSource === "REAL_WORLD" && getClubsByCompetition(migrated.competitionId).some((c) => migrated.staffRoster[c.id] === undefined)) {
-      const staffIdentityByClub = await fetchAllClubsStaffIdentity(migrated.competitionId);
-      const fallbackYear = Number(migrated.gameDate.slice(0, 4)) + 2;
-      migrated = ensureCareerCompetitionStaffRoster(migrated, migrated.competitionId, staffIdentityByClub, fallbackYear);
+    if (club?.dataSource === "REAL_WORLD") {
+      for (const competitionId of [...new Set([migrated.competitionId, HANDBOLLSLIGAN, ALLSVENSKAN])]) {
+        if (!getClubsByCompetition(competitionId).some((c) => migrated.staffRoster[c.id] === undefined)) continue;
+        const staffIdentityByClub = await fetchAllClubsStaffIdentity(competitionId);
+        const fallbackYear = Number(migrated.gameDate.slice(0, 4)) + 2;
+        migrated = ensureCareerCompetitionStaffRoster(migrated, competitionId, staffIdentityByClub, fallbackYear);
+      }
     }
     migrated = recalibrateStaffEmploymentWages(migrated);
     // HM-DATA-DIV1-1.0: an existing save may predate Division 1 entirely

@@ -21,6 +21,7 @@ import { ALLSVENSKAN, CUP_RULES, HANDBOLLSLIGAN, KVAL_ALLSVENSKAN, KVAL_HBL, LEA
 import { competitionTable, hasLeagueCalendar } from "@/lib/competition/tables";
 import { cupGroupTable } from "@/lib/competition/season";
 import type { CompetitionTie } from "@/lib/competition/types";
+import { svOrdinal } from "@/lib/format/ordinal";
 
 type Zone = { zone: string; label: string };
 const ZONES: Record<string, (pos: number) => Zone | null> = {
@@ -135,7 +136,7 @@ function SeasonHero({ career }: { career: CareerState }) {
     const champion = o.champion === me, cup = o.cupWinner === me, up = o.promoted.includes(me), down = o.relegated.includes(me);
     const kind = champion || cup ? "CHAMPIONSHIP" : up ? "PROMOTION" : down ? "RELEGATION" : "SEASON_ACHIEVEMENT";
     const headline = champion ? `${name(me)} är svenska mästare` : cup ? `${name(me)} vann Svenska cupen` : up ? `${name(me)} är uppflyttade` : down ? `${name(me)} åker ur` : `Säsongen ${career.seasonId} är avgjord`;
-    const lede = `SM-guld: ${name(o.champion)}${o.runnerUp ? ` efter final mot ${name(o.runnerUp)}` : ""}. ${o.cupWinner ? `Svenska cupen: ${name(o.cupWinner)}. ` : ""}${position ? `${name(me)} slutade ${position}:a i grundserien.` : ""}`;
+    const lede = `SM-guld: ${name(o.champion)}${o.runnerUp ? ` efter final mot ${name(o.runnerUp)}` : ""}. ${o.cupWinner ? `Svenska cupen: ${name(o.cupWinner)}. ` : ""}${position ? `${name(me)} slutade ${svOrdinal(position)} i grundserien.` : ""}`;
     const nextLeague = o.nextMembership[me];
     return (
       <MomentHero kind={kind} backdrop={{ kind: "photo", style: kind === "CHAMPIONSHIP" || kind === "SEASON_ACHIEVEMENT" ? TROPHY_MOMENT_BACKDROP : COURT_MOMENT_BACKDROP }} tags={[`Säsongen ${career.seasonId}`]} stamp={champion ? "Guld" : cup ? "Cupen" : up ? "Upp" : down ? "Ned" : null} headline={headline} lede={lede}>
@@ -153,7 +154,7 @@ function SeasonHero({ career }: { career: CareerState }) {
         <p>{o?.phase === "POSTSEASON" ? "Grundserien är spelad. Slutspel och kval avgör resten av säsongen." : `${left} seriematcher kvar för ${name(me)}.`}</p>
       </div>
       <div className="ss-band-stats">
-        <Stat label="Placering" value={position ? `${position}:a` : "—"} note={ZONES[career.competitionId]?.(position)?.label ?? "Mittfältet"} />
+        <Stat label="Placering" value={position ? `${svOrdinal(position)}` : "—"} note={ZONES[career.competitionId]?.(position)?.label ?? "Mittfältet"} />
         <Stat label="Poäng" value={row?.points ?? 0} note={`${row?.played ?? 0} matcher · ${row ? (row.goalDifference > 0 ? `+${row.goalDifference}` : row.goalDifference) : 0} i målskillnad`} />
         {open ? <Stat label={open.label} value={tieStatus(career, open).tone === "todo" ? "Snart" : "Pågår"} note={COMPETITION_IDENTITY[competitionKeyOf(open.competitionId)].name} /> : <Stat label="Seriematcher kvar" value={left} note={o?.phase === "POSTSEASON" ? "Grundserien klar" : "i grundserien"} />}
       </div>
@@ -210,7 +211,7 @@ function NextStep({ career }: { career: CareerState }) {
       if (pos >= 11) lines.push(pos >= 13 ? "Direkt nedflyttningsplats." : "Kvalplats nedåt.");
       tone = pos <= 4 ? "go" : pos >= 11 ? "risk" : "neutral";
     }
-    title = `${pos}:a i ${LEAGUE_NAME(career.competitionId)}`;
+    title = `${svOrdinal(pos)} i ${LEAGUE_NAME(career.competitionId)}`;
     body = <>{lines.map((l) => <p key={l}>{l}</p>)}</>;
   }
   return (

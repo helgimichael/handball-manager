@@ -113,6 +113,7 @@ export default function GameShell({ children }: { children: ReactNode }) {
   // is deferred until the reveal finishes or the manager skips it.
   const [processing, setProcessing] = useState<{ days: ProcessingDay[]; notice: ProgressionNotice } | null>(null);
   const [notice, setNotice] = useState<ProgressionNotice | null>(null);
+  // HM-ALPHA3-M10: a matchday notice is shown only while that match is still to be played (it stayed up after the match).
   // HM-ALPHA3-M10: on a phone the sidebar is a menu the header opens; it closes on navigation and Escape.
   const [navOpen, setNavOpen] = useState(false);
   useEffect(() => { setNavOpen(false); }, [pathname]);
@@ -231,7 +232,7 @@ export default function GameShell({ children }: { children: ReactNode }) {
         </div>
       </header>
 
-      <main className="hm-main" id="manager-content"><div className="hm-context-bar"><div className="hm-actions"><button type="button" className="hm-btn hm-btn-sm hm-btn-ghost" onClick={() => router.back()} aria-label="Tillbaka i navigationen">←</button><button type="button" className="hm-btn hm-btn-sm hm-btn-ghost" onClick={() => router.forward()} aria-label="Framåt i navigationen">→</button><Link href="/career">Kontoret</Link><span>/</span><span>{nav.find(item => item.id === activeNavId)?.label ?? 'Detalj'}</span></div><Link href="/career/inbox">{unread} olästa meddelanden</Link></div>{notice && <aside className="game-progression-notice" aria-label="Senaste tidsförflyttningen"><div role="status"><strong>{money.text(notice.title)}</strong><p>{money.text(notice.detail)}</p></div><Link className="hm-btn hm-btn-sm" href={notice.actionHref}>{notice.actionLabel}</Link><button className="hm-btn hm-btn-sm hm-btn-ghost" aria-label="Stäng händelsebesked" onClick={() => setNotice(null)}>×</button></aside>}{children}</main>
+      <main className="hm-main" id="manager-content"><div className="hm-context-bar"><div className="hm-actions"><button type="button" className="hm-btn hm-btn-sm hm-btn-ghost" onClick={() => router.back()} aria-label="Tillbaka i navigationen">←</button><button type="button" className="hm-btn hm-btn-sm hm-btn-ghost" onClick={() => router.forward()} aria-label="Framåt i navigationen">→</button><Link href="/career">Kontoret</Link><span>/</span><span>{nav.find(item => item.id === activeNavId)?.label ?? 'Detalj'}</span></div><Link href="/career/inbox">{unread} olästa meddelanden</Link></div>{notice && (notice.kind !== 'matchday' || career.careerEvents.some(e => e.id === notice.event?.id && !e.resolved)) && <aside className="game-progression-notice" aria-label="Senaste tidsförflyttningen"><div role="status"><strong>{money.text(notice.title)}</strong><p>{money.text(notice.detail)}</p></div><Link className="hm-btn hm-btn-sm" href={notice.actionHref}>{notice.actionLabel}</Link><button className="hm-btn hm-btn-sm hm-btn-ghost" aria-label="Stäng händelsebesked" onClick={() => setNotice(null)}>×</button></aside>}{children}</main>
       {processing ? <ContinueProcessingOverlay days={processing.days} notice={processing.notice} clubName={club.name} clubShortName={club.shortName} season={career.seasonId} onFinished={handleProcessingFinished} /> : null}
     </div>
   );

@@ -23,6 +23,7 @@ import { matchAftermath, matchdayBriefing } from "@/lib/matchday/matchday";
 import { relationLabel } from "@/lib/media/people";
 import arenaWide from "./assets/arena-moment-1920.webp";
 import arenaNarrow from "./assets/arena-moment-960.webp";
+import { svOrdinal } from "@/lib/format/ordinal";
 
 /** Arriving at the hall on matchday (Blender, scripts/visual/render_arena_moment.py). */
 export const ARENA_BACKDROP = photoBackdrop(arenaWide, arenaNarrow);
@@ -52,8 +53,8 @@ export function MatchdayStage({ fixture, matchday }: { fixture: CareerFixture; m
         <section className="bd-panel" aria-labelledby="mday-state">
           <header><span className="xp-eyebrow">Läget</span><h3 id="mday-state">Tabell och form</h3></header>
           <dl className="mday-table">
-            <div><dt>{getClub(career.playerClubId)?.shortName}</dt><dd>{b.table.own ? `${b.table.own}:a av ${b.table.size}` : "–"}</dd><FormDots results={b.form.own} /></div>
-            <div><dt>{getClub(b.opponentId)?.shortName}</dt><dd>{b.table.opp ? `${b.table.opp}:a av ${b.table.size}` : "–"}</dd><FormDots results={b.form.opp} /></div>
+            <div><dt>{getClub(career.playerClubId)?.shortName}</dt><dd>{b.table.own ? `${svOrdinal(b.table.own)} av ${b.table.size}` : "–"}</dd><FormDots results={b.form.own} /></div>
+            <div><dt>{getClub(b.opponentId)?.shortName}</dt><dd>{b.table.opp ? `${svOrdinal(b.table.opp)} av ${b.table.size}` : "–"}</dd><FormDots results={b.form.opp} /></div>
           </dl>
           {b.rivalry.reasons.length > 0 && <p className="pd-note">Rivalitet: {b.rivalry.reasons.join(" · ")}.</p>}
           {b.history.length > 0 ? <ul className="mday-history">{b.history.map((h, i) => <li key={i}>{h}</li>)}</ul> : <p className="pd-note">Lagen har inte mötts tidigare i din karriär.</p>}
@@ -128,7 +129,7 @@ export function MatchAftermathPanel({ fixtureId }: { fixtureId: string }) {
           {a.rivalComment?.quote && <blockquote className="mday-quote">”{a.rivalComment.quote.text}”<cite>{a.rivalComment.quote.who}</cite></blockquote>}
           {a.press ? <Link className={`hm-btn hm-btn-sm${a.press.status === "OPEN" ? " hm-btn-primary" : ""}`} href={`/career/media/press/${encodeURIComponent(a.press.id)}`}>{a.press.status === "OPEN" ? "Intervjun väntar →" : "Intervjun och följderna →"}</Link> : <p className="pd-note">Ingen intervju efter den här matchen.</p>}
           {a.consequences.length > 0 && <ul className="md-effects">{a.consequences.map((c, i) => <li key={i} data-sign={c.delta >= 0 ? "plus" : "minus"}><b>{AREA_LABEL[c.area]}</b>{c.text}</li>)}</ul>}
-          {a.tablePos && f.type === "LEAGUE" && <p className="pd-note">{own} ligger {a.tablePos}:a i tabellen.</p>}
+          {a.tablePos && f.type === "LEAGUE" && <p className="pd-note">{own} ligger {svOrdinal(a.tablePos)} i tabellen.</p>}
         </section>
       </div>
       {a.flow.length > 1 && <section className="bd-panel"><header><span className="xp-eyebrow">Matchens flöde</span><h3>Målskillnaden minut för minut</h3></header><MatchFlow flow={a.flow} ownName={own} /></section>}

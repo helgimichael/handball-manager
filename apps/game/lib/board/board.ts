@@ -17,6 +17,7 @@ import { playerAgeAtDate } from "../development/developmentIntegration";
 import { getCareerClubSquad } from "../career/careerWorld";
 import type { BoardMeeting, BoardObjective, BoardState, ConfidenceFactor, ObjectiveStatus } from "./types";
 import { addDaysIso } from "../players/dynamicsState";
+import { svOrdinal } from "../format/ordinal";
 
 type Emit = (event: CareerEvent) => void;
 const MONTHLY_STEP = 8;
@@ -44,16 +45,16 @@ export function buildObjectives(state: CareerState, clubId: string): { objective
   const out: BoardObjective[] = [];
   const league = (label: string, why: string, target: number, minimum: number) => out.push({ id: "league", kind: "LEAGUE", label, why, target, minimum, weight: 3, status: "ON_TRACK", progress: "Serien har inte börjat." });
   if (competitionId === HANDBOLLSLIGAN) {
-    if (p <= 2) league("Vinn grundserien", `Truppen är en av ligans två starkaste (förhandstips: ${p}:a).`, 2, 4);
-    else if (p <= 4) league("Topp fyra i Handbollsligan", `Truppen räknas till toppskiktet (förhandstips: ${p}:a).`, 4, 6);
-    else if (p <= 8) league("Ta laget till SM-slutspel", `Truppen räcker till slutspel (förhandstips: ${p}:a).`, 8, 10);
-    else if (p <= 11) league("Säkra kontraktet utan kval", `Truppen är bland de svagare (förhandstips: ${p}:a). Plats 11-13 betyder kval.`, 10, 13);
-    else league("Undvik direkt nedflyttning", `Truppen är en av ligans svagaste (förhandstips: ${p}:a).`, 13, 13);
+    if (p <= 2) league("Vinn grundserien", `Truppen är en av ligans två starkaste (förhandstips: ${svOrdinal(p)}).`, 2, 4);
+    else if (p <= 4) league("Topp fyra i Handbollsligan", `Truppen räknas till toppskiktet (förhandstips: ${svOrdinal(p)}).`, 4, 6);
+    else if (p <= 8) league("Ta laget till SM-slutspel", `Truppen räcker till slutspel (förhandstips: ${svOrdinal(p)}).`, 8, 10);
+    else if (p <= 11) league("Säkra kontraktet utan kval", `Truppen är bland de svagare (förhandstips: ${svOrdinal(p)}). Plats 11-13 betyder kval.`, 10, 13);
+    else league("Undvik direkt nedflyttning", `Truppen är en av ligans svagaste (förhandstips: ${svOrdinal(p)}).`, 13, 13);
   } else if (competitionId === ALLSVENSKAN) {
-    if (p <= 2) league("Gå upp till Handbollsligan", `Truppen är seriens starkaste (förhandstips: ${p}:a). Etta går upp, 2-4 spelar kval.`, 2, 4);
-    else if (p <= 5) league("Nå kvalplats uppåt", `Truppen räcker för toppen (förhandstips: ${p}:a).`, 4, 6);
-    else if (p <= 10) league("En stabil mittenplacering", `Förhandstips: ${p}:a.`, 8, 10);
-    else league("Undvik nedflyttning", `Truppen är en av seriens svagaste (förhandstips: ${p}:a).`, 12, 12);
+    if (p <= 2) league("Gå upp till Handbollsligan", `Truppen är seriens starkaste (förhandstips: ${svOrdinal(p)}). Etta går upp, 2-4 spelar kval.`, 2, 4);
+    else if (p <= 5) league("Nå kvalplats uppåt", `Truppen räcker för toppen (förhandstips: ${svOrdinal(p)}).`, 4, 6);
+    else if (p <= 10) league("En stabil mittenplacering", `Förhandstips: ${svOrdinal(p)}.`, 8, 10);
+    else league("Undvik nedflyttning", `Truppen är en av seriens svagaste (förhandstips: ${svOrdinal(p)}).`, 12, 12);
   } else {
     league("Bästa möjliga placering", "Serien följs inte i detalj.", p, p + 2);
   }
@@ -65,7 +66,7 @@ export function buildObjectives(state: CareerState, clubId: string): { objective
   const lg = out.find((o) => o.kind === "LEAGUE");
   if (lg && played >= 6 && row + 1 > lg.target) {
     const now = row + 1;
-    Object.assign(lg, { label: `Lyft laget från ${now}:e plats`, why: `Du tar över mitt i säsongen när laget ligger ${now}:a (förhandstipset var ${p}:a). Styrelsen vill se laget klättra.`, target: Math.max(1, now - 2), minimum: now });
+    Object.assign(lg, { label: `Lyft laget från ${svOrdinal(now)} plats`, why: `Du tar över mitt i säsongen när laget ligger ${svOrdinal(now)} (förhandstipset var ${svOrdinal(p)}). Styrelsen vill se laget klättra.`, target: Math.max(1, now - 2), minimum: now });
   }
   if (isDevelopmentClub(state, clubId, competitionId)) out.push({ id: "youth", kind: "YOUTH", label: "Ge unga spelare speltid", why: "Klubben satsar mer än de flesta på sin akademi och vill se det i A-laget.", target: 0.15, weight: 1, status: "ON_TRACK", progress: "" });
   const outOfCup = Object.values(state.competitionTies ?? {}).some((t) => t.competitionId === SVENSKA_CUPEN && t.loserClubId === clubId);
@@ -88,7 +89,7 @@ export function ensureBoard(state: CareerState, date: string, emit?: Emit): Care
   // A new relationship mid-season: what happened before today belongs to the previous coach.
   const startsBaseline = carried ? undefined : Object.fromEntries(getCareerClubSquad(state, state.playerClubId).map((p) => [p.id, state.playerSeasonStats[p.id]?.starts ?? 0]).filter(([, n]) => (n as number) > 0));
   const next: BoardState = { clubId: state.playerClubId, seasonId: state.seasonId, since: date, startsBaseline, predictedPosition: predicted, objectives, confidence, targetConfidence: confidence, factors: [], history: [...(carried?.history ?? []), { date, confidence }].slice(-40), meetings: [...(carried?.meetings ?? []), meeting].slice(-20), warnings: 0, contractOffer: carried?.contractOffer };
-  emit?.(buildClubEvent("BOARD_UPDATE", meeting.id + ":" + state.playerClubId, date, "IMPORTANT", meeting.title, `${meeting.summary}. Förhandstipset för truppen: ${predicted}:a.`, [{ route: "BOARDROOM" }]));
+  emit?.(buildClubEvent("BOARD_UPDATE", meeting.id + ":" + state.playerClubId, date, "IMPORTANT", meeting.title, `${meeting.summary}. Förhandstipset för truppen: ${svOrdinal(predicted)}.`, [{ route: "BOARDROOM" }]));
   return { ...state, board: next };
 }
 
@@ -126,7 +127,7 @@ export function evaluateObjectives(state: CareerState, b: BoardState, final = fa
     switch (o.kind) {
       case "LEAGUE":
         if (pos === null) { s = "ON_TRACK"; progress = "Serien har inte börjat."; break; }
-        progress = `${pos}:a i dag, målet är ${o.target}:a eller bättre.`;
+        progress = `${svOrdinal(pos)} i dag, målet är ${svOrdinal(o.target)} eller bättre.`;
         s = pos <= o.target ? (final ? "MET" : "ON_TRACK") : pos <= (o.minimum ?? o.target) ? (final ? "PARTLY_MET" : "AT_RISK") : (final ? "FAILED" : "AT_RISK");
         break;
       case "FINANCE":
@@ -178,7 +179,7 @@ export function confidenceFactors(state: CareerState, b: BoardState): Confidence
   if (league && pos !== null && played.length >= 4) {
     const gap = league.target - pos;
     const pts = Math.max(-22, Math.min(15, gap * 4));
-    out.push({ label: gap >= 0 ? `${pos}:a i serien – i linje med målet (${league.target}:a)` : `${pos}:a i serien – målet är ${league.target}:a`, points: pts });
+    out.push({ label: gap >= 0 ? `${svOrdinal(pos)} i serien – i linje med målet (${svOrdinal(league.target)})` : `${svOrdinal(pos)} i serien – målet är ${svOrdinal(league.target)}`, points: pts });
   }
   const recent = played.slice(-5);
   if (recent.length >= 3) {

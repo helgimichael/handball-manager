@@ -54,7 +54,8 @@ function closeOpenBusiness(state: CareerState, date: string): CareerState {
   const inbox = next.inbox.map((m) => (m.actionRequired ? { ...m, actionRequired: false, resolved: true } : m));
   // HM-ALPHA3-M08: open press conferences were about the old club; relationships, stories and discipline follow the manager.
   const media = next.media ? { ...next.media, press: Object.fromEntries(Object.entries(next.media.press).map(([k, p]) => [k, p.status === "OPEN" ? { ...p, status: "EXPIRED" as const } : p])), pressure: {}, supporters: 0, boardMood: 0 } : undefined;
-  return { ...next, renewalTalks, incomingOffers, matchPlans, liveMatchPlans, trainingWeeks, careerEvents, inbox, playerDynamics: undefined, delegation: undefined, ...(media ? { media } : {}) };
+  // HM-ALPHA3-M10: the old club's preferred lineup does not follow the manager -- the first seven at the new club is picked by hand.
+  return { ...next, renewalTalks, incomingOffers, matchPlans, liveMatchPlans, trainingWeeks, careerEvents, inbox, playerDynamics: undefined, delegation: undefined, preferredLineup: undefined, ...(media ? { media } : {}) };
 }
 
 /** Sets up the new club as the manager's club, exactly as a new career would for it. */

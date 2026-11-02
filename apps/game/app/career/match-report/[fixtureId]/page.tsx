@@ -19,6 +19,7 @@ import { workloadWindow } from "@/lib/training/workloadLedger";
 import type { CareerState } from "@/lib/career/types";
 import type { PlayerMatchContribution } from "@handball-manager/game-simulation";
 import { PlayerLink } from "@/components/entityLinks";
+import { svOrdinal } from "@/lib/format/ordinal";
 
 export default function MatchReportPage() {
   const router = useRouter();
@@ -110,7 +111,7 @@ export default function MatchReportPage() {
             <span className="hm-panel-title">Tabellplacering</span>
           </div>
           <div className="hm-panel-body">
-            <div style={{ fontSize: "var(--hm-text-md)", fontWeight: 800 }}>{position}:a plats</div>
+            <div style={{ fontSize: "var(--hm-text-md)", fontWeight: 800 }}>{svOrdinal(position)} plats</div>
             <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-xs)" }}>{competitionName} · nuvarande tabell</div>
           </div>
         </div>

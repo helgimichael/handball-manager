@@ -19,6 +19,7 @@ import { getLastPlayedPlayerFixture, getNextPlayerFixture } from "./calendar";
 import { getLiveStandings } from "./standings";
 import type { CareerEvent } from "./careerEvents";
 import type { CareerState } from "./types";
+import { svOrdinal } from "../format/ordinal";
 
 const CATEGORY_BY_TYPE: Record<CareerEvent["type"], InboxCategory> = {
   TRAINING_COMPLETED: "STAFF",
@@ -143,7 +144,7 @@ function bodyFor(event: CareerEvent, career: CareerState): string[] {
     case "COMPETITION_UPDATE": {
       const table = getLiveStandings(career);
       const position = table.findIndex((row) => row.clubId === career.playerClubId) + 1;
-      return position > 0 ? [event.summary, `Er placering: ${position}:a plats.`] : [event.summary];
+      return position > 0 ? [event.summary, `Er placering: ${svOrdinal(position)} plats.`] : [event.summary];
     }
     case "STAFF_REPORT":
       return staffReportBody(career);

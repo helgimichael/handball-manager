@@ -134,7 +134,9 @@ function ownResult(state: CareerState, f: CareerFixture, date: string, emit: Emi
   // A post-match interview only when there is something to talk about.
   const oppPos = tablePos(state, opp), myPos = tablePos(state, me);
   const upsetWin = won && oppPos && myPos && myPos >= oppPos + 5;
-  const heavy = lost && oppG - ownG >= 8;
+  // HM-ALPHA3-M10: a weak side loses heavily often; the press asks about it once in three weeks, not every time.
+  const heavyPressedRecently = Object.values(mediaOf(state).press).some((p) => p.kind === "POST_MATCH" && p.date >= addDaysIso(date, -21) && p.contexts.some((c) => c.topic === "AFTER_DEFEAT"));
+  const heavy = lost && oppG - ownG >= 8 && !heavyPressedRecently;
   const topics = [] as Parameters<typeof openPress>[2]["topics"];
   if (controversy) topics.push({ topic: "REFEREE", opponentId: opp, detail: `${ownSusp} utvisningar mot ${oppSusp}.` });
   // Mid-series games speak through the match report; the press gathers after the opener and the games that decide.
@@ -144,9 +146,12 @@ function ownResult(state: CareerState, f: CareerFixture, date: string, emit: Emi
   next = aftermath(next, f, stakes, won, lost);
   // The rival coach has his say.
   if (stakes.rival) next = rivalAfter(next, f, date, won, lost, Math.abs(ownG - oppG), stakes.rival.staffId);
-  // Form: three defeats in a row.
-  const last = managerMatchesPlayed(next).slice(-3);
-  if (last.length === 3 && last.every((x) => x.points === 0) && last.at(-1)!.date === f.date) {
+  // Form: three defeats in a row -- raised when the run reaches three, and again at six (HM-ALPHA3-M10: it was
+  // raised after every further defeat, the same interview week after week).
+  const played = managerMatchesPlayed(next);
+  let streak = 0;
+  for (let i = played.length - 1; i >= 0 && played[i]!.points === 0; i--) streak++;
+  if ((streak === 3 || streak === 6) && played.at(-1)!.date === f.date) {
     next = publish(next, { key: `form:${me}:${date}`, kind: "FORM", date, importance: 3, clubIds: [me], topFlight: topFlight(next, me), facts: { club: me, detail: `Tre raka förluster för ${clubShort(me)}.` }, destinations: [{ route: "BOARDROOM" }] });
     next = openPress(next, date, { key: `form:${date}`, kind: "INTERVIEW", title: "Tre raka förluster", context: "Lokalpressen vill prata om formen.", expiresOn: addDaysIso(date, 4), topics: [{ topic: "POOR_FORM" }] }, emit);
   }

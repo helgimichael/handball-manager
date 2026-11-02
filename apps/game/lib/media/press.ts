@@ -121,6 +121,9 @@ export function openPress(state: CareerState, date: string, spec: { key: string;
   const m0 = mediaOf(state);
   const id = `press:${spec.key}`;
   if (m0.press[id]) return state;
+  // HM-ALPHA3-M10: one sitting a day -- an interview is not opened on top of a conference already open from today
+  // (two transfer-request interviews were opened on the same day). The news story itself is still published.
+  if (spec.kind === "INTERVIEW" && Object.values(m0.press).some((p) => p.date === date && p.status === "OPEN")) return state;
   const outlets = [...(CLUB_MEDIA[state.playerClubId]?.outlets.slice(0, 2) ?? []), "handbollskanalen"];
   if (spec.topics.some((t) => t.derby || t.topic === "RIVAL_RESPONSE" || t.topic === "REFEREE")) outlets.push(hash(spec.key) < 0.5 ? "aftonbladet" : "expressen");
   let m: MediaState = m0;

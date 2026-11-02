@@ -57,7 +57,9 @@ const INITIAL_EVALUATION_SPREAD_DAYS = 45;
 // bara 1 MV ska alltså fortfarande kunna söka MV". Deliberately reuses
 // the SAME number the audit script's own "squad size >= 24" outlier
 // flag uses, rather than inventing a separate figure.
-export const SQUAD_SIZE_LARGE_THRESHOLD = 24;
+// HM-ALPHA3-M10: defined beside the contract decisions, which now use it too.
+export { SQUAD_SIZE_LARGE_THRESHOLD } from "./cpuContractDecisions";
+import { SQUAD_SIZE_LARGE_THRESHOLD } from "./cpuContractDecisions";
 
 // HM-CPU-SQUAD-BUILDING-1.0C Part 3/4: successful-signing cooldown --
 // "position solved -> längre cooldown; fortfarande HIGH efter recompute

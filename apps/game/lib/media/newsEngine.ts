@@ -11,6 +11,7 @@ import { getClub } from "../game-data";
 import { hash, journalistFor, mediaOf, withMedia } from "./people";
 import { CLUB_MEDIA, MEDIA_OUTLETS } from "./registry";
 import type { MediaState, NewsStory, StoryKind, StoryScope } from "./types";
+import { svOrdinal } from "../format/ordinal";
 
 export const WEEKLY_WORLD_BUDGET = 6;
 
@@ -103,14 +104,14 @@ export function writeStory(state: CareerState, e: WorldEvent, outletId: string, 
       return { headline: f.derby && local ? `Derbyt: ${headline}` : headline, standfirst: `${home}–${away} slutade ${score}.${scorer}`, body: [
         local ? `Inför ${f.crowd ? `${f.crowd} åskådare ` : ""}blev det ${result === "WIN" ? `en efterlängtad seger för ${own}` : result === "LOSS" ? `en kväll att glömma för ${own}` : "oavgjort"} mot ${opp}.` : `Matchen slutade ${score}.`,
         f.suspensions ? `Domarna delade ut ${f.suspensions} utvisningar.` : "",
-        f.tablePos ? `${own} ligger nu ${f.tablePos}:a i tabellen.` : "",
+        f.tablePos ? `${own} ligger nu ${svOrdinal(Number(f.tablePos))} i tabellen.` : "",
       ].filter(Boolean) };
     }
     case "UPSET":
-      return { headline: pick([`Skrällen: ${clubShort(f.winner)} slog ${clubShort(f.loser)}`, `${clubShort(f.winner)} chockade ${clubShort(f.loser)}`], s), standfirst: `${f.score}. ${clubShort(f.winner)} låg ${f.winnerPos}:a, ${clubShort(f.loser)} ${f.loserPos}:a före matchen.`, body: [`Ingen hade räknat med det, men ${clubShort(f.winner)} vände tabellen upp och ner.`, scope === "SPECIALIST" ? "Handbollskanalen analyserar vad som avgjorde." : ""].filter(Boolean) };
+      return { headline: pick([`Skrällen: ${clubShort(f.winner)} slog ${clubShort(f.loser)}`, `${clubShort(f.winner)} chockade ${clubShort(f.loser)}`], s), standfirst: `${f.score}. ${clubShort(f.winner)} låg ${svOrdinal(Number(f.winnerPos))}, ${clubShort(f.loser)} ${svOrdinal(Number(f.loserPos))} före matchen.`, body: [`Ingen hade räknat med det, men ${clubShort(f.winner)} vände tabellen upp och ner.`, scope === "SPECIALIST" ? "Handbollskanalen analyserar vad som avgjorde." : ""].filter(Boolean) };
     case "DERBY_PREVIEW":
     case "BIG_MATCH_PREVIEW":
-      return { headline: e.kind === "DERBY_PREVIEW" ? pick([`Derbyfeber inför ${home}–${away}`, `Staden laddar för derbyt`, `Allt står på spel i derbyt`], s) : `${String(f.angle ?? "Storstrid").split(" · ")[0]}: ${home} mot ${away}`, standfirst: `${home} (${f.homePos}:a) möter ${away} (${f.awayPos}:a) ${f.when}.`, body: [String(f.angle ?? ""), f.history ? `Senast: ${f.history}.` : ""].filter(Boolean) };
+      return { headline: e.kind === "DERBY_PREVIEW" ? pick([`Derbyfeber inför ${home}–${away}`, `Staden laddar för derbyt`, `Allt står på spel i derbyt`], s) : `${String(f.angle ?? "Storstrid").split(" · ")[0]}: ${home} mot ${away}`, standfirst: `${home} (${svOrdinal(Number(f.homePos))}) möter ${away} (${svOrdinal(Number(f.awayPos))}) ${f.when}.`, body: [String(f.angle ?? ""), f.history ? `Senast: ${f.history}.` : ""].filter(Boolean) };
     case "TRANSFER":
     case "SALE":
       return { headline: local && f.from === e.clubIds[0] ? pick([`${who} lämnar ${clubShort(f.from)}`, `Klart: ${who} säljs till ${clubShort(f.to)}`], s) : local ? `${clubShort(f.to)} värvar ${who}` : pick([`Klart: ${who} till ${clubShort(f.to)}`, `${clubShort(f.to)} säkrar ${who}`], s), standfirst: `${who} går från ${clubName(f.from)} till ${clubName(f.to)}${f.fee ? ` för ${f.fee}` : ""}.`, body: [f.foreign ? "Ännu en svensk spelare lockas utomlands." : "Affären är en av de större i svensk handboll den här säsongen."] };

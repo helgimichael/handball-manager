@@ -13,6 +13,7 @@ import { formatMoney } from "@/lib/economy/currency";
 import { useMoney } from "@/lib/settings/usePreferences";
 import { ECONOMIC_BAND_LABEL, FINANCIAL_PRESSURE_LABEL, FINANCIAL_PRESSURE_TONE, LIQUIDITY_HEALTH_LABEL, STRUCTURAL_HEALTH_LABEL } from "@/lib/economy/clubEconomyLabels";
 import { getClubPartnerships } from "@/lib/career/clubPartnerships";
+import { svOrdinal } from "@/lib/format/ordinal";
 
 export default function ClubPage() {
   useMoney(); // re-render every figure when the display currency changes
@@ -32,7 +33,7 @@ export default function ClubPage() {
         <Link className="hm-btn hm-btn-sm" href="/career/squad">Öppna truppen →</Link>
       </ClubHero>
       <section className="hm-world-facts" aria-label="Klubben den här säsongen">
-        <div><small>Tabellplacering</small><strong>{position > 0 ? `${position}:a` : "—"}</strong></div>
+        <div><small>Tabellplacering</small><strong>{position > 0 ? `${svOrdinal(position)}` : "—"}</strong></div>
         <div><small>Spelare i truppen</small><strong>{squad.length}</strong></div>
         <div><small>Hemmaplan</small><strong>{club.venue ?? "—"}</strong></div>
         <div><small>Personal</small><strong>{(career.staffRoster[club.id] ?? []).length}</strong></div>
