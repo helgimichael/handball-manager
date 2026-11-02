@@ -1,0 +1,30 @@
+/* HM-ALPHA3-M09: the matchday -- arena stage, briefing panels, the match
+   flow chart and the aftermath. Reuses the board panels (bd-*) and media
+   pieces (md-*); its own classes are prefixed mday-. */
+.mday-stage, .mday-after { display: grid; gap: 14px; min-width: 0; }
+.mday-crests { display: flex; align-items: center; gap: 12px; color: #f8f3e9; }
+.mday-crests span { font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; opacity: .75; }
+.mday-stage[data-big] .xp-moment-hero { box-shadow: inset 0 -4px 0 var(--xp-accent, #c0612b); }
+.mday-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; align-items: start; }
+.mday-after .mday-grid { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); }
+.mday-grid .bd-panel h3 { margin: 2px 0 0; font-family: var(--game-font-display); font-weight: 400; font-size: 22px; text-transform: uppercase; }
+.mday-table { display: grid; gap: 6px; margin: 0; }
+.mday-table div { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 10px; align-items: center; padding: 8px 10px; background: var(--hm-surface-2); }
+.mday-table dt { font-weight: 700; }
+.mday-table dd { margin: 0; font-variant-numeric: tabular-nums; color: var(--hm-text-secondary); font-size: 13px; }
+.mday-history, .mday-notes { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; font-size: 13px; }
+.mday-history li { padding: 4px 8px; background: var(--hm-surface-2); font-variant-numeric: tabular-nums; }
+.mday-notes li { padding-left: 12px; border-left: 3px solid var(--hm-border-strong); }
+.mday-quote { margin: 0; padding: 10px 14px; border-left: 4px solid #c0612b; background: var(--hm-surface-2); font-size: 17px; font-style: italic; }
+.mday-quote cite { display: block; margin-top: 4px; font-size: 12px; font-style: normal; color: var(--hm-text-secondary); }
+.mday-flow { margin: 0; display: grid; gap: 4px; }
+.mday-flow svg { width: 100%; height: auto; max-height: 160px; }
+.mday-flow polyline { fill: none; stroke: var(--game-ink, #10202b); stroke-width: 2.5; vector-effect: non-scaling-stroke; }
+.mday-flow-ahead { fill: rgba(63, 122, 82, .08); }
+.mday-flow-behind { fill: rgba(169, 50, 25, .07); }
+.mday-flow-zero { stroke: var(--hm-border-strong); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.mday-flow-half { stroke: var(--hm-border); stroke-dasharray: 4 4; stroke-width: 1; vector-effect: non-scaling-stroke; }
+.mday-flow figcaption { font-size: 12px; color: var(--hm-text-secondary); }
+.mday-banner { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; margin: 0 0 10px; padding: 8px 12px; background: var(--game-ink, #10202b); color: #f8f3e9; border-left: 4px solid #c0612b; font-size: 13px; }
+.mday-banner b { font-family: var(--game-font-display); font-weight: 400; font-size: 18px; text-transform: uppercase; letter-spacing: .02em; }
+@media (max-width: 1100px) { .mday-grid, .mday-after .mday-grid { grid-template-columns: minmax(0, 1fr); } }

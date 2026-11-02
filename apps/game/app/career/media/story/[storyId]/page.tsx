@@ -22,18 +22,18 @@ export default function StoryPage() {
   const journalist = story.journalistId ? media.journalists[story.journalistId] : undefined;
   const others = coverageOf(career, story.eventKey).filter((s) => s.id !== story.id);
   return (
-    <div className="mc-article-page">
+    <div className="md-article-page">
       <Link className="hm-btn hm-btn-sm" href="/career/media">← Mediecentret</Link>
-      <article className="mc-article" data-scope={story.scope}>
+      <article className="md-article" data-scope={story.scope}>
         <header>
           <OutletChip outletId={story.outletId} withCategory />
-          <span className="mc-scope">{SCOPE_LABEL[story.scope]}{story.breaking ? " · Senaste nytt" : ""}</span>
+          <span className="md-scope">{SCOPE_LABEL[story.scope]}{story.breaking ? " · Senaste nytt" : ""}</span>
           <h1>{story.headline}</h1>
-          <p className="mc-standfirst">{story.standfirst}</p>
-          <p className="mc-byline">{journalist ? `${journalist.name}, ${outlet?.name}` : outlet?.name} · <time>{story.date}</time></p>
+          <p className="md-standfirst">{story.standfirst}</p>
+          <p className="md-byline">{journalist ? `${journalist.name}, ${outlet?.name}` : outlet?.name} · <time>{story.date}</time></p>
         </header>
         {story.body.map((p, i) => <p key={i}>{p}</p>)}
-        {story.quote && <blockquote className="mc-quote">”{story.quote.text}”<cite>{story.quote.who}</cite></blockquote>}
+        {story.quote && <blockquote className="md-quote">”{story.quote.text}”<cite>{story.quote.who}</cite></blockquote>}
         <footer>
           {story.destinations.map((d, i) => { const href = resolveDestinationHref(d); return href ? <Link key={i} className="hm-btn hm-btn-sm" href={href}>{destinationLabel(d)} →</Link> : null; })}
         </footer>
@@ -41,9 +41,9 @@ export default function StoryPage() {
         {outlet && <p className="pd-note">{outlet.name}: {CATEGORY_LABEL[outlet.category].toLowerCase()}, {outlet.coverage}.</p>}
       </article>
       {others.length > 0 && (
-        <section className="mc-coverage" aria-label="Så skrev andra">
+        <section className="md-coverage" aria-label="Så skrev andra">
           <h2 className="bd-subhead">Så skrev andra</h2>
-          <div className="mc-list">{others.map((s) => <StoryCard key={s.id} story={s} size="md" />)}</div>
+          <div className="md-list">{others.map((s) => <StoryCard key={s.id} story={s} size="md" />)}</div>
         </section>
       )}
     </div>

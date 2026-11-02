@@ -13,8 +13,11 @@ import { LiveCoachPanel } from '@/components/game/LiveCoachPanel';
 import { LiveMatchCenter, ArchivedMatchCenter } from '@/components/matchCenter/MatchCenter';
 import { MATCH_SPEEDS } from '@/lib/matchCenter/model';
 import { advanceMatchCenter, resumeMatchTimeout } from '@/lib/matchCenter/control';
+import { inkOn, matchColors, matchdayBriefing } from '@/lib/matchday/matchday';
+import { getClub } from '@/lib/game-data';
 
-function Court({ frame, people }: { frame: MatchFrame; people: MatchPerson[] }) {
+// HM-ALPHA3-M09 (E3): the clubs' own colours on the court -- readable on the floor, never two similar kits.
+function Court({ frame, people, colors = { home: '#4da5ef', away: '#ef775f' } }: { frame: MatchFrame; people: MatchPerson[]; colors?: { home: string; away: string } }) {
   return <svg data-render-tick={frame[0]} viewBox="-150 -100 4300 2200" aria-label="Handbollsplan med matchens spelare och boll" style={{ width: '100%', maxHeight: '64vh', minHeight: 340 }}>
     <g transform="matrix(0 1 -1 0 4000 0)">
     <rect x="0" y="0" width="2000" height="4000" rx="10" fill="#173e51" stroke="#d2e7ee" strokeWidth="8" />
@@ -28,7 +31,7 @@ function Court({ frame, people }: { frame: MatchFrame; people: MatchPerson[] }) 
     {Array.from({ length: Math.floor((frame.length - 7) / 3) }, (_, n) => {
       const at = 7 + n * 3, person = people[frame[at]];
       if (!person) return null;
-      return <g key={person.id} transform={`translate(${4000 - frame[at + 2]} ${frame[at + 1]})`}><circle r="43" fill={person.team === 'HOME' ? '#4da5ef' : '#ef775f'} stroke={person.role === 'GK' ? '#ffe6a0' : '#fff'} strokeWidth="7" /><text textAnchor="middle" dominantBaseline="central" fill="white" fontSize="35" fontWeight="700">{person.number}</text><title>{person.name}</title></g>;
+      return <g key={person.id} transform={`translate(${4000 - frame[at + 2]} ${frame[at + 1]})`}><circle r="43" fill={person.team === 'HOME' ? colors.home : colors.away} stroke={person.role === 'GK' ? '#ffe6a0' : '#fff'} strokeWidth="7" /><text textAnchor="middle" dominantBaseline="central" fill={inkOn(person.team === 'HOME' ? colors.home : colors.away)} fontSize="35" fontWeight="700">{person.number}</text><title>{person.name}</title></g>;
     })}
     <circle cx={4000 - frame[6]} cy={frame[5]} r="20" fill="#ffdc5b" stroke="#182c38" strokeWidth="5" />
   </svg>;
@@ -49,7 +52,7 @@ function LiveCourt({session,playing,speed}:{session:ProductionMatchSession;playi
     };
     request=requestAnimationFrame(render);return()=>cancelAnimationFrame(request);
   },[playing,speed]);
-  return <Court frame={frameAt(session.frames,tick)} people={session.people}/>;
+  return <Court frame={frameAt(session.frames,tick)} people={session.people} colors={matchColors(session.fixture.homeClubId,session.fixture.awayClubId)}/>;
 }
 
 function ExperimentalArchiveReplay({ archive }: { archive: PlayedMatchArchive }) {
@@ -65,7 +68,7 @@ function ExperimentalArchiveReplay({ archive }: { archive: PlayedMatchArchive })
   }, [playing, speed, frames]);
   const frame = frames.length ? frameAt(frames, tick) : null;
   if (!frame) return <p role="alert">{decoded.error ?? 'Den här matchen saknar sparad 2D-visning.'}</p>;
-  return <div className="game-live-match"><Scoreboard homeClubId={archive.fixture.homeClubId} awayClubId={archive.fixture.awayClubId} homeScore={frame[3]} awayScore={frame[4]} label="Repris"><span>{Math.floor(frame[1] / 60000)}:{String(Math.floor(frame[1] / 1000) % 60).padStart(2, '0')}</span></Scoreboard><div className="game-court-stage"><Court frame={frame} people={archive.people} /></div><div className="game-match-controls"><button className="hm-btn" onClick={() => setPlaying(!playing)}>{playing ? 'Pausa' : 'Spela'}</button> <select aria-label="Reprishastighet" value={speed} onChange={e => setSpeed(Number(e.target.value))}>{[1, 4, 16, 64].map(n => <option key={n} value={n}>{n}×</option>)}</select><input aria-label="Position i reprisen" type="range" min={frames[0][0]} max={frames.at(-1)![0]} value={Math.floor(tick)} onChange={e => { setTick(Number(e.target.value)); setPlaying(false); }} style={{ width: '100%', marginTop: 16 }} /><p>Slutresultat: {archive.result.homeGoals}–{archive.result.awayGoals}</p></div></div>;
+  return <div className="game-live-match"><Scoreboard homeClubId={archive.fixture.homeClubId} awayClubId={archive.fixture.awayClubId} homeScore={frame[3]} awayScore={frame[4]} label="Repris"><span>{Math.floor(frame[1] / 60000)}:{String(Math.floor(frame[1] / 1000) % 60).padStart(2, '0')}</span></Scoreboard><div className="game-court-stage"><Court frame={frame} people={archive.people} colors={matchColors(archive.fixture.homeClubId,archive.fixture.awayClubId)} /></div><div className="game-match-controls"><button className="hm-btn" onClick={() => setPlaying(!playing)}>{playing ? 'Pausa' : 'Spela'}</button> <select aria-label="Reprishastighet" value={speed} onChange={e => setSpeed(Number(e.target.value))}>{[1, 4, 16, 64].map(n => <option key={n} value={n}>{n}×</option>)}</select><input aria-label="Position i reprisen" type="range" min={frames[0][0]} max={frames.at(-1)![0]} value={Math.floor(tick)} onChange={e => { setTick(Number(e.target.value)); setPlaying(false); }} style={{ width: '100%', marginTop: 16 }} /><p>Slutresultat: {archive.result.homeGoals}–{archive.result.awayGoals}</p></div></div>;
 }
 
 /** Normal replay is the recorded event/key-moment experience. 2D remains optional. */
@@ -114,9 +117,10 @@ export default function ProductionMatchView({ fixtureId, quickFinish = false }: 
   const recent = c.events.filter(e => ['GOAL', 'SAVE_CAUGHT', 'SAVE_PARRY', 'WHISTLE_RESTART', 'ADVANTAGE_REALIZED', 'TWO_MINUTE_SUSPENSION', 'DISQUALIFICATION', 'EXCHANGE_COMPLETED', 'TEAM_TIMEOUT_STARTED', 'TACTICS_CHANGED'].includes(e.type)).slice(-8).reverse();
   function choosePlayer(id:string){setOutId(id);setInId('');coachRef.current?.scrollIntoView({block:'nearest'});coachRef.current?.focus();}
   const timeout=c.referee.timeout?.reason==='TEAM_TIMEOUT';
-  return <><LiveMatchCenter session={session} playing={playing} team={team} importantOnly={playing&&speed>=8} onPlayer={!fulltime&&!busy?choosePlayer:undefined}
+  const brief=matchdayBriefing(career,session.fixture);
+  return <>{brief.stakes.level>=3&&<p className="mday-banner" role="note"><b>{getClub(session.fixture.homeClubId)?.shortName} – {getClub(session.fixture.awayClubId)?.shortName}</b>{brief.stakes.labels.map(l=><span key={l}>{l}</span>)}{brief.suspended&&<span>Assisterande tränaren leder laget (du är avstängd)</span>}</p>}<LiveMatchCenter session={session} playing={playing} team={team} importantOnly={playing&&speed>=8} onPlayer={!fulltime&&!busy?choosePlayer:undefined}
     controls={<>{!fulltime&&<><button type="button" className="hm-btn hm-btn-primary" disabled={busy||!!session.error} onClick={()=>{if(timeout)updateCareer(resumeMatchTimeout);if(session.pausedAtHalf)apply({kind:'SECOND_HALF'});setUntilKey(false);setPlaying(!playing||session.pausedAtHalf||timeout);}}>{timeout?'Återuppta efter timeout':session.pausedAtHalf?'Starta andra halvlek':playing?'Pausa':'Spela'}</button><label>Hastighet <select aria-label="Matchhastighet" value={speed} onChange={e=>setSpeed(Number(e.target.value))}>{MATCH_SPEEDS.map(n=><option value={n} key={n}>{n}×</option>)}</select></label><button type="button" className="hm-btn" disabled={busy||session.pausedAtHalf||timeout} onClick={()=>{setUntilKey(true);setPlaying(true);}}>Nästa viktiga händelse</button><button type="button" className="hm-btn" aria-pressed={keyMode} disabled={busy} onClick={()=>setKeyMode(!keyMode)}>Nyckelhändelser {keyMode?'på':'av'}</button><button type="button" className="hm-btn" disabled={busy} onClick={finish}>{busy?'Spelar färdigt…':'Spela till slut'}</button></>}{fulltime&&<button type="button" className="hm-btn hm-btn-primary" onClick={()=>{updateCareer(finalizeProductionMatch);router.push(`/career/match-report/${fixtureId}`);}}>Slutför match och öppna rapport</button>}<span className="mc-autosave">Matchen sparas automatiskt. Pausa innan du lämnar.</span>{(error||session.error)&&<p role="alert">{error??session.error}</p>}</>}
     coach={!fulltime?<div ref={coachRef} tabIndex={-1} aria-label="Byten och instruktioner"><LiveCoachPanel session={session} team={team} busy={busy} outId={outId} inId={inId} onOut={id=>{setOutId(id);setInId('');}} onIn={setInId} onSubstitute={()=>{apply({kind:'SUBSTITUTION',team,outId,inId});setOutId('');setInId('');}} onCommand={apply} recent={recent} showEvents={false}/></div>:undefined}
-    experimental={<div className="game-court-stage">{finishing?<Court frame={observedFrame(session)} people={session.people}/>:<LiveCourt key={session.fixture.id} session={session} playing={playing} speed={speed}/>}</div>}
+    experimental={<div className="game-court-stage">{finishing?<Court frame={observedFrame(session)} people={session.people} colors={matchColors(session.fixture.homeClubId,session.fixture.awayClubId)}/>:<LiveCourt key={session.fixture.id} session={session} playing={playing} speed={speed}/>}</div>}
   /></>;
 }

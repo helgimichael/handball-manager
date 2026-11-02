@@ -2,6 +2,7 @@
 import { MatchHero } from '@/components/game/Identity';
 import { PageHeading } from '@/components/manager/Workspace';
 import MatchContext from "@/components/manager/MatchContext";
+import { MatchdayStage } from "@/components/matchday/Matchday";
 
 import { useRouter } from "next/navigation";
 import { useState } from 'react';
@@ -92,6 +93,7 @@ export default function MatchPreviewPage() {
       {error && <div role="alert" className="hm-panel-body">{error}</div>}
       {lineupErrors.length > 0 && <div role="alert" className="hm-panel-body">{lineupErrors.join(' ')} <Link href="/career/tactics">{isManualLineupCareer(career) ? 'Välj startsju i Taktik →' : 'Öppna Taktik och uppdatera startsjuan.'}</Link></div>}
       <PageHeading eyebrow={fixture.kickoffTime ? `${fixture.date} · ${fixture.kickoffTime}` : fixture.date} title="Matchförhandsvisning" description="Laget, motståndaren och planen inför avkast." />
+      <MatchdayStage fixture={fixture} matchday={isMatchdayReady} />
       <MatchHero career={career} fixture={fixture} context={isMatchdayReady ? 'MATCHDAG' : 'INFÖR AVKAST'}>
         {isMatchdayReady ? <><button type="button" className="hm-btn hm-btn-primary" disabled={lineupErrors.length > 0} onClick={handlePlayMatch}>{hasActiveSessionForFixture ? "FORTSÄTT MATCH →" : "STARTA MATCH →"}</button><button type="button" className="hm-btn" disabled={lineupErrors.length > 0} onClick={handleQuickResult}>SNABBRESULTAT</button></> : <span>Fortsätt säsongen till matchdagen för att spela.</span>}
       </MatchHero>

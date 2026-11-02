@@ -152,6 +152,8 @@ export interface MediaState {
   week: { key: string; count: number };
   /** The assistant answers routine interviews. */
   delegatePress?: boolean;
+  /** HM-ALPHA3-M09: what followed each of the manager's matches (pressure kept or broken, derby, big stakes). */
+  aftermath?: Record<string, Consequence[]>;
   lastWeekly?: string;
   lastResultsDate?: string;
 }

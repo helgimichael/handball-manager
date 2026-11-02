@@ -11,7 +11,9 @@ import { competitionTable } from "../competition/tables";
 import { HANDBOLLSLIGAN } from "../competition/rules";
 import { formatEur } from "../economy/currency";
 import { getClub } from "../game-data";
-import { addDaysIso, managerMatchesPlayed } from "../players/dynamicsState";
+import { addDaysIso, managerMatchesPlayed, managerSquadIds } from "../players/dynamicsState";
+import { addMoraleShock } from "../players/morale";
+import type { Consequence } from "./types";
 import { matchWinnerClubId } from "@handball-manager/game-simulation";
 import { adjustRelation, coachPersona, derbyName, hash, headCoachOf, mediaOf, relationOf, rivalryBetween, withMedia } from "./people";
 import { clubShort, playerName, publish, type WorldEvent } from "./newsEngine";
@@ -130,6 +132,7 @@ function ownResult(state: CareerState, f: CareerFixture, date: string, emit: Emi
   if (controversy) topics.push({ topic: "REFEREE", opponentId: opp, detail: `${ownSusp} utvisningar mot ${oppSusp}.` });
   if (stakes.level >= 4 || (stakes.level >= 3 && (stakes.derby || stakes.formerClub)) || upsetWin || heavy || controversy) topics.push({ topic: won ? "AFTER_WIN" : "AFTER_DEFEAT", opponentId: opp, derby: !!stakes.derby });
   if (topics.length) next = openPress(next, date, { key: `post:${f.id}`, kind: "POST_MATCH", title: `Efter ${clubShort(f.homeClubId)}–${clubShort(f.awayClubId)}`, context: `${r.homeGoals}–${r.awayGoals}.${stakes.labels.length ? ` ${stakes.labels.join(" · ")}.` : ""}`, fixtureId: f.id, expiresOn: addDaysIso(date, 2), topics }, emit);
+  next = aftermath(next, f, stakes, won, lost);
   // The rival coach has his say.
   if (stakes.rival) next = rivalAfter(next, f, date, won, lost, Math.abs(ownG - oppG), stakes.rival.staffId);
   // Form: three defeats in a row.
@@ -322,3 +325,24 @@ function roundUp(state: CareerState, date: string): CareerState {
   return publish(next, { key: `roundup:${date}`, kind: "MATCH_REPORT", date, importance: 2, onlyOutlets: ["handbollskanalen"], clubIds: [biggest.homeClubId, biggest.awayClubId], topFlight: true, fixtureId: biggest.id, facts: { home: biggest.homeClubId, away: biggest.awayClubId, hg: br.homeGoals, ag: br.awayGoals, ownSide: "home", roundup: true, leader: leader.clubId, leaderPoints: leader.points }, destinations: [{ route: "COMPETITION", competitionId: comp }] });
 }
 
+
+/** What a result means beyond the table: words before the match are judged, derbies and finals are felt. Bounded and recorded. */
+function aftermath(state: CareerState, f: CareerFixture, stakes: MatchStakes, won: boolean, lost: boolean): CareerState {
+  const out: Consequence[] = [];
+  const pressure = mediaOf(state).pressure[f.id];
+  let supporters = 0, board = 0, team = 0;
+  if (pressure && pressure.level >= 2) {
+    if (lost) { supporters -= 2; board -= 1; out.push({ area: "SUPPORTERS", delta: -2, text: "Du lovade mer före matchen" }, { area: "BOARD", delta: -1, text: "Styrelsen noterade de stora orden" }); }
+    else if (won) { supporters += 1; out.push({ area: "SUPPORTERS", delta: 1, text: "Orden före matchen höll" }); }
+  }
+  if (stakes.derby) {
+    if (won) { supporters += 3; team += 2; out.push({ area: "SUPPORTERS", delta: 3, text: "Derbysegern firades" }, { area: "TEAM", delta: 2, text: "Truppen bär derbysegern med sig" }); }
+    else if (lost) { supporters -= 3; team -= 1; out.push({ area: "SUPPORTERS", delta: -3, text: "Derbyförlusten svider" }, { area: "TEAM", delta: -1, text: "Tungt i omklädningsrummet efter derbyt" }); }
+  }
+  if (stakes.level >= 5 && won) { board += 2; out.push({ area: "BOARD", delta: 2, text: "En final vunnen" }); }
+  if (stakes.formerClub && won) out.push({ area: "REPUTATION", delta: 0, text: "Segern mot din gamla klubb noterades" });
+  if (!out.length) return state;
+  let next = withMedia(state, (m) => ({ ...m, supporters: Math.max(-50, Math.min(50, m.supporters + supporters)), boardMood: Math.max(-6, Math.min(6, m.boardMood + board)), aftermath: { ...(m.aftermath ?? {}), [f.id]: out } }));
+  if (team) for (const id of managerSquadIds(next)) next = addMoraleShock(next, id, team, team > 0 ? "Derbysegern" : "Derbyförlusten", 10);
+  return next;
+}

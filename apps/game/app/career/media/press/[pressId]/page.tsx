@@ -31,23 +31,23 @@ export default function PressPage() {
   const assistant = (career.staffRoster[career.playerClubId] ?? []).find((m) => m.roles[0] === "ASSISTANT_COACH");
 
   return (
-    <div className="mc-press-page">
+    <div className="md-press-page">
       <MomentHero tone={open ? "signal" : "ink"} size="compact" backdrop={{ kind: "photo", style: PRESSROOM_BACKDROP }} tags={[false, press.kind === "PRE_MATCH" ? "Före matchen" : press.kind === "POST_MATCH" ? "Efter matchen" : "Intervju", press.date]} stamp={open ? null : press.status === "EXPIRED" ? "Inga svar" : "Avslutad"} headline={press.title} lede={press.context} />
       <Link className="hm-btn hm-btn-sm" href="/career/media?tab=press">← Presskonferenser</Link>
       {!open && press.consequences ? (
         <section className="bd-panel" aria-label="Följder">
           <header><span className="xp-eyebrow">{press.answeredBy && press.answeredBy !== "MANAGER" ? `${press.answeredBy.name} svarade` : "Du svarade"}</span><h2>Vad det ledde till</h2></header>
-          {press.consequences.length === 0 ? <p className="pd-note">Inga märkbara följder.</p> : <ul className="mc-effects">{press.consequences.map((c, i) => <li key={i} data-sign={c.delta >= 0 ? "plus" : "minus"}><b>{AREA_LABEL[c.area]}</b>{c.text}</li>)}</ul>}
+          {press.consequences.length === 0 ? <p className="pd-note">Inga märkbara följder.</p> : <ul className="md-effects">{press.consequences.map((c, i) => <li key={i} data-sign={c.delta >= 0 ? "plus" : "minus"}><b>{AREA_LABEL[c.area]}</b>{c.text}</li>)}</ul>}
         </section>
       ) : null}
-      <ol className="mc-questions">{press.questions.map((q) => {
+      <ol className="md-questions">{press.questions.map((q) => {
         const j = media.journalists[q.journalistId];
         const chosen = open ? answers[q.id] : press.answers?.[q.id];
         return (
           <li key={q.id}>
             <header>{j && <OutletChip outletId={j.outletId} />}<span>{j?.name}</span></header>
-            <p className="mc-q">{q.text}</p>
-            <fieldset className="mc-answers" disabled={!open}>
+            <p className="md-q">{q.text}</p>
+            <fieldset className="md-answers" disabled={!open}>
               <legend className="sr-only">Ditt svar</legend>
               {q.answers.map((a) => (
                 <label key={a.tone} data-chosen={chosen === a.tone || undefined}>
