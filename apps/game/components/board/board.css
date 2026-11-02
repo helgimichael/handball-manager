@@ -1,0 +1,71 @@
+/* HM-ALPHA3-M07: the Boardroom and the manager's career -- paper panels,
+   navy ink, verdict colours (green pleased, gold concerned, red warning). */
+.bd-page { display: grid; gap: 18px; padding-bottom: 24px; min-width: 0; }
+.bd-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 16px; align-items: start; }
+.bd-panel { display: grid; gap: 12px; padding: 18px 20px; background: var(--hm-surface-1); border-top: 3px solid var(--game-ink); min-width: 0; }
+.bd-panel > header h2 { margin: 2px 0 0; font-family: var(--game-font-display); font-weight: 400; font-size: 26px; text-transform: uppercase; }
+.bd-subhead { margin: 6px 0 0; font-size: 11.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--hm-text-secondary); }
+.bd-hero-figure { display: grid; justify-items: end; color: #f8f3e9; }
+.bd-hero-figure b { font-family: var(--game-font-display); font-weight: 400; font-size: clamp(54px, 6vw, 88px); line-height: .9; }
+.bd-hero-figure small { font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; opacity: .8; }
+.bd-trend { width: 100%; max-width: 420px; height: 80px; background: var(--hm-surface-2); }
+.bd-trend polyline { fill: none; stroke: var(--game-ink); stroke-width: 2; vector-effect: non-scaling-stroke; }
+.bd-trend circle { fill: var(--game-ink); }
+.bd-trend-line { stroke-width: 1; stroke-dasharray: 4 4; vector-effect: non-scaling-stroke; }
+.bd-trend-line[data-line="warning"] { stroke: #c08a2c; }
+.bd-trend-line[data-line="dismissal"] { stroke: #a93219; }
+.bd-factors, .bd-objectives, .bd-meetings, .bd-stints, .bd-vacancies { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.bd-factors li { display: flex; justify-content: space-between; gap: 12px; padding: 7px 10px; background: var(--hm-surface-2); font-size: 13px; border-left: 4px solid var(--hm-border-strong); }
+.bd-factors li[data-sign="plus"] { border-left-color: #3f7a52; }
+.bd-factors li[data-sign="minus"] { border-left-color: #a93219; }
+.bd-factors b { font-variant-numeric: tabular-nums; }
+.bd-objectives li { display: grid; gap: 4px; padding: 10px 12px; background: var(--hm-surface-2); border-left: 4px solid var(--hm-border-strong); }
+.bd-objectives li > div { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.bd-objectives small { font-size: 12.5px; color: var(--hm-text-secondary); }
+.bd-objectives .bd-progress { color: inherit; font-weight: 600; }
+.bd-objectives li[data-status="ON_TRACK"], .bd-objectives li[data-status="MET"] { border-left-color: #3f7a52; }
+.bd-objectives li[data-status="AT_RISK"], .bd-objectives li[data-status="PARTLY_MET"] { border-left-color: #c08a2c; }
+.bd-objectives li[data-status="FAILED"] { border-left-color: #a93219; }
+.tc-pill[data-status="ON_TRACK"], .tc-pill[data-status="MET"] { background: #d1e1d5; color: #284c33; }
+.tc-pill[data-status="AT_RISK"], .tc-pill[data-status="PARTLY_MET"] { background: #e8dcc6; color: #6a4a19; }
+.tc-pill[data-status="FAILED"] { background: #f0d5cf; color: #7c2412; }
+.bd-contract { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin: 0; }
+.bd-contract div { display: grid; gap: 2px; padding: 10px 12px; background: var(--hm-surface-2); }
+.bd-contract dt { font-size: 10.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--hm-text-secondary); }
+.bd-contract dd { margin: 0; font-weight: 700; font-variant-numeric: tabular-nums; }
+.bd-meetings li { display: grid; grid-template-columns: 92px minmax(0, 1fr) auto; gap: 2px 12px; padding: 8px 10px; background: var(--hm-surface-2); font-size: 13px; border-left: 4px solid var(--hm-border-strong); }
+.bd-meetings time { color: var(--hm-text-secondary); font-variant-numeric: tabular-nums; }
+.bd-meetings small { grid-column: 2 / -1; color: var(--hm-text-secondary); font-size: 12px; }
+.bd-meetings em { grid-column: 3; grid-row: 1; font-style: normal; font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+.bd-meetings li[data-verdict="PLEASED"] { border-left-color: #3f7a52; }
+.bd-meetings li[data-verdict="CONCERNED"], .bd-meetings li[data-verdict="WARNING"] { border-left-color: #c08a2c; }
+.bd-meetings li[data-verdict="DISMISSED"] { border-left-color: #a93219; }
+.bd-tabs { display: inline-flex; border: 1px solid var(--hm-border-strong); justify-self: start; }
+.bd-tabs button { font: inherit; font-size: 13px; font-weight: 700; padding: 8px 14px; border: 0; background: transparent; color: var(--hm-text-secondary); cursor: pointer; }
+.bd-tabs button + button { border-left: 1px solid var(--hm-border-strong); }
+.bd-tabs button[aria-selected="true"] { background: var(--game-ink); color: #f8f3e9; }
+.bd-tabs button:focus-visible { outline: 3px solid var(--hm-accent); outline-offset: -3px; }
+.bd-stints li { display: grid; gap: 8px; padding: 10px 12px; background: var(--hm-surface-2); }
+.bd-stints li > div { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.bd-stints small { color: var(--hm-text-secondary); font-size: 12px; }
+.bd-jobs { display: grid; gap: 16px; }
+.bd-offers { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 12px; }
+.bd-offer-title { display: inline-flex; align-items: center; gap: 10px; }
+.bd-vacancies li { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 10px 12px; background: var(--hm-surface-2); }
+.bd-vacancies li > div { display: grid; gap: 2px; min-width: 0; }
+.bd-vacancies small { font-size: 12px; color: var(--hm-text-secondary); }
+.bd-apps { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 12px; }
+.bd-app { display: grid; gap: 10px; padding: 12px 14px; background: var(--hm-surface-2); border-top: 3px solid var(--hm-border-strong); }
+.bd-app[data-status="INTERVIEW"] { border-top-color: #c08a2c; }
+.bd-app[data-status="OFFERED"] { border-top-color: #3f7a52; }
+.bd-app[data-status="REJECTED"] { border-top-color: #a93219; }
+.bd-app > header { display: flex; align-items: center; gap: 10px; }
+.bd-app > header .tc-pill { margin-left: auto; }
+.bd-question { display: grid; gap: 6px; margin: 0; padding: 0; border: 0; }
+.bd-question legend { font-weight: 700; margin-bottom: 4px; }
+.bd-question label { display: flex; gap: 8px; align-items: baseline; font-size: 13.5px; cursor: pointer; }
+.game-board-card { display: grid; gap: 10px; }
+.game-board-card ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.game-board-card li { display: flex; justify-content: space-between; gap: 8px; font-size: 13px; }
+@media (max-width: 1000px) { .bd-grid { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 640px) { .bd-contract { grid-template-columns: repeat(2, minmax(0, 1fr)); } .bd-meetings li { grid-template-columns: minmax(0, 1fr) auto; } .bd-meetings time, .bd-meetings small { grid-column: 1 / -1; } }

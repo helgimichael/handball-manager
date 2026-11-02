@@ -249,5 +249,6 @@
     "lib/economy/boardBudgetConsistency.test.ts",
     "lib/staff/staffProfileRoute.test.ts",
     "lib/players/playerDynamics.test.ts",
-    "lib/delegation/scoutingDelegation.test.ts"
+    "lib/delegation/scoutingDelegation.test.ts",
+    "lib/board/boardCareer.test.ts"
 ]

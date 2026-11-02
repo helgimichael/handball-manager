@@ -3,6 +3,7 @@ import type { CareerState } from './types';
 import { buildNewSeasonCalendar } from '../competition/seasonCalendar';
 import { competitionTable, hasLeagueCalendar } from '../competition/tables';
 import { ALLSVENSKAN, HANDBOLLSLIGAN } from '../competition/rules';
+import { recordSeasonQuietly } from '../manager/managerCareer';
 
 /** Starts the next calendar while keeping the offseason days in the daily world tick.
  * Contracts, ageing, medical recovery and transfers are not skipped by a date jump.
@@ -13,8 +14,11 @@ import { ALLSVENSKAN, HANDBOLLSLIGAN } from '../competition/rules';
  * (Svenska cupen follows on the first processed day). The finished season
  * is archived with its outcome, both final tables and every knockout tie.
  */
-export function rolloverSeason(state: CareerState): CareerState {
-  if (!state.seasonComplete || state.productionMatch) return state;
+export function rolloverSeason(input: CareerState): CareerState {
+  if (!input.seasonComplete || input.productionMatch) return input;
+  // HM-ALPHA3-M07: a season that ended before the board existed is recorded in the career, quietly (no review, no dismissal).
+  // Seasons played with M07 were already reviewed on their last day.
+  const state = recordSeasonQuietly(input);
   const year = Number(state.seasonId.slice(0, 4)) + 1;
   const seasonId = `${year}/${String(year + 1).slice(-2)}`;
   const kickoff = `${year}-09-20`;

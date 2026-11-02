@@ -82,6 +82,8 @@ import { ensureSeasonCalendar } from "../competition/seasonCalendar";
 import { progressTransferNegotiations } from "../transfers/negotiationIntegration";
 import { progressPlayerDynamics } from "../players/playerDynamicsTick";
 import { progressDelegation } from "../delegation/delegation";
+import { progressBoard } from "../board/board";
+import { closeManagerSeason, dismissManager, progressManagerCareer } from "../manager/managerCareer";
 
 export interface DailyTickResult {
   state: CareerState;
@@ -276,6 +278,13 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
   // loan whose endDate has been reached -- same "check a stored date,
   // mutate once" idiom as step 2's player-availability return above.
   next = progressDailyTransfers(next, date);
+  // HM-ALPHA3-M07: the board (objectives, monthly confidence, meetings) and the manager's career
+  // (job market, interviews, contract) -- before the CPU staff market, so an open head-coach vacancy
+  // is held for applicants.
+  const boardEvents: CareerEvent[] = [];
+  next = progressBoard(next, date, (event) => boardEvents.push(event), (s, reason) => dismissManager(s, date, reason, (event) => boardEvents.push(event)));
+  next = progressManagerCareer(next, date, (event) => boardEvents.push(event));
+  boardEvents.forEach(emit);
   // HM-ALPHA3-M04: staff market, negotiations, contracts, CPU staff moves.
   const staffEvents: CareerEvent[] = [];
   next = progressStaff(next, date, (event) => staffEvents.push(event));
@@ -370,6 +379,12 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
 
   // --- Season completion (only possible once the manager's own fixtures are also resolved -- see matchdayAction.ts) ---
   next = checkSeasonComplete(next);
+  // HM-ALPHA3-M07: the board's season review and the career record, the day the season ends.
+  if (next.seasonComplete) {
+    const seasonEndEvents: CareerEvent[] = [];
+    next = closeManagerSeason(next, date, (event) => seasonEndEvents.push(event));
+    seasonEndEvents.forEach(emit);
+  }
 
   // --- 1. Date / Calendar (bookkeeping close-out) ---------------------------
   next = { ...next, gameDate: date, processedThroughDate: date };

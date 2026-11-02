@@ -54,6 +54,9 @@ export const CAREER_NAV_ITEMS: readonly CareerNavItem[] = [
   { id: "staff", label: "Personal", href: "/career/staff", icon: "staff", ownsPrefixes: ["/career/staff/"] },
   { id: "medical", label: "Medicinskt", href: "/career/medical", icon: "medical", ownsPrefixes: [] },
   { id: "club", label: "Klubb", href: "/career/club", icon: "club", ownsPrefixes: ["/career/club/", "/career/clubs/"] },
+  // HM-ALPHA3-M07: the Boardroom (objectives, confidence, meetings) and the manager's own career (profile, history, job market).
+  { id: "board", label: "Styrelsen", href: "/career/board", icon: "board", ownsPrefixes: [] },
+  { id: "manager", label: "Karriär", href: "/career/manager", icon: "manager", ownsPrefixes: [] },
   // HM-ALPHA3-M02: the Financial Centre.
   { id: "finance", label: "Ekonomi", href: "/career/finance", icon: "finance", ownsPrefixes: [] },
   // HM-ALPHA3-M03: the season hub -- tables, SM-slutspel, kval, Svenska cupen, awards.

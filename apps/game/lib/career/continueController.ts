@@ -39,7 +39,8 @@ export function continueCareerRhythm(state: CareerState): ContinueResult {
   }
 
   const pendingAction = state.careerEvents.find((e) => e.requiresAction && !e.resolved);
-  if (pendingAction) {
+  // HM-ALPHA3-M07: a manager without a club picks one before the world moves on.
+  if (pendingAction || state.managerCareer?.seekingJob) {
     // Spec S19/S22: Continue cannot silently pass an unresolved
     // ACTION_REQUIRED event -- not even to process a fresh day.
     return { state, events: [], stopReason: "ACTION_REQUIRED_PENDING", daysProcessed: 0 };

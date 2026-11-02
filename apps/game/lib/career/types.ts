@@ -20,6 +20,7 @@ import type { StaffClubHistory } from "../staff/staffHistoryTypes";
 import type { PlayerInjuryState } from "../medical/types";
 import type { IncomingOffer, PlayerDynamicsState, PreContract, RenewalTalk } from "../players/types";
 import type { DelegationState } from "../delegation/types";
+import type { BoardState, ManagerCareerState } from "../board/types";
 import type { PlayerClubHistory, PlayerContract } from "../economy/types";
 import type { ClubEconomyBaseline } from "../economy/clubEconomyTypes";
 import type { LoanRecord, TransferNegotiation, TransferOffer } from "../transfers/types";
@@ -542,6 +543,11 @@ export type CareerState = {
   preContracts?: Record<string, PreContract>;
   // --- HM-ALPHA3-M06: delegation of responsibilities (lib/delegation) ---
   delegation?: DelegationState;
+  // --- HM-ALPHA3-M07: the board and the manager's own career (lib/board, lib/manager) ---
+  /** The current employer's board: objectives, confidence, meetings. Rebuilt when the manager changes club. */
+  board?: BoardState;
+  /** Reputation, contract, history, job market. Created lazily for older saves. */
+  managerCareer?: ManagerCareerState;
 
   // --- HM-TRANSFERS-1.0 addition (career-state schema v24, see saveMigration.ts) ---
 

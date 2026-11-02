@@ -124,7 +124,7 @@ export function DecisionCard({ tone, title, children, primary, secondary, status
   return (
     <section className="xp-decision" data-tone={tone} aria-label={typeof title === "string" ? title : undefined}>
       <header><h3>{title}</h3>{status}</header>
-      {children && <p>{children}</p>}
+      {children && (typeof children === "string" || typeof children === "number" ? <p>{children}</p> : <div className="xp-decision-body">{children}</div>)}
       {primary && (
         <button type="button" className="xp-decision-primary" onClick={primary.onSelect} disabled={primary.disabled}>
           <strong>{primary.label}</strong>

@@ -375,6 +375,8 @@ async function saveCareerStateNow(saveId: string, careerState: CareerState): Pro
     ...save,
     careerState: storedCareer,
     schemaVersion: CURRENT_SAVE_SCHEMA_VERSION,
+    // HM-ALPHA3-M07: the manager can change club; the save list follows him.
+    clubId: careerState.playerClubId,
     gameDate: careerState.gameDate,
     lastPlayedAt: new Date().toISOString(),
   });

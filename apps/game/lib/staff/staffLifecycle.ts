@@ -104,6 +104,8 @@ function cpuStaffMarket(state: CareerState, date: string, emit: Emit): CareerSta
     // Core vacancies.
     for (const role of CORE_ROLES) {
       if ((next.staffRoster[clubId] ?? []).some((m) => m.roles.includes(role))) continue;
+      // HM-ALPHA3-M07: a head-coach vacancy stays open for applicants (the manager among them) until it closes.
+      if (role === "HEAD_COACH" && next.managerCareer?.vacancies.some((v) => v.clubId === clubId && v.closesOn >= date)) continue;
       next = fillVacancy(next, clubId, role, date, emit);
     }
   }

@@ -319,13 +319,16 @@ export function progressPreContracts(state: CareerState, date: string, emit: Emi
   }
   // The move itself, on the last day of his contract (before the expiry sweep releases him).
   for (const pc of Object.values(next.preContracts ?? {})) {
-    if (pc.effectiveOn > date || next.playerContracts[pc.playerId]?.clubId !== next.playerClubId) continue;
+    // The agreement binds the player, not the manager: it holds even if the manager has since moved on (M07).
+    const fromClubId = next.playerContracts[pc.playerId]?.clubId;
+    if (pc.effectiveOn > date || !fromClubId || fromClubId === pc.toClubId) continue;
     const name = playerName(next, pc.playerId);
-    next = transferPlayerPermanently(next, pc.playerId, next.playerClubId, pc.toClubId, pc.wageEurPerMonth, `${seasonEndYear(addDaysIso(date, 1)) + 2}-05-31`);
-    next = closePlayerDynamics(next, pc.playerId);
-    next = recordDeparture(next, { playerId: pc.playerId, playerName: name, toClubId: pc.toClubId, date, kind: "PRE_CONTRACT", feeEur: 0 });
+    next = transferPlayerPermanently(next, pc.playerId, fromClubId, pc.toClubId, pc.wageEurPerMonth, `${seasonEndYear(addDaysIso(date, 1)) + 2}-05-31`);
     const { [pc.playerId]: _done, ...rest } = next.preContracts ?? {};
     next = { ...next, preContracts: rest };
+    if (fromClubId !== next.playerClubId) continue;
+    next = closePlayerDynamics(next, pc.playerId);
+    next = recordDeparture(next, { playerId: pc.playerId, playerName: name, toClubId: pc.toClubId, date, kind: "PRE_CONTRACT", feeEur: 0 });
     emit(dynamicsEvent(`precontract:${pc.playerId}:moved`, date, "INFORMATION", `${name} har lämnat`, `Förhandsavtalet med ${getClub(pc.toClubId)?.shortName ?? pc.toClubId} gäller från i dag.`, pc.playerId));
   }
   return next;
