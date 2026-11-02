@@ -76,7 +76,7 @@ export default function ResponsibilitiesPage() {
             const who = delegateFor(career, p.area);
             return (
               <DecisionCard key={p.id} tone="gold" title={p.title} status={<span className="tc-pill">{RESPONSIBILITY_LABEL[p.area]} · till {p.expiresOn}</span>}
-                primary={{ label: "Godkänn", consequence: p.consequence, onSelect: () => run(() => updateCareer((s) => approveProposal(s, p.id)), "Förslaget är godkänt.") }}
+                primary={{ label: "Godkänn", consequence: money.text(p.consequence), onSelect: () => run(() => updateCareer((s) => approveProposal(s, p.id)), "Förslaget är godkänt.") }}
                 secondary={<button type="button" className="hm-btn" onClick={() => run(() => updateCareer((s) => rejectProposal(s, p.id)), "Förslaget är avslaget.")}>Avslå</button>}>
                 <p className="pd-note"><b>{who?.name ?? "Staben"}:</b> {money.text(p.reason)}</p>
                 {p.action.kind === "OPEN_NEGOTIATION" && <Link className="hm-btn hm-btn-sm" href={`/career/transfers/${encodeURIComponent(p.action.playerId)}`}>Titta på spelaren först →</Link>}

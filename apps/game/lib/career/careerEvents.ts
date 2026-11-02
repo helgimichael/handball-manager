@@ -43,7 +43,9 @@ export type CareerEventType =
   // HM-ALPHA3-M07: board objectives, confidence, reviews, warnings, dismissal.
   | "BOARD_UPDATE"
   // HM-ALPHA3-M07: the manager's own career -- contract, approaches, vacancies, interviews, offers.
-  | "MANAGER_CAREER";
+  | "MANAGER_CAREER"
+  // HM-ALPHA3-M08: stories, press conferences, rival comments and disciplinary decisions.
+  | "MEDIA";
 
 /** Spec S3: the three-tier priority model. */
 export type EventPriority = "INFORMATION" | "IMPORTANT" | "ACTION_REQUIRED";
@@ -92,6 +94,9 @@ export type EventDestination =
   | { route: "BOARDROOM" }
   | { route: "MANAGER" }
   | { route: "JOB_MARKET" }
+  | { route: "MEDIA" }
+  | { route: "MEDIA_STORY"; storyId: string }
+  | { route: "PRESS"; pressId: string }
   | { route: "ANALYSIS_OVERVIEW" }
   | { route: "ANALYSIS_OPPONENT" }
   | { route: "ANALYSIS_OUR_TEAM" }
@@ -321,7 +326,7 @@ export function buildTransferNegotiationEvent(id: string, date: string, subject:
 }
 
 /** HM-ALPHA3: finance, season, staff, player-dynamics, offer, delegation, board and manager-career events. `key` must be stable per semantic event (it is the dedup id). */
-export function buildClubEvent(type: "CLUB_FINANCE" | "SEASON_MILESTONE" | "STAFF_UPDATE" | "PLAYER_DYNAMICS" | "TRANSFER_OFFER" | "DELEGATION_REPORT" | "BOARD_UPDATE" | "MANAGER_CAREER", key: string, date: string, priority: EventPriority, subject: string, summary: string, destinations: EventDestination[], primaryEntity?: EntityRef): CareerEvent {
+export function buildClubEvent(type: "CLUB_FINANCE" | "SEASON_MILESTONE" | "STAFF_UPDATE" | "PLAYER_DYNAMICS" | "TRANSFER_OFFER" | "DELEGATION_REPORT" | "BOARD_UPDATE" | "MANAGER_CAREER" | "MEDIA", key: string, date: string, priority: EventPriority, subject: string, summary: string, destinations: EventDestination[], primaryEntity?: EntityRef): CareerEvent {
   return baseEvent(`${type}:${key}`, type, date, priority, subject, summary, destinations, primaryEntity ? { primaryEntity } : undefined);
 }
 

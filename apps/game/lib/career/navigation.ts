@@ -31,6 +31,8 @@ export interface CareerNavItem {
 export const CAREER_NAV_ITEMS: readonly CareerNavItem[] = [
   { id: "home", label: "Hem", href: "/career", icon: "home", ownsPrefixes: [] },
   { id: "inbox", label: "Inkorg", href: "/career/inbox", icon: "inbox", ownsPrefixes: [] },
+  // HM-ALPHA3-M08: the Media Centre -- news, press conferences, rivals, discipline.
+  { id: "media", label: "Media", href: "/career/media", icon: "media", ownsPrefixes: ["/career/media/"] },
   { id: "squad", label: "Trupp", href: "/career/squad", icon: "squad", ownsPrefixes: ["/career/squad/"] },
   { id: "contracts", label: "Kontrakt", href: "/career/contracts", icon: "transfers", ownsPrefixes: ["/career/compare"] },
   { id: "tactics", label: "Taktik", href: "/career/tactics", icon: "tactics", ownsPrefixes: [] },

@@ -157,7 +157,7 @@ function ApplicationCard({ app, onAnswer, onWithdraw }: { app: JobApplication; o
       {app.questions.map((q) => (
         <fieldset key={q.id} className="bd-question">
           <legend>{q.question}</legend>
-          {q.answers.map((ans) => <label key={ans.id}><input type="radio" name={`${app.id}:${q.id}`} value={ans.id} checked={answers[q.id] === ans.id} onChange={() => setAnswers((x) => ({ ...x, [q.id]: ans.id }))} />{ans.label}</label>)}
+          {q.answers.map((ans) => <label key={ans.id}><input type="radio" name={`${app.id}:${q.id}`} value={ans.id} aria-label={ans.label} checked={answers[q.id] === ans.id} onChange={() => setAnswers((x) => ({ ...x, [q.id]: ans.id }))} />{ans.label}</label>)}
         </fieldset>
       ))}
       <div className="hm-actions"><button type="button" className="hm-btn hm-btn-primary" disabled={app.questions.some((q) => !answers[q.id])} onClick={() => onAnswer(answers)}>Lämna svaren</button><button type="button" className="hm-btn" onClick={onWithdraw}>Dra tillbaka</button></div>

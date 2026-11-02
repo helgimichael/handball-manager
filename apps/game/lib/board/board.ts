@@ -186,6 +186,10 @@ export function confidenceFactors(state: CareerState, b: BoardState): Confidence
     if (ppg >= 1.5) out.push({ label: "Bra form de senaste matcherna", points: 5 });
     else if (ppg <= 0.6) out.push({ label: "Svag form de senaste matcherna", points: -6 });
   }
+  // HM-ALPHA3-M08: how the manager handles the media, as the board sees it (bounded, fades monthly).
+  const mood = state.media?.boardMood ?? 0;
+  if (mood >= 2) out.push({ label: "Du hanterar media väl", points: Math.min(4, mood) });
+  else if (mood <= -2) out.push({ label: "Klubben har hamnat i blåsväder i media", points: Math.max(-6, mood) });
   const status = state.clubFinances?.[state.playerClubId]?.status;
   if (status === "CRISIS") out.push({ label: "Klubben är i ekonomisk kris", points: -15 });
   else if (status === "OVERDRAFT") out.push({ label: "Kassan är negativ", points: -6 });

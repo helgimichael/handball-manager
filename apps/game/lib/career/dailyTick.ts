@@ -82,6 +82,7 @@ import { ensureSeasonCalendar } from "../competition/seasonCalendar";
 import { progressTransferNegotiations } from "../transfers/negotiationIntegration";
 import { progressPlayerDynamics } from "../players/playerDynamicsTick";
 import { progressDelegation } from "../delegation/delegation";
+import { progressMedia } from "../media/worldTick";
 import { progressBoard } from "../board/board";
 import { closeManagerSeason, dismissManager, progressManagerCareer } from "../manager/managerCareer";
 
@@ -385,6 +386,11 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
     next = closeManagerSeason(next, date, (event) => seasonEndEvents.push(event));
     seasonEndEvents.forEach(emit);
   }
+
+  // --- HM-ALPHA3-M08: the living world reacts to the day (stories, press, rivals, discipline) ---
+  const mediaEvents: CareerEvent[] = [];
+  next = progressMedia({ ...next, gameDate: date }, date, [...events], (event) => mediaEvents.push(event));
+  mediaEvents.forEach(emit);
 
   // --- 1. Date / Calendar (bookkeeping close-out) ---------------------------
   next = { ...next, gameDate: date, processedThroughDate: date };

@@ -79,9 +79,10 @@ export default function IncomingOfferPage() {
         </section>
 
         <aside className="pd-panel" aria-label="Vad en försäljning innebär">
-          <h3>Om du säljer</h3>
+          {/* A completed sale is already in the cash: show what was booked, never add the fee again. */}
+          <h3>{offer.status === "COMPLETED" ? "Försäljningen" : "Om du säljer"}</h3>
           <dl className="pd-demand">
-            <div><dt>Kassan efter</dt><dd>{money.format(cash + offer.feeEur)}</dd></div>
+            {offer.status === "COMPLETED" ? <div><dt>Inbokat i kassan</dt><dd>{money.format(offer.feeEur)}</dd></div> : <div><dt>Kassan efter</dt><dd>{money.format(cash + offer.feeEur)}</dd></div>}
             <div><dt>Kvar på positionen</dt><dd>{samePos}</dd></div>
             <div><dt>Hans moral</dt><dd>{moraleOf(career, offer.playerId)} %</dd></div>
           </dl>
