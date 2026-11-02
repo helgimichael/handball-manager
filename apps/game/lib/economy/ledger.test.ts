@@ -84,7 +84,7 @@ test("overdraft and crisis: status follows cash, crisis freezes new wages and fe
   const budgets = getClubBudgets(result.state, SKOVDE)!;
   assert.equal(budgets.transferBudgetEur, 0);
   assert.ok(budgets.wageBudgetEur <= Math.round(getClubPlayerWageCostsEurAnnual(result.state, SKOVDE)));
-  assert.ok(result.events.some((e) => e.type === "CLUB_FINANCE" && e.priority === "ACTION_REQUIRED"));
+  assert.ok(result.events.some((e) => e.type === "CLUB_FINANCE" && e.priority === "IMPORTANT" && e.subject.startsWith("Ekonomisk kris")));
   assert.ok(result.state.inbox.some((m) => m.subject.startsWith("Månadsbokslut")));
   assert.throws(() => setBudgetPlan(result.state, 10_000), /fryst/);
 });

@@ -9,6 +9,7 @@ export {
 export { generateDoubleRoundRobin, type GeneratedFixture, type FixtureGeneratorOptions } from "./fixtures";
 export { simulateFixture, simulateSeason, type StrengthLookup, type RosterLookup, type TacticalAdjustment } from "./season";
 export { computeStandings, ALLSVENSKAN_POINTS_RULE, type StandingRow, type CompletedResult, type PointsRule } from "./table";
+export { resolveKnockoutDecider, matchWinnerClubId, type KnockoutDeciderInput } from "./knockout";
 export type {
   ClubStrength,
   TeamMatchStats,
@@ -16,6 +17,7 @@ export type {
   MatchEventType,
   PlayerMatchContribution,
   FastMatchResult,
+  MatchDecider,
   MatchEngineId,
   MatchRosterPlayer,
 } from "./types";

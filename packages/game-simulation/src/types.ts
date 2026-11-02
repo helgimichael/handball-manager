@@ -89,6 +89,16 @@ export type FastMatchResult = {
   /** Only populated for the human club's own players (see Section 9 scope note). */
   homePlayerContributions: readonly PlayerMatchContribution[];
   awayPlayerContributions: readonly PlayerMatchContribution[];
+  /** HM-ALPHA3-M03: how a knockout game level after 60 minutes was decided (see knockout.ts). Absent for every ordinary game. */
+  decider?: MatchDecider;
+};
+
+/** HM-ALPHA3-M03: overtime rounds (2x5 min each) and/or the shootout that decided a knockout game. Overtime goals are included in the match score; shootout goals are not. */
+export type MatchDecider = {
+  overtime: { homeGoals: number; awayGoals: number }[];
+  shootout?: { home: number; away: number; kicks: { side: "HOME" | "AWAY"; scored: boolean }[] };
+  winnerClubId: string;
+  method: "OVERTIME" | "SHOOTOUT";
 };
 
 /**

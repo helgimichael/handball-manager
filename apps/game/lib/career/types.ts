@@ -29,6 +29,7 @@ import type { PlayerPlacement } from "./playerPlacements";
 import type { CpuDecisionLogEntry, CpuRecruitmentPlan } from "./cpuRecruitment";
 import type { ScoutPoolSourceEntry } from "../staff/scoutPool";
 import type { BudgetPlan, ClubFinanceState } from "../economy/ledgerTypes";
+import type { CompetitionTie, SeasonOutcome } from "../competition/types";
 
 /** HM-PRESEASON-1.0: LEAGUE (a simulated league), CUP (the provisional early cup round -- see preseason.ts -- and, from HM-ALPHA3-M03, Svenska cupen ties), or FRIENDLY (manager-booked, never affects standings/season completion). HM-ALPHA3-M03: PLAYOFF (SM-slutspel) and QUALIFIER (kval) games. Only LEAGUE fixtures ever feed a table. */
 export type CareerFixtureType = "LEAGUE" | "CUP" | "FRIENDLY" | "PLAYOFF" | "QUALIFIER";
@@ -91,7 +92,7 @@ export type CareerState = {
   matchArchives?: Record<string, import('./productionMatch').PlayedMatchArchive>;
   matchArchiveIds?: string[];
   matchArchiveSummaries?: Record<string, import('./matchArchiveSummary').MatchArchiveSummary>;
-  seasonHistory?: { seasonId: string; competitionId: string; table: import('@handball-manager/game-simulation').StandingRow[]; stats: Record<string, PlayerSeasonStats> }[];
+  seasonHistory?: { seasonId: string; competitionId: string; table: import('@handball-manager/game-simulation').StandingRow[]; stats: Record<string, PlayerSeasonStats>; /** HM-ALPHA3-M03 */ outcome?: SeasonOutcome; tables?: Record<string, import('@handball-manager/game-simulation').StandingRow[]>; ties?: CompetitionTie[] }[];
   seasonId: string; // e.g. "2026/27"
   competitionId: string; // "swe-2" -- the one fully-simulated competition this pass
   playerClubId: string;
@@ -513,6 +514,10 @@ export type CareerState = {
   budgetPlans?: Record<string, BudgetPlan>;
   /** HM-ALPHA3-M03: competition membership after promotion/relegation, keyed by club id. Absent = the static league in lib/game-data. Read through lib/career/competitionMembership.ts. */
   competitionMembership?: Record<string, string>;
+  /** HM-ALPHA3-M03: SM-slutspel, kval and Svenska cupen ties of the current season (lib/competition). */
+  competitionTies?: Record<string, CompetitionTie>;
+  /** HM-ALPHA3-M03: the current season's competitive state -- phase, winners, promotion/relegation, awards. */
+  seasonOutcome?: SeasonOutcome;
 
   // --- HM-TRANSFERS-1.0 addition (career-state schema v24, see saveMigration.ts) ---
 

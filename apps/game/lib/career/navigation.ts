@@ -56,6 +56,8 @@ export const CAREER_NAV_ITEMS: readonly CareerNavItem[] = [
   { id: "club", label: "Klubb", href: "/career/club", icon: "club", ownsPrefixes: ["/career/club/", "/career/clubs/"] },
   // HM-ALPHA3-M02: the Financial Centre.
   { id: "finance", label: "Ekonomi", href: "/career/finance", icon: "finance", ownsPrefixes: [] },
+  // HM-ALPHA3-M03: the season hub -- tables, SM-slutspel, kval, Svenska cupen, awards.
+  { id: "season", label: "Säsongen", href: "/career/season", icon: "competitions", ownsPrefixes: [] },
   { id: "competitions", label: "Tävlingar", href: "/career/competitions", icon: "competitions", ownsPrefixes: ["/career/competitions/"] },
   { id: "statistics", label: "Statistik", href: "/career/statistics", icon: "analysis", ownsPrefixes: [] },
   { id: "history", label: "Historik", href: "/career/history", icon: "schedule", ownsPrefixes: [] },

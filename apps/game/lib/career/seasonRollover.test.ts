@@ -1,8 +1,8 @@
-// HM-ALPHA3-M01: characterisation tests for the CURRENT season transition,
-// pinned before M3 (Season & Competition) changes formats. These describe
-// what the game does today -- including its known simplifications (fixed
-// 20 September kickoff, unchanged league membership) -- so any change in M3
-// is a deliberate, visible test edit rather than an accident.
+// HM-ALPHA3-M01: characterisation tests for the season transition, pinned
+// before M3 changed formats. HM-ALPHA3-M03 edited them deliberately:
+// membership now follows the season outcome and the new calendar holds both
+// Swedish leagues. The postseason itself (series, kval, cup) is covered by
+// lib/competition/season.test.ts; here a season is marked COMPLETE directly.
 import test from "node:test";
 import assert from "node:assert/strict";
 import { simulateFixture } from "@handball-manager/game-simulation";
@@ -27,11 +27,11 @@ function completedSeason(state: CareerState = freshCareer()): CareerState {
   for (const f of state.fixtures) {
     results[f.id] ??= simulateFixture(f, state.saveSeed, (id) => computeSquadDerivedClubStrength(id, getCareerClubSquad(state, id), state.gameplayRatings[id] ?? []));
   }
-  const played = { ...state, results, gameDate: state.fixtures.at(-1)!.date };
+  const played = { ...state, results, gameDate: state.fixtures.at(-1)!.date, ...(state.seasonOutcome ? { seasonOutcome: { ...state.seasonOutcome, phase: "COMPLETE" as const } } : {}) };
   return checkSeasonComplete(played);
 }
 
-const leagueClubs = (state: CareerState) => [...new Set(state.fixtures.filter((f) => f.type === "LEAGUE").flatMap((f) => [f.homeClubId, f.awayClubId]))].sort();
+const leagueClubs = (state: CareerState, competitionId = state.competitionId) => [...new Set(state.fixtures.filter((f) => f.type === "LEAGUE" && f.competitionId === competitionId).flatMap((f) => [f.homeClubId, f.awayClubId]))].sort();
 
 test("rollover is a no-op until the season is complete, and during a live match", () => {
   const open = freshCareer();
@@ -53,13 +53,14 @@ test("season id advances one year and the new calendar starts on the fixed 20 Se
   assert.equal(next.gameDate, done.gameDate);
 });
 
-test("league membership is unchanged and the new schedule is a full double round robin of league fixtures only", () => {
+test("without a decided outcome membership is unchanged; the new calendar is a full double round robin per Swedish league", () => {
   const done = completedSeason();
   const next = rolloverSeason(done);
   const clubs = leagueClubs(done);
-  assert.deepEqual(leagueClubs(next), clubs, "no promotion or relegation yet (M3)");
-  assert.equal(next.fixtures.length, clubs.length * (clubs.length - 1));
-  assert.ok(next.fixtures.every((f) => f.type === "LEAGUE"), "preseason cup and friendlies are not regenerated");
+  assert.deepEqual(leagueClubs(next), clubs, "no promotion or relegation was decided for this season");
+  assert.equal(next.fixtures.filter((f) => f.competitionId === next.competitionId).length, clubs.length * (clubs.length - 1));
+  assert.equal(leagueClubs(next, "se_handbollsligan_herr").length, 14, "M03: the other Swedish tier is played too");
+  assert.ok(next.fixtures.every((f) => f.type === "LEAGUE"), "preseason cup and friendlies are not regenerated (Svenska cupen follows on the first processed day)");
   for (const club of clubs) {
     const home = next.fixtures.filter((f) => f.homeClubId === club).length;
     const away = next.fixtures.filter((f) => f.awayClubId === club).length;

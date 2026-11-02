@@ -76,6 +76,8 @@ import { applyCpuDailyCondition } from "./cpuCondition";
 import { applyPlacementDevelopmentStimulus, applyTrainingDayDevelopmentStimulus, resolveWeeklyDevelopmentIfDue } from "../development/developmentIntegration";
 import { progressDailyTransfers } from "../transfers/transferIntegration";
 import { progressClubFinances } from "../economy/financeTick";
+import { progressCompetitions } from "../competition/season";
+import { ensureSeasonCalendar } from "../competition/seasonCalendar";
 import { progressTransferNegotiations } from "../transfers/negotiationIntegration";
 
 export interface DailyTickResult {
@@ -345,6 +347,11 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
   if (aiResults.length > 0) {
     emit(buildCompetitionUpdateEvent(date, next.competitionId));
   }
+
+  // --- HM-ALPHA3-M03: postseason, series, kval, cup, season outcome ---
+  const competitionEvents: CareerEvent[] = [];
+  next = progressCompetitions(ensureSeasonCalendar(next), date, (event) => competitionEvents.push(event));
+  competitionEvents.forEach(emit);
 
   // --- Season completion (only possible once the manager's own fixtures are also resolved -- see matchdayAction.ts) ---
   next = checkSeasonComplete(next);

@@ -10,6 +10,7 @@
 // Rhythm does not recreate match-result logic (Spec S37.15).
 
 import { simulateFixture, type FastMatchResult } from "@handball-manager/game-simulation";
+import { applyKnockoutDecider } from "../../competition/season";
 import { isSpatialMatchFailure, playCareerFixtureSpatially } from "../spatialMatch/spatialCareerMatch";
 import { computeSquadDerivedClubStrength } from "../squadDerivedClubStrength";
 import { checkSeasonComplete, getPlayerFixtureOn } from "../calendar";
@@ -242,7 +243,7 @@ export function playManagerFixtureLegacy(state: CareerState): PlayManagerFixture
   // fixture is stamped `engine: "FAST"` and is honestly not migrated. The two
   // are never both run, and never merged.
   const spatial = playCareerFixtureSpatially(state, fixture);
-  const result: FastMatchResult = isSpatialMatchFailure(spatial)
+  const regulation: FastMatchResult = isSpatialMatchFailure(spatial)
     ? {
         ...simulateFixture(
           fixture,
@@ -254,6 +255,8 @@ export function playManagerFixtureLegacy(state: CareerState): PlayManagerFixture
         engine: "FAST",
       }
     : spatial.result;
+  // HM-ALPHA3-M03: overtime/shootout for a level knockout game; regulation untouched.
+  const result = applyKnockoutDecider(state, fixture, regulation);
 
   // HM-PHYSICAL-1.0 Part 21, updated by HM-MATCH-USAGE-1.4 Part 14/24
   // #23/24: the SAME per-player energy trajectories playerStrength's own

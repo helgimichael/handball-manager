@@ -18,7 +18,7 @@ const [clubId = "se_club_ifk_skovde_hk", until = "2026-12-05", out = "qa-save.js
 const competitions = ["se_handbollsligan_herr", "swe-2"];
 const squads = Object.assign({}, ...competitions.map((c) => snapshotWorldSquads(c)));
 const ratings = Object.assign({}, ...competitions.map((c) => snapshotGameplayRatings(c)));
-let state: CareerState = createNewCareerState(seed, clubId, squads, undefined, ratings);
+let state: CareerState = createNewCareerState(seed, clubId, squads, undefined, ratings, undefined, "4_WEEKS");
 
 function advance(stop: (s: CareerState) => boolean): void {
   for (let i = 0; i < 2000 && !stop(state); i++) {
@@ -26,6 +26,8 @@ function advance(stop: (s: CareerState) => boolean): void {
     state = next;
     if (stopReason === "ACTION_REQUIRED" || stopReason === "ACTION_REQUIRED_PENDING") state = playManagerFixtureLegacy(state).state;
     if (stopReason === "SEASON_COMPLETE" || state.seasonComplete) break;
+    if (process.env.QA_TRACE && i % 25 === 0) console.log(i, state.gameDate, state.seasonId, stopReason, state.seasonOutcome?.phase);
+    if (process.env.QA_TRACE && state.gameDate > "2028-09-01") { for (const t of Object.values(state.competitionTies ?? {}).filter((t) => !t.winnerClubId && t.stage !== "CUP_GROUP")) console.log("UNDECIDED", t.key, t.stage, t.highClubId, t.lowClubId, t.fixtureIds.map((id) => [id, state.fixtures.find((f) => f.id === id)?.date, !!state.results[id]])); process.exit(0); }
   }
 }
 
@@ -54,3 +56,10 @@ const save: CareerSave = {
 };
 writeFileSync(out, JSON.stringify(save));
 console.log(`wrote ${out}: ${state.gameDate} season ${state.seasonId} complete=${state.seasonComplete} statements=${state.clubFinances?.[clubId]?.statements.length ?? 0}`);
+const o = state.seasonOutcome;
+if (o) {
+  const ties = Object.values(state.competitionTies ?? {});
+  console.log(JSON.stringify({ phase: o.phase, both: o.bothTiersSimulated, champion: o.champion, runnerUp: o.runnerUp, cupWinner: o.cupWinner, winners: o.regularSeasonWinners, promoted: o.promoted, relegated: o.relegated, ties: ties.length, decided: ties.filter((t) => t.winnerClubId).length, awards: o.awards.filter((a) => a.id !== "ALL_STAR").map((a) => `${a.label}/${a.competitionId.slice(0, 6)}: ${a.playerId} ${a.value}`), deciders: Object.values(state.results).filter((r) => r.decider).map((r) => r.decider!.method).reduce((m: Record<string, number>, k) => ({ ...m, [k]: (m[k] ?? 0) + 1 }), {}) }, null, 1));
+}
+const prev = state.seasonHistory?.at(-1);
+if (prev) console.log(JSON.stringify({ archived: prev.seasonId, champion: prev.outcome?.champion, membershipChanges: Object.keys(state.competitionMembership ?? {}).length, managerCompetition: state.competitionId, hblClubs: state.fixtures.filter((f) => f.type === "LEAGUE" && f.competitionId === "se_handbollsligan_herr").length, allsvFixtures: state.fixtures.filter((f) => f.type === "LEAGUE" && f.competitionId === "swe-2").length, uniqueIds: new Set(state.fixtures.map((f) => f.id)).size === state.fixtures.length }));

@@ -1,5 +1,5 @@
-import { computeStandings, ALLSVENSKAN_POINTS_RULE, type StandingRow } from "@handball-manager/game-simulation";
-import { CLUBS } from "../game-data";
+import type { StandingRow } from "@handball-manager/game-simulation";
+import { competitionTable } from "../competition/tables";
 import type { CareerState } from "./types";
 
 /**
@@ -10,19 +10,11 @@ import type { CareerState } from "./types";
  * repeatedly).
  */
 export function getLiveStandings(state: CareerState): StandingRow[] {
-  const clubIds = CLUBS.filter((c) => c.competitionId === state.competitionId).map((c) => c.id);
   // HM-PRESEASON-1.0 Part: "friendly/cup påverkar inte ligatabellen" --
   // only LEAGUE fixtures' own results ever feed the table.
-  const leagueFixtureIds = new Set(state.fixtures.filter((f) => f.type === "LEAGUE").map((f) => f.id));
-  const results = Object.entries(state.results)
-    .filter(([fixtureId]) => leagueFixtureIds.has(fixtureId))
-    .map(([, r]) => ({
-      homeClubId: r.homeClubId,
-      awayClubId: r.awayClubId,
-      homeGoals: r.homeGoals,
-      awayGoals: r.awayGoals,
-    }));
-  return computeStandings(clubIds, results, ALLSVENSKAN_POINTS_RULE);
+  // HM-ALPHA3-M03: of the manager's own competition only (both Swedish
+  // tiers now have a calendar), with the verified Swedish tiebreakers.
+  return competitionTable(state, state.competitionId);
 }
 
 export function getPlayerClubPosition(state: CareerState): number {
@@ -53,15 +45,8 @@ export function getPlayerClubPosition(state: CareerState): number {
  * match would extend this function's inputs, not its shape.
  */
 export function getLiveTableStandings(state: CareerState, watchedFixtureId: string, watchedHomeGoals: number, watchedAwayGoals: number): StandingRow[] {
-  const clubIds = CLUBS.filter((c) => c.competitionId === state.competitionId).map((c) => c.id);
-  const leagueFixtureIds = new Set(state.fixtures.filter((f) => f.type === "LEAGUE").map((f) => f.id));
-  const results = Object.entries(state.results)
-    .filter(([fixtureId]) => leagueFixtureIds.has(fixtureId))
-    .map(([fixtureId, r]) => ({
-      homeClubId: r.homeClubId,
-      awayClubId: r.awayClubId,
-      homeGoals: fixtureId === watchedFixtureId ? watchedHomeGoals : r.homeGoals,
-      awayGoals: fixtureId === watchedFixtureId ? watchedAwayGoals : r.awayGoals,
-    }));
-  return computeStandings(clubIds, results, ALLSVENSKAN_POINTS_RULE);
+  // HM-ALPHA3-M03: the same competition table (and tiebreakers) as getLiveStandings, with the watched fixture's live score substituted.
+  const watched = state.results[watchedFixtureId];
+  const results = watched ? { ...state.results, [watchedFixtureId]: { ...watched, homeGoals: watchedHomeGoals, awayGoals: watchedAwayGoals } } : state.results;
+  return competitionTable({ ...state, results }, state.competitionId);
 }

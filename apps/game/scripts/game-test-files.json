@@ -241,5 +241,6 @@
     "lib/economy/displayCurrency.test.ts",
     "lib/career/seasonRollover.test.ts",
     "components/crests/crestPalette.test.ts",
-    "lib/economy/ledger.test.ts"
+    "lib/economy/ledger.test.ts",
+    "lib/competition/season.test.ts"
 ]

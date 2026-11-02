@@ -212,7 +212,8 @@ test('next season archives table and statistics, gives unique fixtures and prese
   assert.deepEqual(next.playerContracts, state.playerContracts);
   assert.equal(next.seasonHistory!.length, 1);
   assert.equal(Object.keys(next.results).length, 0);
-  assert.equal(next.fixtures.length, state.fixtures.filter(f => f.type === 'LEAGUE').length);
+  // HM-ALPHA3-M03: the new calendar holds both Swedish leagues; the manager's own league keeps its full schedule.
+  assert.equal(next.fixtures.filter(f => f.competitionId === next.competitionId).length, state.fixtures.filter(f => f.type === 'LEAGUE' && f.competitionId === state.competitionId).length);
   assert.ok(next.fixtures.every(f => !state.fixtures.some(old => old.id === f.id)));
   assert.ok(next.fixtures.every(f => !f.id.includes('/')), 'fixture identities must fit the normal match URL');
   assert.deepEqual(rolloverSeason(next), next, 'cannot roll over an incomplete season twice');

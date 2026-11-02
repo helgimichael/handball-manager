@@ -12,6 +12,7 @@ import { averageRating, type CareerFixture, type CareerState, type ClubFormEntry
 import { computeStandings } from "@handball-manager/game-simulation";
 import { cpuStartingEnergies, quickSimParticipation, quickSimWorkloadRecords, writeCpuMatchCondition } from "./cpuCondition";
 import { recordWorkload, startWorkloadLedger } from "../training/workloadLedger";
+import { applyKnockoutDecider } from "../competition/season";
 
 export function getUnplayedFixtures(state: CareerState): readonly CareerFixture[] {
   return state.fixtures.filter((f) => !state.results[f.id]);
@@ -162,13 +163,14 @@ export function simulateAiFixturesForDate(state: CareerState, date: string): { s
     };
     const getStrength = (clubId: string) =>
       computeSquadDerivedClubStrength(clubId, getCareerClubSquad(state, clubId), state.gameplayRatings[clubId] ?? []);
-    const result = simulateFixture(
+    // HM-ALPHA3-M03: a knockout game level after 60 minutes gets overtime/shootout (regulation untouched).
+    const result = applyKnockoutDecider(state, fixture, simulateFixture(
       fixture,
       state.saveSeed,
       getStrength,
       undefined,
       combinedAdjustment,
-    );
+    ), getStrength);
     const rosterResult = fixture.type !== "FRIENDLY"
       ? simulateFixture(fixture, state.saveSeed, getStrength, getRoster, combinedAdjustment)
       : result;
@@ -212,7 +214,11 @@ export function checkSeasonComplete(state: CareerState): CareerState {
   if (state.seasonComplete || getUnplayedLeagueFixtures(state).length > 0) {
     return state;
   }
-  const leagueFixtures = state.fixtures.filter((f) => f.type === "LEAGUE");
+  // HM-ALPHA3-M03: the season ends when its postseason (SM-slutspel, kval, cup) is complete -- see lib/competition/season.ts.
+  if (state.seasonOutcome?.seasonId === state.seasonId && state.seasonOutcome.phase !== "COMPLETE") {
+    return state;
+  }
+  const leagueFixtures = state.fixtures.filter((f) => f.type === "LEAGUE" && f.competitionId === state.competitionId);
   const table = computeStandings(
     [...new Set(leagueFixtures.flatMap((f) => [f.homeClubId, f.awayClubId]))],
     leagueFixtures

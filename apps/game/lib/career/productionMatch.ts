@@ -12,6 +12,7 @@ import { resolveCareerLineup, validateCareerLineup } from './spatialMatch/career
 import { buildSpatialMatchInput } from './spatialMatch/spatialCareerMatch';
 import { isManualLineupCareer, manualLineupIssues } from './manualLineup';
 import { applyMatchResultBookkeeping } from './matchResultApplication';
+import { applyKnockoutDecider } from '../competition/season';
 import { checkSeasonComplete, getPlayerFixtureOn } from './calendar';
 import { buildMatchCompletedEvent, buildPlayerInjuredEvent } from './careerEvents';
 import { careerEventToInboxMessage } from './inboxBridge';
@@ -266,7 +267,8 @@ export function finalizeProductionMatch(state: CareerState): CareerState {
   const session = state.productionMatch;
   if (!session || session.core.match?.phase !== 'FULLTIME') return state;
   if (state.results[session.fixture.id]) return { ...state, productionMatch: null };
-  const result = resultFromSession(session);
+  // HM-ALPHA3-M03: a level knockout game is decided by overtime/shootout after the V2 regulation time (the engine itself is unchanged).
+  const result = applyKnockoutDecider(state, session.fixture, resultFromSession(session));
   const clubForm = { ...state.clubForm }, playerSeasonStats = { ...state.playerSeasonStats };
   applyMatchResultBookkeeping(result, clubForm, playerSeasonStats, state.playerClubId, session.fixture.type !== 'FRIENDLY');
   // HM-ALPHA2-02A: measured match workload per participating player (both

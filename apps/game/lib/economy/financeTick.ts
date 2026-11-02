@@ -39,7 +39,7 @@ export function progressClubFinances(state: CareerState, date: string, emit: (ev
     const limit = formatEur(overdraftLimitEur(baseline));
     const text =
       change.to === "CRISIS"
-        ? { priority: "ACTION_REQUIRED" as const, subject: "Ekonomisk kris -- styrelsen fryser budgetarna", summary: `Kassan ligger under krediten på ${limit}. Inga nya löneåtaganden och ingen transferbudget förrän ekonomin är i balans. Sälj, låna ut eller sänk lönekostnaderna.` }
+        ? { priority: "IMPORTANT" as const, subject: "Ekonomisk kris -- styrelsen fryser budgetarna", summary: `Kassan ligger under krediten på ${limit}. Inga nya löneåtaganden och ingen transferbudget förrän ekonomin är i balans. Sälj, låna ut eller sänk lönekostnaderna.` }
         : change.to === "OVERDRAFT"
           ? { priority: "IMPORTANT" as const, subject: "Klubben har övertrasserat kassan", summary: `Kassan är negativ men inom krediten på ${limit}. Transferbudgeten är stängd tills kassan är positiv igen.` }
           : { priority: "INFORMATION" as const, subject: "Kassan är positiv igen", summary: "Ekonomin är tillbaka i balans och styrelsens budgetar gäller som vanligt." };
