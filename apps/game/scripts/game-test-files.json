@@ -246,5 +246,6 @@
     "lib/staff/staffManagement.test.ts",
     "lib/career/alpha3SaveCompatibility.test.ts",
     "lib/career/alpha3ManagementLoop.test.ts",
-    "lib/economy/boardBudgetConsistency.test.ts"
+    "lib/economy/boardBudgetConsistency.test.ts",
+    "lib/staff/staffProfileRoute.test.ts"
 ]

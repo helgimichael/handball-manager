@@ -10,9 +10,8 @@ import { type ReactNode } from "react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useCareer } from "@/lib/career/CareerContext";
 import { getClub } from "@/lib/game-data";
-import { findStaffMember } from "@/lib/staff/staffCareerIntegration";
 import { isStaffRecruitable } from "@/lib/staff/staffRecruitment";
-import { isFreeAgentScoutAvailable } from "@/lib/staff/scoutPool";
+import { resolveStaffProfile, staffIdFromRouteParam } from "@/lib/staff/staffProfileRoute";
 import { STAFF_EMPLOYMENT_TYPE_LABEL, STAFF_ROLE_LABEL } from "@/lib/staff/labels";
 import { formatMoney } from "@/lib/economy/currency";
 import { useMoney } from "@/lib/settings/usePreferences";
@@ -61,8 +60,8 @@ export default function StaffProfilePage() {
   const searchParams = useSearchParams();
   const { career } = useCareer();
   // HM-ALPHA3-M04: free agents come from the scout pool and the season's staff market.
-  const isFreeAgent = isFreeAgentScoutAvailable(career, params.staffId) || !!career.staffMarket?.freeAgents[params.staffId];
-  const member = findStaffMember(career, params.staffId) ?? career.scoutMarket[params.staffId] ?? career.staffMarket?.freeAgents[params.staffId];
+  const staffId = staffIdFromRouteParam(params.staffId);
+  const { member, isFreeAgent } = resolveStaffProfile(career, staffId);
   const knowledge = member ? staffKnowledge(career, member.id) : 0;
   const appointed = member ? (career.staffAppointments ?? []).filter((a) => a.staffId === member.id && a.clubId === career.playerClubId && a.kind === "APPOINTED" && daysBetween(a.date, career.gameDate) <= 14).at(-1) : undefined;
   const departed = member ? (career.staffAppointments ?? []).filter((a) => a.staffId === member.id && a.clubId === career.playerClubId && (a.kind === "DISMISSED" || a.kind === "LEFT") && daysBetween(a.date, career.gameDate) <= 14).at(-1) : undefined;
