@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useCareer } from "@/lib/career/CareerContext";
 import { getNextPlayerFixture } from "@/lib/career/calendar";
+import { STAFF_ROLE_LABEL } from "@/lib/staff/labels";
 import { opponentName, opponentScoutingCandidates, requestOpponentScouting, scoutingAbility, scoutingReliability, setScoutingDelegate, CONFIDENCE_LABEL, type OpponentScoutReport } from "@/lib/scouting/opponentScouting";
 
 const TONE = { HIGH: "ok", MEDIUM: "warn", LOW: "bad" } as const;
@@ -49,7 +50,7 @@ export function OpponentScoutingPanel({ compact = false }: { compact?: boolean }
         <div className="hm-plan-grid">
           <label className="hm-plan-field"><span>Ansvarig</span>
             <select className="hm-select" value={staffId} onChange={(e) => setStaffId(e.target.value)}>
-              {candidates.map((m) => <option key={m.id} value={m.id}>{m.displayName} · {m.roles.join("/").toLowerCase().replace(/_/g, " ")}</option>)}
+              {candidates.map((m) => <option key={m.id} value={m.id}>{m.displayName} · {m.roles.map((r) => STAFF_ROLE_LABEL[r].toLowerCase()).join(", ")}</option>)}
             </select>
           </label>
           <div className="hm-plan-field"><span>Förväntad säkerhet</span><strong>{expected >= 0.78 ? "Hög" : expected >= 0.58 ? "Medel" : "Låg"} ({evidence} matcher att studera)</strong></div>

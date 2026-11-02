@@ -92,9 +92,10 @@ test("preferences: defaults until hydrated, persisted on change, corrupt values 
   hydratePreferences();
   assert.equal(getPreferences().displayCurrency, "SEK");
   assert.equal(updatePreferences({ displayCurrency: "EUR" }), true);
-  assert.deepEqual(JSON.parse(data.get(PREFERENCES_STORAGE_KEY)!), { displayCurrency: "EUR" });
+  assert.deepEqual(JSON.parse(data.get(PREFERENCES_STORAGE_KEY)!), { displayCurrency: "EUR", defaultMatchSpeed: 10 });
   assert.equal(parsePreferences("{not json").displayCurrency, "EUR");
   assert.equal(parsePreferences(JSON.stringify({ displayCurrency: "NOK" })).displayCurrency, "EUR");
+  assert.equal(parsePreferences(JSON.stringify({ displayCurrency: "SEK", defaultMatchSpeed: 999 })).defaultMatchSpeed, 10, "HM-PLAYTEST-01: an unknown match speed falls back to the default");
 });
 
 test("preferences: blocked storage still switches the UI for the session", () => {

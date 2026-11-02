@@ -77,3 +77,13 @@
 .hm-settings-entry h1 { margin: 0; font-size: var(--hm-text-2xl); font-weight: 700; letter-spacing: -.01em; }
 .hm-settings-entry header p { margin: 0 0 8px; color: var(--hm-text-muted); }
 .hm-settings-entry header .hm-btn { justify-self: start; }
+
+.st-sort { all: unset; cursor: pointer; font: inherit; color: inherit; white-space: nowrap; }
+.st-sort:focus-visible { outline: 2px solid var(--hm-accent); outline-offset: 2px; border-radius: 2px; }
+.hm-subnav { display: flex; flex-wrap: wrap; gap: 4px; margin: 0 0 14px; padding: 4px; border: 1px solid var(--hm-border-subtle); border-radius: var(--hm-radius-lg); background: var(--hm-surface-1); }
+.hm-subnav a { padding: 7px 12px; border-radius: var(--hm-radius-md); color: var(--hm-text-secondary); font-size: var(--hm-text-sm); font-weight: 600; text-decoration: none; cursor: pointer; }
+.hm-subnav a[aria-current="page"] { background: var(--hm-accent-muted); color: var(--hm-text-primary); }
+.hm-subnav a:hover { color: var(--hm-text-primary); }
+.hm-subnav a b { margin-left: 6px; padding: 0 6px; border-radius: 999px; background: var(--hm-warning-muted); color: var(--hm-warning); font-size: var(--hm-text-2xs); }
+.hm-settings-entry { padding-top: 84px; }
+.career-club-forecast { color: var(--hm-accent-strong); font-weight: 600; }

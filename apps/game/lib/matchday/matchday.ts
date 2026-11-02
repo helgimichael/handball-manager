@@ -67,7 +67,7 @@ export function matchdayBriefing(state: CareerState, f: CareerFixture): Matchday
   const press = Object.values(media.press).find((p) => p.fixtureId === f.id && p.kind === "PRE_MATCH") ?? null;
   const analysisReady = state.tasks.some((t) => t.id === `task:OPPONENT_ANALYSIS:${f.id}` && t.status === "COMPLETED");
   const control = matchControl(state);
-  const headline = stakes.labels[0] ?? (f.type === "LEAGUE" ? "Seriematch" : "Cupmatch");
+  const headline = stakes.labels[0] ?? (f.type === "LEAGUE" ? "Seriematch" : f.type === "FRIENDLY" ? "Träningsmatch" : f.type === "CUP" ? "Cupmatch" : f.type === "PLAYOFF" ? "SM-slutspel" : "Kvalmatch");
   return {
     fixture: f, opponentId: opp, home, stakes, rivalry,
     table: { own: pos(state, me, f.competitionId), opp: pos(state, opp, f.competitionId), size: competitionTable(state, f.competitionId).length },

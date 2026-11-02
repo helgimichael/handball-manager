@@ -161,8 +161,8 @@ export function applyPreseasonEventDay(state: CareerState, date: string): Career
   let next = state;
   for (const camp of ending) {
     for (const p of getCareerSquad(next)) {
-      const already = next.playerDynamics?.morale?.[p.id]?.shocks?.some((s) => s.label === `Gemenskap från ${camp.name.toLowerCase()}`);
-      if (!already) next = addMoraleShock(next, p.id, 3, `Gemenskap från ${camp.name.toLowerCase()}`, 21);
+      const already = next.playerDynamics?.morale?.[p.id]?.shocks?.some((s) => s.label === `Gemenskap från lägret (${camp.location})`);
+      if (!already) next = addMoraleShock(next, p.id, 3, `Gemenskap från lägret (${camp.location})`, 21);
     }
   }
   return next;

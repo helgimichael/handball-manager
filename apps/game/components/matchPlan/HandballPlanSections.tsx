@@ -13,7 +13,8 @@ import { matchFitnessOf } from "@/lib/players/matchFitness";
 type Save = (edit: (current: MatchPlan) => MatchPlan) => void;
 type UpdateCareer = (fn: (state: CareerState) => CareerState) => void;
 
-const SIX_CODES = ["V6", "V9", "M9", "H9", "H6", "M6"] as const;
+type SixCode = "V6" | "V9" | "M9" | "H9" | "H6" | "M6";
+const COURT_ORDER: readonly SixCode[] = ["V6", "V9", "M9", "H9", "H6", "M6"];
 const CODE_LABEL: Record<string, string> = { V6: "V6 · vänstersexa", V9: "V9 · vänsternia", M9: "M9 · mittnia", H9: "H9 · högernia", H6: "H6 · högersexa", M6: "M6 · mittsexa/linjespelare" };
 /** Screen order: as seen from behind our own goal, the defender's left on the left. */
 const SPACE_ORDER = [5, 4, 3, 2, 1, 0] as const;
@@ -73,7 +74,7 @@ export function DefenceSection({ plan, squad, save }: { plan: MatchPlan; squad: 
             <div key={zone} className="hm-defence-space" data-front={key === "5-1" && zone === 2}>
               <span className="hm-eyebrow">{DEFENCE_SPACE_LABEL[key][zone]}</span>
               <select className="hm-select" value={id} aria-label={`Försvarare ${DEFENCE_SPACE_LABEL[key][zone]}`} onChange={(e) => assign(zone, e.target.value)}>
-                {six.map((s) => <option key={s.playerId} value={s.playerId}>{name(byId.get(s.playerId))}</option>)}
+                {six.map((s) => { const p = byId.get(s.playerId); return <option key={s.playerId} value={s.playerId} title={name(p)}>{p?.shirtNumber ? `#${p.shirtNumber} ` : ""}{p?.lastName ?? "—"}</option>; })}
               </select>
               {specialist && <small className="hm-text-muted">Försvarar: <strong>{name(byId.get(specialist))}</strong></small>}
             </div>
@@ -116,11 +117,13 @@ export function SpecialistSection({ plan, squad, save }: { plan: MatchPlan; squa
   const outfield = squad.filter((p) => registered.has(p.id) && p.position !== "MV");
   const starters = new Set(plan.attackStartingUnit.slots.map((s) => s.playerId));
   const six = plan.attackStartingUnit.slots.filter((s) => s.position !== "GK");
-  const attack = plan.situationUnits?.ATTACK_6V5 ?? six.map((s) => ({ playerId: s.playerId, position: s.position as (typeof SIX_CODES)[number] }));
+  const courtOrder = (a: { position: string }, b: { position: string }) => COURT_ORDER.indexOf(a.position as SixCode) - COURT_ORDER.indexOf(b.position as SixCode);
+  const attack = [...(plan.situationUnits?.ATTACK_6V5 ?? six.map((s) => ({ playerId: s.playerId, position: s.position as SixCode })))].sort(courtOrder);
   const defence = plan.situationUnits?.DEFENCE_5V6 ?? [];
-  const setAttack = (index: number, playerId: string) => save((current) => {
-    const base = current.situationUnits?.ATTACK_6V5 ?? current.attackStartingUnit.slots.filter((s) => s.position !== "GK").map((s) => ({ playerId: s.playerId, position: s.position as (typeof SIX_CODES)[number] }));
-    const swapped = base.map((e, i) => (i === index ? { ...e, playerId } : e.playerId === playerId ? { ...e, playerId: base[index].playerId } : e));
+  const setAttack = (position: SixCode, playerId: string) => save((current) => {
+    const base = current.situationUnits?.ATTACK_6V5 ?? current.attackStartingUnit.slots.filter((s) => s.position !== "GK").map((s) => ({ playerId: s.playerId, position: s.position as SixCode }));
+    const previous = base.find((e) => e.position === position)?.playerId ?? "";
+    const swapped = base.map((e) => (e.position === position ? { ...e, playerId } : e.playerId === playerId ? { ...e, playerId: previous } : e));
     return { ...current, situationUnits: { ...current.situationUnits, ATTACK_6V5: swapped } };
   });
   const setDefence = (index: number, playerId: string) => save((current) => {
@@ -137,7 +140,7 @@ export function SpecialistSection({ plan, squad, save }: { plan: MatchPlan; squa
         <div>
           <h3>Anfall 6 mot 5 · numerärt övertag <span className="hm-status" data-tone={plan.situationUnits?.ATTACK_6V5 ? "ok" : "neutral"}>{plan.situationUnits?.ATTACK_6V5 ? "Egen uppställning" : "Startsjuan"}</span></h3>
           <p className="hm-plan-note">När motståndarna har en spelare utvisad och vi anfaller.</p>
-          {attack.map((entry, i) => <PlayerSelect key={entry.position} label={CODE_LABEL[entry.position] ?? entry.position} value={entry.playerId} allowEmpty={false} options={outfield} onChange={(id) => setAttack(i, id)} />)}
+          {attack.map((entry) => <PlayerSelect key={entry.position} label={CODE_LABEL[entry.position] ?? entry.position} value={entry.playerId} allowEmpty={false} options={outfield} onChange={(id) => setAttack(entry.position as SixCode, id)} />)}
           {plan.situationUnits?.ATTACK_6V5 && <button type="button" className="hm-btn hm-btn-sm" onClick={() => save((c) => ({ ...c, situationUnits: { ...c.situationUnits, ATTACK_6V5: undefined } }))}>Använd startsjuan</button>}
         </div>
         <div>
@@ -148,7 +151,7 @@ export function SpecialistSection({ plan, squad, save }: { plan: MatchPlan; squa
         </div>
         <div>
           <h3>Anfall 7 mot 6</h3>
-          <p className="hm-plan-note">Målvakten går ut för en sjunde utespelare enligt inställningen "7 mot 6" under Anfall. Välj vem som går in.</p>
+          <p className="hm-plan-note">Målvakten går ut för en sjunde utespelare enligt inställningen «7 mot 6» under Anfall. Välj vem som går in.</p>
           <PlayerSelect label="Sjunde utespelare" value={plan.sevenVSixPlayerId ?? ""} emptyLabel="Assistenten väljer (bästa linjespelare)" options={outfield.filter((p) => !starters.has(p.id))} onChange={(id) => save((c) => ({ ...c, sevenVSixPlayerId: id || undefined }))} />
           <h3>Försvar 6 mot 7</h3>
           <p className="hm-plan-note">Motståndarlagen i den här versionen spelar inte 7 mot 6, så ingen separat uppställning sparas – laget försvarar med sin vanliga försvarsuppställning.</p>
