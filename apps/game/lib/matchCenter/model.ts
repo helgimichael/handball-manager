@@ -416,13 +416,35 @@ export function recordedFrame(frames: readonly MatchFrame[], tick: number): Matc
     }
     return frames[low];
 }
+/**
+ * HM-PLAYTEST-01 7.2: the ONE reading of what led to a key moment. The
+ * narrative (workspace.ts tacticalStory) and the court snapshots below both
+ * use exactly these events, from the same possession and the same window, so
+ * the text never describes something the pictures do not show.
+ */
+export const MOMENT_EVIDENCE_TICKS = 120;
+export function momentEvidence(event: CoreEvent, events: readonly CoreEvent[], known: (id: string | undefined) => boolean) {
+    const same = events.filter(e => e.possessionId === event.possessionId && e.tick <= event.tick);
+    const shot = same.findLast(e => e.type === 'SHOT_RELEASED' && e.actionId === event.actionId);
+    const end = shot ?? event;
+    const window = same.filter(e => e.tick <= end.tick && end.tick - e.tick <= MOMENT_EVIDENCE_TICKS);
+    const beaten = window.findLast(e => e.type === 'DEFENDER_BEATEN' && known(e.relatedIds[0]));
+    const pass = window.findLast(e => e.type === 'PASS_RELEASED' && /HELP_COMMITTED/.test(String(e.details.reason)) && /created=true/.test(String(e.details.reason)) && /coverCommitted=true/.test(String(e.details.reason)) && known(e.relatedIds[0]));
+    const help = window.findLast(e => e.type === 'ADVANTAGE_OPENED' && String(e.details.cause).includes('help') && known(e.relatedIds[0]));
+    const cited = [beaten, help, pass].filter((e): e is CoreEvent => !!e).sort((a, b) => a.tick - b.tick);
+    return { shot, end, beaten, pass, help, cited };
+}
 export function snapshotsFor(eventId: string, events: readonly CoreEvent[], frames: readonly MatchFrame[], people: MatchPerson[]): TacticalSnapshot[] {
     const event = events.find(e => e.id === eventId);
     if (!event)
         return [];
-    const same = events.filter(e => e.possessionId === event.possessionId && e.tick <= event.tick), shot = same.findLast(e => e.type === 'SHOT_RELEASED' && e.actionId === event.actionId), end = shot ?? event;
-    const evidence = same.findLast(e => e.tick < end.tick && end.tick - e.tick <= 60 && ['DEFENDER_BEATEN', 'ADVANTAGE_OPENED', 'PASS_RELEASED'].includes(e.type));
-    const requested = [{ label: 'Före', tick: Math.max(frames[0]?.[0] ?? 0, end.tick - 24) }, { label: evidence ? 'Situationen' : 'Uppbyggnad', tick: evidence?.tick ?? end.tick - 10 }, { label: shot ? 'Avslut' : 'Händelsen', tick: end.tick }];
+    const knownPeople = personMap(people);
+    const { shot, end, cited } = momentEvidence(event, events, id => !!id && knownPeople.has(id));
+    const evidence = cited.at(-1);
+    // A picture at every event the narrative cites (at most two), then the outcome.
+    const requested = cited.length >= 2
+        ? [{ label: 'Situationen', tick: cited[0].tick }, { label: 'Situationen', tick: cited.at(-1)!.tick }, { label: shot ? 'Avslut' : 'Händelsen', tick: end.tick }]
+        : [{ label: 'Före', tick: Math.max(frames[0]?.[0] ?? 0, (evidence?.tick ?? end.tick) - 24) }, { label: evidence ? 'Situationen' : 'Uppbyggnad', tick: evidence?.tick ?? end.tick - 10 }, { label: shot ? 'Avslut' : 'Händelsen', tick: end.tick }];
     const known = personMap(people), involvedIds = [...new Set([event.actorId, end.actorId, ...event.relatedIds, ...end.relatedIds, ...(evidence?.relatedIds ?? []), evidence?.actorId].filter((id): id is string => !!id && known.has(id)))];
     const snapshots: TacticalSnapshot[] = [];
     for (const request of requested.sort((a, b) => a.tick - b.tick)) {

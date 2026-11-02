@@ -1,7 +1,7 @@
 /** Match-specific, read-only presentation. Never writes match or career state. */
 import type { CoreEvent, TeamId } from '@handball-manager/handball-engine/src/v2/core/state';
 import type { MatchCenterModel, MatchPresentationEvent, PlayerRow, ShotFact, TacticalSnapshot } from './model';
-import { clockText, ROLE_LABEL } from './model';
+import { clockText, momentEvidence, ROLE_LABEL } from './model';
 import type { MatchPerson } from '../career/productionMatch';
 
 export const MATCH_VIEWS = ['OVERVIEW', 'MOMENTS', 'PLAYERS', 'STATS'] as const;
@@ -84,12 +84,9 @@ export type ActorRole = 'Bollhållare' | 'Avslutare' | 'Försvarare' | 'Hjälpf�
 export function tacticalStory(moment: MatchPresentationEvent, events: readonly CoreEvent[], people: readonly MatchPerson[], snapshots: readonly TacticalSnapshot[]) {
     const event = events.find(e => e.id === moment.canonicalEventId);
     if (!event) return { explanation: moment.detail, stages: snapshots.map(() => 'Sparat läge'), actors: {} as Record<string, ActorRole> };
-    const same = events.filter(e => e.possessionId === event.possessionId && e.tick <= event.tick && event.tick - e.tick <= 160);
     const known = new Map(people.map(p => [p.id, p]));
-    const shot = same.findLast(e => e.type === 'SHOT_RELEASED' && e.actionId === event.actionId);
-    const beaten = same.findLast(e => e.type === 'DEFENDER_BEATEN' && known.has(e.relatedIds[0]));
-    const pass = same.findLast(e => e.type === 'PASS_RELEASED' && /HELP_COMMITTED/.test(String(e.details.reason)) && /created=true/.test(String(e.details.reason)) && /coverCommitted=true/.test(String(e.details.reason)) && known.has(e.relatedIds[0]));
-    const help = same.findLast(e => e.type === 'ADVANTAGE_OPENED' && String(e.details.cause).includes('help') && known.has(e.relatedIds[0]));
+    // HM-PLAYTEST-01 7.2: the same evidence the snapshots are taken from (model.ts momentEvidence).
+    const { shot, beaten, pass, help } = momentEvidence(event, events, id => !!id && known.has(id));
     const actors: Record<string, ActorRole> = {};
     const add = (id: string | null | undefined, role: ActorRole) => { if (id && known.has(id)) actors[id] = role; };
     const sentences: string[] = [];

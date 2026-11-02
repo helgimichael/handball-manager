@@ -9,10 +9,10 @@ test("every primary nav item exists exactly once (no duplicate id or href)", () 
   assert.equal(new Set(hrefs).size, hrefs.length);
 });
 
-test("nav order is deterministic and matches the approved information architecture (Spec §21)", () => {
+test("nav order is deterministic and matches the approved information architecture (Spec §21; HM-PLAYTEST-01 adds Svenska Cupen)", () => {
   assert.deepEqual(
     CAREER_NAV_ITEMS.map((i) => i.id),
-    ["home", "klubbhuset", "inbox", "media", "squad", "contracts", "tactics", "training", "calendar", "schedule", "analysis", "players", "scouting", "recruitment", "transfers", "staff", "medical", "club", "board", "manager", "finance", "season", "competitions", "statistics", "history", "settings"],
+    ["home", "klubbhuset", "inbox", "media", "squad", "contracts", "tactics", "training", "calendar", "schedule", "analysis", "players", "scouting", "recruitment", "transfers", "staff", "medical", "club", "board", "manager", "finance", "season", "competitions", "cup", "statistics", "history", "settings"],
   );
 });
 

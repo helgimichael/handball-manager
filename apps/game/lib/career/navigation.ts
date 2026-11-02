@@ -66,6 +66,8 @@ export const CAREER_NAV_ITEMS: readonly CareerNavItem[] = [
   // HM-ALPHA3-M03: the season hub -- tables, SM-slutspel, kval, Svenska cupen, awards.
   { id: "season", label: "Säsongen", href: "/career/season", icon: "competitions", ownsPrefixes: [] },
   { id: "competitions", label: "Tävlingar", href: "/career/competitions", icon: "competitions", ownsPrefixes: ["/career/competitions/"] },
+  // HM-PLAYTEST-01 6.1: the cup has its own discoverable entry.
+  { id: "cup", label: "Svenska Cupen", href: "/career/competitions/se-svenska-cupen-herr", icon: "competitions", ownsPrefixes: [] },
   { id: "statistics", label: "Statistik", href: "/career/statistics", icon: "analysis", ownsPrefixes: [] },
   { id: "history", label: "Historik", href: "/career/history", icon: "schedule", ownsPrefixes: [] },
   // HM-ALPHA3-M01: device preferences (display currency). Not career state.

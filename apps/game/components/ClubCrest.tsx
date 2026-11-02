@@ -40,7 +40,9 @@ export default function ClubCrest({ shortName, primaryColor, clubId, size = 30 }
   const text = palette?.text ?? "var(--game-crest-text)";
 
   return (
-    <svg className="game-club-crest" width={size} height={size} viewBox="0 0 100 116" role="img" aria-label={shortName} data-crest={palette ? "club" : "neutral"}>
+    // HM-PLAYTEST-01 5.3: never passed off as the official crest -- the label says what it is.
+    <svg className="game-club-crest" width={size} height={size} viewBox="0 0 100 116" role="img" aria-label={`${shortName} (spelets märke i klubbfärger, inte klubbens officiella)`} data-crest={palette ? "club" : "neutral"} data-official="false">
+      <title>{shortName} – spelets märke i klubbfärger. Klubbens officiella märke används först när klubben gett tillstånd.</title>
       <path d="M10 8h80v65L50 108 10 73Z" fill={fill} stroke={palette?.edge} strokeWidth={palette ? 3 : undefined} strokeLinejoin="round"/>
       <path d="M17 15h66v55L50 99 17 70Z" fill="none" stroke={line} strokeWidth="1.5"/>
       <path d="M27 23h46M34 84h32" stroke={line} strokeWidth="2"/>

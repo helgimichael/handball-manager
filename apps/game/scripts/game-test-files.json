@@ -265,5 +265,6 @@
   "lib/career/penaltyTakerEngine.test.ts",
   "lib/scouting/opponentScouting.test.ts",
   "lib/staff/headCoachDisplacement.test.ts",
-  "lib/career/preseasonPlanning.test.ts"
+  "lib/career/preseasonPlanning.test.ts",
+  "lib/matchCenter/momentEvidence.test.ts"
 ]

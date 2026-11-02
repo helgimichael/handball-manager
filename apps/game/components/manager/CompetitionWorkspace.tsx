@@ -4,7 +4,9 @@ import Link from 'next/link';
 import { useParams, useSearchParams, useRouter } from 'next/navigation';
 import { useCareer } from '@/lib/career/CareerContext';
 import { COMPETITIONS, getClubsByCompetition, getClub } from '@/lib/game-data';
-import { getLiveStandings } from '@/lib/career/standings';
+import { competitionTable, hasLeagueCalendar } from '@/lib/competition/tables';
+import { SVENSKA_CUPEN } from '@/lib/competition/rules';
+import { CupWorkspace } from './CupWorkspace';
 import { managementPlayers } from '@/lib/career/management';
 import { ClubLink } from '@/components/entityLinks';
 import { CompetitionHero, PlayerCell, RankIndicator } from '@/components/game/Identity';
@@ -21,13 +23,18 @@ function Competition() {
   const router = useRouter();
   const params = useParams<{ competitionId?: string }>();
   const query = useSearchParams();
-  const id = params.competitionId ?? career.competitionId;
+  const id = decodeURIComponent(params.competitionId ?? career.competitionId);
+  // HM-PLAYTEST-01 6.1/6.2: every competition is reachable from one switcher -- the cup included --
+  // and the switcher never forces the manager's own league.
+  const switcher = <label>Tävling<select className="hm-select" value={id} onChange={e => router.push(`/career/competitions/${encodeURIComponent(e.target.value)}`)}><option value={SVENSKA_CUPEN}>Svenska Cupen · SE</option>{COMPETITIONS.map(c => <option value={c.id} key={c.id}>{c.name} · {c.nation}{hasLeagueCalendar(career, c.id) ? '' : ' (ej simulerad)'}</option>)}</select></label>;
+  if (id === SVENSKA_CUPEN) return <CupWorkspace switcher={switcher} />;
   const competition = COMPETITIONS.find(c => c.id === id);
   if (!competition) return <EmptyState>Tävlingen hittades inte. <Link href="/career/competitions">Öppna tävlingar →</Link></EmptyState>;
 
-  const live = id === career.competitionId;
+  // A league with a simulated calendar in this career shows its real table, whichever club the manager leads.
+  const live = hasLeagueCalendar(career, id);
   const tab = query.get('tab') ?? 'table';
-  const table = live ? getLiveStandings(career) : [];
+  const table = live ? competitionTable(career, id) : [];
   const clubs = getClubsByCompetition(id);
   const fixtures = career.fixtures.filter(f => f.competitionId === id);
   const upcoming = fixtures.filter(f => !career.results[f.id]).sort((a,b) => a.date.localeCompare(b.date));
@@ -47,8 +54,8 @@ function Competition() {
   return <div className="hm-league-page">
     <CompetitionHero competitionId={id} career={career} />
     <div className="hm-league-switch">
-      <label>Tävling<select className="hm-select" value={id} onChange={e => router.push(`/career/competitions/${encodeURIComponent(e.target.value)}`)}>{COMPETITIONS.map(c => <option value={c.id} key={c.id}>{c.name} · {c.nation}</option>)}</select></label>
-      <div className="hm-league-meta"><span>{clubs.length} klubbar</span><span>{live ? `${leaguePlayed.length} spelade ligamatcher` : 'Spelare & klubbar i rekryteringsvärlden'}</span>{nextRound !== undefined && <span>Nästa omgång · {nextRound}</span>}</div>
+      {switcher}
+      <div className="hm-league-meta"><span className="hm-status" data-tone={live ? 'ok' : 'neutral'}>{live ? 'Fullt simulerad' : 'Ej simulerad · ingen tabell'}</span><span>{clubs.length} klubbar</span><span>{live ? `${leaguePlayed.length} spelade ligamatcher` : 'Spelare & klubbar i rekryteringsvärlden'}</span>{nextRound !== undefined && <span>Nästa omgång · {nextRound}</span>}</div>
     </div>
     <nav className="hm-tabs" aria-label="Tävlingsvyer">{[['table','Tabell & form'],['fixtures','Matcher'],['results','Resultat'],['statistics','Spelarstatistik'],['clubs','Klubbar'],['history','Historik']].map(([t,label]) => <Link key={t} aria-current={tab === t ? 'page' : undefined} href={`${href}?tab=${t}`}>{label}</Link>)}</nav>
     <div className="hm-league-split">

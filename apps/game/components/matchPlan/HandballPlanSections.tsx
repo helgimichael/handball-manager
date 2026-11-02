@@ -14,12 +14,15 @@ type Save = (edit: (current: MatchPlan) => MatchPlan) => void;
 type UpdateCareer = (fn: (state: CareerState) => CareerState) => void;
 
 const SIX_CODES = ["V6", "V9", "M9", "H9", "H6", "M6"] as const;
-const CODE_LABEL: Record<string, string> = { V6: "Vänsternsexa (V6)", V9: "Vänsternia (V9)", M9: "Mittnia (M9)", H9: "Högernia (H9)", H6: "Högersexa (H6)", M6: "Mittsexa / linje (M6)" };
+const CODE_LABEL: Record<string, string> = { V6: "V6 · vänstersexa", V9: "V9 · vänsternia", M9: "M9 · mittnia", H9: "H9 · högernia", H6: "H6 · högersexa", M6: "M6 · mittsexa/linjespelare" };
 /** Screen order: as seen from behind our own goal, the defender's left on the left. */
 const SPACE_ORDER = [5, 4, 3, 2, 1, 0] as const;
+// STARKVIS Handbollsterminologi v0.1: 6-0 = V1, V2, V3, H3, H2, H1 (the
+// defender's own left/right); 5-1 = 1:or, 2:or, centerhalv and the
+// framskjuten center.
 export const DEFENCE_SPACE_LABEL: Record<"6-0" | "5-1", Record<number, string>> = {
-  "6-0": { 5: "Vänster 1:a (ytter)", 4: "Vänster 2:a (halv)", 3: "Vänster 3:a (mitt)", 2: "Höger 3:a (mitt)", 1: "Höger 2:a (halv)", 0: "Höger 1:a (ytter)" },
-  "5-1": { 5: "Vänster 1:a (ytter)", 4: "Vänster 2:a (halv)", 3: "Mittback (bakre)", 2: "Topp (framskjuten)", 1: "Höger 2:a (halv)", 0: "Höger 1:a (ytter)" },
+  "6-0": { 5: "V1 · vänster etta", 4: "V2 · vänster tvåa", 3: "V3 · vänster trea", 2: "H3 · höger trea", 1: "H2 · höger tvåa", 0: "H1 · höger etta" },
+  "5-1": { 5: "V1 · vänster etta", 4: "V2 · vänster tvåa", 3: "Centerhalv (bakre)", 2: "Center (framskjuten)", 1: "H2 · höger tvåa", 0: "H1 · höger etta" },
 };
 const FIVE_SPACES = [5, 4, 2, 1, 0] as const;
 
@@ -129,18 +132,18 @@ export function SpecialistSection({ plan, squad, save }: { plan: MatchPlan; squa
   });
   const defenceComplete = defence.length === 5 && defence.every((e) => e.playerId) && new Set(defence.map((e) => e.playerId)).size === 5;
   return (
-    <Section id="plan-special" title="Specialsituationer" lede="Sparade uppställningar för numeriska över- och underlägen. Matchen byter in dem en spelare i taget via bytesplatsen när situationen uppstår.">
+    <Section id="plan-special" title="Specialsituationer" lede="Sparade uppställningar för numerärt övertag och undertag. Matchen byter in dem en spelare i taget via bytesplatsen när situationen uppstår.">
       <div className="hm-plan-columns">
         <div>
-          <h3>Anfall 6 mot 5 <span className="hm-status" data-tone={plan.situationUnits?.ATTACK_6V5 ? "ok" : "neutral"}>{plan.situationUnits?.ATTACK_6V5 ? "Egen uppställning" : "Startsjuan"}</span></h3>
+          <h3>Anfall 6 mot 5 · numerärt övertag <span className="hm-status" data-tone={plan.situationUnits?.ATTACK_6V5 ? "ok" : "neutral"}>{plan.situationUnits?.ATTACK_6V5 ? "Egen uppställning" : "Startsjuan"}</span></h3>
           <p className="hm-plan-note">När motståndarna har en spelare utvisad och vi anfaller.</p>
           {attack.map((entry, i) => <PlayerSelect key={entry.position} label={CODE_LABEL[entry.position] ?? entry.position} value={entry.playerId} allowEmpty={false} options={outfield} onChange={(id) => setAttack(i, id)} />)}
           {plan.situationUnits?.ATTACK_6V5 && <button type="button" className="hm-btn hm-btn-sm" onClick={() => save((c) => ({ ...c, situationUnits: { ...c.situationUnits, ATTACK_6V5: undefined } }))}>Använd startsjuan</button>}
         </div>
         <div>
-          <h3>Försvar 5 mot 6 <span className="hm-status" data-tone={defenceComplete ? "ok" : "neutral"}>{defenceComplete ? "Egen uppställning" : "Ej vald – laget behåller de som är på plan"}</span></h3>
+          <h3>Försvar 5 mot 6 · numerärt undertag <span className="hm-status" data-tone={defenceComplete ? "ok" : "neutral"}>{defenceComplete ? "Egen uppställning" : "Ej vald – laget behåller de som är på plan"}</span></h3>
           <p className="hm-plan-note">När vi har en spelare utvisad och försvarar. Välj fem olika utespelare.</p>
-          {FIVE_SPACES.map((zone, i) => <PlayerSelect key={zone} label={DEFENCE_SPACE_LABEL["6-0"][zone].replace(" (mitt)", "").replace("Höger 3:a", "Mitt")} value={defence[i]?.playerId ?? ""} emptyLabel="Välj spelare" options={outfield} onChange={(id) => setDefence(i, id)} />)}
+          {FIVE_SPACES.map((zone, i) => <PlayerSelect key={zone} label={zone === 2 ? "Mitt · centralt i femmannalinjen" : DEFENCE_SPACE_LABEL["6-0"][zone]} value={defence[i]?.playerId ?? ""} emptyLabel="Välj spelare" options={outfield} onChange={(id) => setDefence(i, id)} />)}
           {defence.length > 0 && <button type="button" className="hm-btn hm-btn-sm" onClick={() => save((c) => ({ ...c, situationUnits: { ...c.situationUnits, DEFENCE_5V6: undefined } }))}>Rensa</button>}
         </div>
         <div>

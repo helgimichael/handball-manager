@@ -201,7 +201,8 @@ function StatsPanel({ title, stats }: { title: string; stats: import("@handball-
       <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 5 }}>
         <StatRow label="Skott" value={`${stats.goals}/${stats.shots} (${stats.shootingPct}%)`} />
         <StatRow label="Räddningar" value={`${stats.saves}/${stats.shotsFaced}`} />
-        <StatRow label="Tekniska fel" value={String(stats.turnovers)} />
+        {/* HM-PLAYTEST-01 7.3: this is every attack that ended without a shot -- not only technical faults. */}
+        <StatRow label="Bollförluster" value={String(stats.turnovers)} title="Anfall som slutade utan avslut: tekniska fel (steg, regelbrott), tappade bollar och felpassningar, offensiva frislag, passivt spel och brytningar." />
         <StatRow label="Utvisningar (2 min)" value={String(stats.twoMinuteSuspensions)} />
         <StatRow label="7-meter" value={`${stats.sevenMetreGoals}/${stats.sevenMetreAttempts}`} />
       </div>
@@ -209,9 +210,9 @@ function StatsPanel({ title, stats }: { title: string; stats: import("@handball-
   );
 }
 
-function StatRow({ label, value }: { label: string; value: string }) {
+function StatRow({ label, value, title }: { label: string; value: string; title?: string }) {
   return (
-    <div style={{ display: "flex", justifyContent: "space-between", fontSize: "var(--hm-text-xs)" }}>
+    <div title={title} style={{ display: "flex", justifyContent: "space-between", fontSize: "var(--hm-text-xs)" }}>
       <span className="hm-text-muted">{label}</span>
       <span style={{ fontWeight: 700 }}>{value}</span>
     </div>

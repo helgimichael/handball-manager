@@ -1,3 +1,4 @@
+import { NationFlag, nationName } from '@/components/game/NationFlag';
 import Link from 'next/link';
 import type { CSSProperties, ReactNode } from 'react';
 import type { FastMatchResult } from '@handball-manager/game-simulation';
@@ -15,7 +16,7 @@ import ClubCrest from '@/components/ClubCrest';
 import FormDots from '@/components/FormDots';
 import { svOrdinal } from "@/lib/format/ordinal";
 
-type PersonIdentity = Pick<PlayerMock, 'id' | 'firstName' | 'lastName' | 'position' | 'shirtNumber'>;
+type PersonIdentity = Pick<PlayerMock, 'id' | 'firstName' | 'lastName' | 'position' | 'shirtNumber'> & { nationality?: string | null };
 const AVAILABILITY_LABEL: Record<PlayerAvailability,string> = { AVAILABLE:'Tillgänglig', INJURED:'Skadad', SUSPENDED:'Avstängd', RECOVERING:'Under återhämtning', LIMITED:'Begränsad återgång', ON_PLACEMENT:'Hos partnerklubb', NATIONAL_TEAM:'Med landslaget' };
 export function playerAvailabilityLabel(career:CareerState, playerId:string) {
   return AVAILABILITY_LABEL[career.playerStatuses[playerId]?.availability ?? 'AVAILABLE'];
@@ -26,7 +27,7 @@ export function PlayerGlyph({ player, size = 48 }: { player:PersonIdentity; size
   </span>;
 }
 export function PlayerCell({ player, children }: { player:PersonIdentity; children?:ReactNode }) {
-  return <span className="game-player-cell"><PlayerGlyph player={player} size={34}/><span><PlayerLink playerId={player.id} stopPropagation>{player.firstName} {player.lastName}</PlayerLink><small>{player.position}{player.shirtNumber !== null ? ` · #${player.shirtNumber}` : ''}</small>{children}</span></span>;
+  return <span className="game-player-cell"><PlayerGlyph player={player} size={34}/><span><PlayerLink playerId={player.id} stopPropagation>{player.firstName} {player.lastName}</PlayerLink>{player.nationality && player.nationality !== 'SWE' && <> <NationFlag code={player.nationality} /></>}<small>{player.position}{player.shirtNumber !== null ? ` · #${player.shirtNumber}` : ''}</small>{children}</span></span>;
 }
 export function RankIndicator({ position, label }: { position:number | string; label?:string }) {
   return <span className="game-rank"><strong>{position}</strong>{label && <small>{label}</small>}</span>;
@@ -35,13 +36,13 @@ export function PlayerHero({ player, career, children }: { player:PlayerMock; ca
   const stats=career.playerSeasonStats[player.id];
   const own=player.clubId===career.playerClubId;
   const age=playerAgeAtDate(player.dateOfBirth,player.birthYear,career.gameDate);
-  const nationality=NATIONS.find(n => n.code===player.nationality)?.name ?? (player.nationality==='UNK' ? 'Nationalitet okänd' : player.nationality);
+  const nationality=NATIONS.find(n => n.code===player.nationality)?.name ?? nationName(player.nationality) ?? (player.nationality==='UNK' || !player.nationality ? 'Nationalitet okänd' : player.nationality);
   const tier=career.playerSquadStatus[player.id];
   const status=player.clubId==='retired' ? 'Pensionerad' : !player.clubId ? 'Kontraktslös' : own ? playerAvailabilityLabel(career,player.id) : resolveStatusLabel(career.playerStatuses,player);
   const tierLabel=own && tier ? SQUAD_STATUS_TIER_LABEL_SV[tier] : null;
   return <header className="game-player-hero" data-own={own} data-player-id={player.id}>
     <div className="game-player-portrait"><PlayerGlyph player={player} size={220}/><span className="game-portrait-initials">{player.firstName[0]}{player.lastName[0]}</span></div>
-    <div className="game-player-identity"><div className="game-overline">{positionLabel(player.position)}{player.secondaryPosition ? ` / ${positionLabel(player.secondaryPosition)}` : ''} <span>#{player.shirtNumber ?? '—'}</span></div><p className="game-player-firstname">{player.firstName}</p><h1>{player.lastName}</h1><div className="game-person-facts"><span>{age !== null ? `${age} år` : 'Ålder okänd'}</span><span>{nationality}</span>{player.clubId && getClub(player.clubId) ? <ClubLink clubId={player.clubId}>{getClub(player.clubId)!.name}</ClubLink> : <span>{player.clubId==='retired' ? 'Avslutad spelarkarriär' : 'Fri agent'}</span>}</div><div className="game-person-status"><span className="game-status-chip">{status}</span>{tierLabel && tierLabel!==status && <span>{tierLabel}</span>}{career.playerContracts[player.id] && <span>Avtal till {career.playerContracts[player.id].contractEndDate}</span>}</div>{children}</div>
+    <div className="game-player-identity"><div className="game-overline">{positionLabel(player.position)}{player.secondaryPosition ? ` / ${positionLabel(player.secondaryPosition)}` : ''} <span>#{player.shirtNumber ?? '—'}</span></div><p className="game-player-firstname">{player.firstName}</p><h1>{player.lastName}</h1><div className="game-person-facts"><span>{age !== null ? `${age} år` : 'Ålder okänd'}</span><span className="hm-with-flag"><NationFlag code={player.nationality} />{nationality}</span>{player.clubId && getClub(player.clubId) ? <ClubLink clubId={player.clubId}>{getClub(player.clubId)!.name}</ClubLink> : <span>{player.clubId==='retired' ? 'Avslutad spelarkarriär' : 'Fri agent'}</span>}</div><div className="game-person-status"><span className="game-status-chip">{status}</span>{tierLabel && tierLabel!==status && <span>{tierLabel}</span>}{career.playerContracts[player.id] && <span>Avtal till {career.playerContracts[player.id].contractEndDate}</span>}</div>{children}</div>
     <div className="game-player-season"><span className="game-overline">Säsong {career.seasonId}</span><div className="game-hero-stats"><div><strong>{stats?.appearances ?? 0}</strong><small>Matcher</small></div><div><strong>{player.position==='MV' ? stats?.saves ?? 0 : stats?.goals ?? 0}</strong><small>{player.position==='MV' ? 'Räddningar' : 'Mål'}</small></div><div><strong>{stats?.appearances ? averageRating(stats).toFixed(1) : '—'}</strong><small>Snittbetyg</small></div></div>{own && <div className="game-condition"><span>Energi <strong>{Math.round(squadEnergy(career,player))}%</strong></span><meter min="0" max="100" value={squadEnergy(career,player)} aria-label={`${player.firstName} ${player.lastName}: energi`}/></div>}</div>
   </header>;
 }

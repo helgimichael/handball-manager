@@ -71,3 +71,9 @@
 .hm-scout-delegate { margin-top: 12px; max-width: 420px; }
 .hm-link-list { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
 .hm-link-list li { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 10px; border: 1px solid var(--hm-border-subtle); border-radius: var(--hm-radius-md); background: var(--hm-surface-2); font-size: var(--hm-text-sm); }
+.hm-with-flag { display: inline-flex; align-items: center; gap: 6px; }
+.hm-settings-entry { max-width: 820px; margin: 0 auto; padding: 32px 16px 64px; min-height: 100vh; background: var(--hm-bg-app); color: var(--hm-text-primary); }
+.hm-settings-entry > header { display: grid; gap: 6px; margin-bottom: 18px; }
+.hm-settings-entry h1 { margin: 0; font-size: var(--hm-text-2xl); font-weight: 700; letter-spacing: -.01em; }
+.hm-settings-entry header p { margin: 0 0 8px; color: var(--hm-text-muted); }
+.hm-settings-entry header .hm-btn { justify-self: start; }
