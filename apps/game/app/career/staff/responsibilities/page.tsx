@@ -4,7 +4,8 @@
 // them advise first; proposals wait for approval and every delegated
 // action is logged with who did it and why.
 import Link from "next/link";
-import { useState } from "react";
+import { Suspense, useState } from "react";
+import { StaffNav } from "@/components/staff/StaffNav";
 import { DecisionCard } from "@/components/experience/Moment";
 import { PageHeading } from "@/components/manager/Workspace";
 import StarRating from "@/components/StarRating";
@@ -40,6 +41,7 @@ export default function ResponsibilitiesPage() {
   return (
     <div className="dg-page">
       <PageHeading eyebrow="Klubben / organisation" title="Ansvarsfördelning" description="Bestäm vad du gör själv och vad staben sköter. Delegerade beslut följer samma regler som dina egna; nyckelspelare, anställningar och förhandlingar kräver alltid ditt godkännande." actions={<Link className="hm-btn" href="/career/staff">← Personal</Link>} />
+      <Suspense><StaffNav /></Suspense>
 
       <section className="dg-panel" aria-labelledby="matrix-title">
         <header><span className="xp-eyebrow">Matrisen</span><h2 id="matrix-title">Vem gör vad</h2></header>

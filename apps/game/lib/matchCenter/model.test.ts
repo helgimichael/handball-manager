@@ -77,7 +77,7 @@ test('19 supported speed chunks preserve the same canonical 128 ticks', () => {
     for (let i = 0; i < 16; i++)
         b = advanceProductionMatch(b, 8);
     assert.deepEqual(a.productionMatch, b.productionMatch);
-    assert.ok(MATCH_SPEEDS.includes(2) && MATCH_SPEEDS.includes(8));
+    assert.ok(MATCH_SPEEDS.includes(2) && MATCH_SPEEDS.includes(86));
 });
 test('20 substitution still uses the canonical exchange and role contract', () => { let s = startProductionMatch(career); const core = s.productionMatch!.core, out = core.players.find(p => p.team === 'HOME' && p.kind === 'FIELD_PLAYER' && p.population === 'COURT')!, incoming = core.players.find(p => p.team === 'HOME' && p.kind === out.kind && p.population === 'BENCH')!; s = commandProductionMatch(s, { kind: 'SUBSTITUTION', team: 'HOME', outId: out.id, inId: incoming.id }); s = advanceProductionMatch(s, 200); assert.equal(s.productionMatch!.core.players.find(p => p.id === incoming.id)!.population, 'COURT'); assert.equal(s.productionMatch!.core.players.find(p => p.id === incoming.id)!.role, out.role); });
 test('21 timeout is canonical, pauses official time and can be resumed', () => { let s = advanceProductionMatch(startProductionMatch(career), 100); const team = s.productionMatch!.core.possession.team; s = commandProductionMatch(s, { kind: 'TIMEOUT', team }); const time = s.productionMatch!.core.officialClock.timeMs; assert.equal(liveMatchModel(s.productionMatch!).status, 'TIMEOUT'); s = resumeMatchTimeout(s); assert.equal(s.productionMatch!.core.referee.timeout, null); assert.equal(s.productionMatch!.core.officialClock.timeMs, time); });

@@ -1,3 +1,4 @@
+import { matchPlanBefore, plannedSeventhPlayer, type TeamMatchPlan } from './matchPlanDirectives';
 import { courtPlayers,otherTeam,record,type CorePlayer,type CoreState,type TeamId } from './state';
 import { requestExchange,exchangeActive,courtLimit } from './population';
 import { requestTeamTimeout } from './referee';
@@ -67,7 +68,9 @@ export type TeamTactics={defence:'6:0'|'5:1';tempo:OffensiveTempo;attackIdentity
   /** Absent in active saves created before the instruction existed; reads as BALANCED. */
   rotationStrategy?:RotationStrategy;
   /** Absent in active saves created before the instruction existed; reads as OFF. */
-  sevenVSix?:SevenVSixMode};
+  sevenVSix?:SevenVSixMode;
+  /** HM-PLAYTEST-01: the manager's own match plan (pairs, situational units, defensive spaces, 7m order). Absent: unchanged behaviour. */
+  plan?:TeamMatchPlan};
 /**
  * 7v6: the goalkeeper leaves for a seventh court player during an established
  * attack, and comes back when the ball is lost (population.ts). SITUATIONAL
@@ -93,7 +96,7 @@ function sevenVSixBefore(s:CoreState,team:TeamId) {
     // Only into a settled attack: the keeper's walk off is real time with the
     // goal already empty, and nobody leaves a goal during a counter-attack.
     if(!keeper||s.possession.phase!=='ESTABLISHED'||s.ball.controllerId===keeper.id||keeper.airborne)return;
-    const seventh=s.players.filter(p=>ready(p)&&p.kind==='FIELD_PLAYER')
+    const seventh=plannedSeventhPlayer(s,team,ready)??s.players.filter(p=>ready(p)&&p.kind==='FIELD_PLAYER')
       .sort((a,b)=>b.profile.pivotPlay-a.profile.pivotPlay||b.condition.energy-a.condition.energy||a.id.localeCompare(b.id))[0];
     if(seventh)requestExchange(s,team,keeper.id,seventh.id);
   } else if(s.flow.sevenVTeam===team&&!keeper) {
@@ -126,6 +129,7 @@ export function coachingBefore(s:CoreState) {
       if(requestTeamTimeout(s,team))tactics.lastTimeoutPossession=s.possession.id;
     }
     sevenVSixBefore(s,team);
+    matchPlanBefore(s,team);
     if(!tactics.rotation)continue;
     const strategy=rotationStrategy(s,team),profile=ROTATION_PROFILES[strategy];
     // The match situation moves the line, never the rule. A short bench keeps

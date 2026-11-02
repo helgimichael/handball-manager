@@ -83,6 +83,12 @@ export function removeUnavailableFromPlan(plan: MatchPlan, availableIds: Readonl
     },
     playerUsage: plan.playerUsage.filter((u) => availableIds.has(u.playerId)),
     substitutionPairs: plan.substitutionPairs.filter((p) => availableIds.has(p.attackPlayerId) && availableIds.has(p.defencePlayerId)),
+    // HM-PLAYTEST-01 2.3: a situational unit with an unavailable player is dropped, never silently refilled.
+    ...(plan.situationUnits ? { situationUnits: {
+      ...(plan.situationUnits.ATTACK_6V5?.every((e) => availableIds.has(e.playerId)) ? { ATTACK_6V5: plan.situationUnits.ATTACK_6V5 } : {}),
+      ...(plan.situationUnits.DEFENCE_5V6?.every((e) => !e.playerId || availableIds.has(e.playerId)) ? { DEFENCE_5V6: plan.situationUnits.DEFENCE_5V6 } : {}),
+    } } : {}),
+    ...(plan.sevenVSixPlayerId ? { sevenVSixPlayerId: availableIds.has(plan.sevenVSixPlayerId) ? plan.sevenVSixPlayerId : undefined } : {}),
   };
 }
 

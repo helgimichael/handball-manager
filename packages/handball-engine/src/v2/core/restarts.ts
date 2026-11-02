@@ -1,3 +1,4 @@
+import { plannedPenaltyTaker } from './matchPlanDirectives';
 import { goalAreaClearance } from '../../domain/geometry/goalArea';
 import { actionAvailable,courtPlayers,getPlayer,otherTeam,record,type CorePlayer,type CoreState,type Point } from './state';
 import { clamp,distance,fieldLegal,local,structurePoint,world,clearGoalArea,laneClearance } from './space';
@@ -15,6 +16,9 @@ function chooseTaker(s:CoreState) {
   const players=courtPlayers(s,r.owner).filter(p=>!exchangeActive(s,p.id));
   const holder=players.find(p=>p.id===s.ball.controllerId&&p.kind==='FIELD_PLAYER');
   if(holder&&(r.kind==='FREE_THROW'||r.kind==='THROW_IN'))return holder;
+  // HM-PLAYTEST-01: the manager's 7-metre order, first available court player.
+  const planned=r.kind==='SEVEN_METRE'?plannedPenaltyTaker(s,r.owner,players):undefined;
+  if(planned)return planned;
   return r.kind==='GOALKEEPER_THROW'?players.find(p=>p.kind==='GOALKEEPER'):players.filter(p=>p.kind==='FIELD_PLAYER').sort((a,b)=>priority.indexOf(a.role)-priority.indexOf(b.role)||a.id.localeCompare(b.id))[0];
 }
 export function restartTarget(s:CoreState,p:CorePlayer):Point {

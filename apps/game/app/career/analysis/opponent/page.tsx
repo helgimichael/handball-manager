@@ -1,4 +1,5 @@
 "use client";
+import { OpponentScoutingPanel } from '@/components/scouting/OpponentScoutingPanel';
 import Link from 'next/link';
 import { useCareer } from '@/lib/career/CareerContext';
 import { buildOpponentViewModel } from '@/lib/analysis/viewModels';
@@ -21,6 +22,7 @@ export default function AnalysisOpponentPage() {
   return <div className="game-secondary-split">
     <div className="game-secondary-main">
       <MatchHero career={career} fixture={next} compact context="Motståndaranalys"><Link className="hm-btn hm-btn-sm hm-btn-primary" href="/career/tactics">Öppna matchplan →</Link><Link className="hm-btn hm-btn-sm" href="/career/match-preview">Matchförberedelse →</Link></MatchHero>
+      <OpponentScoutingPanel />
       <Panel title="Motståndarens senaste matcher" actions={<ClubLink clubId={vm.club.id}>Klubb & trupp →</ClubLink>}>
         <div className="hm-scroll-x"><table className="hm-table"><thead><tr><th>Datum</th><th>Motstånd</th><th>H / B</th><th>Resultat</th><th>Mål framåt</th><th>Insläppta</th></tr></thead><tbody>{(vm.recentMatches ?? []).length ? [...vm.recentMatches!].reverse().map(row => <tr key={row.fixtureId}><td>{row.date}</td><td><ClubLink clubId={row.opponentClubId}>{getClub(row.opponentClubId)?.name ?? row.opponentClubId}</ClubLink></td><td>{row.isHome ? 'H' : 'B'}</td><td><Link className="hm-result-link" href={`/career/match-report/${row.fixtureId}`}>{row.goalsFor}–{row.goalsAgainst}</Link></td><td>{row.goalsFor}</td><td>{row.goalsAgainst}</td></tr>) : <tr><td colSpan={6}>Motståndaren har ingen spelad match den här säsongen ännu.</td></tr>}</tbody></table></div>
       </Panel>

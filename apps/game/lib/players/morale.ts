@@ -3,6 +3,7 @@
 // role, results, contract situation, promises, the club's status and the
 // staff around him -- and moves a few points toward it. No random swings:
 // the same circumstances always give the same morale.
+import { currentTeamRoles, leadershipOf, STEADYING_LEADERSHIP } from "../career/teamRoles";
 import { SQUAD_STATUS_TIER_LABEL_SV } from "../career/squadStatus";
 import type { CareerState } from "../career/types";
 import type { GameplayPlayerRating } from "../gameWorld/gameplayRatingSnapshot";
@@ -51,7 +52,12 @@ export function moraleFactors(state: CareerState, playerId: string): MoraleFacto
   if (recent.length >= 3) {
     const ppg = recent.reduce((s, r) => s + r.points, 0) / recent.length;
     if (ppg >= 1.5) out.push({ key: "RESULTS", label: "Laget vinner – stämningen är god", points: 5 });
-    else if (ppg <= 0.6) out.push({ key: "RESULTS", label: "Laget förlorar – tung stämning", points: -5 });
+    else if (ppg <= 0.6) {
+      // HM-PLAYTEST-01 2.5: a captain with real leadership steadies the group through a losing run.
+      const captain = currentTeamRoles(state).captainId;
+      const steadied = captain && captain !== playerId && (leadershipOf(state, captain) ?? 0) >= STEADYING_LEADERSHIP;
+      out.push(steadied ? { key: "RESULTS", label: "Laget förlorar – kaptenen håller ihop gruppen", points: -3 } : { key: "RESULTS", label: "Laget förlorar – tung stämning", points: -5 });
+    }
   }
 
   // Contract situation.

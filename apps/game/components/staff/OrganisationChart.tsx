@@ -31,7 +31,7 @@ export function OrganisationChart() {
   const governance = roster.filter((m) => career.staffEmployment[m.id]?.employmentType === "GOVERNANCE");
   const expiring = roster.filter((m) => { const end = career.staffEmployment[m.id]?.contractEndDate; return end && end <= `${Number(career.seasonId.slice(0, 4)) + 1}-05-31`; });
   const open = Object.values(career.staffNegotiations ?? {}).filter((n) => n.stage === "CLUB" || n.stage === "TERMS");
-  const vacant = org.filter((p) => !p.holder && !p.coveredBy);
+  const vacant = org.filter((p) => !p.holder && !p.coveredBy && !p.managerHeld);
   // Needs: vacant positions first, then contracts ending within four months.
   const soon = roster.filter((m) => { const e = career.staffEmployment[m.id]; return e?.employmentType === "SALARIED" && e.contractEndDate && daysBetween(career.gameDate, e.contractEndDate) <= 120; });
   return (
@@ -70,7 +70,7 @@ export function OrganisationChart() {
             {org.filter((p) => p.department === dept).map((p) => {
               const e = p.holder ? career.staffEmployment[p.holder.id] : undefined;
               return (
-                <div key={`${p.role}-${p.slot}`} className="st-pos" data-state={p.holder ? (p.combinedWith ? "combined" : "filled") : p.coveredBy ? "covered" : "vacant"}>
+                <div key={`${p.role}-${p.slot}`} className="st-pos" data-state={p.holder || p.managerHeld ? (p.combinedWith ? "combined" : "filled") : p.coveredBy ? "covered" : "vacant"}>
                   <small>{STAFF_ROLE_LABEL[p.role]}{p.slot > 1 ? ` ${p.slot}` : ""}</small>
                   {p.holder ? (
                     <>
@@ -78,6 +78,8 @@ export function OrganisationChart() {
                       <span className="st-pos-meta"><StarRating stars={roleSuitabilityStars(computeRoleSuitability(p.holder, p.role))} />{e?.employmentType === "SALARIED" ? `${money.format(e.wageEurPerMonth ?? 0)}/mån · t.o.m. ${e.contractEndDate ?? "—"}` : "Ideell"}</span>
                       {p.combinedWith && <span className="st-pos-meta">Kombinerad roll med {STAFF_ROLE_LABEL[p.combinedWith].toLowerCase()}</span>}
                     </>
+                  ) : p.managerHeld ? (
+                    <><Link href="/career/manager">Du (manager)</Link><span className="st-pos-meta">Du leder laget som huvudtränare</span></>
                   ) : p.coveredBy ? (
                     <span className="st-pos-meta">Ingen tjänst i klubbens storlek. {STAFF_ROLE_LABEL[p.coveredBy]} täcker rollen.</span>
                   ) : (

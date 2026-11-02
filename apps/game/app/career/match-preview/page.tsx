@@ -1,4 +1,5 @@
 "use client";
+import { OpponentScoutingPanel } from '@/components/scouting/OpponentScoutingPanel';
 import { MatchHero } from '@/components/game/Identity';
 import { PageHeading } from '@/components/manager/Workspace';
 import MatchContext from "@/components/manager/MatchContext";
@@ -118,6 +119,7 @@ export default function MatchPreviewPage() {
         {isMatchdayReady ? <><button type="button" className="hm-btn hm-btn-primary" disabled={lineupErrors.length > 0 || blocking.length > 0} onClick={() => hasActiveSessionForFixture ? handlePlayMatch() : requestStart('LIVE')}>{hasActiveSessionForFixture ? "FORTSÄTT MATCH →" : "STARTA MATCH →"}</button><button type="button" className="hm-btn" disabled={lineupErrors.length > 0 || blocking.length > 0} onClick={() => requestStart('QUICK')}>SNABBRESULTAT</button></> : <span>Fortsätt säsongen till matchdagen för att spela.</span>}
       </MatchHero>
       <MatchContext fixture={fixture} />
+      <OpponentScoutingPanel compact />
       <div className="hm-grid" style={{ gridTemplateColumns: "1fr 1fr" }}>
         <div className="hm-panel">
           <div className="hm-panel-header">

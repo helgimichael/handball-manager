@@ -1,3 +1,4 @@
+import { displaceIncumbentHeadCoach } from "../staff/headCoachDisplacement";
 import { emptyMatchFitnessLedger, LEGACY_MATCH_FITNESS, PRESEASON_MATCH_FITNESS } from "../players/matchFitness";
 import { generateDoubleRoundRobin } from "@handball-manager/game-simulation";
 import { GAME_CURRENT_DATE, TUMBA_SQUAD, getClub, getClubsByCompetition } from "../game-data";
@@ -271,5 +272,6 @@ export function createNewCareerState(
   // start, independent of which club the manager plays -- runs after
   // staffRoster is fully resolved (above) so the duplicate-person check
   // has real data to check against.
-  return seedScoutPool(withPartnerships);
+  // HM-PLAYTEST-01 4.4: the manager takes the head coach's job; the incumbent goes to the staff market.
+  return displaceIncumbentHeadCoach(seedScoutPool(withPartnerships));
 }

@@ -6,7 +6,8 @@
 // -- no client fetch needed any more (HM-STAFF-DATA-0.1's own on-demand
 // fetch is superseded here; the raw identity data it fetched is now only
 // consumed once, server-side via newCareer.ts, to build this roster).
-import { useMemo, useState } from "react";
+import { StaffNav } from "@/components/staff/StaffNav";
+import { Suspense, useMemo, useState } from "react";
 import Link from "next/link";
 import { useCareer } from "@/lib/career/CareerContext";
 import { getCareerClub } from "@/lib/career/careerWorld";
@@ -74,6 +75,7 @@ export default function StaffPage() {
   return (
     <div className="game-secondary-page">
       <SectionScene eyebrow={`${club.name} · ${career.seasonId}`} title="Personal" description="Tränare, specialister och ledare runt laget. Följ rollerna och veckans träningsansvar." mark={<ClubCrest shortName={club.shortName} primaryColor={club.primaryColor} clubId={club.id} size={72} />} actions={<Link href="/career/staff/recruitment" className="hm-btn hm-btn-sm hm-btn-primary">Rekrytera personal</Link>}><div><strong>{roster.length}</strong><small>personer i klubben</small></div><div><strong>{responsibilities.length}</strong><small>pass den här veckan</small></div></SectionScene>
+      <Suspense><StaffNav /></Suspense>
       {/* HM-ALPHA3-M04: the organisation -- departments, positions, costs and what is about to change. */}
       <OrganisationChart />
       <div className="game-secondary-split"><div className="game-secondary-main">

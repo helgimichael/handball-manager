@@ -41,7 +41,7 @@
 // (plus the corresponding saveMigration.ts bump every prior CareerState
 // addition required) is left to a future milestone once an editor
 // actually needs to persist a plan.
-import type { AttackRole, DefenceRole, Position } from "../rating/types";
+import type { AttackRole, DefenceRole, OutcourtPositionId, Position } from "../rating/types";
 
 export type { AttackRole, DefenceRole, Position };
 
@@ -296,4 +296,31 @@ export interface MatchPlan {
   attackPlan: AttackPlanConfig;
   defencePlan: DefencePlanConfig;
   transitionPlan: TransitionPlanConfig;
+  /**
+   * HM-PLAYTEST-01 2.1: who defends in which space, per defensive system.
+   * Keyed by the plan's own base formation ("6-0" / "5-1"); value maps a
+   * playerId to a defensive space 0-5 (DEFENCE_SPACES). Absent: the engine's
+   * role default (each player defends on his own attacking side).
+   */
+  defenceAssignments?: Partial<Record<DefenceSystemKey, Readonly<Record<string, number>>>>;
+  /** HM-PLAYTEST-01 2.3: saved situational lineups with a real path into the match. */
+  situationUnits?: SituationUnits;
+  /** HM-PLAYTEST-01 2.3: the preferred seventh court player in 7 mot 6. */
+  sevenVSixPlayerId?: string;
+}
+
+export type DefenceSystemKey = "6-0" | "5-1";
+
+/**
+ * The six spaces of the defensive line, numbered as the engine numbers them
+ * (left to right in the ATTACKING team's frame). Swedish names are the
+ * defender's own: "höger" is the defender's right, facing the attack.
+ */
+export const DEFENCE_SPACES = [0, 1, 2, 3, 4, 5] as const;
+
+export interface SituationUnits {
+  /** Spel i numerärt överläge: six court players in attack while the opponent is a man short. */
+  ATTACK_6V5?: readonly { playerId: string; position: OutcourtPositionId }[];
+  /** Försvar i numerärt underläge: five court players defending while we are a man short. */
+  DEFENCE_5V6?: readonly { playerId: string; zone: number }[];
 }

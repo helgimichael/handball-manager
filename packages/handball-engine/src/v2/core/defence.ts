@@ -26,6 +26,7 @@
 // The existing single-pressure, single-help, single-cover invariant is kept. It
 // was the one genuinely good thing about the old model. It now lives inside a
 // line instead of standing in for one.
+import { plannedDefenceZone } from './matchPlanDirectives';
 import { goalAreaClearance } from '../../domain/geometry/goalArea';
 import { clamp, clearGoalArea, distance, goal, local, world } from './space';
 import {defenderRelation} from './threatRelation';
@@ -159,7 +160,9 @@ export function zoneOf(x: number): number {
  */
 export function assignZones(s: CoreState, defenders: readonly CorePlayer[], direction: Direction): void {
   const taken = new Set<number>();
-  const ordered = [...defenders].sort((a, b) => (ZONE_BY_ROLE[a.role] ?? 3) - (ZONE_BY_ROLE[b.role] ?? 3) || a.id.localeCompare(b.id));
+  // HM-PLAYTEST-01: the manager's own defensive positions win over the role default.
+  const zoneOf = (d: CorePlayer) => plannedDefenceZone(s, d) ?? ZONE_BY_ROLE[d.role] ?? 3;
+  const ordered = [...defenders].sort((a, b) => zoneOf(a) - zoneOf(b) || a.id.localeCompare(b.id));
   for (const d of ordered) {
     // More bodies than spaces. A substitution can briefly leave a seventh man
     // on the court, and there are six spaces in a 6:0 however many people are
@@ -167,7 +170,7 @@ export function assignZones(s: CoreState, defenders: readonly CorePlayer[], dire
     // whoever is in front of him, which is what actually happens; sharing a
     // space between two defenders is a line that is not a line.
     if (taken.size >= ZONE_COUNT) { d.zone = null; continue; }
-    let want = ZONE_BY_ROLE[d.role] ?? 3;
+    let want = zoneOf(d);
     // Fewer than six men is a suspension, not a reshuffle: the remaining
     // defenders keep their own spaces and the line simply narrows around the
     // hole, which is what a short-handed team actually does.

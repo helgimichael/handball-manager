@@ -5,7 +5,28 @@ import { resultFromSession, type ProductionMatchSession, type PlayedMatchArchive
 import { isFreeThrowFact, readOrdinaryFreeThrows, type FreeThrowRead } from './freeThrows';
 export const ROLE_LABEL: Record<Role, string> = { LW: 'V6', LB: 'V9', CB: 'M9', RB: 'H9', RW: 'H6', P: 'M6', P2: 'M6', GK: 'MV' };
 export const SHOT_LABEL: Record<string, string> = { WING: 'Kant', PIVOT: 'Linje', BREAKTHROUGH: 'Genombrott', BACKCOURT_JUMP: 'Distans', STANDING: 'Stående', SEVEN_METRE: '7m', EMPTY_GOAL: 'Tomt mål' };
-export const MATCH_SPEEDS = [1, 2, 4, 8, 16, 64] as const;
+/**
+ * HM-PLAYTEST-01 7.1: named match speeds. The multiplier is against real
+ * time (1x = a 60-minute match takes 60 minutes); the live view advances by
+ * measured wall-clock time, so the label holds whatever the render cost.
+ */
+export const MATCH_SPEED_OPTIONS = [
+  { value: 1, label: 'Realtid', note: '60 min' },
+  { value: 2, label: 'Normal', note: '30 min' },
+  { value: 10, label: 'Snabb', note: '6 min' },
+  { value: 20, label: 'Mycket snabb', note: '3 min' },
+  { value: 48, label: 'Express', note: '75 s' },
+  { value: 64, label: 'Turbo', note: '56 s' },
+  { value: 86, label: 'Maximal', note: '42 s' },
+] as const;
+export const MATCH_SPEEDS = MATCH_SPEED_OPTIONS.map((o) => o.value);
+export const DEFAULT_MATCH_SPEED = 10;
+/** From this speed the live view lists only key moments. */
+export const IMPORTANT_ONLY_FROM_SPEED = 10;
+/** Engine ticks for a stretch of wall-clock time at a speed (DT 50 ms). A long gap (hidden tab, slow frame) is capped, never caught up in one jump. */
+export function ticksForElapsed(speed: number, elapsedMs: number): number {
+  return Math.max(1, Math.round((Math.min(600, Math.max(0, elapsedMs)) / 50) * speed));
+}
 export type Importance = 'KEY' | 'NORMAL';
 export type MatchPresentationEvent = {
     canonicalEventId: string;

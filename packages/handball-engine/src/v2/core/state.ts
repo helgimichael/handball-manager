@@ -108,7 +108,9 @@ export type Restart = {
   /** How often this restart has had to be retaken; bounded, then forfeited. */
   retakes?:number;
 };
-export type Exchange={id:string;team:TeamId;outId:string|null;inId:string;phase:'WAIT_EXIT'|'ENTERING'|'COMPLETED'|'CANCELLED';gate:Point;requestedTick:number};
+export type Exchange={id:string;team:TeamId;outId:string|null;inId:string;phase:'WAIT_EXIT'|'ENTERING'|'COMPLETED'|'CANCELLED';gate:Point;requestedTick:number;
+  /** HM-PLAYTEST-01: the attacking role the incoming player takes, when a planned unit names one. Absent: he inherits the outgoing player's role. */
+  role?:Role};
 export type CoreState = {
   version: typeof CORE_VERSION; scenario: string; seed: number;
   ruleProfile: typeof CORE_RULES;

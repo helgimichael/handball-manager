@@ -19,6 +19,9 @@
 // Continue Controller's job (continueController.ts), not this module's --
 // processDay only reports what happened; it never decides to keep going.
 
+import { applyPreseasonEventDay, CAMP_MATCH_FITNESS_CEILING, campOn } from "./preseasonPlanning";
+import { progressOpponentScouting } from "../scouting/opponentScouting";
+import { buildStaffReport, buildTrainingReport } from "./weeklyReports";
 import { competitionUpdatesFor } from "./competitionUpdates";
 import { applyDailyMatchFitness } from "../players/matchFitness";
 import { getCareerSquad } from "./careerWorld";
@@ -33,6 +36,7 @@ import {
   buildMatchPreparationReadyEvent,
   buildMatchdayReadyEvent,
   buildOpponentReportReadyEvent,
+  buildOpponentScoutReportEvent,
   buildPlayerInjuredEvent,
   buildPlayerStatusChangedEvent,
   buildScoutReportReadyEvent,
@@ -163,8 +167,10 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
   // injured) and is built towards a modest ceiling by ordinary training.
   {
     const injuries = next.playerInjuries ?? {};
-    next = applyDailyMatchFitness(next, date, getCareerSquad(next).map((p) => p.id), (id) => !!injuries[id]?.activeInjury);
+    next = applyDailyMatchFitness(next, date, getCareerSquad(next).map((p) => p.id), (id) => !!injuries[id]?.activeInjury, campOn(next, date) ? CAMP_MATCH_FITNESS_CEILING : undefined);
   }
+  // HM-PLAYTEST-01 3.1: a training camp ending today brings the group together.
+  next = applyPreseasonEventDay(next, date);
   // HM-TRAINING-1.1 Part 5/14: accumulates today's session stimulus
   // (reading the TrainingSessionResult(s) executeTrainingDay just wrote),
   // then -- only on a Sunday, and only once per player per date -- rolls
@@ -183,10 +189,10 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
   emit(buildTrainingCompletedEvent(date));
   const daysSinceStart = daysBetween(next.seasonStartDate, date);
   if (daysSinceStart > 0 && daysSinceStart % TRAINING_REPORT_INTERVAL_DAYS === 0) {
-    emit(buildTrainingReportEvent(date));
+    emit(buildTrainingReportEvent(date, buildTrainingReport(next, date)));
   }
   if (daysSinceStart > 0 && daysSinceStart % STAFF_REPORT_INTERVAL_DAYS === STAFF_REPORT_OFFSET_DAYS) {
-    emit(buildStaffReportEvent(date));
+    emit(buildStaffReportEvent(date, buildStaffReport(next, date)));
   }
 
   // --- 4. Scouting / Analysis progress ------------------------------------
@@ -210,6 +216,13 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
     } else {
       emit(buildOpponentReportReadyEvent(task.id, task.targetEntity.entityId, date));
     }
+  }
+
+  // HM-PLAYTEST-01 4.1: opponent scouting (requests, delegation, reports).
+  {
+    const scouted = progressOpponentScouting(next, date, upcomingFixture ?? null);
+    next = scouted.state;
+    for (const report of scouted.completed) emit(buildOpponentScoutReportEvent(report.fixtureId, report.opponentClubId, report.staffName, report.reliabilityLabel, date));
   }
 
   // HM-SCOUTING-1.0: the REAL player-scouting loop -- advances every

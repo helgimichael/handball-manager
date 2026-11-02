@@ -14,7 +14,8 @@ function club(input: Omit<Club, "playable"> & { playable?: boolean }): Club {
   // HM-PLAYTEST-01 5.4: one verified arena registry (clubVenues.ts) feeds the
   // club record, so club selection, profiles and matchday all agree.
   const venue = clubVenue(input.id);
-  return { playable: false, ...input, ...(venue ? { venue: venue.arena, city: venue.city, ...(venue.capacity ? { venueCapacity: venue.capacity } : {}) } : {}) };
+  // The club's own home-area city (used for derbies and geography) is kept; the arena's town is separate.
+  return { playable: false, ...input, ...(venue ? { venue: venue.arena, venueCity: venue.city, ...(venue.capacity ? { venueCapacity: venue.capacity } : {}) } : {}) };
 }
 
 // --- Sweden, tier 1: Handbollsligan (2026/27) ---

@@ -163,27 +163,28 @@ export function buildTrainingCompletedEvent(date: string): CareerEvent {
   return baseEvent(`TRAINING_COMPLETED:${date}`, "TRAINING_COMPLETED", date, "INFORMATION", "Träning genomförd", "Dagens träningspass genomfördes enligt plan.", []);
 }
 
-export function buildTrainingReportEvent(date: string): CareerEvent {
+/** HM-PLAYTEST-01 3.4/3.5: the summary and links come from the report itself (lib/career/weeklyReports.ts). */
+export function buildTrainingReportEvent(date: string, report?: { summary: string; destinations: EventDestination[] }): CareerEvent {
   return baseEvent(
     `TRAINING_REPORT:${date}`,
     "TRAINING_REPORT",
     date,
     "IMPORTANT",
     "Veckans träningsrapport",
-    "En sammanställning av veckans träning finns tillgänglig.",
-    [{ route: "TRAINING" }],
+    report?.summary ?? "En sammanställning av veckans träning finns tillgänglig.",
+    report?.destinations ?? [{ route: "TRAINING" }],
   );
 }
 
-export function buildStaffReportEvent(date: string): CareerEvent {
+export function buildStaffReportEvent(date: string, report?: { summary: string; destinations: EventDestination[] }): CareerEvent {
   return baseEvent(
     `STAFF_REPORT:${date}`,
     "STAFF_REPORT",
     date,
     "IMPORTANT",
     "Rapport från tränarstaben",
-    "Tränarstaben har sammanställt en lägesrapport.",
-    [{ route: "SQUAD" }],
+    report?.summary ?? "Tränarstaben har sammanställt en lägesrapport.",
+    report?.destinations ?? [{ route: "SQUAD" }],
   );
 }
 
@@ -260,6 +261,20 @@ export function buildOpponentReportReadyEvent(taskId: string, clubId: string, da
     "Motståndaranalys klar",
     "Analysen av nästa motståndare är klar.",
     [{ route: "ANALYSIS_OPPONENT" }],
+    { primaryEntity: { entityType: "club", entityId: clubId } },
+  );
+}
+
+/** HM-PLAYTEST-01 4.1: a staff member's opponent scouting report is ready. */
+export function buildOpponentScoutReportEvent(fixtureId: string, clubId: string, staffName: string, reliabilityLabel: string, date: string): CareerEvent {
+  return baseEvent(
+    `OPPONENT_REPORT_READY:scout:${fixtureId}`,
+    "OPPONENT_REPORT_READY",
+    date,
+    "IMPORTANT",
+    "Scoutingrapport om motståndaren",
+    `${staffName} har scoutat nästa motståndare. Säkerhet: ${reliabilityLabel.toLowerCase()}.`,
+    [{ route: "ANALYSIS_OPPONENT" }, { route: "TACTICS" }],
     { primaryEntity: { entityType: "club", entityId: clubId } },
   );
 }

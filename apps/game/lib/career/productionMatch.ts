@@ -1,3 +1,5 @@
+import { engineTeamMatchPlan } from '../matchPlan/engineMatchPlan';
+import { currentTeamRoles } from './teamRoles';
 import { applyMatchExposure, matchFitnessAttributeFactor, matchFitnessOf } from '../players/matchFitness';
 import { seedFromString, type FastMatchResult, type MatchEvent, type PlayerMatchContribution, type TeamMatchStats } from '@handball-manager/game-simulation';
 import { createMatch } from '@handball-manager/handball-engine/src/v2/core/match';
@@ -152,6 +154,8 @@ export function createProductionSession(state: CareerState, fixture: CareerFixtu
     core.coaching[team].tempo = engineOffensiveTempo(side.plan?.attackPlan);
     core.coaching[team].defence = engineDefenceSystem(side.plan?.defencePlan.baseFormation);
     core.coaching[team].aggression = engineDefensiveAggression(side.plan?.defencePlan);
+    // HM-PLAYTEST-01 WS2: the manager's own handball match plan reaches the engine.
+    if (!cpu) { const teamPlan = engineTeamMatchPlan(side.plan, currentTeamRoles(state)); if (teamPlan && Object.keys(teamPlan).length) core.coaching[team].plan = teamPlan; }
     core.coaching[team].attackIdentity = side.plan?.attackPlan.ballCirculation === 'DIRECT' ? 'DIRECT' : side.plan?.attackPlan.wingUsage === 'HIGH' ? 'WIDTH' : side.plan?.attackPlan.structureFreedom === 'STRUCTURED' ? 'COMBINATION' : 'BALANCED';
   }
   // Replace all template references, including receiver/mark/throw-off identities.

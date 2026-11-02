@@ -23,6 +23,7 @@ import { SectionScene, StaffMark } from "@/components/game/Secondary";
 import { ClubLink } from "@/components/entityLinks";
 import { SortableTh, applySortDirection, type SortState } from "@/components/SortableTh";
 import { StaffMarketBoard } from "@/components/staff/StaffMarketBoard";
+import { StaffNav, StaffRecruitmentView } from "@/components/staff/StaffNav";
 
 type SortKey = "name" | "club" | "role" | "suitability" | "wage";
 
@@ -97,6 +98,7 @@ export default function StaffRecruitmentPage() {
   return (
     <div className="game-secondary-page">
       <SectionScene eyebrow={`Laget runt laget · ${career.seasonId}`} title="Rekrytera personal" description="Bedöm en person för rätt roll. Öppna profilen för egenskaper, anställning och ett konkret erbjudande." actions={<Link className="hm-btn hm-btn-sm" href="/career/staff">← Personal</Link>}><div><strong>{candidates.length}</strong><small>personer från klubbar</small></div><div><strong>{freeAgentScouts.length}</strong><small>fria scouter</small></div></SectionScene>
+      <Suspense><StaffNav /><StaffRecruitmentView /></Suspense>
       {/* HM-ALPHA3-M04: discovery across every role -- free agents and staff under contract. */}
       <Suspense><StaffMarketBoard /></Suspense>
       <div className="game-secondary-split game-staff-recruitment">

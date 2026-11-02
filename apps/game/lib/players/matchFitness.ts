@@ -100,7 +100,7 @@ export function applyMatchExposure(
  * idle players fade after a grace period, and healthy players in training
  * creep up towards the training ceiling. Idempotent per date.
  */
-export function applyDailyMatchFitness(state: CareerState, date: string, squadIds: readonly string[], isInjured: (playerId: string) => boolean): CareerState {
+export function applyDailyMatchFitness(state: CareerState, date: string, squadIds: readonly string[], isInjured: (playerId: string) => boolean, ceiling = TRAINING_MAINTENANCE_CEILING): CareerState {
   const ledger = state.playerMatchFitness;
   if (!ledger) return state;
   const players: Record<string, PlayerMatchFitness> = { ...ledger.players };
@@ -113,8 +113,9 @@ export function applyDailyMatchFitness(state: CareerState, date: string, squadId
     let next = value;
     if (isInjured(playerId)) next -= DAILY_FADE_INJURED;
     // Above the training ceiling only games hold it up; below it, training builds towards it.
-    else if (value > TRAINING_MAINTENANCE_CEILING) next = sinceMatch > FADE_GRACE_DAYS ? Math.max(TRAINING_MAINTENANCE_CEILING, value - DAILY_FADE) : value;
-    else next = Math.min(TRAINING_MAINTENANCE_CEILING, value + DAILY_TRAINING_GAIN);
+    // (A training camp raises that ceiling: lib/career/preseasonPlanning.ts.)
+    else if (value > ceiling) next = sinceMatch > FADE_GRACE_DAYS ? Math.max(ceiling, value - DAILY_FADE) : value;
+    else next = Math.min(ceiling, value + DAILY_TRAINING_GAIN * (ceiling > TRAINING_MAINTENANCE_CEILING ? 2 : 1));
     players[playerId] = { ...(entry ?? {}), value: clamp(next), lastUpdatedDate: date };
     changed = true;
   }

@@ -36,3 +36,38 @@
 .hm-condition-grid dd { margin: 0; color: var(--hm-text-primary); overflow-wrap: anywhere; }
 .hm-condition-grid > p { grid-column: 1 / -1; margin: 0; font-size: var(--hm-text-xs); }
 @media (max-width: 640px) { .hm-condition-grid { grid-template-columns: 1fr; } .hm-condition-grid dl div { grid-template-columns: 1fr; gap: 0; } }
+
+/* Match-plan workspace (tactics) */
+.hm-plan-summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1px; margin: 0 0 12px; background: var(--hm-border-subtle); border: 1px solid var(--hm-border-subtle); border-radius: var(--hm-radius-md); overflow: hidden; }
+.hm-plan-summary div { padding: 10px 12px; background: var(--hm-surface-1); min-width: 0; }
+.hm-plan-summary dt { font-size: var(--hm-text-2xs); text-transform: uppercase; letter-spacing: .06em; color: var(--hm-text-muted); }
+.hm-plan-summary dd { margin: 3px 0 0; font-size: var(--hm-text-sm); font-weight: 600; color: var(--hm-text-primary); overflow-wrap: anywhere; }
+.hm-plan-nav { position: sticky; top: 0; z-index: 3; display: flex; gap: 4px; overflow-x: auto; padding: 6px 0; margin-bottom: 12px; background: var(--hm-bg-app); scrollbar-width: thin; }
+.hm-plan-nav a { flex: none; padding: 6px 12px; border: 1px solid var(--hm-border); border-radius: 999px; color: var(--hm-text-secondary); font-size: var(--hm-text-xs); font-weight: 600; text-decoration: none; }
+.hm-plan-nav a:hover, .hm-plan-nav a:focus-visible { border-color: var(--hm-accent); color: var(--hm-accent-strong); }
+.hm-plan-section { margin: 16px 0; padding: 16px; border: 1px solid var(--hm-border-subtle); border-radius: var(--hm-radius-lg); background: var(--hm-surface-1); scroll-margin-top: 56px; }
+.hm-plan-section > header h2 { margin: 0; font-size: var(--hm-text-md); font-weight: 650; }
+.hm-plan-section > header p { margin: 4px 0 14px; max-width: 78ch; font-size: var(--hm-text-xs); line-height: 1.55; color: var(--hm-text-muted); }
+.hm-plan-section h3 { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0 0 4px; font-size: var(--hm-text-sm); font-weight: 650; }
+.hm-plan-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); gap: 10px 14px; }
+.hm-plan-columns { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 18px; }
+.hm-plan-columns > div { display: grid; gap: 8px; align-content: start; }
+.hm-plan-field { display: grid; gap: 4px; min-width: 0; font-size: var(--hm-text-xs); color: var(--hm-text-secondary); }
+.hm-plan-field .hm-select { width: 100%; min-width: 0; }
+.hm-plan-note { margin: 4px 0; font-size: var(--hm-text-xs); color: var(--hm-text-muted); line-height: 1.5; }
+.hm-defence-line { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; padding: 14px 10px 10px; border-radius: var(--hm-radius-md); background: linear-gradient(180deg, var(--hm-surface-2), var(--hm-surface-1)); border-top: 3px solid var(--hm-accent-muted); }
+.hm-defence-space { display: grid; gap: 4px; min-width: 0; }
+.hm-defence-space .hm-select { width: 100%; min-width: 0; }
+.hm-defence-space[data-front="true"] { transform: translateY(-8px); }
+.hm-defence-space .hm-eyebrow { font-size: var(--hm-text-2xs); white-space: normal; }
+@media (max-width: 760px) { .hm-defence-line { grid-template-columns: repeat(2, minmax(0, 1fr)); } .hm-defence-space[data-front="true"] { transform: none; } }
+
+.hm-scout-report h3 { margin: 14px 0 4px; font-size: var(--hm-text-sm); }
+.hm-scout-report ul { margin: 0; padding-left: 18px; font-size: var(--hm-text-sm); line-height: 1.55; color: var(--hm-text-secondary); }
+.hm-scout-claims { display: grid; gap: 8px; margin: 10px 0; }
+.hm-scout-claims div { padding: 8px 10px; border-left: 3px solid var(--hm-accent-muted); background: var(--hm-surface-2); border-radius: 0 var(--hm-radius-sm) var(--hm-radius-sm) 0; }
+.hm-scout-claims dt { display: flex; align-items: center; gap: 8px; font-size: var(--hm-text-xs); color: var(--hm-text-muted); }
+.hm-scout-claims dd { margin: 3px 0 0; font-size: var(--hm-text-sm); color: var(--hm-text-primary); }
+.hm-scout-delegate { margin-top: 12px; max-width: 420px; }
+.hm-link-list { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.hm-link-list li { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 10px; border: 1px solid var(--hm-border-subtle); border-radius: var(--hm-radius-md); background: var(--hm-surface-2); font-size: var(--hm-text-sm); }

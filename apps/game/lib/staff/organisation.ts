@@ -83,6 +83,8 @@ export interface Position {
   combinedWith?: StaffRole;
   /** No position at this club size; who covers the work instead. */
   coveredBy?: StaffRole;
+  /** HM-PLAYTEST-01 4.4: the manager's own club -- the human manager holds the head-coach post. */
+  managerHeld?: boolean;
 }
 
 /** Every position the club has (filled or vacant), plus covered roles for those it does not staff. */
@@ -93,6 +95,7 @@ export function clubOrganisation(state: CareerState, clubId: string): Position[]
   for (const role of Object.keys(SLOTS) as StaffRole[]) {
     const slots = roleSlots(state, clubId, role);
     const holders = roster.filter((m) => m.roles.includes(role)).sort((a, b) => computeRoleSuitability(b, role) - computeRoleSuitability(a, role));
+    if (role === "HEAD_COACH" && clubId === state.playerClubId && holders.length === 0) { out.push({ role, department: ROLE_DEPARTMENT[role], slot: 1, managerHeld: true }); continue; }
     if (slots === 0) {
       const holder = holders[0];
       out.push(holder ? { role, department: ROLE_DEPARTMENT[role], slot: 1, holder } : { role, department: ROLE_DEPARTMENT[role], slot: 1, coveredBy: COVERED_BY[role] });
@@ -108,7 +111,7 @@ export function clubOrganisation(state: CareerState, clubId: string): Position[]
 }
 
 export function vacancies(state: CareerState, clubId: string): Position[] {
-  return clubOrganisation(state, clubId).filter((p) => !p.holder && !p.coveredBy);
+  return clubOrganisation(state, clubId).filter((p) => !p.holder && !p.coveredBy && !p.managerHeld);
 }
 
 /** The best-suited person at the club for a role (direct holder first, then whoever covers it). */

@@ -13,6 +13,7 @@
 // not need a separate Inbox message every day"); it stays in
 // careerEvents as domain state.
 
+import { buildStaffReport, buildTrainingReport } from "./weeklyReports";
 import { getClub, type InboxCategory, type InboxMessage } from "../game-data";
 import { getCareerPlayer } from "./careerWorld";
 import { getLastPlayedPlayerFixture, getNextPlayerFixture } from "./calendar";
@@ -149,7 +150,9 @@ function bodyFor(event: CareerEvent, career: CareerState): string[] {
       return position > 0 ? [event.summary, `Er placering: ${svOrdinal(position)} plats.`] : [event.summary];
     }
     case "STAFF_REPORT":
-      return staffReportBody(career);
+      return buildStaffReport(career, event.date).lines;
+    case "TRAINING_REPORT":
+      return buildTrainingReport(career, event.date).lines;
     default:
       return [event.summary];
   }

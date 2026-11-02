@@ -11,7 +11,8 @@ import type { ProductionMatchSession } from '@/lib/career/productionMatch';
 import { Scoreboard } from '@/components/game/Identity';
 import { LiveCoachPanel } from '@/components/game/LiveCoachPanel';
 import { LiveMatchCenter, ArchivedMatchCenter } from '@/components/matchCenter/MatchCenter';
-import { MATCH_SPEEDS } from '@/lib/matchCenter/model';
+import { DEFAULT_MATCH_SPEED, IMPORTANT_ONLY_FROM_SPEED, MATCH_SPEED_OPTIONS, ticksForElapsed } from '@/lib/matchCenter/model';
+import { usePreferences } from '@/lib/settings/usePreferences';
 import { advanceMatchCenter, resumeMatchTimeout } from '@/lib/matchCenter/control';
 import { inkOn, matchColors, matchdayBriefing } from '@/lib/matchday/matchday';
 import { getClub } from '@/lib/game-data';
@@ -80,7 +81,9 @@ export function ArchiveReplay({archive, defaultShowExperimental = false}:{archiv
 export default function ProductionMatchView({ fixtureId, quickFinish = false }: { fixtureId: string; quickFinish?: boolean }) {
   const router = useRouter();
   const { career, updateCareer } = useCareer();
-  const [playing, setPlaying] = useState(false), [speed, setSpeed] = useState(4), [error, setError] = useState<string | null>(null), [busy, setBusy] = useState(quickFinish);
+  const [preferences] = usePreferences();
+  const [playing, setPlaying] = useState(false), [speed, setSpeed] = useState<number>(preferences.defaultMatchSpeed ?? DEFAULT_MATCH_SPEED), [error, setError] = useState<string | null>(null), [busy, setBusy] = useState(quickFinish);
+  const lastAdvance=useRef<number|null>(null);
   const [keyMode,setKeyMode]=useState(false),[untilKey,setUntilKey]=useState(false);
   const stopped=useRef(false),coachRef=useRef<HTMLDivElement>(null);
   const [outId, setOutId] = useState(''), [inId, setInId] = useState('');
@@ -96,13 +99,16 @@ export default function ProductionMatchView({ fixtureId, quickFinish = false }: 
     if (session.core.status !== 'RUNNING' || (session.pausedAtHalf && !finishing)) return;
     const timer = setTimeout(() => updateCareer(state => {
       if(finishing)return advanceProductionMatch(state.productionMatch?.pausedAtHalf?commandProductionMatch(state,{kind:'SECOND_HALF'}):state,10000,false);
-      const ticks=untilKey?128:Math.max(1,speed)*4,next=advanceMatchCenter(state,ticks,keyMode||untilKey,()=>{stopped.current=true;});
+      // HM-PLAYTEST-01 7.1: advance by the wall-clock time that really passed, so a speed means what it says.
+      const now=performance.now(),elapsed=lastAdvance.current===null?200:now-lastAdvance.current;lastAdvance.current=now;
+      const ticks=untilKey?128:ticksForElapsed(speed,elapsed),next=advanceMatchCenter(state,ticks,keyMode||untilKey,()=>{stopped.current=true;});
       if(next.productionMatch&&(next.productionMatch.pausedAtHalf||next.productionMatch.core.match?.phase==='FULLTIME'))stopped.current=true;
       return next;
     }), finishing ? 10 : untilKey?50:200);
     return () => clearTimeout(timer);
   }, [playing, finishing, speed, session, fixtureId, updateCareer, router,keyMode,untilKey]);
   useEffect(()=>{if(stopped.current){stopped.current=false;setPlaying(false);setUntilKey(false);}},[session]);
+  useEffect(()=>{if(!playing)lastAdvance.current=null;},[playing,speed]);
   const archive = replay.archive;
   if (!session || session.fixture.id !== fixtureId) {
     if (replay.loading) return <p role="status">Laddar matchreprisen…</p>;
@@ -119,8 +125,8 @@ export default function ProductionMatchView({ fixtureId, quickFinish = false }: 
   const timeout=c.referee.timeout?.reason==='TEAM_TIMEOUT';
   const brief=matchdayBriefing(career,session.fixture);
   const control=session.control?.by==='ASSISTANT'?session.control:null;
-  return <>{(brief.stakes.level>=3||control)&&<p className="mday-banner" role="note"><b>{getClub(session.fixture.homeClubId)?.shortName} – {getClub(session.fixture.awayClubId)?.shortName}</b>{brief.stakes.labels.map(l=><span key={l}>{l}</span>)}{control&&<span>{control.name} leder laget från bänken</span>}</p>}<LiveMatchCenter session={session} playing={playing} team={team} importantOnly={playing&&speed>=8} onPlayer={!fulltime&&!busy&&!control?choosePlayer:undefined}
-    controls={<>{!fulltime&&<><button type="button" className="hm-btn hm-btn-primary" disabled={busy||!!session.error} onClick={()=>{if(timeout)updateCareer(resumeMatchTimeout);if(session.pausedAtHalf)apply({kind:'SECOND_HALF'});setUntilKey(false);setPlaying(!playing||session.pausedAtHalf||timeout);}}>{timeout?'Återuppta efter timeout':session.pausedAtHalf?'Starta andra halvlek':playing?'Pausa':'Spela'}</button><label>Hastighet <select aria-label="Matchhastighet" value={speed} onChange={e=>setSpeed(Number(e.target.value))}>{MATCH_SPEEDS.map(n=><option value={n} key={n}>{n}×</option>)}</select></label><button type="button" className="hm-btn" disabled={busy||session.pausedAtHalf||timeout} onClick={()=>{setUntilKey(true);setPlaying(true);}}>Nästa viktiga händelse</button><button type="button" className="hm-btn" aria-pressed={keyMode} disabled={busy} onClick={()=>setKeyMode(!keyMode)}>Nyckelhändelser {keyMode?'på':'av'}</button><button type="button" className="hm-btn" disabled={busy} onClick={finish}>{busy?'Spelar färdigt…':'Spela till slut'}</button></>}{fulltime&&<button type="button" className="hm-btn hm-btn-primary" onClick={()=>{updateCareer(finalizeProductionMatch);router.push(`/career/match-report/${fixtureId}`);}}>Slutför match och öppna rapport</button>}<span className="mc-autosave">Matchen sparas automatiskt. Pausa innan du lämnar.</span>{(error||session.error)&&<p role="alert">{error??session.error}</p>}</>}
+  return <>{(brief.stakes.level>=3||control)&&<p className="mday-banner" role="note"><b>{getClub(session.fixture.homeClubId)?.shortName} – {getClub(session.fixture.awayClubId)?.shortName}</b>{brief.stakes.labels.map(l=><span key={l}>{l}</span>)}{control&&<span>{control.name} leder laget från bänken</span>}</p>}<LiveMatchCenter session={session} playing={playing} team={team} importantOnly={playing&&speed>=IMPORTANT_ONLY_FROM_SPEED} onPlayer={!fulltime&&!busy&&!control?choosePlayer:undefined}
+    controls={<>{!fulltime&&<><button type="button" className="hm-btn hm-btn-primary" disabled={busy||!!session.error} onClick={()=>{if(timeout)updateCareer(resumeMatchTimeout);if(session.pausedAtHalf)apply({kind:'SECOND_HALF'});setUntilKey(false);setPlaying(!playing||session.pausedAtHalf||timeout);}}>{timeout?'Återuppta efter timeout':session.pausedAtHalf?'Starta andra halvlek':playing?'Pausa':'Spela'}</button><label>Hastighet <select aria-label="Matchhastighet" value={speed} onChange={e=>setSpeed(Number(e.target.value))}>{MATCH_SPEED_OPTIONS.map(o=><option value={o.value} key={o.value}>{o.label} ({o.value}×)</option>)}</select></label><button type="button" className="hm-btn" disabled={busy||session.pausedAtHalf||timeout} onClick={()=>{setUntilKey(true);setPlaying(true);}}>Nästa viktiga händelse</button><button type="button" className="hm-btn" aria-pressed={keyMode} disabled={busy} onClick={()=>setKeyMode(!keyMode)}>Nyckelhändelser {keyMode?'på':'av'}</button><button type="button" className="hm-btn" disabled={busy} onClick={finish}>{busy?'Spelar färdigt…':'Spela till slut'}</button></>}{fulltime&&<button type="button" className="hm-btn hm-btn-primary" onClick={()=>{updateCareer(finalizeProductionMatch);router.push(`/career/match-report/${fixtureId}`);}}>Slutför match och öppna rapport</button>}<span className="mc-autosave">Matchen sparas automatiskt. Pausa innan du lämnar.</span>{(error||session.error)&&<p role="alert">{error??session.error}</p>}</>}
     coach={!fulltime&&control?<div className="mday-control" role="status" aria-label="Vem leder laget"><b>{control.name} leder laget</b><p>{control.reason}</p><p>Assisterande tränaren gör byten och tar timeout efter matchplanen du förberedde. Du kan följa matchen men inte ge instruktioner. Kontrollen återgår när avstängningen är avtjänad.</p></div>:!fulltime?<div ref={coachRef} tabIndex={-1} aria-label="Byten och instruktioner"><LiveCoachPanel session={session} team={team} busy={busy} outId={outId} inId={inId} onOut={id=>{setOutId(id);setInId('');}} onIn={setInId} onSubstitute={()=>{apply({kind:'SUBSTITUTION',team,outId,inId});setOutId('');setInId('');}} onCommand={apply} recent={recent} showEvents={false}/></div>:undefined}
     experimental={<div className="game-court-stage">{finishing?<Court frame={observedFrame(session)} people={session.people} colors={matchColors(session.fixture.homeClubId,session.fixture.awayClubId)}/>:<LiveCourt key={session.fixture.id} session={session} playing={playing} speed={speed}/>}</div>}
   /></>;

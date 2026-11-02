@@ -106,6 +106,7 @@ export function rolloverSeason(input: CareerState): CareerState {
     // HM-PLAYTEST-01 3.2: a summer without competitive games. Last season's
     // sharpness does not carry into the new preseason.
     playerMatchFitness: emptyMatchFitnessLedger(PRESEASON_MATCH_FITNESS),
+    preseasonEvents: [],
     leagueKickoffDate: kickoff,
     seasonStartDate: state.gameDate,
     seasonHistory: [...(state.seasonHistory ?? []), archived],

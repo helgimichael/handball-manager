@@ -11,6 +11,9 @@ import type { MatchPlanChangeHistoryEntry } from "../liveMatch/matchPlanChange";
 import type { PlayerMatchDefault, TacticsTemplate } from "../matchPlan/persistentDefaults";
 import type { SpecialPlayPlan } from "../matchPlan/specialPlay";
 import type { MatchFitnessLedger } from "../players/matchFitness";
+import type { TeamRoles } from "./teamRoles";
+import type { OpponentScoutingState } from "../scouting/opponentScouting";
+import type { PreseasonEvent } from "./preseasonPlanning";
 import type { LiveMatchSessionState } from "../liveMatch/liveMatchSession";
 import type { MatchPhysicalReport } from "../matchPlan/physicalModel";
 import type { PlayerPhysicalState, PlayerTrainingAssignment, TrainingWeek } from "../training/types";
@@ -66,6 +69,8 @@ export type CareerFixture = {
   /** HM-ALPHA2-01: the original Profixio match id of a real schedule fixture. */
   sourceMatchId?: string;
   stage?: FixtureStage;
+  /** HM-PLAYTEST-01 3.1: a friendly at a neutral venue names its location. */
+  location?: string;
 };
 
 export type ClubFormEntry = "W" | "D" | "L";
@@ -370,6 +375,15 @@ export type CareerState = {
   workloadLedger?: WorkloadLedger;
   /** HM-PLAYTEST-01 3.2: match fitness (matchträning), separate from energy and form. See lib/players/matchFitness.ts. */
   playerMatchFitness?: MatchFitnessLedger;
+  /**
+   * HM-PLAYTEST-01 2.4/2.5: standing team responsibilities, kept across
+   * matches and seasons: captain, vice-captain and the 7-metre order.
+   */
+  teamRoles?: TeamRoles;
+  /** HM-PLAYTEST-01 4.1: opponent scouting requests, delegation and reports (lib/scouting/opponentScouting.ts). */
+  opponentScouting?: OpponentScoutingState;
+  /** HM-PLAYTEST-01 3.1: booked training camps, trips abroad and friendly tournaments. */
+  preseasonEvents?: PreseasonEvent[];
   /**
    * Part 12/13: a player's own persistent individual training-load
    * setting -- keyed by playerId, same "standing instruction until

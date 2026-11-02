@@ -260,5 +260,10 @@
   "lib/matchday/matchday.test.ts",
   "lib/career/matchdaySquadIntegrity.test.ts",
   "lib/career/competitionUpdates.test.ts",
-  "lib/players/matchFitness.test.ts"
+  "lib/players/matchFitness.test.ts",
+  "lib/career/handballMatchPlan.test.ts",
+  "lib/career/penaltyTakerEngine.test.ts",
+  "lib/scouting/opponentScouting.test.ts",
+  "lib/staff/headCoachDisplacement.test.ts",
+  "lib/career/preseasonPlanning.test.ts"
 ]

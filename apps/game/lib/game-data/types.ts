@@ -70,6 +70,8 @@ export type Club = {
   venue?: string;
   /** HM-PLAYTEST-01 5.4: published arena capacity, from the verified venue registry. */
   venueCapacity?: number;
+  /** HM-PLAYTEST-01 5.4: the town the arena is in, when it differs from the club's home area (e.g. Partille Arena for a Göteborg club). */
+  venueCity?: string;
   city?: string;
   /**
    * HM-YOUTH-INTAKE-1.1B: the club's standing ability to produce young talent,

@@ -10,6 +10,7 @@
 // earlier, otherwise the next CONTINUE would silently reprocess a date
 // the old system already simulated.
 
+import { displaceIncumbentHeadCoach } from "../staff/headCoachDisplacement";
 import { emptyMatchFitnessLedger, LEGACY_MATCH_FITNESS } from "../players/matchFitness";
 import { TUMBA_SQUAD, type InboxCategory, type InboxMessage } from "../game-data";
 import { seedCareerTasks } from "./careerTasks";
@@ -563,5 +564,7 @@ export function migrateCareerState(career: CareerState): CareerState {
   // HM-PLAYTEST-01 3.2: additive. An existing career is mid-season, so its
   // players start reasonably match-fit rather than suddenly rusty.
   if (next.playerMatchFitness === undefined) next = { ...next, playerMatchFitness: emptyMatchFitnessLedger(LEGACY_MATCH_FITNESS) };
+  // HM-PLAYTEST-01 4.4: an older save may still carry the club's previous head coach beside the manager.
+  next = displaceIncumbentHeadCoach(next);
   return next;
 }

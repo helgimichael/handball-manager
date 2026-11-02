@@ -1,12 +1,13 @@
 "use client";
 import Link from "next/link";
+import { PreseasonPlanner } from "@/components/season/PreseasonPlanner";
 import { Panel } from "@/components/manager/Workspace";
 import { SectionScene } from "@/components/game/Secondary";
 import ClubCrest from "@/components/ClubCrest";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CLUBS, COMPETITIONS, getClub } from "@/lib/game-data";
+import { COMPETITIONS, getClub } from "@/lib/game-data";
 import { useCareer } from "@/lib/career/CareerContext";
 import { getCareerClub } from "@/lib/career/careerWorld";
 import { getNextPlayerFixture } from "@/lib/career/calendar";
@@ -19,7 +20,7 @@ const FIXTURE_TYPE_TONE: Record<CareerFixtureType, string> = { LEAGUE: "neutral"
 
 export default function SchedulePage() {
   const router = useRouter();
-  const { career, bookFriendly } = useCareer();
+  const { career } = useCareer();
   const club = getCareerClub(career);
   const next = getNextPlayerFixture(career);
   const [view,setView] = useState<"ALL"|"UPCOMING"|"RESULTS">("ALL");
@@ -38,6 +39,7 @@ export default function SchedulePage() {
       <SectionScene eyebrow={`${club.name} · ${career.seasonId}`} title="Matcher & resultat" description="Säsongens rytm. Följ nästa avkast, kommande motstånd och matchernas konsekvenser." mark={<ClubCrest shortName={club.shortName} primaryColor={club.primaryColor} clubId={club.id} size={72} />} actions={<><Link className="hm-btn hm-btn-sm" href="/career/calendar">Kalender →</Link><Link className="hm-btn hm-btn-sm" href="/career/match-2d">Matchrepriser →</Link></>}><div><strong>{playedCount}</strong><small>spelade matcher</small></div><div><strong>{fixtures.length-playedCount}</strong><small>matcher kvar</small></div></SectionScene>
       <div className="game-secondary-split">
         <div className="game-secondary-main">
+          <PreseasonPlanner />
           <nav className="hm-tabs" aria-label="Matchprogram">{[["ALL","Hela säsongen"],["UPCOMING","Kommande"],["RESULTS","Resultat"]].map(([id,label]) => <button key={id} aria-pressed={view===id} onClick={() => setView(id as "ALL"|"UPCOMING"|"RESULTS")}>{label}</button>)}</nav>
                 <div className="hm-panel">
       <div className="hm-panel-header">
@@ -122,54 +124,8 @@ export default function SchedulePage() {
         </div>
         <aside className="game-secondary-rail">
           <Panel title="Nästa match">{next && nextOpponent ? <div className="hm-panel-body"><div className="game-staff-cell"><ClubCrest shortName={nextOpponent.shortName} primaryColor={nextOpponent.primaryColor} clubId={nextOpponent.id} size={58} /><div><ClubLink clubId={nextOpponent.id}>{nextOpponent.name}</ClubLink><small>{next.date}{next.kickoffTime ? ` ${next.kickoffTime}` : ""} · {next.homeClubId===club.id ? "Hemma" : "Borta"} · {FIXTURE_TYPE_LABEL[next.type]}</small></div></div><div className="hm-actions" style={{marginTop:20}}><Link className="hm-btn hm-btn-sm hm-btn-primary" href="/career/match-preview">Förbered matchen →</Link><Link className="hm-btn hm-btn-sm" href="/career/tactics">Uttagning →</Link></div></div> : <div className="hm-panel-body hm-text-muted">Ingen ospelad match registrerad för ditt lag.</div>}</Panel>
-          {seasonPhase==="PRESEASON" && <FriendlyBooking clubId={club.id} onBook={bookFriendly} />}
           <section className="game-secondary-note"><h2>Den sportsliga veckan</h2><p>Matchprogrammet visar avkasten. Kalendern knyter ihop träning, återhämtning och datum som kräver din uppmärksamhet.</p><div className="hm-actions"><Link className="hm-btn hm-btn-sm" href="/career/training">Träning →</Link><Link className="hm-btn hm-btn-sm" href="/career/calendar">Kalender →</Link></div></section>
         </aside>
-      </div>
-    </div>
-  );
-}
-
-/** HM-PRESEASON-1.0: simple date + opponent booking form -- no negotiation, only date/opponent conflict validation (lib/career/preseason.ts's bookFriendly). */
-function FriendlyBooking({ clubId, onBook }: { clubId: string; onBook: (date: string, opponentClubId: string) => { ok: boolean; error?: string } }) {
-  const opponents = CLUBS.filter((c) => c.id !== clubId && c.playable);
-  const [date, setDate] = useState("");
-  const [opponentClubId, setOpponentClubId] = useState(opponents[0]?.id ?? "");
-  const [message, setMessage] = useState<{ tone: "positive" | "negative"; text: string } | null>(null);
-
-  function handleBook() {
-    if (!date || !opponentClubId) {
-      setMessage({ tone: "negative", text: "Välj datum och motståndare." });
-      return;
-    }
-    const result = onBook(date, opponentClubId);
-    setMessage(result.ok ? { tone: "positive", text: "Träningsmatch bokad." } : { tone: "negative", text: result.error ?? "Kunde inte boka matchen." });
-  }
-
-  return (
-    <div className="hm-panel">
-      <div className="hm-panel-header">
-        <span className="hm-panel-title">Boka träningsmatch</span>
-      </div>
-      <div className="hm-panel-body" style={{ display: "flex", gap: 10, alignItems: "flex-end", flexWrap: "wrap" }}>
-        <label style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-          <span className="hm-eyebrow">Datum</span>
-          <input type="date" className="hm-select" value={date} onChange={(e) => setDate(e.target.value)} />
-        </label>
-        <label style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-          <span className="hm-eyebrow">Motståndare</span>
-          <select className="hm-select" value={opponentClubId} onChange={(e) => setOpponentClubId(e.target.value)}>
-            {opponents.map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.name}
-              </option>
-            ))}
-          </select>
-        </label>
-        <button type="button" className="hm-btn hm-btn-primary" onClick={handleBook}>
-          Boka
-        </button>
-        {message ? <span className={`hm-badge hm-badge-${message.tone}`}>{message.text}</span> : null}
       </div>
     </div>
   );

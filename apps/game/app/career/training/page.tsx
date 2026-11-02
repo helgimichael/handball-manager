@@ -62,13 +62,17 @@ const SESSION_TYPE_LABEL: Record<TrainingSessionType, string> = {
   RECOVERY: "Återhämtning",
 };
 
-const INTENSITY_LABEL: Record<TrainingIntensity, string> = { LOW: "Låg", NORMAL: "Normal", HIGH: "Hög", VERY_HIGH: "Mycket hög" };
-const DURATION_LABEL: Record<TrainingDuration, string> = { SHORT: "Kort", NORMAL: "Normal", LONG: "Lång" };
+// HM-PLAYTEST-01 3.3: each option names the control it belongs to, so two
+// selects side by side never both just say "Normal".
+const INTENSITY_LABEL: Record<TrainingIntensity, string> = { LOW: "Intensitet: låg", NORMAL: "Intensitet: normal", HIGH: "Intensitet: hög", VERY_HIGH: "Intensitet: mycket hög" };
+const DURATION_LABEL: Record<TrainingDuration, string> = { SHORT: "Passlängd: kort", NORMAL: "Passlängd: normal", LONG: "Passlängd: lång" };
+const INTENSITY_HELP = "Intensitet: hur hårt passet körs. Högre intensitet ger mer utvecklingsstimulans men kostar mer energi (×0,6 låg – ×1,8 mycket hög) och ökar skaderisken.";
+const DURATION_HELP = "Passlängd: hur långt passet är. Längre pass ger mer stimulans och kostar mer energi (×0,7 kort – ×1,3 lång).";
 const TARGET_LABEL: Record<TrainingSessionTarget, string> = { ALL: "Alla", OUTCOURT: "Utespelare", GOALKEEPERS: "Målvakter", SELECTED_PLAYERS: "Utvalda" };
 const TEMPLATE_LABEL: Record<WeeklyTrainingTemplate, string> = { BALANCED: "Balanserad", TACTICAL: "Taktisk", PHYSICAL: "Fysisk", RECOVERY: "Återhämtning", MATCH_HEAVY: "Matchtätt" };
 const LOAD_SETTING_LABEL: Record<PlayerTrainingLoadSetting, string> = { FULL: "Full", REDUCED: "Reducerad", RECOVERY_ONLY: "Endast återhämtning", REST: "Vila" };
 const FOCUS_LABEL: Record<IndividualDevelopmentFocus, string> = {
-  NORMAL: "Normal",
+  NORMAL: "Inget särskilt fokus (allsidig utveckling)",
   TECHNICAL: "Teknik",
   ATTACKING_DECISIONS: "Anfallsspel",
   DEFENCE: "Försvarsspel",
@@ -195,6 +199,7 @@ function Training() {
                           <select
                             className="hm-select"
                             aria-label={`Intensitet ${day.date} ${session.id}`}
+                            title={INTENSITY_HELP}
                             style={{ flex: 1 }}
                             value={session.intensity}
                             disabled={locked}
@@ -208,7 +213,8 @@ function Training() {
                           </select>
                           <select
                             className="hm-select"
-                            aria-label={`Längd ${day.date} ${session.id}`}
+                            aria-label={`Passlängd ${day.date} ${session.id}`}
+                            title={DURATION_HELP}
                             style={{ flex: 1 }}
                             value={session.duration}
                             disabled={locked}
@@ -258,7 +264,7 @@ function Training() {
                                 ))}
                               </select>
                               <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", marginTop: 4 }}>
-                                Ansvarig: {resolvedCoach?.displayName ?? "—"} · Kvalitet: {staffQualityLabel(quality)}
+                                Ansvarig tränare: {resolvedCoach?.displayName ?? "—"} · Tränarens kvalitet för passet: {staffQualityLabel(quality).toLowerCase()}
                               </div>
                             </>
                           );
@@ -299,15 +305,15 @@ function Training() {
                 <th>Spelare</th>
                 <th>Energi</th>
                 <th>Senaste belastning</th>
-                <th>Träningsbelastning</th>
-                <th>Individuellt fokus</th>
+                <th title="Hur stor del av passen spelaren deltar i: Full, Reducerad, Endast återhämtning eller Vila. Påverkar energi och utveckling.">Belastning (deltagande)</th>
+                <th title="Vilka egenskaper spelarens utvecklingsstimulans riktas mot. Påverkar inte energin.">Individuellt utvecklingsfokus</th>
               </tr>
             </thead>
             <tbody>
               {squad.map((p) => {
                 const physical = career.playerPhysicalState[p.id];
                 const energy = physical?.currentEnergy ?? ENERGY_START_DEFAULT;
-                const status = energy >= 80 ? "Pigg" : energy >= 55 ? "Normal" : "Trött";
+                const status = energy >= 80 ? "Pigg" : energy >= 55 ? "Något sliten" : "Trött";
                 const badgeClass = energy >= 80 ? "hm-badge-positive" : energy >= 55 ? "hm-badge-warning" : "hm-badge-negative";
                 const loadSetting = career.playerTrainingAssignments[p.id]?.loadSetting ?? "FULL";
                 const focus = (career.playerTrainingAssignments[p.id]?.individualFocus as IndividualDevelopmentFocus | undefined) ?? "NORMAL";

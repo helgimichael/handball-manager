@@ -1,4 +1,4 @@
-import { actionAvailable,courtPlayers,getPlayer,otherTeam,record,uid,type CoreState,type TeamId } from './state';
+import { actionAvailable,courtPlayers,getPlayer,otherTeam,record,uid,type CoreState,type Role,type TeamId } from './state';
 import { startAction } from './actions';
 import { distance } from './space';
 import { interrupt } from './transitions';
@@ -7,14 +7,14 @@ export function exchangeActive(s:CoreState,id:string){return s.exchanges.some(e=
 export function courtLimit(s:CoreState,team:TeamId){return 7-s.players.filter(p=>p.team===team&&(p.population==='SUSPENDED'||p.population==='DISQUALIFIED'&&p.suspensionUntilMs!==null&&s.officialClock.timeMs<p.suspensionUntilMs)).length;}
 /** A keeper swap removes the old keeper; a field exchange cannot add a second. */
 function keeperConflict(s:CoreState,incoming:CoreState['players'][number],outId:string|null){return incoming.kind==='GOALKEEPER'&&s.players.some(p=>p.team===incoming.team&&p.population==='COURT'&&p.kind==='GOALKEEPER'&&p.id!==incoming.id&&p.id!==outId);}
-export function requestExchange(s:CoreState,team:TeamId,outId:string|null,inId:string):boolean {
+export function requestExchange(s:CoreState,team:TeamId,outId:string|null,inId:string,role?:Role):boolean {
   const incoming=getPlayer(s,inId),outgoing=outId?getPlayer(s,outId):null;
   if(s.status!=='RUNNING'||s.exchanges.some(e=>e.team===team&&e.phase!=='COMPLETED'&&e.phase!=='CANCELLED')||incoming.team!==team||incoming.population!=='BENCH'||incoming.condition.unavailable||incoming.condition.exitRequired||incoming.condition.attacksRemaining>0||keeperConflict(s,incoming,outId)||(outgoing&&(outgoing.team!==team||outgoing.population!=='COURT'))||(!outgoing&&courtPlayers(s,team).length>=courtLimit(s,team)))return false;
   const gate={x:-.35,y:s.directions[team]==='TOP'?24:16};
   // Bench staging is off-court. Admission and court movement are separate transitions.
   incoming.position={...gate};incoming.velocity={x:0,y:0};incoming.action=null;
   delete incoming.handballIntent;delete incoming.carrierRead;delete incoming.reentryReadTicks;delete incoming.motion;
-  s.exchanges.push({id:uid(s,'exchange'),team,outId,inId,phase:outgoing?'WAIT_EXIT':'ENTERING',gate,requestedTick:s.tick});
+  s.exchanges.push({id:uid(s,'exchange'),team,outId,inId,phase:outgoing?'WAIT_EXIT':'ENTERING',gate,requestedTick:s.tick,...(role?{role}:{})});
   record(s,'EXCHANGE_REQUESTED',outgoing,{incomingId:inId},[inId]);return true;
 }
 export function populationBefore(s:CoreState) {
@@ -87,7 +87,7 @@ export function populationAfter(s:CoreState) {
         if(p.action){p.action.phase='COMPLETED';p.action.phaseTick=s.tick;}p.velocity={x:0,y:0};p.zone=null;e.phase='COMPLETED';
         // Assign the vacated tactical role only for like-for-like field exchanges.
         const out=e.outId?getPlayer(s,e.outId):null;
-        if(out?.kind==='FIELD_PLAYER'&&p.kind==='FIELD_PLAYER')p.role=out.role;
+        if(out?.kind==='FIELD_PLAYER'&&p.kind==='FIELD_PLAYER')p.role=e.role&&e.role!=='GK'?e.role:out.role;
         if(out?.kind==='GOALKEEPER'&&p.kind==='FIELD_PLAYER'){p.role='P2';s.flow.sevenVTeam=p.team;}
         if(p.kind==='GOALKEEPER'&&s.flow.sevenVTeam===p.team)s.flow.sevenVTeam=null;
         s.defence.marks={};record(s,'EXCHANGE_COMPLETED',p,{exchangeId:e.id,role:p.role},e.outId?[e.outId]:[]);

@@ -22,9 +22,12 @@ export const DISPLAY_CURRENCIES: readonly DisplayCurrency[] = ["EUR", "SEK"];
 
 export interface Preferences {
   displayCurrency: DisplayCurrency;
+  /** HM-PLAYTEST-01 5.1: the live match starts at this speed (lib/matchCenter/model.ts MATCH_SPEED_OPTIONS). */
+  defaultMatchSpeed: number;
 }
 
-export const DEFAULT_PREFERENCES: Preferences = Object.freeze({ displayCurrency: "EUR" });
+export const MATCH_SPEED_VALUES: readonly number[] = [1, 2, 10, 20, 48, 64, 86];
+export const DEFAULT_PREFERENCES: Preferences = Object.freeze({ displayCurrency: "EUR", defaultMatchSpeed: 10 });
 
 export const PREFERENCES_STORAGE_KEY = "hm-preferences:v1";
 
@@ -49,7 +52,8 @@ export function parsePreferences(raw: string | null): Preferences {
     const displayCurrency = DISPLAY_CURRENCIES.includes(value?.displayCurrency as DisplayCurrency)
       ? (value!.displayCurrency as DisplayCurrency)
       : DEFAULT_PREFERENCES.displayCurrency;
-    return { displayCurrency };
+    const defaultMatchSpeed = MATCH_SPEED_VALUES.includes(value?.defaultMatchSpeed as number) ? (value!.defaultMatchSpeed as number) : DEFAULT_PREFERENCES.defaultMatchSpeed;
+    return { displayCurrency, defaultMatchSpeed };
   } catch {
     return DEFAULT_PREFERENCES;
   }
