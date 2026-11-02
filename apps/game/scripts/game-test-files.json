@@ -243,5 +243,6 @@
     "components/crests/crestPalette.test.ts",
     "lib/economy/ledger.test.ts",
     "lib/competition/season.test.ts",
-    "lib/staff/staffManagement.test.ts"
+    "lib/staff/staffManagement.test.ts",
+    "lib/career/alpha3SaveCompatibility.test.ts"
 ]
