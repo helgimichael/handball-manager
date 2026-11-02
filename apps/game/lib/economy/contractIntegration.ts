@@ -133,6 +133,59 @@ export function recalibratePlayerContractWages(state: CareerState): CareerState 
 }
 
 /**
+ * HM-ALPHA3-M10: the salary formula version a save's unnegotiated wages
+ * were last set against. Bump it only when computePlayerSalaryEurPerMonth
+ * changes scale; a save on an older version is recalibrated once on load.
+ * 1 = HM-WAGE-MARKET-1.0 (bbe4d11).
+ */
+export const CONTRACT_WAGE_FORMULA_VERSION = 1;
+
+/**
+ * Below this median (saved wage -> current formula), a legacy save's
+ * whole wage scale predates HM-WAGE-MARKET-1.0, which rescaled the
+ * salary bounds to ~0.4x. Saves written after it sit at a median of
+ * ~1.0 (individual wages drift only because ratings and match roles
+ * move after signing), so the two populations never overlap.
+ */
+const PRE_WAGE_MARKET_MEDIAN_RATIO = 0.6;
+
+function medianFormulaRatio(state: CareerState): number | undefined {
+  const ratios: number[] = [];
+  for (const [playerId, contract] of Object.entries(state.playerContracts)) {
+    if (contract.wageAgreed || !(contract.wageEurPerMonth > 0)) continue;
+    const player = getCareerPlayer(state, playerId);
+    const inputs = player ? buildEconomyProfileInputs(state, player) : null;
+    if (inputs) ratios.push(computePlayerSalaryEurPerMonth(inputs) / contract.wageEurPerMonth);
+  }
+  if (ratios.length === 0) return undefined;
+  ratios.sort((a, b) => a - b);
+  return ratios[Math.floor(ratios.length / 2)];
+}
+
+/**
+ * HM-ALPHA3-M10: loading a save must not move wages. Before M10 the
+ * recalibration ran on every load, so an unnegotiated wage followed every
+ * rating or match-role change since the last load. Now it runs once per
+ * formula version and the save is stamped:
+ * - stamped with the current version: untouched (the normal case);
+ * - stamped with an older version: recalibrated once to the new formula;
+ * - unstamped (pre-M10): recalibrated only when the whole wage scale is
+ *   pre-HM-WAGE-MARKET-1.0, otherwise stamped as it stands.
+ * The ledger is never touched, so no salary is charged retroactively.
+ */
+export function migrateContractWages(state: CareerState): CareerState {
+  const version = state.contractWageFormulaVersion;
+  if (version === CONTRACT_WAGE_FORMULA_VERSION) return state;
+  let next = state;
+  if (version !== undefined) next = recalibratePlayerContractWages(state);
+  else {
+    const median = medianFormulaRatio(state);
+    if (median !== undefined && median < PRE_WAGE_MARKET_MEDIAN_RATIO) next = recalibratePlayerContractWages(state);
+  }
+  return { ...next, contractWageFormulaVersion: CONTRACT_WAGE_FORMULA_VERSION };
+}
+
+/**
  * HM-DATA-ALLSVENSKAN-1.1B: a ONE-TIME (per formula change) contract
  * END-DATE recalibration -- mirrors recalibratePlayerContractWages'
  * exact precedent (unconditional, naturally idempotent, safe on every

@@ -76,11 +76,47 @@ export const NATIONAL_WINDOWS: readonly NationalWindow[] = [
 /** The game's assumption of each team's level -- only used to simulate results. */
 const STRENGTH: Record<string, number> = { [SWEDEN]: 90, Norge: 89, Nordmakedonien: 74, Grekland: 68, Qatar: 72, Luxemburg: 52 };
 
+/**
+ * HM-ALPHA3-M10: other nations whose players exist in the game world (by
+ * `nationality`). `strength` is the same kind of game assumption as STRENGTH
+ * above; it sets how good a player must be to be called up.
+ */
+export const FOREIGN_TEAMS: Readonly<Record<string, { name: string; strength: number; europe: boolean }>> = {
+  DEN: { name: "Danmark", strength: 94, europe: true }, NOR: { name: "Norge", strength: 89, europe: true }, ISL: { name: "Island", strength: 83, europe: true },
+  GER: { name: "Tyskland", strength: 91, europe: true }, FRA: { name: "Frankrike", strength: 92, europe: true }, ESP: { name: "Spanien", strength: 86, europe: true },
+  HRV: { name: "Kroatien", strength: 85, europe: true }, SRB: { name: "Serbien", strength: 73, europe: true }, BIH: { name: "Bosnien och Hercegovina", strength: 68, europe: true },
+  FIN: { name: "Finland", strength: 55, europe: true }, FRO: { name: "Färöarna", strength: 66, europe: true }, KOS: { name: "Kosovo", strength: 52, europe: true },
+  EST: { name: "Estland", strength: 54, europe: true }, GBR: { name: "Storbritannien", strength: 40, europe: true }, IRL: { name: "Irland", strength: 35, europe: true },
+  CHL: { name: "Chile", strength: 62, europe: false },
+};
+
+/**
+ * Which nations' teams gather in each window. Qualifier windows are EHF
+ * national-team weeks, which every European federation keeps free, so every
+ * European team is assumed to gather. Tournament fields list the nations the
+ * sources confirm (`verified`) and the game's own assumption for the rest of
+ * the field (`assumed`, shown as an assumption). Unlisted nations stay home.
+ */
+export const TOURNAMENT_PARTICIPANTS: Readonly<Record<string, { verified: string[]; assumed: string[]; note: string }>> = {
+  wc27: { verified: ["Norge", "Grekland", "Qatar", "Tyskland"], assumed: ["Danmark", "Frankrike", "Spanien", "Kroatien", "Island"], note: "Grupp E enligt IHF:s lottning och värdlandet Tyskland; övriga deltagare är spelets antagande." },
+  ec28: { verified: ["Spanien", "Portugal", "Schweiz"], assumed: ["Danmark", "Norge", "Tyskland", "Frankrike", "Island", "Kroatien"], note: "Värdländerna enligt EHF; övriga kvalificerade lag är spelets antagande." },
+};
+
+function nationGathers(w: NationalWindow, nation: { name: string; europe: boolean }): boolean {
+  if (w.kind === "QUALIFIER") return nation.europe;
+  const field = TOURNAMENT_PARTICIPANTS[w.id];
+  return !!field && (field.verified.includes(nation.name) || field.assumed.includes(nation.name));
+}
+
 export interface NationalResult { home: string; away: string; hg: number; ag: number; dateLabel: string }
 export interface NationalWindowState {
   status: "CALLED" | "DONE" | "NOT_QUALIFIED";
   /** Players called from clubs in the game, strongest first. */
   squad: { playerId: string; clubId: string }[];
+  /** HM-ALPHA3-M10: players called up by other nations (FOREIGN_TEAMS). */
+  foreign?: { playerId: string; clubId: string; nation: string }[];
+  /** HM-ALPHA3-M10: true while the called players are away; their clubs play without them. */
+  away?: boolean;
   results: NationalResult[];
   /** Tournaments: Sweden's final placing. */
   placing?: number;
@@ -108,7 +144,8 @@ export function upcomingWindows(state: CareerState, limit = 3): NationalWindow[]
 
 /** The manager's players in a window's squad. */
 export function ownCallUps(state: CareerState, windowId: string): string[] {
-  return (nationalTeamOf(state).windows[windowId]?.squad ?? []).filter((s) => s.clubId === state.playerClubId).map((s) => s.playerId);
+  const ws = nationalTeamOf(state).windows[windowId];
+  return [...(ws?.squad ?? []), ...(ws?.foreign ?? [])].filter((s) => s.clubId === state.playerClubId).map((s) => s.playerId);
 }
 
 function score(seed: string, home: string, away: string, neutral = false): NationalResult & { dateLabel: string } {
@@ -123,6 +160,43 @@ function callUp(state: CareerState, w: NationalWindow): { playerId: string; club
   const pool: { playerId: string; clubId: string; ca: number }[] = [];
   for (const clubId of Object.keys(state.worldSquads)) for (const p of getCareerClubSquad(state, clubId)) if (p.nationality === "SWE") pool.push({ playerId: p.id, clubId, ca: caOf(state, p.id) });
   return pool.sort((a, b) => b.ca - a.ca || a.playerId.localeCompare(b.playerId)).slice(0, size).map(({ playerId, clubId }) => ({ playerId, clubId }));
+}
+
+/**
+ * HM-ALPHA3-M10: the game world holds only part of each foreign pool, so a
+ * player is called up when he is at least as good as Sweden's weakest
+ * selection, scaled by his nation's strength -- a Faroese starter is called
+ * where a Danish one of the same level is not. At most four per nation.
+ */
+const FOREIGN_PER_NATION = 4;
+function foreignCallUps(state: CareerState, w: NationalWindow, swedishBar: number): { playerId: string; clubId: string; nation: string }[] {
+  const byNation = new Map<string, { playerId: string; clubId: string; ca: number }[]>();
+  for (const clubId of Object.keys(state.worldSquads)) for (const p of getCareerClubSquad(state, clubId)) {
+    const nation = FOREIGN_TEAMS[p.nationality ?? ""];
+    if (!nation || !nationGathers(w, nation)) continue;
+    const ca = caOf(state, p.id);
+    if (ca < swedishBar * (nation.strength / STRENGTH[SWEDEN]!)) continue;
+    byNation.set(nation.name, [...(byNation.get(nation.name) ?? []), { playerId: p.id, clubId, ca }]);
+  }
+  return [...byNation.entries()].sort(([a], [b]) => a.localeCompare(b)).flatMap(([nation, pool]) => pool.sort((a, b) => b.ca - a.ca || a.playerId.localeCompare(b.playerId)).slice(0, FOREIGN_PER_NATION).map(({ playerId, clubId }) => ({ playerId, clubId, nation })));
+}
+
+/** The bar for foreign call-ups: the weakest player Sweden would pick for this window. */
+function swedishBar(state: CareerState, w: NationalWindow): number {
+  const squad = callUp(state, w);
+  return squad.length ? Math.min(...squad.map((s) => caOf(state, s.playerId))) : Infinity;
+}
+
+/** Own players leave: unavailable to the club until the day after the window, with a lift from the call-up. */
+function depart(state: CareerState, w: NationalWindow, playerIds: string[]): CareerState {
+  let next = state;
+  for (const id of playerIds) {
+    next = addMoraleShock(next, id, 4, `Uttagen till landslaget (${w.title})`, 14);
+    const current = next.playerStatuses[id];
+    if (current && current.availability !== "AVAILABLE" && current.availability !== "LIMITED") continue; // injured or suspended players stay as they are
+    next = { ...next, playerStatuses: { ...next.playerStatuses, [id]: { playerId: id, availability: "NATIONAL_TEAM", returnDate: addDaysIso(w.end, 1) } } };
+  }
+  return next;
 }
 
 function groupTable(state: CareerState): { team: string; points: number; diff: number }[] {
@@ -165,7 +239,7 @@ export function progressNationalTeam(state: CareerState, date: string, emit: Emi
     const st = nationalTeamOf(next).windows[w.id];
     // An older save that is already past a window does not get it retroactively.
     if (!st && date === w.start) next = open(next, w, date, emit);
-    else if (st?.status === "CALLED" && date >= w.end) next = close(next, w, date, emit);
+    else if (st && (st.status === "CALLED" || st.away) && date >= w.end) next = close(next, w, date, emit);
   }
   return next;
 }
@@ -176,22 +250,58 @@ function withWindow(state: CareerState, id: string, ws: NationalWindowState): Ca
 }
 
 function open(state: CareerState, w: NationalWindow, date: string, emit: Emit): CareerState {
+  const foreign = foreignCallUps(state, w, swedishBar(state, w));
+  const ownForeign = foreign.filter((s) => s.clubId === state.playerClubId);
+  const foreignLine = ownForeign.length ? ` ${ownForeign.map((s) => `${names(state, [s.playerId])} (${s.nation})`).join(", ")} är uttagna av sina landslag.` : "";
   if (w.requires && !qualified(state)) {
-    const next = withWindow(state, w.id, { status: "NOT_QUALIFIED", squad: [], results: [], summary: "Sverige tog sig inte till mästerskapet." });
+    let next = withWindow(state, w.id, { status: "NOT_QUALIFIED", squad: [], foreign, away: foreign.length > 0, results: [], summary: "Sverige tog sig inte till mästerskapet." });
+    next = depart(next, w, ownForeign.map((s) => s.playerId));
+    if (ownForeign.length) emit(buildClubEvent("MEDIA", `nt:${w.id}:callup`, date, "IMPORTANT", `Landslagsuppehåll: ${w.title}`, `${foreignLine.trim()} Ligan står still ${w.start}–${w.end}.`, [{ route: "CLUB_HQ" }]));
     return publish(next, { key: `nt:${w.id}:missed`, kind: "NATIONAL_TEAM", date, importance: 4, clubIds: [], onlyOutlets: NATIONAL_OUTLETS, topFlight: true, facts: { headline: `Sverige missar ${w.title}`, standfirst: `Landslaget tog sig inte vidare från kvalet. Ligan står ändå still under mästerskapet.`, body: "Spelets simulering av kvalet." }, destinations: [{ route: "CLUB_HQ" }] });
   }
   const squad = callUp(state, w);
   const own = squad.filter((s) => s.clubId === state.playerClubId).map((s) => s.playerId);
-  let next = withWindow(state, w.id, { status: "CALLED", squad, results: [] });
-  for (const id of own) next = addMoraleShock(next, id, 4, `Uttagen till landslaget (${w.title})`, 14);
-  const ownLine = own.length ? `${names(next, own)} från din klubb är med.` : "Ingen spelare från din klubb är uttagen.";
+  let next = withWindow(state, w.id, { status: "CALLED", squad, foreign, away: true, results: [] });
+  next = depart(next, w, [...own, ...ownForeign.map((s) => s.playerId)]);
+  const ownLine = (own.length ? `${names(next, own)} från din klubb är med.` : ownForeign.length ? "Ingen spelare från din klubb är uttagen till Sverige." : "Ingen spelare från din klubb är uttagen.") + foreignLine;
   next = publish(next, { key: `nt:${w.id}:squad`, kind: "NATIONAL_TEAM", date, importance: 4, clubIds: own.length ? [state.playerClubId] : [], playerIds: own, onlyOutlets: outletsWith(state, own.length), topFlight: true, facts: { headline: own.length ? `${names(next, own.slice(0, 1))} uttagen till landslaget` : `Truppen inför ${w.title}`, standfirst: `Förbundskaptenen har tagit ut truppen till ${w.competition}. Från klubbarna i Sverige: ${names(next, squad.map((s) => s.playerId))}.`, body: `${ownLine} Ligan gör uppehåll ${w.start}–${w.end}.` }, destinations: [{ route: "CLUB_HQ" }] });
-  emit(buildClubEvent("MEDIA", `nt:${w.id}:callup`, date, own.length ? "IMPORTANT" : "INFORMATION", `Landslagsuppehåll: ${w.title}`, `${ownLine} Ligan står still ${w.start}–${w.end}. Uttagna spelare tränar med landslaget och kommer tillbaka med ett tröttare ben och en viss skaderisk.`, [{ route: "CLUB_HQ" }]));
+  emit(buildClubEvent("MEDIA", `nt:${w.id}:callup`, date, own.length || ownForeign.length ? "IMPORTANT" : "INFORMATION", `Landslagsuppehåll: ${w.title}`, `${ownLine} Ligan står still ${w.start}–${w.end}. Uttagna spelare tränar med landslaget och kommer tillbaka med ett tröttare ben och en viss skaderisk.`, [{ route: "CLUB_HQ" }]));
   return next;
+}
+
+/**
+ * HM-ALPHA3-M10: everyone called up comes back tired -- the energy cap reaches
+ * CPU squads too, through their tracked condition. Injury risk is applied to
+ * the manager's players, the only squad whose injuries the game tracks.
+ * Foreign players are assumed to play two matches in a qualifier week and
+ * six in a tournament.
+ */
+function returnPlayers(state: CareerState, w: NationalWindow, st: NationalWindowState, date: string, swedenMatches: number): { state: CareerState; own: string[]; injured: string[] } {
+  let next = state;
+  const own = [...st.squad, ...(st.foreign ?? [])].filter((s) => s.clubId === state.playerClubId).map((s) => s.playerId);
+  const matchesFor = (id: string) => (st.foreign?.some((f) => f.playerId === id) ? (w.kind === "TOURNAMENT" ? 6 : 2) : swedenMatches);
+  const injured: string[] = [];
+  const rounds = Math.max(0, ...own.map(matchesFor));
+  for (let i = 0; i < rounds; i++) {
+    const playing = own.filter((id) => matchesFor(id) > i && !injured.includes(id));
+    if (!playing.length) continue;
+    const exposure = new Map<string, MatchExposureForInjury>(playing.map((id) => [id, { attackExposure: 0.45, defenceExposure: 0.45, goalkeeperExposure: 0 }]));
+    const r = applyMatchInjuryResolution(next, date, `nt:${w.id}:${i}`, exposure);
+    next = r.state; injured.push(...r.newlyInjuredPlayerIds);
+  }
+  const cap = w.kind === "TOURNAMENT" ? 70 : 82;
+  for (const { playerId: id } of [...st.squad, ...(st.foreign ?? [])]) { const ps = next.playerPhysicalState[id] ?? { playerId: id, currentEnergy: 100, lastUpdatedDate: date, recentLoad: 0 }; if (ps.currentEnergy > cap) next = { ...next, playerPhysicalState: { ...next.playerPhysicalState, [id]: { ...ps, currentEnergy: cap, lastUpdatedDate: date } } }; }
+  return { state: next, own, injured };
 }
 
 function close(state: CareerState, w: NationalWindow, date: string, emit: Emit): CareerState {
   const st = nationalTeamOf(state).windows[w.id]!;
+  if (st.status === "NOT_QUALIFIED") {
+    const back = returnPlayers(state, w, st, date, 0);
+    const next = withWindow(back.state, w.id, { ...st, away: false });
+    if (back.own.length) emit(buildClubEvent("MEDIA", `nt:${w.id}:return`, date, back.injured.length ? "IMPORTANT" : "INFORMATION", `Landslagsspelarna är tillbaka`, `${names(next, back.own)} är tillbaka efter ${w.title.toLowerCase()} och behöver återhämtning.${back.injured.length ? ` ${names(next, back.injured)} skadade sig med landslaget.` : ""}`, [{ route: "SQUAD" }]));
+    return next;
+  }
   const seed = `${state.saveSeed}:nt:${w.id}`;
   let results: NationalResult[] = [];
   let swedenMatches = 0, placingNo: number | undefined, summary = "";
@@ -208,17 +318,11 @@ function close(state: CareerState, w: NationalWindow, date: string, emit: Emit):
     swedenMatches = groupPos >= 4 ? 5 : placingNo <= 4 ? 9 : 7;
     summary = `${w.group ? `${w.group.name} i ${w.group.venue}: ${results.map((r) => `${r.home}–${r.away} ${r.hg}–${r.ag}`).join(", ")}. ` : ""}Sverige slutade ${ordinal(placingNo)}.`;
   }
-  let next = withWindow(state, w.id, { ...st, status: "DONE", results, ...(placingNo !== undefined ? { placing: placingNo } : {}), summary });
-  // The manager's players come back: tired legs, and the risk of the matches they played.
-  const own = st.squad.filter((s) => s.clubId === state.playerClubId).map((s) => s.playerId);
-  const injured: string[] = [];
-  for (let i = 0; i < swedenMatches && own.length; i++) {
-    const exposure = new Map<string, MatchExposureForInjury>(own.map((id) => [id, { attackExposure: 0.45, defenceExposure: 0.45, goalkeeperExposure: 0 }]));
-    const r = applyMatchInjuryResolution(next, date, `nt:${w.id}:${i}`, exposure);
-    next = r.state; injured.push(...r.newlyInjuredPlayerIds);
-  }
-  const cap = w.kind === "TOURNAMENT" ? 70 : 82;
-  for (const id of own) { const ps = next.playerPhysicalState[id] ?? { playerId: id, currentEnergy: 100, lastUpdatedDate: date, recentLoad: 0 }; if (ps.currentEnergy > cap) next = { ...next, playerPhysicalState: { ...next.playerPhysicalState, [id]: { ...ps, currentEnergy: cap, lastUpdatedDate: date } } }; }
+  let next = withWindow(state, w.id, { ...st, status: "DONE", away: false, results, ...(placingNo !== undefined ? { placing: placingNo } : {}), summary });
+  // Everyone comes back: tired legs, and for the manager's players the risk of the matches they played.
+  const back = returnPlayers(next, w, st, date, swedenMatches);
+  next = back.state;
+  const own = back.own, injured = back.injured;
   const medal = placingNo !== undefined && placingNo <= 3;
   const headline = placingNo !== undefined ? (placingNo === 1 ? `Sverige vann ${w.title}!` : medal ? `Medalj för Sverige i ${w.title}` : `Sverige slutade ${ordinal(placingNo)} i ${w.title}`) : `Landslaget efter ${w.title.toLowerCase()}`;
   next = publish(next, { key: `nt:${w.id}:result`, kind: "NATIONAL_TEAM", date, importance: placingNo !== undefined ? (medal ? 5 : 4) : 3, clubIds: own.length ? [state.playerClubId] : [], playerIds: own, onlyOutlets: outletsWith(state, own.length), topFlight: true, facts: { headline, standfirst: summary, body: "Resultaten är spelets egen simulering, inte verkliga matcher." }, destinations: [{ route: "CLUB_HQ" }] });

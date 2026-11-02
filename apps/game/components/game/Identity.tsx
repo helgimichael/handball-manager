@@ -15,7 +15,7 @@ import ClubCrest from '@/components/ClubCrest';
 import FormDots from '@/components/FormDots';
 
 type PersonIdentity = Pick<PlayerMock, 'id' | 'firstName' | 'lastName' | 'position' | 'shirtNumber'>;
-const AVAILABILITY_LABEL: Record<PlayerAvailability,string> = { AVAILABLE:'Tillgänglig', INJURED:'Skadad', SUSPENDED:'Avstängd', RECOVERING:'Under återhämtning', LIMITED:'Begränsad återgång', ON_PLACEMENT:'Hos partnerklubb' };
+const AVAILABILITY_LABEL: Record<PlayerAvailability,string> = { AVAILABLE:'Tillgänglig', INJURED:'Skadad', SUSPENDED:'Avstängd', RECOVERING:'Under återhämtning', LIMITED:'Begränsad återgång', ON_PLACEMENT:'Hos partnerklubb', NATIONAL_TEAM:'Med landslaget' };
 export function playerAvailabilityLabel(career:CareerState, playerId:string) {
   return AVAILABILITY_LABEL[career.playerStatuses[playerId]?.availability ?? 'AVAILABLE'];
 }

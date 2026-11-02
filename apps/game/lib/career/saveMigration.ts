@@ -16,7 +16,7 @@ import { seedPlayerStatuses } from "./playerStatus";
 import { defaultTeamTacticalProfile } from "./teamTacticalProfile";
 import type { CareerState } from "./types";
 import { ensureCareerGameplayRatings } from "./careerRatingNormalization";
-import { ensureCareerPlayerContracts, getPlayerContractStatus, recalibratePlayerContractEndDates, recalibratePlayerContractWages } from "../economy/contractIntegration";
+import { ensureCareerPlayerContracts, getPlayerContractStatus, migrateContractWages, recalibratePlayerContractEndDates } from "../economy/contractIntegration";
 import { migrateLegacyLoanContracts } from "../transfers/transferExecution";
 import { isFreeAgentClubId, releasePlayerToFreeAgency } from "./contractExpiry";
 import { ensureCareerPlayerClubHistory } from "../economy/clubHistoryIntegration";
@@ -314,15 +314,11 @@ export function migrateCareerState(career: CareerState): CareerState {
 
   next = ensureCareerPlayerContracts(next, next.playerClubId);
 
-  // HM-WAGE-MARKET-1.0: recalibrate every EXISTING contract's own wage
-  // against the current salary formula -- Economy 1.0's own calibration
-  // report proved the pre-recalibration wage scale was not compatible
-  // with real club purchasing power (9/14 real Handbollsligan clubs
-  // CRITICAL/SERIOUS purely from this mismatch). Naturally idempotent
-  // (see recalibratePlayerContractWages's own doc), so -- like
-  // ensureCareerGameplayRatings/ensureCareerPlayerContracts above -- it
-  // is safe to run unconditionally on every migration, never only once.
-  next = recalibratePlayerContractWages(next);
+  // HM-WAGE-MARKET-1.0 / HM-ALPHA3-M10: recalibrate existing wages once
+  // per salary-formula version, never on every load (an unnegotiated wage
+  // used to follow every rating and match-role change since the last
+  // load). See migrateContractWages.
+  next = migrateContractWages(next);
 
   // HM-DATA-ALLSVENSKAN-1.1B: recalibrate every EXISTING contract's own
   // end date onto Swedish handball's normal 1 June -> 31 May

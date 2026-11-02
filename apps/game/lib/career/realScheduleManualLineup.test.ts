@@ -17,7 +17,7 @@ import { migrateCareerState } from "./saveMigration";
 import { getClubsByCompetition } from "../game-data";
 import { REAL_LEAGUE_SCHEDULES } from "../game-data/realLeagueSchedules";
 import { parseProfixioScheduleSnapshot, validateRealLeagueSchedule, PROFIXIO_SCHEDULE_LEAGUES } from "../gameWorld/profixioSchedule";
-import { buildEmptyMatchPlan, manualLineupIssues, missingStartingPositions, previousLineupFor } from "./manualLineup";
+import { buildEmptyMatchPlan, carriedLineupFor, manualLineupIssues, missingStartingPositions, previousLineupFor, resolveManualMatchPlan } from "./manualLineup";
 import { addPlayerToSquad, assignNormalAttackSlot } from "../matchPlan/matchPlanEdits";
 import { linkDefenceStarters } from "../matchPlan/startingUnits";
 import { OUTCOURT_POSITIONS } from "../rating/types";
@@ -196,4 +196,52 @@ test("old saves keep their schedule and selections (no lineup policy added by mi
   assert.equal(migrated.lineupSelection, undefined);
   assert.deepEqual(migrated.fixtures, saved.fixtures);
   assert.deepEqual(migrated.matchPlans, saved.matchPlans);
+});
+
+// ---------------------------------------------------------------------------
+// HM-ALPHA3-M10: preferred lineup carries over
+// ---------------------------------------------------------------------------
+
+test("M10: the last saved seven carries over to the next fixture and starts the match unchanged", () => {
+  const state = onMatchday(newGameCareer("se_club_ik_savehof", "se_handbollsligan_herr"));
+  const own = state.fixtures.filter((f) => f.homeClubId === state.playerClubId || f.awayClubId === state.playerClubId).sort((a, b) => a.date.localeCompare(b.date));
+  const first = selectByHand(state, own[0].id);
+  const next = { ...state, gameDate: own[1].date, careerEvents: [buildMatchdayReadyEvent(own[1].id, own[1].date)], matchPlans: { [own[0].id]: first } };
+  const available = getCareerSquad(next).filter((p) => isSelectableForMatch(next.playerStatuses, p.id));
+  const carried = carriedLineupFor(next, own[1].id, available)!;
+  assert.deepEqual(carried.replacements, []);
+  assert.equal(carried.plan.fixtureId, own[1].id);
+  assert.deepEqual(carried.plan.attackStartingUnit.slots, first.attackStartingUnit.slots);
+  assert.deepEqual(manualLineupIssues(resolveManualMatchPlan(next, own[1].id, available), available), []);
+  const session = createProductionSession(next, own[1]);
+  const team = own[1].homeClubId === next.playerClubId ? "HOME" : "AWAY";
+  assert.deepEqual(session.core.players.filter((p) => p.team === team && p.population === "COURT").map((p) => p.id).sort(), first.attackStartingUnit.slots.map((s) => s.playerId).sort());
+});
+
+test("M10: an injured starter is replaced by an eligible player and the replacement is reported", () => {
+  const state = newGameCareer("se_club_ik_savehof", "se_handbollsligan_herr");
+  const own = state.fixtures.filter((f) => f.homeClubId === state.playerClubId || f.awayClubId === state.playerClubId).sort((a, b) => a.date.localeCompare(b.date));
+  const first = selectByHand(state, own[0].id);
+  const gkSlot = first.attackStartingUnit.slots.find((s) => s.position === "GK")!;
+  const outfieldSlot = first.attackStartingUnit.slots.find((s) => s.position !== "GK")!;
+  const injured: CareerState = { ...state, matchPlans: { [own[0].id]: first }, playerStatuses: { ...state.playerStatuses, [gkSlot.playerId]: { ...(state.playerStatuses[gkSlot.playerId] ?? {}), availability: "INJURED" } as never, [outfieldSlot.playerId]: { ...(state.playerStatuses[outfieldSlot.playerId] ?? {}), availability: "SUSPENDED" } as never } };
+  const available = getCareerSquad(injured).filter((p) => isSelectableForMatch(injured.playerStatuses, p.id));
+  const carried = carriedLineupFor(injured, own[1].id, available)!;
+  assert.equal(carried.replacements.length, 2);
+  const gkIn = carried.replacements.find((r) => r.position === "GK")!.inId!;
+  assert.equal(getCareerSquad(injured).find((p) => p.id === gkIn)!.position, "MV", "a goalkeeper replaces a goalkeeper");
+  const outIn = carried.replacements.find((r) => r.position === outfieldSlot.position)!.inId!;
+  assert.notEqual(getCareerSquad(injured).find((p) => p.id === outIn)!.position, "MV", "never a goalkeeper outfield");
+  assert.ok(!carried.plan.squad.players.some((p) => p.playerId === gkSlot.playerId || p.playerId === outfieldSlot.playerId));
+  assert.deepEqual(manualLineupIssues(carried.plan, available), [], "the replaced seven is complete and valid");
+});
+
+test("M10: a fixture with its own saved selection is never overridden by the carried lineup", () => {
+  const state = newGameCareer("se_club_ik_savehof", "se_handbollsligan_herr");
+  const own = state.fixtures.filter((f) => f.homeClubId === state.playerClubId || f.awayClubId === state.playerClubId).sort((a, b) => a.date.localeCompare(b.date));
+  const empty = buildEmptyMatchPlan(own[1].id, state.playerClubId);
+  const withBoth = { ...state, matchPlans: { [own[0].id]: selectByHand(state, own[0].id), [own[1].id]: empty } };
+  const available = getCareerSquad(withBoth).filter((p) => isSelectableForMatch(withBoth.playerStatuses, p.id));
+  assert.equal(resolveManualMatchPlan(withBoth, own[1].id, available), empty, "the manager's explicit (even empty) choice wins");
+  assert.equal(carriedLineupFor(state, own[0].id, available), null, "nothing carries before any selection");
 });

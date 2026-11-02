@@ -14,7 +14,7 @@ import { isSelectableForMatch, resolveStatusLabel } from "@/lib/career/playerSta
 import { PlayerLink } from "@/components/entityLinks";
 import { startProductionMatch } from '@/lib/career/productionMatch';
 import { validateCareerLineup } from '@/lib/career/spatialMatch/careerLineup';
-import { isManualLineupCareer, manualLineupIssues } from '@/lib/career/manualLineup';
+import { isManualLineupCareer, manualLineupIssues, resolveManualMatchPlan } from '@/lib/career/manualLineup';
 import { readinessSummary } from '@/lib/training/readinessSummary';
 
 export default function MatchPreviewPage() {
@@ -51,8 +51,8 @@ export default function MatchPreviewPage() {
   // Match) -- an already-active session for THIS fixture means "resume",
   // never "restart".
   const hasActiveSessionForFixture = career.productionMatch?.fixture.id === fixture.id;
-  const savedPlan = career.matchPlans[fixture.id];
   const availableSquad = squad.filter(p => isSelectableForMatch(career.playerStatuses, p.id));
+  const savedPlan = isManualLineupCareer(career) ? resolveManualMatchPlan(career, fixture.id, availableSquad) : career.matchPlans[fixture.id];
   // HM-ALPHA2-02B: players in the chosen match squad (or, before selection,
   // the available squad) whose readiness or recovery deserves a look.
   const considered = savedPlan ? availableSquad.filter(p => savedPlan.squad.players.some(s => s.playerId === p.id)) : availableSquad;

@@ -12,7 +12,7 @@ import type { RawClubStaffIdentityLike } from "../staff/staffRosterResolution";
 import { resolveCompetitionStaffRoster } from "../staff/staffCareerIntegration";
 import { ensureCareerGameplayRatings } from "./careerRatingNormalization";
 import { computeCareerStartDate, generateProvisionalCupRound, resolveLeagueKickoffDate, type PreseasonStartOption } from "./preseason";
-import { ensureCareerPlayerContracts } from "../economy/contractIntegration";
+import { CONTRACT_WAGE_FORMULA_VERSION, ensureCareerPlayerContracts } from "../economy/contractIntegration";
 import { ensureCareerPlayerClubHistory } from "../economy/clubHistoryIntegration";
 import { ensureCareerAllClubEconomies } from "../economy/clubEconomyIntegration";
 import { ensureCareerPlayerSquadStatus } from "./squadStatus";
@@ -193,6 +193,7 @@ export function createNewCareerState(
     playerInjuries: {},
     leagueKickoffDate,
     playerContracts: {},
+    contractWageFormulaVersion: CONTRACT_WAGE_FORMULA_VERSION,
     playerClubHistory: {},
     clubEconomies: {},
     transferOffers: {},

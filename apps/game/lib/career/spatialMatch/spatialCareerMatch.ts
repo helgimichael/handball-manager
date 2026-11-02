@@ -31,8 +31,9 @@ import { toFastMatchResult } from "./spatialMatchResult";
 import { buildCanonicalMatchEvents, type CanonicalMatchEvent } from "@handball-manager/handball-engine/src/simulation/canonicalEvents.ts";
 import { getCareerClubSquad } from "../careerWorld";
 import { isSelectableForMatch } from "../playerStatus";
+import { withoutNationalDuty } from "../../nationalTeam/duty";
 import { resolveClubMatchPlanForFixture } from "../playerMatchStrength";
-import { buildEmptyMatchPlan, isManualLineupCareer } from "../manualLineup";
+import { buildEmptyMatchPlan, isManualLineupCareer, resolveManualMatchPlan } from "../manualLineup";
 import { applyMoraleToRatings } from "../../players/morale";
 import type { CareerFixture, CareerState } from "../types";
 
@@ -190,13 +191,14 @@ export function buildSpatialMatchInput(state: CareerState, fixture: CareerFixtur
   const sideFor = (clubId: string): SpatialMatchSide => {
     const isManagerClub = clubId === state.playerClubId;
     const full = getCareerClubSquad(state, clubId);
-    const squad = isManagerClub ? full.filter((p) => isSelectableForMatch(state.playerStatuses, p.id)) : full;
+    const squad = isManagerClub ? full.filter((p) => isSelectableForMatch(state.playerStatuses, p.id)) : withoutNationalDuty(state, full);
     const saved = isManagerClub ? state.matchPlans[fixture.id] : undefined;
     // HM-ALPHA2-01: a MANUAL career's own side never falls back to a
     // generated default -- with nothing selected it stays empty and the
-    // strict lineup validation below refuses it.
+    // strict lineup validation below refuses it. HM-ALPHA3-M10: a
+    // previously saved selection carries over (resolveManualMatchPlan).
     const plan = isManagerClub && isManualLineupCareer(state)
-      ? (saved ?? buildEmptyMatchPlan(fixture.id, clubId, state.tactics[clubId]))
+      ? (resolveManualMatchPlan(state, fixture.id, squad) ?? buildEmptyMatchPlan(fixture.id, clubId, state.tactics[clubId]))
       : resolveClubMatchPlanForFixture(clubId, fixture.id, squad, saved, state.tactics[clubId], state.playerMatchDefaults);
     // Keep invalid/stale custom plans visible to the strict lineup validator.
     // Replacing one with null would silently select a different team.

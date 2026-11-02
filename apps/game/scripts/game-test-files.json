@@ -253,5 +253,7 @@
     "lib/board/boardCareer.test.ts",
     "lib/media/media.test.ts",
     "lib/media/releaseReadiness.test.ts",
+    "lib/career/m10SaveIntegrity.test.ts",
+    "lib/nationalTeam/m10NationalTeam.test.ts",
     "lib/matchday/matchday.test.ts"
 ]

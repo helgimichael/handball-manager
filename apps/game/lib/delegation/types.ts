@@ -21,6 +21,7 @@ export type ProposalAction =
   | { kind: "OPEN_NEGOTIATION"; playerId: string }
   | { kind: "RENEW"; playerId: string; wageEurPerMonth: number; years: number; promisedRole?: SquadStatusTier }
   | { kind: "HIRE_STAFF"; staffId: string; role: StaffRole; wageEurPerMonth: number }
+  | { kind: "RENEW_STAFF"; staffId: string; role: StaffRole; wageEurPerMonth: number; years: number }
   | { kind: "SEEK_BIDS"; playerId: string };
 
 export interface DelegationProposal {

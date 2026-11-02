@@ -436,7 +436,7 @@ function MedicalPanel({ playerId }: { playerId: string }) {
   const injuryState = career.playerInjuries[playerId];
   const activeInjury = injuryState?.activeInjury ?? null;
   const availability = career.playerStatuses[playerId]?.availability;
-  const availabilityLabels: Record<PlayerAvailability, string> = { AVAILABLE:'Tillgänglig', INJURED:'Skadad', SUSPENDED:'Avstängd', RECOVERING:'Under återhämtning', LIMITED:'Begränsad återgång', ON_PLACEMENT:'Hos partnerklubb' };
+  const availabilityLabels: Record<PlayerAvailability, string> = { AVAILABLE:'Tillgänglig', INJURED:'Skadad', SUSPENDED:'Avstängd', RECOVERING:'Under återhämtning', LIMITED:'Begränsad återgång', ON_PLACEMENT:'Hos partnerklubb', NATIONAL_TEAM:'Med landslaget' };
   const statusLabel = availability ? availabilityLabels[availability] : 'Ingen uppgift';
   const recentHistory = (injuryState?.injuryHistory ?? []).slice(-5).reverse();
 

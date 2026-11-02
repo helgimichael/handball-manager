@@ -156,24 +156,17 @@ test("(11b) migrating an already-current save never rerolls an existing contract
   assert.deepEqual(before, after);
 });
 
-test("(11c) migrating a save with ONE existing contract keeps its own contractEndDate/clubId exactly, recalibrates only its wage, and fills the rest of the squad", () => {
+test("(11c) migrating a save with ONE existing contract keeps that contract exactly and fills the rest of the squad", () => {
   const state = freshTumba("contracts-11c");
   const squad = getCareerClubSquad(state, TUMBA_CLUB_ID);
   const somePlayer = squad[0];
-  // HM-WAGE-MARKET-1.0: recalibratePlayerContractWages deliberately
-  // overwrites any existing contract's own wage to the current formula
-  // (Part: this milestone's whole point). contractEndDate/clubId/
-  // playerId are NOT touched by that recalibration -- ensureCareer
-  // PlayerContracts's own "never touch an existing entry beyond wage
-  // recalibration" contract is what this test now actually verifies.
+  // HM-ALPHA3-M10: loading no longer recalibrates a single wage; only a
+  // whole pre-HM-WAGE-MARKET-1.0 wage scale or an older formula version
+  // is recalibrated (see migrateContractWages and m10SaveIntegrity.test.ts).
   const customContract = { ...getPlayerContract(state, somePlayer.id)!, wageEurPerMonth: 999_999 };
   const partial: CareerState = { ...state, playerContracts: { [somePlayer.id]: customContract } };
   const migrated = migrateCareerState(partial);
-  const migratedContract = migrated.playerContracts[somePlayer.id];
-  assert.equal(migratedContract.contractEndDate, customContract.contractEndDate);
-  assert.equal(migratedContract.clubId, customContract.clubId);
-  assert.equal(migratedContract.playerId, customContract.playerId);
-  assert.notEqual(migratedContract.wageEurPerMonth, 999_999, "the artificially high wage must be recalibrated, not preserved");
+  assert.deepEqual(migrated.playerContracts[somePlayer.id], customContract);
   assert.equal(Object.keys(migrated.playerContracts).length, squad.length);
 });
 

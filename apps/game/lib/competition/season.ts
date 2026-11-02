@@ -29,6 +29,8 @@ import {
   ALLSVENSKAN, ALLSVENSKAN_RULES, CUP_RULES, DIVISION_1, HANDBOLLSLIGAN, KVAL_ALLSVENSKAN, KVAL_HBL, KVAL_HBL_RULES, PLAYOFF_BONUS_EUR, SERIES_OVERTIME_ROUNDS, SM_SLUTSPEL, SM_SLUTSPEL_RULES, SVENSKA_CUPEN, type SeriesFormat,
 } from "./rules";
 import { competitionClubIds, competitionTable, hasLeagueCalendar, remainingLeagueFixtures } from "./tables";
+import { nationalBreaks } from "../nationalTeam/nationalTeam";
+import { clubCompetitionId } from "../career/competitionMembership";
 import type { CompetitionTie, SeasonAward, SeasonOutcome, TieStage } from "./types";
 
 type Emit = (event: CareerEvent) => void;
@@ -91,6 +93,8 @@ function announce(state: CareerState, id: string, emit: Emit, build: () => Caree
  * First date on or after `preferred` when none of `clubIds` has a fixture that day or the day before (avoids back-to-back games).
  * Never earlier than the day after the one being processed: during the tick `gameDate` is still the previous day, so the
  * earliest new fixture is gameDate + 2 -- a tie drawn late can never be scheduled in the past and left unplayed.
+ * HM-ALPHA3-M10: national-team breaks are never free -- a cup or play-off game drawn into one moves to after it,
+ * as generated league rounds already do (avoidNationalBreaks).
  */
 export function freeDate(state: Pick<CareerState, "fixtures" | "gameDate">, clubIds: readonly string[], preferred: string, extra: readonly CareerFixture[] = []): string {
   const earliest = addDays(state.gameDate, 2);
@@ -102,8 +106,9 @@ export function freeDate(state: Pick<CareerState, "fixtures" | "gameDate">, club
       busy.add(addDays(f.date, 1));
     }
   }
+  const inBreak = (d: string) => nationalBreaks().some((b) => d >= b.start && d <= b.end);
   let date = preferred;
-  for (let i = 0; i < 30 && busy.has(date); i++) date = addDays(date, 1);
+  for (let i = 0; i < 60 && (busy.has(date) || inBreak(date)); i++) date = addDays(date, 1);
   return date;
 }
 
@@ -250,12 +255,15 @@ function startPostseason(state: CareerState, date: string, emit: Emit): CareerSt
     const div1 = rankDivision1(next);
     if (div1.length >= 4) {
       // Group winners up directly; the next two meet Allsvenskan 11-12 (assumption: ranked by strength).
+      // HM-ALPHA3-M10: a club's Division 1 group is its CURRENT membership. The static catalogue league
+      // sent the loser of a play-off against a once-relegated Allsvenskan club back into Allsvenskan,
+      // growing it to 15 clubs and stopping the next season's fixture generation.
       const [up1, up2, k1, k2] = div1;
       for (const id of [up1!, up2!]) { nextMembership[id] = ALLSVENSKAN; promoted.push(id); }
       ALLSVENSKAN_RULES.relegationKval.forEach((pos, i) => {
-        next = addTie(next, { id: `${next.seasonId}:kval-allsv:A${i + 1}`, seasonId: next.seasonId, competitionId: KVAL_ALLSVENSKAN, stage: "KVAL_ALLSV", label: `Kval ${i + 1}: Allsvenskan ${pos} – Division 1`, highClubId: allsv[pos - 1]!, lowClubId: (i === 0 ? k1 : k2)!, format: series(ALLSVENSKAN_RULES.kvalSeries), key: `A${i + 1}`, stakes: { highCompetitionId: ALLSVENSKAN, lowCompetitionId: getClub((i === 0 ? k1 : k2)!)!.competitionId } }, start);
+        next = addTie(next, { id: `${next.seasonId}:kval-allsv:A${i + 1}`, seasonId: next.seasonId, competitionId: KVAL_ALLSVENSKAN, stage: "KVAL_ALLSV", label: `Kval ${i + 1}: Allsvenskan ${pos} – Division 1`, highClubId: allsv[pos - 1]!, lowClubId: (i === 0 ? k1 : k2)!, format: series(ALLSVENSKAN_RULES.kvalSeries), key: `A${i + 1}`, stakes: { highCompetitionId: ALLSVENSKAN, lowCompetitionId: clubCompetitionId(next, (i === 0 ? k1 : k2)!) ?? DIVISION_1[0] } }, start);
       });
-      for (const pos of ALLSVENSKAN_RULES.directRelegation) { const id = allsv[pos - 1]!; nextMembership[id] = getClub(div1.at(-1)!)?.competitionId ?? DIVISION_1[0]; relegated.push(id); }
+      for (const pos of ALLSVENSKAN_RULES.directRelegation) { const id = allsv[pos - 1]!; nextMembership[id] = clubCompetitionId(next, div1.at(-1)!) ?? DIVISION_1[0]; relegated.push(id); }
     }
   }
   next = { ...next, seasonOutcome: { ...outcome, phase: "POSTSEASON", nextMembership: { ...outcome.nextMembership, ...nextMembership }, promoted: [...outcome.promoted, ...promoted], relegated: [...outcome.relegated, ...relegated] } };

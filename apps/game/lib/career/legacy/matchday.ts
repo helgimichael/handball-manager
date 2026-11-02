@@ -16,6 +16,7 @@ import { computeSquadDerivedClubStrength } from "../squadDerivedClubStrength";
 import { checkSeasonComplete, getPlayerFixtureOn } from "../calendar";
 import { buildMatchCompletedEvent, buildPlayerInjuredEvent } from "../careerEvents";
 import { getCareerClubSquad, getCareerSquad } from "../careerWorld";
+import { withoutNationalDuty } from "../../nationalTeam/duty";
 import { careerEventToInboxMessage } from "../inboxBridge";
 import { computeAttackActiveWindows, computeTeamUsageTrace, resolveMatchUsageTimeline } from "../matchUsageEngine";
 import { applyMatchResultBookkeeping } from "../matchResultApplication";
@@ -112,7 +113,7 @@ export function playManagerFixtureLegacy(state: CareerState): PlayManagerFixture
     const rebuilt = buildDefaultMatchPlan(initialSquad, state.tactics[state.playerClubId], state.playerMatchDefaults);
     managerPlan = rebuilt.ok && rebuilt.plan ? rebuilt.plan : null;
   }
-  const opponentPlan = resolveClubMatchPlanForFixture(opponentClubId, fixture.id, getCareerClubSquad(state, opponentClubId), undefined, state.tactics[opponentClubId], state.playerMatchDefaults);
+  const opponentPlan = resolveClubMatchPlanForFixture(opponentClubId, fixture.id, withoutNationalDuty(state, getCareerClubSquad(state, opponentClubId)), undefined, state.tactics[opponentClubId], state.playerMatchDefaults);
   const managerIsHome = fixture.homeClubId === state.playerClubId;
   // HM-ALPHA3-M05: the manager's players with morale applied (±3 % at most); other clubs unchanged.
   const moraleRatings = (clubId: string) => applyMoraleToRatings(state, clubId, state.gameplayRatings[clubId] ?? []);
@@ -189,7 +190,7 @@ export function playManagerFixtureLegacy(state: CareerState): PlayManagerFixture
   // so this intentionally falls back to squadStatus-only eligibility --
   // the same honest scope buildMatchRoster already documents for callers
   // that predate Career Rhythm.
-  const opponentRoster = buildMatchRoster(getCareerClubSquad(state, opponentClubId), undefined, opponentAttackExposureById, opponentActiveWindowsById, opponentDefenceExposureById, opponentRatingsById);
+  const opponentRoster = buildMatchRoster(withoutNationalDuty(state, getCareerClubSquad(state, opponentClubId)), undefined, opponentAttackExposureById, opponentActiveWindowsById, opponentDefenceExposureById, opponentRatingsById);
 
   // HM-MATCH-RATINGS-0.1 Part K: the manager's own PRE-MATCH
   // SevenVSixPolicy (from the resolved MatchPlan above) now scales the

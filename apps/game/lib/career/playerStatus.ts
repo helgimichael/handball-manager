@@ -30,7 +30,9 @@ import { addDays } from "./dateUtils";
 // "not AVAILABLE, not LIMITED" branch (forced REST at the PARENT club --
 // correct, since the player trains at the partner club instead, not a
 // second, divergent availability rule).
-export type PlayerAvailability = "AVAILABLE" | "INJURED" | "SUSPENDED" | "RECOVERING" | "LIMITED" | "ON_PLACEMENT";
+// HM-ALPHA3-M10: "NATIONAL_TEAM" -- away with the national team for a window
+// (lib/nationalTeam), back on its returnDate like every other status.
+export type PlayerAvailability = "AVAILABLE" | "INJURED" | "SUSPENDED" | "RECOVERING" | "LIMITED" | "ON_PLACEMENT" | "NATIONAL_TEAM";
 
 export interface PlayerCareerStatus {
   playerId: string;

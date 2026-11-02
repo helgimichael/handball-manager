@@ -19,7 +19,7 @@ import { RESPONSIBILITY_LABEL, responsibilityCandidates, vacancies, type Respons
 import { findStaffMember } from "../staff/staffCareerIntegration";
 import { STAFF_ROLE_LABEL } from "../staff/labels";
 import { marketCandidates } from "../staff/staffMarket";
-import { hireFreeAgent, staffSpendingLimit, vacancyFunding } from "../staff/staffNegotiation";
+import { hireFreeAgent, openNegotiationFor, staffSpendingLimit, startStaffNegotiation, submitStaffOffer, vacancyFunding, wageDemand } from "../staff/staffNegotiation";
 import type { StaffRole } from "../staff/types";
 import { getManagerRecruitmentNeeds } from "../transfers/transferCentre";
 import { assessTransferAffordability } from "../transfers/affordability";
@@ -27,7 +27,11 @@ import type { DelegationLogEntry, DelegationMode, DelegationProposal, Delegation
 
 type Emit = (event: CareerEvent) => void;
 const PROPOSAL_DAYS = 14;
-const NON_COACHING_ROLES: StaffRole[] = ["SCOUT", "PHYSIO", "ANALYST", "TEAM_MANAGER", "HEAD_OF_RECRUITMENT"];
+// HM-ALPHA3-M10: the assistant, goalkeeper and physical coaches are proposed
+// too (every hire is a proposal the manager approves); the head coach never is.
+const DELEGATED_HIRING_ROLES: StaffRole[] = ["ASSISTANT_COACH", "GOALKEEPER_COACH", "PHYSICAL_COACH", "SCOUT", "PHYSIO", "ANALYST", "TEAM_MANAGER", "HEAD_OF_RECRUITMENT"];
+/** Expiring staff contracts are raised this many days ahead, the same lead as the manager's own warning. */
+const STAFF_RENEWAL_LEAD_DAYS = 60;
 
 export function delegationOf(state: CareerState): DelegationState {
   return state.delegation ?? { settings: {}, proposals: {}, log: [] };
@@ -221,7 +225,24 @@ function staffHiring(state: CareerState, date: string, emit: Emit, done: string[
   const who = delegateFor(state, "STAFF_HIRING");
   if (!who) return state;
   let next = state;
-  const open = vacancies(state, state.playerClubId).filter((p) => NON_COACHING_ROLES.includes(p.role));
+  // HM-ALPHA3-M10: expiring staff contracts. Before this, a delegating manager
+  // lost every salaried coach when their contracts ran out, because only
+  // player renewals were delegated and coaching vacancies were never proposed.
+  for (const member of state.staffRoster[state.playerClubId] ?? []) {
+    const e = state.staffEmployment[member.id];
+    const role = member.roles[0];
+    if (e?.employmentType !== "SALARIED" || !e.contractEndDate || !role || role === "HEAD_COACH" || member.id === who.staffId) continue;
+    if (e.contractEndDate < date || e.contractEndDate > addDaysIso(date, STAFF_RENEWAL_LEAD_DAYS) || openNegotiationFor(state, member.id)) continue;
+    const wage = wageDemand(state, member.id, state.playerClubId, role, "RENEW");
+    next = propose(next, date, emit, {
+      area: "STAFF_HIRING", staffId: who.staffId,
+      title: `Förläng med ${member.displayName} (${STAFF_ROLE_LABEL[role].toLowerCase()})`,
+      reason: `Avtalet går ut ${e.contractEndDate}. Utan förlängning lämnar ${member.displayName} klubben och rollen blir vakant.`,
+      consequence: `${formatEur(wage)} i månaden (nu ${formatEur(e.wageEurPerMonth ?? 0)}), två år.`,
+      action: { kind: "RENEW_STAFF", staffId: member.id, role, wageEurPerMonth: wage, years: 2 },
+    });
+  }
+  const open = vacancies(state, state.playerClubId).filter((p) => DELEGATED_HIRING_ROLES.includes(p.role));
   for (const vacancy of open.slice(0, 1)) {
     const candidate = marketCandidates(state).filter((c) => c.status === "FREE_AGENT" && c.role === vacancy.role).sort((a, b) => b.suitability - a.suitability)[0];
     if (!candidate) continue;
@@ -293,6 +314,11 @@ function execute(state: CareerState, action: ProposalAction, staffId: string): C
       if (action.wageEurPerMonth * 12 > room) throw new Error("Lönen ryms inte inom styrelsens personalram.");
       const end = `${Number(state.gameDate.slice(0, 4)) + (state.gameDate.slice(5) > "05-31" ? 3 : 2)}-05-31`;
       return hireFreeAgent(state, action.staffId, state.playerClubId, action.wageEurPerMonth, end);
+    }
+    case "RENEW_STAFF": {
+      // The normal renewal talks: the offer is answered in a few days, and the staff budget can still refuse it.
+      const started = startStaffNegotiation(state, action.staffId, action.role, "RENEW");
+      return submitStaffOffer(started.state, started.negotiation.id, { wageEurPerMonth: action.wageEurPerMonth, years: action.years, role: action.role });
     }
   }
 }

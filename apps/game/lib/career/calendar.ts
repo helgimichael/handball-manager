@@ -1,6 +1,7 @@
 import { simulateFixture, type FastMatchResult } from "@handball-manager/game-simulation";
 import { computeSquadDerivedClubStrength } from "./squadDerivedClubStrength";
 import { getCareerClubSquad } from "./careerWorld";
+import { withoutNationalDuty } from "../nationalTeam/duty";
 import { buildSeasonCompleteMessage } from "./inboxEvents";
 import { applyMatchResultBookkeeping } from "./matchResultApplication";
 import { computeTeamUsageTrace } from "./matchUsageEngine";
@@ -113,8 +114,9 @@ export function simulateAiFixturesForDate(state: CareerState, date: string): { s
     // without a saved plan already gets). A club with no snapshotted
     // squad (e.g. non-Tumba Allsvenskan mocks) resolves to a neutral,
     // zero-effect side, exactly as before this milestone.
-    const homePlan = resolveClubMatchPlanForFixture(fixture.homeClubId, fixture.id, getCareerClubSquad(state, fixture.homeClubId), undefined);
-    const awayPlan = resolveClubMatchPlanForFixture(fixture.awayClubId, fixture.id, getCareerClubSquad(state, fixture.awayClubId), undefined);
+    // HM-ALPHA3-M10: players away with a national team miss a league game played during the window.
+    const homePlan = resolveClubMatchPlanForFixture(fixture.homeClubId, fixture.id, withoutNationalDuty(state, getCareerClubSquad(state, fixture.homeClubId)), undefined);
+    const awayPlan = resolveClubMatchPlanForFixture(fixture.awayClubId, fixture.id, withoutNationalDuty(state, getCareerClubSquad(state, fixture.awayClubId)), undefined);
     // HM-ALPHA2-02C: each CPU player's tracked readiness is their kickoff
     // energy in the quick simulation (untracked players: 100, as before).
     const startingEnergy = cpuStartingEnergies({ ...state, playerPhysicalState: physical }, [fixture.homeClubId, fixture.awayClubId]);

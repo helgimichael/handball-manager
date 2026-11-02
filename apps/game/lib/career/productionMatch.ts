@@ -10,7 +10,7 @@ import type { CoreEvent, CorePlayer, CoreState, Role, TeamId } from '@handball-m
 import { ledger, lossClassOf } from '@handball-manager/handball-engine/src/v2/core/ledger';
 import { resolveCareerLineup, validateCareerLineup } from './spatialMatch/careerLineup';
 import { buildSpatialMatchInput } from './spatialMatch/spatialCareerMatch';
-import { isManualLineupCareer, manualLineupIssues } from './manualLineup';
+import { isManualLineupCareer, manualLineupIssues, resolveManualMatchPlan } from './manualLineup';
 import { applyMatchResultBookkeeping } from './matchResultApplication';
 import { applyKnockoutDecider } from '../competition/season';
 import { checkSeasonComplete, getPlayerFixtureOn } from './calendar';
@@ -77,8 +77,8 @@ export function kickoffEnergy(careerEnergy: number | undefined): number {
 
 export function createProductionSession(state: CareerState, fixture: CareerFixture): ProductionMatchSession {
   const input = buildSpatialMatchInput(state, fixture);
-  const saved = state.matchPlans[fixture.id];
   const managerInput = fixture.homeClubId === state.playerClubId ? input.home : input.away;
+  const saved = isManualLineupCareer(state) ? resolveManualMatchPlan(state, fixture.id, managerInput.squad) : state.matchPlans[fixture.id];
   if (isManualLineupCareer(state)) {
     const issues = manualLineupIssues(saved, managerInput.squad);
     if (issues.length) throw new Error(issues.join(' '));

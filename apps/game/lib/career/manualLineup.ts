@@ -1,8 +1,10 @@
 // HM-ALPHA2-01: manager-controlled lineup selection for New Game careers
-// (CareerState.lineupSelection === "MANUAL"). The manager's own starting
-// seven and bench start EMPTY for every fixture; nothing here (or in any
-// caller) ever fills them in automatically. CPU clubs keep their automatic
-// selection (playerMatchStrength.ts's resolveClubMatchPlanForFixture).
+// (CareerState.lineupSelection === "MANUAL"). The first fixture starts
+// EMPTY; the manager's own selection is never generated from scratch.
+// HM-ALPHA3-M10: once a selection has been saved it carries over to the
+// next fixture as the preferred lineup (carriedLineupFor), with
+// unavailable starters replaced and reported. CPU clubs keep their
+// automatic selection (playerMatchStrength.ts's resolveClubMatchPlanForFixture).
 //
 // An empty plan keeps the seven NORMAL attack slots, each with playerId "",
 // so the existing swap-based editors (matchPlanEdits.ts) fill them in
@@ -12,6 +14,10 @@ import type { TacticsTemplate } from "../matchPlan/persistentDefaults";
 import { buildDefaultMatchPlan } from "../matchPlan/defaultMatchPlan";
 import type { MatchPlan, Position } from "../matchPlan/types";
 import { validateCareerLineup } from "./spatialMatch/careerLineup";
+import { addPlayerToSquad, assignNormalAttackSlot } from "../matchPlan/matchPlanEdits";
+import { linkDefenceStarters } from "../matchPlan/startingUnits";
+import { MATCH_SQUAD_MAX_PLAYERS } from "../matchPlan/types";
+import { getCareerPlayerRating } from "./careerRatingNormalization";
 import type { PlayerMock } from "../game-data";
 import type { CareerState } from "./types";
 
@@ -86,15 +92,75 @@ export function clearStartingPosition(plan: MatchPlan, position: Position): Matc
   return { ...plan, attackStartingUnit: { ...plan.attackStartingUnit, slots: plan.attackStartingUnit.slots.map((slot) => (slot.position === position ? { ...slot, playerId: EMPTY_SLOT } : slot)) } };
 }
 
+/** The most recent saved selection before `fixtureId` (this season, else the one carried over the summer), re-keyed to it. */
+export function latestSavedPlan(state: CareerState, fixtureId: string): MatchPlan | null {
+  const date = state.fixtures.find((f) => f.id === fixtureId)?.date ?? "9999-12-31";
+  const playedOrder = state.fixtures.filter((f) => f.id !== fixtureId && f.date <= date && state.matchPlans[f.id]?.squad.players.length).sort((a, b) => b.date.localeCompare(a.date) || (b.kickoffTime ?? "").localeCompare(a.kickoffTime ?? ""));
+  const source = (playedOrder[0] && state.matchPlans[playedOrder[0].id]) || state.preferredLineup;
+  return source ? { ...source, fixtureId, squad: { ...source.squad, fixtureId } } : null;
+}
+
 /**
  * The manager's most recent saved selection for another fixture, re-keyed
- * to `fixtureId` -- offered only behind an explicit "use last lineup"
- * button. Unavailable players are dropped (their slots left empty).
+ * to `fixtureId`. Unavailable players are dropped (their slots left empty).
  */
 export function previousLineupFor(state: CareerState, fixtureId: string, availableIds: ReadonlySet<string>): MatchPlan | null {
-  const playedOrder = state.fixtures.filter((f) => f.id !== fixtureId && state.matchPlans[f.id]?.squad.players.length).sort((a, b) => b.date.localeCompare(a.date) || (b.kickoffTime ?? "").localeCompare(a.kickoffTime ?? ""));
-  const source = playedOrder[0] && state.matchPlans[playedOrder[0].id];
-  if (!source) return null;
-  const rekeyed: MatchPlan = { ...source, fixtureId, squad: { ...source.squad, fixtureId } };
-  return removeUnavailableFromPlan(rekeyed, availableIds);
+  const source = latestSavedPlan(state, fixtureId);
+  return source ? removeUnavailableFromPlan(source, availableIds) : null;
+}
+
+export interface LineupReplacement {
+  position: Position;
+  outId: string;
+  /** Null when no eligible player was left to step in; the slot stays empty. */
+  inId: string | null;
+}
+
+export interface CarriedLineup {
+  plan: MatchPlan;
+  replacements: LineupReplacement[];
+  /** Squad members of the previous match who are unavailable now (starters and bench). */
+  unavailableIds: string[];
+}
+
+const naturalCode = (position: Position) => (position === "GK" ? "MV" : position);
+
+/**
+ * HM-ALPHA3-M10: the preferred lineup. A MANUAL career's next fixture with
+ * no saved selection of its own carries over the most recent one, so the
+ * manager picks a seven once and keeps it. A starter who is unavailable now
+ * is replaced by an eligible player -- the bench first, natural position
+ * before secondary, then highest ability -- and every replacement is
+ * reported so the UI can say who stepped in for whom. Goalkeepers only
+ * replace goalkeepers. Unavailable bench players are simply dropped.
+ * Null when the manager has never saved a selection (the first fixture
+ * stays an explicit choice).
+ */
+export function carriedLineupFor(state: CareerState, fixtureId: string, available: readonly PlayerMock[]): CarriedLineup | null {
+  const source = latestSavedPlan(state, fixtureId);
+  if (!source || source.attackStartingUnit.formation !== "NORMAL") return null;
+  const availableIds = new Set(available.map((p) => p.id));
+  const unavailableIds = source.squad.players.map((p) => p.playerId).filter((id) => !availableIds.has(id));
+  let plan = removeUnavailableFromPlan(source, availableIds);
+  const replacements: LineupReplacement[] = [];
+  const ca = (id: string) => getCareerPlayerRating(state, id)?.ca ?? 0;
+  for (const slot of source.attackStartingUnit.slots) {
+    if (!slot.playerId || availableIds.has(slot.playerId)) continue;
+    const starting = new Set(plan.attackStartingUnit.slots.map((s) => s.playerId));
+    const inSquad = new Set(plan.squad.players.map((p) => p.playerId));
+    const code = naturalCode(slot.position);
+    const fits = (p: PlayerMock) => (slot.position === "GK" ? p.position === "MV" : p.position !== "MV");
+    const rank = (p: PlayerMock) => (inSquad.has(p.id) ? 0 : 3) + (p.position === code ? 0 : p.secondaryPosition === code || p.secondaryPositions?.includes(code) ? 1 : 2);
+    const candidates = available.filter((p) => fits(p) && !starting.has(p.id) && (inSquad.has(p.id) || plan.squad.players.length < MATCH_SQUAD_MAX_PLAYERS))
+      .sort((a, b) => rank(a) - rank(b) || ca(b.id) - ca(a.id) || a.id.localeCompare(b.id));
+    const pick = candidates[0];
+    if (pick) plan = assignNormalAttackSlot(addPlayerToSquad(plan, pick.id, slot.position), slot.position, pick.id);
+    replacements.push({ position: slot.position, outId: slot.playerId, inId: pick?.id ?? null });
+  }
+  return { plan: linkDefenceStarters(plan), replacements, unavailableIds };
+}
+
+/** The plan the manager's side uses for a fixture: the saved one, else the carried preferred lineup. */
+export function resolveManualMatchPlan(state: CareerState, fixtureId: string, available: readonly PlayerMock[]): MatchPlan | undefined {
+  return state.matchPlans[fixtureId] ?? carriedLineupFor(state, fixtureId, available)?.plan;
 }

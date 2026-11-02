@@ -224,6 +224,9 @@ export type CareerState = {
    */
   lineupSelection?: "MANUAL";
 
+  /** HM-ALPHA3-M10: the manager's last saved selection of the previous season, carried into the new one (seasonRollover). */
+  preferredLineup?: MatchPlan;
+
   // --- HM-MATCH-RATINGS-0.1 addition (career-state schema v9, see saveMigration.ts) ---
 
   /**
@@ -549,6 +552,8 @@ export type CareerState = {
   media?: MediaState;
   // --- HM-ALPHA3-M08 (8E): national-team windows -- call-ups, results, returns (lib/nationalTeam) ---
   nationalTeam?: NationalTeamState;
+  // --- HM-ALPHA3-M10: salary formula version the unnegotiated wages were set against (lib/economy/contractIntegration migrateContractWages) ---
+  contractWageFormulaVersion?: number;
   // --- HM-ALPHA3-M07: the board and the manager's own career (lib/board, lib/manager) ---
   /** The current employer's board: objectives, confidence, meetings. Rebuilt when the manager changes club. */
   board?: BoardState;
