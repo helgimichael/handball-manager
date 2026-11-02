@@ -46,9 +46,10 @@ test('connected management journeys, contracts, shortlist, scouting, world links
   const contractName = await firstContract.locator('td a').first().innerText();
   const contractHref = await firstContract.locator('td a').first().getAttribute('href');
   await firstContract.getByRole('button',{name:'Förhandla',exact:true}).click();
+  await page.getByRole('button',{name:'Inled förlängningssamtal',exact:true}).click();
   await page.getByLabel('Förlängning',{exact:true}).selectOption('3');
   await page.getByRole('button',{name:'Förläng kontrakt',exact:true}).click();
-  await expect(page.getByRole('status').filter({hasText:'Kontraktet är förlängt.'})).toBeVisible();
+  await expect(page.getByRole('status').filter({hasText:'Budet är lämnat. Svar i morgon.'})).toBeVisible();
   await page.getByRole('button',{name:'Spara',exact:true}).click();
   await expect(page.getByRole('status').filter({hasText:'Sparat'})).toBeVisible();
   await page.reload();

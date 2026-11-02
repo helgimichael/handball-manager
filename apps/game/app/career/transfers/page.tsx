@@ -43,6 +43,7 @@ import {
 } from "@/lib/transfers/transferCentre";
 import { getLatestNegotiation } from "@/lib/transfers/negotiationIntegration";
 import type { TransferOfferStatus } from "@/lib/transfers/types";
+import { IncomingOffersBoard } from "@/components/players/IncomingOffersBoard";
 import type { CareerState } from "@/lib/career/types";
 
 type Tab = "OPPORTUNITIES" | "MARKET" | "SHORTLIST";
@@ -115,6 +116,8 @@ function TransferCentre() {
     <div className="game-transfers-page tc-page">
       <PageHeading eyebrow="Rekrytering / bygg laget" title="Transfer Centre" description="Marknaden, era förhandlingar och ekonomin på ett ställe. Varje affär görs i förhandlingsrummet." actions={<><Link className="hm-btn" href="/career/recruitment">Rekryteringscentrum</Link><Link className="hm-btn" href="/career/players">Spelarsök →</Link></>} />
 
+      {/* HM-ALPHA3-M05: bids for your players, the transfer list and departures. */}
+      <IncomingOffersBoard />
       <section className="tc-stage" aria-label="Transferläge och ekonomi">
         <CourtBackdrop />
         <div className="tc-stage-lead">

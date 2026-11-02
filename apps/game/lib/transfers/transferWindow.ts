@@ -35,7 +35,8 @@ export function isTransferWindowOpen(date: string): boolean {
 /** The next date a currently-closed window opens, strictly after `date`. Used to schedule a AGREED_AWAITING_WINDOW offer's `scheduledCompletionDate`. */
 export function nextTransferWindowOpenDate(date: string): string {
   const year = Number(date.slice(0, 4));
-  const candidateWindows = [...windowsForYear(year - 1), ...windowsForYear(year + 1)];
+  // HM-ALPHA3-M05 fix: include this year's windows -- from November the next window is January, not next June.
+  const candidateWindows = [...windowsForYear(year - 1), ...windowsForYear(year), ...windowsForYear(year + 1)];
   const upcoming = candidateWindows.filter((w) => w.startDate > date).sort((a, b) => (a.startDate < b.startDate ? -1 : 1));
   return upcoming[0].startDate;
 }

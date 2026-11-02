@@ -8,7 +8,7 @@ import type { CareerState } from "../career/types";
 export const RECURRING_INCOME_CATEGORIES = ["SPONSORSHIP", "MEDIA", "MATCHDAY", "SPORTING", "OTHER_INCOME", "ASSOCIATION_SUPPORT"] as const;
 export const RECURRING_EXPENSE_CATEGORIES = ["PLAYER_WAGES", "STAFF_WAGES", "OPERATIONS", "CLUB_OPERATIONS"] as const;
 /** One-off movements, recorded the day they happen. */
-export const ONE_OFF_CATEGORIES = ["TRANSFER_FEES", "TRAINING_COMPENSATION", "SIGNING_COSTS", "PARTNERSHIPS", "PRIZE_MONEY", "OWNER_INJECTION", "STAFF_COMPENSATION", "OTHER_ONE_OFF"] as const;
+export const ONE_OFF_CATEGORIES = ["TRANSFER_FEES", "TRAINING_COMPENSATION", "SIGNING_COSTS", "PARTNERSHIPS", "PRIZE_MONEY", "OWNER_INJECTION", "STAFF_COMPENSATION", "PLAYER_RELEASE", "OTHER_ONE_OFF"] as const;
 
 export type RecurringIncomeCategory = (typeof RECURRING_INCOME_CATEGORIES)[number];
 export type RecurringExpenseCategory = (typeof RECURRING_EXPENSE_CATEGORIES)[number];

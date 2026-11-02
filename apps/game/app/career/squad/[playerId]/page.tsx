@@ -34,6 +34,7 @@ import { KnowledgeGatedAbilityPanel, KnowledgeGatedAttributesPanel } from "@/com
 import { buildScoutReportView } from "@/lib/knowledge/scoutReportVisibility";
 import { getClubScouts, getPlayerScoutReports } from "@/lib/career/scouting";
 import { findStaffMember } from "@/lib/staff/staffCareerIntegration";
+import { PlayerDynamicsPanel } from "@/components/players/PlayerDynamicsPanel";
 import { ScoutReportPanel, type ScoutReportHistoryEntry } from "@/components/ScoutReportPanel";
 
 // HM-RATINGS-CAREER-1.0 Part 25: every career player (REAL_WORLD, mock or
@@ -357,6 +358,8 @@ export default function PlayerProfilePage() {
               <div><small>{player.position === "MV" ? "Räddningsprocent" : "Skotteffektivitet"}</small><strong>{player.position === "MV" ? seasonStats.shotsFaced > 0 ? `${Math.round(seasonStats.saves / seasonStats.shotsFaced * 100)}%` : "—" : seasonStats.shots > 0 ? `${Math.round(seasonStats.goals / seasonStats.shots * 100)}%` : "—"}</strong></div>
               <div><small>{player.position === "MV" ? "Räddningar / mötta" : "Mål / skott"}</small><strong>{player.position === "MV" ? `${seasonStats.saves}/${seasonStats.shotsFaced}` : `${seasonStats.goals}/${seasonStats.shots}`}</strong></div>
             </section>
+            {/* HM-ALPHA3-M05: morale, talks, promises, requests, bids, transfer list and release. */}
+            {isOwnPlayer && <PlayerDynamicsPanel playerId={player.id} />}
             {attributesContent}
           </div>
           <aside className="hm-world-rail" aria-label="Spelarbedömning och tillgänglighet">

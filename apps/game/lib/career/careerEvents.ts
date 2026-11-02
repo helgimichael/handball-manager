@@ -33,7 +33,17 @@ export type CareerEventType =
   // HM-ALPHA3-M03: playoffs, qualification, promotion/relegation, titles, awards.
   | "SEASON_MILESTONE"
   // HM-ALPHA3-M04: staff negotiations, appointments, departures and contract expiries.
-  | "STAFF_UPDATE";
+  | "STAFF_UPDATE"
+  // HM-ALPHA3-M05: morale, player talks, promises, transfer requests, renewals and departures.
+  | "PLAYER_DYNAMICS"
+  // HM-ALPHA3-M05: bids from other clubs for the manager's players.
+  | "TRANSFER_OFFER"
+  // HM-ALPHA3-M06: what a delegated staff member did or proposes.
+  | "DELEGATION_REPORT"
+  // HM-ALPHA3-M07: board objectives, confidence, reviews, warnings, dismissal.
+  | "BOARD_UPDATE"
+  // HM-ALPHA3-M07: the manager's own career -- contract, approaches, vacancies, interviews, offers.
+  | "MANAGER_CAREER";
 
 /** Spec S3: the three-tier priority model. */
 export type EventPriority = "INFORMATION" | "IMPORTANT" | "ACTION_REQUIRED";
@@ -75,6 +85,13 @@ export type EventDestination =
   | { route: "SEASON" }
   | { route: "STAFF" }
   | { route: "STAFF_MEMBER"; staffId: string }
+  | { route: "TRANSFER_OFFER"; offerId: string }
+  | { route: "CONTRACTS" }
+  | { route: "TRANSFERS" }
+  | { route: "DELEGATION" }
+  | { route: "BOARDROOM" }
+  | { route: "MANAGER" }
+  | { route: "JOB_MARKET" }
   | { route: "ANALYSIS_OVERVIEW" }
   | { route: "ANALYSIS_OPPONENT" }
   | { route: "ANALYSIS_OUR_TEAM" }
@@ -303,8 +320,8 @@ export function buildTransferNegotiationEvent(id: string, date: string, subject:
   return baseEvent(`TRANSFER_NEGOTIATION:${id}`, "TRANSFER_NEGOTIATION", date, "IMPORTANT", subject, summary, [{ route: "NEGOTIATION", playerId }, { route: "PLAYER_PROFILE", playerId }]);
 }
 
-/** HM-ALPHA3: finance, season and staff events. `key` must be stable per semantic event (it is the dedup id). */
-export function buildClubEvent(type: "CLUB_FINANCE" | "SEASON_MILESTONE" | "STAFF_UPDATE", key: string, date: string, priority: EventPriority, subject: string, summary: string, destinations: EventDestination[], primaryEntity?: EntityRef): CareerEvent {
+/** HM-ALPHA3: finance, season, staff, player-dynamics, offer, delegation, board and manager-career events. `key` must be stable per semantic event (it is the dedup id). */
+export function buildClubEvent(type: "CLUB_FINANCE" | "SEASON_MILESTONE" | "STAFF_UPDATE" | "PLAYER_DYNAMICS" | "TRANSFER_OFFER" | "DELEGATION_REPORT" | "BOARD_UPDATE" | "MANAGER_CAREER", key: string, date: string, priority: EventPriority, subject: string, summary: string, destinations: EventDestination[], primaryEntity?: EntityRef): CareerEvent {
   return baseEvent(`${type}:${key}`, type, date, priority, subject, summary, destinations, primaryEntity ? { primaryEntity } : undefined);
 }
 
@@ -398,4 +415,9 @@ export function buildPlayerRetiredEvent(playerId: string, playerDisplayName: str
     [{ route: "PLAYER_PROFILE", playerId }, { route: "SQUAD" }],
     { primaryEntity: { entityType: "player", entityId: playerId } },
   );
+}
+
+/** HM-ALPHA3-M05: a player-dynamics event about one of the manager's players (filed under Players). */
+export function buildPlayerDynamicsEvent(key: string, date: string, priority: EventPriority, subject: string, summary: string, destinations: EventDestination[], playerId: string): CareerEvent {
+  return buildClubEvent("PLAYER_DYNAMICS", key, date, priority, subject, summary, destinations, { entityType: "player", entityId: playerId });
 }

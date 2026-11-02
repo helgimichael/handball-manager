@@ -33,6 +33,7 @@ import { getCareerClubSquad } from "../careerWorld";
 import { isSelectableForMatch } from "../playerStatus";
 import { resolveClubMatchPlanForFixture } from "../playerMatchStrength";
 import { buildEmptyMatchPlan, isManualLineupCareer } from "../manualLineup";
+import { applyMoraleToRatings } from "../../players/morale";
 import type { CareerFixture, CareerState } from "../types";
 
 /** Everything one club brings to the match. */
@@ -199,7 +200,7 @@ export function buildSpatialMatchInput(state: CareerState, fixture: CareerFixtur
       : resolveClubMatchPlanForFixture(clubId, fixture.id, squad, saved, state.tactics[clubId], state.playerMatchDefaults);
     // Keep invalid/stale custom plans visible to the strict lineup validator.
     // Replacing one with null would silently select a different team.
-    return { clubId, squad, gameplayRatings: state.gameplayRatings[clubId] ?? [], plan };
+    return { clubId, squad, gameplayRatings: applyMoraleToRatings(state, clubId, state.gameplayRatings[clubId] ?? []), plan };
   };
   return {
     fixtureId: fixture.id,

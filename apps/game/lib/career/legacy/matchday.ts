@@ -31,6 +31,7 @@ import { applyMatchDevelopmentStimulus, type PlayerMatchExposure } from "../../d
 import { applyMatchInjuryResolution } from "../../medical/injuryIntegration";
 import { isSelectableForMatch } from "../playerStatus";
 import { buildInitialMatchSquad } from "../../matchPlan/careerSquadBridge";
+import { applyMoraleToRatings } from "../../players/morale";
 import { buildDefaultMatchPlan } from "../../matchPlan/defaultMatchPlan";
 
 export interface PlayManagerFixtureResult {
@@ -113,11 +114,13 @@ export function playManagerFixtureLegacy(state: CareerState): PlayManagerFixture
   }
   const opponentPlan = resolveClubMatchPlanForFixture(opponentClubId, fixture.id, getCareerClubSquad(state, opponentClubId), undefined, state.tactics[opponentClubId], state.playerMatchDefaults);
   const managerIsHome = fixture.homeClubId === state.playerClubId;
+  // HM-ALPHA3-M05: the manager's players with morale applied (±3 % at most); other clubs unchanged.
+  const moraleRatings = (clubId: string) => applyMoraleToRatings(state, clubId, state.gameplayRatings[clubId] ?? []);
   const playerStrength = computePlayerMatchStrengthAdjustment(
     managerIsHome ? managerPlan : opponentPlan,
-    state.gameplayRatings[managerIsHome ? state.playerClubId : opponentClubId] ?? [],
+    moraleRatings(managerIsHome ? state.playerClubId : opponentClubId),
     managerIsHome ? opponentPlan : managerPlan,
-    state.gameplayRatings[managerIsHome ? opponentClubId : state.playerClubId] ?? [],
+    moraleRatings(managerIsHome ? opponentClubId : state.playerClubId),
     `${state.saveSeed}:${fixture.id}`,
   );
 
@@ -217,10 +220,10 @@ export function playManagerFixtureLegacy(state: CareerState): PlayManagerFixture
   // adjustments above, same additive channel.
   const tacticalPlanAdjustment = computeTacticalMatchPlanAdjustment(
     managerIsHome ? managerPlan : opponentPlan,
-    state.gameplayRatings[managerIsHome ? state.playerClubId : opponentClubId] ?? [],
+    moraleRatings(managerIsHome ? state.playerClubId : opponentClubId),
     managerIsHome ? managerUsageTrace : opponentUsageTrace,
     managerIsHome ? opponentPlan : managerPlan,
-    state.gameplayRatings[managerIsHome ? opponentClubId : state.playerClubId] ?? [],
+    moraleRatings(managerIsHome ? opponentClubId : state.playerClubId),
     managerIsHome ? opponentUsageTrace : managerUsageTrace,
   );
 

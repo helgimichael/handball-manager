@@ -38,7 +38,7 @@ test('five presentation screens at desktop and ultrawide, with actual career dat
     for(const screen of screens) {
       await page.goto(`${base}${screen.route}`); await ready(page);
       if(['squad','search','competition'].includes(screen.name)) await expect(page.locator('main table tbody tr').first()).toBeVisible({timeout:30000});
-      if(screen.name==='player') { if(phase==='before') await expect(page.getByRole('button',{name:'Förläng kontrakt',exact:true})).toBeVisible({timeout:30000}); else await expect(page.locator('.game-player-hero')).toBeVisible({timeout:30000}); }
+      if(screen.name==='player') { if(phase==='before') await expect(page.getByRole('button',{name:'Inled förlängningssamtal',exact:true})).toBeVisible({timeout:30000}); else await expect(page.locator('.game-player-hero')).toBeVisible({timeout:30000}); }
       if(screen.name==='home') await expect(page.locator('main')).toContainText('Torslanda',{timeout:30000});
       await page.screenshot({path:path.join(dir,`${screen.name}.png`),fullPage:false,animations:'disabled'});
       const layout=await page.evaluate(() => ({width:window.innerWidth,documentWidth:document.documentElement.scrollWidth,mainWidth:document.querySelector('main')?.getBoundingClientRect().width}));

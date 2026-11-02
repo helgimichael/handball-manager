@@ -1,0 +1,65 @@
+/* HM-ALPHA3-M05: player dynamics -- morale, talks, promises, renewal talks,
+   the incoming-offer room and the selling board. Paper/navy language. */
+.pd-panel { display: grid; gap: 12px; padding: 16px 18px; background: var(--hm-surface-1); border-top: 3px solid var(--game-ink); min-width: 0; }
+.pd-panel h3 { margin: 0; font-family: var(--game-font-display); font-weight: 400; font-size: 22px; text-transform: uppercase; line-height: 1.05; }
+.pd-panel h4 { margin: 4px 0 0; font-size: 11.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--hm-text-secondary); }
+.pd-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 16px; align-items: end; }
+.pd-note { margin: 0; font-size: 12.5px; line-height: 1.5; color: var(--hm-text-secondary); }
+.pd-note[data-tone="loss"] { color: #a93219; font-weight: 650; }
+.pd-factors { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.pd-factors li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: baseline; padding: 6px 10px; background: var(--hm-surface-2); font-size: 13px; border-left: 4px solid var(--hm-border-strong); }
+.pd-factors li[data-tone="up"] { border-left-color: #3f7a52; }
+.pd-factors li[data-tone="down"] { border-left-color: #a93219; }
+.pd-factors b { font-variant-numeric: tabular-nums; }
+.pd-factors li[data-tone="up"] b { color: #2f6343; }
+.pd-factors li[data-tone="down"] b { color: #a93219; }
+.pd-quote { margin: 0 0 10px; font-size: 15px; line-height: 1.5; font-style: italic; color: var(--hm-text-primary); }
+.pd-options { display: grid; gap: 8px; }
+.pd-option { display: grid; gap: 3px; padding: 10px 12px; text-align: left; font: inherit; color: inherit; background: var(--hm-surface-1); border: 1px solid var(--hm-border-strong); border-left: 4px solid var(--hm-accent); cursor: pointer; }
+.pd-option b { font-size: 14px; }
+.pd-option small { font-size: 12px; line-height: 1.45; color: var(--hm-text-secondary); }
+@media (hover: hover) and (pointer: fine) { .pd-option:hover { background: var(--hm-surface-selected); } }
+.pd-option:focus-visible { outline: 3px solid var(--game-ink); outline-offset: 2px; }
+.pd-promises ul, .pd-offers ul { list-style: none; margin: 6px 0 0; padding: 0; display: grid; gap: 6px; }
+.pd-promises li { display: grid; gap: 2px; padding: 8px 10px; background: var(--hm-surface-2); border-left: 4px solid #c08a2c; font-size: 13px; }
+.pd-promises li[data-status="KEPT"] { border-left-color: #3f7a52; }
+.pd-promises li[data-status="BROKEN"] { border-left-color: #a93219; }
+.pd-promises small { color: var(--hm-text-secondary); }
+.pd-offers li { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 10px; align-items: center; font-size: 13px; }
+.pd-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.pd-morale-badge { display: inline-grid; place-items: center; min-width: 30px; padding: 2px 6px; font-size: 12px; font-weight: 800; font-variant-numeric: tabular-nums; color: #fff; background: #5c6b7c; }
+.pd-morale-badge[data-tone="good"] { background: #2f6343; }
+.pd-morale-badge[data-tone="ok"] { background: #5c6b7c; }
+.pd-morale-badge[data-tone="low"] { background: #b07a1c; }
+.pd-morale-badge[data-tone="bad"] { background: #a93219; }
+.pd-renewal { display: grid; gap: 10px; margin-top: 12px; }
+.pd-demand { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 140px), 1fr)); gap: 8px; margin: 0; }
+.pd-demand > div { display: grid; gap: 2px; padding: 8px 10px; background: var(--hm-surface-2); }
+.pd-demand dt { font-size: 10.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--hm-text-secondary); }
+.pd-demand dd { margin: 0; font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.pd-offer { display: flex; flex-wrap: wrap; gap: 10px; align-items: end; }
+.pd-offer label, .pd-counter { display: grid; gap: 4px; font-size: 11.5px; font-weight: 650; color: var(--hm-text-secondary); }
+.pd-offer select { min-height: 36px; }
+.pd-offer-grid { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 16px; align-items: start; margin-top: 16px; }
+.pd-offer-fee { display: grid; gap: 2px; text-align: right; color: #f8f3e9; }
+.pd-offer-fee small { font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: #e0b23c; }
+.pd-offer-fee b { font-family: var(--game-font-display); font-weight: 400; font-size: 40px; line-height: 1; }
+.pd-offer-fee span { font-size: 12.5px; color: #c9d2dc; }
+.pd-rounds { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.pd-rounds li { display: grid; grid-template-columns: 92px minmax(0, 120px) auto minmax(0, 1fr); gap: 10px; align-items: baseline; padding: 6px 10px; background: var(--hm-surface-2); font-size: 13px; border-left: 4px solid var(--game-ink); }
+.pd-rounds li[data-by="MANAGER"] { border-left-color: var(--hm-accent); }
+.pd-rounds time, .pd-rounds small { color: var(--hm-text-secondary); font-size: 12px; }
+.pd-rounds span { font-weight: 800; font-variant-numeric: tabular-nums; }
+.pd-board { margin-bottom: 16px; }
+.pd-board > header h2 { margin: 2px 0 0; font-family: var(--game-font-display); font-weight: 400; font-size: 24px; text-transform: uppercase; }
+.pd-bids { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.pd-bids li { display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; gap: 12px; align-items: center; padding: 10px 12px; background: var(--hm-surface-2); border-left: 4px solid var(--hm-accent); }
+.pd-bids li[data-status="AWAITING_WINDOW"] { border-left-color: #3f7a52; }
+.pd-bids li div { display: grid; gap: 2px; min-width: 0; }
+.pd-bids small { font-size: 12px; color: var(--hm-text-secondary); }
+.pd-bids strong { font-size: 16px; font-variant-numeric: tabular-nums; }
+.pd-board-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 14px; margin-top: 12px; }
+.pd-board-grid ul { list-style: none; margin: 6px 0 0; padding: 0; display: grid; gap: 6px; }
+.pd-board-grid li { display: grid; gap: 1px; font-size: 13px; }
+.pd-board-grid small { color: var(--hm-text-secondary); font-size: 12px; }
+@media (max-width: 900px) { .pd-offer-grid, .pd-head { grid-template-columns: minmax(0, 1fr); } .pd-rounds li { grid-template-columns: minmax(0, 1fr) auto; } .pd-bids li { grid-template-columns: auto minmax(0, 1fr); } }

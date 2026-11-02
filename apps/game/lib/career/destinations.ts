@@ -55,6 +55,20 @@ export function resolveDestinationHref(destination: EventDestination): string | 
       return "/career/staff";
     case "STAFF_MEMBER":
       return `/career/staff/${encodeURIComponent(destination.staffId)}`;
+    case "TRANSFER_OFFER":
+      return `/career/transfers/offers/${encodeURIComponent(destination.offerId)}`;
+    case "CONTRACTS":
+      return "/career/contracts";
+    case "TRANSFERS":
+      return "/career/transfers";
+    case "DELEGATION":
+      return "/career/staff/responsibilities";
+    case "BOARDROOM":
+      return "/career/board";
+    case "MANAGER":
+      return "/career/manager";
+    case "JOB_MARKET":
+      return "/career/manager?tab=jobs";
     case "ANALYSIS_OVERVIEW":
       return "/career/analysis";
     case "ANALYSIS_OPPONENT":
@@ -110,6 +124,20 @@ export function destinationLabel(destination: EventDestination): string {
       return "Öppna personalen";
     case "STAFF_MEMBER":
       return "Öppna profilen";
+    case "TRANSFER_OFFER":
+      return "Öppna budet";
+    case "CONTRACTS":
+      return "Öppna kontrakt";
+    case "TRANSFERS":
+      return "Öppna transfers";
+    case "DELEGATION":
+      return "Öppna ansvarsfördelning";
+    case "BOARDROOM":
+      return "Öppna styrelserummet";
+    case "MANAGER":
+      return "Öppna din karriär";
+    case "JOB_MARKET":
+      return "Öppna jobbmarknaden";
     case "ANALYSIS_OVERVIEW":
       return "Öppna analys";
     case "ANALYSIS_OPPONENT":

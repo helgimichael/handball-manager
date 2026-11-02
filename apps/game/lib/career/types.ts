@@ -18,6 +18,7 @@ import type { PlayerDevelopmentState } from "../development/types";
 import type { ResolvedStaffMember, StaffEmployment } from "../staff/types";
 import type { StaffClubHistory } from "../staff/staffHistoryTypes";
 import type { PlayerInjuryState } from "../medical/types";
+import type { IncomingOffer, PlayerDynamicsState, PreContract, RenewalTalk } from "../players/types";
 import type { PlayerClubHistory, PlayerContract } from "../economy/types";
 import type { ClubEconomyBaseline } from "../economy/clubEconomyTypes";
 import type { LoanRecord, TransferNegotiation, TransferOffer } from "../transfers/types";
@@ -529,6 +530,15 @@ export type CareerState = {
   staffNegotiations?: Record<string, StaffNegotiation>;
   /** Recent appointments and departures for Moments and the organisation timeline. */
   staffAppointments?: { staffId: string; clubId: string; role: StaffRole; date: string; kind: "APPOINTED" | "RENEWED" | "LEFT" | "DISMISSED" }[];
+  // --- HM-ALPHA3-M05: player dynamics and the selling side of the market (lib/players) ---
+  /** Morale, promises, player talks, transfer requests, the transfer list and recent departures of the manager's players. */
+  playerDynamics?: PlayerDynamicsState;
+  /** Bids from other clubs for the manager's players, keyed by id. */
+  incomingOffers?: Record<string, IncomingOffer>;
+  /** Contract renewal negotiations with the manager's players, keyed by id. */
+  renewalTalks?: Record<string, RenewalTalk>;
+  /** Pre-contract agreements: the player leaves for another club when his contract ends. Keyed by player id. */
+  preContracts?: Record<string, PreContract>;
 
   // --- HM-TRANSFERS-1.0 addition (career-state schema v24, see saveMigration.ts) ---
 

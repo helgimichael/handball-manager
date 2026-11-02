@@ -80,6 +80,7 @@ import { progressCompetitions } from "../competition/season";
 import { progressStaff } from "../staff/staffLifecycle";
 import { ensureSeasonCalendar } from "../competition/seasonCalendar";
 import { progressTransferNegotiations } from "../transfers/negotiationIntegration";
+import { progressPlayerDynamics } from "../players/playerDynamicsTick";
 
 export interface DailyTickResult {
   state: CareerState;
@@ -228,6 +229,10 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
   // offer for a player who just departed is caught by that function's
   // own existing 1.0B ownership guard (CANCELLED_STALE), never executed
   // against a club that no longer owns them.
+  // HM-ALPHA3-M05: morale, talks, promises, renewals, incoming bids and pre-contract moves (before the expiry sweep).
+  const dynamicsEvents: CareerEvent[] = [];
+  next = progressPlayerDynamics(next, date, (event) => dynamicsEvents.push(event));
+  dynamicsEvents.forEach(emit);
   const { state: afterContractExpiry, departures } = progressContractExpiry(next, date);
   next = afterContractExpiry;
   for (const departure of departures) {

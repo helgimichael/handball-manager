@@ -19,10 +19,10 @@ test('normal career UI: real squad, calendar, live match, decisions, finalizatio
   await page.locator('table a[href^="/career/squad/"]').first().click();
   await expect(page.locator('.game-player-hero')).toBeVisible();
   await page.getByRole('button',{name:'Kontrakt',exact:true}).click();
-  await expect(page.getByRole('button', { name: 'Förläng kontrakt', exact: true })).toBeVisible({ timeout: 30000 });
+  await page.getByRole('button', { name: 'Inled förlängningssamtal', exact: true }).click({ timeout: 30000 });
   await page.getByLabel('Förlängning', { exact: true }).selectOption('3');
   await page.getByRole('button', { name: 'Förläng kontrakt', exact: true }).click();
-  await expect(page.getByRole('status').filter({ hasText: 'Kontraktet är förlängt.' })).toBeVisible();
+  await expect(page.getByRole('status').filter({ hasText: 'Budet är lämnat. Svar i morgon.' })).toBeVisible();
   await page.getByRole('link', { name: 'Taktik', exact: true }).click();
   await expect(page.getByText('Startsju', { exact: true })).toBeVisible({ timeout: 30000 });
   await page.getByRole('button', { name: 'Välj startposition V6', exact: true }).click();

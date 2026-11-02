@@ -19,6 +19,7 @@ export const LEDGER_CATEGORY_LABEL: Record<LedgerCategory, string> = {
   PRIZE_MONEY: "Prispengar",
   OWNER_INJECTION: "Ägartillskott och krisstöd",
   STAFF_COMPENSATION: "Avgångsvederlag",
+  PLAYER_RELEASE: "Avslutade spelaravtal",
   OTHER_ONE_OFF: "Övriga engångsposter",
 };
 
@@ -41,6 +42,7 @@ export const LEDGER_CATEGORY_COLOR: Record<LedgerCategory, string> = {
   PRIZE_MONEY: "#2f6343",
   OWNER_INJECTION: "#1b3a6b",
   STAFF_COMPENSATION: "#9b5144",
+  PLAYER_RELEASE: "#7d3a2c",
   OTHER_ONE_OFF: "#b9c0bd",
 };
 
