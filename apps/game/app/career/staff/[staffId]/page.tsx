@@ -13,23 +13,21 @@ import { getClub } from "@/lib/game-data";
 import { findStaffMember } from "@/lib/staff/staffCareerIntegration";
 import { isStaffRecruitable } from "@/lib/staff/staffRecruitment";
 import { isFreeAgentScoutAvailable } from "@/lib/staff/scoutPool";
-import { computeRoleSuitability } from "@/lib/staff/roleSuitability";
-import { roleSuitabilityStars } from "@/lib/staff/presentation";
-import { ROLE_ATTRIBUTE_WEIGHTS } from "@/lib/staff/roleAttributeMap";
-import { STAFF_ATTRIBUTE_LABEL, STAFF_EMPLOYMENT_TYPE_LABEL, STAFF_ROLE_LABEL } from "@/lib/staff/labels";
-import { STAFF_ATTRIBUTES } from "@/lib/staff/types";
+import { STAFF_EMPLOYMENT_TYPE_LABEL, STAFF_ROLE_LABEL } from "@/lib/staff/labels";
 import { formatMoney } from "@/lib/economy/currency";
 import { useMoney } from "@/lib/settings/usePreferences";
 import { mondayOf, resolveTrainingWeek } from "@/lib/training/trainingSchedule";
 import { resolveResponsibleCoach } from "@/lib/staff/roleSuitability";
-import StarRating from "@/components/StarRating";
 import { SectionScene, StaffMark } from "@/components/game/Secondary";
 import Link from "next/link";
 import { ClubLink } from "@/components/entityLinks";
 import { StaffDealPanel } from "@/components/staff/StaffDealPanel";
 import { MomentHero } from "@/components/experience/Moment";
 import { NEGOTIATION_ROOM_BACKDROP } from "@/components/transfers/transferVisuals";
-import { staffKnowledge, visibleAttribute } from "@/lib/staff/staffMarket";
+import { AMBITION_LABEL, ambitionOf, staffKnowledge } from "@/lib/staff/staffMarket";
+import { RoleFit, StaffAttributes, StaffImpact } from "@/components/staff/StaffInsight";
+import { bestFor } from "@/lib/staff/organisation";
+import { MeterBar } from "@/components/experience/primitives";
 import { daysBetween } from "@/lib/career/dateUtils";
 
 const SESSION_TYPE_LABEL: Record<string, string> = {
@@ -94,48 +92,34 @@ export default function StaffProfilePage() {
       )
     : [];
 
+  const focusRole = member.roles[0];
+  const holder = focusRole && !isOwnClub ? bestFor(career, career.playerClubId, focusRole) : undefined;
+  const compareWith = holder && holder.id !== member.id ? holder : undefined;
+
   return (
     <div className="game-secondary-page"><SectionScene eyebrow={member.roles.length > 0 ? member.roles.map(r => STAFF_ROLE_LABEL[r]).join(' · ') : member.officialRoleLabel ?? 'Personal'} title={member.displayName} description={isFreeAgent ? 'Tillgänglig scout · fri agent' : club?.name ?? 'Klubb ej registrerad'} mark={<StaffMark name={member.displayName} size={92} />} actions={<><button type="button" className="hm-btn hm-btn-sm" onClick={() => router.push(backHref)}>← Tillbaka</button>{club && <ClubLink clubId={club.id}>Klubb & personal →</ClubLink>}</>}><div><strong>{member.roles.length}</strong><small>{member.roles.length === 1 ? 'roll' : 'roller'} i spelvärlden</small></div>{isOwnClub && <div><strong>{responsibilities.length}</strong><small>pass den här veckan</small></div>}</SectionScene>{appointed && <MomentHero kind="STAFF_APPOINTMENT" size="compact" headingLevel={2} backdrop={{ kind: "photo", style: NEGOTIATION_ROOM_BACKDROP }} tags={[appointed.date]} headline={`${member.displayName} är ${STAFF_ROLE_LABEL[appointed.role].toLowerCase()}`} lede={`Avtalet är klart: ${employment?.wageEurPerMonth ? formatMoney(employment.wageEurPerMonth) + " i månaden, " : ""}till ${employment?.contractEndDate ?? "—"}.`} />}<div className="game-secondary-split">
       <div className="game-secondary-main">
-        <div className="hm-panel">
+        <div className="hm-panel si-panel">
           <div className="hm-panel-header">
-            <span className="hm-panel-title">Egenskaper</span>
-            <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
+            <span className="hm-panel-title">Lämplighet</span>
+            <span className="hm-text-muted si-source">
               {member.source === "REAL_WORLD_IDENTITY"
-                ? "Namn/roll från klubbdata — egenskaper genererade"
+                ? "Namn och roll från klubbdata, egenskaper genererade"
                 : member.source === "REAL_PERSON_FICTIONAL_PROFILE"
-                  ? "Verklig namngiven person — spelvärden är fiktiv tolkning"
+                  ? "Verklig namngiven person, spelvärdena är en fiktiv tolkning"
                   : "Genererad personal"}
             </span>
           </div>
-          <div className="hm-panel-body" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}>
-            {STAFF_ATTRIBUTES.map((attr) => {
-              const isRelevant = member.roles.some((r) => attr in ROLE_ATTRIBUTE_WEIGHTS[r]);
-              return (
-                <div key={attr} className="hm-stat-row" style={{ opacity: isRelevant ? 1 : 0.5 }}>
-                  <span className="hm-stat-label">{STAFF_ATTRIBUTE_LABEL[attr]}</span>
-                  <span style={{ fontWeight: 700 }}>{(() => { const v = visibleAttribute(member.profile.attributes[attr].value, knowledge); return v.exact ? v.low : `${v.low}–${v.high}`; })()}</span>
-                </div>
-              );
-            })}
+          <div className="hm-panel-body">
+            {member.roles.length > 0 ? <RoleFit member={member} knowledge={knowledge} roles={member.roles} /> : <p className="hm-text-muted">Ingen tränar- eller stabsroll.</p>}
           </div>
         </div>
 
-        {member.roles.length > 0 ? (
-          <div className="hm-panel">
-            <div className="hm-panel-header">
-              <span className="hm-panel-title">Lämplighet för rollen</span>
-            </div>
-            <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-              {member.roles.map((role) => (
-                <div key={role} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <span className="hm-text-secondary" style={{ fontSize: "var(--hm-text-xs)" }}>{STAFF_ROLE_LABEL[role]}</span>
-                  <StarRating stars={roleSuitabilityStars(computeRoleSuitability(member, role))} title="Tränarstabens bedömning av lämplighet för rollen" />
-                </div>
-              ))}
-            </div>
+        <div className="hm-panel si-panel">
+          <div className="hm-panel-body">
+            <StaffAttributes member={member} knowledge={knowledge} roles={member.roles} compareWith={compareWith} />
           </div>
-        ) : null}
+        </div>
 
         {history && history.entries.length > 0 ? (
           <div className="hm-panel">
@@ -176,7 +160,16 @@ export default function StaffProfilePage() {
         </div>
 
         {/* HM-ALPHA3-M04: research, approach, multi-round negotiation; renewal and dismissal for our own staff. */}
-        {!isOwnClub && <p className="st-note">{knowledge >= 90 ? "Fullständig bild av personen." : `Kännedom ${knowledge} %. Värdena visas som intervall tills referenser är tagna.`}</p>}
+        {!isOwnClub && (
+          <div className="hm-panel si-panel">
+            <div className="hm-panel-body si-knowledge">
+              <MeterBar label="Kännedom om personen" value={knowledge / 100} figure={`${knowledge} %`} tone={knowledge >= 80 ? "success" : "gold"} />
+              <p className="st-note">{knowledge >= 90 ? "Fullständig bild. Värdena är exakta." : "Värdena visas som intervall. Ta referenser för en säkrare bild."}</p>
+              <p className="st-note"><b>Ambition:</b> {AMBITION_LABEL[ambitionOf(member.id)]}</p>
+            </div>
+          </div>
+        )}
+        {focusRole && focusRole !== "HEAD_COACH" && (recruitable || (isOwnClub && employment?.employmentType === "SALARIED")) && <StaffImpact career={career} member={member} role={focusRole} mode={isOwnClub ? "OWN" : "HIRE"} knowledge={knowledge} />}
         {recruitable ? <StaffDealPanel key={member.id} member={member} mode="HIRE" /> : null}
         {isOwnClub && employment?.employmentType === "SALARIED" ? <StaffDealPanel key={`own-${member.id}`} member={member} mode="OWN" /> : null}
 

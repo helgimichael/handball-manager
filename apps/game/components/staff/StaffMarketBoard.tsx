@@ -12,6 +12,8 @@ import { getClub } from "@/lib/game-data";
 import { useMoney } from "@/lib/settings/usePreferences";
 import { STAFF_ROLE_LABEL } from "@/lib/staff/labels";
 import { roleSuitabilityStars } from "@/lib/staff/presentation";
+import { bestFor } from "@/lib/staff/organisation";
+import { computeRoleSuitability } from "@/lib/staff/roleSuitability";
 import { AMBITION_LABEL, marketCandidates } from "@/lib/staff/staffMarket";
 import { STAFF_ROLES, type StaffRole } from "@/lib/staff/types";
 
@@ -39,7 +41,7 @@ export function StaffMarketBoard() {
       </header>
       <div className="hm-scroll-x">
         <table className="hm-table">
-          <thead><tr><th>Namn</th><th>Roll</th><th>Nu</th><th>Lämplighet</th><th>Ambition</th><th className="hm-table-num">Lön / mån</th><th className="hm-table-num">Kännedom</th></tr></thead>
+          <thead><tr><th>Namn</th><th>Roll</th><th>Nu</th><th>Lämplighet</th><th title="Jämfört med den som gör jobbet i dag">Mot i dag</th><th>Ambition</th><th className="hm-table-num">Lön / mån</th><th className="hm-table-num">Kännedom</th></tr></thead>
           <tbody>
             {rows.map((c) => {
               const club = c.currentClubId ? getClub(c.currentClubId) : undefined;
@@ -51,6 +53,7 @@ export function StaffMarketBoard() {
                   <td>{STAFF_ROLE_LABEL[c.role]}</td>
                   <td>{club ? <span className="st-club"><ClubCrest shortName={club.shortName} primaryColor={club.primaryColor} clubId={club.id} size={18} />{club.shortName}</span> : <span className="tc-pill" data-tone="done">Fri agent</span>}</td>
                   <td title={uncertain ? "Osäker bedömning -- ta referenser" : undefined}><span className="st-stars" data-uncertain={uncertain}><StarRating stars={stars} />{uncertain ? " ?" : ""}</span></td>
+                  <td>{(() => { const holder = bestFor(career, career.playerClubId, c.role); if (!holder) return <span className="st-delta" data-tone="up">Vakant</span>; const d = stars - roleSuitabilityStars(computeRoleSuitability(holder, c.role)); return <span className="st-delta" data-tone={d > 0 ? "up" : d < 0 ? "down" : undefined} title={`I dag: ${holder.displayName}`}>{d === 0 ? "Likvärdig" : `${d > 0 ? "+" : "−"}${Math.abs(d)} ★`}{uncertain ? " ?" : ""}</span>; })()}</td>
                   <td className="st-ambition">{AMBITION_LABEL[c.ambition]}</td>
                   <td className="hm-table-num">{money.format(c.expectedWageEur)}</td>
                   <td className="hm-table-num">{c.knowledge} %</td>

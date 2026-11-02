@@ -12,7 +12,9 @@ import { STAFF_ROLE_LABEL } from "@/lib/staff/labels";
 import { clubOrganisation, DEPARTMENT_LABEL, RESPONSIBILITY_LABEL, responsibilityCandidates, type Department } from "@/lib/staff/organisation";
 import { roleSuitabilityStars } from "@/lib/staff/presentation";
 import { computeRoleSuitability } from "@/lib/staff/roleSuitability";
-import { staffSpendingLimit } from "@/lib/staff/staffNegotiation";
+import { staffSpendingLimit, vacancyFunding } from "@/lib/staff/staffNegotiation";
+import { ROLE_EFFECT } from "@/components/staff/StaffInsight";
+import { daysBetween } from "@/lib/career/dateUtils";
 
 const DEPARTMENTS: Department[] = ["LEADERSHIP", "COACHING", "RECRUITMENT", "ACADEMY", "SUPPORT"];
 
@@ -28,6 +30,8 @@ export function OrganisationChart() {
   const expiring = roster.filter((m) => { const end = career.staffEmployment[m.id]?.contractEndDate; return end && end <= `${Number(career.seasonId.slice(0, 4)) + 1}-05-31`; });
   const open = Object.values(career.staffNegotiations ?? {}).filter((n) => n.stage === "CLUB" || n.stage === "TERMS");
   const vacant = org.filter((p) => !p.holder && !p.coveredBy);
+  // Needs: vacant positions first, then contracts ending within four months.
+  const soon = roster.filter((m) => { const e = career.staffEmployment[m.id]; return e?.employmentType === "SALARIED" && e.contractEndDate && daysBetween(career.gameDate, e.contractEndDate) <= 120; });
   return (
     <section className="st-org" aria-labelledby="org-title">
       <header className="xp-band st-org-band" data-tone={vacant.length ? "gold" : "ink"}>
@@ -43,6 +47,19 @@ export function OrganisationChart() {
           <Stat label="Pågående samtal" value={open.length} note={open.length ? "Svar kommer i inkorgen" : "Inga"} />
         </div>
       </header>
+      {(vacant.length > 0 || soon.length > 0) && (
+        <section className="st-needs" aria-labelledby="needs-title">
+          <h3 id="needs-title">Behov just nu</h3>
+          <ul>
+            {vacant.map((p) => { const funding = vacancyFunding(career, clubId, p.role, "HIRE"); return (
+              <li key={`v-${p.role}-${p.slot}`}><span className="st-need-kind">Vakant</span><span><b>{STAFF_ROLE_LABEL[p.role]}</b> <small>· {ROLE_EFFECT[p.role]}{funding ? ` Finansiering: ${money.format(funding, { compact: true })}/år.` : ""}</small></span><Link className="hm-btn hm-btn-sm" href={`/career/staff/recruitment?role=${p.role}`}>Rekrytera</Link></li>
+            ); })}
+            {soon.map((m) => (
+              <li key={`e-${m.id}`}><span className="st-need-kind" data-kind="expiring">Avtal</span><span><b>{m.displayName}</b> <small>· {STAFF_ROLE_LABEL[m.roles[0] ?? "SCOUT"]}, avtalet går ut {career.staffEmployment[m.id]?.contractEndDate}</small></span><Link className="hm-btn hm-btn-sm" href={`/career/staff/${encodeURIComponent(m.id)}`}>Förläng</Link></li>
+            ))}
+          </ul>
+        </section>
+      )}
       <div className="st-depts">
         {DEPARTMENTS.map((dept) => (
           <div key={dept} className="st-dept">

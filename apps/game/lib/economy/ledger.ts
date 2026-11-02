@@ -315,6 +315,8 @@ export interface ProjectionMonth {
   incomeEur: number;
   expensesEur: number;
   closingCashEur: number;
+  /** The parts behind the totals, for the Financial Centre: contracted/recurring income vs the matchday estimate, and each cost line. */
+  breakdown: { recurringIncomeEur: number; matchdayEstimateEur: number; homeLeagueGames: number; associationSupportEur: number; playerWagesEur: number; staffWagesEur: number; operationsEur: number; clubOperationsEur: number };
 }
 
 /** Contract-aware monthly projection from the current cash to the end of the season (31 May) or `months` ahead, whichever is later. */
@@ -342,7 +344,10 @@ export function projectClubFinances(state: CareerState, clubId: string, minMonth
     const expenses = wages + staffMonthly + baseline.operatingCostsBaselineEur / 12 + Math.max(0, finance.bridgeEurAnnual) / 12;
     const income = baseIncome + matchday + support;
     cash += income - expenses;
-    out.push({ month, incomeEur: Math.round(income), expensesEur: Math.round(expenses), closingCashEur: Math.round(cash) });
+    out.push({
+      month, incomeEur: Math.round(income), expensesEur: Math.round(expenses), closingCashEur: Math.round(cash),
+      breakdown: { recurringIncomeEur: Math.round(baseIncome), matchdayEstimateEur: Math.round(matchday), homeLeagueGames: homeThisMonth, associationSupportEur: Math.round(support), playerWagesEur: Math.round(wages), staffWagesEur: Math.round(staffMonthly), operationsEur: Math.round(baseline.operatingCostsBaselineEur / 12), clubOperationsEur: Math.round(Math.max(0, finance.bridgeEurAnnual) / 12) },
+    });
     month = nextMonth(month);
   }
   return out;
