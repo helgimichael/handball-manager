@@ -81,6 +81,7 @@ import { progressStaff } from "../staff/staffLifecycle";
 import { ensureSeasonCalendar } from "../competition/seasonCalendar";
 import { progressTransferNegotiations } from "../transfers/negotiationIntegration";
 import { progressPlayerDynamics } from "../players/playerDynamicsTick";
+import { progressDelegation } from "../delegation/delegation";
 
 export interface DailyTickResult {
   state: CareerState;
@@ -233,6 +234,10 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
   const dynamicsEvents: CareerEvent[] = [];
   next = progressPlayerDynamics(next, date, (event) => dynamicsEvents.push(event));
   dynamicsEvents.forEach(emit);
+  // HM-ALPHA3-M06: delegated staff work (weekly) and proposal expiry.
+  const delegationEvents: CareerEvent[] = [];
+  next = progressDelegation(next, date, (event) => delegationEvents.push(event));
+  delegationEvents.forEach(emit);
   const { state: afterContractExpiry, departures } = progressContractExpiry(next, date);
   next = afterContractExpiry;
   for (const departure of departures) {

@@ -111,7 +111,8 @@ export function EventCard({ kind, tone, eyebrow, title, children, media, footer,
       <div>
         <span className="xp-eyebrow">{eyebrow ?? preset?.tag}</span>
         <Heading>{title}</Heading>
-        {children && <p>{children}</p>}
+        {/* Text in a paragraph; rich content (quotes, option lists) in a block of its own -- never block content inside <p>. */}
+      {children && (typeof children === "string" || typeof children === "number" ? <p>{children}</p> : <div className="xp-decision-body">{children}</div>)}
       </div>
       {footer && <footer>{footer}</footer>}
     </article>

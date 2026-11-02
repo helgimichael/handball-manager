@@ -1,0 +1,67 @@
+/* HM-ALPHA3-M06: Scouting Centre (Rekryteringsrummet) and the delegation
+   page -- paper/navy; estimates drawn as star ranges, never single truths. */
+.sc-centre { display: grid; gap: 16px; margin: 0 0 20px; min-width: 0; }
+.sc-hero { min-height: 220px; }
+.sc-hero h2 { margin: 6px 0 8px; font-family: var(--game-font-display); font-weight: 400; font-size: clamp(30px, 3vw, 46px); text-transform: uppercase; line-height: 1; }
+.sc-hero-actions { margin-top: 14px; }
+.sc-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.sc-stats > div { display: grid; gap: 2px; padding: 12px 14px; background: var(--hm-surface-1); border-top: 3px solid var(--game-ink); }
+.sc-stats small { font-size: 10.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--hm-text-secondary); }
+.sc-stats b { font-family: var(--game-font-display); font-weight: 400; font-size: 30px; line-height: 1; }
+.sc-stats span { font-size: 12px; color: var(--hm-text-secondary); }
+.sc-grid { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+.sc-panel { display: grid; gap: 12px; padding: 16px 18px; background: var(--hm-surface-1); border-top: 3px solid var(--game-ink); min-width: 0; }
+.sc-panel h3 { margin: 2px 0 0; font-family: var(--game-font-display); font-weight: 400; font-size: 24px; text-transform: uppercase; }
+.sc-panel h4 { margin: 6px 0 0; font-size: 11.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--hm-text-secondary); }
+.sc-recs { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.sc-recs li { display: grid; grid-template-columns: auto minmax(0, 1.4fr) auto minmax(110px, .8fr) auto; gap: 12px; align-items: center; padding: 10px 12px; background: var(--hm-surface-2); border-left: 4px solid var(--hm-border-strong); }
+.sc-rec-main { display: grid; gap: 3px; min-width: 0; }
+.sc-rec-main small { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--hm-text-secondary); }
+.sc-rec-est { display: grid; gap: 4px; }
+.sc-rec-conf { display: grid; gap: 2px; }
+.sc-rec-conf small { font-size: 11.5px; color: var(--hm-text-secondary); font-variant-numeric: tabular-nums; }
+.sc-rec-actions { display: flex; flex-wrap: wrap; gap: 6px; }
+.sc-stars { display: inline-flex; gap: 2px; }
+.sc-stars i { width: 13px; height: 13px; clip-path: polygon(50% 0, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); background: var(--hm-border); }
+.sc-stars i[data-state="known"] { background: #c08a2c; }
+.sc-stars i[data-state="maybe"] { background: repeating-linear-gradient(135deg, #c08a2c 0 2px, #f1dfb8 2px 4px); }
+.sc-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 12px; background: var(--hm-surface-2); border-top: 3px solid #c08a2c; }
+.sc-compare > div { display: grid; gap: 4px; font-size: 13px; }
+.sc-compare > div span { font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--hm-text-secondary); }
+.sc-compare .pd-note { grid-column: 1 / -1; }
+.sc-scouts, .sc-discoveries { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.sc-scouts li { display: grid; gap: 6px; padding: 10px 12px; background: var(--hm-surface-2); }
+.sc-scouts li > div { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.sc-scouts small { font-size: 12px; color: var(--hm-text-secondary); }
+.sc-discoveries li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 10px; align-items: center; font-size: 13px; }
+.sc-discoveries small { grid-column: 1; font-size: 11.5px; color: var(--hm-text-secondary); }
+.sc-discoveries .sc-stars { grid-row: 1 / span 2; grid-column: 2; }
+
+.dg-page { display: grid; gap: 18px; padding-bottom: 24px; }
+.dg-panel { display: grid; gap: 12px; padding: 18px 20px; background: var(--hm-surface-1); border-top: 3px solid var(--game-ink); min-width: 0; }
+.dg-panel > header h2 { margin: 2px 0 0; font-family: var(--game-font-display); font-weight: 400; font-size: 26px; text-transform: uppercase; }
+.dg-matrix td { vertical-align: middle; font-size: 13px; }
+.dg-matrix tr[data-mode="DELEGATE"] td:first-child { box-shadow: inset 4px 0 0 #3f7a52; }
+.dg-matrix tr[data-mode="ADVISE"] td:first-child { box-shadow: inset 4px 0 0 #c08a2c; }
+.dg-who { display: inline-flex; align-items: center; gap: 8px; }
+.dg-modes { display: inline-flex; border: 1px solid var(--hm-border-strong); }
+.dg-modes button { font: inherit; font-size: 12px; font-weight: 700; padding: 6px 10px; border: 0; background: transparent; color: var(--hm-text-secondary); cursor: pointer; }
+.dg-modes button + button { border-left: 1px solid var(--hm-border-strong); }
+.dg-modes button[data-active="true"] { background: var(--game-ink); color: #f8f3e9; }
+.dg-modes button:focus-visible { outline: 3px solid var(--hm-accent); outline-offset: -3px; }
+.dg-scope { max-width: 360px; color: var(--hm-text-secondary); font-size: 12.5px; }
+.dg-proposals { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 12px; }
+.dg-decided, .dg-log { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.dg-decided li { display: grid; gap: 2px; padding: 8px 10px; background: var(--hm-surface-2); border-left: 4px solid var(--hm-border-strong); font-size: 13px; }
+.dg-decided li[data-status="APPROVED"] { border-left-color: #3f7a52; }
+.dg-decided li[data-status="REJECTED"], .dg-decided li[data-status="FAILED"] { border-left-color: #a93219; }
+.dg-decided small { color: var(--hm-text-secondary); }
+.dg-log li { display: grid; grid-template-columns: 92px minmax(0, 160px) minmax(0, 1fr) auto; gap: 4px 12px; align-items: baseline; padding: 8px 10px; background: var(--hm-surface-2); font-size: 13px; }
+.dg-log time { color: var(--hm-text-secondary); font-variant-numeric: tabular-nums; }
+.dg-log small { grid-column: 3; color: var(--hm-text-secondary); font-size: 12px; }
+.dg-log em { grid-column: 4; grid-row: 1; font-style: normal; font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+.dg-log li[data-result="DONE"] em, .dg-log li[data-result="APPROVED"] em { color: #2f6343; }
+.dg-log li[data-result="PROPOSED"] em { color: #8a4b12; }
+.dg-log li[data-result="SKIPPED"] em, .dg-log li[data-result="REJECTED"] em { color: #a93219; }
+@media (max-width: 1100px) { .sc-grid { grid-template-columns: minmax(0, 1fr); } .sc-recs li { grid-template-columns: auto minmax(0, 1fr) auto; } .sc-rec-conf, .sc-rec-actions { grid-column: 2 / -1; } }
+@media (max-width: 700px) { .sc-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } .dg-log li { grid-template-columns: minmax(0, 1fr) auto; } .dg-log small { grid-column: 1 / -1; } }

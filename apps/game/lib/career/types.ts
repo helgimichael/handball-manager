@@ -19,6 +19,7 @@ import type { ResolvedStaffMember, StaffEmployment } from "../staff/types";
 import type { StaffClubHistory } from "../staff/staffHistoryTypes";
 import type { PlayerInjuryState } from "../medical/types";
 import type { IncomingOffer, PlayerDynamicsState, PreContract, RenewalTalk } from "../players/types";
+import type { DelegationState } from "../delegation/types";
 import type { PlayerClubHistory, PlayerContract } from "../economy/types";
 import type { ClubEconomyBaseline } from "../economy/clubEconomyTypes";
 import type { LoanRecord, TransferNegotiation, TransferOffer } from "../transfers/types";
@@ -539,6 +540,8 @@ export type CareerState = {
   renewalTalks?: Record<string, RenewalTalk>;
   /** Pre-contract agreements: the player leaves for another club when his contract ends. Keyed by player id. */
   preContracts?: Record<string, PreContract>;
+  // --- HM-ALPHA3-M06: delegation of responsibilities (lib/delegation) ---
+  delegation?: DelegationState;
 
   // --- HM-TRANSFERS-1.0 addition (career-state schema v24, see saveMigration.ts) ---
 

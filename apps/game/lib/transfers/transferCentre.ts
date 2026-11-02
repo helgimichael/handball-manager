@@ -14,6 +14,8 @@ import { getPlayerTrainingCompensation } from "../economy/trainingCompensationIn
 import type { ContractStatus } from "../economy/types";
 import type { HandballPosition, PlayerMock } from "../game-data";
 import { getTransferNegotiations, isNegotiationOpen } from "./negotiationIntegration";
+import { estimatedMarketValueEur } from "../knowledge/scoutReportVisibility";
+import { getPlayerKnowledgePct } from "../knowledge/knowledgeIntegration";
 import { getActiveLoanForPlayer } from "./transferIntegration";
 import type { LoanRecord, NegotiationRound, RivalInterest, TransferNegotiation, TransferOffer } from "./types";
 
@@ -82,7 +84,8 @@ export function getTransferOpportunities(state: CareerState, limit = 8): Opportu
     if (getActiveLoanForPlayer(state, player.id)) continue;
     const contractStatus = getPlayerContractStatus(state, player.id);
     if (contractStatus !== "FREE_AGENT" && contractStatus !== "EXPIRING" && contractStatus !== "EXPIRING_SOON") continue;
-    const marketValueEur = getPlayerMarketValueEur(state, player.id) ?? 0;
+    // HM-ALPHA3-M06: the club's knowledge-gated ESTIMATE -- never the true value -- decides budget fit and order.
+    const marketValueEur = Math.round(estimatedMarketValueEur(getPlayerMarketValueEur(state, player.id) ?? 0, getPlayerKnowledgePct(state, player.id, clubId), player.id));
     // HM-ALPHA2-05F: "within budget" means the real up-front cost -- market value as the fee estimate plus training compensation (a free agent has no fee).
     const upFrontEur = (contractStatus === "FREE_AGENT" ? 0 : marketValueEur) + (getPlayerTrainingCompensation(state, player.id)?.totalEur ?? 0);
     if (upFrontEur > budget) continue;

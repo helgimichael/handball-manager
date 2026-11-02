@@ -9,6 +9,7 @@ import { clubCompetitionTier } from "../career/competitionMembership";
 import { SQUAD_STATUS_TIERS, SQUAD_STATUS_TIER_LABEL_SV, type SquadStatusTier } from "../career/squadStatus";
 import type { CareerState } from "../career/types";
 import { getClubFinancialHealth } from "../economy/clubEconomyIntegration";
+import { findStaffMember } from "../staff/staffCareerIntegration";
 import { getPlayerFairWageEurPerMonth } from "../economy/contractIntegration";
 import { assessTransferAffordability } from "../transfers/affordability";
 import { computePlayerWageDemand, expectedRoleFromSquadRank } from "../transfers/negotiation";
@@ -47,7 +48,7 @@ function squadRank(state: CareerState, playerId: string): number {
 }
 
 /** The player's demand: the shared transfer demand model, then his own situation. */
-export function renewalDemand(state: CareerState, playerId: string, promisedRole?: SquadStatusTier): { demandEurPerMonth: number; factors: { label: string; effectPct: number }[]; expectedRole: SquadStatusTier; refusesRole: boolean } {
+export function renewalDemand(state: CareerState, playerId: string, promisedRole?: SquadStatusTier, negotiatorStaffId?: string): { demandEurPerMonth: number; factors: { label: string; effectPct: number }[]; expectedRole: SquadStatusTier; refusesRole: boolean } {
   const player = getCareerPlayer(state, playerId)!;
   const contract = state.playerContracts[playerId]!;
   const tier = clubCompetitionTier(state, state.playerClubId) as 1 | 2 | undefined;
@@ -74,6 +75,12 @@ export function renewalDemand(state: CareerState, playerId: string, promisedRole
   if (p.ambition >= 15 && (tier ?? 1) >= 2) apply(1.08, "Ambitiös och vill högre upp");
   if (expectedRole === "KEY_PLAYER") apply(1.05, "Vet att han är en nyckelspelare");
   if (promisedRole && rank(promisedRole) < rank(expectedRole)) apply(0.95, `Lovad rollen ${SQUAD_STATUS_TIER_LABEL_SV[promisedRole].toLowerCase()}`);
+  // HM-ALPHA3-M06: a delegated negotiator moves the demand by up to ±4 % (NEGOTIATION 20 talks it down, 1 talks it up).
+  if (negotiatorStaffId) {
+    const negotiator = findStaffMember(state, negotiatorStaffId);
+    const skill = negotiator?.profile.attributes.NEGOTIATION?.value ?? 10;
+    apply(1.04 - ((skill - 1) / 19) * 0.08, `Förhandlas av ${negotiator?.displayName ?? "staben"}`);
+  }
   const refusesRole = !!promisedRole && rank(promisedRole) - rank(expectedRole) >= 2;
   // Never below what he already earns.
   return { demandEurPerMonth: Math.max(Math.ceil(contract.wageEurPerMonth / 10) * 10, Math.round(demand / 10) * 10), factors, expectedRole, refusesRole };
@@ -87,7 +94,7 @@ export function openRenewalTalks(state: CareerState, playerId: string, by: Renew
   const p = personalityOf(state, playerId);
   const tier = tierOf(state, playerId);
   const morale = moraleOf(state, playerId);
-  const demand = renewalDemand(state, playerId);
+  const demand = renewalDemand(state, playerId, undefined, by?.kind === "DELEGATE" ? by.staffId : undefined);
   const id = `renewal:${playerId}:${state.gameDate}`;
   // A key player who is ambitious and unhappy will not commit.
   const refuses = (tier === "KEY_PLAYER" || tier === "FIRST_CHOICE") && p.ambition >= 16 && morale < 45;
@@ -136,7 +143,7 @@ export function progressRenewalTalks(state: CareerState, date: string, emit: Emi
       next = put(next, { ...talk, status: "WITHDRAWN", closedOn: date, answerOn: undefined });
       continue;
     }
-    const demand = renewalDemand(next, talk.playerId, last.offer.promisedRole);
+    const demand = renewalDemand(next, talk.playerId, last.offer.promisedRole, talk.by?.kind === "DELEGATE" ? talk.by.staffId : undefined);
     const ratio = last.offer.wageEurPerMonth / demand.demandEurPerMonth;
     const age = ageOf(next, talk.playerId) ?? 25;
     const yearsOk = !(age >= 32 && last.offer.years >= 3) || ratio >= 1.05;

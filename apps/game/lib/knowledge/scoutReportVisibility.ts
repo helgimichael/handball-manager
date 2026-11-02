@@ -32,12 +32,29 @@ const MARKET_VALUE_UNCERTAINTY_BY_TIER: Record<KnowledgeTier, number> = {
  * still bid on an unscouted player, market value is information, not a
  * gate on the transfer action itself.
  */
-export function resolveMarketValueRange(trueValueEur: number, knowledgePct: number): MarketValueRange {
+export function resolveMarketValueRange(trueValueEur: number, knowledgePct: number, key?: string): MarketValueRange {
   const spread = MARKET_VALUE_UNCERTAINTY_BY_TIER[knowledgeTier(knowledgePct)];
+  const estimate = estimatedMarketValueEur(trueValueEur, knowledgePct, key);
   return {
-    min: Math.max(0, Math.round(trueValueEur * (1 - spread))),
-    max: Math.round(trueValueEur * (1 + spread)),
+    min: Math.max(0, Math.round(estimate * (1 - spread))),
+    max: Math.round(estimate * (1 + spread)),
   };
+}
+
+/**
+ * HM-ALPHA3-M06 (critical information rule): the club's own estimate of a
+ * player's value -- off by up to 60 % of the tier's uncertainty, stable per
+ * player, so the shown range is not centred on the true value (which stays
+ * inside it). Ranking and filtering of external players use this, never the
+ * true value.
+ */
+export function estimatedMarketValueEur(trueValueEur: number, knowledgePct: number, key?: string): number {
+  const spread = MARKET_VALUE_UNCERTAINTY_BY_TIER[knowledgeTier(knowledgePct)];
+  const k = key ?? String(Math.round(trueValueEur));
+  let h = 2166136261;
+  for (let i = 0; i < k.length; i++) { h ^= k.charCodeAt(i); h = Math.imul(h, 16777619); }
+  const unit = (h >>> 0) / 4294967295; // 0..1
+  return Math.max(0, trueValueEur * (1 + (unit * 2 - 1) * spread * 0.6));
 }
 
 export interface ScoutReportView {
@@ -69,8 +86,8 @@ export function buildScoutReportView(
   scoutSuitability1to20: number | null,
 ): ScoutReportView {
   const tier = knowledgeTier(knowledgePct);
-  const visibility = resolvePlayerVisibility(rating, knowledgePct);
-  const marketValueRange = trueMarketValueEur !== undefined ? resolveMarketValueRange(trueMarketValueEur, knowledgePct) : null;
+  const visibility = resolvePlayerVisibility(rating, knowledgePct, scoutSuitability1to20 ?? undefined);
+  const marketValueRange = trueMarketValueEur !== undefined ? resolveMarketValueRange(trueMarketValueEur, knowledgePct, rating.playerId) : null;
 
   const suitabilityFactor = scoutSuitability1to20 !== null ? clamp(scoutSuitability1to20 / 20, 0, 1) : 0.5;
   const confidencePct = Math.round(clamp(knowledgePct * (0.5 + suitabilityFactor * 0.5), 0, 100));

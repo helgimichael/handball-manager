@@ -22,6 +22,7 @@ import { getPlayerKnowledgePct } from "@/lib/knowledge/knowledgeIntegration";
 import Link from 'next/link';
 import { PageHeading } from '@/components/manager/Workspace';
 import { PlayerCell, PlayerHero } from '@/components/game/Identity';
+import { ScoutingCentre } from "@/components/scouting/ScoutingCentre";
 import { KnowledgeMeter } from '@/components/game/RecruitmentPresentation';
 
 const BROAD_TYPE_LABEL_SV: Record<Exclude<ScoutAssignmentType, "PLAYER">, string> = {
@@ -135,6 +136,8 @@ export default function ScoutingPage() {
 
   return (
     <div className="game-scouting-page"><PageHeading eyebrow="Rekrytering / upptäck & bedöm" title="Scouting" description="Lär känna spelarna innan du bygger nästa lag. Följ scoutens uppdrag från första observation till färdig rapport." actions={<Link className="hm-btn" href="/career/recruitment">Rekryteringscentrum →</Link>} />
+      {/* HM-ALPHA3-M06: Rekryteringsrummet -- discovery, workload, recommendations, comparison. */}
+      <ScoutingCentre />
     <div className="game-market-stage game-scouting-stage"><div><span className="hm-eyebrow">Klubbens ögon på marknaden</span><h2>På jakt efter nästa förstärkning.</h2><p>{scouts.length ? `${scouts.length} scouter följer spelare och söker nya namn åt klubben.` : 'Rekrytera en scout för att börja bevaka marknaden.'}</p></div><div className="game-market-count"><strong>{activeAssignments.length + activeBroadAssignments.length}</strong><span>pågående uppdrag</span></div><div className="game-market-count"><strong>{completedAssignments.length}</strong><span>färdiga rapporter</span></div><div className="game-market-count"><strong>{discoveries.length}</strong><span>upptäckta spelare</span></div></div>
     <div className="game-scouting-layout">
       <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>

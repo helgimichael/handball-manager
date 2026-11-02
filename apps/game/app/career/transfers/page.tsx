@@ -64,7 +64,7 @@ export default function TransfersPage() { return <Suspense><TransferCentre /></S
 function valueRangeLabel(career: CareerState, player: PlayerMock): string {
   const value = getPlayerMarketValueEur(career, player.id);
   if (value === undefined) return "—";
-  const range = resolveMarketValueRange(value, getPlayerKnowledgePct(career, player.id, player.clubId));
+  const range = resolveMarketValueRange(value, getPlayerKnowledgePct(career, player.id, player.clubId), player.id);
   return range.min === range.max ? formatMoney(range.min) : `${formatMoney(range.min)} – ${formatMoney(range.max)}`;
 }
 

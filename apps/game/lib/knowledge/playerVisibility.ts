@@ -17,6 +17,8 @@ import { presentTacticalRole } from "../rating/presentation";
 import { knowledgeTier, type KnowledgeTier } from "./types";
 
 export interface KnowledgeRatingInput {
+  /** HM-ALPHA3-M06: keys the stable scouting estimate (falls back to the rating itself). */
+  playerId?: string;
   position: string;
   ca: number;
   pa: number;
@@ -47,9 +49,35 @@ function clampStar(value: number): number {
   return Math.max(1, Math.min(5, value));
 }
 
-function rangeForTier(trueStars: number, tier: KnowledgeTier): StarRange {
+function hash(text: string): number {
+  let h = 2166136261;
+  for (let i = 0; i < text.length; i++) {
+    h ^= text.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return (h >>> 0) / 4294967295;
+}
+
+/**
+ * HM-ALPHA3-M06 (critical information rule): what the club's scouting
+ * believes, not the truth. Below HIGH knowledge the estimate can be a star
+ * off -- stable per player (never re-rolled per view), less likely with a
+ * better scout -- and the shown range is centred on the ESTIMATE, so its
+ * midpoint no longer gives the true value away. The true value always
+ * stays inside the range.
+ */
+export function scoutingStarOffset(key: string, tier: KnowledgeTier, scoutSuitability1to20 = 10.5): -1 | 0 | 1 {
+  if (tier === "HIGH") return 0;
+  const base = tier === "MINIMAL" ? 0.6 : tier === "LOW" ? 0.5 : 0.3;
+  const errChance = base * Math.max(0.5, Math.min(1.3, 1.3 - (scoutSuitability1to20 / 20) * 0.8));
+  if (hash(`${key}:err`) >= errChance) return 0;
+  return hash(`${key}:dir`) < 0.5 ? -1 : 1;
+}
+
+function rangeForTier(trueStars: number, tier: KnowledgeTier, offset: -1 | 0 | 1 = 0): StarRange {
   const spread = tier === "HIGH" ? 0 : tier === "MEDIUM" ? 1 : tier === "LOW" ? 1 : 2;
-  return { min: clampStar(trueStars - spread), max: clampStar(trueStars + spread) };
+  const estimate = clampStar(trueStars + offset);
+  return { min: clampStar(estimate - spread), max: clampStar(estimate + spread) };
 }
 
 function topAttributes(attributes: Record<string, { value: number }>, count: number, order: "desc" | "asc"): string[] {
@@ -62,18 +90,19 @@ function topAttributes(attributes: Record<string, { value: number }>, count: num
  * how well they know them. Never mutates/reads back into `rating` --
  * purely a redaction/fuzzing view over the real data.
  */
-export function resolvePlayerVisibility(rating: KnowledgeRatingInput, knowledgePct: number): PlayerVisibleView {
+export function resolvePlayerVisibility(rating: KnowledgeRatingInput, knowledgePct: number, scoutSuitability1to20?: number): PlayerVisibleView {
   const tier = knowledgeTier(knowledgePct);
   const trueAbilityStars = abilityStarsFromCA(rating.ca);
   const truePotentialStars = potentialStarsFromPA(rating.pa);
 
-  const abilityRange = rangeForTier(trueAbilityStars, tier);
+  const key = rating.playerId ?? `${rating.position}:${rating.ca}:${rating.pa}`;
+  const abilityRange = rangeForTier(trueAbilityStars, tier, scoutingStarOffset(`${key}:ca`, tier, scoutSuitability1to20));
 
   if (tier === "MINIMAL" || tier === "LOW") {
     return { tier, abilityRange, potentialRange: null, archetype: null, strengths: null, weaknesses: null };
   }
 
-  const potentialRange = rangeForTier(truePotentialStars, tier);
+  const potentialRange = rangeForTier(truePotentialStars, tier, scoutingStarOffset(`${key}:pa`, tier, scoutSuitability1to20));
   const roleProficiencies = rating.branch.branch === "GOALKEEPER" ? [] : rating.attackRoleProficiencies;
   const archetype = roleProficiencies.length > 0 ? presentTacticalRole(roleProficiencies[0].role) : rating.defenceRoleProficiencies.length > 0 ? presentTacticalRole(rating.defenceRoleProficiencies[0].role) : null;
 

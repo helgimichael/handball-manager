@@ -14,6 +14,8 @@ import { roleSuitabilityStars } from "@/lib/staff/presentation";
 import { computeRoleSuitability } from "@/lib/staff/roleSuitability";
 import { staffSpendingLimit, vacancyFunding } from "@/lib/staff/staffNegotiation";
 import { ROLE_EFFECT } from "@/components/staff/StaffInsight";
+import { modeOf } from "@/lib/delegation/delegation";
+import { DELEGATION_MODE_LABEL } from "@/lib/delegation/types";
 import { daysBetween } from "@/lib/career/dateUtils";
 
 const DEPARTMENTS: Department[] = ["LEADERSHIP", "COACHING", "RECRUITMENT", "ACADEMY", "SUPPORT"];
@@ -88,8 +90,8 @@ export function OrganisationChart() {
         ))}
       </div>
       <details className="st-resp">
-        <summary>Ansvarsområden (förberedelse för delegering)</summary>
-        <ul>{responsibilityCandidates(career, clubId).map((r) => <li key={r.area}><span>{RESPONSIBILITY_LABEL[r.area]}</span><b>{r.member?.displayName ?? "Ingen"}</b><small>Du beslutar själv i dag</small></li>)}</ul>
+        <summary>Ansvarsområden · <Link href="/career/staff/responsibilities">Ansvarsfördelning →</Link></summary>
+        <ul>{responsibilityCandidates(career, clubId).map((r) => <li key={r.area}><span>{RESPONSIBILITY_LABEL[r.area]}</span><b>{r.member?.displayName ?? "Ingen"}</b><small>{DELEGATION_MODE_LABEL[modeOf(career, r.area)]}</small></li>)}</ul>
       </details>
     </section>
   );
