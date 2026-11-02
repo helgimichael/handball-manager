@@ -56,8 +56,11 @@ export function outletsFor(state: CareerState, e: WorldEvent): { outletId: strin
     const media = CLUB_MEDIA[clubId];
     if (!media) return;
     if (i === 1 && e.importance < 3) return;
-    const [first, ...rest] = media.outlets;
-    if (first) add(first, MEDIA_OUTLETS[first]!.category === "LOCAL" ? "LOCAL" : "REGIONAL");
+    const rest = media.outlets;
+    // A club's papers share its news: one of them for everyday stories (in turn), all of them for the big ones.
+    const papers = media.outlets.filter((id) => ["LOCAL", "REGIONAL_DAILY", "NATIONAL_DAILY"].includes(MEDIA_OUTLETS[id]?.category ?? ""));
+    const chosen = e.importance >= 3 ? papers : papers.length ? [papers[Math.floor(hash(e.key) * papers.length)]!] : [];
+    for (const p of chosen) add(p, MEDIA_OUTLETS[p]!.category === "LOCAL" ? "LOCAL" : "REGIONAL");
     if (e.importance >= 3) { const desk = rest.find((id) => MEDIA_OUTLETS[id]?.category === "REGIONAL_RADIO" || MEDIA_OUTLETS[id]?.category === "REGIONAL_TV"); if (desk) desks.push(desk); }
   });
   if (e.importance >= 2 || e.kind === "TRANSFER" || e.kind === "COACH_CHANGE") add("handbollskanalen", "SPECIALIST");
@@ -136,7 +139,7 @@ export function writeStory(state: CareerState, e: WorldEvent, outletId: string, 
     case "TALENT":
       return { headline: pick([`Talangen alla pratar om`, `${who}, ${f.age}, tar plats`, `Ny stjärna i ${club}`], s), standfirst: `${who} (${f.age}) har gjort ${f.goals} mål för ${clubFull} den här säsongen.`, body: [] };
     case "RIVAL_COMMENT":
-      return { headline: String(f.headline ?? `${f.coach} om ${clubShort(f.target)}`), standfirst: `${f.coach}, tränare i ${club}, inför mötet med ${clubShort(f.target)}.`, body: [] };
+      return { headline: String(f.headline ?? `${f.coach} om ${clubShort(f.target)}`), standfirst: `${f.coach}, tränare i ${club}, ${f.after ? "efter" : "inför"} mötet med ${clubShort(f.target)}.`, body: [] };
     case "INTERVIEW":
       return { headline: String(f.headline ?? "Tränaren om läget"), standfirst: String(f.standfirst ?? ""), body: [] };
     case "DISCIPLINE":

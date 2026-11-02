@@ -5,7 +5,9 @@
 .md-page > .hm-btn, .md-article-page > .hm-btn, .md-press-page > .hm-btn { justify-self: start; }
 .md-alert { margin: 0; padding: 10px 14px; background: #f0d5cf; color: #5c1a0d; border-left: 4px solid #a93219; }
 .md-outlet { display: inline-flex; align-items: baseline; gap: 6px; padding: 3px 8px; background: var(--md-tint, #3c4a5c); color: #fff; font-size: 11px; letter-spacing: .02em; }
+.md-outlet { justify-self: start; }
 .md-outlet b { font-weight: 800; }
+.md-outlet-list .md-outlet small, .md-story .md-outlet small { color: inherit; }
 .md-outlet small { opacity: .85; font-size: 10px; text-transform: uppercase; letter-spacing: .06em; }
 .md-scope { font-size: 10.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--hm-text-secondary); }
 .md-filters { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; }

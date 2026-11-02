@@ -155,7 +155,7 @@ function rivalAfter(state: CareerState, f: CareerFixture, date: string, won: boo
   else if (won && (coach.style === "DIPLOMAT" || rel >= 15)) { line = `Stort grattis. De förtjänade segern.`; delta = 3; }
   if (!line) return state;
   const next = withMedia(state, (m) => adjustRelation(m, "manager", staffId, delta, date, `${coach.name} efter matchen: ”${line}”`));
-  return publish(next, { key: `rival-after:${f.id}`, kind: "RIVAL_COMMENT", date, importance: delta < 0 ? 3 : 2, clubIds: [coach.clubId, state.playerClubId], personIds: [staffId], fixtureId: f.id, topFlight: topFlight(state, coach.clubId), facts: { coach: coach.name, club: coach.clubId, target: state.playerClubId, headline: `${coach.name}: ”${line}”` }, quote: { who: `${coach.name}, ${getClub(coach.clubId)?.shortName ?? ""}`, text: line }, destinations: [{ route: "MEDIA" }] });
+  return publish(next, { key: `rival-after:${f.id}`, kind: "RIVAL_COMMENT", date, importance: delta < 0 ? 3 : 2, clubIds: [coach.clubId, state.playerClubId], personIds: [staffId], fixtureId: f.id, topFlight: topFlight(state, coach.clubId), facts: { coach: coach.name, club: coach.clubId, target: state.playerClubId, after: true, headline: `${coach.name}: ”${line}”` }, quote: { who: `${coach.name}, ${getClub(coach.clubId)?.shortName ?? ""}`, text: line }, destinations: [{ route: "MEDIA" }] });
 }
 
 // ---------------------------------------------------------------------------
