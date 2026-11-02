@@ -212,7 +212,8 @@ function Budget({ career, clubId, onPlan }: { career: CareerState; clubId: strin
           <MeterBar label="Akademibudget" value={1} figure={`${money.format(current.academyBudgetEur, { compact: true })} per år`} tone="ink" />
         </div>
         <ul className="fc-assumptions" aria-label="Så fungerar budgetarna">
-          <li><span>Löner</span><span>Taket för spelarlöner per år. Bygger på klubbens återkommande intäkter, {money.format(recurringRevenueEurAnnual(getClubEconomyBaseline(career, clubId)!), { compact: true })} per år. Över taket stoppas nya kontrakt och höjningar.</span></li>
+          <li><span>Löner</span><span>Taket för spelarlöner per år. Bygger på klubbens återkommande intäkter, {money.format(recurringRevenueEurAnnual(getClubEconomyBaseline(career, clubId)!), { compact: true })} per år, och på hur pressad styrelsen bedömer ekonomin. Över taket stoppas nya kontrakt och höjningar.</span></li>
+          {(career.clubFinances?.[clubId]?.bridgeEurAnnual ?? 0) < 0 && <li data-kind="bridge"><span>Obs</span><span>Föreningsstödet i bokslutet ({money.format(-(career.clubFinances?.[clubId]?.bridgeEurAnnual ?? 0), { compact: true })} per år) räknas inte in när styrelsen sätter lönebudgeten. Kassan kan därför vara i balans samtidigt som lönerna ligger över budgeten.</span></li>}
           <li><span>Personal</span><span>Styrelsens ram för personal. Anställningar får gå upp till 15 % över den (eller över dagens kostnad om den är högre), plus finansieringen för en vakant tjänst.</span></li>
           <li><span>Transfer</span><span>Följer kassan: varje köp, försäljning och avgift ändrar den direkt. Noll under övertrassering och kris.</span></li>
           <li><span>Akademi</span><span>Avsatt för ungdomsverksamheten. Visas som information; den styrs inte av dig i den här versionen.</span></li>

@@ -287,6 +287,8 @@ export function releaseStaff(state: CareerState, staffId: string, date: string, 
   const roster = (state.staffRoster[member.clubId] ?? []).filter((m) => m.id !== staffId);
   const { [staffId]: _e, ...employment } = state.staffEmployment;
   let next: CareerState = { ...state, staffRoster: { ...state.staffRoster, [member.clubId]: roster }, staffEmployment: employment };
+  // Someone who worked for the manager's club stays fully known to it after leaving.
+  if (member.clubId === state.playerClubId) next = { ...next, staffKnowledge: { ...(next.staffKnowledge ?? {}), [staffId]: 100 } };
   if (e?.employmentType === "SALARIED") next = addFreeAgent(next, member, e.wageEurPerMonth ?? 1000);
   return appointment(next, { staffId, clubId: member.clubId, role: member.roles[0] ?? "SCOUT", date, kind });
 }

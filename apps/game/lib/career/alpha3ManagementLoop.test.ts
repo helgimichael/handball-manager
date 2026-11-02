@@ -11,7 +11,7 @@ import { getClubPlayerWageCostsEurAnnual } from "../economy/clubEconomyIntegrati
 import { closeDueMonths, ensureClubFinances, projectClubFinances } from "../economy/ledger";
 import { loanPlayerOut } from "../transfers/transferExecution";
 import type { LoanRecord } from "../transfers/types";
-import { ensureStaffMarket } from "../staff/staffMarket";
+import { ensureStaffMarket, staffKnowledge } from "../staff/staffMarket";
 import { dismissalCost, dismissStaff, hireFreeAgent } from "../staff/staffNegotiation";
 
 const SKOVDE = "se_club_ifk_skovde_hk";
@@ -62,6 +62,7 @@ test("a staff hire reaches the next close once; a dismissal books its severance 
   const cashBefore = state.clubEconomies[SKOVDE]!.cashEur;
   state = dismissStaff(state, staffId, "2026-10-05");
   assert.equal(state.clubEconomies[SKOVDE]!.cashEur, cashBefore - severance);
+  assert.equal(staffKnowledge(state, staffId), 100, "a person who worked for the club stays fully known after leaving");
   state = closeDueMonths(state, "2026-11-01").state;
   const october = state.clubFinances![SKOVDE]!.statements.find((s) => s.month === "2026-10")!;
   assert.deepEqual(october.transactions.filter((t) => t.category === "STAFF_COMPENSATION").map((t) => t.amountEur), [-severance]);
