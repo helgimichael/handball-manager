@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from 'react';
-import ClubCrest from '../ClubCrest';
+import ClubCrest, { CrestPlaceholderNote } from '../ClubCrest';
 import './career-initialization.css';
 
 type ClubIdentity = { id?: string; name: string; shortName: string; primaryColor: string };
@@ -40,6 +40,7 @@ export default function CareerInitialization({ club, competition, season, existi
       </div>
       {club && <aside className="career-initialization-club" aria-label="Din valda klubb">
         <ClubCrest shortName={club.shortName} primaryColor={club.primaryColor} clubId={club.id} size={112} />
+        <CrestPlaceholderNote clubId={club.id} />
         <h2>{club.name}</h2><p>{competition}</p>{season && <span>{season}</span>}
       </aside>}
     </section>

@@ -134,7 +134,7 @@ function FamilyBlock({ familyLabel, rows }: { familyLabel: string; rows: { attri
       <div className="hm-eyebrow" style={{ padding: "10px 16px 4px" }}>
         {familyLabel}
       </div>
-      <div className="hm-panel-body" style={{ paddingTop: 0, display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "6px 20px" }}>
+      <div className="hm-panel-body" style={{ paddingTop: 0, display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 170px), 1fr))", gap: "6px 20px" }}>
         {rows.map(({ attribute, label, entry }) => (
           <div key={attribute} className="hm-stat-row" title={entry.origin === "EVIDENCE_BACKED" ? "Belagt av källunderlag" : entry.origin === "EDITOR_OVERRIDE" ? "Manuellt satt" : undefined}>
             <span className="hm-stat-label">

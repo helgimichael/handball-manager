@@ -120,7 +120,7 @@ export default function MatchPreviewPage() {
       </MatchHero>
       <MatchContext fixture={fixture} />
       <OpponentScoutingPanel compact />
-      <div className="hm-grid" style={{ gridTemplateColumns: "1fr 1fr" }}>
+      <div className="hm-grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 300px), 1fr))" }}>
         <div className="hm-panel">
           <div className="hm-panel-header">
             <span className="hm-panel-title">Otillgängliga spelare</span>

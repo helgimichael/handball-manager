@@ -16,6 +16,12 @@ type ClubCrestProps = {
   size?: number;
 };
 
+/** HM-PLAYTEST-01: a visible caption under large crest displays when the official crest is not integrated. */
+export function CrestPlaceholderNote({ clubId }: { clubId?: string }) {
+  if (getClubCrestAsset(clubId)) return null;
+  return <small className="hm-crest-note">Platshållare · klubbens officiella märke saknas</small>;
+}
+
 export default function ClubCrest({ shortName, primaryColor, clubId, size = 30 }: ClubCrestProps) {
   const asset = getClubCrestAsset(clubId);
   if (asset) {
@@ -48,6 +54,8 @@ export default function ClubCrest({ shortName, primaryColor, clubId, size = 30 }
       <path d="M27 23h46M34 84h32" stroke={line} strokeWidth="2"/>
       <text x="50" y="60" textAnchor="middle" dominantBaseline="middle" fill={text} fontSize={initials.length>2?26:34} fontFamily="var(--game-font-display)" fontWeight="700">{initials}</text>
       <circle cx="50" cy="76" r="4" fill={line}/>
+      {/* HM-PLAYTEST-01: at display sizes the placeholder says so on its face, not only to screen readers. */}
+      {size >= 72 && <text x="50" y="93" textAnchor="middle" fill={text} opacity={0.85} fontSize="7.5" fontFamily="var(--game-font-display)" fontWeight="700" letterSpacing="0.6">PLATSHÅLLARE</text>}
     </svg>
   );
 }

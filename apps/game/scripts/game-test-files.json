@@ -266,5 +266,8 @@
   "lib/scouting/opponentScouting.test.ts",
   "lib/staff/headCoachDisplacement.test.ts",
   "lib/career/preseasonPlanning.test.ts",
-  "lib/matchCenter/momentEvidence.test.ts"
+  "lib/matchCenter/momentEvidence.test.ts",
+  "lib/career/matchPlanVerification.test.ts",
+  "lib/career/weeklyReports.test.ts",
+  "components/game/PlayerCondition.test.ts"
 ]

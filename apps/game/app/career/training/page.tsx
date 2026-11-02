@@ -115,7 +115,7 @@ function Training() {
       <div className="hm-panel hm-training-planner">
         <div className="hm-panel-header" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, flexWrap: "wrap" }}>
           <span className="hm-panel-title">Veckoschema — {weekStart}</span>
-          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
             <button className="hm-btn hm-btn-sm" onClick={() => setWeekStart((w) => addDaysLocal(w, -7))}>
               ← Föregående vecka
             </button>
@@ -195,7 +195,7 @@ function Training() {
                             </option>
                           ))}
                         </select>
-                        <div style={{ display: "flex", gap: 4 }}>
+                        <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
                           <select
                             className="hm-select"
                             aria-label={`Intensitet ${day.date} ${session.id}`}

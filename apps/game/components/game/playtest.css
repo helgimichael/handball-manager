@@ -87,3 +87,21 @@
 .hm-subnav a b { margin-left: 6px; padding: 0 6px; border-radius: 999px; background: var(--hm-warning-muted); color: var(--hm-warning); font-size: var(--hm-text-2xs); }
 .hm-settings-entry { padding-top: 84px; }
 .career-club-forecast { color: var(--hm-accent-strong); font-weight: 600; }
+
+/* HM-PLAYTEST-01 visual pass: new sections use the game's established hierarchy --
+   display-face uppercase section titles (as .coach-section-heading), small tracked
+   uppercase sub-headings (as the staff departments) and the ink top rule. */
+.hm-plan-section { border-top: 3px solid var(--game-ink, var(--hm-border-strong)); }
+.hm-plan-section > header h2 { font-family: var(--game-font-display); font-weight: 400; font-size: 25px; line-height: 1.05; text-transform: uppercase; letter-spacing: 0; }
+.hm-plan-section h3 { font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--hm-text-secondary); }
+.hm-plan-section h3 .hm-status { letter-spacing: .02em; text-transform: none; }
+.hm-settings-entry h1 { font-family: var(--game-font-display); font-weight: 400; text-transform: uppercase; }
+@media (max-width: 640px) { .hm-plan-section > header h2 { font-size: 21px; } }
+
+/* HM-PLAYTEST-01 visual pass: phone widths. A `1fr` track cannot shrink below its
+   content, which clipped the Home board/rivals cards and squeezed other grids. */
+@media (max-width: 900px) {
+  .game-home-column, .game-home-column:last-child { grid-template-columns: minmax(0, 1fr); }
+  .game-home-column > * { min-width: 0; max-width: 100%; overflow-x: auto; }
+}
+.hm-crest-note { display: block; margin-top: 6px; font-size: var(--hm-text-2xs); letter-spacing: .04em; color: var(--hm-text-muted); text-align: center; }

@@ -95,7 +95,7 @@ export function RatingAttributesPanel({ row }: { row: RatingProposalRow }) {
       {knownCount === 0 ? (
         <div className="hm-panel-body hm-text-muted">Inga attribut har stöd i underlaget -- okänt förblir okänt, inte genomsnitt.</div>
       ) : (
-        <div className="hm-panel-body" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "6px 20px" }}>
+        <div className="hm-panel-body" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 170px), 1fr))", gap: "6px 20px" }}>
           {Object.entries(known!).map(([name, value]) => (
             <div key={name} className="hm-stat-row">
               <span className="hm-stat-label">{getAttributeLabel(name as OutcourtAttribute | GoalkeeperAttribute)}</span>

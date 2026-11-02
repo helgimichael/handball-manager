@@ -4,7 +4,7 @@
 // each part of the club; identity, the stands, rivals, honours and the
 // national team's calendar sit alongside.
 import Link from "next/link";
-import ClubCrest from "@/components/ClubCrest";
+import ClubCrest, { CrestPlaceholderNote } from "@/components/ClubCrest";
 import { MomentHero } from "@/components/experience/Moment";
 import { MeterBar } from "@/components/experience/primitives";
 import { HQ_BACKDROP } from "@/components/clubhq/ClubHq";
@@ -25,7 +25,7 @@ export default function KlubbhusetPage() {
       <div className="kh-hero" style={style}>
         <MomentHero tone="ink" backdrop={{ kind: "photo", style: HQ_BACKDROP[hq.tier] }} tags={[false, "Klubbhuset", hq.town, TIER_LABEL[hq.tier]]} stamp={null} headline={hq.name}
           lede={[hq.venue, hq.capacity ? `${hq.capacity.toLocaleString("sv-SE")} platser` : null, hq.founded ? `Grundad ${hq.founded}` : null].filter(Boolean).join(" · ") || "Föreningens hemvist"}
-          aside={<div className="kh-crest"><ClubCrest shortName={getClub(hq.clubId)?.shortName ?? ""} primaryColor={hq.colors.primary ?? "#c0612b"} clubId={hq.clubId} size={88} /></div>} />
+          aside={<div className="kh-crest"><ClubCrest shortName={getClub(hq.clubId)?.shortName ?? ""} primaryColor={hq.colors.primary ?? "#c0612b"} clubId={hq.clubId} size={88} /><CrestPlaceholderNote clubId={hq.clubId} /></div>} />
       </div>
 
       <section aria-labelledby="kh-rooms-h">

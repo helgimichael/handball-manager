@@ -90,6 +90,19 @@ export function buildStaffReport(state: CareerState, date: string): WeeklyReport
     const turnovers = results.map(({ f, r }) => (f!.homeClubId === state.playerClubId ? r.homeStats : r.awayStats)?.turnovers).filter((n): n is number => typeof n === "number");
     if (turnovers.length && turnovers.reduce((a, b) => a + b, 0) / turnovers.length >= 14) risks.push(`Bollförluster: i snitt ${Math.round(turnovers.reduce((a, b) => a + b, 0) / turnovers.length)} per match de senaste matcherna. Ett lugnare anfallstempo kan minska dem.`);
   }
+  // Player-level picture, every week: who most needs games, who is most tired, who stood out last time.
+  const fit = squad.filter((p) => !state.playerInjuries?.[p.id]?.activeInjury).map((p) => ({ p, mf: matchFitnessOf(state, p.id), en: Math.round(state.playerPhysicalState[p.id]?.currentEnergy ?? 100) }));
+  const lowestFitness = [...fit].filter((x) => x.mf < 80).sort((a, b) => a.mf - b.mf).slice(0, 3);
+  if (lowestFitness.length) observations.push(`Lägst matchträning: ${lowestFitness.map((x) => `${name(x.p)} (${x.mf} %)`).join(", ")}.`);
+  const lowestEnergy = [...fit].filter((x) => x.en < 85).sort((a, b) => a.en - b.en).slice(0, 3);
+  if (lowestEnergy.length) observations.push(`Lägst energi: ${lowestEnergy.map((x) => `${name(x.p)} (${x.en} %)`).join(", ")}.`);
+  const lastOwn = results.at(-1);
+  if (lastOwn) {
+    const own = lastOwn.f!.homeClubId === state.playerClubId ? lastOwn.r.homePlayerContributions : lastOwn.r.awayPlayerContributions;
+    const best = [...(own ?? [])].sort((a, b) => b.rating - a.rating)[0];
+    const bestPlayer = best ? squad.find((p) => p.id === best.playerId) : undefined;
+    if (best && bestPlayer) opportunities.push(`Bäst i senaste matchen: ${name(bestPlayer)} (betyg ${best.rating.toFixed(1)}, ${best.goals} mål).`);
+  }
   const injured = squad.filter((p) => state.playerInjuries?.[p.id]?.activeInjury);
   if (injured.length) { risks.push(`Skadade: ${list(injured.map((p) => `${name(p)} (åter ~${state.playerInjuries[p.id]!.activeInjury!.expectedReturnDate})`))}.`); destinations.push({ route: "SQUAD" }); }
   const tired = squad.filter((p) => !injured.includes(p) && (state.playerPhysicalState[p.id]?.currentEnergy ?? 100) < 60);
