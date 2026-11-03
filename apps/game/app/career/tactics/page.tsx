@@ -480,7 +480,7 @@ export default function TacticsPage() {
               {courtPlayer(role.position)}
             </div>
           ))}
-          <div className="coach-court-slot" style={{ left: '64%', top: '34%' }}>
+          <div className="coach-court-slot" style={{ left: '65%', top: '18%' }}>
             <button
               type="button"
               className="coach-position"
