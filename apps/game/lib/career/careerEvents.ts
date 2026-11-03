@@ -338,9 +338,16 @@ export function buildCompetitionUpdateEvent(
 ): CareerEvent {
   const id = detail.ownLeague ? `COMPETITION_UPDATE:${date}` : `COMPETITION_UPDATE:${date}:${competitionId}`;
   const games = detail.matches === 1 ? "1 match" : `${detail.matches} matcher`;
-  const title = detail.kind === "LEAGUE" ? `Tabellen är uppdaterad · ${detail.name}` : `${detail.name}: nya resultat`;
+  const isCup = detail.kind === "CUP" || competitionId === "se-svenska-cupen-herr" || competitionId.toLowerCase().includes("cup");
+  const title = detail.kind === "LEAGUE"
+    ? `Tabellen är uppdaterad · ${detail.name}`
+    : isCup
+    ? `${detail.name}: Resultat och slutspelsöversikt uppdaterad`
+    : `${detail.name}: nya resultat`;
   const summary = detail.kind === "LEAGUE"
     ? `${games} i ${detail.name} har spelats och tabellen har uppdaterats.`
+    : isCup
+    ? `${games} i ${detail.name}${detail.stage ? ` (${detail.stage})` : ""} har spelats. Se resultat och slutspelsöversikt.`
     : `${games} i ${detail.name}${detail.stage ? ` (${detail.stage})` : ""} har spelats. Se resultat och hur turneringen fortsätter.`;
   return baseEvent(
     id,

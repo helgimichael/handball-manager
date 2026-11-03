@@ -395,8 +395,9 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
   }
 
   // --- 7. Table / Statistics ------------------------------------------------
-  if (aiResults.length > 0) {
-    for (const update of competitionUpdatesFor(next, aiResults.map((r) => r.fixtureId))) emit(buildCompetitionUpdateEvent(date, update.competitionId, update));
+  const playedToday = [playerFixtureToday?.id, ...aiResults.map((r) => r.fixtureId)].filter((id): id is string => Boolean(id && next.results[id]));
+  if (playedToday.length > 0) {
+    for (const update of competitionUpdatesFor(next, playedToday)) emit(buildCompetitionUpdateEvent(date, update.competitionId, update));
   }
 
   // --- HM-ALPHA3-M03: postseason, series, kval, cup, season outcome ---

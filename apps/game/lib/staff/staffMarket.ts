@@ -20,9 +20,21 @@ import { generateFictionalStaffName, generateStaffAttributeProfile } from "./sta
 import { bestFor } from "./organisation";
 import { computeRoleSuitability } from "./roleSuitability";
 import { STAFF_ROLES, type ResolvedStaffMember, type StaffAttribute, type StaffRole } from "./types";
+import {
+  type Ambition,
+  type LeadershipDesire,
+  type PrestigeDesire,
+  type WageExpectationTier,
+  type StaffAmbitionProfile,
+  AMBITION_LABEL,
+  ambitionOf,
+  getStaffAmbitionProfile,
+  formatStaffAmbition,
+  staffAmbitionDescription,
+} from "./staffAmbition";
 
-export type Ambition = "STABILITY" | "PROGRESSION" | "HEAD_ROLE";
-export const AMBITION_LABEL: Record<Ambition, string> = { STABILITY: "Trivs och vill stanna", PROGRESSION: "Vill ta nästa steg", HEAD_ROLE: "Siktar på en egen huvudroll" };
+export type { Ambition, LeadershipDesire, PrestigeDesire, WageExpectationTier, StaffAmbitionProfile };
+export { AMBITION_LABEL, ambitionOf, getStaffAmbitionProfile, formatStaffAmbition, staffAmbitionDescription };
 
 export interface StaffMarketState {
   seasonId: string;
@@ -35,11 +47,6 @@ function hash(text: string): number {
   let h = 2166136261;
   for (let i = 0; i < text.length; i++) h = Math.imul(h ^ text.charCodeAt(i), 16777619);
   return (h >>> 0) / 4294967295;
-}
-
-export function ambitionOf(staffId: string): Ambition {
-  const r = hash(`${staffId}:ambition`);
-  return r < 0.45 ? "STABILITY" : r < 0.8 ? "PROGRESSION" : "HEAD_ROLE";
 }
 
 const FREE_AGENTS_PER_ROLE = 3;
@@ -156,7 +163,7 @@ export function marketCandidates(state: CareerState, clubId = state.playerClubId
   const freeAgents = { ...(market?.freeAgents ?? {}), ...(state.scoutMarket ?? {}) };
   for (const member of Object.values(freeAgents)) {
     const role = member.roles[0] ?? "SCOUT";
-    out.push({ member, status: "FREE_AGENT", role, expectedWageEur: market?.asking[member.id] ?? 1000, knowledge: staffKnowledge(state, member.id, clubId), suitability: computeRoleSuitability(member, role), ambition: ambitionOf(member.id) });
+    out.push({ member, status: "FREE_AGENT", role, expectedWageEur: market?.asking[member.id] ?? 1000, knowledge: staffKnowledge(state, member.id, clubId), suitability: computeRoleSuitability(member, role), ambition: ambitionOf(member.id, role) });
   }
   for (const [otherClubId, roster] of Object.entries(state.staffRoster)) {
     if (otherClubId === clubId) continue;
@@ -165,7 +172,7 @@ export function marketCandidates(state: CareerState, clubId = state.playerClubId
       if (employment?.employmentType !== "SALARIED") continue;
       const role = member.roles[0];
       if (!role) continue;
-      out.push({ member, status: "EMPLOYED", currentClubId: otherClubId, role, expectedWageEur: Math.round((employment.wageEurPerMonth ?? 1000) * 1.15), knowledge: staffKnowledge(state, member.id, clubId), suitability: computeRoleSuitability(member, role), ambition: ambitionOf(member.id), contractEndDate: employment.contractEndDate });
+      out.push({ member, status: "EMPLOYED", currentClubId: otherClubId, role, expectedWageEur: Math.round((employment.wageEurPerMonth ?? 1000) * 1.15), knowledge: staffKnowledge(state, member.id, clubId), suitability: computeRoleSuitability(member, role), ambition: ambitionOf(member.id, role), contractEndDate: employment.contractEndDate });
     }
   }
   return out;
@@ -177,8 +184,13 @@ export function moveAttraction(state: CareerState, staffId: string, fromClubId: 
   const tierFrom = fromClubId ? clubCompetitionTier(state, fromClubId) ?? 2 : 3;
   const bandRank = (id?: string) => (id ? Number(getClubEconomyBaseline(state, id)?.band.slice(1) ?? 7) : 8);
   let score = (tierFrom - tierTo) * 0.35 + (bandRank(fromClubId) - bandRank(toClubId)) * 0.06;
+  
+  const profile = getStaffAmbitionProfile(staffId, oldRole ?? newRole);
   const headRoles: StaffRole[] = ["HEAD_COACH", "SPORTING_DIRECTOR", "HEAD_OF_RECRUITMENT", "HEAD_OF_ACADEMY"];
-  if (headRoles.includes(newRole) && (!oldRole || !headRoles.includes(oldRole))) score += ambitionOf(staffId) === "HEAD_ROLE" ? 0.45 : 0.2;
-  if (ambitionOf(staffId) === "STABILITY" && fromClubId) score -= 0.15;
+  if (headRoles.includes(newRole) && (!oldRole || !headRoles.includes(oldRole))) {
+    score += profile.leadershipDesire === "ORGANISATION_HEAD" || profile.ambition === "HEAD_ROLE" ? 0.45 : 0.2;
+  }
+  if (profile.ambition === "STABILITY" && fromClubId) score -= 0.15;
+  if (profile.prestigeDesire === "NATIONAL_ELITE" && tierTo === 1) score += 0.1;
   return Math.max(-1, Math.min(1, score));
 }

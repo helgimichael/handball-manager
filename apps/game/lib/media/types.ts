@@ -93,7 +93,7 @@ export interface PressConference {
   questions: PressQuestion[];
   /** The situation behind each question (same order). */
   contexts: PressContext[];
-  status: "OPEN" | "ANSWERED" | "DELEGATED" | "EXPIRED";
+  status: "OPEN" | "ANSWERED" | "DELEGATED" | "DECLINED" | "EXPIRED";
   expiresOn: string;
   answers?: Record<string, Tone>;
   answeredBy?: "MANAGER" | { staffId: string; name: string };

@@ -143,8 +143,13 @@ function bodyFor(event: CareerEvent, career: CareerState): string[] {
       return [event.summary, `Slutresultat ${result.homeGoals}–${result.awayGoals}. Se matchrapporten eller den detaljerade matchanalysen.`];
     }
     case "COMPETITION_UPDATE": {
+      const compId = event.primaryEntity?.entityId ?? "";
+      const isCup = compId === "se-svenska-cupen-herr" || compId.toLowerCase().includes("cup");
+      if (isCup) {
+        return [event.summary, "Öppna Svenska Cupen för att följa cupgrupper, slutspelsträd och resultat."];
+      }
       // Only the manager's own league table says anything about his position.
-      if (event.primaryEntity?.entityId !== career.competitionId) return [event.summary];
+      if (compId !== career.competitionId) return [event.summary];
       const table = getLiveStandings(career);
       const position = table.findIndex((row) => row.clubId === career.playerClubId) + 1;
       return position > 0 ? [event.summary, `Er placering: ${svOrdinal(position)} plats.`] : [event.summary];

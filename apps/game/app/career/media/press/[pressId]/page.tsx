@@ -10,7 +10,7 @@ import { MomentHero } from "@/components/experience/Moment";
 import { EmptyState } from "@/components/manager/Workspace";
 import { OutletChip, PRESSROOM_BACKDROP } from "@/components/media/MediaParts";
 import { useCareer } from "@/lib/career/CareerContext";
-import { answerPressAction, delegatePressAction } from "@/lib/media/actions";
+import { answerPressAction, delegatePressAction, skipPressAction } from "@/lib/media/actions";
 import { mediaOf } from "@/lib/media/people";
 import { TONE_LABEL } from "@/lib/media/press";
 import type { Tone } from "@/lib/media/types";
@@ -32,7 +32,7 @@ export default function PressPage() {
 
   return (
     <div className="md-press-page">
-      <MomentHero tone={open ? "signal" : "ink"} size="compact" backdrop={{ kind: "photo", style: PRESSROOM_BACKDROP }} tags={[false, press.kind === "PRE_MATCH" ? "Före matchen" : press.kind === "POST_MATCH" ? "Efter matchen" : "Intervju", press.date]} stamp={open ? null : press.status === "EXPIRED" ? "Inga svar" : "Avslutad"} headline={press.title} lede={press.context} />
+      <MomentHero tone={open ? "signal" : "ink"} size="compact" backdrop={{ kind: "photo", style: PRESSROOM_BACKDROP }} tags={[false, press.kind === "PRE_MATCH" ? "Före matchen" : press.kind === "POST_MATCH" ? "Efter matchen" : "Intervju", press.date]} stamp={open ? null : press.status === "EXPIRED" ? "Inga svar" : press.status === "DECLINED" ? "Avböjd" : "Avslutad"} headline={press.title} lede={press.context} />
       <Link className="hm-btn hm-btn-sm" href="/career/media?tab=press">← Presskonferenser</Link>
       {!open && press.consequences ? (
         <section className="bd-panel" aria-label="Följder">
@@ -62,7 +62,8 @@ export default function PressPage() {
       {open ? (
         <div className="hm-actions">
           <button type="button" className="hm-btn hm-btn-primary" disabled={press.questions.some((q) => !answers[q.id])} onClick={() => run(() => updateCareer((s) => answerPressAction(s, press.id, answers)), "Svaren är lämnade. Medierna skriver om det.")}>Lämna svaren</button>
-          {assistant && <button type="button" className="hm-btn" onClick={() => run(() => updateCareer((s) => delegatePressAction(s, press.id)), `${assistant.displayName} tar presskonferensen.`)}>Låt {assistant.displayName} svara</button>}
+          {assistant && <button type="button" className="hm-btn" onClick={() => run(() => updateCareer((s) => delegatePressAction(s, press.id)), `${assistant.displayName} tar presskonferensen (halverad effekt).`)}>Låt {assistant.displayName} svara (Delegera)</button>}
+          <button type="button" className="hm-btn" onClick={() => run(() => updateCareer((s) => skipPressAction(s, press.id)), "Du avböjde presskonferensen. Media rapporterar om din frånvaro.")}>Avböj / Hoppa över</button>
         </div>
       ) : null}
       {message && <p className="pd-note" role="status">{message}</p>}

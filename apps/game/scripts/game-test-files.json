@@ -269,5 +269,10 @@
   "lib/matchCenter/momentEvidence.test.ts",
   "lib/career/matchPlanVerification.test.ts",
   "lib/career/weeklyReports.test.ts",
-  "components/game/PlayerCondition.test.ts"
+  "components/game/PlayerCondition.test.ts",
+  "lib/staff/staffAmbition.test.ts",
+  "lib/transfers/trainingCompensation.test.ts",
+  "lib/transfers/playerInterest.test.ts",
+  "lib/matchPlan/tacticsDiffWorkflow.test.ts",
+  "lib/media/postMatchPress.test.ts"
 ]

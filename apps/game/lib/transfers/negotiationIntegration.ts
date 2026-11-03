@@ -24,6 +24,7 @@ import { playerAgeAtDate } from "../development/developmentIntegration";
 import { getClubBudgets, getClubFinancialHealth } from "../economy/clubEconomyIntegration";
 import { getPlayerContract, getPlayerContractStatus, getPlayerFairWageEurPerMonth } from "../economy/contractIntegration";
 import { getPlayerTrainingCompensation } from "../economy/trainingCompensationIntegration";
+import { evaluatePlayerInterest } from "./playerInterest";
 import { getClub } from "../game-data";
 import { assessTransferAffordability } from "./affordability";
 import {
@@ -154,6 +155,10 @@ export function startTransferNegotiation(state: CareerState, playerId: string, d
   if (!player || !contract) return { ok: false, error: "Spelaren kunde inte hittas." };
   if (contract.clubId === toClubId) return { ok: false, error: "Spelaren tillhör redan din klubb." };
   if (hasActivePendingTransfer(state, playerId)) return { ok: false, error: "Spelaren har redan en överenskommen affär som väntar på transferfönstret." };
+  const interest = evaluatePlayerInterest(state, playerId, toClubId);
+  if (!interest.willEnterNegotiations) {
+    return { ok: false, error: `${player.firstName} ${player.lastName} avböjer samtal direkt. ${interest.reason}` };
+  }
   const isLoan = dealType === "LOAN";
   if (isLoan) {
     if (getPlayerContractStatus(state, playerId) === "FREE_AGENT") return { ok: false, error: "En kontraktslös spelare kan inte lånas -- värva honom permanent." };
@@ -304,7 +309,7 @@ function computeWageDemandAt(state: CareerState, negotiation: TransferNegotiatio
   const contract = getPlayerContract(state, negotiation.playerId);
   if (!player || !contract) return undefined;
   const isFreeAgent = negotiation.fromClubId === "";
-  return computePlayerWageDemand({
+  const demand = computePlayerWageDemand({
     playerId: player.id,
     age: playerAgeAtDate(player.dateOfBirth, player.birthYear, state.gameDate),
     isFreeAgent,
@@ -320,6 +325,21 @@ function computeWageDemandAt(state: CareerState, negotiation: TransferNegotiatio
     contractYears: terms.contractYears,
     ...sportingContext(state, player.id, player.clubId, clubId),
   });
+  if (demand) {
+    const interest = evaluatePlayerInterest(state, negotiation.playerId, clubId);
+    if (interest.wagePremiumMultiplier > 1.0) {
+      demand.demandEurPerMonth = Math.round(demand.demandEurPerMonth * interest.wagePremiumMultiplier);
+      if (demand.baseEurPerMonth) {
+        demand.baseEurPerMonth = Math.round(demand.baseEurPerMonth * interest.wagePremiumMultiplier);
+      }
+      demand.factors.push(interest.reason);
+      demand.breakdown?.push({
+        label: interest.reason,
+        effectPct: Math.round((interest.wagePremiumMultiplier - 1.0) * 100),
+      });
+    }
+  }
+  return demand;
 }
 
 /** HM-ALPHA2-05E: the player's ability and potential against the buying squad's level (omitted when the squad is not yet materialised). */

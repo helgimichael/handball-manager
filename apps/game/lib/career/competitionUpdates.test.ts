@@ -4,6 +4,7 @@ import { createNewCareerState } from './newCareer';
 import { competitionUpdatesFor } from './competitionUpdates';
 import { buildCompetitionUpdateEvent } from './careerEvents';
 import { resolveDestinationHref, destinationLabel } from './destinations';
+import { careerEventToInboxMessage } from './inboxBridge';
 import { SVENSKA_CUPEN, HANDBOLLSLIGAN } from '../competition/rules';
 import type { CareerFixture } from './types';
 
@@ -21,10 +22,14 @@ test('a cup-only day never claims the league table changed, and links to Svenska
   assert.equal(updates[0].kind, 'CUP');
   const event = buildCompetitionUpdateEvent('2026-09-01', updates[0].competitionId, updates[0]);
   assert.doesNotMatch(event.subject, /Tabellen/);
-  assert.match(event.subject, /Svenska Cupen/);
+  assert.equal(event.subject, 'Svenska Cupen: Resultat och slutspelsöversikt uppdaterad');
   assert.deepEqual(event.destinations, [{ route: 'COMPETITION', competitionId: SVENSKA_CUPEN }]);
   assert.equal(resolveDestinationHref(event.destinations[0]), `/career/competitions/${SVENSKA_CUPEN}`);
   assert.equal(destinationLabel(event.destinations[0]), 'Öppna Svenska Cupen');
+
+  const msg = careerEventToInboxMessage(event, state);
+  assert.doesNotMatch(msg.body.join(' '), /Er placering/);
+  assert.match(msg.body.join(' '), /Svenska Cupen/);
 });
 
 test('only the manager\'s own league produces a table update; other tiers and friendlies stay quiet', () => {

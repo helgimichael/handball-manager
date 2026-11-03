@@ -18,6 +18,7 @@ import { applyMatchResultBookkeeping } from './matchResultApplication';
 import { applyKnockoutDecider } from '../competition/season';
 import { checkSeasonComplete, getPlayerFixtureOn } from './calendar';
 import { buildMatchCompletedEvent, buildPlayerInjuredEvent } from './careerEvents';
+import { ensurePostMatchPress } from '../media/postMatchPress';
 import { careerEventToInboxMessage } from './inboxBridge';
 import { applyMatchDevelopmentStimulus } from '../development/developmentIntegration';
 import { applyMatchInjuryResolution } from '../medical/injuryIntegration';

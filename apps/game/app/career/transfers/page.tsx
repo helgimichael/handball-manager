@@ -43,6 +43,7 @@ import {
   type NegotiationSummary,
 } from "@/lib/transfers/transferCentre";
 import { getLatestNegotiation } from "@/lib/transfers/negotiationIntegration";
+import { evaluatePlayerInterest, matchesInterestFilter, type InterestFilter } from "@/lib/transfers/playerInterest";
 import type { TransferOfferStatus } from "@/lib/transfers/types";
 import { IncomingOffersBoard } from "@/components/players/IncomingOffersBoard";
 import type { CareerState } from "@/lib/career/types";
@@ -83,6 +84,7 @@ function TransferCentre() {
   const [tab, setTab] = useState<Tab>("OPPORTUNITIES");
   const [query, setQuery] = useState("");
   const [position, setPosition] = useState<HandballPosition | "ALL">("ALL");
+  const [interestFilter, setInterestFilter] = useState<InterestFilter>("REALISTIC");
   const [selectedId, setSelectedId] = useState<string | null>(params.get("target"));
 
   const finance = getTransferFinance(career);
@@ -101,8 +103,13 @@ function TransferCentre() {
       ...getFreeAgents(career).map((player) => ({ player, club: null as Club | null })),
     ];
     const q = query.trim().toLowerCase();
-    return rows.filter(({ player }) => (position === "ALL" || player.position === position) && (!q || `${player.firstName} ${player.lastName}`.toLowerCase().includes(q)));
-  }, [career, query, position]);
+    return rows.filter(({ player }) => {
+      if (position !== "ALL" && player.position !== position) return false;
+      if (q && !`${player.firstName} ${player.lastName}`.toLowerCase().includes(q)) return false;
+      const interest = evaluatePlayerInterest(career, player.id, career.playerClubId);
+      return matchesInterestFilter(interest, interestFilter);
+    });
+  }, [career, query, position, interestFilter]);
 
   const shortlist = useMemo(
     () => Object.values(career.recruitmentTargets ?? {}).filter((t) => t.shortlisted).map((t) => getCareerPlayer(career, t.playerId)).filter((p): p is PlayerMock => !!p && p.clubId !== career.playerClubId),
@@ -165,9 +172,19 @@ function TransferCentre() {
             <button type="button" role="tab" aria-selected={tab === "SHORTLIST"} onClick={() => setTab("SHORTLIST")}>Bevakade<b>{shortlist.length}</b></button>
           </div>
           {tab === "MARKET" && (
-            <div className="tc-filters">
-              <input className="tc-input" aria-label="Sök spelare" placeholder="Sök namn…" value={query} onChange={(e) => setQuery(e.target.value)} />
-              {POSITIONS.map((p) => <button key={p} type="button" className="tc-chip" aria-pressed={position === p} onClick={() => setPosition(p)}>{p === "ALL" ? "Alla" : p}</button>)}
+            <div className="tc-filters" style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center" }}>
+              <input className="tc-input" style={{ maxWidth: 220 }} aria-label="Sök spelare" placeholder="Sök namn…" value={query} onChange={(e) => setQuery(e.target.value)} />
+              <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
+                {POSITIONS.map((p) => <button key={p} type="button" className="tc-chip" aria-pressed={position === p} onClick={() => setPosition(p)}>{p === "ALL" ? "Alla" : p}</button>)}
+              </div>
+              <div style={{ display: "flex", gap: 4, alignItems: "center", marginLeft: "auto" }}>
+                <span style={{ fontSize: "11px", color: "var(--hm-text-muted)" }}>Mål:</span>
+                {(["REALISTIC", "PERSUADABLE", "ALL"] as const).map((fk) => (
+                  <button key={fk} type="button" className="tc-chip" aria-pressed={interestFilter === fk} onClick={() => setInterestFilter(fk)}>
+                    {fk === "REALISTIC" ? "Realistiska mål" : fk === "PERSUADABLE" ? "Möjligen intresserade" : "Alla"}
+                  </button>
+                ))}
+              </div>
             </div>
           )}
           {tab === "OPPORTUNITIES" && <div className="tc-filters"><span className="tc-why">Spelare på positioner ni behöver, med kontrakt som gör en affär realistisk och inom transferbudgeten.</span></div>}
@@ -189,7 +206,7 @@ function TransferCentre() {
           ) : (
             <div className="tc-table hm-scroll-x">
               <table className="hm-table">
-                <thead><tr><th>Spelare</th><th>Pos</th><th>Ålder</th><th>Klubb</th><th>Kontrakt</th><th className="hm-table-num">Marknadsvärde</th><th>Status</th></tr></thead>
+                <thead><tr><th>Spelare</th><th>Pos</th><th>Ålder</th><th>Klubb</th><th>Kontrakt</th><th className="hm-table-num">Marknadsvärde</th><th>Intresse</th><th>Status</th></tr></thead>
                 <tbody>
                   {rows.slice(0, 80).map((player) => {
                     const status = getPlayerContractStatus(career, player.id);
@@ -202,6 +219,14 @@ function TransferCentre() {
                         <td className="hm-text-muted">{player.clubId && getClub(player.clubId) ? <ClubLink clubId={player.clubId} stopPropagation>{getClub(player.clubId)!.shortName}</ClubLink> : "Fri agent"}</td>
                         <td>{status ? <span className={`hm-badge hm-badge-${CONTRACT_STATUS_TONE[status]}`}>{CONTRACT_STATUS_LABEL[status]}</span> : "—"}</td>
                         <td className="hm-table-num">{valueRangeLabel(career, player)}</td>
+                        <td>{(() => {
+                          const interest = evaluatePlayerInterest(career, player.id, career.playerClubId);
+                          return (
+                            <span className="tc-pill" data-tone={interest.tone === "positive" ? "done" : interest.tone === "caution" ? "wait" : "closed"} title={interest.reason}>
+                              {interest.label}
+                            </span>
+                          );
+                        })()}</td>
                         <td>{latest ? <NegotiationPill summary={summarizeNegotiation(latest)} /> : isShortlisted(career, player.id) ? <span className="tc-pill">Bevakad</span> : null}</td>
                       </tr>
                     );
@@ -312,15 +337,37 @@ function Dossier({ career, player, onShortlist, onClose }: { career: CareerState
         </dl>
         {own ? (
           <div className="tc-actions"><Link className="hm-btn tc-wide" href={`/career/squad/${encodeURIComponent(player.id)}`}>Spelaren tillhör er -- öppna profilen →</Link></div>
-        ) : (
-          <div className="tc-actions">
-            <Link className="hm-btn hm-btn-primary tc-wide" href={`/career/transfers/${encodeURIComponent(player.id)}`}>{status?.managerNegotiation && status.managerNegotiation.nextStep !== "CLOSED" && status.managerNegotiation.nextStep !== "COMPLETED" ? "Fortsätt förhandlingen →" : "Förhandla om övergång →"}</Link>
-            {canLoan ? <Link className="hm-btn" href={`/career/transfers/${encodeURIComponent(player.id)}?deal=LOAN`}>Föreslå lån</Link> : <span className="hm-btn" aria-disabled="true" title={freeAgent ? "En kontraktslös spelare värvas, inte lånas." : "Spelaren är redan utlånad."}>Lån ej möjligt</span>}
-            <button type="button" className="hm-btn" onClick={() => onShortlist(!shortlisted)} aria-pressed={shortlisted}>{shortlisted ? "Sluta bevaka" : "Bevaka"}</button>
-            <Link className="hm-btn" href={`/career/compare?right=${encodeURIComponent(player.id)}`}>Jämför med truppen</Link>
-            <Link className="hm-btn" href={`/career/squad/${encodeURIComponent(player.id)}`}>Spelarprofil</Link>
-          </div>
-        )}
+        ) : (() => {
+          const interest = evaluatePlayerInterest(career, player.id, career.playerClubId);
+          return (
+            <div className="tc-actions">
+              <div className="tc-interest-box" style={{ width: "100%", padding: "8px 10px", background: "rgba(255,255,255,0.03)", borderRadius: "var(--hm-radius-sm)", border: "1px solid rgba(255,255,255,0.06)", marginBottom: 4 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 3 }}>
+                  <span style={{ fontSize: "11px", color: "var(--hm-text-muted)" }}>Intresse för övergång</span>
+                  <span className="tc-pill" data-tone={interest.tone === "positive" ? "done" : interest.tone === "caution" ? "wait" : "closed"}>
+                    {interest.label}
+                  </span>
+                </div>
+                <p style={{ margin: 0, fontSize: "11px", color: "var(--hm-text-secondary)", lineHeight: 1.35 }}>
+                  {interest.reason}
+                </p>
+              </div>
+              {interest.willEnterNegotiations ? (
+                <Link className="hm-btn hm-btn-primary tc-wide" href={`/career/transfers/${encodeURIComponent(player.id)}`}>
+                  {status?.managerNegotiation && status.managerNegotiation.nextStep !== "CLOSED" && status.managerNegotiation.nextStep !== "COMPLETED" ? "Fortsätt förhandlingen →" : "Förhandla om övergång →"}
+                </Link>
+              ) : (
+                <button type="button" className="hm-btn tc-wide" disabled style={{ opacity: 0.6, cursor: "not-allowed" }} title={interest.reason}>
+                  Förhandling ej möjlig · {interest.label}
+                </button>
+              )}
+              {canLoan && interest.willEnterNegotiations ? <Link className="hm-btn" href={`/career/transfers/${encodeURIComponent(player.id)}?deal=LOAN`}>Föreslå lån</Link> : <span className="hm-btn" aria-disabled="true" title={freeAgent ? "En kontraktslös spelare värvas, inte lånas." : !interest.willEnterNegotiations ? interest.reason : "Spelaren är redan utlånad."}>Lån ej möjligt</span>}
+              <button type="button" className="hm-btn" onClick={() => onShortlist(!shortlisted)} aria-pressed={shortlisted}>{shortlisted ? "Sluta bevaka" : "Bevaka"}</button>
+              <Link className="hm-btn" href={`/career/compare?right=${encodeURIComponent(player.id)}`}>Jämför med truppen</Link>
+              <Link className="hm-btn" href={`/career/squad/${encodeURIComponent(player.id)}`}>Spelarprofil</Link>
+            </div>
+          );
+        })()}
       </div>
     </aside>
   );

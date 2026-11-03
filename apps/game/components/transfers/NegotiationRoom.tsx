@@ -25,7 +25,8 @@ import { ProgressSteps, type StepState } from "@/components/experience/primitive
 import { useMoney } from "@/lib/settings/usePreferences";
 import { CONTRACT_STATUS_LABEL } from "@/lib/economy/labels";
 import { getPlayerContract, getPlayerContractStatus, getPlayerMarketValueEur } from "@/lib/economy/contractIntegration";
-import { getPlayerTrainingCompensation } from "@/lib/economy/trainingCompensationIntegration";
+import { getPlayerTrainingCompensation, calculatePlayerTrainingCompensation } from "@/lib/economy/trainingCompensationIntegration";
+import { calculateAcquisitionCost } from "@/lib/transfers/trainingCompensation";
 import { getClubBudgets } from "@/lib/economy/clubEconomyIntegration";
 import { getClub, positionLabel, type PlayerMock } from "@/lib/game-data";
 import { getPlayerKnowledgePct } from "@/lib/knowledge/knowledgeIntegration";
@@ -368,7 +369,8 @@ function Decision({ negotiation, run, contractWage, contractEnd }: { negotiation
   const lastClub = negotiation.rounds.filter((r) => r.party === "CLUB").at(-1);
   const lastPlayer = negotiation.rounds.filter((r) => r.party === "PLAYER").at(-1);
   const expected = getExpectedRoleAtBuyer(career, negotiation);
-  const trainingComp = getPlayerTrainingCompensation(career, negotiation.playerId)?.totalEur ?? 0;
+  const trainingCompDetail = calculatePlayerTrainingCompensation(career, negotiation.playerId, career.playerClubId, negotiation.fromClubId);
+  const trainingComp = trainingCompDetail.totalEur;
   const agentFee = isLoan ? 0 : getNegotiationAgentFeeEur(career, negotiation);
   // Default first bid: the middle of the knowledge-gated value range the manager can see -- never the hidden exact value.
   const marketValue = getPlayerMarketValueEur(career, negotiation.playerId) ?? 0;
@@ -442,8 +444,56 @@ function Decision({ negotiation, run, contractWage, contractEnd }: { negotiation
             <label>Signeringsbonus ({currencySymbol()})<MoneyInput className="tc-input" minEur={0} stepEur={500} valueEur={bonus} onChangeEur={setBonus} /></label>
           </>}
           {negotiation.stage === "PLAYER" && <label>Utlovad roll<select className="tc-input" value={role} onChange={(e) => setRole(e.target.value as SquadStatusTier)}>{SQUAD_STATUS_TIERS.map((t) => <option key={t} value={t}>{SQUAD_STATUS_TIER_LABEL_SV[t]}{t === expected ? " (förväntad)" : ""}</option>)}</select></label>}
-          {negotiation.stage === "PLAYER" && !isLoan && <p className="tc-offer-hint">Vid signering betalar ni <b>{formatMoney(upfront)}</b>: övergångssumma, utbildningsersättning, agentarvode {formatMoney(agentFee)}{bonus ? " och bonus" : ""}. Bonusen räknas av spelaren som lön utslagen över kontraktet. Den utlovade rollen följer med avtalet.</p>}
-          {negotiation.stage === "CLUB" && !isLoan && <p className="tc-offer-hint">Hela affären kostar <b>{formatMoney(fee + trainingComp + agentFee)}</b>: övergångssumma{trainingComp > 0 ? `, utbildningsersättning ${formatMoney(trainingComp)}` : ""} och agentarvode {formatMoney(agentFee)}. Transferbudget {formatMoney(Math.round(budgetEur))}.</p>}
+          {trainingComp > 0 && !isLoan && (
+            <div className="tc-training-comp-box" style={{ gridColumn: "1 / -1", padding: "8px 12px", background: "rgba(255,255,255,0.03)", borderRadius: "var(--hm-radius-sm)", border: "1px solid rgba(255,255,255,0.06)" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 4 }}>
+                <strong style={{ fontSize: "var(--hm-text-xs)", color: "var(--hm-text-primary)" }}>
+                  Utbildningsersättning: {formatMoney(trainingComp)}
+                </strong>
+                <span className="hm-badge hm-badge-subtle" style={{ fontSize: "10px" }}>
+                  {trainingCompDetail.isDomesticTransfer ? "SHF 2026/27" : "EHF/IHF ITC"}
+                </span>
+              </div>
+              <div style={{ fontSize: "11px", color: "var(--hm-text-muted)", marginBottom: 4 }}>
+                {trainingCompDetail.documentationNote}
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                {trainingCompDetail.perClub.map((share) => (
+                  <div key={share.clubId} style={{ display: "flex", justifyContent: "space-between", fontSize: "11px" }}>
+                    <span>{share.clubName} ({share.seasons} säsonger, {share.fromAge}–{share.toAge} år)</span>
+                    <span style={{ fontWeight: 600 }}>{formatMoney(share.amountEur)}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+          {!isLoan && (() => {
+            const acq = calculateAcquisitionCost({
+              transferFeeEur: negotiation.stage === "CLUB" ? fee : (negotiation.agreedFeeEur ?? 0),
+              trainingCompensationEur: trainingComp,
+              signingCostsEur: agentFee + (negotiation.stage === "PLAYER" ? bonus : (lastPlayer?.signingBonusEur ?? 0)),
+              monthlyWageEur: negotiation.stage === "PLAYER" ? wage : (lastPlayer?.counterWageEurPerMonth ?? contractWage),
+              contractYears: negotiation.stage === "PLAYER" ? years : (lastPlayer?.contractYears ?? 3),
+              compensationDetails: trainingCompDetail,
+            });
+            return (
+              <div className="tc-acquisition-summary" style={{ gridColumn: "1 / -1", marginTop: 4, padding: "10px 12px", background: "rgba(0,0,0,0.25)", borderRadius: "var(--hm-radius-sm)", border: "1px solid rgba(255,255,255,0.08)" }}>
+                <div style={{ fontWeight: 700, fontSize: "var(--hm-text-xs)", marginBottom: 6, display: "flex", justifyContent: "space-between" }}>
+                  <span>Total anskaffningskostnad ({acq.isFreeTransfer ? "Fri övergång" : "Övergång"})</span>
+                  <span style={{ color: "var(--hm-accent-gold)" }}>Första året: {formatMoney(acq.totalFirstYearCommitmentEur)}</span>
+                </div>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))", gap: "6px 12px", fontSize: "11px", color: "var(--hm-text-muted)" }}>
+                  <div>Övergångssumma: <b style={{ color: "var(--hm-text-primary)" }}>{formatMoney(acq.transferFeeEur)}</b></div>
+                  <div>Utbildningsersättning: <b style={{ color: "var(--hm-text-primary)" }}>{formatMoney(acq.trainingCompensationEur)}</b></div>
+                  <div>Signering & agent: <b style={{ color: "var(--hm-text-primary)" }}>{formatMoney(acq.signingCostsEur)}</b></div>
+                  <div>Årslön ({acq.contractYears} år): <b style={{ color: "var(--hm-text-primary)" }}>{formatMoney(acq.annualWageEur)}/år</b></div>
+                </div>
+                <div style={{ marginTop: 6, fontSize: "11px", color: "var(--hm-text-muted)", borderTop: "1px solid rgba(255,255,255,0.05)", paddingTop: 4 }}>
+                  Total förbindelse över hela avtalet ({acq.contractYears} år): <b style={{ color: "var(--hm-text-primary)" }}>{formatMoney(acq.totalContractCommitmentEur)}</b>
+                </div>
+              </div>
+            );
+          })()}
           <div className="tc-decision-actions" style={{ gridColumn: "1 / -1" }}>
             <button type="submit" className={meet ? "hm-btn" : "hm-btn hm-btn-primary tc-cta"}>{negotiation.stage === "CLUB" ? "Lägg budet" : "Lägg fram villkoren"}</button>
             {withdraw}

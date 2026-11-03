@@ -23,7 +23,7 @@ import { ClubLink } from "@/components/entityLinks";
 import { StaffDealPanel } from "@/components/staff/StaffDealPanel";
 import { MomentHero } from "@/components/experience/Moment";
 import { NEGOTIATION_ROOM_BACKDROP } from "@/components/transfers/transferVisuals";
-import { AMBITION_LABEL, ambitionOf, staffKnowledge } from "@/lib/staff/staffMarket";
+import { AMBITION_LABEL, ambitionOf, getStaffAmbitionProfile, staffKnowledge } from "@/lib/staff/staffMarket";
 import { RoleFit, StaffAttributes, StaffImpact } from "@/components/staff/StaffInsight";
 import { bestFor } from "@/lib/staff/organisation";
 import { MeterBar } from "@/components/experience/primitives";
@@ -161,15 +161,43 @@ export default function StaffProfilePage() {
         </div>
 
         {/* HM-ALPHA3-M04: research, approach, multi-round negotiation; renewal and dismissal for our own staff. */}
-        {!isOwnClub && (
-          <div className="hm-panel si-panel">
-            <div className="hm-panel-body si-knowledge">
-              <MeterBar label="Kännedom om personen" value={knowledge / 100} figure={`${knowledge} %`} tone={knowledge >= 80 ? "success" : "gold"} />
-              <p className="st-note">{knowledge >= 90 ? "Fullständig bild. Värdena är exakta." : "Värdena visas som intervall. Ta referenser för en säkrare bild."}</p>
-              <p className="st-note"><b>Ambition:</b> {AMBITION_LABEL[ambitionOf(member.id)]}</p>
+        {(() => {
+          const ambitionProfile = getStaffAmbitionProfile(member.id, focusRole);
+          return (
+            <div className="hm-panel si-panel">
+              <div className="hm-panel-header">
+                <span className="hm-panel-title">Karriärambition & roll</span>
+                <span className="hm-badge hm-badge-subtle">
+                  {ambitionProfile.leadershipDesire === "ORGANISATION_HEAD"
+                    ? "Huvudansvar"
+                    : ambitionProfile.leadershipDesire === "DEPARTMENT_LEAD"
+                      ? "Avdelningsansvar"
+                      : "Specialist/stöd"}
+                </span>
+              </div>
+              <div className="hm-panel-body si-knowledge">
+                {!isOwnClub && (
+                  <>
+                    <MeterBar label="Kännedom om personen" value={knowledge / 100} figure={`${knowledge} %`} tone={knowledge >= 80 ? "success" : "gold"} />
+                    <p className="st-note">{knowledge >= 90 ? "Fullständig bild. Värdena är exakta." : "Värdena visas som intervall. Ta referenser för en säkrare bild."}</p>
+                  </>
+                )}
+                <div style={{ marginTop: isOwnClub ? 0 : 8, padding: "8px 10px", background: "rgba(255,255,255,0.03)", borderRadius: "var(--hm-radius-sm)", border: "1px solid rgba(255,255,255,0.06)" }}>
+                  <div style={{ fontWeight: 600, fontSize: "var(--hm-text-xs)", color: "var(--hm-text-primary)", marginBottom: 4 }}>
+                    {ambitionProfile.label}
+                  </div>
+                  <p className="st-note" style={{ margin: 0, fontSize: "var(--hm-text-2xs)", lineHeight: 1.4 }}>
+                    {ambitionProfile.description}
+                  </p>
+                  <div style={{ display: "flex", gap: "12px", marginTop: 8, fontSize: "11px", color: "var(--hm-text-muted)" }}>
+                    <span>Nivåmål: <b>{ambitionProfile.prestigeDesire === "INTERNATIONAL" ? "Internationell elit" : ambitionProfile.prestigeDesire === "NATIONAL_ELITE" ? "Handbollsligan" : "Regional / Allsvenskan"}</b></span>
+                    <span>Löneanspråk: <b>{ambitionProfile.wageExpectationTier === "PREMIUM" ? "Toppavtal" : ambitionProfile.wageExpectationTier === "MODEST" ? "Modesta" : "Marknadsmässiga"}</b></span>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-        )}
+          );
+        })()}
         {focusRole && focusRole !== "HEAD_COACH" && (recruitable || (isOwnClub && employment?.employmentType === "SALARIED")) && <StaffImpact career={career} member={member} role={focusRole} mode={isOwnClub ? "OWN" : "HIRE"} knowledge={knowledge} />}
         {recruitable ? <StaffDealPanel key={member.id} member={member} mode="HIRE" /> : null}
         {isOwnClub && employment?.employmentType === "SALARIED" ? <StaffDealPanel key={`own-${member.id}`} member={member} mode="OWN" /> : null}

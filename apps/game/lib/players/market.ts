@@ -14,6 +14,7 @@ import { ownLevelScore } from "../career/cpuCandidateEvaluation";
 import { assessPositionNeed } from "../career/cpuSquadNeeds";
 import { adjustClubCash, getClubEconomyBaseline } from "../economy/clubEconomyIntegration";
 import { getPlayerFairWageEurPerMonth, getPlayerMarketValueEur } from "../economy/contractIntegration";
+import { getPlayerTrainingCompensation } from "../economy/trainingCompensationIntegration";
 import { getClub, getClubsByCompetition, getCompetition, positionLabel } from "../game-data";
 import { assessTransferAffordability } from "../transfers/affordability";
 import { transferPlayerPermanently } from "../transfers/transferExecution";
@@ -323,7 +324,9 @@ export function progressPreContracts(state: CareerState, date: string, emit: Emi
       // His wish to leave is settled by the agreement: the open transfer request closes.
       const dd = dynamicsOf(next);
       if (dd.requests[id]?.status === "OPEN") next = { ...next, playerDynamics: { ...dd, requests: { ...dd.requests, [id]: { ...dd.requests[id]!, status: "WITHDRAWN", decidedOn: date } } } };
-      emit(dynamicsEvent(`precontract:${id}:${date}`, date, "IMPORTANT", `${playerName(next, id)} har skrivit förhandsavtal`, `Han går till ${getClub(buyer.clubId)?.name ?? buyer.clubId} när avtalet går ut ${c.contractEndDate}. Klubben får ingen ersättning.`, id));
+      const compPreview = getPlayerTrainingCompensation(next, id, buyer.clubId, c.clubId);
+      const compEur = compPreview?.totalEur ?? 0;
+      emit(dynamicsEvent(`precontract:${id}:${date}`, date, "IMPORTANT", `${playerName(next, id)} har skrivit förhandsavtal`, `Han går till ${getClub(buyer.clubId)?.name ?? buyer.clubId} när avtalet går ut ${c.contractEndDate}.${compEur > 0 ? ` Utbildningsersättning på ${formatEur(compEur)} tillfaller moderklubbarna.` : " Ingen övergångssumma utgår."}`, id));
     }
   }
   // The move itself, on the last day of his contract (before the expiry sweep releases him).
@@ -333,6 +336,13 @@ export function progressPreContracts(state: CareerState, date: string, emit: Emi
     if (pc.effectiveOn > date || !fromClubId || fromClubId === pc.toClubId) continue;
     const name = playerName(next, pc.playerId);
     next = transferPlayerPermanently(next, pc.playerId, fromClubId, pc.toClubId, pc.wageEurPerMonth, `${seasonEndYear(addDaysIso(date, 1)) + 2}-05-31`);
+    const trainingComp = getPlayerTrainingCompensation(next, pc.playerId, pc.toClubId, fromClubId);
+    if (trainingComp && trainingComp.totalEur > 0) {
+      next = adjustClubCash(next, pc.toClubId, -trainingComp.totalEur, { category: "TRAINING_COMPENSATION", label: `Utbildningsersättning: ${name}`, date });
+      for (const share of trainingComp.perClub) {
+        next = adjustClubCash(next, share.clubId, share.amountEur, { category: "TRAINING_COMPENSATION", label: `Utbildningsersättning: ${name}`, date });
+      }
+    }
     const { [pc.playerId]: _done, ...rest } = next.preContracts ?? {};
     next = { ...next, preContracts: rest };
     if (fromClubId !== next.playerClubId) continue;

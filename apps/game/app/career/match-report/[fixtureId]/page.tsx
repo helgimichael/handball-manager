@@ -55,6 +55,9 @@ export default function MatchReportPage() {
   const competitionName = COMPETITIONS.find((c) => c.id === career.competitionId)?.name ?? "Ligan";
   const isCurrentLastMatch = getLastPlayedPlayerFixture(career)?.fixture.id === fixture.id;
   const managerTeam = fixture.homeClubId === career.playerClubId ? 'HOME' : 'AWAY';
+  const isCup = fixture.type === 'CUP' || fixture.competitionId === 'se-svenska-cupen-herr' || fixture.competitionId.toLowerCase().includes('cup');
+  const pressId = `press:post:${fixture.id}`;
+  const hasOpenPress = career.media?.press?.[pressId]?.status === 'OPEN';
 
   if (archive) {
     return (
@@ -67,7 +70,14 @@ export default function MatchReportPage() {
           <button type="button" className="hm-btn" onClick={() => router.push('/career/schedule')}>← Schema</button>
           <button type="button" className="hm-btn" onClick={() => router.push(`/career/match-day/${fixture.id}`)}>Se matchrepris</button>
           {isCurrentLastMatch && <button type="button" className="hm-btn" onClick={() => router.push('/career/analysis/last-match')}>Öppna matchanalys</button>}
-          <Link className="hm-btn" href={`/career/competitions/${fixture.competitionId}`}>Tabell & liga →</Link>
+          <Link className="hm-btn" href={`/career/competitions/${encodeURIComponent(fixture.competitionId)}`}>
+            {isCup ? 'Svenska Cupen →' : 'Tabell & liga →'}
+          </Link>
+          {hasOpenPress && (
+            <button type="button" className="hm-btn hm-btn-primary" onClick={() => router.push(`/career/media/press/${encodeURIComponent(pressId)}`)}>
+              🎤 Möt pressen →
+            </button>
+          )}
           <button type="button" className="hm-btn hm-btn-primary" onClick={() => router.push('/career')}>Fortsätt →</button>
         </div>
         <details className="hm-panel" open>

@@ -270,3 +270,204 @@
 .hm-training-int-pill[data-intensity="NORMAL"] { background: #e1dfd6; color: #3f4c5c; }
 .hm-training-int-pill[data-intensity="HIGH"] { background: #f3e4c3; color: #7a460b; }
 .hm-training-int-pill[data-intensity="VERY_HIGH"] { background: #f2ddda; color: #9c2520; }
+
+
+/* Tactical Diff & Substitution Manager */
+.hm-tactics-diff-board {
+  margin-top: 18px;
+  padding: 16px;
+  background: var(--hm-surface-1);
+  border: 1px solid var(--hm-border-subtle);
+  border-radius: var(--hm-radius-lg);
+  box-shadow: 0 4px 16px rgba(15, 27, 45, 0.05);
+}
+
+.hm-diff-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.hm-diff-header h3 {
+  margin: 2px 0 4px;
+  font-size: var(--hm-text-lg);
+  font-weight: 700;
+}
+
+.hm-diff-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.hm-diff-col {
+  padding: 12px;
+  border-radius: var(--hm-radius-md);
+  background: var(--hm-surface-2);
+  border: 1px solid var(--hm-border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.hm-diff-col[data-tone="warning"] {
+  border-color: rgba(200, 122, 25, 0.35);
+  background: linear-gradient(180deg, rgba(200, 122, 25, 0.04), var(--hm-surface-2));
+}
+
+.hm-diff-col[data-tone="info"] {
+  border-color: rgba(29, 93, 143, 0.35);
+  background: linear-gradient(180deg, rgba(29, 93, 143, 0.04), var(--hm-surface-2));
+}
+
+.hm-diff-col-head {
+  display: grid;
+  gap: 2px;
+}
+
+.hm-diff-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 2px;
+}
+
+.hm-diff-badge[data-tone="ok"] { color: var(--hm-positive); }
+.hm-diff-badge[data-tone="warning"] { color: #b45309; }
+.hm-diff-badge[data-tone="info"] { color: var(--hm-accent); }
+
+.hm-diff-col-head strong {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--game-ink);
+}
+
+.hm-diff-col-head small {
+  font-size: 11px;
+  color: var(--hm-text-muted);
+}
+
+.hm-diff-player-list {
+  display: grid;
+  gap: 6px;
+}
+
+.hm-diff-player-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background: var(--hm-surface-1);
+  border: 1px solid var(--hm-border-subtle);
+  border-radius: var(--hm-radius-sm);
+  font-size: 12px;
+}
+
+.hm-diff-player-chip strong {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.hm-diff-player-chip small {
+  display: block;
+  font-size: 10px;
+  color: var(--hm-text-muted);
+}
+
+.hm-diff-empty-note {
+  font-size: 11px;
+  color: var(--hm-text-muted);
+  font-style: italic;
+  padding: 8px;
+  margin: 0;
+}
+
+.hm-exchange-pairs-box {
+  padding-top: 14px;
+  border-top: 1px solid var(--hm-border-subtle);
+}
+
+.hm-exchange-pairs-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.hm-exchange-pairs-head h4 {
+  margin: 0 0 2px;
+  font-size: 13.5px;
+  font-weight: 700;
+}
+
+.hm-exchange-empty {
+  padding: 16px;
+  background: var(--hm-surface-2);
+  border-radius: var(--hm-radius-md);
+  text-align: center;
+}
+
+.hm-exchange-pair-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 10px;
+}
+
+.hm-exchange-card {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--hm-surface-2);
+  border: 1px solid var(--hm-border-subtle);
+  border-radius: var(--hm-radius-md);
+}
+
+.hm-exchange-card-side {
+  display: grid;
+  gap: 1px;
+  min-width: 0;
+}
+
+.hm-exchange-card-side strong {
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hm-exchange-card-side small {
+  font-size: 10.5px;
+  color: var(--hm-text-muted);
+}
+
+.hm-exchange-card-arrow {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--hm-accent);
+}
+
+.hm-exchange-card-arrow small {
+  display: block;
+  font-size: 9px;
+  color: var(--hm-text-muted);
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .hm-diff-grid { grid-template-columns: 1fr; }
+  .hm-exchange-pair-grid { grid-template-columns: 1fr; }
+}

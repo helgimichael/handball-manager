@@ -14,7 +14,7 @@ import { STAFF_ROLE_LABEL } from "@/lib/staff/labels";
 import { roleSuitabilityStars } from "@/lib/staff/presentation";
 import { bestFor } from "@/lib/staff/organisation";
 import { computeRoleSuitability } from "@/lib/staff/roleSuitability";
-import { AMBITION_LABEL, marketCandidates } from "@/lib/staff/staffMarket";
+import { AMBITION_LABEL, formatStaffAmbition, marketCandidates } from "@/lib/staff/staffMarket";
 import { STAFF_ROLES, type StaffRole } from "@/lib/staff/types";
 
 type SortKey = "ESTIMATE" | "NAME" | "ROLE" | "WAGE" | "AVAILABILITY" | "KNOWLEDGE";
@@ -82,7 +82,7 @@ export function StaffMarketBoard() {
                   <td>{club ? <span className="st-club"><ClubCrest shortName={club.shortName} primaryColor={club.primaryColor} clubId={club.id} size={18} />{club.shortName}{c.contractEndDate ? <small> · avtal t.o.m. {c.contractEndDate}</small> : null}</span> : <span className="tc-pill" data-tone="done">Fri agent</span>}</td>
                   <td title={uncertain ? "Osäker bedömning -- ta referenser" : undefined}><span className="st-stars" data-uncertain={uncertain}><StarRating stars={stars} />{uncertain ? " ?" : ""}</span></td>
                   <td>{(() => { const holder = bestFor(career, career.playerClubId, c.role); if (!holder && c.role === "HEAD_COACH") return <span className="st-delta" title="Du är lagets huvudtränare">Du (manager)</span>; if (!holder) return <span className="st-delta" data-tone="up">Vakant</span>; const d = stars - roleSuitabilityStars(computeRoleSuitability(holder, c.role)); return <span className="st-delta" data-tone={d > 0 ? "up" : d < 0 ? "down" : undefined} title={`I dag: ${holder.displayName}`}>{d === 0 ? "Likvärdig" : `${d > 0 ? "+" : "−"}${Math.abs(d)} ★`}{uncertain ? " ?" : ""}</span>; })()}</td>
-                  <td className="st-ambition">{AMBITION_LABEL[c.ambition]}</td>
+                  <td className="st-ambition">{formatStaffAmbition(c.ambition, c.role)}</td>
                   <td className="hm-table-num">{money.format(c.expectedWageEur)}</td>
                   <td className="hm-table-num">{c.knowledge} %</td>
                 </tr>

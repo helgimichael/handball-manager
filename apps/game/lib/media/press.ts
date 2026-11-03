@@ -267,6 +267,39 @@ export function delegatePress(state: CareerState, pressId: string, emit: Emit): 
   return answerPress(state, pressId, answers, emit, { staffId: assistant.id, name: assistant.displayName });
 }
 
+/** The manager skips/declines the conference: minor media penalty, neutral squad morale. */
+export function skipPress(state: CareerState, pressId: string, emit: Emit): CareerState {
+  const press = mediaOf(state).press[pressId];
+  if (!press || press.status !== "OPEN") throw new Error("Presskonferensen är redan avslutad.");
+  const consequences: Consequence[] = [
+    { area: "MEDIA", delta: -3, text: "Pressen blev irriterad över att du uteblev från pressmötet" },
+    { area: "SUPPORTERS", delta: -1, text: "Supportrarna ville höra tränarens röst efter matchen" },
+  ];
+  let next = state;
+  for (const c of consequences) {
+    next = applyConsequence(next, c, { topic: "AFTER_DEFEAT" }, press, "DECLINE");
+  }
+  const tones: Record<string, Tone> = Object.fromEntries(press.questions.map((q) => [q.id, "DECLINE"]));
+  next = withMedia(next, (m) => ({
+    ...m,
+    outletRelations: Object.fromEntries(
+      press.outletIds.map((o) => [o, clampN((m.outletRelations[o] ?? 0) - 3, -50, 50)])
+    ),
+    press: {
+      ...m.press,
+      [pressId]: {
+        ...press,
+        status: "DECLINED",
+        answers: tones,
+        answeredBy: "MANAGER",
+        consequences,
+      },
+    },
+  }));
+  void emit;
+  return next;
+}
+
 export function openPressConferences(state: CareerState): PressConference[] {
   return Object.values(mediaOf(state).press).filter((p) => p.status === "OPEN" && p.expiresOn >= state.gameDate).sort((a, b) => a.date.localeCompare(b.date));
 }

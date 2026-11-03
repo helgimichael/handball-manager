@@ -71,7 +71,7 @@ export function getCareerPlayer(career: CareerState, playerId: string): PlayerMo
     const found = career.worldSquads[clubId].find((p) => p.id === playerId);
     if (found) return found;
   }
+  const fallbackTumba = TUMBA_SQUAD.find((p) => p.id === playerId);
+  if (fallbackTumba) return fallbackTumba;
   return undefined;
 }
-
-export { CLUBS };

@@ -18,7 +18,7 @@ import { departmentQuality, vacancies } from "./organisation";
 import { estimateStaffMonthlyCostEur } from "../economy/staffCost";
 import { getClubEconomyBaseline } from "../economy/clubEconomyIntegration";
 import { STAFF_ROLE_LABEL } from "./labels";
-import { addFreeAgent, ambitionOf, moveAttraction, removeFreeAgent } from "./staffMarket";
+import { addFreeAgent, ambitionOf, getStaffAmbitionProfile, moveAttraction, removeFreeAgent } from "./staffMarket";
 import { findStaffMember, recruitStaffMember } from "./staffCareerIntegration";
 import type { ResolvedStaffMember, StaffEmployment, StaffRole } from "./types";
 
