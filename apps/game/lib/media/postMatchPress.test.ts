@@ -224,3 +224,36 @@ test('persistence: press conferences survive JSON round-trip without data loss',
   assert.equal(press.status, 'OPEN');
   assert.equal(press.questions.length, state.media!.press['press:post:fx_user_match_persist'].questions.length);
 });
+
+test('deduplication: press conference questions have distinct topics with no duplicates', () => {
+  const state = createMockState();
+  const fixture: CareerFixture = {
+    id: 'fx_user_match_dedup',
+    competitionId: SVENSKA_CUPEN,
+    round: 2,
+    date: '2026-10-15',
+    homeClubId: 'swe2-tumba',
+    awayClubId: 'swe2-varberg',
+    type: 'CUP',
+  };
+  // Cup match with referee controversy
+  const result = createMockResult(25, 29, 6, 2);
+  const updated = ensurePostMatchPress(state, fixture, result);
+  const press = updated.media!.press['press:post:fx_user_match_dedup'];
+
+  assert.ok(press);
+  const topics = press.questions.map(q => q.topic);
+  const uniqueTopics = new Set(topics);
+  assert.equal(topics.length, uniqueTopics.size, 'all questions in the same press conference must have unique topics');
+
+  // Answer personally using valid offered tones
+  const answers: Record<string, any> = {};
+  for (const q of press.questions) {
+    answers[q.id] = q.answers[0].tone;
+  }
+  const answered = answerPress(updated, press.id, answers, () => {});
+  const answeredPress = answered.media!.press[press.id];
+  assert.equal(answeredPress.status, 'ANSWERED');
+  assert.equal(answeredPress.answeredBy, 'MANAGER');
+  assert.ok(answeredPress.consequences && answeredPress.consequences.length > 0);
+});

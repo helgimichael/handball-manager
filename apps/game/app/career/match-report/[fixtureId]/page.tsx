@@ -8,6 +8,7 @@ import { PageHeading } from '@/components/manager/Workspace';
 import MatchTimeline from '@/components/manager/MatchTimeline';
 import MatchContext from "@/components/manager/MatchContext";
 import { MatchAftermathPanel } from "@/components/matchday/Matchday";
+import { PostMatchPressBanner } from "@/components/media/PostMatchPressBanner";
 import ClubCrest from "@/components/ClubCrest";
 
 import { useParams, useRouter } from "next/navigation";
@@ -27,7 +28,7 @@ import { svOrdinal } from "@/lib/format/ordinal";
 export default function MatchReportPage() {
   const router = useRouter();
   const params = useParams<{ fixtureId: string }>();
-  const { career } = useCareer();
+  const { career, updateCareer } = useCareer();
   const replay = useMatchArchive(params.fixtureId);
   const archive = replay.archive;
   const summary = careerArchiveSummaries(career)[params.fixtureId];
@@ -66,6 +67,7 @@ export default function MatchReportPage() {
         <ArchiveReplay archive={archive} />
         <HeadToHeadStatsComparison home={home} away={away} homeStats={result.homeStats} awayStats={result.awayStats} />
         <MatchAftermathPanel fixtureId={fixture.id} />
+        <PostMatchPressBanner fixture={fixture} result={result} career={career} updateCareer={updateCareer} />
         <div className="mc-report-actions">
           <button type="button" className="hm-btn" onClick={() => router.push('/career/schedule')}>← Schema</button>
           <button type="button" className="hm-btn" onClick={() => router.push(`/career/match-day/${fixture.id}`)}>Se matchrepris</button>
@@ -126,6 +128,7 @@ export default function MatchReportPage() {
       </MatchHero>
       <HeadToHeadStatsComparison home={home} away={away} homeStats={result.homeStats} awayStats={result.awayStats} />
       <MatchAftermathPanel fixtureId={fixture.id} />
+      <PostMatchPressBanner fixture={fixture} result={result} career={career} updateCareer={updateCareer} />
       <MatchContext fixture={fixture} postMatch />
       <MatchTimeline result={result} />
       <div className="hm-grid" style={{ gridTemplateColumns: "1fr 1fr" }}>

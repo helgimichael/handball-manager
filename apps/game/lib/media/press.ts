@@ -217,7 +217,10 @@ export function answerPress(state: CareerState, pressId: string, answers: Record
   next = withMedia(next, (m) => ({ ...m, outletRelations: Object.fromEntries([...Object.entries(m.outletRelations), ...press.outletIds.map((o) => [o, clampN((m.outletRelations[o] ?? 0) + mediaDelta, -50, 50)] as const)]) }));
   next = withMedia(next, (m) => ({ ...m, press: { ...m.press, [pressId]: { ...press, status: by === "MANAGER" ? "ANSWERED" : "DELEGATED", answers, answeredBy: by, consequences: all } } }));
   // The write-up: the boldest answer becomes the headline.
-  const boldest = press.questions.map((q) => ({ q, a: q.answers.find((x) => x.tone === answers[q.id])! })).sort((x, y) => rank(y.a.tone) - rank(x.a.tone))[0];
+  const boldest = press.questions
+    .map((q) => ({ q, a: q.answers.find((x) => x.tone === answers[q.id]) ?? q.answers[0] }))
+    .filter((x): x is { q: PressQuestion; a: PressAnswer } => Boolean(x.a))
+    .sort((x, y) => rank(y.a.tone) - rank(x.a.tone))[0];
   if (boldest) {
     const speaker = by === "MANAGER" ? "Tränaren" : by.name;
     const own = getClub(state.playerClubId)?.shortName ?? "";

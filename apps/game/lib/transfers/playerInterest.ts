@@ -31,6 +31,7 @@ export interface PlayerInterestEvaluation {
   playerId: string;
   toClubId: string;
   interestLevel: PlayerInterestLevel;
+  score?: number;
   label: string;
   tone: "positive" | "neutral" | "caution" | "negative";
   reason: string;
@@ -63,6 +64,7 @@ export function evaluatePlayerInterest(
       playerId,
       toClubId,
       interestLevel: "IMPOSSIBLE",
+      score: 0,
       label: "Okänd spelare",
       tone: "negative",
       reason: "Spelaren hittades inte i databasen.",
@@ -77,6 +79,7 @@ export function evaluatePlayerInterest(
       playerId,
       toClubId,
       interestLevel: "HIGH",
+      score: 100,
       label: "Tillhör klubben",
       tone: "positive",
       reason: "Spelaren spelar redan i din klubb.",
@@ -92,7 +95,10 @@ export function evaluatePlayerInterest(
   const contractStatus = getPlayerContractStatus(state, playerId);
   const contract = getPlayerContract(state, playerId);
   const ca = caOf(state, playerId);
-  const toClubLevel = ownLevelScore(state, toClubId);
+  let toClubLevel = ownLevelScore(state, toClubId);
+  if (toClubLevel === 0) {
+    toClubLevel = toTier === 1 ? 120 : toTier === 2 ? 90 : 70;
+  }
 
   // Check past history / connection with toClub
   const history = getPlayerClubHistory(state, playerId);
@@ -109,238 +115,187 @@ export function evaluatePlayerInterest(
   const maxAffordableWage = toBudgets ? (toBudgets.wageBudgetEur / 12) * 0.25 : 2000;
 
   // -------------------------------------------------------------------------
-  // Rule 1: Tier Gap & Quality Bar (The Allsvenskan vs Top Stars Rule)
-  // On the 1-200 CA scale:
-  // 165+: World Class European Giants (Champions League title contenders)
-  // 135+: Elite Handbollsligan Stars / Internationals
-  // 118+: Solid Handbollsligan starters
-  // 90-117: Regular Allsvenskan starters / Handbollsligan rotation
+  // Continuous Multi-Factor Interest Scoring (0 to 100)
+  // Replaces rigid single-threshold gates (no hard CA >= 160 cutoffs).
+  // Combines sporting gap, league tier direction, contract status,
+  // wage capacity, playing time opportunities, and veteran homecoming loyalty.
   // -------------------------------------------------------------------------
+  const sportingGap = ca - toClubLevel;
+  let score = 50; // Neutral baseline
 
-  // Champions League / Elite tier stars (CA >= 165) approaching any Swedish club
-  if (ca >= 165) {
-    if (age >= 33 && isFormerClub) {
-      return {
-        playerId,
-        toClubId,
-        interestLevel: "UNSURE",
-        label: "Möjligen övertalbar",
-        tone: "caution",
-        reason: "Stjärnspelare på hemvändarspåret – kräver klubbens absoluta maxavtal och titelambitioner.",
-        willEnterNegotiations: true,
-        minimumRequiredRole: "FIRST_CHOICE",
-        wagePremiumMultiplier: 1.3,
-      };
-    }
-    return {
-      playerId,
-      toClubId,
-      interestLevel: "IMPOSSIBLE",
-      label: "Helt ointresserad",
-      tone: "negative",
-      reason: "Spelar på internationell toppnivå i Europa. Svenska klubbar kan inte matcha sportslig nivå eller lön.",
-      willEnterNegotiations: false,
-      wagePremiumMultiplier: 1.0,
-    };
+  // Factor 1: Sporting ability relative to acquiring club standard
+  if (sportingGap > 0) {
+    const penaltyMultiplier = isFormerClub && age >= 30 ? 0.6 : 1.25;
+    score -= Math.round(sportingGap * penaltyMultiplier);
+  } else {
+    score += Math.min(25, Math.round(Math.abs(sportingGap) * 0.75));
   }
 
-  // Elite Handbollsligan stars (CA >= 130) will NOT consider dropping to Allsvenskan (tier 2)
-  if (toTier >= 2 && ca >= 130) {
-    if (age >= 32 && isFormerClub) {
-      return {
-        playerId,
-        toClubId,
-        interestLevel: "UNSURE",
-        label: "Möjligen övertalbar",
-        tone: "caution",
-        reason: "Har stark koppling till klubben sedan tidigare och kan överväga att avsluta karriären här.",
-        willEnterNegotiations: true,
-        minimumRequiredRole: "FIRST_CHOICE",
-        wagePremiumMultiplier: 1.25,
-      };
-    }
-    return {
-      playerId,
-      toClubId,
-      interestLevel: "IMPOSSIBLE",
-      label: "Helt ointresserad",
-      tone: "negative",
-      reason: "Anser att klubbens serienivå är för låg och är inte beredd att spela i Allsvenskan.",
-      willEnterNegotiations: false,
-      wagePremiumMultiplier: 1.0,
-    };
+  // Factor 2: League tier movement
+  if (toTier < fromTier) {
+    // Stepping up to higher league (e.g. Allsvenskan to Handbollsligan)
+    score += 25;
+  } else if (toTier > fromTier) {
+    // Dropping down to lower league (e.g. Handbollsligan to Allsvenskan)
+    score -= isFormerClub ? 8 : 36;
   }
 
-  // Solid Handbollsligan players (CA 118-129) approaching Allsvenskan
-  if (toTier >= 2 && fromTier === 1 && ca >= 118) {
-    // If young (<=21) and seeking playing time in Allsvenskan
-    if (age <= 21 && need.level === "HIGH") {
-      return {
-        playerId,
-        toClubId,
-        interestLevel: "INTERESTED",
-        label: "Intresserad",
-        tone: "positive",
-        reason: "Söker regelbunden speltid och lockas av en bärande roll i Allsvenskan.",
-        willEnterNegotiations: true,
-        minimumRequiredRole: "FIRST_CHOICE",
-        wagePremiumMultiplier: 1.0,
-      };
-    }
-    if (age >= 31 && (isFormerClub || need.level === "HIGH")) {
-      return {
-        playerId,
-        toClubId,
-        interestLevel: "UNSURE",
-        label: "Möjligen övertalbar",
-        tone: "caution",
-        reason: "Kan lockas av ledarroll och trygghet mot slutet av karriären om villkoren är rätt.",
-        willEnterNegotiations: true,
-        minimumRequiredRole: "FIRST_CHOICE",
-        wagePremiumMultiplier: 1.2,
-      };
-    }
-    return {
-      playerId,
-      toClubId,
-      interestLevel: "UNLIKELY",
-      label: "Osannolikt mål",
-      tone: "caution",
-      reason: "Prioriterar spel i högsta serien. Kräver ett exceptionellt ekonomiskt och sportsligt upplägg.",
-      willEnterNegotiations: true,
-      minimumRequiredRole: "FIRST_CHOICE",
-      wagePremiumMultiplier: 1.5,
-    };
+  // Factor 3: Contract situation
+  if (contractStatus === "FREE_AGENT") {
+    score += 35; // Unattached players actively need employment
+  } else if (contractStatus === "EXPIRING" || contractStatus === "EXPIRING_SOON") {
+    score += 16;
   }
 
-  // -------------------------------------------------------------------------
-  // Rule 2: Wage Structure Headroom
-  // -------------------------------------------------------------------------
-  if (currentWage > maxAffordableWage * 1.5) {
-    return {
-      playerId,
-      toClubId,
-      interestLevel: "UNLIKELY",
-      label: "Ekonomiskt osannolik",
-      tone: "caution",
-      reason: "Spelarens nuvarande lönenivå ligger klart över vad klubbens lönestruktur normalt tillåter.",
-      willEnterNegotiations: true,
-      minimumRequiredRole: "FIRST_CHOICE",
-      wagePremiumMultiplier: 1.4,
-    };
+  // Factor 4: Wage affordability
+  if (currentWage > 0 && maxAffordableWage > 0) {
+    const affordabilityRatio = maxAffordableWage / currentWage;
+    if (affordabilityRatio >= 1.5) {
+      score += 12; // Club can offer substantial wage bump
+    } else if (affordabilityRatio < 0.6) {
+      score -= 25; // Club cannot match current wage level
+    } else if (affordabilityRatio < 0.35) {
+      score -= 45; // Extreme economic mismatch
+    }
   }
 
-  // -------------------------------------------------------------------------
-  // Rule 3: Stepping UP in Tier (Allsvenskan to Handbollsligan)
-  // -------------------------------------------------------------------------
-  if (toTier === 1 && fromTier >= 2) {
+  // Factor 5: Playing time & squad need
+  if (age <= 22 && need.level === "HIGH") {
+    score += 24; // Young prospect seeking regular court time
+  } else if (age <= 23 && need.level === "MEDIUM") {
+    score += 10;
+  } else if (need.level === "LOW") {
+    score -= 8;
+  }
+
+  // Factor 6: Exceptional circumstances (Homecoming & Veteran loyalty)
+  if (isFormerClub) {
+    if (age >= 32) {
+      score += 42; // Veteran returning to boyhood club
+    } else if (age >= 29) {
+      score += 26;
+    } else {
+      score += 14;
+    }
+  } else if (age >= 33 && toTier === 1) {
+    score += 15; // Veteran seeking final elite season
+  }
+
+  // Clamp continuous score
+  score = Math.max(0, Math.min(100, score));
+
+  // Determine interest tier based on composite score
+  if (score >= 70) {
+    let reason = "Ser klubben som ett attraktivt steg och är mycket positiv till en övergång.";
+    if (isFormerClub) {
+      reason = "Har stark koppling till klubben sedan tidigare och är mycket motiverad för en återkomst.";
+    } else if (contractStatus === "FREE_AGENT") {
+      reason = "Kontraktslös och aktivt på jakt efter en ny klubb med en tydlig roll.";
+    } else if (toTier < fromTier) {
+      reason = toTier === 1
+        ? "Attraheras starkt av chansen att ta klivet upp till Handbollsligan."
+        : "Attraheras starkt av chansen att ta klivet upp till Allsvenskan.";
+    } else if (age <= 22 && need.level === "HIGH") {
+      reason = "Söker regelbunden speltid och ser klubben som en utmärkt miljö för sitt genombrott.";
+    }
+
     return {
       playerId,
       toClubId,
       interestLevel: "HIGH",
+      score,
       label: "Mycket intresserad",
       tone: "positive",
-      reason: "Attraheras starkt av chansen att ta klivet upp till Handbollsligan.",
+      reason,
       willEnterNegotiations: true,
       wagePremiumMultiplier: 1.0,
     };
   }
 
-  // -------------------------------------------------------------------------
-  // Rule 4: Contract Situation (Free Agents & Expiring Contracts)
-  // -------------------------------------------------------------------------
-  if (contractStatus === "FREE_AGENT") {
-    if (ca <= toClubLevel + 12) {
-      return {
-        playerId,
-        toClubId,
-        interestLevel: "HIGH",
-        label: "Mycket intresserad",
-        tone: "positive",
-        reason: "Kontraktslös och aktivt på jakt efter en ny klubb på rätt nivå.",
-        willEnterNegotiations: true,
-        wagePremiumMultiplier: 1.0,
-      };
+  if (score >= 45) {
+    let reason = "Öppen för en övergång och bedömer att lagets nivå och ambitioner matchar den egna profilen.";
+    if (isFormerClub) {
+      reason = "Har stark koppling till klubben sedan tidigare och lockas av en återkomst.";
+    } else if (age <= 22) {
+      reason = "Söker regelbunden speltid och lockas av en bärande roll i laget.";
+    } else if (contractStatus === "EXPIRING" || contractStatus === "EXPIRING_SOON") {
+      reason = "Avtalet löper ut inom kort och är intresserad av att diskutera klubbens framtidsplaner.";
     }
+
     return {
       playerId,
       toClubId,
       interestLevel: "INTERESTED",
+      score,
       label: "Intresserad",
       tone: "positive",
-      reason: "Öppen för förslag från seriösa intressenter som kan erbjuda en bra roll.",
+      reason,
       willEnterNegotiations: true,
       wagePremiumMultiplier: 1.0,
     };
   }
 
-  if (contractStatus === "EXPIRING" || contractStatus === "EXPIRING_SOON") {
-    if (need.level === "HIGH") {
-      return {
-        playerId,
-        toClubId,
-        interestLevel: "HIGH",
-        label: "Mycket intresserad",
-        tone: "positive",
-        reason: "Avtalet löper ut inom kort och klubben har ett akut behov på hans position.",
-        willEnterNegotiations: true,
-        wagePremiumMultiplier: 1.0,
-      };
+  if (score >= 25) {
+    let reason = "Trivs i nuvarande miljö men kan överväga en flytt vid ett kännbart lönelyft och en tydlig nyckelroll.";
+    if (isFormerClub) {
+      reason = "Har stark koppling till klubben sedan tidigare och kan tänka sig en återkomst om den sportsliga satsningen är rätt.";
+    } else if (toTier > fromTier) {
+      reason = "Kan överväga spel i en lägre serie om klubben erbjuder en odiskutabel ledarroll och ett starkt långsiktigt projekt.";
     }
+
+    return {
+      playerId,
+      toClubId,
+      interestLevel: "UNSURE",
+      score,
+      label: "Möjligen övertalbar",
+      tone: "caution",
+      reason,
+      willEnterNegotiations: true,
+      minimumRequiredRole: "FIRST_CHOICE",
+      wagePremiumMultiplier: 1.25,
+    };
   }
 
-  // -------------------------------------------------------------------------
-  // Rule 5: Same Tier / Standard Level Match
-  // -------------------------------------------------------------------------
-  if (fromTier === toTier) {
-    const levelDiff = ca - toClubLevel;
-    if (levelDiff <= 6) {
-      return {
-        playerId,
-        toClubId,
-        interestLevel: "INTERESTED",
-        label: "Intresserad",
-        tone: "positive",
-        reason: "Passar väl in i lagets nivå och rollfördelning på samma serienivå.",
-        willEnterNegotiations: true,
-        wagePremiumMultiplier: 1.0,
-      };
+  if (score >= 12) {
+    let reason = "Prioriterar spel på högre nivå, men kan lyssna om klubben lägger fram ett exceptionellt kontraktsförslag.";
+    if (toTier > fromTier) {
+      reason = "Prioriterar spel i högsta serien. Kräver ett exceptionellt ekonomiskt och sportsligt upplägg med garanterad startplats.";
+    } else if (currentWage > maxAffordableWage * 1.3) {
+      reason = "Spelarens nuvarande lönenivå ligger klart över vad klubbens lönestruktur normalt tillåter.";
     }
-    if (levelDiff <= 16) {
-      return {
-        playerId,
-        toClubId,
-        interestLevel: "UNSURE",
-        label: "Möjligen övertalbar",
-        tone: "caution",
-        reason: "Trivs i nuvarande miljö men kan lockas av en nyckelroll och ett förbättrat avtal.",
-        willEnterNegotiations: true,
-        minimumRequiredRole: "FIRST_CHOICE",
-        wagePremiumMultiplier: 1.2,
-      };
-    }
+
     return {
       playerId,
       toClubId,
       interestLevel: "UNLIKELY",
-      label: "Osannolik",
+      score,
+      label: "Osannolikt mål",
       tone: "caution",
-      reason: "Håller en högre nivå än klubbens genomsnitt och siktar mot toppklubbar eller utlandet.",
+      reason,
       willEnterNegotiations: true,
       minimumRequiredRole: "FIRST_CHOICE",
       wagePremiumMultiplier: 1.5,
     };
   }
 
-  // Default fallback
+  // Score < 12: Genuinely Impossible to sign
+  let impossibleReason = "Spelar på internationell toppnivå i Europa. Klubben kan i dagsläget inte matcha den sportsliga nivån eller ambitionerna.";
+  if (toTier > fromTier) {
+    impossibleReason = "Anser att klubbens serienivå är för låg och är inte beredd att spela i Allsvenskan i nuvarande skede av karriären.";
+  } else if (maxAffordableWage < currentWage * 0.4) {
+    impossibleReason = "Spelarens löneanspråk och marknadsstatus ligger långt utanför vad klubben har ekonomiskt utrymme att erbjuda.";
+  }
+
   return {
     playerId,
     toClubId,
-    interestLevel: "INTERESTED",
-    label: "Intresserad",
-    tone: "positive",
-    reason: "Öppen för en övergång om parterna kommer överens om personliga villkor.",
-    willEnterNegotiations: true,
+    interestLevel: "IMPOSSIBLE",
+    score,
+    label: "Helt ointresserad",
+    tone: "negative",
+    reason: impossibleReason,
+    willEnterNegotiations: false,
     wagePremiumMultiplier: 1.0,
   };
 }

@@ -1,4 +1,5 @@
 'use client';
+import { useState } from 'react';
 import type { PlayerMock } from '@/lib/game-data';
 import type { MatchPlan } from '@/lib/matchPlan/types';
 import {
@@ -28,6 +29,23 @@ export function TacticsDiffManager({
   const starters = new Set(plan.attackStartingUnit.slots.map(s => s.playerId));
   const squadIds = new Set(plan.squad.players.map(p => p.playerId));
   const benchOutfield = squad.filter(p => squadIds.has(p.id) && !starters.has(p.id) && p.position !== 'MV');
+  const attackOutfield = squad.filter(p => starters.has(p.id) && p.position !== 'MV');
+
+  const [selectedAtkId, setSelectedAtkId] = useState<string>('');
+  const [selectedDefId, setSelectedDefId] = useState<string>('');
+
+  function handleCreatePair() {
+    if (!selectedAtkId || !selectedDefId) return;
+    save(current => ({
+      ...current,
+      substitutionPairs: [
+        ...current.substitutionPairs.filter(p => p.attackPlayerId !== selectedAtkId && p.defencePlayerId !== selectedDefId),
+        { attackPlayerId: selectedAtkId, defencePlayerId: selectedDefId },
+      ],
+    }));
+    setSelectedAtkId('');
+    setSelectedDefId('');
+  }
 
   return (
     <div className="hm-tactics-diff-board" id="plan-exchanges">
@@ -124,6 +142,64 @@ export function TacticsDiffManager({
         </div>
       </div>
 
+      {/* Quick Pair Creator Section */}
+      {benchOutfield.length > 0 && attackOutfield.length > 0 && (
+        <div className="hm-panel" style={{ marginTop: 12, padding: 12, background: 'var(--hm-surface-2)', borderRadius: 8 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 10 }}>
+            <div>
+              <strong style={{ fontSize: 'var(--hm-text-sm)' }}>Snabbkoppla bytespar</strong>
+              <div className="hm-text-muted" style={{ fontSize: 'var(--hm-text-xs)' }}>
+                Välj en startande anfallare och en bänkspelare för att skapa ett försvarsbyte med ett klick.
+              </div>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+              <label style={{ fontSize: 'var(--hm-text-xs)' }}>
+                Anfallare:
+                <select
+                  aria-label="Välj anfallare för byte"
+                  value={selectedAtkId}
+                  onChange={e => setSelectedAtkId(e.target.value)}
+                  style={{ marginLeft: 4, padding: '4px 8px', borderRadius: 4 }}
+                >
+                  <option value="">-- Välj startspelare --</option>
+                  {attackOutfield.map(p => (
+                    <option key={p.id} value={p.id}>
+                      #{p.shirtNumber ?? '—'} {p.lastName} ({p.position})
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <label style={{ fontSize: 'var(--hm-text-xs)' }}>
+                Försvarare (bänk):
+                <select
+                  aria-label="Välj försvarsspecialist från bänken"
+                  value={selectedDefId}
+                  onChange={e => setSelectedDefId(e.target.value)}
+                  style={{ marginLeft: 4, padding: '4px 8px', borderRadius: 4 }}
+                >
+                  <option value="">-- Välj bänkspelare --</option>
+                  {benchOutfield.map(p => (
+                    <option key={p.id} value={p.id}>
+                      #{p.shirtNumber ?? '—'} {p.lastName} ({p.position})
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <button
+                type="button"
+                className="hm-btn hm-btn-sm hm-btn-primary"
+                disabled={!selectedAtkId || !selectedDefId}
+                onClick={handleCreatePair}
+              >
+                Koppla bytespar (⇄)
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Active Substitution Pairs Section */}
       <div className="hm-exchange-pairs-box">
         <div className="hm-exchange-pairs-head">
@@ -143,14 +219,13 @@ export function TacticsDiffManager({
             </p>
             {benchOutfield.length > 0 && (
               <p className="hm-text-muted">
-                Vill du spara energi på en anfallare? Klicka på en försvarsposition i taktiktavlan ovan eller
-                välj en specialist nedan för att byta anfall ↔ försvar.
+                Vill du spara energi på en anfallare? Välj ett par i snabbkopplingen ovan eller klicka på en spelare i taktiktavlan.
               </p>
             )}
           </div>
         ) : (
           <div className="hm-exchange-pair-grid">
-            {diff.activePairs.map((pair, idx) => (
+            {diff.activePairs.map((pair) => (
               <div key={`${pair.attackPlayer.id}-${pair.defencePlayer.id}`} className="hm-exchange-card">
                 <div className="hm-exchange-card-side">
                   <span className="hm-eyebrow">Anfaller</span>

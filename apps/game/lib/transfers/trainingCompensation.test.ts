@@ -5,6 +5,7 @@ import {
   calculateAcquisitionCost,
   SHF_2026_2027_TABLE,
   EHF_IHF_2026_TABLE,
+  SHF_KPI_ADJUSTMENT_2026_2027,
 } from "./trainingCompensation";
 import { createNewCareerState } from "../career/newCareer";
 import { snapshotWorldSquads, snapshotGameplayRatings } from "../gameWorld/serverSnapshot";
@@ -39,6 +40,15 @@ test("HM-PLAYTEST-IMPROVEMENT-02: training compensation age boundaries comply wi
   }
 });
 
+test("HM-PLAYTEST-IMPROVEMENT-02: SHF 2026-2027 incorporates 1.27 KPI multiplier and administrative fee", () => {
+  assert.equal(SHF_KPI_ADJUSTMENT_2026_2027, 1.27, "SHF official 2026/27 KPI adjustment factor must be exactly 1.27");
+  assert.equal(SHF_2026_2027_TABLE.kpiAdjustment, 1.27);
+  assert.equal(SHF_2026_2027_TABLE.rates.toTier1.junior16to21.fromTier1, 2886); // 25,000 * 1.27 = 31,750 SEK (~2,886 EUR)
+  assert.equal(SHF_2026_2027_TABLE.rates.toTier1.youth12to15.fromTier1, 1385);  // 12,000 * 1.27 = 15,240 SEK (~1,385 EUR)
+  assert.equal(SHF_2026_2027_TABLE.adminFeeSek, 2500);
+  assert.equal(SHF_2026_2027_TABLE.adminFeeEur, 220);
+});
+
 test("HM-PLAYTEST-IMPROVEMENT-02: Handbollsligan acquiring club pays higher rate than Allsvenskan acquiring club", () => {
   const state = makeTestState("se_club_ifk_skovde_hk");
   const squad = getCareerClubSquad(state, "se_club_ifk_skovde_hk");
@@ -57,10 +67,17 @@ test("HM-PLAYTEST-IMPROVEMENT-02: Handbollsligan acquiring club pays higher rate
     assert.ok(toHl.totalEur > toAllsvenskan.totalEur, "Handbollsligan acquiring club must pay higher compensation than Allsvenskan club");
     assert.equal(toHl.isDomesticTransfer, true);
     assert.equal(toAllsvenskan.isDomesticTransfer, true);
+    assert.equal(toHl.administrativeFeeEur, 220);
+    assert.equal(toAllsvenskan.administrativeFeeEur, 220);
   }
 });
 
-test("HM-PLAYTEST-IMPROVEMENT-02: international transfers use EHF/IHF ITC Education Compensation tables", () => {
+test("HM-PLAYTEST-IMPROVEMENT-02: international transfers use EHF/IHF ITC 2026/27 official conversion (EUR 3,810)", () => {
+  assert.equal(EHF_IHF_2026_TABLE.ihfBaseAmountChf, 3500);
+  assert.equal(EHF_IHF_2026_TABLE.professionalSeasonEur, 3810, "Official EHF 2026/27 rate for CHF 3,500 must be EUR 3,810");
+  assert.equal(EHF_IHF_2026_TABLE.amateurSeasonEur, 1630, "Amateur season conversion rate must be EUR 1,630");
+  assert.equal(EHF_IHF_2026_TABLE.itcAdminFeeProfessionalEur, 1500);
+
   const state = makeTestState("se_club_ifk_skovde_hk");
   const squad = getCareerClubSquad(state, "se_club_ifk_skovde_hk");
   const youngPlayer = squad.find((p) => {
@@ -69,14 +86,24 @@ test("HM-PLAYTEST-IMPROVEMENT-02: international transfers use EHF/IHF ITC Educat
   });
 
   if (youngPlayer) {
-    // International buyer (mock foreign club or external id)
-    const internationalRes = calculatePlayerTrainingCompensation(state, youngPlayer.id, "ger_club_thw_kiel", youngPlayer.clubId);
-    assert.equal(internationalRes.isDomesticTransfer, false);
-    assert.match(internationalRes.ruleSetVersion, /EHF_IHF_ITC_2026/);
-    assert.match(internationalRes.documentationNote, /EHF\/IHF/i);
-    for (const share of internationalRes.perClub) {
+    // International professional buyer (e.g. THW Kiel)
+    const proRes = calculatePlayerTrainingCompensation(state, youngPlayer.id, "ger_club_thw_kiel", youngPlayer.clubId, "PROFESSIONAL");
+    assert.equal(proRes.isDomesticTransfer, false);
+    assert.equal(proRes.category, "PROFESSIONAL");
+    assert.equal(proRes.administrativeFeeEur, 1500);
+    assert.match(proRes.ruleSetVersion, /EHF_IHF_ITC_2026_2027/);
+    assert.match(proRes.documentationNote, /EUR 3 810/i);
+    for (const share of proRes.perClub) {
       assert.equal(share.isDomestic, false);
-      assert.equal(share.ratePerSeasonEur, EHF_IHF_2026_TABLE.perSeasonEur.category1Nation);
+      assert.equal(share.ratePerSeasonEur, 3810);
+    }
+
+    // International amateur buyer
+    const amateurRes = calculatePlayerTrainingCompensation(state, youngPlayer.id, "ger_club_thw_kiel", youngPlayer.clubId, "AMATEUR");
+    assert.equal(amateurRes.category, "AMATEUR");
+    assert.equal(amateurRes.administrativeFeeEur, 500);
+    for (const share of amateurRes.perClub) {
+      assert.equal(share.ratePerSeasonEur, 1630);
     }
   }
 });

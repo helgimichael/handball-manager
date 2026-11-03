@@ -9,6 +9,7 @@ import { createNewCareerState } from "../career/newCareer";
 import { snapshotWorldSquads, snapshotGameplayRatings } from "../gameWorld/serverSnapshot";
 import { getCareerClubSquad } from "../career/careerWorld";
 import { caOf } from "../players/dynamicsState";
+import { playerAgeAtDate } from "../development/developmentIntegration";
 import { TUMBA_CLUB_ID } from "../game-data";
 
 const HANDBOLLSLIGAN_ID = "se_handbollsligan_herr";
@@ -16,8 +17,14 @@ const SAVEHOF_ID = "se_club_ik_savehof";
 const TUMBA_ID = TUMBA_CLUB_ID;
 
 function makeTestState(playerClubId: string = TUMBA_ID) {
-  const worldSquads = snapshotWorldSquads(HANDBOLLSLIGAN_ID);
-  const gameplayRatings = snapshotGameplayRatings(HANDBOLLSLIGAN_ID);
+  const worldSquads = {
+    ...snapshotWorldSquads(HANDBOLLSLIGAN_ID),
+    ...snapshotWorldSquads("swe-2"),
+  };
+  const gameplayRatings = {
+    ...snapshotGameplayRatings(HANDBOLLSLIGAN_ID),
+    ...snapshotGameplayRatings("swe-2"),
+  };
   return createNewCareerState(`interest-test-${playerClubId}`, playerClubId, worldSquads, {}, gameplayRatings);
 }
 
@@ -104,4 +111,51 @@ test("HM-PLAYTEST-IMPROVEMENT-02: interest filters (REALISTIC vs PERSUADABLE vs 
   assert.equal(matchesInterestFilter(impossibleInterest, "REALISTIC"), false);
   assert.equal(matchesInterestFilter(impossibleInterest, "PERSUADABLE"), false);
   assert.equal(matchesInterestFilter(impossibleInterest, "ALL"), true);
+});
+
+test("HM-PLAYTEST-IMPROVEMENT-02: interest evaluation uses continuous scoring and never leaks CA in reasons", () => {
+  const state = makeTestState(SAVEHOF_ID);
+  const squad = getCareerClubSquad(state, SAVEHOF_ID);
+
+  for (const player of squad.slice(0, 10)) {
+    const interest = evaluatePlayerInterest(state, player.id, TUMBA_ID);
+    assert.ok(typeof interest.score === "number");
+    assert.ok(interest.score >= 0 && interest.score <= 100);
+
+    // Reason must NEVER leak internal CA ratings, formulas or brackets
+    assert.doesNotMatch(interest.reason, /\bCA\b/i, "Reason must never leak CA");
+    assert.doesNotMatch(interest.reason, /\bscore\b/i);
+    assert.doesNotMatch(interest.reason, /\b1[0-9]{2}\b/, "Reason must not leak numeric rating brackets");
+    assert.doesNotMatch(interest.label, /\bCA\b/i);
+  }
+});
+
+test("HM-PLAYTEST-IMPROVEMENT-02: exceptional circumstances allow veteran homecoming negotiations", () => {
+  const state = makeTestState(TUMBA_ID);
+  const savehofSquad = getCareerClubSquad(state, SAVEHOF_ID);
+  const veteran = savehofSquad.find((p) => (playerAgeAtDate(p.dateOfBirth, p.birthYear, state.gameDate) ?? 0) >= 32);
+
+  if (veteran) {
+    // Inject club history with Tumba
+    const stateWithHistory = {
+      ...state,
+      playerClubHistory: {
+        ...state.playerClubHistory,
+        [veteran.id]: {
+          playerId: veteran.id,
+          entries: [{ clubId: TUMBA_ID, fromAge: 16, toAge: 24, appearances: 180, goals: 620 }],
+        },
+      },
+    };
+
+    const interest = evaluatePlayerInterest(stateWithHistory, veteran.id, TUMBA_ID);
+    assert.ok(
+      interest.interestLevel === "HIGH" ||
+        interest.interestLevel === "INTERESTED" ||
+        interest.interestLevel === "UNSURE",
+      `Former club veteran should be persuadable (got ${interest.interestLevel})`
+    );
+    assert.equal(interest.willEnterNegotiations, true);
+    assert.match(interest.reason, /koppling till klubben|återkomst/i);
+  }
 });

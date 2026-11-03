@@ -336,6 +336,7 @@ export function finalizeProductionMatch(state: CareerState): CareerState {
   }
   const completed = buildMatchCompletedEvent(session.fixture.id, session.fixture.competitionId, state.gameDate);
   next = { ...next, careerEvents: [...next.careerEvents, completed], inbox: [...next.inbox, careerEventToInboxMessage(completed, next)] };
+  next = ensurePostMatchPress(next, session.fixture, result);
   return checkSeasonComplete(next);
 }
 

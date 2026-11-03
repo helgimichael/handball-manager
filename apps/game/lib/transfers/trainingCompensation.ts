@@ -28,6 +28,8 @@ import { playerAgeAtDate } from "../development/developmentIntegration";
 import { getPlayerClubHistory } from "../economy/clubHistoryIntegration";
 import type { PlayerClubHistoryEntry } from "../economy/types";
 
+export type TransferCategory = "PROFESSIONAL" | "AMATEUR" | "ADMINISTRATIVE_FEE" | "NATIONAL_TEAM";
+
 export interface TrainingClubShare {
   clubId: string;
   clubName: string;
@@ -41,6 +43,9 @@ export interface TrainingClubShare {
 
 export interface TrainingCompensationResultDetailed {
   totalEur: number;
+  compensationEur: number;
+  administrativeFeeEur: number;
+  category: TransferCategory;
   perClub: readonly TrainingClubShare[];
   ruleSetVersion: string;
   isDomesticTransfer: boolean;
@@ -63,59 +68,78 @@ export interface AcquisitionCostBreakdown {
   compensationDetails?: TrainingCompensationResultDetailed;
 }
 
-/** SHF 2026-2027 Swedish Handball Federation rate tables (approximate EUR conversion at ~11 SEK/EUR) */
+export const SHF_KPI_ADJUSTMENT_2026_2027 = 1.27;
+
+/** SHF 2026-2027 Swedish Handball Federation rate tables with official 1.27 KPI adjustment applied */
 export const SHF_2026_2027_TABLE = {
-  version: "SHF_2026_2027_v1.0",
+  version: "SHF_2026_2027_v1.1_KPI1.27",
+  kpiAdjustment: SHF_KPI_ADJUSTMENT_2026_2027,
   minAge: 16,
   maxAge: 23,
   trainingStartAge: 12,
   trainingEndAge: 21,
-  // Rates per season (EUR) based on acquiring club tier and training club tier
-  // Tier 1 = Handbollsligan, Tier 2 = Allsvenskan, Tier 3 = Division 1 / Breddförening
+  adminFeeSek: 2500,
+  adminFeeEur: 220,
+  // Rates per season (EUR) based on acquiring club tier and training club tier,
+  // calculated from base SEK multiplied by the official KPI factor 1.27 (~11 SEK/EUR):
   rates: {
     // Acquiring club is Handbollsligan (Tier 1)
     toTier1: {
       youth12to15: {
-        fromTier1: 1100, // ~12,000 SEK
-        fromTier2: 900,  // ~10,000 SEK
-        fromOther: 650,  // ~7,000 SEK
+        fromTier1: 1385, // 12,000 SEK * 1.27 = 15,240 SEK (~1,385 EUR)
+        fromTier2: 1155, // 10,000 SEK * 1.27 = 12,700 SEK (~1,155 EUR)
+        fromOther: 808,  // 7,000 SEK * 1.27 = 8,890 SEK (~808 EUR)
       },
       junior16to21: {
-        fromTier1: 2300, // ~25,000 SEK
-        fromTier2: 1650, // ~18,000 SEK
-        fromOther: 1100, // ~12,000 SEK
+        fromTier1: 2886, // 25,000 SEK * 1.27 = 31,750 SEK (~2,886 EUR)
+        fromTier2: 2078, // 18,000 SEK * 1.27 = 22,860 SEK (~2,078 EUR)
+        fromOther: 1385, // 12,000 SEK * 1.27 = 15,240 SEK (~1,385 EUR)
       },
     },
     // Acquiring club is Allsvenskan (Tier 2)
     toTier2: {
       youth12to15: {
-        fromTier1: 750,  // ~8,000 SEK
-        fromTier2: 550,  // ~6,000 SEK
-        fromOther: 370,  // ~4,000 SEK
+        fromTier1: 924,  // 8,000 SEK * 1.27 = 10,160 SEK (~924 EUR)
+        fromTier2: 693,  // 6,000 SEK * 1.27 = 7,620 SEK (~693 EUR)
+        fromOther: 462,  // 4,000 SEK * 1.27 = 5,080 SEK (~462 EUR)
       },
       junior16to21: {
-        fromTier1: 1375, // ~15,000 SEK
-        fromTier2: 920,  // ~10,000 SEK
-        fromOther: 650,  // ~7,000 SEK
+        fromTier1: 1732, // 15,000 SEK * 1.27 = 19,050 SEK (~1,732 EUR)
+        fromTier2: 1155, // 10,000 SEK * 1.27 = 12,700 SEK (~1,155 EUR)
+        fromOther: 808,  // 7,000 SEK * 1.27 = 8,890 SEK (~808 EUR)
       },
     },
     // Acquiring club is lower tier (Tier 3 or unknown)
     toTier3: {
-      youth12to15: { fromTier1: 275, fromTier2: 275, fromOther: 275 },
-      junior16to21: { fromTier1: 370, fromTier2: 370, fromOther: 370 },
+      youth12to15: {
+        fromTier1: 346,  // 3,000 SEK * 1.27 = 3,810 SEK (~346 EUR)
+        fromTier2: 346,
+        fromOther: 346,
+      },
+      junior16to21: {
+        fromTier1: 577,  // 5,000 SEK * 1.27 = 6,350 SEK (~577 EUR)
+        fromTier2: 577,
+        fromOther: 577,
+      },
     },
   },
 } as const;
 
-/** EHF / IHF International Transfer Certificate (ITC) Education Compensation (2026 regulation) */
+/** EHF / IHF International Transfer Certificate (ITC) Education Compensation (2026/27 regulation) */
 export const EHF_IHF_2026_TABLE = {
-  version: "EHF_IHF_ITC_2026_v1.0",
+  version: "EHF_IHF_ITC_2026_2027_v1.1",
   minAge: 16,
   maxAge: 23,
   trainingStartAge: 16,
   trainingEndAge: 23,
+  ihfBaseAmountChf: 3500, // IHF standard base: CHF 3,500
+  // Official EHF 2026/2027 conversion rate for professional season is EUR 3,810 (not EUR 3,500)
+  professionalSeasonEur: 3810,
+  amateurSeasonEur: 1630, // CHF 1,500 converted at EHF 2026/27 rate = EUR 1,630
+  itcAdminFeeProfessionalEur: 1500,
+  itcAdminFeeAmateurEur: 500,
   perSeasonEur: {
-    category1Nation: 3500, // Sweden, Germany, France, Denmark, Spain, Hungary
+    category1Nation: 3810, // Sweden, Germany, France, Denmark, Spain, Hungary (EUR 3,810)
     otherNation: 2000,
   },
 } as const;
@@ -160,12 +184,16 @@ export function calculatePlayerTrainingCompensation(
   state: CareerState,
   playerId: string,
   acquiringClubId?: string,
-  sellingClubId?: string
+  sellingClubId?: string,
+  category: TransferCategory = "PROFESSIONAL"
 ): TrainingCompensationResultDetailed {
   const player = getCareerPlayer(state, playerId);
   if (!player) {
     return {
       totalEur: 0,
+      compensationEur: 0,
+      administrativeFeeEur: 0,
+      category,
       perClub: [],
       ruleSetVersion: SHF_2026_2027_TABLE.version,
       isDomesticTransfer: true,
@@ -184,6 +212,9 @@ export function calculatePlayerTrainingCompensation(
   if (age === null || age < SHF_2026_2027_TABLE.minAge || age > SHF_2026_2027_TABLE.maxAge) {
     return {
       totalEur: 0,
+      compensationEur: 0,
+      administrativeFeeEur: 0,
+      category,
       perClub: [],
       ruleSetVersion: SHF_2026_2027_TABLE.version,
       isDomesticTransfer: true,
@@ -207,7 +238,7 @@ export function calculatePlayerTrainingCompensation(
   const pastEntries: PlayerClubHistoryEntry[] = history ? [...history.entries] : [];
 
   let isApproximation = false;
-  let documentationNote = "Beräknad enligt Svenska Handbollförbundets reglemente 2026–2027.";
+  let documentationNote = `Beräknad enligt Svenska Handbollförbundets reglemente 2026–2027 (KPI-justering ${SHF_KPI_ADJUSTMENT_2026_2027}).`;
 
   const trainingSpells: { clubId: string; fromAge: number; toAge: number }[] = [];
 
@@ -240,26 +271,30 @@ export function calculatePlayerTrainingCompensation(
     documentationNote = "Ungdomsregistrering saknas i förbundsregistret – ingen ersättningsgrundande historik funnen.";
     return {
       totalEur: 0,
+      compensationEur: 0,
+      administrativeFeeEur: 0,
+      category,
       perClub: [],
       ruleSetVersion: SHF_2026_2027_TABLE.version,
       isDomesticTransfer: isDomestic,
       isApproximation,
       documentationNote,
       playerAge: age,
-      eligible: true,
+      eligible: false,
     };
   }
 
   if (pastEntries.length === 0 && currentClubId) {
     isApproximation = true;
-    documentationNote = "Ungdomsregistrering före seniorålder saknas – schablonberäkning baserad på känd klubbtillhörighet.";
+    documentationNote = `Ungdomsregistrering före seniorålder saknas – schablonberäkning baserad på känd klubbtillhörighet (KPI-justering ${SHF_KPI_ADJUSTMENT_2026_2027}).`;
   }
 
   const acquiringTier = resolveClubTier(toClubId);
   const perClub: TrainingClubShare[] = [];
+  let administrativeFeeEur = 0;
 
   if (isDomestic) {
-    // SHF 2026-2027 calculation
+    // SHF 2026-2027 calculation with official 1.27 KPI multiplier
     const ratesForToTier = acquiringTier === 1
       ? SHF_2026_2027_TABLE.rates.toTier1
       : acquiringTier === 2
@@ -295,10 +330,16 @@ export function calculatePlayerTrainingCompensation(
         });
       }
     }
+
+    if (perClub.length > 0) {
+      administrativeFeeEur = SHF_2026_2027_TABLE.adminFeeEur;
+    }
   } else {
-    // International transfer under EHF / IHF ITC rules
-    documentationNote = "Beräknad enligt EHF/IHF International Transfer Certificate (ITC) Education Compensation.";
-    const ratePerSeason = EHF_IHF_2026_TABLE.perSeasonEur.category1Nation;
+    // International transfer under EHF / IHF ITC rules (2026/27 official conversion rate: EUR 3,810 per pro season)
+    documentationNote = `Beräknad enligt EHF/IHF ITC Education Compensation 2026/27 (${category === "AMATEUR" ? "Amatör EUR 1 630" : "Professionell EUR 3 810/säsong"}).`;
+    const ratePerSeason = category === "AMATEUR"
+      ? EHF_IHF_2026_TABLE.amateurSeasonEur
+      : EHF_IHF_2026_TABLE.professionalSeasonEur;
 
     for (const spell of trainingSpells) {
       const start = Math.max(EHF_IHF_2026_TABLE.trainingStartAge, spell.fromAge);
@@ -319,12 +360,22 @@ export function calculatePlayerTrainingCompensation(
         });
       }
     }
+
+    if (perClub.length > 0) {
+      administrativeFeeEur = category === "AMATEUR"
+        ? EHF_IHF_2026_TABLE.itcAdminFeeAmateurEur
+        : EHF_IHF_2026_TABLE.itcAdminFeeProfessionalEur;
+    }
   }
 
-  const totalEur = perClub.reduce((sum, c) => sum + c.amountEur, 0);
+  const compensationEur = perClub.reduce((sum, c) => sum + c.amountEur, 0);
+  const totalEur = compensationEur > 0 ? compensationEur + administrativeFeeEur : 0;
 
   return {
     totalEur,
+    compensationEur,
+    administrativeFeeEur,
+    category,
     perClub,
     ruleSetVersion: isDomestic ? SHF_2026_2027_TABLE.version : EHF_IHF_2026_TABLE.version,
     isDomesticTransfer: isDomestic,

@@ -48,7 +48,7 @@ export function ensurePostMatchPress(
 
   const topics: PressContext[] = [];
 
-  // 1. Primary question on outcome
+  // 1. Primary question on outcome (win vs defeat)
   topics.push({
     topic: (won ? 'AFTER_WIN' : 'AFTER_DEFEAT') as PressTopic,
     opponentId,
@@ -63,13 +63,35 @@ export function ensurePostMatchPress(
     });
   }
 
-  // 3. Derby or Cup Stakes context
+  // 3. Distinct secondary topic: cup stakes, rivalry, or form trend (guaranteeing no duplicate topics)
   if (isCup) {
     topics.push({
-      topic: won ? 'AFTER_WIN' : 'AFTER_DEFEAT',
+      topic: 'RIVAL_RESPONSE',
       opponentId,
-      detail: `Cupmatch i Svenska Cupen (${ownGoals}–${oppGoals}).`,
+      detail: `Cupmötet i Svenska Cupen slutade ${ownGoals}–${oppGoals}.`,
     });
+  } else if (lost) {
+    topics.push({
+      topic: 'POOR_FORM',
+      opponentId,
+      detail: `Förlust med ${ownGoals}–${oppGoals}.`,
+    });
+  } else if (!controversy) {
+    topics.push({
+      topic: 'RIVAL_RESPONSE',
+      opponentId,
+      detail: `Seger med ${ownGoals}–${oppGoals}.`,
+    });
+  }
+
+  // Deduplicate topics strictly so there are never repeated questions from the same match
+  const seenTopics = new Set<PressTopic>();
+  const uniqueTopics: PressContext[] = [];
+  for (const t of topics) {
+    if (!seenTopics.has(t.topic)) {
+      seenTopics.add(t.topic);
+      uniqueTopics.push(t);
+    }
   }
 
   const contextLabel = `${ownGoals}–${oppGoals}${isCup ? ' · Svenska Cupen' : ''}`;
@@ -85,7 +107,7 @@ export function ensurePostMatchPress(
       context: `Slutresultat ${contextLabel}. Journalisterna samlas i pressrummet.`,
       fixtureId: fixture.id,
       expiresOn: addDays(state.gameDate, 2),
-      topics: topics.slice(0, 3),
+      topics: uniqueTopics.slice(0, 3),
     },
     dummyEmit
   );

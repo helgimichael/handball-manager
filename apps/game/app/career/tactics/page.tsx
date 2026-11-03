@@ -893,7 +893,107 @@ export default function TacticsPage() {
       );
     }
 
-    // Default: ATTACK_6V6 and EXCHANGES active position rail
+    if (courtMode === 'EXCHANGES') {
+      const activeSlotPlayer = activePlayer;
+      const isGk = activePosition === 'GK';
+      const currentExchangePair = activeSlotPlayer
+        ? plan!.substitutionPairs.find(p => p.attackPlayerId === activeSlotPlayer.id)
+        : undefined;
+      const exchangePartner = currentExchangePair
+        ? squad.find(p => p.id === currentExchangePair.defencePlayerId)
+        : undefined;
+      const benchOutfield = squad.filter(p => squadIds.has(p.id) && !startingIds.has(p.id) && p.position !== 'MV');
+
+      return (
+        <section className="coach-replacements">
+          <header className="coach-section-heading">
+            <h2>Försvarsbyte · {matchPlanPositionLabel(activePosition)}</h2>
+            <span>{isGk ? 'MV' : activePosition}</span>
+          </header>
+
+          {isGk ? (
+            <div className="coach-current-player">
+              <div>
+                <span className="hm-eyebrow">Målvakt</span>
+                {activeSlotPlayer ? <PlayerCell player={activeSlotPlayer} /> : <span>Ingen målvakt vald</span>}
+              </div>
+              <p className="hm-text-muted" style={{ marginTop: 8, fontSize: 'var(--hm-text-xs)' }}>
+                Målvakten byter inte position mellan anfall och försvar. Välj en utespelare på planen för att konfigurera försvarsbyte.
+              </p>
+            </div>
+          ) : activeSlotPlayer ? (
+            <div className="coach-current-player">
+              <div>
+                <span className="hm-eyebrow">
+                  {exchangePartner ? 'Aktivt försvarsbyte' : 'Spelar båda vägar (anfall + försvar)'}
+                </span>
+                <PlayerCell player={activeSlotPlayer} />
+                {exchangePartner && (
+                  <div style={{ marginTop: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
+                    <span style={{ fontSize: 'var(--hm-text-xs)', fontWeight: 800 }}>⇄ Försvaras av:</span>
+                    <PlayerCell player={exchangePartner} />
+                  </div>
+                )}
+              </div>
+              {exchangePartner ? (
+                <button
+                  type="button"
+                  className="hm-btn hm-btn-sm"
+                  onClick={() => assignExchangeOnCourt(activeSlotPlayer.id, '')}
+                  title="Ta bort bytet så anfallaren spelar både anfall och försvar"
+                >
+                  Ta bort byte
+                </button>
+              ) : (
+                <small className="hm-text-muted">Klicka på en bänkspelare nedan för att byta anfall ↔ försvar vid bollinnehav.</small>
+              )}
+            </div>
+          ) : (
+            <p className="hm-text-muted">Välj en position på taktiktavlan ovan.</p>
+          )}
+
+          {!isGk && activeSlotPlayer && (
+            <>
+              <p>
+                <strong>Tillgängliga försvarsspecialister på bänken:</strong>
+                <br />
+                Klicka på en spelare för att koppla ihop bytet med {activeSlotPlayer.lastName}.
+              </p>
+              <div className="coach-candidate-list">
+                {benchOutfield.length === 0 ? (
+                  <p className="hm-text-muted" style={{ padding: 10 }}>Inga utespelare tillgängliga på bänken.</p>
+                ) : (
+                  benchOutfield.map(p => {
+                    const isCurrentPartner = p.id === exchangePartner?.id;
+                    return (
+                      <button
+                        type="button"
+                        key={p.id}
+                        draggable
+                        onDragStart={e => startDragPlayer(e, p.id)}
+                        aria-pressed={isCurrentPartner}
+                        data-active={isCurrentPartner}
+                        onClick={() => assignExchangeOnCourt(activeSlotPlayer.id, isCurrentPartner ? '' : p.id)}
+                        title={isCurrentPartner ? 'Klicka för att ta bort byte' : `Byt in som försvarsspecialist för ${activeSlotPlayer.lastName}`}
+                      >
+                        <span className="hm-shirt-number">{p.shirtNumber ?? '—'}</span>
+                        <span>
+                          <strong>{p.firstName} {p.lastName}</strong>
+                          <small>{p.position} · {isCurrentPartner ? '🛡️ Aktiv specialist' : 'Bänk'}</small>
+                        </span>
+                        <b>{Math.round(squadEnergy(career, p))}%</b>
+                      </button>
+                    );
+                  })
+                )}
+              </div>
+            </>
+          )}
+        </section>
+      );
+    }
+
+    // Default: ATTACK_6V6 active position rail
     return (
       <section className="coach-replacements">
         <header className="coach-section-heading">
