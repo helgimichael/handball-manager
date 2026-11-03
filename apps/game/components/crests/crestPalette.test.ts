@@ -1,20 +1,31 @@
-// HM-ALPHA3-M01: club-coloured fallback shields and the crest registry.
+// HM-ALPHA3-M01 + HM-RICH-EXPERIENCE-01: club-coloured shields, bespoke club identities, and the crest registry.
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { contrastRatio, crestPalette } from "./crestPalette";
 import { CLUB_CREST_ASSETS } from "./clubCrests";
+import { PLAYABLE_CLUB_IDENTITIES, resolveClubIdentity } from "./clubIdentity";
 import { CLUBS, getClub } from "../../lib/game-data";
 
 const PLAYABLE_SWEDISH = CLUBS.filter((c) => c.playable && (c.competitionId === "se_handbollsligan_herr" || c.competitionId === "swe-2"));
 
-test("the 28 playable Handbollsligan and Herrallsvenskan clubs all get a club-coloured shield with legible initials", () => {
+test("the 28 playable Handbollsligan and Herrallsvenskan clubs all get a club-coloured shield with legible initials and bespoke identity specs", () => {
   assert.equal(PLAYABLE_SWEDISH.length, 28);
+  const shapes = new Set<string>();
+  const motifs = new Set<string>();
   for (const club of PLAYABLE_SWEDISH) {
     const palette = crestPalette(club.primaryColor, club.secondaryColor);
     assert.ok(palette, `${club.id} has a palette`);
     assert.equal(palette!.fill, club.primaryColor);
     assert.ok(contrastRatio(palette!.text, palette!.fill) >= 3, `${club.id}: initials contrast ${contrastRatio(palette!.text, palette!.fill).toFixed(2)}`);
+    assert.ok(PLAYABLE_CLUB_IDENTITIES[club.id], `${club.id} has a bespoke identity spec`);
+    const spec = resolveClubIdentity(club.id, club.shortName, club.primaryColor, club.secondaryColor);
+    shapes.add(spec.shape);
+    motifs.add(spec.motif);
+    assert.ok(spec.monogram.length >= 2 && spec.monogram.length <= 5, `${club.id}: monogram ${spec.monogram}`);
+    assert.ok(spec.banner.length >= 3, `${club.id}: banner ${spec.banner}`);
   }
+  assert.ok(shapes.size >= 6, "playable clubs use varied visual crest constructions");
+  assert.ok(motifs.size >= 8, "playable clubs use varied symbolic motifs");
 });
 
 test("the secondary colour is used for the initials when it is legible, otherwise white or ink", () => {

@@ -1,65 +1,108 @@
-/* Handball Manager: graphite surfaces, court-teal actions, tabular data. */
+/* ==========================================================================
+   HM-RICH-EXPERIENCE-01 — Unified Design System Tokens
+   ========================================================================== */
+
 :root {
-  /* Surfaces */
-  --hm-bg-app: #101617;
-  --hm-bg-sidebar: #131b1d;
-  --hm-bg-header: #131b1d;
-  --hm-surface-1: #182123;
-  --hm-surface-2: #1e292c;
-  --hm-surface-3: #253236;
-  --hm-surface-hover: #243135;
-  --hm-surface-selected: #233a3b;
+  /* Core Broadcast & Editorial Palette */
+  --game-paper: #f3f1ea;
+  --game-paper-2: #e8e5dc;
+  --game-paper-3: #dcd8cc;
+  --game-card: #fbfaf6;
+  --game-ink: #131b26;
+  --game-ink-soft: #2e3b4e;
+  --game-muted: #5a6675;
+  --game-navy: #0f1b2d;
+  --game-navy-2: #1a2d47;
+  --game-court: #1d4e6b;
+  --game-wood: #c58d4e;
+  --game-signal: #c84320;
+  --game-gold: #c99218;
+  --game-green: #1e7045;
+  --game-amber: #a86814;
+  --game-red: #b42828;
 
-  /* Borders / dividers */
-  --hm-border-subtle: #293538;
-  --hm-border: #364549;
-  --hm-border-strong: #52656a;
+  /* Background & Surface Hierarchy */
+  --hm-bg-base: #e7e4db;
+  --hm-bg-app: var(--game-paper);
+  --hm-surface-1: var(--game-card);
+  --hm-surface-2: #f1efe7;
+  --hm-surface-3: #e5e2d8;
+  --hm-surface-4: #d8d4c8;
+  --hm-surface-hover: #ece9df;
+  --hm-surface-active: #e2dfd3;
 
-  /* Text */
-  --hm-text-primary: #edf2f1;
-  --hm-text-secondary: #bccacb;
-  --hm-text-muted: #91a5a8;
-  --hm-text-disabled: #687e82;
+  /* Borders & Dividers */
+  --hm-border-subtle: #e2dfd4;
+  --hm-border: #cfc9bc;
+  --hm-border-strong: #b5ae9e;
+  --hm-border-accent: #c84320;
 
-  /* Accent (primary interactive color) */
-  --hm-accent: #72bbb1;
-  --hm-accent-strong: #9bd9cf;
-  --hm-accent-muted: #2b5552;
-  --hm-accent-text: #102523;
+  /* Text Hierarchy */
+  --hm-text-primary: var(--game-ink);
+  --hm-text-secondary: var(--game-ink-soft);
+  --hm-text-muted: var(--game-muted);
+  --hm-text-faint: #7c8794;
 
-  /* Semantic */
-  --hm-positive: #3fbf6f;
-  --hm-positive-muted: #1f3d2c;
-  --hm-warning: #e0b23c;
-  --hm-warning-muted: #4a3d1c;
-  --hm-negative: #e2555a;
-  --hm-negative-muted: #4a2426;
-  --hm-gold: #e0b23c;
+  /* Primary Brand Accent */
+  --hm-accent: var(--game-signal);
+  --hm-accent-strong: #e0532c;
+  --hm-accent-subtle: rgba(200, 67, 32, 0.12);
+  --hm-accent-border: rgba(200, 67, 32, 0.35);
+  --hm-accent-text: #fffaf5;
 
-  /* Club identity accent slots (per-club, default fallback) */
-  --hm-club-primary: #e0b23c;
-  --hm-club-secondary: #101617;
+  /* Semantic Status Colors */
+  --hm-positive: var(--game-green);
+  --hm-positive-bg: rgba(30, 112, 69, 0.11);
+  --hm-positive-border: rgba(30, 112, 69, 0.32);
+
+  --hm-warning: var(--game-amber);
+  --hm-warning-bg: rgba(168, 104, 20, 0.12);
+  --hm-warning-border: rgba(168, 104, 20, 0.34);
+
+  --hm-negative: var(--game-red);
+  --hm-negative-bg: rgba(180, 40, 40, 0.11);
+  --hm-negative-border: rgba(180, 40, 40, 0.32);
+
+  --hm-info: #1d5b8c;
+  --hm-info-bg: rgba(29, 91, 140, 0.11);
+  --hm-info-border: rgba(29, 91, 140, 0.32);
 
   /* Typography */
-  --hm-font-sans: "Bahnschrift", "Segoe UI", system-ui, -apple-system, sans-serif;
-  --hm-font-condensed: "Bahnschrift", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --game-font-display: "Bahnschrift SemiCondensed", "Bahnschrift Condensed", "Franklin Gothic Medium", "Arial Narrow", sans-serif;
+  --game-font-sans: "Segoe UI Variable Text", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+  --game-font-mono: "Cascadia Mono", "Consolas", monospace;
+  --hm-font-sans: var(--game-font-sans);
+  --hm-font-mono: var(--game-font-mono);
 
-  --hm-text-2xs: 10.5px;
-  --hm-text-xs: 12px;
-  --hm-text-sm: 13px;
-  --hm-text-base: 13.5px;
-  --hm-text-md: 15px;
-  --hm-text-lg: 18px;
-  --hm-text-xl: 24px;
-  --hm-text-2xl: 34px;
-  --hm-text-3xl: 52px;
+  /* Type Scale */
+  --hm-text-2xs: 0.6875rem; /* 11px */
+  --hm-text-xs: 0.75rem;    /* 12px */
+  --hm-text-sm: 0.8125rem;  /* 13px */
+  --hm-text-base: 0.875rem; /* 14px */
+  --hm-text-md: 0.9375rem;  /* 15px */
+  --hm-text-lg: 1.0625rem;  /* 17px */
+  --hm-text-xl: 1.25rem;    /* 20px */
+  --hm-text-2xl: 1.5rem;    /* 24px */
+  --hm-text-3xl: 1.875rem;  /* 30px */
 
-  /* Layout */
-  --hm-nav-width: 198px;
-  --hm-header-height: 66px;
-  --hm-radius-sm: 3px;
-  --hm-radius-md: 5px;
+  /* Spacing */
+  --hm-space-1: 4px;
+  --hm-space-2: 8px;
+  --hm-space-3: 12px;
+  --hm-space-4: 16px;
+  --hm-space-5: 20px;
+  --hm-space-6: 24px;
+  --hm-space-8: 32px;
+
+  /* Radius & Elevation */
+  --hm-radius-sm: 4px;
+  --hm-radius-md: 6px;
   --hm-radius-lg: 8px;
-  --hm-row-height: 30px;
-  --hm-shadow-panel: none;
+  --hm-shadow-sm: 0 1px 3px rgba(15, 27, 45, 0.06), 0 1px 2px rgba(15, 27, 45, 0.04);
+  --hm-shadow-md: 0 6px 18px rgba(15, 27, 45, 0.08), 0 2px 5px rgba(15, 27, 45, 0.05);
+  --hm-shadow-lg: 0 14px 34px rgba(15, 27, 45, 0.14), 0 4px 10px rgba(15, 27, 45, 0.07);
+
+  /* Shell Layout */
+  --hm-sidebar-w: 236px;
+  --hm-topbar-h: 64px;
 }
