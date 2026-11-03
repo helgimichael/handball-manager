@@ -3,7 +3,7 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
 
 const base = process.env.HM_QA_URL ?? "http://localhost:3099";
-const outDir = "C:/DEV/QA/reports/HM-RICH-EXPERIENCE-02/screenshots/after";
+const outDir = process.env.HM_SCREENSHOT_DIR ?? "C:/DEV/QA/reports/HM-RICH-EXPERIENCE-02/screenshots/after";
 mkdirSync(outDir, { recursive: true });
 
 const browser = await chromium.launch({ headless: true });
