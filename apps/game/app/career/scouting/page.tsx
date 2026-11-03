@@ -20,8 +20,10 @@ import { findStaffMember } from "@/lib/staff/staffCareerIntegration";
 import { computeRoleSuitability } from "@/lib/staff/roleSuitability";
 import { getPlayerKnowledgePct } from "@/lib/knowledge/knowledgeIntegration";
 import Link from 'next/link';
-import { PageHeading } from '@/components/manager/Workspace';
-import { PlayerCell, PlayerHero } from '@/components/game/Identity';
+import { PageHeading } from "@/components/manager/Workspace";
+import ClubCrest from "@/components/ClubCrest";
+import { ClubLink } from "@/components/entityLinks";
+import { clubColorVars, PlayerCell, PlayerHero } from '@/components/game/Identity';
 import { ScoutingCentre } from "@/components/scouting/ScoutingCentre";
 import { KnowledgeMeter } from '@/components/game/RecruitmentPresentation';
 
@@ -38,6 +40,7 @@ export default function ScoutingPage() {
   const searchParams = useSearchParams();
   const { career, createScoutingAssignment, createBroadScoutingAssignment, cancelScoutingAssignment } = useCareer();
 
+  const playerClub = getClub(career.playerClubId);
   const scouts = getClubScouts(career);
   const assignments = getAllScoutingAssignments(career);
   const playerAssignments = assignments.filter((a) => a.assignmentType === "PLAYER");
@@ -135,421 +138,125 @@ export default function ScoutingPage() {
   }
 
   return (
-    <div className="game-scouting-page"><PageHeading eyebrow="Rekrytering / upptäck & bedöm" title="Scouting" description="Lär känna spelarna innan du bygger nästa lag. Följ scoutens uppdrag från första observation till färdig rapport." actions={<Link className="hm-btn" href="/career/recruitment">Rekryteringscentrum →</Link>} />
-      {/* HM-ALPHA3-M06: Rekryteringsrummet -- discovery, workload, recommendations, comparison. */}
-      <ScoutingCentre />
-    <div className="game-market-stage game-scouting-stage"><div><span className="hm-eyebrow">Klubbens ögon på marknaden</span><h2>På jakt efter nästa förstärkning.</h2><p>{scouts.length ? `${scouts.length} scouter följer spelare och söker nya namn åt klubben.` : 'Rekrytera en scout för att börja bevaka marknaden.'}</p></div><div className="game-market-count"><strong>{activeAssignments.length + activeBroadAssignments.length}</strong><span>pågående uppdrag</span></div><div className="game-market-count"><strong>{completedAssignments.length}</strong><span>färdiga rapporter</span></div><div className="game-market-count"><strong>{discoveries.length}</strong><span>upptäckta spelare</span></div></div>
-    <div className="game-scouting-layout">
-      <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-        {/* Scouts */}
-        <div className="hm-panel">
-          <div className="hm-panel-header">
-            <span className="hm-panel-title">Dina scouter</span>
+    <div className="game-scouting-page" style={clubColorVars(playerClub)}>
+      <PageHeading
+        eyebrow={`${playerClub?.name ?? career.playerClubId} · Rekrytering / upptäck & bedöm`}
+        title="Scouting & Motståndaranalys"
+        description="Lär känna spelarna innan du bygger nästa lag. Följ scoutens uppdrag från första observation till färdig rapport."
+        actions={
+          <div className="hm-actions">
+            {playerClub && (
+              <ClubCrest clubId={playerClub.id} shortName={playerClub.shortName} primaryColor={playerClub.primaryColor} size={40} />
+            )}
+            <Link className="hm-btn" href="/career/staff/recruitment">Rekrytera scouter →</Link>
+            <Link className="hm-btn hm-btn-primary" href="/career/recruitment">Rekryteringscentrum →</Link>
           </div>
-          {scouts.length === 0 ? (
-            <div className="hm-panel-body hm-text-muted" style={{ fontSize: "var(--hm-text-xs)" }}>
-              Din klubb har ingen anställd scout. Ny bevakning kan inte startas förrän en scout rekryteras.{" "}
-              <button type="button" className="hm-btn hm-btn-sm" style={{ marginLeft: 6 }} onClick={() => router.push("/career/staff/recruitment")}>
-                Rekrytera personal
-              </button>
-            </div>
-          ) : (
-            <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {scouts.map((scout) => {
-                const suitability = computeRoleSuitability(scout, "SCOUT");
-                const activeCount = activeAssignments.filter((a) => a.scoutStaffId === scout.id).length;
-                return (
-                  <div key={scout.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "var(--hm-text-xs)" }}>
-                    <Link href={`/career/staff/${encodeURIComponent(scout.id)}`} style={{ fontWeight: 700 }}>
-                      {scout.displayName}
-                    </Link>
-                    <span className="hm-text-muted">
-                      Spelarbedömning/potentialbedömning {suitability.toFixed(1)}/20 · {activeCount} aktiva uppdrag
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </div>
+        }
+      />
 
-        {/* Create assignment */}
-        <div className="hm-panel">
-          <div className="hm-panel-header">
-            <span className="hm-panel-title">Ny bevakning</span>
-            <input
-              style={{ ...inputStyle, maxWidth: 180 }}
-              placeholder="Sök spelare..."
-              aria-label="Sök spelare att bevaka"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-            />
-          </div>
-          <div className="hm-panel-body" style={{ display: "flex", gap: 6, flexWrap: "wrap", paddingTop: 0 }}>
-            {(["ALL", "MV", "V9", "V6", "M9", "M6", "H9", "H6"] as const).map((p) => (
-              <button
-                key={p}
-                type="button"
-                className="hm-btn hm-btn-sm"
-                style={{
-                  background: positionFilter === p ? "var(--hm-accent)" : undefined,
-                  borderColor: positionFilter === p ? "var(--hm-accent)" : undefined,
-                  color: positionFilter === p ? "#fff" : undefined,
-                }}
-                onClick={() => setPositionFilter(p)}
-              >
-                {p}
-              </button>
-            ))}
-          </div>
-          <div className="hm-scroll-x" style={{ maxHeight: 320, overflowY: "auto" }}>
-            <table className="hm-table">
-              <thead>
-                <tr>
-                  <th>Spelare</th>
-                  <th>Pos</th>
-                  <th>Ålder</th>
-                  <th>Klubb</th>
-                  <th className="hm-table-num">Kännedom</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {candidates.slice(0, 60).map(({ player, club }) => {
-                  const pct = getPlayerKnowledgePct(career, player.id, player.clubId);
+      {/* HM-ALPHA3-M06: Rekryteringsrummet -- discovery, workload, recommendations, comparison, opponent scouting */}
+      <ScoutingCentre />
+
+      <div className="game-market-stage game-scouting-stage">
+        <div>
+          <span className="hm-eyebrow">Klubbens ögon på marknaden</span>
+          <h2>På jakt efter nästa förstärkning.</h2>
+          <p>{scouts.length ? `${scouts.length} scouter följer spelare och söker nya namn åt klubben.` : 'Rekrytera en scout för att börja bevaka marknaden.'}</p>
+        </div>
+        <div className="game-market-count"><strong>{activeAssignments.length + activeBroadAssignments.length}</strong><span>pågående uppdrag</span></div>
+        <div className="game-market-count"><strong>{completedAssignments.length}</strong><span>färdiga rapporter</span></div>
+        <div className="game-market-count"><strong>{discoveries.length}</strong><span>upptäckta spelare</span></div>
+      </div>
+
+      <div className="game-scouting-layout">
+        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          {/* Scouts */}
+          <div className="hm-panel">
+            <div className="hm-panel-header">
+              <span className="hm-panel-title">Dina scouter</span>
+            </div>
+            {scouts.length === 0 ? (
+              <div className="hm-panel-body hm-text-muted" style={{ fontSize: "var(--hm-text-xs)" }}>
+                Din klubb har ingen anställd scout. Ny bevakning kan inte startas förrän en scout rekryteras.{" "}
+                <button type="button" className="hm-btn hm-btn-sm" style={{ marginLeft: 6 }} onClick={() => router.push("/career/staff/recruitment")}>
+                  Rekrytera personal
+                </button>
+              </div>
+            ) : (
+              <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                {scouts.map((scout) => {
+                  const suitability = computeRoleSuitability(scout, "SCOUT");
+                  const activeCount = activeAssignments.filter((a) => a.scoutStaffId === scout.id).length;
                   return (
-                    <tr key={player.id} data-clickable="true" data-selected={selectedPlayerId === player.id} onClick={() => setSelectedPlayerId(player.id)}>
-                      <td className="hm-td-strong"><PlayerCell player={player} /></td>
-                      <td title={positionLabel(player.position)}>{player.position}</td>
-                      <td>{playerAgeAtDate(player.dateOfBirth, player.birthYear, career.gameDate) ?? "–"}</td>
-                      <td className="hm-text-muted">{club.shortName}</td>
-                      <td><KnowledgeMeter pct={pct} /></td>
-                      <td>
-                        <button type="button" className="hm-btn hm-btn-sm" onClick={(e) => { e.stopPropagation(); setSelectedPlayerId(player.id); }}>
-                          Välj
-                        </button>
-                      </td>
-                    </tr>
+                    <div key={scout.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "var(--hm-text-xs)" }}>
+                      <Link href={`/career/staff/${encodeURIComponent(scout.id)}`} style={{ fontWeight: 700 }}>
+                        {scout.displayName}
+                      </Link>
+                      <span className="hm-text-muted">
+                        Spelarbedömning/potentialbedömning {suitability.toFixed(1)}/20 · {activeCount} aktiva uppdrag
+                      </span>
+                    </div>
                   );
                 })}
-              </tbody>
-            </table>
+              </div>
+            )}
           </div>
-          {candidates.length === 0 ? <div className="hm-panel-body hm-text-muted">Inga spelare matchar filtret.</div> : null}
 
-          {selectedPlayer ? (
-            <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 8, borderTop: "1px solid var(--hm-border)" }}>
-              <div className="game-target-dossier" key={selectedPlayer.id}><PlayerHero player={selectedPlayer} career={career} /></div>
-              {selectedKnowledgePct !== null && <KnowledgeMeter pct={selectedKnowledgePct} />}
-              {scouts.length > 0 ? (
-                <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-xs)" }}>
-                  Scout
-                  <select style={inputStyle} value={selectedScoutId ?? ""} onChange={(e) => setSelectedScoutId(e.target.value)}>
-                    {scouts.map((s) => (
-                      <option key={s.id} value={s.id}>
-                        {s.displayName}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-              ) : null}
-              <button type="button" className="hm-btn hm-btn-primary hm-btn-sm" disabled={scouts.length === 0} onClick={startAssignment}>
-                Starta bevakning
-              </button>
-              {formError ? <div style={{ color: "var(--hm-negative, #b23a2e)", fontSize: "var(--hm-text-2xs)" }}>{formError}</div> : null}
+          {/* Create assignment */}
+          <div className="hm-panel">
+            <div className="hm-panel-header">
+              <span className="hm-panel-title">Ny bevakning</span>
+              <input
+                className="hm-input"
+                style={{ maxWidth: 200 }}
+                placeholder="Sök spelare..."
+                aria-label="Sök spelare att bevaka"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+              />
             </div>
-          ) : null}
-        </div>
-
-        {/* Broad discovery assignment */}
-        <div className="hm-panel">
-          <div className="hm-panel-header">
-            <span className="hm-panel-title">Nytt bredare uppdrag</span>
-          </div>
-          <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
-              Skicka en scout på ett bredare uppdrag utan att veta spelarens namn i förväg -- scouten upptäcker relevanta spelare över tid.
-            </div>
-            <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-              {(Object.keys(BROAD_TYPE_LABEL_SV) as Exclude<ScoutAssignmentType, "PLAYER">[]).map((t) => (
+            <div className="hm-panel-body" style={{ display: "flex", gap: 6, flexWrap: "wrap", paddingTop: 0 }}>
+              {(["ALL", "MV", "V9", "V6", "M9", "M6", "H9", "H6"] as const).map((p) => (
                 <button
-                  key={t}
+                  key={p}
                   type="button"
                   className="hm-btn hm-btn-sm"
                   style={{
-                    background: broadType === t ? "var(--hm-accent)" : undefined,
-                    borderColor: broadType === t ? "var(--hm-accent)" : undefined,
-                    color: broadType === t ? "#fff" : undefined,
+                    background: positionFilter === p ? "var(--hm-accent)" : undefined,
+                    borderColor: positionFilter === p ? "var(--hm-accent)" : undefined,
+                    color: positionFilter === p ? "#fff" : undefined,
                   }}
-                  onClick={() => setBroadType(t)}
+                  onClick={() => setPositionFilter(p)}
                 >
-                  {BROAD_TYPE_LABEL_SV[t]}
+                  {p}
                 </button>
               ))}
             </div>
-
-            {broadType === "CLUB" ? (
-              <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-xs)" }}>
-                Klubb
-                <select style={inputStyle} value={broadClubId} onChange={(e) => setBroadClubId(e.target.value)}>
-                  <option value="">Välj klubb...</option>
-                  {candidateClubs.map((c) => (
-                    <option key={c.id} value={c.id}>
-                      {c.name}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            ) : null}
-            {broadType === "COMPETITION" ? (
-              <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-xs)" }}>
-                Liga
-                <select style={inputStyle} value={broadCompetitionId} onChange={(e) => setBroadCompetitionId(e.target.value)}>
-                  <option value="">Välj liga...</option>
-                  {candidateCompetitions.map((c) => (
-                    <option key={c.id} value={c.id}>
-                      {c.name}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            ) : null}
-            {broadType === "REGION" ? (
-              <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-xs)" }}>
-                Land
-                <select style={inputStyle} value={broadNation} onChange={(e) => setBroadNation(e.target.value)}>
-                  <option value="">Välj land...</option>
-                  {candidateNations.map((n) => (
-                    <option key={n} value={n}>
-                      {NATION_LABEL_SV[n] ?? n}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            ) : null}
-            {broadType === "POSITION" ? (
-              <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-xs)" }}>
-                Position
-                <select style={inputStyle} value={broadPosition} onChange={(e) => setBroadPosition(e.target.value as HandballPosition)}>
-                  {(["MV", "V9", "V6", "M9", "M6", "H9", "H6"] as const).map((p) => (
-                    <option key={p} value={p}>
-                      {p} · {positionLabel(p)}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            ) : null}
-            {broadType === "AGE_BAND" ? (
-              <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-xs)" }}>
-                Högsta ålder (t.ex. 21 för U21)
-                <input style={inputStyle} type="number" min={15} max={40} value={broadMaxAge} onChange={(e) => setBroadMaxAge(Number(e.target.value))} />
-              </label>
-            ) : null}
-
-            {scouts.length > 0 ? (
-              <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-xs)" }}>
-                Scout
-                <select style={inputStyle} value={broadScoutId ?? ""} onChange={(e) => setBroadScoutId(e.target.value)}>
-                  {scouts.map((s) => (
-                    <option key={s.id} value={s.id}>
-                      {s.displayName}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            ) : null}
-            <button type="button" className="hm-btn hm-btn-primary hm-btn-sm" disabled={scouts.length === 0} onClick={startBroadAssignment}>
-              Starta uppdrag
-            </button>
-            {broadFormError ? <div style={{ color: "var(--hm-negative, #b23a2e)", fontSize: "var(--hm-text-2xs)" }}>{broadFormError}</div> : null}
-          </div>
-        </div>
-      </div>
-
-      <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-        {/* Active assignments */}
-        <div className="hm-panel">
-          <div className="hm-panel-header">
-            <span className="hm-panel-title">Aktiva uppdrag ({activeAssignments.length})</span>
-          </div>
-          {activeAssignments.length === 0 ? (
-            <div className="hm-panel-body hm-text-muted" style={{ fontSize: "var(--hm-text-xs)" }}>
-              Inga pågående bevakningar.
-            </div>
-          ) : (
-            <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              {activeAssignments.map((a) => {
-                const player = getCareerPlayer(career, a.targetPlayerId);
-                const scout = findStaffMember(career, a.scoutStaffId);
-                const progress = computeAssignmentProgressPct(a, career.gameDate);
-                return (
-                  <div key={a.id} className="game-scout-assignment" style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-xs)" }}>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}>
-                      {player ? <PlayerCell player={player} /> : <span>{a.targetPlayerId}</span>}
-                      <span className="hm-text-muted">{scout?.displayName ?? "Okänd scout"}</span>
-                    </div>
-                    <div style={{ height: 6, borderRadius: 3, background: "var(--hm-surface-3)", overflow: "hidden" }}>
-                      <div style={{ height: "100%", width: `${progress}%`, background: "var(--hm-accent)" }} />
-                    </div>
-                    <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
-                      {progress}% klart · klar {a.endDate}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </div>
-
-        {/* Completed reports */}
-        <div className="hm-panel">
-          <div className="hm-panel-header">
-            <span className="hm-panel-title">Färdiga rapporter ({completedAssignments.length})</span>
-          </div>
-          {completedAssignments.length === 0 ? (
-            <div className="hm-panel-body hm-text-muted" style={{ fontSize: "var(--hm-text-xs)" }}>
-              Inga rapporter ännu.
-            </div>
-          ) : (
-            <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {completedAssignments.map((a) => {
-                const player = getCareerPlayer(career, a.targetPlayerId);
-                const scout = findStaffMember(career, a.scoutStaffId);
-                const pct = getPlayerKnowledgePct(career, a.targetPlayerId, a.targetClubId);
-                return (
-                  <div
-                    key={a.id}
-                    data-clickable="true"
-                    className="game-scout-report-row"
-                    style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "var(--hm-text-xs)", cursor: "pointer" }}
-                    onClick={() => router.push(`/career/squad/${a.targetPlayerId}`)}
-                  >
-                    <div>
-                      {player ? <PlayerCell player={player} /> : <div style={{ fontWeight: 700 }}>{a.targetPlayerId}</div>}
-                      <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
-                        {scout?.displayName ?? "Okänd scout"} · {getClub(a.targetClubId)?.name ?? a.targetClubId}
-                      </div>
-                    </div>
-                    <div className="game-report-row-status"><span className="game-report-stamp">Rapport klar</span><KnowledgeMeter pct={pct} /><Link className="hm-btn hm-btn-sm" href={`/career/squad/${encodeURIComponent(a.targetPlayerId)}`}>Öppna rapport</Link></div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </div>
-
-        {/* Broad assignments */}
-        <div className="hm-panel">
-          <div className="hm-panel-header">
-            <span className="hm-panel-title">Breda uppdrag ({activeBroadAssignments.length})</span>
-          </div>
-          {broadAssignments.length === 0 ? (
-            <div className="hm-panel-body hm-text-muted" style={{ fontSize: "var(--hm-text-xs)" }}>
-              Inga bredare uppdrag ännu.
-            </div>
-          ) : (
-            <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              {broadAssignments.map((a) => {
-                const scout = findStaffMember(career, a.scoutStaffId);
-                const progress = computeAssignmentProgressPct(a, career.gameDate);
-                return (
-                  <div key={a.id} style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-xs)" }}>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}>
-                      <span style={{ fontWeight: 700 }}>
-                        {BROAD_TYPE_LABEL_SV[a.assignmentType as Exclude<ScoutAssignmentType, "PLAYER">]} · {scopeLabelSv(a)}
-                      </span>
-                      <span className="hm-text-muted">{scout?.displayName ?? "Okänd scout"}</span>
-                    </div>
-                    {a.status === "IN_PROGRESS" ? (
-                      <>
-                        <div style={{ height: 6, borderRadius: 3, background: "var(--hm-surface-3)", overflow: "hidden" }}>
-                          <div style={{ height: "100%", width: `${progress}%`, background: "var(--hm-accent)" }} />
-                        </div>
-                        <div style={{ display: "flex", justifyContent: "space-between" }}>
-                          <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
-                            Cykel {a.cyclesCompleted + 1}/{a.maxCycles} · {progress}% klar {a.endDate}
-                          </span>
-                          <button type="button" className="hm-btn hm-btn-sm" onClick={() => cancelScoutingAssignment(a.id)}>
-                            Avbryt
-                          </button>
-                        </div>
-                      </>
-                    ) : (
-                      <span className="hm-badge hm-badge-neutral" style={{ alignSelf: "flex-start" }}>
-                        {a.status === "COMPLETED" ? "Avslutat" : "Avbrutet"}
-                      </span>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </div>
-
-        {/* Discovered players */}
-        <div className="hm-panel">
-          <div className="hm-panel-header">
-            <span className="hm-panel-title">Upptäckta spelare ({filteredDiscoveries.length})</span>
-          </div>
-          <div className="hm-panel-body" style={{ display: "flex", gap: 6, flexWrap: "wrap", paddingTop: 0 }}>
-            <select style={{ ...inputStyle, maxWidth: 160 }} value={discoveryFilterScoutId} onChange={(e) => setDiscoveryFilterScoutId(e.target.value)}>
-              <option value="ALL">Alla scouter</option>
-              {scouts.map((s) => (
-                <option key={s.id} value={s.id}>
-                  {s.displayName}
-                </option>
-              ))}
-            </select>
-            <select style={{ ...inputStyle, maxWidth: 160 }} value={discoveryFilterType} onChange={(e) => setDiscoveryFilterType(e.target.value as ScoutAssignmentType | "ALL")}>
-              <option value="ALL">Alla källor</option>
-              {(Object.keys(BROAD_TYPE_LABEL_SV) as Exclude<ScoutAssignmentType, "PLAYER">[]).map((t) => (
-                <option key={t} value={t}>
-                  {BROAD_TYPE_LABEL_SV[t]}
-                </option>
-              ))}
-            </select>
-          </div>
-          {filteredDiscoveries.length === 0 ? (
-            <div className="hm-panel-body hm-text-muted" style={{ fontSize: "var(--hm-text-xs)" }}>
-              Inga upptäckta spelare ännu.
-            </div>
-          ) : (
-            <div className="hm-scroll-x" style={{ maxHeight: 360, overflowY: "auto" }}>
+            <div className="hm-scroll-x" style={{ maxHeight: 320, overflowY: "auto" }}>
               <table className="hm-table">
                 <thead>
                   <tr>
                     <th>Spelare</th>
+                    <th>Pos</th>
+                    <th>Ålder</th>
                     <th>Klubb</th>
-                    <th>Källa</th>
-                    <th>Scout</th>
                     <th className="hm-table-num">Kännedom</th>
                     <th></th>
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredDiscoveries.slice(0, 60).map((d) => {
-                    const player = getCareerPlayer(career, d.playerId);
-                    const scout = findStaffMember(career, d.scoutStaffId);
-                    const pct = getPlayerKnowledgePct(career, d.playerId, d.clubId);
+                  {candidates.slice(0, 60).map(({ player, club }) => {
+                    const pct = getPlayerKnowledgePct(career, player.id, player.clubId);
                     return (
-                      <tr key={d.id} data-clickable="true" onClick={() => router.push(`/career/squad/${d.playerId}`)}>
-                        <td className="hm-td-strong">{player ? <PlayerCell player={player} /> : d.playerId}</td>
-                        <td className="hm-text-muted">{getClub(d.clubId)?.shortName ?? d.clubId}</td>
-                        <td className="hm-text-muted">{BROAD_TYPE_LABEL_SV[d.assignmentType as Exclude<ScoutAssignmentType, "PLAYER">] ?? d.assignmentType}</td>
-                        <td className="hm-text-muted">{scout?.displayName ?? "Okänd scout"}</td>
+                      <tr key={player.id} data-clickable="true" data-selected={selectedPlayerId === player.id} onClick={() => setSelectedPlayerId(player.id)}>
+                        <td className="hm-td-strong"><PlayerCell player={player} /></td>
+                        <td title={positionLabel(player.position)}>{player.position}</td>
+                        <td>{playerAgeAtDate(player.dateOfBirth, player.birthYear, career.gameDate) ?? "–"}</td>
+                        <td className="hm-text-muted"><ClubLink clubId={club.id} stopPropagation>{club.shortName}</ClubLink></td>
                         <td><KnowledgeMeter pct={pct} /></td>
                         <td>
-                          <button
-                            type="button"
-                            className="hm-btn hm-btn-sm"
-                            disabled={scouts.length === 0}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              if (scouts.length === 0) return;
-                              createScoutingAssignment(scouts[0].id, d.playerId, d.clubId);
-                            }}
-                          >
-                            Starta full scouting
+                          <button type="button" className="hm-btn hm-btn-sm" onClick={(e) => { e.stopPropagation(); setSelectedPlayerId(player.id); }}>
+                            Välj
                           </button>
                         </td>
                       </tr>
@@ -558,18 +265,333 @@ export default function ScoutingPage() {
                 </tbody>
               </table>
             </div>
-          )}
+            {candidates.length === 0 ? <div className="hm-panel-body hm-text-muted">Inga spelare matchar filtret.</div> : null}
+
+            {selectedPlayer ? (
+              <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 8, borderTop: "1px solid var(--hm-border)" }}>
+                <div className="game-target-dossier" key={selectedPlayer.id}><PlayerHero player={selectedPlayer} career={career} /></div>
+                {selectedKnowledgePct !== null && <KnowledgeMeter pct={selectedKnowledgePct} />}
+                {scouts.length > 0 ? (
+                  <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-xs)" }}>
+                    Scout
+                    <select className="hm-select" value={selectedScoutId ?? ""} onChange={(e) => setSelectedScoutId(e.target.value)}>
+                      {scouts.map((s) => (
+                        <option key={s.id} value={s.id}>
+                          {s.displayName}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                ) : null}
+                <button type="button" className="hm-btn hm-btn-primary hm-btn-sm" disabled={scouts.length === 0} onClick={startAssignment}>
+                  Starta bevakning
+                </button>
+                {formError ? <div style={{ color: "var(--hm-negative, #b23a2e)", fontSize: "var(--hm-text-2xs)" }}>{formError}</div> : null}
+              </div>
+            ) : null}
+          </div>
+
+          {/* Broad discovery assignment */}
+          <div className="hm-panel">
+            <div className="hm-panel-header">
+              <span className="hm-panel-title">Nytt bredare uppdrag</span>
+            </div>
+            <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
+                Skicka en scout på ett bredare uppdrag utan att veta spelarens namn i förväg — scouten upptäcker relevanta spelare över tid.
+              </div>
+              <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                {(Object.keys(BROAD_TYPE_LABEL_SV) as Exclude<ScoutAssignmentType, "PLAYER">[]).map((t) => (
+                  <button
+                    key={t}
+                    type="button"
+                    className="hm-btn hm-btn-sm"
+                    style={{
+                      background: broadType === t ? "var(--hm-accent)" : undefined,
+                      borderColor: broadType === t ? "var(--hm-accent)" : undefined,
+                      color: broadType === t ? "#fff" : undefined,
+                    }}
+                    onClick={() => setBroadType(t)}
+                  >
+                    {BROAD_TYPE_LABEL_SV[t]}
+                  </button>
+                ))}
+              </div>
+
+              {broadType === "CLUB" ? (
+                <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-xs)" }}>
+                  Klubb
+                  <select className="hm-select" value={broadClubId} onChange={(e) => setBroadClubId(e.target.value)}>
+                    <option value="">Välj klubb...</option>
+                    {candidateClubs.map((c) => (
+                      <option key={c.id} value={c.id}>
+                        {c.name}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              ) : null}
+              {broadType === "COMPETITION" ? (
+                <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-xs)" }}>
+                  Liga
+                  <select className="hm-select" value={broadCompetitionId} onChange={(e) => setBroadCompetitionId(e.target.value)}>
+                    <option value="">Välj liga...</option>
+                    {candidateCompetitions.map((c) => (
+                      <option key={c.id} value={c.id}>
+                        {c.name}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              ) : null}
+              {broadType === "REGION" ? (
+                <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-xs)" }}>
+                  Land
+                  <select className="hm-select" value={broadNation} onChange={(e) => setBroadNation(e.target.value)}>
+                    <option value="">Välj land...</option>
+                    {candidateNations.map((n) => (
+                      <option key={n} value={n}>
+                        {NATION_LABEL_SV[n] ?? n}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              ) : null}
+              {broadType === "POSITION" ? (
+                <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-xs)" }}>
+                  Position
+                  <select className="hm-select" value={broadPosition} onChange={(e) => setBroadPosition(e.target.value as HandballPosition)}>
+                    {(["MV", "V9", "V6", "M9", "M6", "H9", "H6"] as const).map((p) => (
+                      <option key={p} value={p}>
+                        {p} · {positionLabel(p)}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              ) : null}
+              {broadType === "AGE_BAND" ? (
+                <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-xs)" }}>
+                  Högsta ålder (t.ex. 21 för U21)
+                  <input className="hm-input" type="number" min={15} max={40} value={broadMaxAge} onChange={(e) => setBroadMaxAge(Number(e.target.value))} />
+                </label>
+              ) : null}
+
+              {scouts.length > 0 ? (
+                <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-xs)" }}>
+                  Scout
+                  <select className="hm-select" value={broadScoutId ?? ""} onChange={(e) => setBroadScoutId(e.target.value)}>
+                    {scouts.map((s) => (
+                      <option key={s.id} value={s.id}>
+                        {s.displayName}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              ) : null}
+              <button type="button" className="hm-btn hm-btn-primary hm-btn-sm" disabled={scouts.length === 0} onClick={startBroadAssignment}>
+                Starta uppdrag
+              </button>
+              {broadFormError ? <div style={{ color: "var(--hm-negative, #b23a2e)", fontSize: "var(--hm-text-2xs)" }}>{broadFormError}</div> : null}
+            </div>
+          </div>
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          {/* Active assignments */}
+          <div className="hm-panel">
+            <div className="hm-panel-header">
+              <span className="hm-panel-title">Aktiva uppdrag ({activeAssignments.length})</span>
+            </div>
+            {activeAssignments.length === 0 ? (
+              <div className="hm-panel-body hm-text-muted" style={{ fontSize: "var(--hm-text-xs)" }}>
+                Inga pågående bevakningar.
+              </div>
+            ) : (
+              <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                {activeAssignments.map((a) => {
+                  const player = getCareerPlayer(career, a.targetPlayerId);
+                  const scout = findStaffMember(career, a.scoutStaffId);
+                  const progress = computeAssignmentProgressPct(a, career.gameDate);
+                  return (
+                    <div key={a.id} className="game-scout-assignment" style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-xs)" }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                        {player ? <PlayerCell player={player} /> : <span>{a.targetPlayerId}</span>}
+                        <span className="hm-text-muted">{scout?.displayName ?? "Okänd scout"}</span>
+                      </div>
+                      <div style={{ height: 6, borderRadius: 3, background: "var(--hm-surface-3)", overflow: "hidden" }}>
+                        <div style={{ height: "100%", width: `${progress}%`, background: "var(--hm-accent)" }} />
+                      </div>
+                      <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
+                        {progress}% klart · klar {a.endDate}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+
+          {/* Completed reports */}
+          <div className="hm-panel">
+            <div className="hm-panel-header">
+              <span className="hm-panel-title">Färdiga rapporter ({completedAssignments.length})</span>
+            </div>
+            {completedAssignments.length === 0 ? (
+              <div className="hm-panel-body hm-text-muted" style={{ fontSize: "var(--hm-text-xs)" }}>
+                Inga rapporter ännu.
+              </div>
+            ) : (
+              <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                {completedAssignments.map((a) => {
+                  const player = getCareerPlayer(career, a.targetPlayerId);
+                  const scout = findStaffMember(career, a.scoutStaffId);
+                  const pct = getPlayerKnowledgePct(career, a.targetPlayerId, a.targetClubId);
+                  return (
+                    <div
+                      key={a.id}
+                      data-clickable="true"
+                      className="game-scout-report-row"
+                      style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "var(--hm-text-xs)", cursor: "pointer" }}
+                      onClick={() => router.push(`/career/squad/${a.targetPlayerId}`)}
+                    >
+                      <div>
+                        {player ? <PlayerCell player={player} /> : <div style={{ fontWeight: 700 }}>{a.targetPlayerId}</div>}
+                        <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
+                          {scout?.displayName ?? "Okänd scout"} · <ClubLink clubId={a.targetClubId} stopPropagation>{getClub(a.targetClubId)?.name ?? a.targetClubId}</ClubLink>
+                        </div>
+                      </div>
+                      <div className="game-report-row-status"><span className="game-report-stamp">Rapport klar</span><KnowledgeMeter pct={pct} /><Link className="hm-btn hm-btn-sm" href={`/career/squad/${encodeURIComponent(a.targetPlayerId)}`}>Öppna rapport</Link></div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+
+          {/* Broad assignments */}
+          <div className="hm-panel">
+            <div className="hm-panel-header">
+              <span className="hm-panel-title">Breda uppdrag ({activeBroadAssignments.length})</span>
+            </div>
+            {broadAssignments.length === 0 ? (
+              <div className="hm-panel-body hm-text-muted" style={{ fontSize: "var(--hm-text-xs)" }}>
+                Inga bredare uppdrag ännu.
+              </div>
+            ) : (
+              <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                {broadAssignments.map((a) => {
+                  const scout = findStaffMember(career, a.scoutStaffId);
+                  const progress = computeAssignmentProgressPct(a, career.gameDate);
+                  return (
+                    <div key={a.id} style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-xs)" }}>
+                      <div style={{ display: "flex", justifyContent: "space-between" }}>
+                        <span style={{ fontWeight: 700 }}>
+                          {BROAD_TYPE_LABEL_SV[a.assignmentType as Exclude<ScoutAssignmentType, "PLAYER">]} · {scopeLabelSv(a)}
+                        </span>
+                        <span className="hm-text-muted">{scout?.displayName ?? "Okänd scout"}</span>
+                      </div>
+                      {a.status === "IN_PROGRESS" ? (
+                        <>
+                          <div style={{ height: 6, borderRadius: 3, background: "var(--hm-surface-3)", overflow: "hidden" }}>
+                            <div style={{ height: "100%", width: `${progress}%`, background: "var(--hm-accent)" }} />
+                          </div>
+                          <div style={{ display: "flex", justifyContent: "space-between" }}>
+                            <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
+                              Cykel {a.cyclesCompleted + 1}/{a.maxCycles} · {progress}% klar {a.endDate}
+                            </span>
+                            <button type="button" className="hm-btn hm-btn-sm" onClick={() => cancelScoutingAssignment(a.id)}>
+                              Avbryt
+                            </button>
+                          </div>
+                        </>
+                      ) : (
+                        <span className="hm-badge hm-badge-neutral" style={{ alignSelf: "flex-start" }}>
+                          {a.status === "COMPLETED" ? "Avslutat" : "Avbrutet"}
+                        </span>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+
+          {/* Discovered players */}
+          <div className="hm-panel">
+            <div className="hm-panel-header">
+              <span className="hm-panel-title">Upptäckta spelare ({filteredDiscoveries.length})</span>
+            </div>
+            <div className="hm-panel-body" style={{ display: "flex", gap: 6, flexWrap: "wrap", paddingTop: 0 }}>
+              <select className="hm-select" style={{ maxWidth: 160 }} value={discoveryFilterScoutId} onChange={(e) => setDiscoveryFilterScoutId(e.target.value)}>
+                <option value="ALL">Alla scouter</option>
+                {scouts.map((s) => (
+                  <option key={s.id} value={s.id}>
+                    {s.displayName}
+                  </option>
+                ))}
+              </select>
+              <select className="hm-select" style={{ maxWidth: 160 }} value={discoveryFilterType} onChange={(e) => setDiscoveryFilterType(e.target.value as ScoutAssignmentType | "ALL")}>
+                <option value="ALL">Alla källor</option>
+                {(Object.keys(BROAD_TYPE_LABEL_SV) as Exclude<ScoutAssignmentType, "PLAYER">[]).map((t) => (
+                  <option key={t} value={t}>
+                    {BROAD_TYPE_LABEL_SV[t]}
+                  </option>
+                ))}
+              </select>
+            </div>
+            {filteredDiscoveries.length === 0 ? (
+              <div className="hm-panel-body hm-text-muted" style={{ fontSize: "var(--hm-text-xs)" }}>
+                Inga upptäckta spelare ännu.
+              </div>
+            ) : (
+              <div className="hm-scroll-x" style={{ maxHeight: 360, overflowY: "auto" }}>
+                <table className="hm-table">
+                  <thead>
+                    <tr>
+                      <th>Spelare</th>
+                      <th>Klubb</th>
+                      <th>Källa</th>
+                      <th>Scout</th>
+                      <th className="hm-table-num">Kännedom</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredDiscoveries.slice(0, 60).map((d) => {
+                      const player = getCareerPlayer(career, d.playerId);
+                      const scout = findStaffMember(career, d.scoutStaffId);
+                      const pct = getPlayerKnowledgePct(career, d.playerId, d.clubId);
+                      return (
+                        <tr key={d.id} data-clickable="true" onClick={() => router.push(`/career/squad/${d.playerId}`)}>
+                          <td className="hm-td-strong">{player ? <PlayerCell player={player} /> : d.playerId}</td>
+                          <td className="hm-text-muted"><ClubLink clubId={d.clubId} stopPropagation>{getClub(d.clubId)?.shortName ?? d.clubId}</ClubLink></td>
+                          <td className="hm-text-muted">{BROAD_TYPE_LABEL_SV[d.assignmentType as Exclude<ScoutAssignmentType, "PLAYER">] ?? d.assignmentType}</td>
+                          <td className="hm-text-muted">{scout?.displayName ?? "Okänd scout"}</td>
+                          <td><KnowledgeMeter pct={pct} /></td>
+                          <td>
+                            <button
+                              type="button"
+                              className="hm-btn hm-btn-sm"
+                              disabled={scouts.length === 0}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                if (scouts.length === 0) return;
+                                createScoutingAssignment(scouts[0].id, d.playerId, d.clubId);
+                              }}
+                            >
+                              Starta full scouting
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
         </div>
       </div>
-    </div></div>
+    </div>
   );
 }
-
-const inputStyle = {
-  background: "var(--hm-surface-2)",
-  border: "1px solid var(--hm-border)",
-  borderRadius: "var(--hm-radius-sm)",
-  color: "var(--hm-text-primary)",
-  padding: "7px 10px",
-  fontSize: "var(--hm-text-xs)",
-} as const;

@@ -1,8 +1,9 @@
 "use client";
 import TrainingFeedback from '@/components/manager/TrainingFeedback';
 import Link from "next/link";
-import { MatchHero, PlayerCell } from "@/components/game/Identity";
+import { clubColorVars, MatchHero, PlayerCell } from "@/components/game/Identity";
 import { PageHeading } from "@/components/manager/Workspace";
+import ClubCrest from "@/components/ClubCrest";
 import { formatGameDate } from "@/lib/career/dateUtils";
 
 // HM-TRAINING-1.0 Part 24/25: the live Training workspace -- a WEEK view
@@ -33,6 +34,7 @@ import {
   type WeeklyTrainingTemplate,
 } from "../../../lib/training/types";
 import { ENERGY_START_DEFAULT } from "../../../lib/matchPlan/physicalModel";
+import { matchFitnessOf } from "../../../lib/players/matchFitness";
 import { playerAgeAtDate } from "../../../lib/development/developmentIntegration";
 import { effectiveTrainingLoadSetting, getPlayerAvailability } from "../../../lib/medical/availability";
 import { REHAB_PHASE_LABELS } from "../../../lib/medical/labels";
@@ -62,9 +64,30 @@ const SESSION_TYPE_LABEL: Record<TrainingSessionType, string> = {
   RECOVERY: "Återhämtning",
 };
 
+function sessionCategory(type: TrainingSessionType): { label: string; tone: "tactical" | "physical" | "technical" | "recovery" } {
+  switch (type) {
+    case "TEAM_TACTICAL":
+    case "ATTACK":
+    case "DEFENCE":
+    case "TRANSITION":
+    case "SPECIAL_PLAY":
+    case "MATCH_PREPARATION":
+      return { label: "Taktik & lagspel", tone: "tactical" };
+    case "PHYSICAL":
+    case "STRENGTH":
+    case "CONDITIONING":
+      return { label: "Fysik & kondition", tone: "physical" };
+    case "RECOVERY":
+      return { label: "Återhämtning", tone: "recovery" };
+    default:
+      return { label: "Teknik & individuell", tone: "technical" };
+  }
+}
+
 // HM-PLAYTEST-01 3.3: each option names the control it belongs to, so two
 // selects side by side never both just say "Normal".
 const INTENSITY_LABEL: Record<TrainingIntensity, string> = { LOW: "Intensitet: låg", NORMAL: "Intensitet: normal", HIGH: "Intensitet: hög", VERY_HIGH: "Intensitet: mycket hög" };
+const INTENSITY_BADGE: Record<TrainingIntensity, string> = { LOW: "Låg", NORMAL: "Normal", HIGH: "Hög", VERY_HIGH: "Max" };
 const DURATION_LABEL: Record<TrainingDuration, string> = { SHORT: "Passlängd: kort", NORMAL: "Passlängd: normal", LONG: "Passlängd: lång" };
 const INTENSITY_HELP = "Intensitet: hur hårt passet körs. Högre intensitet ger mer utvecklingsstimulans men kostar mer energi (×0,6 låg – ×1,8 mycket hög) och ökar skaderisken.";
 const DURATION_HELP = "Passlängd: hur långt passet är. Längre pass ger mer stimulans och kostar mer energi (×0,7 kort – ×1,3 lång).";
@@ -97,6 +120,7 @@ function Training() {
   const [weekStart, setWeekStart] = useState(() => mondayOf(requestedWeek && /^\d{4}-\d{2}-\d{2}$/.test(requestedWeek) && !Number.isNaN(Date.parse(requestedWeek)) ? requestedWeek : career.gameDate));
   const [template, setTemplate] = useState<WeeklyTrainingTemplate>("BALANCED");
 
+  const club = getClub(career.playerClubId);
   const week = resolveTrainingWeek(career, weekStart);
   const squad = getCareerSquad(career);
   const opponentName = (clubId: string) => getClub(clubId)?.shortName ?? getClub(clubId)?.name ?? clubId;
@@ -104,13 +128,37 @@ function Training() {
   const headCoach = findHeadCoach(staffRoster);
   const nextMatch = career.fixtures.filter(f => (f.homeClubId === career.playerClubId || f.awayClubId === career.playerClubId) && !career.results[f.id] && f.date >= career.gameDate).sort((a, b) => a.date.localeCompare(b.date))[0];
   const averageEnergy = squad.length ? Math.round(squad.reduce((sum, player) => sum + (career.playerPhysicalState[player.id]?.currentEnergy ?? ENERGY_START_DEFAULT), 0) / squad.length) : null;
+  const averageMatchFitness = squad.length ? Math.round(squad.reduce((sum, player) => sum + matchFitnessOf(career, player.id), 0) / squad.length) : null;
   const recoveryDays = week.days.filter(day => day.dayType === 'REST' || day.dayType === 'RECOVERY').length;
   const sessionCount = week.days.reduce((sum, day) => sum + day.sessions.length, 0);
 
   return (
-    <div className="hm-training-screen">
-      <PageHeading eyebrow={`${career.seasonId} / träningsplanen`} title="Träning & återhämtning" description="Bygg formen mellan matcherna. Anpassa belastningen till spelarna som ska prestera." actions={<Link className="hm-btn" href="/career/calendar">Kalender →</Link>} />
-      <div className="hm-week-context"><div><span className="hm-eyebrow">Veckans matchberedskap</span><h2>{formatGameDate(weekStart).split(' ').slice(1, 3).join(' ')} — {formatGameDate(addDaysLocal(weekStart, 6)).split(' ').slice(1, 3).join(' ')}</h2><div className="hm-training-metrics"><div><strong>{sessionCount}</strong><span>planerade pass</span></div><div><strong>{recoveryDays}</strong><span>vilo- / återhämtningsdagar</span></div><div><strong>{averageEnergy === null ? '—' : `${averageEnergy}%`}</strong><span>truppens energi idag</span></div></div></div>{nextMatch && <MatchHero career={career} fixture={nextMatch} context="Veckan byggs runt matchen" compact />}</div>
+    <div className="hm-training-screen" style={clubColorVars(club)}>
+      <PageHeading
+        eyebrow={`${club?.name ?? career.playerClubId} · ${career.seasonId} / träningsplanen`}
+        title="Träning & återhämtning"
+        description={`Bygg formen mellan matcherna. Anpassa belastningen till spelarna som ska prestera (snitt matchform: ${averageMatchFitness ?? '—'}%).`}
+        actions={
+          <div className="hm-actions">
+            {club && <ClubCrest clubId={club.id} shortName={club.shortName} primaryColor={club.primaryColor} size={40} />}
+            <Link className="hm-btn" href="/career/staff">Ledarstab →</Link>
+            <Link className="hm-btn" href="/career/calendar">Kalender →</Link>
+          </div>
+        }
+      />
+
+      <div className="hm-week-context">
+        <div>
+          <span className="hm-eyebrow">Veckans matchberedskap</span>
+          <h2>{formatGameDate(weekStart).split(' ').slice(1, 3).join(' ')} — {formatGameDate(addDaysLocal(weekStart, 6)).split(' ').slice(1, 3).join(' ')}</h2>
+          <div className="hm-training-metrics">
+            <div><strong>{sessionCount}</strong><span>planerade pass</span></div>
+            <div><strong>{recoveryDays}</strong><span>vilo- / återhämtningsdagar</span></div>
+            <div><strong>{averageEnergy === null ? '—' : `${averageEnergy}%`}</strong><span>truppens energi idag</span></div>
+          </div>
+        </div>
+        {nextMatch && <MatchHero career={career} fixture={nextMatch} context="Veckan byggs runt matchen" compact />}
+      </div>
       <TrainingFeedback />
       <div className="hm-panel hm-training-planner">
         <div className="hm-panel-header" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, flexWrap: "wrap" }}>
@@ -154,7 +202,11 @@ function Training() {
                   </div>
 
                   {fixture ? (
-                    <Link className="hm-training-match" href={career.results[fixture.id] ? `/career/match-report/${encodeURIComponent(fixture.id)}` : `/career/fixtures/${encodeURIComponent(fixture.id)}`}><span>{fixture.homeClubId === career.playerClubId ? 'Hemma' : 'Borta'}</span><strong>{opponentName(opponentClubId!)}</strong><span>{career.results[fixture.id] ? 'Matchrapport →' : 'Matchförberedelse →'}</span></Link>
+                    <Link className="hm-training-match" href={career.results[fixture.id] ? `/career/match-report/${encodeURIComponent(fixture.id)}` : `/career/fixtures/${encodeURIComponent(fixture.id)}`}>
+                      <span>{fixture.homeClubId === career.playerClubId ? 'Hemma' : 'Borta'}</span>
+                      <strong>{opponentName(opponentClubId!)}</strong>
+                      <span>{career.results[fixture.id] ? 'Matchrapport →' : 'Matchförberedelse →'}</span>
+                    </Link>
                   ) : (
                     <select
                       className="hm-select"
@@ -179,103 +231,117 @@ function Training() {
                   )}
 
                   <div style={{ display: "flex", flexDirection: "column", gap: 6, marginTop: 8 }}>
-                    {day.sessions.map((session) => (
-                      <div key={session.id} className="hm-training-session">
-                        <select
-                          className="hm-select"
-                          aria-label={`Pass ${day.date} ${session.id}`}
-                          style={{ width: "100%", marginBottom: 4 }}
-                          value={session.type}
-                          disabled={locked}
-                          onChange={(e) => updateTrainingSession(weekStart, day.date, session.id, { type: e.target.value as TrainingSessionType })}
+                    {day.sessions.map((session) => {
+                      const cat = sessionCategory(session.type);
+                      return (
+                        <div
+                          key={session.id}
+                          className="hm-training-session"
+                          data-category={cat.tone}
+                          data-intensity={session.intensity}
                         >
-                          {TRAINING_SESSION_TYPES.map((t) => (
-                            <option key={t} value={t}>
-                              {SESSION_TYPE_LABEL[t]}
-                            </option>
-                          ))}
-                        </select>
-                        <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                          <div className="hm-training-session-head">
+                            <span className="hm-training-cat-pill" data-category={cat.tone}>{cat.label}</span>
+                            <span className="hm-training-int-pill" data-intensity={session.intensity}>
+                              {INTENSITY_BADGE[session.intensity]}
+                            </span>
+                          </div>
                           <select
                             className="hm-select"
-                            aria-label={`Intensitet ${day.date} ${session.id}`}
-                            title={INTENSITY_HELP}
-                            style={{ flex: 1 }}
-                            value={session.intensity}
+                            aria-label={`Pass ${day.date} ${session.id}`}
+                            style={{ width: "100%", marginBottom: 4 }}
+                            value={session.type}
                             disabled={locked}
-                            onChange={(e) => updateTrainingSession(weekStart, day.date, session.id, { intensity: e.target.value as TrainingIntensity })}
+                            onChange={(e) => updateTrainingSession(weekStart, day.date, session.id, { type: e.target.value as TrainingSessionType })}
                           >
-                            {TRAINING_INTENSITIES.map((t) => (
+                            {TRAINING_SESSION_TYPES.map((t) => (
                               <option key={t} value={t}>
-                                {INTENSITY_LABEL[t]}
+                                {SESSION_TYPE_LABEL[t]}
                               </option>
                             ))}
                           </select>
+                          <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                            <select
+                              className="hm-select"
+                              aria-label={`Intensitet ${day.date} ${session.id}`}
+                              title={INTENSITY_HELP}
+                              style={{ flex: 1 }}
+                              value={session.intensity}
+                              disabled={locked}
+                              onChange={(e) => updateTrainingSession(weekStart, day.date, session.id, { intensity: e.target.value as TrainingIntensity })}
+                            >
+                              {TRAINING_INTENSITIES.map((t) => (
+                                <option key={t} value={t}>
+                                  {INTENSITY_LABEL[t]}
+                                </option>
+                              ))}
+                            </select>
+                            <select
+                              className="hm-select"
+                              aria-label={`Passlängd ${day.date} ${session.id}`}
+                              title={DURATION_HELP}
+                              style={{ flex: 1 }}
+                              value={session.duration}
+                              disabled={locked}
+                              onChange={(e) => updateTrainingSession(weekStart, day.date, session.id, { duration: e.target.value as TrainingDuration })}
+                            >
+                              {TRAINING_DURATIONS.map((t) => (
+                                <option key={t} value={t}>
+                                  {DURATION_LABEL[t]}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
                           <select
                             className="hm-select"
-                            aria-label={`Passlängd ${day.date} ${session.id}`}
-                            title={DURATION_HELP}
-                            style={{ flex: 1 }}
-                            value={session.duration}
+                            aria-label={`Målgrupp ${day.date} ${session.id}`}
+                            style={{ width: "100%", marginTop: 4 }}
+                            value={session.target}
                             disabled={locked}
-                            onChange={(e) => updateTrainingSession(weekStart, day.date, session.id, { duration: e.target.value as TrainingDuration })}
+                            onChange={(e) => updateTrainingSession(weekStart, day.date, session.id, { target: e.target.value as TrainingSessionTarget })}
                           >
-                            {TRAINING_DURATIONS.map((t) => (
+                            {TRAINING_SESSION_TARGETS.map((t) => (
                               <option key={t} value={t}>
-                                {DURATION_LABEL[t]}
+                                {TARGET_LABEL[t]}
                               </option>
                             ))}
                           </select>
+                          {(() => {
+                            const eligible = eligibleStaffForSession(staffRoster, session.type);
+                            const resolvedCoach = resolveResponsibleCoach(staffRoster, session.type, session.coachId ?? null);
+                            const quality = computeStaffTrainingQuality(session.type, resolvedCoach, headCoach);
+                            if (eligible.length === 0) return null;
+                            return (
+                              <>
+                                <select
+                                  className="hm-select"
+                                  aria-label={`Ansvarig tränare ${day.date} ${session.id}`}
+                                  style={{ width: "100%", marginTop: 4 }}
+                                  value={session.coachId ?? ""}
+                                  disabled={locked}
+                                  onChange={(e) => updateTrainingSession(weekStart, day.date, session.id, { coachId: e.target.value || null })}
+                                >
+                                  <option value="">Ingen (auto)</option>
+                                  {eligible.map((m) => (
+                                    <option key={m.id} value={m.id}>
+                                      {m.displayName}
+                                    </option>
+                                  ))}
+                                </select>
+                                <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", marginTop: 4 }}>
+                                  Ansvarig tränare: {resolvedCoach?.displayName ?? "—"} · Tränarens kvalitet för passet: {staffQualityLabel(quality).toLowerCase()}
+                                </div>
+                              </>
+                            );
+                          })()}
+                          {!locked && (
+                            <button className="hm-btn hm-btn-sm" style={{ width: "100%", marginTop: 4 }} onClick={() => removeTrainingSession(weekStart, day.date, session.id)}>
+                              Ta bort pass
+                            </button>
+                          )}
                         </div>
-                        <select
-                          className="hm-select"
-                          aria-label={`Målgrupp ${day.date} ${session.id}`}
-                          style={{ width: "100%", marginTop: 4 }}
-                          value={session.target}
-                          disabled={locked}
-                          onChange={(e) => updateTrainingSession(weekStart, day.date, session.id, { target: e.target.value as TrainingSessionTarget })}
-                        >
-                          {TRAINING_SESSION_TARGETS.map((t) => (
-                            <option key={t} value={t}>
-                              {TARGET_LABEL[t]}
-                            </option>
-                          ))}
-                        </select>
-                        {(() => {
-                          const eligible = eligibleStaffForSession(staffRoster, session.type);
-                          const resolvedCoach = resolveResponsibleCoach(staffRoster, session.type, session.coachId ?? null);
-                          const quality = computeStaffTrainingQuality(session.type, resolvedCoach, headCoach);
-                          if (eligible.length === 0) return null;
-                          return (
-                            <>
-                              <select
-                                className="hm-select"
-                                aria-label={`Ansvarig tränare ${day.date} ${session.id}`}
-                                style={{ width: "100%", marginTop: 4 }}
-                                value={session.coachId ?? ""}
-                                disabled={locked}
-                                onChange={(e) => updateTrainingSession(weekStart, day.date, session.id, { coachId: e.target.value || null })}
-                              >
-                                <option value="">Ingen (auto)</option>
-                                {eligible.map((m) => (
-                                  <option key={m.id} value={m.id}>
-                                    {m.displayName}
-                                  </option>
-                                ))}
-                              </select>
-                              <div className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", marginTop: 4 }}>
-                                Ansvarig tränare: {resolvedCoach?.displayName ?? "—"} · Tränarens kvalitet för passet: {staffQualityLabel(quality).toLowerCase()}
-                              </div>
-                            </>
-                          );
-                        })()}
-                        {!locked && (
-                          <button className="hm-btn hm-btn-sm" style={{ width: "100%", marginTop: 4 }} onClick={() => removeTrainingSession(weekStart, day.date, session.id)}>
-                            Ta bort pass
-                          </button>
-                        )}
-                      </div>
-                    ))}
+                      );
+                    })}
                     {!locked && day.dayType !== "REST" && day.dayType !== "TRAVEL" && day.sessions.length < 2 && (
                       <button
                         className="hm-btn hm-btn-sm"
@@ -303,7 +369,7 @@ function Training() {
             <thead>
               <tr>
                 <th>Spelare</th>
-                <th>Energi</th>
+                <th>Energi & matchform</th>
                 <th>Senaste belastning</th>
                 <th title="Hur stor del av passen spelaren deltar i: Full, Reducerad, Endast återhämtning eller Vila. Påverkar energi och utveckling.">Belastning (deltagande)</th>
                 <th title="Vilka egenskaper spelarens utvecklingsstimulans riktas mot. Påverkar inte energin.">Individuellt utvecklingsfokus</th>
@@ -313,20 +379,13 @@ function Training() {
               {squad.map((p) => {
                 const physical = career.playerPhysicalState[p.id];
                 const energy = physical?.currentEnergy ?? ENERGY_START_DEFAULT;
+                const matchFit = Math.round(matchFitnessOf(career, p.id));
                 const status = energy >= 80 ? "Pigg" : energy >= 55 ? "Något sliten" : "Trött";
                 const badgeClass = energy >= 80 ? "hm-badge-positive" : energy >= 55 ? "hm-badge-warning" : "hm-badge-negative";
                 const loadSetting = career.playerTrainingAssignments[p.id]?.loadSetting ?? "FULL";
                 const focus = (career.playerTrainingAssignments[p.id]?.individualFocus as IndividualDevelopmentFocus | undefined) ?? "NORMAL";
-                // HM-INJURIES-1.0 Part 33: an injured/limited player's own
-                // load selector must reflect the enforced maximum -- the
-                // manager cannot accidentally put an injured player on FULL.
                 const availability = getPlayerAvailability(career, p.id);
                 const activeInjury = career.playerInjuries[p.id]?.activeInjury;
-                // HM-CLUB-PARTNERSHIPS-1.1: a player ON_PLACEMENT is fully
-                // fit -- REST is enforced here because they train at the
-                // partner club instead, never because they're injured.
-                // Checked ahead of the generic UNAVAILABLE branch so the
-                // injury-flavoured copy below never misrepresents them.
                 const onPlacement = career.playerStatuses[p.id]?.availability === "ON_PLACEMENT";
                 const enforcedLoadSetting = effectiveTrainingLoadSetting(career, p.id, loadSetting);
                 const allowedSettings = PLAYER_TRAINING_LOAD_SETTINGS.filter((l) => effectiveTrainingLoadSetting(career, p.id, l) === l);
@@ -349,7 +408,10 @@ function Training() {
                       ) : null}
                     </td>
                     <td>
-                      <span className={`hm-badge ${badgeClass}`}>{Math.round(energy)}% · {status}</span>
+                      <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
+                        <span className={`hm-badge ${badgeClass}`}>{Math.round(energy)}% · {status}</span>
+                        <span className="hm-badge hm-badge-neutral" title="Matchform">MF {matchFit}%</span>
+                      </div>
                     </td>
                     <td className="hm-text-muted">{physical ? Math.round(physical.recentLoad) : 0}</td>
                     <td>
