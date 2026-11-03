@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 import { useMemo, useState, useId, useRef, type ReactNode } from 'react';
 import type { MatchFrame, MatchPerson, ProductionMatchSession, PlayedMatchArchive } from '@/lib/career/productionMatch';
 import type { CoreEvent, TeamId } from '@handball-manager/handball-engine/src/v2/core/state';
@@ -137,7 +137,7 @@ export function MatchCenterSurface({ model, fixture, frames, people, events, tea
                         {model.manpower && (
                             <strong className="mc-manpower-badge" data-powerplay={model.manpower.HOME !== model.manpower.AWAY ? 'true' : undefined}>
                                 {model.manpower.HOME} mot {model.manpower.AWAY}
-                                <small>{model.manpower.HOME === model.manpower.AWAY ? '6v6 · Jämnt styrkeförhållande' : 'Utvisning aktiv · Numerärt läge'}</small>
+                                <small>{model.manpower.HOME === model.manpower.AWAY ? 'Utespelare på plan · 6v6 jämnt' : 'Utespelare på plan · Utvisning aktiv'}</small>
                             </strong>
                         )}
                         {model.timeouts && <span>Timeouts kvar: {names.HOME} {model.timeouts.HOME} · {names.AWAY} {model.timeouts.AWAY}</span>}
@@ -207,3 +207,4 @@ export function ArchivedMatchCenter({ archive, frames, team = 'HOME', ...props }
     frames: MatchFrame[];
     team?: TeamId;
 } & Omit<Parameters<typeof MatchCenterSurface>[0], 'model' | 'fixture' | 'frames' | 'people' | 'events' | 'team'>) { const model = useMemo(() => archivedMatchModel(archive, frames), [archive, frames]); return <MatchCenterSurface {...props} model={model} fixture={archive.fixture} frames={frames} people={archive.people} events={archive.events} team={team}/>; }
+

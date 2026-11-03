@@ -1,4 +1,4 @@
-// Atomic, backed-up JSON file writes (HM-DATA-EDITOR-0.1, Spec S20-S22).
+﻿// Atomic, backed-up JSON file writes (HM-DATA-EDITOR-0.1, Spec S20-S22).
 //
 // Strategy:
 //   1. serialize the already-validated data (2-space indent), then
@@ -59,7 +59,18 @@ export function atomicWriteJsonFile(filePath: string, data: unknown): void {
     if (fs.existsSync(filePath)) {
       fs.copyFileSync(filePath, backupPath);
     }
-    fs.renameSync(tmpPath, filePath);
+    for (let attempt = 0; attempt < 5; attempt++) {
+      try {
+        fs.renameSync(tmpPath, filePath);
+        break;
+      } catch (err: any) {
+        if ((err?.code === 'EPERM' || err?.code === 'EBUSY') && attempt < 4) {
+          Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 20);
+          continue;
+        }
+        throw err;
+      }
+    }
     clearDefaultCatalogCache();
   } catch (error) {
     // Best-effort cleanup of the temp file; the original source file is

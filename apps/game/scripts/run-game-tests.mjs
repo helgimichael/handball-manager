@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 const project = fileURLToPath(new URL('../', import.meta.url));
 const files = JSON.parse(readFileSync(new URL('./game-test-files.json', import.meta.url), 'utf8'));
 if (!Array.isArray(files) || files.length === 0 || !files.every(file => typeof file === 'string' && file.endsWith('.test.ts'))) throw new Error('Expected the canonical game test manifest.');
-const args = ['--import', 'tsx', '--test', ...files];
+const args = ['--import', './scripts/register-asset-loader.cjs', '--import', 'tsx', '--test', ...files];
 // Windows editor fixtures share files; serialize them for an isolated release run.
 const concurrency = Number(process.env.HM_GAME_TEST_CONCURRENCY ?? 4);
 if (!Number.isSafeInteger(concurrency) || concurrency < 1 || concurrency > 8) throw new Error('Invalid game test concurrency.');

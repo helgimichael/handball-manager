@@ -78,11 +78,11 @@
   --sv-shell-offset: 0px;
 }
 body:has([data-starkvis-shell][data-revealed="true"]) {
-  --sv-shell-offset: 172px;
+  --sv-shell-offset: 118px;
 }
 @media (max-width: 767px) {
   body:has([data-starkvis-shell][data-revealed="true"]) {
-    --sv-shell-offset: 164px;
+    --sv-shell-offset: 110px;
   }
 }
 
@@ -1784,3 +1784,4 @@ input:not([class]):not([type=checkbox]):not([type=radio]):not([type=range]) {
 @media (max-width: 760px) and (prefers-reduced-motion: reduce) {
   .hm-sidebar { transition: none; }
 }
+
