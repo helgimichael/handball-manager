@@ -19,6 +19,7 @@ import { SortableTh, applySortDirection, type SortState } from '@/components/Sor
 import { MoraleBadge } from "@/components/players/PlayerDynamicsPanel";
 import { PageHeading, Panel, EmptyState } from '@/components/manager/Workspace';
 import { currentTeamRoles, setCaptaincy } from '@/lib/career/teamRoles';
+import { EnvironmentBanner } from '@/components/clubhq/EnvironmentBanner';
 
 type Key = 'name' | 'position' | 'age' | 'appearances' | 'starts' | 'goals' | 'shots' | 'rating' | 'energy' | 'contract' | 'wage' | 'load';
 type View = 'overview' | 'performance' | 'physical' | 'contracts';
@@ -52,21 +53,28 @@ export default function SquadPage() {
   const tired = squad.filter(p => squadEnergy(career, p) < 75).length;
   const chosen = selected.flatMap(id => squad.filter(p => p.id === id));
 
+  const avgFit = squad.length ? Math.round(squad.reduce((acc, p) => acc + matchFitnessOf(career, p.id), 0) / squad.length) : 100;
+  const captainPlayer = roles.captainId ? squad.find(p => p.id === roles.captainId) : undefined;
+
   return <div className="hm-squad-screen" style={clubColorVars(club)}>
-    <div className="hm-roster-heading">
-      <PageHeading
-        eyebrow={`${club.name} / ${career.seasonId} / lagbygget`}
-        title="Trupp"
-        description="Din startsjua. Din rotation. Ditt nästa matchlag."
-        actions={
-          <div className="hm-actions">
-            <ClubCrest clubId={club.id} shortName={club.shortName} primaryColor={club.primaryColor} size={42} />
-            <Link className="hm-btn hm-btn-primary" href="/career/tactics">Matchtrupp & startsju →</Link>
-          </div>
-        }
-      />
-      <div className="hm-sports-summary" aria-label="Truppens beredskap"><div><strong>{squad.length}</strong><span>spelare i truppen</span></div><div><strong>{available}<small> / {squad.length}</small></strong><span>tillgängliga för match</span></div><div data-alert={tired > 0}><strong>{tired}</strong><span>med energi under 75%</span></div><Link href="/career/contracts"><span>Planera nästa säsong</span><b>Kontrakt & förlängningar →</b></Link></div>
-    </div>
+    <EnvironmentBanner
+      environment="dressing-room"
+      eyebrow={`${club.name} · Omklädningsrummet · ${career.seasonId}`}
+      title="Truppen & Omklädningsrummet"
+      subtitle="Din startsjua, din rotation och lagets inre hierarki. Granska form, belastning, kontrakt och utse kaptener."
+      badge={`${available}/${squad.length} redo för spel`}
+      actions={
+        <>
+          <Link className="hm-btn hm-btn-sm hm-btn-primary" href="/career/tactics">Matchtrupp & Taktiktavla →</Link>
+          <Link className="hm-btn hm-btn-sm" href="/career/contracts">Kontrakt & Förlängningar →</Link>
+        </>
+      }
+      metrics={[
+        { label: "Truppstorlek", value: `${squad.length} spelare`, sub: `${available} tillgängliga`, tone: available === squad.length ? "positive" : "warning" },
+        { label: "Matchträning", value: `${avgFit}%`, sub: `${tired} under 75% energi`, tone: tired === 0 ? "positive" : "warning" },
+        { label: "Lagkapten", value: captainPlayer ? captainPlayer.lastName : "Ej utsedd", sub: captainPlayer ? `#${captainPlayer.shirtNumber} ${captainPlayer.position}` : "Välj i truppen", tone: "signal" },
+      ]}
+    />
     <SquadDepth career={career} />
     <nav className="hm-tabs" aria-label="Truppvyer">{([['overview', 'Översikt'], ['performance', 'Prestation'], ['physical', 'Fysisk status'], ['contracts', 'Kontrakt']] as const).map(([id, label]) => <button key={id} aria-pressed={view === id} onClick={() => setView(id)}>{label}</button>)}</nav>
     <Panel title={`${rows.length} av ${squad.length} spelare`} actions={selected.length === 2 ? <Link className="hm-btn hm-btn-sm hm-btn-primary" href={`/career/compare?left=${encodeURIComponent(selected[0])}&right=${encodeURIComponent(selected[1])}`}>Jämför valda spelare →</Link> : <span className="hm-text-muted">Välj två spelare för jämförelse</span>}>

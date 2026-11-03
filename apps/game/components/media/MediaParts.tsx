@@ -7,12 +7,10 @@ import ClubCrest from "@/components/ClubCrest";
 import { getClub } from "@/lib/game-data";
 import { CATEGORY_LABEL, MEDIA_OUTLETS } from "@/lib/media/registry";
 import type { NewsStory } from "@/lib/media/types";
-import pressWide from "./assets/pressroom-moment-1920.webp";
-import pressNarrow from "./assets/pressroom-moment-960.webp";
-import { photoBackdrop } from "@/components/experience/visuals";
+import { ENVIRONMENTS } from "@/components/clubhq/environments";
 
-/** The Media Centre and press-conference backdrop (Blender, scripts/visual/render_pressroom_moment.py). */
-export const PRESSROOM_BACKDROP = photoBackdrop(pressWide, pressNarrow);
+/** The Media Centre and press-conference backdrop. */
+export const PRESSROOM_BACKDROP = ENVIRONMENTS["press-room"].backdropStyle;
 
 export const SCOPE_LABEL: Record<NewsStory["scope"], string> = { NATIONAL: "Nationellt", SPECIALIST: "Handbollsmedia", REGIONAL: "Regionalt", LOCAL: "Lokalt" };
 

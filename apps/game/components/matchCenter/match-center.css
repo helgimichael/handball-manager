@@ -227,3 +227,97 @@
 @container (min-width:1500px) { .mc-active-layout.mc-managing { grid-template-columns:minmax(0,1fr) 340px; }.mc-overview-grid { grid-template-columns:minmax(0,1.3fr) minmax(350px,.8fr); gap:40px; }.mc-summary li { font-size:13px; }.mc-moment-workspace { grid-template-columns:310px minmax(0,1fr); } }
 @media (max-width:900px) { .mc-active-layout.mc-managing,.mc-overview-grid,.mc-player-workspace,.mc-stat-workspace,.mc-stat-workspace>.mc-shots { grid-template-columns:1fr; }.mc-preview>div { grid-template-columns:1fr 1fr; }.mc-moment-workspace { grid-template-columns:1fr; }.mc-moment-list ol { max-height:220px; }.mc-workspace-nav { position:static; padding:0 10px; }.mc-workspace-nav [role="tab"] { padding:12px 10px; font-size:10px; }.mc-stat-workspace>.mc-keepers { grid-template-columns:1fr; } }
 @media (prefers-reduced-motion:reduce) { .mc-view-panel { transition:none; } }
+
+/* --- HM-RICH-EXPERIENCE-02: Matchday Broadcast Scoreboard & Event Callouts --- */
+.mc-header.xp-photo-hero {
+  background-image:
+    linear-gradient(180deg, rgba(8, 15, 28, 0.86) 0%, rgba(8, 15, 28, 0.72) 55%, rgba(8, 15, 28, 0.92) 100%),
+    var(--xp-photo-wide);
+  background-size: cover;
+  background-position: center;
+  border-radius: 5px 5px 0 0;
+  box-shadow: 0 12px 30px rgba(8, 15, 28, 0.25);
+}
+.mc-broadcast-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(15, 27, 45, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #e2e8f0;
+}
+.mc-broadcast-pill[data-live="true"] {
+  background: rgba(200, 67, 32, 0.28);
+  border-color: #f59e6c;
+  color: #ffffff;
+}
+.mc-manpower-badge {
+  padding: 4px 12px;
+  border-radius: 4px;
+  background: rgba(15, 27, 45, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  text-align: center;
+}
+.mc-manpower-badge[data-powerplay="true"] {
+  background: rgba(245, 158, 11, 0.22);
+  border-color: #fbbf24;
+  color: #fef3c7;
+}
+.mc-broadcast-callout {
+  margin-top: 12px;
+  padding: 9px 14px;
+  border-radius: 4px;
+  background: rgba(9, 17, 31, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-left: 4px solid var(--game-signal);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: #f8fafc;
+  backdrop-filter: blur(6px);
+}
+.mc-broadcast-callout[data-tone="goal"] { border-left-color: #f59e0b; background: linear-gradient(90deg, rgba(200, 67, 32, 0.35), rgba(9, 17, 31, 0.90)); }
+.mc-broadcast-callout[data-tone="save"] { border-left-color: #10b981; }
+.mc-broadcast-callout[data-tone="suspension"] { border-left-color: #ef4444; }
+.mc-broadcast-callout-tag,
+.mc-comm-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 7px;
+  border-radius: 3px;
+  font-style: normal;
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: #334155;
+  color: #ffffff;
+}
+.mc-broadcast-callout-tag[data-tone="goal"], .mc-comm-badge[data-tone="goal"] { background: #c84320; color: #ffffff; }
+.mc-broadcast-callout-tag[data-tone="save"], .mc-comm-badge[data-tone="save"] { background: #0f766e; color: #ffffff; }
+.mc-broadcast-callout-tag[data-tone="penalty"], .mc-comm-badge[data-tone="penalty"] { background: #b45309; color: #ffffff; }
+.mc-broadcast-callout-tag[data-tone="suspension"], .mc-comm-badge[data-tone="suspension"] { background: #b91c1c; color: #ffffff; }
+.mc-broadcast-callout-tag[data-tone="timeout"], .mc-comm-badge[data-tone="timeout"] { background: #1d4ed8; color: #ffffff; }
+.mc-broadcast-callout time {
+  font-family: var(--game-font-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: #f3b38a;
+}
+.mc-broadcast-callout-detail {
+  color: #cbd5e1;
+  font-size: 11.5px;
+}
+.mc-comm-meta {
+  display: flex !important;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 4px !important;
+}

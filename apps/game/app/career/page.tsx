@@ -20,6 +20,7 @@ import { resolveClubIdentity } from '@/components/crests/clubIdentity';
 import FormDots from '@/components/FormDots';
 import { EmptyState, FixtureTable } from '@/components/manager/Workspace';
 import { clubColorVars, MatchHero, PlayerCell, RankIndicator, ClubHero } from '@/components/game/Identity';
+import { ENVIRONMENTS } from '@/components/clubhq/environments';
 import { MeterBar } from '@/components/experience/primitives';
 import { boardOf, ensureBoard, evaluateObjectives } from '@/lib/board/board';
 import { currentTeamRoles } from '@/lib/career/teamRoles';
@@ -53,18 +54,22 @@ export default function HomePage() {
   const avgMatchFitness = squad.length ? Math.round(squad.reduce((s, p) => s + matchFitnessOf(career, p.id), 0) / squad.length) : 0;
 
   return <div className="game-home" style={clubColorVars(club)}>
-    <header className="game-home-heading">
+    <header className="game-home-heading xp-photo-hero" style={ENVIRONMENTS["manager-office"].backdropStyle}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
         <ClubCrest clubId={club.id} shortName={club.shortName} primaryColor={club.primaryColor} size={64} />
         <div>
-          <div className="game-overline">DIN KLUBB. DIN SÄSONG. · {career.seasonId}</div>
+          <div className="game-overline">MANAGERNS KONTOR · {career.seasonId}</div>
           <h1>{club.name}</h1>
-          {identity.heritageTag && <small className="hm-text-muted">{identity.heritageTag}</small>}
+          {identity.heritageTag && <small style={{ color: '#cbd6e4' }}>{identity.heritageTag}</small>}
         </div>
       </div>
       <div>
         <p>{competition?.name}</p>
         <p>{club.venue ?? club.city}{club.venueCapacity ? ` · ${club.venueCapacity.toLocaleString('sv-SE')} platser` : ''}</p>
+        <div style={{ marginTop: 8, display: 'flex', gap: 8, justifyContent: 'flex-end', flexWrap: 'wrap' }}>
+          <Link className="hm-env-banner-back" href="/career/klubbhuset">Klubbhuset →</Link>
+          <Link className="hm-env-banner-back" href="/career/tactics">Taktikrummet →</Link>
+        </div>
       </div>
     </header>
     {career.managerCareer?.seekingJob && <div className="game-new-season-note"><strong>Du står utan klubb.</strong> Styrelsen har gått vidare. Välj ditt nästa jobb för att fortsätta.<Link href="/career/manager?tab=jobs">Jobbmarknaden →</Link></div>}

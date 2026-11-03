@@ -5,6 +5,7 @@ import { clubColorVars, MatchHero, PlayerCell } from "@/components/game/Identity
 import { PageHeading } from "@/components/manager/Workspace";
 import ClubCrest from "@/components/ClubCrest";
 import { formatGameDate } from "@/lib/career/dateUtils";
+import { EnvironmentBanner } from "@/components/clubhq/EnvironmentBanner";
 
 // HM-TRAINING-1.0 Part 24/25: the live Training workspace -- a WEEK view
 // (Monday-Sunday columns) the manager can apply a template to, edit
@@ -134,17 +135,23 @@ function Training() {
 
   return (
     <div className="hm-training-screen" style={clubColorVars(club)}>
-      <PageHeading
-        eyebrow={`${club?.name ?? career.playerClubId} · ${career.seasonId} / träningsplanen`}
-        title="Träning & återhämtning"
-        description={`Bygg formen mellan matcherna. Anpassa belastningen till spelarna som ska prestera (snitt matchform: ${averageMatchFitness ?? '—'}%).`}
+      <EnvironmentBanner
+        environment="training-hall"
+        eyebrow={`${club?.name ?? career.playerClubId} · Träningshallen & Gymmet`}
+        title="Träning & Återhämtning"
+        subtitle={`Bygg formen mellan matcherna och styr individuell belastning. Snitt matchform i truppen: ${averageMatchFitness ?? "—"}%.`}
+        badge={`Vecka ${weekStart}`}
         actions={
-          <div className="hm-actions">
-            {club && <ClubCrest clubId={club.id} shortName={club.shortName} primaryColor={club.primaryColor} size={40} />}
-            <Link className="hm-btn" href="/career/staff">Ledarstab →</Link>
-            <Link className="hm-btn" href="/career/calendar">Kalender →</Link>
-          </div>
+          <>
+            <Link className="hm-btn hm-btn-sm" href="/career/staff">Ledarstab →</Link>
+            <Link className="hm-btn hm-btn-sm" href="/career/calendar">Säsongskalender →</Link>
+          </>
         }
+        metrics={[
+          { label: "Planerade pass", value: `${sessionCount} st`, sub: `${recoveryDays} återhämtningsdagar`, tone: "signal" },
+          { label: "Truppenergi", value: averageEnergy === null ? "—" : `${averageEnergy}%`, sub: "Snitt idag", tone: (averageEnergy ?? 100) >= 80 ? "positive" : "warning" },
+          { label: "Matchträning", value: `${averageMatchFitness ?? "—"}%`, sub: "Skärpa inför match", tone: (averageMatchFitness ?? 100) >= 75 ? "positive" : "warning" },
+        ]}
       />
 
       <div className="hm-week-context">

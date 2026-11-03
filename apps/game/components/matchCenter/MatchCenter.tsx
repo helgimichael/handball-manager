@@ -5,6 +5,7 @@ import type { CoreEvent, TeamId } from '@handball-manager/handball-engine/src/v2
 import { archivedMatchModel, createLiveMatchReader, snapshotsFor, clockText, type MatchCenterModel, type MatchPresentationEvent } from '@/lib/matchCenter/model';
 import { getClub, COMPETITIONS } from '@/lib/game-data';
 import ClubCrest from '@/components/ClubCrest';
+import { ENVIRONMENTS } from '@/components/clubhq/environments';
 import { TacticalCourt, StructureCourt } from './TacticalCourt';
 import { ScoreFlow, PlayersView, StatisticsView } from './WorkspaceViews';
 import { MATCH_VIEWS, VIEW_LABELS, keyboardView, overviewFacts, overviewMoments, performers, tacticalStory, momentMatches, MOMENT_FILTERS, FILTER_LABELS, type MatchView, type MomentFilter } from '@/lib/matchCenter/workspace';
@@ -26,7 +27,56 @@ export function KeyMoment({ moment, events, frames, people }: {
     const [step, setStep] = useState(0), snapshot = snapshots[Math.min(step, snapshots.length - 1)];
     return <section className="mc-key-moment" aria-label="Taktiskt nyckelögonblick"><header><div><span className="game-overline">Nyckelögonblick</span><h2>{moment?.headline ?? 'Matchen tar form'}</h2></div>{moment && <time>{clockText(moment.timestamp)}</time>}</header>{moment && <p>{story?.explanation ?? moment.detail}</p>}{snapshot ? <><div className="mc-step-controls" aria-label="Steg i nyckelögonblicket">{snapshots.map((s, i) => <button key={s.tick} type="button" aria-pressed={i === Math.min(step, snapshots.length - 1)} onClick={() => setStep(i)}>{i + 1}. {story?.stages[i] ?? s.label}<small>{clockText(s.timestamp)}</small></button>)}</div><button type="button" className="mc-camera-control" aria-pressed={fullCourt} onClick={() => setFullCourt(!fullCourt)}>{fullCourt ? 'Visa närbild' : 'Visa helplan'}</button><TacticalCourt snapshot={{...snapshot,label:story?.stages[Math.min(step, snapshots.length - 1)] ?? snapshot.label}} fullCourt={fullCourt} focusY={snapshots.at(-1)?.ball.y} actors={story?.actors}/><p className="mc-footnote">Positionerna är sparade vid {clockText(snapshot.timestamp)}. Pilar visar berörda spelare och bollens registrerade läge, inte en animerad bana.</p></> : <p className="mc-empty">{moment ? 'Den här händelsen saknar sparade positionsbilder. Kommentaren och matchstatistiken finns kvar.' : 'Välj en viktig händelse i flödet för att se den steg för steg.'}</p>}</section>;
 }
-function Commentary({ compact = false, stream, names, keyOnly, importantOnly, onOpen, onView, onToggle }: { compact?: boolean; stream: MatchPresentationEvent[]; names: Record<TeamId, string>; keyOnly: boolean; importantOnly: boolean; onOpen: (id: string) => void; onView: () => void; onToggle: () => void; }) { return <section className="mc-commentary" aria-label="Matchkommentarer"><header><h2>Från planen</h2>{compact ? <button type="button" onClick={onView}>Alla händelser →</button> : <button type="button" aria-pressed={keyOnly || importantOnly} disabled={importantOnly} onClick={onToggle}>{keyOnly || importantOnly ? 'Visa alla händelser' : 'Viktiga händelser'}</button>}</header><ol>{stream.slice(0, compact ? 8 : 60).map(e => <li key={e.canonicalEventId} data-team={e.team ?? 'NEUTRAL'} data-importance={e.importance}><time>{clockText(e.timestamp)}</time><div><span>{e.team ? names[e.team] : 'Matchen'} · {e.score.join('–')}</span>{e.replayReference ? <button type="button" onClick={() => onOpen(e.canonicalEventId)}>{e.headline}</button> : <strong>{e.headline}</strong>}{!compact && <p>{e.detail}</p>}</div></li>)}</ol>{!stream.length && <p className="mc-empty">Flödet börjar vid avkast.</p>}</section>; }
+function classifyBroadcastEvent(e: MatchPresentationEvent): { tag: string; tone: 'goal' | 'save' | 'penalty' | 'suspension' | 'timeout' | 'period' | 'play' } {
+    const h = `${e.headline} ${e.detail}`.toLowerCase();
+    if (h.includes('2 min') || h.includes('utvisning') || h.includes('rött kort')) return { tag: '2 MIN UTVISNING', tone: 'suspension' };
+    if (h.includes('timeout')) return { tag: 'TIMEOUT', tone: 'timeout' };
+    if (h.includes('7-meter') || h.includes('straff')) return { tag: '7-METERSKAST', tone: 'penalty' };
+    if (h.includes('räddar') || h.includes('räddning')) return { tag: 'RÄDDNING', tone: 'save' };
+    if (h.includes('halvtid') || h.includes('slutsignal') || h.includes('avkast')) return { tag: 'MATCHFAS', tone: 'period' };
+    if (e.importance === 'KEY' || h.includes('mål') || h.includes('sätter') || h.includes('reducerar') || h.includes('utökar') || h.includes('kvitterar')) return { tag: 'MÅL', tone: 'goal' };
+    return { tag: 'SPELSEKVEN', tone: 'play' };
+}
+
+function Commentary({ compact = false, stream, names, keyOnly, importantOnly, onOpen, onView, onToggle }: { compact?: boolean; stream: MatchPresentationEvent[]; names: Record<TeamId, string>; keyOnly: boolean; importantOnly: boolean; onOpen: (id: string) => void; onView: () => void; onToggle: () => void; }) {
+    return (
+        <section className="mc-commentary" aria-label="Matchkommentarer">
+            <header>
+                <h2>Från planen · Direktflöde</h2>
+                {compact ? (
+                    <button type="button" onClick={onView}>Alla händelser →</button>
+                ) : (
+                    <button type="button" aria-pressed={keyOnly || importantOnly} disabled={importantOnly} onClick={onToggle}>
+                        {keyOnly || importantOnly ? 'Visa alla händelser' : 'Viktiga händelser'}
+                    </button>
+                )}
+            </header>
+            <ol>
+                {stream.slice(0, compact ? 8 : 60).map(e => {
+                    const badge = classifyBroadcastEvent(e);
+                    return (
+                        <li key={e.canonicalEventId} data-team={e.team ?? 'NEUTRAL'} data-importance={e.importance} data-tone={badge.tone}>
+                            <time>{clockText(e.timestamp)}</time>
+                            <div>
+                                <span className="mc-comm-meta">
+                                    <i className="mc-comm-badge" data-tone={badge.tone}>{badge.tag}</i>
+                                    {e.team ? names[e.team] : 'Matchen'} · {e.score.join('–')}
+                                </span>
+                                {e.replayReference ? (
+                                    <button type="button" onClick={() => onOpen(e.canonicalEventId)}>{e.headline}</button>
+                                ) : (
+                                    <strong>{e.headline}</strong>
+                                )}
+                                {!compact && <p>{e.detail}</p>}
+                            </div>
+                        </li>
+                    );
+                })}
+            </ol>
+            {!stream.length && <p className="mc-empty">Flödet börjar vid avkast.</p>}
+        </section>
+    );
+}
 export function MatchCenterSurface({ model, fixture, frames, people, events, team, controls, coach, onPlayer, experimental, importantOnly = false, defaultShowExperimental = false }: {
     model: MatchCenterModel; fixture: ProductionMatchSession['fixture']; frames: readonly MatchFrame[];
     people: MatchPerson[]; events: readonly CoreEvent[]; team: TeamId; controls?: ReactNode;
@@ -55,9 +105,54 @@ export function MatchCenterSurface({ model, fixture, frames, people, events, tea
     function openMoment(id: string) { setSelected(id); setFilter('ALL'); setView('MOMENTS'); buttons.current.MOMENTS?.focus({ preventScroll: true }); navigation.current?.scrollIntoView({ block: 'nearest' }); }
     function changeView(next: MatchView) { setView(next); navigation.current?.scrollIntoView({ block: 'nearest' }); }
 
+    const latestEvent = model.events.at(-1) ?? null;
+    const latestBadge = latestEvent ? classifyBroadcastEvent(latestEvent) : null;
+    const homeClub = getClub(fixture.homeClubId);
+    const awayClub = getClub(fixture.awayClubId);
+
     return <div className="mc-match mc-workspace" data-phase={model.status.toLowerCase()} data-view={view} data-match-mode="MATCH_CENTER">
         <a href={`#${uid}-controls`} className="mc-skip">Till matchbeslut</a>
-        {view === 'OVERVIEW' && <header className="mc-header"><div className="mc-header-meta"><span>{fixture.type === 'FRIENDLY' ? 'Träningsmatch' : fixture.type === 'CUP' ? 'Svenska Cupen' : fixture.type === 'PLAYOFF' ? 'SM-slutspel' : fixture.type === 'QUALIFIER' ? 'Kvalspel' : COMPETITIONS.find(c => c.id === fixture.competitionId)?.name ?? 'Match'} · {fixture.date}</span><span>{stateLabels[model.status]}</span></div><div className="mc-scoreline"><ClubIdentity id={fixture.homeClubId} side="HEMMA"/><div className="mc-score"><strong>{model.result.homeGoals}<span>–</span>{model.result.awayGoals}</strong><small>{clockText(model.clock)} · {stateLabels[model.status]}</small></div><ClubIdentity id={fixture.awayClubId} side="BORTA"/></div>{!reviewing && <div className="mc-match-state"><span>{model.period === 2 ? 'Andra halvlek' : 'Första halvlek'} · {clockText(model.remaining)} kvar</span>{model.manpower && <strong>{model.manpower.HOME} mot {model.manpower.AWAY}<small>Utespelare på plan</small></strong>}{model.timeouts && <span>Timeouts {model.timeouts.HOME}–{model.timeouts.AWAY}</span>}</div>}</header>}
+        {view === 'OVERVIEW' && (
+            <header className="mc-header xp-photo-hero" style={ENVIRONMENTS["arena-matchday"].backdropStyle}>
+                <div className="mc-header-meta">
+                    <span>
+                        {fixture.type === 'FRIENDLY' ? 'Träningsmatch' : fixture.type === 'CUP' ? 'Svenska Cupen' : fixture.type === 'PLAYOFF' ? 'SM-slutspel' : fixture.type === 'QUALIFIER' ? 'Kvalspel' : COMPETITIONS.find(c => c.id === fixture.competitionId)?.name ?? 'Match'} · {fixture.date}
+                        {homeClub?.venue ? ` · ${homeClub.venue}` : ''}
+                    </span>
+                    <span className="mc-broadcast-pill" data-live={model.status === 'LIVE' ? 'true' : undefined}>
+                        {model.status === 'LIVE' ? '● SÄNDNING LIVE' : stateLabels[model.status]}
+                    </span>
+                </div>
+                <div className="mc-scoreline">
+                    <ClubIdentity id={fixture.homeClubId} side="HEMMA"/>
+                    <div className="mc-score">
+                        <strong>{model.result.homeGoals}<span>–</span>{model.result.awayGoals}</strong>
+                        <small>{clockText(model.clock)} · {stateLabels[model.status]}</small>
+                    </div>
+                    <ClubIdentity id={fixture.awayClubId} side="BORTA"/>
+                </div>
+                {!reviewing && (
+                    <div className="mc-match-state">
+                        <span>{model.period === 2 ? 'Andra halvlek' : 'Första halvlek'} · {clockText(model.remaining)} kvar</span>
+                        {model.manpower && (
+                            <strong className="mc-manpower-badge" data-powerplay={model.manpower.HOME !== model.manpower.AWAY ? 'true' : undefined}>
+                                {model.manpower.HOME} mot {model.manpower.AWAY}
+                                <small>{model.manpower.HOME === model.manpower.AWAY ? '6v6 · Jämnt styrkeförhållande' : 'Utvisning aktiv · Numerärt läge'}</small>
+                            </strong>
+                        )}
+                        {model.timeouts && <span>Timeouts kvar: {names.HOME} {model.timeouts.HOME} · {names.AWAY} {model.timeouts.AWAY}</span>}
+                    </div>
+                )}
+                {latestEvent && latestBadge && (
+                    <div className="mc-broadcast-callout" data-tone={latestBadge.tone} aria-live="polite">
+                        <span className="mc-broadcast-callout-tag" data-tone={latestBadge.tone}>{latestBadge.tag}</span>
+                        <time>{clockText(latestEvent.timestamp)}</time>
+                        <strong>{latestEvent.headline}</strong>
+                        <span className="mc-broadcast-callout-detail">{latestEvent.detail}</span>
+                    </div>
+                )}
+            </header>
+        )}
         <nav className="mc-workspace-nav" ref={navigation} aria-label="Matchens vyer"><div className="mc-compact-identity"><strong>{names.HOME} <b>{model.result.homeGoals}–{model.result.awayGoals}</b> {names.AWAY}</strong><small>{clockText(model.clock)} · {stateLabels[model.status]}</small></div><div role="tablist" aria-label="Matchvy">{MATCH_VIEWS.map(v => <button type="button" key={v} id={`${uid}-${v}-tab`} role="tab" aria-selected={view === v} aria-controls={`${uid}-${v}-panel`} tabIndex={view === v ? 0 : -1} ref={element => { buttons.current[v] = element; }} onClick={() => changeView(v)} onKeyDown={e => { const next = keyboardView(v, e.key); if (next) { e.preventDefault(); changeView(next); buttons.current[next]?.focus(); } }}>{VIEW_LABELS[v]}</button>)}</div></nav>
         <div id={`${uid}-controls`} className="mc-controls">{controls}</div>
         <div className={`mc-active-layout ${coach && !reviewing ? 'mc-managing' : ''}`}>

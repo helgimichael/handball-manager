@@ -2,6 +2,7 @@
 import { useState, type DragEvent } from 'react';
 import Link from 'next/link';
 import { PageHeading } from '@/components/manager/Workspace';
+import { EnvironmentBanner } from '@/components/clubhq/EnvironmentBanner';
 import { clubColorVars, PlayerCell, PlayerGlyph, playerAvailabilityLabel } from '@/components/game/Identity';
 import ClubCrest from '@/components/ClubCrest';
 import { CoachingChoices, COACH_AGGRESSION_LABEL, COACH_ATTACK_LABEL, COACH_ROTATION_LABEL, COACH_SEVEN_V_SIX_LABEL, COACH_TEMPO_LABEL, type CoachAttack } from '@/components/game/CoachingChoices';
@@ -45,39 +46,39 @@ import {
 } from '@/components/matchPlan/HandballPlanSections';
 
 const COURT_ROLES: readonly { position: Position; x: number; y: number }[] = [
-  { position: 'V6', x: 16, y: 21 },
-  { position: 'M6', x: 50, y: 32 },
-  { position: 'H6', x: 84, y: 21 },
-  { position: 'V9', x: 23, y: 61 },
-  { position: 'M9', x: 50, y: 75 },
-  { position: 'H9', x: 77, x6: 77, y: 61 } as { position: Position; x: number; y: number },
+  { position: 'V6', x: 14, y: 22 },
+  { position: 'M6', x: 50, y: 31 },
+  { position: 'H6', x: 86, y: 22 },
+  { position: 'V9', x: 22, y: 62 },
+  { position: 'M9', x: 50, y: 76 },
+  { position: 'H9', x: 78, y: 62 },
 ];
 
 const DEFENCE_COURT_COORDS: Record<'6-0' | '5-1', Record<number, { x: number; y: number; short: string }>> = {
   '6-0': {
-    5: { x: 14, y: 24, short: 'V1' },
-    4: { x: 28, y: 34, short: 'V2' },
-    3: { x: 43, y: 39, short: 'V3' },
-    2: { x: 57, y: 39, short: 'H3' },
-    1: { x: 72, y: 34, short: 'H2' },
-    0: { x: 86, y: 24, short: 'H1' },
+    5: { x: 12, y: 24, short: 'YV V' },
+    4: { x: 27, y: 34, short: 'TV V' },
+    3: { x: 42, y: 40, short: 'M3 V' },
+    2: { x: 58, y: 40, short: 'M3 H' },
+    1: { x: 73, y: 34, short: 'TV H' },
+    0: { x: 88, y: 24, short: 'YV H' },
   },
   '5-1': {
-    5: { x: 14, y: 24, short: 'V1' },
-    4: { x: 30, y: 34, short: 'V2' },
-    3: { x: 50, y: 38, short: 'CH' },
-    2: { x: 50, y: 58, short: 'SPETS' },
-    1: { x: 70, y: 34, short: 'H2' },
-    0: { x: 86, y: 24, short: 'H1' },
+    5: { x: 12, y: 24, short: 'YV V' },
+    4: { x: 30, y: 33, short: 'TV V' },
+    3: { x: 50, y: 31, short: 'CH' },
+    2: { x: 50, y: 64, short: 'SPETS' },
+    1: { x: 70, y: 33, short: 'TV H' },
+    0: { x: 88, y: 24, short: 'YV H' },
   },
 };
 
 const FIVE_DEFENCE_COORDS: readonly { zone: number; x: number; y: number; short: string }[] = [
-  { zone: 5, x: 16, y: 25, short: 'V1' },
-  { zone: 4, x: 33, y: 35, short: 'V2' },
+  { zone: 5, x: 14, y: 25, short: 'V1' },
+  { zone: 4, x: 32, y: 35, short: 'V2' },
   { zone: 2, x: 50, y: 39, short: 'MITT' },
-  { zone: 1, x: 67, y: 35, short: 'H2' },
-  { zone: 0, x: 84, y: 25, short: 'H1' },
+  { zone: 1, x: 68, y: 35, short: 'H2' },
+  { zone: 0, x: 86, y: 25, short: 'H1' },
 ];
 
 const COURT_MODE_TABS: readonly { id: TacticalCourtMode; label: string; sub: string }[] = [
@@ -103,11 +104,20 @@ export default function TacticsPage() {
   const own = getClub(career.playerClubId);
 
   const heading = (
-    <PageHeading
-      eyebrow="Matchförberedelse / laguttagning"
-      title="Matchplan & Taktiktavla"
-      description="Vem spelar var och när: anfall, försvar, byten, specialsituationer, fasta situationer och ledarskap. Dra och släpp eller klicka direkt på planen."
-      actions={fixture && <Link className="hm-btn hm-btn-primary" href="/career/match-preview">Till matchen →</Link>}
+    <EnvironmentBanner
+      environment="tactical-room"
+      eyebrow={`${own?.name ?? 'Klubben'} · Taktik- & analysrummet`}
+      title="Matchplan & Taktiktavla 2.0"
+      subtitle="Direktstyrning på planen: dra och släpp spelare mellan bänk och startplatser, växla mellan 6–0 och 5–1 försvar, och finjustera specialsituationer."
+      badge={fixture ? `Nästa: ${getClub(fixture.homeClubId === career.playerClubId ? fixture.awayClubId : fixture.homeClubId)?.shortName ?? 'Match'} (${fixture.date})` : 'Ingen match'}
+      actions={
+        fixture && (
+          <>
+            <Link className="hm-btn hm-btn-sm hm-btn-primary" href="/career/match-preview">Till matchen →</Link>
+            <Link className="hm-btn hm-btn-sm" href="/career/squad">Truppen →</Link>
+          </>
+        )
+      }
     />
   );
 
@@ -310,13 +320,49 @@ export default function TacticsPage() {
     setSelected5v6Index(index);
   }
 
+  function sendStarterToBench(playerId: string) {
+    const slot = plan!.attackStartingUnit.slots.find(s => s.playerId === playerId);
+    if (!slot) return;
+    const pos = slot.position;
+    if (manual) {
+      save(current => clearStartingPosition(current, pos));
+      setNotice(`${nameOf(playerId)} flyttad till bänken (${pos === 'GK' ? 'MV' : pos} är nu tom).`);
+      return;
+    }
+    const targetNat = pos === 'GK' ? 'MV' : pos;
+    const candidate = bench
+      .filter(p => (pos === 'GK' ? p.position === 'MV' : p.position !== 'MV'))
+      .sort((a, b) => {
+        const fitA = a.position === targetNat ? 0 : a.secondaryPosition === targetNat ? 1 : 2;
+        const fitB = b.position === targetNat ? 0 : b.secondaryPosition === targetNat ? 1 : 2;
+        return fitA - fitB || squadEnergy(career, b) - squadEnergy(career, a);
+      })[0];
+    if (!candidate) {
+      setNotice('Ingen tillgänglig bänkspelare för den positionen.');
+      return;
+    }
+    save(current => assignNormalAttackSlot(current, pos, candidate.id));
+    setNotice(`${nameOf(playerId)} flyttad till bänken — ${candidate.firstName} ${candidate.lastName} kliver in som ${pos === 'GK' ? 'MV' : pos}.`);
+  }
+
+  function suitabilityTone(player: PlayerMock | undefined, posCode: string): 'natural' | 'secondary' | 'out' {
+    if (!player) return 'out';
+    const nat = posCode === 'GK' ? 'MV' : posCode;
+    if (player.position === nat) return 'natural';
+    if (player.secondaryPosition === nat || (player.secondaryPositions as readonly string[] | undefined)?.includes(nat)) return 'secondary';
+    return 'out';
+  }
+
   function courtPlayer(position: Position) {
     const slot = plan!.attackStartingUnit.slots.find(s => s.position === position);
     const player = squad.find(p => p.id === slot?.playerId);
     const isCapt = player && roles.captainId === player.id;
+    const isVice = player && roles.viceCaptainId === player.id;
     const is7m = player && roles.penaltyTakers[0] === player.id;
     const exchPartnerId = player ? plan!.substitutionPairs.find(sp => sp.attackPlayerId === player.id)?.defencePlayerId : undefined;
     const exchPartner = exchPartnerId ? squad.find(p => p.id === exchPartnerId) : undefined;
+    const energy = player ? Math.round(squadEnergy(career, player)) : 0;
+    const suit = suitabilityTone(player, position);
 
     return (
       <button
@@ -325,6 +371,7 @@ export default function TacticsPage() {
         aria-label={`Välj startposition ${position === 'GK' ? 'MV' : position}`}
         aria-pressed={activePosition === position}
         data-active={activePosition === position}
+        data-suitability={suit}
         data-drag-over={dragOverSlot === `attack-${position}`}
         draggable={!!player}
         onDragStart={e => { if (player) startDragPlayer(e, player.id); }}
@@ -344,19 +391,26 @@ export default function TacticsPage() {
         onClick={() => setActivePosition(position)}
       >
         <span className="coach-position-code">
+          <i className="coach-suitability-dot" data-suitability={suit} aria-hidden="true" />
           {position === 'GK' ? 'MV' : position}
-          {isCapt && ' · K'}
-          {is7m && ' · 7m'}
+          {isCapt && <em className="coach-role-tag">K</em>}
+          {!isCapt && isVice && <em className="coach-role-tag">VK</em>}
+          {is7m && <em className="coach-role-tag">7m</em>}
         </span>
-        {player && <PlayerGlyph player={player} size={48} />}
+        {player && <PlayerGlyph player={player} size={42} />}
         <strong>{player?.lastName ?? 'Välj spelare'}</strong>
         <small>
           {courtMode === 'EXCHANGES' && exchPartner
-            ? `⇄ Försvar: ${exchPartner.lastName}`
+            ? `⇄ ${exchPartner.lastName}`
             : player
-            ? `${Math.round(squadEnergy(career, player))}% energi`
-            : 'Ingen spelare'}
+            ? `${player.position} · ${energy}%`
+            : 'Tom plats'}
         </small>
+        {player && (
+          <span className="coach-token-bar" aria-hidden="true">
+            <i style={{ width: `${energy}%` }} data-low={energy < 75 ? 'true' : undefined} />
+          </span>
+        )}
       </button>
     );
   }
@@ -369,14 +423,22 @@ export default function TacticsPage() {
         const starterId = six.find(s => defSpaces[s.playerId] === zone)?.playerId ?? '';
         const specialistId = starterId ? plan!.substitutionPairs.find(sp => sp.attackPlayerId === starterId)?.defencePlayerId : undefined;
         const player = squad.find(p => p.id === (specialistId ?? starterId));
+        const energy = player ? Math.round(squadEnergy(career, player)) : 0;
+        const isSpets = defKey === '5-1' && zone === 2;
         return (
-          <div className="coach-court-slot" key={`def-${zone}`} style={{ left: `${coord.x}%`, top: `${coord.y}%` }}>
+          <div
+            className="coach-court-slot"
+            key={`def-${zone}`}
+            data-spets={isSpets ? 'true' : undefined}
+            style={{ left: `${coord.x}%`, top: `${coord.y}%` }}
+          >
             <button
               type="button"
               className="coach-position"
               aria-label={`Försvarsposition ${DEFENCE_SPACE_LABEL[defKey][zone]}`}
               aria-pressed={selectedDefZone === zone}
               data-active={selectedDefZone === zone}
+              data-spets={isSpets ? 'true' : undefined}
               data-drag-over={dragOverSlot === `def-${zone}`}
               draggable={!!starterId}
               onDragStart={e => { if (starterId) startDragPlayer(e, starterId); }}
@@ -390,10 +452,18 @@ export default function TacticsPage() {
               }}
               onClick={() => setSelectedDefZone(zone)}
             >
-              <span className="coach-position-code">{coord.short}</span>
-              {player && <PlayerGlyph player={player} size={46} />}
+              <span className="coach-position-code">
+                {coord.short}
+                {specialistId && <em className="coach-role-tag">⇄</em>}
+              </span>
+              {player && <PlayerGlyph player={player} size={42} />}
               <strong>{player?.lastName ?? 'Välj försvarare'}</strong>
-              <small>{specialistId ? '⇄ Försvarsspecialist' : DEFENCE_SPACE_LABEL[defKey][zone].split('·')[0]}</small>
+              <small>{specialistId ? 'Försvarsspecialist' : `${energy}% energi`}</small>
+              {player && (
+                <span className="coach-token-bar" aria-hidden="true">
+                  <i style={{ width: `${energy}%` }} data-low={energy < 75 ? 'true' : undefined} />
+                </span>
+              )}
             </button>
           </div>
         );
@@ -406,6 +476,7 @@ export default function TacticsPage() {
       return COURT_ROLES.map(role => {
         const entry = unit.find(u => u.position === role.position);
         const player = squad.find(p => p.id === entry?.playerId);
+        const energy = player ? Math.round(squadEnergy(career, player)) : 0;
         return (
           <div className="coach-court-slot" key={`6v5-${role.position}`} style={{ left: `${role.x}%`, top: `${role.y}%` }}>
             <button
@@ -427,9 +498,9 @@ export default function TacticsPage() {
               onClick={() => setActivePosition(role.position)}
             >
               <span className="coach-position-code">6v5 · {role.position}</span>
-              {player && <PlayerGlyph player={player} size={46} />}
+              {player && <PlayerGlyph player={player} size={42} />}
               <strong>{player?.lastName ?? 'Välj spelare'}</strong>
-              <small>Numerärt övertag</small>
+              <small>Powerplay · {energy}%</small>
             </button>
           </div>
         );
@@ -441,6 +512,7 @@ export default function TacticsPage() {
       return FIVE_DEFENCE_COORDS.map((coord, idx) => {
         const pid = unit[idx]?.playerId ?? '';
         const player = squad.find(p => p.id === pid);
+        const energy = player ? Math.round(squadEnergy(career, player)) : 0;
         return (
           <div className="coach-court-slot" key={`5v6-${coord.zone}`} style={{ left: `${coord.x}%`, top: `${coord.y}%` }}>
             <button
@@ -462,9 +534,9 @@ export default function TacticsPage() {
               onClick={() => setSelected5v6Index(idx)}
             >
               <span className="coach-position-code">5v6 · {coord.short}</span>
-              {player && <PlayerGlyph player={player} size={46} />}
+              {player && <PlayerGlyph player={player} size={42} />}
               <strong>{player?.lastName ?? 'Välj försvarare'}</strong>
-              <small>Numerärt undertag</small>
+              <small>Boxplay · {energy}%</small>
             </button>
           </div>
         );
@@ -480,7 +552,7 @@ export default function TacticsPage() {
               {courtPlayer(role.position)}
             </div>
           ))}
-          <div className="coach-court-slot" style={{ left: '65%', top: '18%' }}>
+          <div className="coach-court-slot" style={{ left: '66%', top: '26%' }}>
             <button
               type="button"
               className="coach-position"
@@ -498,8 +570,8 @@ export default function TacticsPage() {
                 }
               }}
             >
-              <span className="coach-position-code">7v6 · EXTRA</span>
-              {extraPlayer && <PlayerGlyph player={extraPlayer} size={46} />}
+              <span className="coach-position-code">7v6 · M6 #2</span>
+              {extraPlayer && <PlayerGlyph player={extraPlayer} size={42} />}
               <strong>{extraPlayer?.lastName ?? 'Auto (assistent)'}</strong>
               <small>7:e utespelare (tomt mål)</small>
             </button>
@@ -585,21 +657,32 @@ export default function TacticsPage() {
   return (
     <div className="coach-preparation" style={clubColorVars(own)}>
       {heading}
-      {notice && <p className="hm-panel-body" role="status">{notice}</p>}
+      {notice && <p className="hm-panel-body coach-tactics-notice" role="status">{notice}</p>}
       <PlanSummary career={career} plan={plan} squad={allSquad} />
-      <nav className="hm-plan-nav" aria-label="Matchplanens delar">
-        {PLAN_SECTIONS.map(s => <a key={s.id} href={`#${s.id}`}>{s.label}</a>)}
-      </nav>
       {manual && (
         <div className="hm-panel-body coach-lineup-status" role={manualIssues.length ? 'alert' : 'status'} data-complete={manualIssues.length === 0}>
           <strong>Startsju {selectedStarters}/7 · Matchtrupp {plan.squad.players.length}/{MATCH_SQUAD_MAX_PLAYERS}</strong>{' '}
           <span>{manualIssues.length ? manualIssues.join(' ') : carried ? 'Senaste uppställningen gäller. Ändra den här eller gå till matchen.' : 'Startsjuan är komplett och klar för avkast.'}</span>
           {replacementNotes.length > 0 && <ul className="coach-replacement-notes">{replacementNotes.map(note => <li key={note}>{note}</li>)}</ul>}
+          {' '}
+          <button
+            type="button"
+            className="hm-btn hm-btn-sm hm-btn-primary"
+            onClick={() => {
+              const auto = buildDefaultMatchPlan(buildInitialMatchSquad(squad, fixture.id, career.playerClubId), career.tactics[career.playerClubId], career.playerMatchDefaults);
+              if (auto.ok && auto.plan) {
+                save(auto.plan);
+                setNotice('Assisterande tränaren har fyllt i startsju och 16-mannatrupp.');
+              }
+            }}
+          >
+            Assistentens förslag
+          </button>
           {carried && (
             <>
               {' '}
-              <button type="button" className="hm-btn" onClick={() => save(carried.plan)}>Behåll uppställningen</button>{' '}
-              <button type="button" className="hm-btn" onClick={() => built.ok && built.plan && save(built.plan)}>Börja om med tom uppställning</button>
+              <button type="button" className="hm-btn hm-btn-sm" onClick={() => save(carried.plan)}>Behåll uppställningen</button>{' '}
+              <button type="button" className="hm-btn hm-btn-sm" onClick={() => built.ok && built.plan && save(built.plan)}>Börja om med tom uppställning</button>
             </>
           )}
         </div>
@@ -612,9 +695,17 @@ export default function TacticsPage() {
           <ClubCrest shortName={opponent?.shortName ?? '?'} primaryColor={opponent?.primaryColor ?? ''} clubId={opponentId} size={42} />
           <Link href={`/career/clubs/${encodeURIComponent(opponentId)}`}>{opponent?.name ?? opponentId}</Link>
         </div>
-        <div>
-          <strong>{fixture.date}{fixture.kickoffTime ? ` ${fixture.kickoffTime}` : ''}</strong>
-          <span>{fixture.homeClubId === career.playerClubId ? 'Hemma' : 'Borta'} · {fixture.type === 'LEAGUE' ? `Omgång ${fixture.round}` : fixture.type === 'CUP' ? 'Cup' : 'Träningsmatch'}</span>
+        <div className="coach-fixture-quicklinks">
+          <div>
+            <strong>{fixture.date}{fixture.kickoffTime ? ` ${fixture.kickoffTime}` : ''}</strong>
+            <span>{fixture.homeClubId === career.playerClubId ? 'Hemma' : 'Borta'} · {fixture.type === 'LEAGUE' ? `Omgång ${fixture.round}` : fixture.type === 'CUP' ? 'Cup' : 'Träningsmatch'}</span>
+          </div>
+          <nav className="coach-anchor-pills" aria-label="Hoppa till sektion">
+            <a href="#plan-defence">Försvarsdetaljer ↓</a>
+            <a href="#plan-subs">Byten & Special ↓</a>
+            <a href="#plan-setpieces">7m & Kapten ↓</a>
+            <a href="#plan-squad">Matchtrupp ({plan.squad.players.length}/16) ↓</a>
+          </nav>
         </div>
       </div>
 
@@ -635,7 +726,7 @@ export default function TacticsPage() {
                   ? 'Anfall 7 mot 6 · Tomt mål & extra utespelare'
                   : 'Anfall 6 mot 6 · startsju'}
               </h2>
-              <span>Dra och släpp spelare på planen eller klicka på en position för att välja</span>
+              <span>Dra spelare mellan bänk och plan, byt två startspelare eller dra en startspelare till bänken</span>
             </div>
             {courtMode === 'DEFENCE_6V6' && (
               <div className="hm-actions">
@@ -669,39 +760,122 @@ export default function TacticsPage() {
                 onClick={() => setCourtMode(tab.id)}
               >
                 <strong>{tab.label}</strong>
-                <small>{tab.sub}</small>
+                <small>{tab.id === 'DEFENCE_6V6' ? `Aktivt: ${defKey}` : tab.sub}</small>
               </button>
             ))}
           </div>
 
-          <div className="coach-court" aria-label="Startsju på handbollsplanen" data-mode={courtMode}>
+          <div
+            className="coach-court"
+            aria-label="Startsju på handbollsplanen"
+            data-mode={courtMode}
+            data-formation={courtMode === 'DEFENCE_6V6' ? defKey : undefined}
+          >
             <svg viewBox="0 0 1000 660" preserveAspectRatio="none" aria-hidden="true">
-              <rect x="12" y="8" width="976" height="644" fill="none" stroke="currentColor" strokeWidth="2" />
-              <path d="M180 8C180 275 820 275 820 8M70 8C70 490 930 490 930 8" fill="none" stroke="currentColor" strokeWidth="2" />
-              <path d="M440 8v18h120V8M455 305h90" fill="none" stroke="currentColor" strokeWidth="3" />
-              <path d="M70 8C70 490 930 490 930 8" fill="none" stroke="#173147" strokeWidth="4" strokeDasharray="13 10" />
+              <defs>
+                <linearGradient id="taraflexMain" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#123861" />
+                  <stop offset="100%" stopColor="#0b2442" />
+                </linearGradient>
+                <linearGradient id="taraflexCrease" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#1c5796" />
+                  <stop offset="100%" stopColor="#144478" />
+                </linearGradient>
+              </defs>
+              {/* Court floor */}
+              <rect x="0" y="0" width="1000" height="660" fill="url(#taraflexMain)" />
+              {/* 6m goal area fill */}
+              <path d="M180 8 C180 275 820 275 820 8 Z" fill="url(#taraflexCrease)" />
+              {/* Outer boundary */}
+              <rect x="12" y="8" width="976" height="644" fill="none" stroke="rgba(224,238,255,0.65)" strokeWidth="2.5" />
+              {/* 6m solid line */}
+              <path d="M180 8 C180 275 820 275 820 8" fill="none" stroke="rgba(245,250,255,0.9)" strokeWidth="3" />
+              {/* 9m dashed free-throw arc */}
+              <path d="M70 8 C70 490 930 490 930 8" fill="none" stroke="rgba(210,230,252,0.65)" strokeWidth="2.5" strokeDasharray="14 11" />
+              {/* Goal & 4m goalkeeper line & 7m penalty mark */}
+              <path d="M440 8v20h120V8" fill="rgba(255,255,255,0.12)" stroke="#f87171" strokeWidth="3.5" />
+              <line x1="475" y1="145" x2="525" y2="145" stroke="rgba(245,250,255,0.75)" strokeWidth="2.5" />
+              <line x1="460" y1="305" x2="540" y2="305" stroke="rgba(245,250,255,0.85)" strokeWidth="3.5" />
+              {/* 5-1 Advanced Defender (SPETS) tactical zone highlight */}
+              {courtMode === 'DEFENCE_6V6' && defKey === '5-1' && (
+                <g>
+                  <ellipse cx="500" cy="422" rx="115" ry="62" fill="rgba(200,67,32,0.18)" stroke="#f59e6c" strokeWidth="2" strokeDasharray="8 6" />
+                  <line x1="500" y1="360" x2="500" y2="235" stroke="rgba(245,158,108,0.55)" strokeWidth="2" strokeDasharray="5 5" />
+                  <line x1="440" y1="395" x2="310" y2="245" stroke="rgba(245,158,108,0.4)" strokeWidth="1.5" strokeDasharray="5 5" />
+                  <line x1="560" y1="395" x2="690" y2="245" stroke="rgba(245,158,108,0.4)" strokeWidth="1.5" strokeDasharray="5 5" />
+                </g>
+              )}
             </svg>
             <span className="coach-court-direction">
               {courtMode === 'DEFENCE_6V6' || courtMode === 'DEFENCE_5V6'
-                ? 'FÖRSVAR FRAMFÖR EGET MÅL (6M / 9M) ↑'
-                : 'ANFALL MOT MOTSTÅNDARNAS MÅL ↑'}
+                ? `FÖRSVARSZON FRAMFÖR EGET MÅL (${courtMode === 'DEFENCE_6V6' ? defKey : '5v6'}) ↑`
+                : 'ANFALLSRIKTNING MOT MOTSTÅNDARNAS MÅL ↑'}
             </span>
             {renderCourtNodes()}
           </div>
 
           <div className="coach-goalkeeper">
-            <span>{courtMode === 'ATTACK_7V6' ? 'Tomt mål i anfall (7 mot 6)' : 'I egna målet'}</span>
+            <span>{courtMode === 'ATTACK_7V6' ? 'Tomt mål i anfall (7 mot 6)' : 'Målvakt (MV)'}</span>
             {courtPlayer('GK')}
             <div>
               <strong>{plan.squad.players.length} / {MATCH_SQUAD_MAX_PLAYERS}</strong>
               <small>uttagna · {bench.length} på bänken</small>
             </div>
           </div>
+
+          {/* Interactive Bench Strip + Court-to-Bench Dropzone */}
+          <div
+            className="coach-bench-strip"
+            data-drag-over={dragOverSlot === 'bench-dropzone'}
+            onDragOver={e => {
+              e.preventDefault();
+              setDragOverSlot('bench-dropzone');
+            }}
+            onDragLeave={() => setDragOverSlot(null)}
+            onDrop={e => {
+              e.preventDefault();
+              setDragOverSlot(null);
+              const pid = e.dataTransfer.getData(TACTICAL_DRAG_PLAYER_MIME) || e.dataTransfer.getData('text/plain');
+              if (pid && startingIds.has(pid)) {
+                sendStarterToBench(pid);
+              }
+            }}
+          >
+            <div className="coach-bench-strip-head">
+              <div>
+                <span className="hm-eyebrow">Avbytarbänken ({bench.length} spelare)</span>
+                <strong>Dra en bänkspelare till planen — eller släpp en startspelare här för att byta till bänken</strong>
+              </div>
+              <span className="coach-bench-drop-badge">⇄ Släpp här: Till bänken</span>
+            </div>
+            <div className="coach-bench-tokens">
+              {bench.map(p => {
+                const energy = Math.round(squadEnergy(career, p));
+                return (
+                  <button
+                    key={p.id}
+                    type="button"
+                    className="coach-bench-token"
+                    draggable
+                    onDragStart={e => startDragPlayer(e, p.id)}
+                    onClick={() => assignStarterAtPosition(activePosition, p.id)}
+                    title={`Dra till planen eller klicka för att sätta in som ${activePosition === 'GK' ? 'MV' : activePosition}`}
+                  >
+                    <PlayerGlyph player={p} size={32} />
+                    <div>
+                      <strong>{p.lastName}</strong>
+                      <small>{p.position} · {energy}%</small>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
         </section>
 
         <aside className="coach-plan-rail">
           <section className="coach-gameplan">
-            <header className="coach-section-heading"><h2>Så spelar vi</h2><span>Din aktiva plan</span></header>
+            <header className="coach-section-heading"><h2>Så spelar vi</h2><span>Din aktiva matchplan</span></header>
             <CoachingChoices
               defence={defence}
               sevenVSix={sevenVSix}
@@ -720,9 +894,12 @@ export default function TacticsPage() {
               {defence} · {COACH_AGGRESSION_LABEL[aggression]} aggressivitet · {COACH_TEMPO_LABEL[engineOffensiveTempo(attack)]} tempo · {COACH_ATTACK_LABEL[identity]} · {COACH_ROTATION_LABEL[rotation]} rotation
               {sevenVSix !== 'OFF' ? ` · 7 mot 6 ${COACH_SEVEN_V_SIX_LABEL[sevenVSix].toLowerCase()}` : ''}
             </p>
-            <button type="button" className="hm-btn hm-btn-sm" aria-pressed={assistant} onClick={() => save(current => ({ ...current, transitionPlan: { ...current.transitionPlan, assistantRotation: !assistant } }))}>
-              Assistentbyten {assistant ? 'på' : 'av'}
-            </button>
+            <div style={{ padding: '10px 16px 14px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
+              <small className="hm-text-muted">Assisterande tränarens automatiska byten under match</small>
+              <button type="button" className="hm-btn hm-btn-sm" aria-pressed={assistant} onClick={() => save(current => ({ ...current, transitionPlan: { ...current.transitionPlan, assistantRotation: !assistant } }))}>
+                Assistentbyten {assistant ? 'på' : 'av'}
+              </button>
+            </div>
           </section>
 
           <section className="coach-replacements">
@@ -732,19 +909,23 @@ export default function TacticsPage() {
             </header>
             {activePlayer && (
               <div className="coach-current-player">
-                <span className="hm-eyebrow">Startar nu</span>
-                <PlayerCell player={activePlayer} />
-                {manual && (
-                  <button type="button" className="hm-btn" onClick={() => save(current => clearStartingPosition(current, activePosition))}>
-                    Ta bort från startsjun
-                  </button>
-                )}
+                <div>
+                  <span className="hm-eyebrow">Startar nu ({activePosition === 'GK' ? 'MV' : activePosition})</span>
+                  <PlayerCell player={activePlayer} />
+                </div>
+                <button
+                  type="button"
+                  className="hm-btn hm-btn-sm"
+                  onClick={() => sendStarterToBench(activePlayer.id)}
+                >
+                  {manual ? 'Ta bort från startsjun' : '⇄ Byt till bänken'}
+                </button>
               </div>
             )}
             <p>
               {manual
                 ? 'Välj eller dra en spelare till positionen. En spelare som inte är uttagen läggs till i matchtruppen.'
-                : 'Välj eller dra en uttagen spelare till planen. En annan startspelare byter plats; en bänkspelare tar över rollen.'}
+                : 'Klicka eller dra en spelare till planen för direktbyte. Gröna prickar visar naturlig position.'}
             </p>
             <div className="coach-candidate-list">
               {eligible.map(p => {

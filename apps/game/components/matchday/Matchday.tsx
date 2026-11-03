@@ -21,12 +21,11 @@ import { interpretationLabel } from "@/components/analysis/presentation";
 import { getClub } from "@/lib/game-data";
 import { matchAftermath, matchdayBriefing } from "@/lib/matchday/matchday";
 import { relationLabel } from "@/lib/media/people";
-import arenaWide from "./assets/arena-moment-1920.webp";
-import arenaNarrow from "./assets/arena-moment-960.webp";
+import { ENVIRONMENTS } from "@/components/clubhq/environments";
 import { svOrdinal } from "@/lib/format/ordinal";
 
-/** Arriving at the hall on matchday (Blender, scripts/visual/render_arena_moment.py). */
-export const ARENA_BACKDROP = photoBackdrop(arenaWide, arenaNarrow);
+/** Arriving at the hall on matchday. */
+export const ARENA_BACKDROP = ENVIRONMENTS["arena-matchday"].backdropStyle;
 
 const AREA_LABEL: Record<string, string> = { PLAYER: "Spelaren", TEAM: "Truppen", BOARD: "Styrelsen", MEDIA: "Media", RIVAL: "Rivalen", SUPPORTERS: "Supportrarna", REPUTATION: "Ditt rykte", PRESSURE: "Pressen", DISCIPLINE: "Disciplin" };
 

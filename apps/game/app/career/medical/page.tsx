@@ -7,6 +7,7 @@ import { isSelectableForMatch } from '@/lib/career/playerStatus';
 import { computeMedicalRehabQuality,findBestPhysio } from '@/lib/medical/medicalStaffQuality';
 import { INJURY_SEVERITY_LABELS,INJURY_TYPE_LABELS,REHAB_PHASE_LABELS } from '@/lib/medical/labels';
 import { SectionScene,SceneEmpty,StaffMark } from '@/components/game/Secondary';
+import { EnvironmentBanner } from '@/components/clubhq/EnvironmentBanner';
 import { PlayerCell,playerAvailabilityLabel } from '@/components/game/Identity';
 import ClubCrest from '@/components/ClubCrest';
 import { Panel } from '@/components/manager/Workspace';
@@ -24,7 +25,24 @@ export default function MedicalPage() {
   const next=getNextPlayerFixture(career);
   const opponentId=next ? next.homeClubId===club.id ? next.awayClubId : next.homeClubId : null;
   return <div className="game-secondary-page">
-    <SectionScene eyebrow={`${club.name} · ${career.gameDate}`} title="Medicinskt" description="Tillgänglighet, rehabilitering och beräknad återgång. Följ spelarnas väg tillbaka till laget." mark={<ClubCrest shortName={club.shortName} primaryColor={club.primaryColor} clubId={club.id} size={72} />} actions={<><Link className="hm-btn hm-btn-sm" href="/career/training">Belastning & återhämtning →</Link><Link className="hm-btn hm-btn-sm" href="/career/squad">Truppens status →</Link></>}><div><strong>{injured.length}</strong><small>aktiva skador</small></div><div><strong>{available.length}/{squad.length}</strong><small>tillgängliga för uttagning</small></div></SectionScene>
+    <EnvironmentBanner
+      environment="medical-room"
+      eyebrow={`${club.name} · Medicinska kliniken · ${career.gameDate}`}
+      title="Medicinskt & Rehabilitering"
+      subtitle="Tillgänglighet, diagnostik, rehabilitering och beräknad återgång. Följ spelarnas väg tillbaka till matchtruppen."
+      badge={injured.length ? `${injured.length} aktiva skador` : "Skadefri trupp"}
+      actions={
+        <>
+          <Link className="hm-btn hm-btn-sm" href="/career/training">Belastning & återhämtning →</Link>
+          <Link className="hm-btn hm-btn-sm" href="/career/squad">Truppens status →</Link>
+        </>
+      }
+      metrics={[
+        { label: "Aktiva skador", value: `${injured.length} st`, sub: injured.length ? "Under rehab" : "Alla friska", tone: injured.length ? "warning" : "positive" },
+        { label: "Tillgängliga", value: `${available.length} / ${squad.length}`, sub: "Uttagningsbara", tone: "positive" },
+        { label: "Rehabkvalitet", value: `${medicalQuality.toFixed(2)}x`, sub: physio ? physio.displayName : "Ingen fysio", tone: "signal" },
+      ]}
+    />
     <div className="game-secondary-split">
       <div className="game-secondary-main">
         {injured.length ? <Panel title="Aktiva skador · beräknad återgång"><div className="hm-scroll-x"><table className="hm-table"><thead><tr><th>Spelare</th><th>Skada</th><th>Allvarlighetsgrad</th><th>Status</th><th>Rehabfas</th><th>Rehabframsteg</th><th>Beräknad återkomst</th></tr></thead><tbody>{injured.map(({player,injury}) => <tr key={player.id}><td><PlayerCell player={player} /></td><td>{INJURY_TYPE_LABELS[injury!.injuryType]}</td><td>{INJURY_SEVERITY_LABELS[injury!.severity]}</td><td><span className="hm-badge hm-badge-negative">{playerAvailabilityLabel(career,player.id)}</span></td><td>{REHAB_PHASE_LABELS[injury!.currentPhase]}</td><td><div className="game-medical-progress"><progress max={1} value={injury!.rehabProgress} aria-label={`Rehabilitering: ${player.firstName} ${player.lastName}`} /><span>{Math.round(injury!.rehabProgress*100)}%</span></div></td><td>{injury!.expectedReturnDate}</td></tr>)}</tbody></table></div></Panel> : <SceneEmpty title="Inga aktiva skador" actions={<Link className="hm-btn hm-btn-sm" href="/career/training">Planera återhämtningen →</Link>}>Truppen har inga registrerade aktiva skador. Belastning och återhämtning följs i träningsveckan; övrig tillgänglighet syns i truppen.</SceneEmpty>}

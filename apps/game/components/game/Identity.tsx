@@ -16,6 +16,7 @@ import { currentTeamRoles } from '@/lib/career/teamRoles';
 import { ClubLink, PlayerLink } from '@/components/entityLinks';
 import ClubCrest from '@/components/ClubCrest';
 import FormDots from '@/components/FormDots';
+import { ENVIRONMENTS } from '@/components/clubhq/environments';
 import { svOrdinal } from "@/lib/format/ordinal";
 
 export function clubColorVars(club?: { primaryColor?: string; secondaryColor?: string } | null): CSSProperties {
@@ -175,7 +176,7 @@ export function PlayerHero({ player, career, children }: { player: PlayerMock; c
   const sevenMeterIndex = roles ? roles.penaltyTakers.indexOf(player.id) : -1;
 
   return (
-    <header className="game-player-hero" data-own={own} data-player-id={player.id} style={clubColorVars(club)}>
+    <header className="game-player-hero xp-photo-hero" data-own={own} data-player-id={player.id} style={{ ...clubColorVars(club), ...ENVIRONMENTS["dressing-room"].backdropStyle }}>
       <div className="game-player-portrait">
         <PlayerGlyph player={player} size={220} />
         <span className="game-portrait-initials">
@@ -258,7 +259,7 @@ export function ClubHero({ clubId, career, children }: { clubId: string; career:
   const table = club.competitionId === career.competitionId ? getLiveStandings(career) : [];
   const row = table.find((r) => r.clubId === clubId);
   return (
-    <header className="game-club-hero" style={clubColorVars(club)}>
+    <header className="game-club-hero xp-photo-hero" style={{ ...clubColorVars(club), ...ENVIRONMENTS["arena-club"].backdropStyle }}>
       <div className="game-club-mark">
         <ClubCrest shortName={club.shortName} primaryColor={club.primaryColor} clubId={club.id} size={112} />
       </div>
@@ -417,7 +418,7 @@ export function MatchHero({
       : `${(result.homeGoals > result.awayGoals ? home : away)?.shortName ?? 'Laget'} vinner`
     : 'NÄSTA AVKAST';
   return (
-    <section className="game-match-hero" data-compact={compact} data-played={!!result} aria-label={result ? 'Matchresultat' : 'Nästa match'}>
+    <section className="game-match-hero xp-photo-hero" style={ENVIRONMENTS["arena-matchday"].backdropStyle} data-compact={compact} data-played={!!result} aria-label={result ? 'Matchresultat' : 'Nästa match'}>
       <div className="game-match-top">
         <span className="game-overline">{context ?? resultLabel}</span>
         <span>

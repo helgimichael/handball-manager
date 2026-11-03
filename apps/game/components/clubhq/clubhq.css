@@ -1,31 +1,725 @@
-/* HM-ALPHA3-M09 (9D): Klubbhuset. Reuses the board panels (bd-*) and the
-   Moment hero; its own classes are prefixed kh-. */
-.kh-page { display: grid; gap: 18px; min-width: 0; }
-.kh-hero { position: relative; }
-.kh-hero .xp-moment-hero { box-shadow: inset 0 -5px 0 var(--kh-club, #c0612b); }
-.kh-crest { display: grid; place-items: center; padding: 8px; }
-.kh-h { margin: 0 0 8px; font-family: var(--game-font-display); font-weight: 400; font-size: 24px; text-transform: uppercase; }
-.kh-rooms { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; }
-.kh-room { display: grid; gap: 3px; height: 100%; padding: 12px 14px; background: var(--hm-surface-2); border-left: 4px solid var(--kh-club, var(--hm-border-strong)); color: inherit; text-decoration: none; }
-.kh-room:hover, .kh-room:focus-visible { background: var(--hm-surface-3, var(--hm-surface-2)); outline: 2px solid var(--hm-border-strong); outline-offset: -2px; }
-.kh-room b { font-family: var(--game-font-display); font-weight: 400; font-size: 19px; text-transform: uppercase; }
-.kh-room span { font-size: 13px; color: var(--hm-text-secondary); }
-.kh-room small { font-size: 12px; font-weight: 700; }
-.kh-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; align-items: start; }
-.kh-grid .bd-panel h3 { margin: 2px 0 0; font-family: var(--game-font-display); font-weight: 400; font-size: 22px; text-transform: uppercase; }
+/* HM-RICH-EXPERIENCE-02: Klubbhuset 2.0 (Interactive Visual Headquarters)
+   & Reusable Department Environment Banner (.hm-env-banner). */
+
+/* --- Reusable Department Environment Banner (.hm-env-banner) ---------------- */
+.hm-env-banner {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.9fr);
+  align-items: end;
+  gap: 24px;
+  min-height: 204px;
+  padding: 24px 28px;
+  margin-bottom: 18px;
+  color: #f7f3eb;
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-bottom: 4px solid var(--club-primary, var(--game-signal));
+  box-shadow: 0 12px 28px rgba(9, 17, 31, 0.18);
+}
+.hm-env-banner[data-compact="true"] {
+  min-height: 158px;
+  padding: 18px 24px;
+}
+.hm-env-banner-main {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+.hm-env-banner-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+.hm-env-banner-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #f3b38a;
+}
+.hm-env-banner-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--club-primary, var(--game-signal));
+  box-shadow: 0 0 8px var(--club-primary, var(--game-signal));
+}
+.hm-env-banner-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: rgba(15, 27, 45, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #e9f0f8;
+}
+.hm-env-banner-back {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #dbe4f0;
+  text-decoration: none;
+  transition: background 120ms ease, color 120ms ease;
+}
+.hm-env-banner-back:hover {
+  background: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+}
+.hm-env-banner-title {
+  margin: 0;
+  font-family: var(--game-font-display);
+  font-weight: 700;
+  font-size: clamp(28px, 3vw, 44px);
+  line-height: 0.98;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: #ffffff;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.55);
+}
+.hm-env-banner-sub {
+  margin: 0;
+  max-width: 62ch;
+  font-size: 13px;
+  line-height: 1.55;
+  color: #d8e2ee;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+}
+.hm-env-banner-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+.hm-env-banner-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 8px;
+  margin: 0;
+}
+.hm-env-banner-metric {
+  padding: 10px 12px;
+  background: rgba(10, 18, 31, 0.78);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-top: 2px solid rgba(255, 255, 255, 0.28);
+  border-radius: 4px;
+  display: grid;
+  gap: 2px;
+}
+.hm-env-banner-metric[data-tone="positive"] { border-top-color: #38b277; }
+.hm-env-banner-metric[data-tone="warning"] { border-top-color: #eab308; }
+.hm-env-banner-metric[data-tone="negative"] { border-top-color: #ef4444; }
+.hm-env-banner-metric[data-tone="signal"] { border-top-color: var(--game-signal); }
+.hm-env-banner-metric dt {
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #a9b8cc;
+}
+.hm-env-banner-metric dd {
+  margin: 0;
+  font-family: var(--game-font-display);
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.05;
+  color: #ffffff;
+}
+.hm-env-banner-metric small {
+  font-size: 10.5px;
+  color: #c6d2e1;
+}
+@media (max-width: 900px) {
+  .hm-env-banner {
+    grid-template-columns: 1fr;
+    padding: 20px 18px;
+  }
+}
+
+/* --- Klubbhuset 2.0 Page ---------------------------------------------------- */
+.kh-page {
+  display: grid;
+  gap: 22px;
+  min-width: 0;
+}
+.kh-hero {
+  position: relative;
+}
+.kh-hero .xp-moment-hero {
+  box-shadow: inset 0 -5px 0 var(--kh-club, #c0612b);
+  min-height: 230px;
+}
+.kh-crest {
+  display: grid;
+  place-items: center;
+  gap: 6px;
+  padding: 12px 16px;
+  background: rgba(9, 17, 31, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 6px;
+  backdrop-filter: blur(6px);
+}
+.kh-section-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.kh-h {
+  margin: 0;
+  font-family: var(--game-font-display);
+  font-weight: 700;
+  font-size: 26px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--game-ink);
+}
+.kh-section-sub {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--hm-text-secondary);
+}
+
+/* --- Interactive Clubhouse Complex (Blueprint + Active Room Stage) ---------- */
+.kh-complex {
+  display: grid;
+  grid-template-columns: minmax(340px, 1.05fr) minmax(380px, 1.25fr);
+  gap: 16px;
+  align-items: stretch;
+}
+.kh-blueprint {
+  background: linear-gradient(160deg, #0c1729 0%, #091220 100%);
+  border: 1px solid #233550;
+  border-top: 3px solid var(--kh-club, var(--game-signal));
+  border-radius: 5px;
+  padding: 16px;
+  color: #e9f0f8;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 12px;
+  box-shadow: 0 10px 26px rgba(9, 17, 31, 0.16);
+}
+.kh-blueprint-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.kh-blueprint-head span {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #f3b38a;
+}
+.kh-blueprint-head strong {
+  font-family: var(--game-font-display);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+.kh-blueprint-legend {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 10.5px;
+  color: #b4c3d6;
+}
+.kh-blueprint-legend i {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 4px;
+}
+
+.kh-floorplan-canvas {
+  position: relative;
+  min-height: 360px;
+  border-radius: 4px;
+  background:
+    radial-gradient(circle at 50% 48%, rgba(28, 100, 180, 0.22), rgba(9, 17, 31, 0.92) 72%),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.03) 0 1px, transparent 1px 24px),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.03) 0 1px, transparent 1px 24px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+}
+.kh-floorplan-court {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.42;
+}
+.kh-hotspot {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 7px 9px;
+  border-radius: 4px;
+  background: rgba(16, 29, 48, 0.86);
+  border: 1px solid rgba(173, 198, 228, 0.26);
+  color: #e8eff8;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+  transition: transform 120ms ease, border-color 120ms ease, background 120ms ease, box-shadow 120ms ease;
+  backdrop-filter: blur(4px);
+  overflow: hidden;
+}
+.kh-hotspot:hover,
+.kh-hotspot:focus-visible {
+  background: rgba(26, 46, 74, 0.94);
+  border-color: #f3b38a;
+  transform: translateY(-1px);
+  z-index: 2;
+}
+.kh-hotspot[data-active="true"] {
+  background: linear-gradient(145deg, rgba(200, 67, 32, 0.34), rgba(22, 39, 64, 0.96));
+  border-color: #f59e6c;
+  box-shadow: 0 0 0 2px rgba(245, 158, 108, 0.35), 0 8px 20px rgba(0, 0, 0, 0.45);
+  z-index: 3;
+}
+.kh-hotspot-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+}
+.kh-hotspot-wing {
+  font-size: 8.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #9fb2c9;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.kh-hotspot-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: #38b277;
+}
+.kh-hotspot-dot[data-tone="warn"] {
+  background: #f59e0b;
+  box-shadow: 0 0 8px #f59e0b;
+}
+.kh-hotspot-dot[data-tone="bad"] {
+  background: #ef4444;
+  box-shadow: 0 0 8px #ef4444;
+}
+.kh-hotspot-name {
+  font-family: var(--game-font-display);
+  font-size: 14.5px;
+  font-weight: 700;
+  line-height: 1.05;
+  text-transform: uppercase;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.kh-hotspot-status {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: #f3b38a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.kh-blueprint-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 11px;
+  color: #a9b8cc;
+}
+
+/* --- Active Room Stage (Right Panel) ---------------------------------------- */
+.kh-stage {
+  position: relative;
+  border-radius: 5px;
+  border: 1px solid #233550;
+  border-top: 3px solid var(--kh-club, var(--game-signal));
+  padding: 24px 26px;
+  color: #f7f3eb;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 18px;
+  min-height: 430px;
+  box-shadow: 0 12px 30px rgba(9, 17, 31, 0.2);
+}
+.kh-stage.xp-photo-hero {
+  background-image:
+    linear-gradient(100deg, rgb(8 15 28 / .94) 0%, rgb(8 15 28 / .80) 44%, rgb(8 15 28 / .32) 100%),
+    var(--xp-photo-wide);
+}
+.kh-stage-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.kh-stage-wing {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #f3b38a;
+}
+.kh-stage-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(15, 27, 45, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  font-size: 11px;
+  font-weight: 700;
+  color: #ffffff;
+}
+.kh-stage-body {
+  display: grid;
+  gap: 10px;
+  max-width: 58ch;
+}
+.kh-stage-body h3 {
+  margin: 0;
+  font-family: var(--game-font-display);
+  font-size: clamp(32px, 3.2vw, 48px);
+  font-weight: 700;
+  line-height: 0.96;
+  text-transform: uppercase;
+  color: #ffffff;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.55);
+}
+.kh-stage-purpose {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #f3b38a;
+}
+.kh-stage-summary {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.58;
+  color: #dce5f0;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.55);
+}
+.kh-stage-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+}
+.kh-stage-metric {
+  padding: 11px 13px;
+  background: rgba(9, 17, 31, 0.82);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-top: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  display: grid;
+  gap: 3px;
+}
+.kh-stage-metric[data-tone="ok"] { border-top-color: #38b277; }
+.kh-stage-metric[data-tone="warn"] { border-top-color: #f59e0b; }
+.kh-stage-metric[data-tone="bad"] { border-top-color: #ef4444; }
+.kh-stage-metric dt {
+  font-size: 9.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #a7b7cb;
+}
+.kh-stage-metric dd {
+  margin: 0;
+  font-family: var(--game-font-display);
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.05;
+  color: #ffffff;
+}
+.kh-stage-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding-top: 6px;
+}
+.kh-stage-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 18px;
+  border-radius: 4px;
+  background: var(--game-signal);
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+  box-shadow: 0 6px 18px rgba(200, 67, 32, 0.4);
+  transition: filter 120ms ease, transform 120ms ease;
+}
+.kh-stage-cta:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+.kh-stage-secondary {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 15px;
+  border-radius: 4px;
+  background: rgba(15, 27, 45, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  color: #e9f0f8;
+  font-size: 12.5px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 120ms ease;
+}
+.kh-stage-secondary:hover {
+  background: rgba(28, 48, 77, 0.92);
+}
+
+/* --- Visual Room Gallery Grid (.kh-rooms) ----------------------------------- */
+.kh-rooms {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(275px, 1fr));
+  gap: 14px;
+}
+.kh-room-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  background: var(--hm-surface-1);
+  border: 1px solid var(--hm-border);
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(15, 27, 45, 0.06);
+  transition: transform 140ms ease, border-color 140ms ease, box-shadow 140ms ease;
+}
+.kh-room-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--game-signal);
+  box-shadow: 0 10px 24px rgba(15, 27, 45, 0.14);
+}
+.kh-room-card[data-selected="true"] {
+  border-color: var(--game-signal);
+  box-shadow: 0 0 0 2px rgba(200, 67, 32, 0.25), 0 8px 22px rgba(15, 27, 45, 0.12);
+}
+.kh-room-visual {
+  position: relative;
+  height: 126px;
+  padding: 12px 14px;
+  background-color: #0d182a;
+  background-size: cover;
+  background-position: center right;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-bottom: 3px solid var(--kh-club, var(--game-signal));
+}
+.kh-room-visual::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(95deg, rgba(9, 17, 31, 0.90) 0%, rgba(9, 17, 31, 0.52) 55%, rgba(9, 17, 31, 0.18) 100%);
+}
+.kh-room-visual > * {
+  position: relative;
+  z-index: 1;
+}
+.kh-room-visual-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.kh-room-wing {
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #f3b38a;
+}
+.kh-room-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(9, 17, 31, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 10px;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+.kh-room-badge[data-tone="warn"] {
+  border-color: #f59e0b;
+  color: #fde68a;
+}
+.kh-room-badge[data-tone="bad"] {
+  border-color: #ef4444;
+  color: #fecaca;
+}
+.kh-room-title {
+  font-family: var(--game-font-display);
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 1;
+  text-transform: uppercase;
+  color: #ffffff;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.55);
+}
+.kh-room-body {
+  padding: 12px 14px 14px;
+  display: grid;
+  gap: 10px;
+  flex: 1;
+  align-content: space-between;
+}
+.kh-room-purpose {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--hm-text-secondary);
+}
+.kh-room-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  margin: 0;
+}
+.kh-room-metrics div {
+  padding: 6px 7px;
+  background: var(--hm-surface-2);
+  border-radius: 3px;
+  min-width: 0;
+}
+.kh-room-metrics dt {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--hm-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.kh-room-metrics dd {
+  margin: 2px 0 0;
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--game-ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.kh-room-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--hm-border-subtle);
+}
+.kh-room-enter {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--game-signal);
+  text-decoration: none;
+}
+.kh-room-enter:hover {
+  text-decoration: underline;
+}
+.kh-room-inspect {
+  padding: 4px 9px;
+  border-radius: 3px;
+  border: 1px solid var(--hm-border);
+  background: var(--hm-surface-2);
+  color: var(--hm-text-secondary);
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.kh-room-inspect:hover {
+  border-color: var(--game-ink);
+  color: var(--game-ink);
+}
+
+/* --- Identity, Stands & National Team Panels -------------------------------- */
+.kh-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  align-items: start;
+}
+.kh-grid .bd-panel h3 {
+  margin: 2px 0 0;
+  font-family: var(--game-font-display);
+  font-weight: 700;
+  font-size: 22px;
+  text-transform: uppercase;
+}
 .kh-facts { display: grid; gap: 6px; margin: 0; }
-.kh-facts div { display: grid; grid-template-columns: 9em minmax(0, 1fr); gap: 8px; padding: 6px 8px; background: var(--hm-surface-2); }
+.kh-facts div { display: grid; grid-template-columns: 9em minmax(0, 1fr); gap: 8px; padding: 6px 8px; background: var(--hm-surface-2); border-radius: 3px; }
 .kh-facts dt { font-size: 12px; color: var(--hm-text-secondary); }
 .kh-facts dd { margin: 0; font-weight: 700; }
 .kh-colors { display: flex; gap: 6px; }
-.kh-colors i { display: inline-block; width: 22px; height: 22px; border: 1px solid var(--hm-border-strong); }
-.kh-sub { margin: 12px 0 4px; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--hm-text-secondary); }
-.kh-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; font-size: 14px; }
+.kh-colors i { display: inline-block; width: 22px; height: 22px; border: 1px solid var(--hm-border-strong); border-radius: 2px; }
+.kh-sub { margin: 12px 0 4px; font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--hm-text-secondary); }
+.kh-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; font-size: 13.5px; }
 .kh-list small { color: var(--hm-text-secondary); }
 .kh-windows { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
-.kh-windows li { display: grid; gap: 2px; padding: 10px 12px; background: var(--hm-surface-2); border-left: 4px solid #2f5d8a; }
-.kh-windows b { font-size: 15px; }
+.kh-windows li { display: grid; gap: 2px; padding: 10px 12px; background: var(--hm-surface-2); border-left: 4px solid #2f5d8a; border-radius: 0 3px 3px 0; }
+.kh-windows b { font-size: 14px; }
 .kh-windows span, .kh-windows small { font-size: 12px; color: var(--hm-text-secondary); }
-.kh-windows p { margin: 4px 0 0; font-size: 13px; }
-.kh-last { margin: 10px 0 0; font-size: 13px; }
-@media (max-width: 1100px) { .kh-grid { grid-template-columns: minmax(0, 1fr); } }
+.kh-windows p { margin: 4px 0 0; font-size: 12.5px; }
+.kh-last { margin: 10px 0 0; font-size: 12.5px; }
+
+@media (max-width: 1100px) {
+  .kh-complex { grid-template-columns: 1fr; }
+  .kh-grid { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 680px) {
+  .kh-stage-metrics { grid-template-columns: 1fr; }
+  .kh-floorplan-canvas { min-height: 420px; }
+}

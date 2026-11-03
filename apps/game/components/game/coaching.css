@@ -1,64 +1,371 @@
 .coach-preparation { min-width: 0; }
-.coach-fixture-strip { display: flex; justify-content: space-between; align-items: center; gap: 25px; background: #e2e5dd; border-top: 3px solid var(--game-ink); padding: 14px 20px; margin-bottom: 20px; }
-.coach-fixture-strip > div:first-child { display: flex; align-items: center; gap: 15px; font-size: 15px; }
-.coach-fixture-strip > div:first-child > span { color: var(--hm-text-muted); font-size: 11px; }
-.coach-fixture-strip > div:last-child { display: grid; gap: 6px; text-align: right; }
-.coach-fixture-strip > div:last-child span { font-size: 11px; color: var(--hm-text-secondary); }
-.coach-preparation-layout { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(370px, .75fr); gap: 22px; align-items: start; }
-.coach-lineup, .coach-gameplan, .coach-replacements, .coach-roster { min-width: 0; background: var(--hm-surface-1); }
-.coach-section-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 15px 18px; border-top: 3px solid var(--game-ink); border-bottom: 1px solid var(--hm-border); }
-.coach-section-heading h2 { font-family: var(--game-font-display); font-weight: 400; font-size: 25px; line-height: 1; text-transform: uppercase; margin: 0; }
-.coach-section-heading > span { font-size: 10px; color: var(--hm-text-secondary); text-align: right; }
-.coach-court { height: 425px; position: relative; color: #8ca7b4; background: #173147; overflow: hidden; }
-.coach-court > svg { width: 100%; height: 100%; position: absolute; }
-.coach-court-direction { position: absolute; top: 24px; left: 50%; transform: translateX(-50%); padding: 3px 8px; background: #173147; font-size: 9px; line-height: 1.4; font-weight: 700; letter-spacing: .13em; white-space: nowrap; color: #bfcdd5; }
-.coach-court-slot { position: absolute; transform: translate(-50%, -50%); }
-.coach-position { border: 2px solid #e0e3dd; background: #f2f0e6; color: var(--game-ink); display: grid; grid-template-columns: 45px minmax(0, 1fr); align-items: center; column-gap: 9px; padding: 9px 11px; width: 172px; min-height: 83px; font: inherit; text-align: left; cursor: pointer; position: relative; }
-.coach-position .game-player-glyph { grid-row: 1 / 4; }
-.coach-position-code { font-size: 10px; font-weight: 800; color: #7e512e; }
-.coach-position strong { font-size: 13px; line-height: 1.3; overflow-wrap: anywhere; }
-.coach-position small { font-size: 9px; color: #63727c; margin-top: 3px; }
-.coach-position[data-active="true"] { border-color: #de784a; background: #f8e4d3; box-shadow: 0 0 0 3px #cf6c3926; }
-.coach-position:hover { border-color: var(--game-signal); }
-.coach-position:focus-visible, .coach-choice-options button:focus-visible, .coach-candidate-list button:focus-visible, .coach-live-player:focus-visible { outline: 3px solid var(--game-signal); outline-offset: 3px; }
-.coach-goalkeeper { display: flex; align-items: center; gap: 20px; padding: 12px 18px; background: #e1e5dc; border-top: 1px solid #c1ccc1; }
-.coach-goalkeeper > span { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; max-width: 10ch; }
-.coach-goalkeeper .coach-position { min-height: 65px; width: 245px; }
-.coach-goalkeeper > div:last-child { margin-left: auto; display: grid; gap: 5px; }
-.coach-goalkeeper > div:last-child strong { font-family: var(--game-font-display); font-size: 28px; font-weight: 400; }
-.coach-goalkeeper > div:last-child small { font-size: 10px; color: var(--hm-text-muted); }
+.coach-tactics-notice {
+  margin-bottom: 12px;
+  padding: 10px 14px;
+  background: #f5e2d4;
+  border-left: 4px solid var(--game-signal);
+  border-radius: 3px;
+  font-weight: 700;
+  color: var(--game-ink);
+}
+.coach-fixture-strip {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  background: var(--hm-surface-1);
+  border: 1px solid var(--hm-border);
+  border-top: 3px solid var(--game-ink);
+  border-radius: 4px;
+  padding: 12px 18px;
+  margin-bottom: 18px;
+  box-shadow: 0 4px 12px rgba(15, 27, 45, 0.04);
+}
+.coach-fixture-strip > div:first-child { display: flex; align-items: center; gap: 14px; font-size: 15px; }
+.coach-fixture-strip > div:first-child > span { color: var(--hm-text-muted); font-size: 11px; font-weight: 700; text-transform: uppercase; }
+.coach-fixture-quicklinks {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.coach-fixture-quicklinks > div { display: grid; gap: 2px; text-align: right; }
+.coach-fixture-quicklinks > div span { font-size: 11px; color: var(--hm-text-secondary); }
+.coach-anchor-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.coach-anchor-pills a {
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: var(--hm-surface-2);
+  border: 1px solid var(--hm-border);
+  color: var(--hm-text-secondary);
+  font-size: 11px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: border-color 120ms ease, color 120ms ease, background 120ms ease;
+}
+.coach-anchor-pills a:hover {
+  border-color: var(--game-signal);
+  color: var(--game-ink);
+  background: var(--hm-surface-hover);
+}
+
+.coach-preparation-layout { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(360px, .75fr); gap: 20px; align-items: start; }
+.coach-lineup, .coach-gameplan, .coach-replacements, .coach-roster {
+  min-width: 0;
+  background: var(--hm-surface-1);
+  border: 1px solid var(--hm-border-subtle);
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(15, 27, 45, 0.05);
+}
+.coach-section-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 18px;
+  border-top: 3px solid var(--game-ink);
+  border-bottom: 1px solid var(--hm-border);
+  background: var(--hm-surface-1);
+}
+.coach-section-heading h2 { font-family: var(--game-font-display); font-weight: 700; font-size: 24px; line-height: 1; text-transform: uppercase; margin: 0; }
+.coach-section-heading > span, .coach-section-heading > div > span { font-size: 11px; color: var(--hm-text-secondary); }
+
+/* --- Tactical Board 2.0 Court & Compact Player Tokens ----------------------- */
+.coach-court {
+  height: 490px;
+  position: relative;
+  color: #b7d2eb;
+  background: #0d2a4d;
+  overflow: hidden;
+  border-top: 1px solid #204672;
+  border-bottom: 1px solid #204672;
+}
+.coach-court > svg { width: 100%; height: 100%; position: absolute; inset: 0; }
+.coach-court-direction {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 4px 11px;
+  background: rgba(8, 19, 36, 0.84);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  font-size: 9.5px;
+  line-height: 1.3;
+  font-weight: 800;
+  letter-spacing: .12em;
+  white-space: nowrap;
+  color: #e4effa;
+  z-index: 2;
+}
+.coach-court-slot { position: absolute; transform: translate(-50%, -50%); z-index: 2; }
+.coach-court-slot[data-spets="true"] { z-index: 3; }
+
+/* Compact Circular / Jersey Tactical Token on the Court */
+.coach-court .coach-position {
+  width: 112px;
+  min-height: 0;
+  padding: 6px 8px 8px;
+  border-radius: 8px;
+  border: 1.5px solid rgba(255, 255, 255, 0.28);
+  background: rgba(11, 23, 42, 0.88);
+  backdrop-filter: blur(6px);
+  color: #f8fafc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+  box-shadow: 0 8px 20px rgba(4, 10, 22, 0.45);
+  transition: transform 120ms ease, border-color 120ms ease, background 120ms ease, box-shadow 120ms ease;
+}
+.coach-court .coach-position:hover {
+  transform: translateY(-2px);
+  border-color: #f59e6c;
+  background: rgba(17, 34, 59, 0.95);
+}
+.coach-court .coach-position[data-active="true"] {
+  border-color: #f59e6c;
+  background: rgba(24, 45, 76, 0.96);
+  box-shadow: 0 0 0 3px rgba(200, 67, 32, 0.45), 0 10px 24px rgba(0, 0, 0, 0.55);
+}
+.coach-court .coach-position[data-spets="true"] {
+  border-color: #f59e6c;
+  background: linear-gradient(180deg, rgba(164, 51, 22, 0.42), rgba(14, 28, 50, 0.95));
+}
+.coach-court .coach-position .coach-position-code {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: #f3b38a;
+  line-height: 1.3;
+}
+.coach-suitability-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #22c55e;
+  display: inline-block;
+}
+.coach-suitability-dot[data-suitability="secondary"] { background: #f59e0b; }
+.coach-suitability-dot[data-suitability="out"] { background: #ef4444; }
+.coach-role-tag {
+  font-style: normal;
+  padding: 0 4px;
+  border-radius: 3px;
+  background: var(--game-signal);
+  color: #ffffff;
+  font-size: 8.5px;
+  font-weight: 800;
+}
+.coach-court .coach-position strong {
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.15;
+  color: #ffffff;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.coach-court .coach-position small {
+  font-size: 9.5px;
+  color: #b8cbe0;
+  margin: 0;
+  line-height: 1.15;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+.coach-token-bar {
+  width: 100%;
+  height: 3px;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.16);
+  overflow: hidden;
+  margin-top: 2px;
+}
+.coach-token-bar i {
+  display: block;
+  height: 100%;
+  background: #34d399;
+}
+.coach-token-bar i[data-low="true"] {
+  background: #f59e0b;
+}
+
+/* Goalkeeper slot bar below court */
+.coach-goalkeeper {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 12px 18px;
+  background: #102036;
+  color: #e9f0f8;
+  border-top: 1px solid #243b5c;
+}
+.coach-goalkeeper > span {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: #f3b38a;
+}
+.coach-goalkeeper .coach-position {
+  border: 1.5px solid rgba(255, 255, 255, 0.24);
+  border-radius: 6px;
+  background: rgba(17, 33, 56, 0.92);
+  color: #ffffff;
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  align-items: center;
+  column-gap: 10px;
+  padding: 7px 12px;
+  width: 230px;
+  min-height: 58px;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.coach-goalkeeper .coach-position .game-player-glyph { grid-row: 1 / 4; }
+.coach-goalkeeper .coach-position .coach-position-code {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 800;
+  color: #f3b38a;
+}
+.coach-goalkeeper .coach-position strong { font-size: 13px; color: #ffffff; }
+.coach-goalkeeper .coach-position small { font-size: 10px; color: #b6c8de; }
+.coach-goalkeeper .coach-position .coach-token-bar { display: none; }
+.coach-goalkeeper .coach-position[data-active="true"] {
+  border-color: #f59e6c;
+  box-shadow: 0 0 0 2px rgba(200, 67, 32, 0.4);
+}
+.coach-goalkeeper > div:last-child { margin-left: auto; display: grid; gap: 2px; text-align: right; }
+.coach-goalkeeper > div:last-child strong { font-family: var(--game-font-display); font-size: 26px; font-weight: 700; color: #ffffff; }
+.coach-goalkeeper > div:last-child small { font-size: 10.5px; color: #a9bcd4; }
+
+/* Interactive Bench Strip & Court-to-Bench Dropzone */
+.coach-bench-strip {
+  padding: 12px 16px 14px;
+  background: var(--hm-surface-2);
+  border-top: 1px solid var(--hm-border);
+  display: grid;
+  gap: 10px;
+  transition: background 120ms ease, box-shadow 120ms ease;
+}
+.coach-bench-strip[data-drag-over="true"] {
+  background: #e2f2e8;
+  box-shadow: inset 0 0 0 2px var(--hm-positive);
+}
+.coach-bench-strip-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.coach-bench-strip-head strong {
+  display: block;
+  font-size: 11.5px;
+  color: var(--hm-text-secondary);
+}
+.coach-bench-drop-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px dashed var(--hm-border-strong);
+  background: var(--hm-surface-1);
+  font-size: 10.5px;
+  font-weight: 800;
+  color: var(--game-ink);
+}
+.coach-bench-tokens {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+.coach-bench-token {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 10px 5px 6px;
+  border-radius: 5px;
+  border: 1px solid var(--hm-border);
+  background: var(--hm-surface-1);
+  color: var(--game-ink);
+  font: inherit;
+  text-align: left;
+  cursor: grab;
+  transition: border-color 120ms ease, transform 120ms ease, box-shadow 120ms ease;
+}
+.coach-bench-token:hover {
+  border-color: var(--game-signal);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(15, 27, 45, 0.08);
+}
+.coach-bench-token strong {
+  display: block;
+  font-size: 11.5px;
+  font-weight: 800;
+  line-height: 1.15;
+}
+.coach-bench-token small {
+  display: block;
+  font-size: 10px;
+  color: var(--hm-text-muted);
+}
+
+.coach-position:focus-visible, .coach-choice-options button:focus-visible, .coach-candidate-list button:focus-visible, .coach-live-player:focus-visible { outline: 3px solid var(--game-signal); outline-offset: 2px; }
+
 .coach-plan-rail { display: grid; gap: 14px; min-width: 0; }
 .coach-plan-rail .coach-section-heading { padding: 12px 16px; }
 .coach-plan-rail .coach-tactic-choices { padding: 12px 16px; gap: 10px; }
 .coach-plan-rail .coach-choice-group legend { margin-bottom: 6px; }
-.coach-plan-rail .coach-choice-options button { min-height: 32px; padding: 7px; line-height: 1.2; }
+.coach-plan-rail .coach-choice-options button { min-height: 34px; padding: 7px; line-height: 1.2; border-radius: 3px; }
 .coach-plan-rail .coach-choice-options button > svg { height: 16px; width: 46px; }
 .coach-plan-rail .coach-active-plan { padding: 10px 16px; }
-.coach-tactic-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 18px; }
+.coach-tactic-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; padding: 16px; }
 .coach-choice-group { min-width: 0; margin: 0; padding: 0; border: 0; }
-/* Diagram and four-option groups take the full row; beside another group
-   their buttons overflowed into the neighbour (5:1, Kombinationer). */
 .coach-choice-group--wide { grid-column: 1 / -1; }
-.coach-choice-group legend { font-size: 10px; font-weight: 750; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 8px; }
+.coach-choice-group legend { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 8px; color: var(--hm-text-secondary); }
 .coach-choice-options { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
-.coach-choice-options button { display: flex; align-items: center; justify-content: center; position: relative; gap: 8px; padding: 10px 9px; min-height: 36px; border: 1px solid #bbc5c0; background: #eeeFE8; color: var(--game-ink); font: inherit; font-size: 11px; font-weight: 600; cursor: pointer; }
+.coach-choice-options button { display: flex; align-items: center; justify-content: center; position: relative; gap: 8px; padding: 9px 8px; min-height: 36px; border: 1px solid #bbc5c0; background: #eeefe8; color: var(--game-ink); font: inherit; font-size: 11px; font-weight: 700; cursor: pointer; transition: background 120ms ease, border-color 120ms ease; }
 .coach-choice-options button > svg { width: 52px; height: 20px; }
 .coach-choice-options button > i { font-size: 9px; font-style: normal; }
-.coach-choice-options button[data-active="true"] { background: #182c40; border-color: #182c40; color: #fff3e6; box-shadow: inset 0 -3px var(--game-signal); }
+.coach-choice-options button[data-active="true"] { background: #102036; border-color: #102036; color: #fff3e6; box-shadow: inset 0 -3px var(--game-signal); }
 .coach-choice-options button:disabled, .coach-choice-group:disabled button, .coach-live-player:disabled { cursor: not-allowed; opacity: .55; }
-.coach-active-plan { margin: 0; padding: 13px 18px; background: #e9e3d7; border-top: 1px solid #d0c8b9; font-size: 11px; font-weight: 650; }
+.coach-active-plan { margin: 0; padding: 12px 16px; background: #e9e3d7; border-top: 1px solid #d0c8b9; font-size: 11px; font-weight: 700; }
 .coach-current-player { padding: 12px 16px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; background: #e6e8df; }
-.coach-current-player .hm-eyebrow { max-width: 8ch; }
-.coach-replacements > p { font-size: 11px; line-height: 1.6; padding: 0 16px; margin: 10px 0; color: var(--hm-text-secondary); }
-.coach-candidate-list { max-height: 180px; overflow-y: auto; }
+.coach-replacements > p { font-size: 11px; line-height: 1.55; padding: 0 16px; margin: 10px 0; color: var(--hm-text-secondary); }
+.coach-candidate-list { max-height: 220px; overflow-y: auto; }
 .coach-candidate-list button { display: flex; width: 100%; align-items: center; gap: 12px; border: 0; border-top: 1px solid var(--hm-border-subtle); border-left: 3px solid transparent; background: transparent; color: var(--game-ink); font: inherit; padding: 8px 16px; text-align: left; cursor: pointer; }
-.coach-candidate-list button > span:nth-child(2) { display: grid; gap: 4px; }
+.coach-candidate-list button > span:nth-child(2) { display: grid; gap: 2px; }
 .coach-candidate-list button strong { font-size: 12px; }
 .coach-candidate-list button small { font-size: 10px; color: var(--hm-text-muted); }
 .coach-candidate-list button b { margin-left: auto; font-size: 12px; }
 .coach-candidate-list button[data-active="true"] { background: #f2e2d3; border-left-color: var(--game-signal); }
 .coach-candidate-list button:hover { background: #ecece3; }
-.coach-roster-layout { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 22px; margin-top: 22px; align-items: start; }
+.coach-roster-layout { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 20px; margin-top: 20px; align-items: start; scroll-margin-top: 72px; }
 .coach-roster-table th, .coach-roster-table td { padding-left: 11px; padding-right: 11px; }
 .coach-roster-table [data-starter="true"] td:first-child { border-left: 3px solid var(--game-signal); }
 .coach-roster-table [data-unavailable="true"] { background: #f0dfda; }
@@ -69,13 +376,13 @@
 .coach-energy[data-low="true"] meter { accent-color: #a15e34; }
 .coach-small-empty { padding: 10px 0; color: var(--hm-text-secondary); font-size: 11px; line-height: 1.6; }
 .coach-roster .coach-small-empty { padding: 20px; }
-.coach-empty { background: #e4e7df; border-top: 4px solid var(--game-ink); padding: 32px; }
-.coach-empty h2 { font-family: var(--game-font-display); font-size: 35px; font-weight: 400; text-transform: uppercase; margin: 12px 0; }
+.coach-empty { background: #e4e7df; border-top: 4px solid var(--game-ink); padding: 32px; border-radius: 4px; }
+.coach-empty h2 { font-family: var(--game-font-display); font-size: 35px; font-weight: 700; text-transform: uppercase; margin: 12px 0; }
 .coach-empty p { max-width: 70ch; font-size: 13px; line-height: 1.7; }
 .game-live-layout.coach-live-layout { grid-template-columns: minmax(0, 1fr) 400px; }
 .game-sideline.coach-live-panel { padding: 0; background: #f0f0e6; border-top: 4px solid var(--game-signal); }
 .coach-live-heading { background: #e1e5dc; padding: 16px 18px 13px; border-bottom: 1px solid #c2c9bd; }
-.coach-live-heading h2 { font-family: var(--game-font-display); font-size: 27px; font-weight: 400; text-transform: uppercase; margin: 6px 0 12px; }
+.coach-live-heading h2 { font-family: var(--game-font-display); font-size: 27px; font-weight: 700; text-transform: uppercase; margin: 6px 0 12px; }
 .coach-live-possession { display: flex; align-items: baseline; gap: 12px; font-size: 11px; }
 .coach-live-possession > span { color: var(--hm-text-secondary); }
 .coach-live-panel .coach-tactic-choices { padding: 14px 16px; gap: 12px; }
@@ -119,9 +426,24 @@
 .coach-live-event > time { width: 25px; flex-shrink: 0; color: var(--game-signal); font-weight: 750; }
 .coach-live-event > div { display: grid; gap: 4px; }
 .coach-live-event span { color: var(--hm-text-secondary); font-size: 10px; }
-@media (min-width: 2200px) { .coach-preparation-layout { grid-template-columns: minmax(0, 1.55fr) minmax(440px, .8fr); gap: 28px; } .coach-court { height: 455px; } .coach-position { width: 190px; min-height: 92px; } .coach-roster-layout { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 28px; } .game-live-layout.coach-live-layout { grid-template-columns: minmax(0, 1fr) 460px; } .coach-live-player strong { font-size: 11px; } }
-@media (max-width: 1350px) { .coach-preparation-layout { grid-template-columns: minmax(0, 1fr) 340px; gap: 15px; } .coach-position { width: 145px; grid-template-columns: 34px minmax(0, 1fr); column-gap: 6px; padding: 8px; } .coach-position .game-player-glyph { --glyph-size: 36px !important; } .coach-position strong { font-size: 11px; } .coach-roster-layout { grid-template-columns: 1fr; } .coach-goalkeeper { gap: 10px; } .coach-goalkeeper .coach-position { width: 180px; } .game-live-layout.coach-live-layout { grid-template-columns: minmax(0, 1fr) 350px; gap: 16px; } }
-@media (max-width: 1050px) { .coach-preparation-layout, .game-live-layout.coach-live-layout { grid-template-columns: 1fr; } .coach-plan-rail { grid-template-columns: 1fr 1fr; } .coach-live-out-list { grid-template-columns: repeat(4, minmax(0, 1fr)); } .coach-live-in-list { grid-template-columns: 1fr 1fr; } .coach-fixture-strip { flex-wrap: wrap; } }
-@media (max-width: 750px) { .coach-plan-rail { grid-template-columns: 1fr; } .coach-position { width: 112px; padding: 7px; grid-template-columns: 25px minmax(0, 1fr); } .coach-position .game-player-glyph { --glyph-size: 28px !important; } .coach-position strong { font-size: 10px; } .coach-court { height: 370px; } .coach-fixture-strip > div:first-child { flex-wrap: wrap; gap: 10px; } .coach-live-out-list { grid-template-columns: 1fr 1fr; } }
-/* HM-ALPHA3-M10: who stepped in for an unavailable starter in the carried lineup. */
+@media (max-width: 1350px) {
+  .coach-preparation-layout { grid-template-columns: minmax(0, 1fr) 340px; gap: 15px; }
+  .coach-court .coach-position { width: 96px; padding: 5px 6px 7px; }
+  .coach-roster-layout { grid-template-columns: 1fr; }
+  .game-live-layout.coach-live-layout { grid-template-columns: minmax(0, 1fr) 350px; gap: 16px; }
+}
+@media (max-width: 1050px) {
+  .coach-preparation-layout, .game-live-layout.coach-live-layout { grid-template-columns: 1fr; }
+  .coach-plan-rail { grid-template-columns: 1fr 1fr; }
+  .coach-live-out-list { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .coach-live-in-list { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 750px) {
+  .coach-plan-rail { grid-template-columns: 1fr; }
+  .coach-court { height: 420px; }
+  .coach-court .coach-position { width: 82px; padding: 4px 5px 6px; }
+  .coach-court .coach-position .game-player-glyph { --glyph-size: 30px !important; }
+  .coach-court .coach-position strong { font-size: 10px; }
+  .coach-live-out-list { grid-template-columns: 1fr 1fr; }
+}
 .coach-replacement-notes { margin: 6px 0 0; padding-left: 18px; font-size: 12px; line-height: 1.6; }
