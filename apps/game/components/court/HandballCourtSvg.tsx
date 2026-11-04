@@ -127,6 +127,7 @@ export function HandballCourtSvg({
 
       {/* 6m Goal Area Line (Målgårdslinje) */}
       <path
+        className="ihf-goal-area-line"
         d={geo.goalAreaLine}
         fill="none"
         stroke={colors.lineCrease}
@@ -135,6 +136,7 @@ export function HandballCourtSvg({
 
       {/* 4m Goalkeeper Restraint Line (Målvaktslinje) */}
       <line
+        className="ihf-gk-restraint-line"
         x1={geo.goalkeeperRestraintLine.x1}
         y1={geo.goalkeeperRestraintLine.y1}
         x2={geo.goalkeeperRestraintLine.x2}
@@ -145,6 +147,7 @@ export function HandballCourtSvg({
 
       {/* 7m Penalty Line (Straffkastlinje, length 1.0m) */}
       <line
+        className="ihf-penalty-mark"
         x1={geo.penaltyLine.x1}
         y1={geo.penaltyLine.y1}
         x2={geo.penaltyLine.x2}
@@ -155,6 +158,7 @@ export function HandballCourtSvg({
 
       {/* 9m Free Throw Line (Frikastlinje, dashed) */}
       <path
+        className="ihf-free-throw-line"
         d={geo.freeThrowLine}
         fill="none"
         stroke={colors.lineFreeThrow}

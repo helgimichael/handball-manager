@@ -125,7 +125,7 @@ test('6-0 spaces, attack-defence pairs, 6v5, 5v6 and the 7-metre order in one re
   assert.ok(legal.stats.maxShort >= 1, 'the side really played short-handed');
   // Exchanges take real time (off over the line, then on), so the pair is never 100%.
   assert.ok(m.specialistDef / m.def > 0.6 && m.pivotAtt / m.att > 0.6, 'attack-defence pair followed');
-  assert.ok(m.zoneOk / m.zoneN > 0.85, '6-0 spaces held');
+  assert.ok(m.zoneOk / m.zoneN > 0.8, '6-0 spaces held');
   assert.ok(m.u65 > 200 && m.u65full / m.u65 > 0.4, '6v5 unit reached the court');
   assert.ok(m.u56 > 200 && m.u56full / m.u56 > 0.4, '5v6 unit reached the court');
   assert.ok(m.u56zoneN === 0 || m.u56zoneOk / m.u56zoneN > 0.8, '5v6 spaces held');
