@@ -321,3 +321,234 @@
   gap: 7px;
   margin-bottom: 4px !important;
 }
+
+
+/* HM-PLAYTEST-IMPROVEMENT-04: Scoreboard suspensions and two-minute indicators */
+.mc-club-sanctions {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 6px;
+}
+.mc-suspension-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  background: rgba(245, 158, 11, 0.22);
+  border: 1px solid rgba(251, 191, 36, 0.6);
+  color: #fef3c7;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+.mc-suspension-badge time {
+  font-family: var(--game-font-display);
+  font-size: 13px;
+  color: #fbbf24;
+  font-weight: 700;
+}
+.mc-disqualification-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  background: rgba(239, 68, 68, 0.25);
+  border: 1px solid rgba(239, 68, 68, 0.7);
+  color: #fee2e2;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+.mc-active-suspensions-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+.mc-timer-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 3px;
+  background: rgba(245, 158, 11, 0.18);
+  border: 1px solid rgba(245, 158, 11, 0.45);
+  color: #fde68a;
+}
+.mc-timer-chip b {
+  color: #ffffff;
+}
+.mc-compact-powerplay {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  background: rgba(245, 158, 11, 0.25);
+  border: 1px solid #fbbf24;
+  color: #fef3c7;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+.mc-compact-powerplay time {
+  color: #fde68a;
+}
+
+/* HM-PLAYTEST-IMPROVEMENT-04: Interactive timeout overlay */
+.mc-timeout-overlay {
+  margin: 16px 0 24px;
+  background: linear-gradient(145deg, #0e1929 0%, #17273e 100%);
+  border: 2px solid var(--game-signal);
+  border-radius: 8px;
+  padding: 20px 24px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
+  color: var(--game-paper);
+}
+.mc-timeout-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+.mc-timeout-badge-wrap {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.mc-timeout-badge-wrap h2 {
+  font-size: 20px;
+  margin: 4px 0 2px;
+  color: #ffffff;
+}
+.mc-timeout-badge-wrap p {
+  font-size: 12px;
+  color: #cbd5e1;
+  margin: 0;
+  max-width: 55ch;
+}
+.mc-timeout-state-card {
+  text-align: right;
+  min-width: 170px;
+  padding: 8px 14px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.mc-timeout-score {
+  font-size: 13px;
+  display: block;
+}
+.mc-timeout-score strong {
+  font-family: var(--game-font-display);
+  font-size: 20px;
+  color: #f59e0b;
+  padding: 0 4px;
+}
+.mc-timeout-state-card small {
+  display: block;
+  font-size: 11px;
+  color: #94a3b8;
+}
+.mc-timeout-manpower {
+  margin-top: 4px;
+  font-size: 10.5px;
+  color: #fbbf24;
+}
+.mc-timeout-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 24px;
+  padding: 18px 0;
+}
+.mc-timeout-tactics-col h3,
+.mc-timeout-court-col h3 {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #94a3b8;
+  margin: 0 0 10px;
+}
+.mc-timeout-players-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.mc-timeout-player-chip {
+  display: grid;
+  grid-template-columns: 28px 1fr 60px;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  font-size: 12px;
+}
+.mc-timeout-player-number {
+  font-family: var(--game-font-display);
+  font-weight: 700;
+  color: #f59e0b;
+  font-size: 14px;
+}
+.mc-timeout-player-info strong {
+  display: block;
+  font-size: 12px;
+  color: #f1f5f9;
+}
+.mc-timeout-player-info small {
+  font-size: 10.5px;
+  color: #94a3b8;
+}
+.mc-timeout-energy-bar {
+  height: 6px;
+  border-radius: 3px;
+  transition: width 150ms ease;
+}
+.mc-timeout-assistant-notice {
+  padding: 12px 14px;
+  border-radius: 4px;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 12px;
+  color: #cbd5e1;
+}
+.mc-timeout-assistant-notice strong {
+  display: block;
+  color: #f59e0b;
+  margin-bottom: 4px;
+}
+.mc-timeout-assistant-notice p {
+  margin: 2px 0;
+}
+.mc-timeout-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+.mc-timeout-footer-meta {
+  font-size: 11.5px;
+  color: #94a3b8;
+}
+.mc-timeout-footer-meta small {
+  display: block;
+  font-size: 10px;
+  color: #64748b;
+  margin-top: 2px;
+}
+.mc-timeout-resume-action {
+  font-size: 13px;
+  font-weight: 700;
+  padding: 8px 18px;
+}
+@media (max-width: 900px) {
+  .mc-timeout-header { flex-direction: column; align-items: flex-start; }
+  .mc-timeout-body { grid-template-columns: 1fr; }
+  .mc-timeout-state-card { text-align: left; width: 100%; }
+}

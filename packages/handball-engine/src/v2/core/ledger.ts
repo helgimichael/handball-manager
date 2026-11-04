@@ -121,7 +121,7 @@ export type Ledger = {
   readonly nonShotLossRate: number;
 };
 
-const LIVE_TOUCH = new Set(['PASS_RECEIVED', 'SHOT_RELEASED', 'BALL_CONTROLLED', 'REBOUND_CONTROLLED']);
+const LIVE_TOUCH = new Set(['PASS_RELEASED', 'PASS_RECEIVED', 'SHOT_RELEASED', 'BALL_CONTROLLED', 'REBOUND_CONTROLLED', 'RESTART_COMPLETED']);
 const TECHNICAL_RESTART_REASONS = new Set(['More than three steps', 'Held longer than three seconds', 'Illegal grounded shot in goal area', 'Illegal takeoff', 'Landed holding the ball after jump', 'Restart could not be organised', 'Repeatedly delayed restart']);
 
 export type RecalledContinuation = {

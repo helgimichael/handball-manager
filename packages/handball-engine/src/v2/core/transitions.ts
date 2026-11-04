@@ -15,8 +15,11 @@ export function checkpoint(s: CoreState,outcome: string) {
   if(s.checkpoint.stopOnOutcome||(s.flow.stopAfter!==null&&s.flow.outcomes>=s.flow.stopAfter)){s.status='CHECKPOINT';s.reason=outcome;}
 }
 export function awardRestart(s: CoreState,kind: Restart['kind'],owner: CorePlayer['team'],where: Point,reason: string,actor: CorePlayer|null=null,countOutcome=true) {
-  for(const p of s.players){interrupt(s,p,reason);p.support=null;p.zone=null;
-    if(p.duty.kind!=='WAIT')p.duty={kind:'WAIT',targetId:null,sinceTick:s.tick,reason:'Dead ball'};}
+  for(const p of s.players){
+    if(p.action?.kind!=='EXCHANGE'&&p.action?.kind!=='LAND'){interrupt(s,p,reason);}
+    p.support=null;p.zone=null;
+    if(p.duty.kind!=='WAIT'&&p.action?.kind!=='EXCHANGE')p.duty={kind:'WAIT',targetId:null,sinceTick:s.tick,reason:'Dead ball'};
+  }
   const holder=s.ball.controllerId&&getPlayer(s,s.ball.controllerId).team===owner?s.ball.controllerId:null;
   s.ball={...s.ball,mode:'DEAD',controllerId:holder,flight:null,live:false,height:holder?1.2:0};
   let location={...where};

@@ -10,11 +10,44 @@ import { TacticalCourt, StructureCourt } from './TacticalCourt';
 import { ScoreFlow, PlayersView, StatisticsView } from './WorkspaceViews';
 import { MATCH_VIEWS, VIEW_LABELS, keyboardView, overviewFacts, overviewMoments, performers, tacticalStory, momentMatches, MOMENT_FILTERS, FILTER_LABELS, type MatchView, type MomentFilter } from '@/lib/matchCenter/workspace';
 import { zonePost } from '@handball-manager/handball-engine/src/v2/core/defence';
+import { TimeoutOverlay } from './TimeoutOverlay';
+import type { PlayerRow } from '@/lib/matchCenter/model';
+import type { MatchCommand } from '@/lib/career/productionMatch';
+import type { MatchControl } from '@/lib/media/discipline';
 const stateLabels = { PREMATCH: 'INFÖR AVKAST', LIVE: 'LIVE', PAUSED: 'PAUSAD', TIMEOUT: 'TIMEOUT', HALFTIME: 'HALVTID', FULLTIME: 'SLUTRESULTAT' };
-function ClubIdentity({ id, side }: {
+function ClubIdentity({ id, side, suspensions = [], disqualifications = [] }: {
     id: string;
     side: string;
-}) { const club = getClub(id); return <div className="mc-club"><ClubCrest shortName={club?.shortName ?? '—'} primaryColor={club?.primaryColor ?? ''} clubId={club?.id} size={66}/><div><small>{side}</small><strong>{club?.shortName ?? (side === 'HEMMA' ? 'Hemmalaget' : 'Bortalaget')}</strong><span>{club?.name}</span></div></div>; }
+    suspensions?: PlayerRow[];
+    disqualifications?: PlayerRow[];
+}) {
+    const club = getClub(id);
+    return (
+        <div className="mc-club">
+            <ClubCrest shortName={club?.shortName ?? '—'} primaryColor={club?.primaryColor ?? ''} clubId={club?.id} size={66}/>
+            <div>
+                <small>{side}</small>
+                <strong>{club?.shortName ?? (side === 'HEMMA' ? 'Hemmalaget' : 'Bortalaget')}</strong>
+                <span>{club?.name}</span>
+                {(suspensions.length > 0 || disqualifications.length > 0) && (
+                    <div className="mc-club-sanctions" aria-label={`Utvisningar och kort för ${club?.shortName ?? side}`}>
+                        {suspensions.map(s => (
+                            <span key={s.id} className="mc-suspension-badge" title={`${s.name} utvisad i 2 minuter`}>
+                                <i className="mc-suspension-icon" aria-hidden="true">⏱️</i>
+                                <b>2 min</b> #{s.number} {s.name.split(' ').pop()} <time>{clockText(s.remainingSuspension)}</time>
+                            </span>
+                        ))}
+                        {disqualifications.map(d => (
+                            <span key={d.id} className="mc-disqualification-badge" title={`${d.name} har fått rött kort`}>
+                                <b>🟥</b> #{d.number} {d.name.split(' ').pop()}
+                            </span>
+                        ))}
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+}
 export function KeyMoment({ moment, events, frames, people }: {
     moment: MatchPresentationEvent | null;
     events: readonly CoreEvent[];
@@ -77,13 +110,18 @@ function Commentary({ compact = false, stream, names, keyOnly, importantOnly, on
         </section>
     );
 }
-export function MatchCenterSurface({ model, fixture, frames, people, events, team, controls, coach, onPlayer, experimental, importantOnly = false, defaultShowExperimental = false }: {
+export function MatchCenterSurface({ model, fixture, frames, people, events, team, controls, coach, onPlayer, experimental, importantOnly = false, defaultShowExperimental = false, session, onCommand, onResumeTimeout, callingTeam, control }: {
     model: MatchCenterModel; fixture: ProductionMatchSession['fixture']; frames: readonly MatchFrame[];
     people: MatchPerson[]; events: readonly CoreEvent[]; team: TeamId; controls?: ReactNode;
     coach?: ReactNode; onPlayer?: (id: string) => void; experimental?: ReactNode; importantOnly?: boolean; defaultShowExperimental?: boolean;
+    session?: ProductionMatchSession; onCommand?: (command: MatchCommand) => void; onResumeTimeout?: () => void; callingTeam?: TeamId; control?: MatchControl | null;
 }) {
     const [view, setView] = useState<MatchView>('OVERVIEW');
     const [phase, setPhase] = useState(model.status);
+    const homeSuspensions = useMemo(() => model.players.filter(p => p.team === 'HOME' && p.population === 'SUSPENDED' && p.remainingSuspension > 0), [model.players]);
+    const awaySuspensions = useMemo(() => model.players.filter(p => p.team === 'AWAY' && p.population === 'SUSPENDED' && p.remainingSuspension > 0), [model.players]);
+    const homeDisqualifications = useMemo(() => model.players.filter(p => p.team === 'HOME' && p.population === 'DISQUALIFIED'), [model.players]);
+    const awayDisqualifications = useMemo(() => model.players.filter(p => p.team === 'AWAY' && p.population === 'DISQUALIFIED'), [model.players]);
     // Interval transitions return to the shared decision/review overview, once.
     if (phase !== model.status) {
         setPhase(model.status);
@@ -124,12 +162,12 @@ export function MatchCenterSurface({ model, fixture, frames, people, events, tea
                     </span>
                 </div>
                 <div className="mc-scoreline">
-                    <ClubIdentity id={fixture.homeClubId} side="HEMMA"/>
+                    <ClubIdentity id={fixture.homeClubId} side="HEMMA" suspensions={homeSuspensions} disqualifications={homeDisqualifications}/>
                     <div className="mc-score">
                         <strong>{model.result.homeGoals}<span>–</span>{model.result.awayGoals}</strong>
                         <small>{clockText(model.clock)} · {stateLabels[model.status]}</small>
                     </div>
-                    <ClubIdentity id={fixture.awayClubId} side="BORTA"/>
+                    <ClubIdentity id={fixture.awayClubId} side="BORTA" suspensions={awaySuspensions} disqualifications={awayDisqualifications}/>
                 </div>
                 {!reviewing && (
                     <div className="mc-match-state">
@@ -139,6 +177,20 @@ export function MatchCenterSurface({ model, fixture, frames, people, events, tea
                                 {model.manpower.HOME} mot {model.manpower.AWAY}
                                 <small>{model.manpower.HOME === model.manpower.AWAY ? 'Utespelare på plan · 6v6 jämnt' : 'Utespelare på plan · Utvisning aktiv'}</small>
                             </strong>
+                        )}
+                        {(homeSuspensions.length > 0 || awaySuspensions.length > 0) && (
+                            <div className="mc-active-suspensions-summary" aria-live="polite">
+                                {homeSuspensions.map(s => (
+                                    <span key={s.id} className="mc-timer-chip home">
+                                        {names.HOME} <b>#{s.number} {s.name.split(' ').pop()}</b> {clockText(s.remainingSuspension)}
+                                    </span>
+                                ))}
+                                {awaySuspensions.map(s => (
+                                    <span key={s.id} className="mc-timer-chip away">
+                                        {names.AWAY} <b>#{s.number} {s.name.split(' ').pop()}</b> {clockText(s.remainingSuspension)}
+                                    </span>
+                                ))}
+                            </div>
                         )}
                         {model.timeouts && <span>Timeouts kvar: {names.HOME} {model.timeouts.HOME} · {names.AWAY} {model.timeouts.AWAY}</span>}
                     </div>
@@ -153,12 +205,30 @@ export function MatchCenterSurface({ model, fixture, frames, people, events, tea
                 )}
             </header>
         )}
-        <nav className="mc-workspace-nav" ref={navigation} aria-label="Matchens vyer"><div className="mc-compact-identity"><strong>{names.HOME} <b>{model.result.homeGoals}–{model.result.awayGoals}</b> {names.AWAY}</strong><small>{clockText(model.clock)} · {stateLabels[model.status]}</small></div><div role="tablist" aria-label="Matchvy">{MATCH_VIEWS.map(v => <button type="button" key={v} id={`${uid}-${v}-tab`} role="tab" aria-selected={view === v} aria-controls={`${uid}-${v}-panel`} tabIndex={view === v ? 0 : -1} ref={element => { buttons.current[v] = element; }} onClick={() => changeView(v)} onKeyDown={e => { const next = keyboardView(v, e.key); if (next) { e.preventDefault(); changeView(next); buttons.current[next]?.focus(); } }}>{VIEW_LABELS[v]}</button>)}</div></nav>
+        <nav className="mc-workspace-nav" ref={navigation} aria-label="Matchens vyer"><div className="mc-compact-identity"><strong>{names.HOME} <b>{model.result.homeGoals}–{model.result.awayGoals}</b> {names.AWAY}</strong><small>{clockText(model.clock)} · {stateLabels[model.status]}</small>{(homeSuspensions.length > 0 || awaySuspensions.length > 0) && <span className="mc-compact-powerplay" title="Aktiva utvisningar">{model.manpower ? `${model.manpower.HOME}v${model.manpower.AWAY}` : 'Utvisning'}{[...homeSuspensions, ...awaySuspensions].map(s => <time key={s.id}>#{s.number} {clockText(s.remainingSuspension)}</time>)}</span>}</div><div role="tablist" aria-label="Matchvy">{MATCH_VIEWS.map(v => <button type="button" key={v} id={`${uid}-${v}-tab`} role="tab" aria-selected={view === v} aria-controls={`${uid}-${v}-panel`} tabIndex={view === v ? 0 : -1} ref={element => { buttons.current[v] = element; }} onClick={() => changeView(v)} onKeyDown={e => { const next = keyboardView(v, e.key); if (next) { e.preventDefault(); changeView(next); buttons.current[next]?.focus(); } }}>{VIEW_LABELS[v]}</button>)}</div></nav>
         <div id={`${uid}-controls`} className="mc-controls">{controls}</div>
         <div className={`mc-active-layout ${coach && !reviewing ? 'mc-managing' : ''}`}>
             <section id={`${uid}-${view}-panel`} role="tabpanel" aria-labelledby={`${uid}-${view}-tab`} tabIndex={0} className="mc-view-panel">
                 {view === 'OVERVIEW' && <>
-                    {['HALFTIME', 'TIMEOUT'].includes(model.status) && <section className="mc-decision-heading" role="status"><span className="game-overline">{stateLabels[model.status]}</span><h2>{model.status === 'HALFTIME' ? 'Nästa halvlek börjar med ditt beslut.' : 'Samla laget. Välj nästa instruktion.'}</h2></section>}
+                    {model.status === 'TIMEOUT' && session ? (
+                        <TimeoutOverlay
+                            session={session}
+                            model={model}
+                            team={team}
+                            names={names}
+                            callingTeam={callingTeam}
+                            onCommand={onCommand}
+                            onResumeTimeout={onResumeTimeout}
+                            control={control}
+                        />
+                    ) : (
+                        ['HALFTIME', 'TIMEOUT'].includes(model.status) && (
+                            <section className="mc-decision-heading" role="status">
+                                <span className="game-overline">{stateLabels[model.status]}</span>
+                                <h2>{model.status === 'HALFTIME' ? 'Nästa halvlek börjar med ditt beslut.' : 'Samla laget. Välj nästa instruktion.'}</h2>
+                            </section>
+                        )
+                    )}
                     <div className="mc-overview-grid"><div><section className="mc-summary"><header><span className="game-overline">{reviewing ? 'Matchberättelsen' : 'Matchbilden'}</span><h1>{reviewing ? model.result.homeGoals === model.result.awayGoals ? 'Oavgjort.' : `${names[model.result.homeGoals > model.result.awayGoals ? 'HOME' : 'AWAY']} vinner.` : 'Från avkast till avgörande.'}</h1></header>{facts.length ? <ul>{facts.map(f => <li key={f.id} data-fact={f.id}>{f.text}</li>)}</ul> : <p>Matchbilden växer fram när händelserna kommer.</p>}</section><ScoreFlow events={model.events}/>{!reviewing && <Commentary compact stream={stream} names={names} keyOnly={keyOnly} importantOnly={importantOnly} onOpen={openMoment} onView={() => changeView('MOMENTS')} onToggle={() => setKeyOnly(!keyOnly)}/>}</div>
                     <div><section className="mc-primary-metrics"><h2>Matchen i siffror</h2><table><thead><tr><th>{names.HOME}</th><th> </th><th>{names.AWAY}</th></tr></thead><tbody>{[
                         ['Mål', model.result.homeGoals, model.result.awayGoals], ['Skott', model.result.homeStats.shots, model.result.awayStats.shots], ['Träffsäkerhet', `${model.result.homeStats.shootingPct}%`, `${model.result.awayStats.shootingPct}%`], ['Räddningar', `${model.result.homeStats.saves}/${model.result.homeStats.shotsFaced}`, `${model.result.awayStats.saves}/${model.result.awayStats.shotsFaced}`], ['Bollförluster', model.result.homeStats.turnovers, model.result.awayStats.turnovers], ['7m mål/försök', `${model.result.homeStats.sevenMetreGoals}/${model.result.homeStats.sevenMetreAttempts}`, `${model.result.awayStats.sevenMetreGoals}/${model.result.awayStats.sevenMetreAttempts}`], ['2 min', model.result.homeStats.twoMinuteSuspensions, model.result.awayStats.twoMinuteSuspensions], ['Omställningsmål', model.shots.filter(s => s.team === 'HOME' && s.phase === 'TRANSITION' && s.outcome === 'GOAL').length, model.shots.filter(s => s.team === 'AWAY' && s.phase === 'TRANSITION' && s.outcome === 'GOAL').length]

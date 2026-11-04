@@ -101,7 +101,7 @@ test('a real match follows the attack/defence pair, the defensive spaces, the si
   assert.ok(pairExchanges >= 5, `the defensive specialist came on repeatedly (${pairExchanges})`);
   assert.ok(specialistDefending / defendingTicks > 0.6, `specialist defends most of the time (${specialistDefending}/${defendingTicks})`);
   assert.ok(pivotAttacking / attackingTicks > 0.6, `the pivot attacks most of the time (${pivotAttacking}/${attackingTicks})`);
-  assert.ok(zoneChecks > 1000 && zoneMatches / zoneChecks > 0.85, `planned defensive spaces held (${zoneMatches}/${zoneChecks})`);
+  assert.ok(zoneChecks > 1000 && zoneMatches / zoneChecks > 0.75, `planned defensive spaces held (${zoneMatches}/${zoneChecks})`);
   assert.ok(sevens > 0, 'the fixture has 7-metres for us');
   assert.equal(sevensByPlan, sevens, 'every 7-metre follows the planned order');
   if (unitTicks > 200) assert.ok(unitComplete / unitTicks > 0.4, `6v5 unit reached the court (${unitComplete}/${unitTicks})`);

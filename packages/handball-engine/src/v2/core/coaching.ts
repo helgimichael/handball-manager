@@ -120,29 +120,81 @@ export function setTactics(s:CoreState,team:TeamId,patch:Partial<Pick<TeamTactic
     patch.sevenVSix!==undefined&&!SEVEN_V_SIX_MODES.includes(patch.sevenVSix))throw new Error('Invalid team tactics');
   Object.assign(s.coaching[team],patch);record(s,'TACTICS_CHANGED',null,{team,...patch});return true;
 }
+function shouldTakeContextualTimeout(s: CoreState, team: TeamId, tactics: TeamTactics, players: readonly CorePlayer[]): boolean {
+  if (!tactics.timeouts || s.possession.team !== team || !s.ball.controllerId || !s.ball.live ||
+      !s.match || !['FIRST_HALF', 'SECOND_HALF'].includes(s.match.phase) || s.referee.timeout ||
+      s.referee.teamTimeouts[team].includes(s.period) || tactics.lastTimeoutPossession === s.possession.id) {
+    return false;
+  }
+  const periodElapsedMs = s.officialClock.timeMs - s.match.periodStartMs;
+  const minuteInPeriod = periodElapsedMs / 60000;
+  if (minuteInPeriod < 3.5 || periodElapsedMs >= s.match.periodLengthMs - 1000) return false;
+
+  const other = otherTeam(team);
+  const margin = s.score[team] - s.score[other];
+
+  // Count unanswered opponent goals since our team's last goal
+  let unansweredOpponentGoals = 0;
+  for (let i = s.events.length - 1; i >= 0; i--) {
+    const e = s.events[i];
+    if (e.type === 'GOAL') {
+      if (e.details.team === other) unansweredOpponentGoals++;
+      else break;
+    }
+  }
+
+  let score = 0;
+  // 1. Consecutive conceded goals (run of 3+ or 4+)
+  if (unansweredOpponentGoals >= 4) score += 80;
+  else if (unansweredOpponentGoals >= 3) score += 50;
+
+  // 2. Trailing margin
+  if (margin <= -2) score += 15;
+  if (margin <= -4) score += 15;
+  if (margin <= -7) score += 20;
+
+  // 3. Late close game in second half
+  if (s.period === 2) {
+    if (minuteInPeriod >= 25 && Math.abs(margin) <= 2) score += 50;
+    if (minuteInPeriod >= 27 && margin <= 0) score += 35;
+  }
+
+  // 4. Team fatigue
+  if (players.filter(p => p.condition.energy < 0.70).length >= 4) score += 20;
+
+  // Small deterministic variation derived from match and team
+  const matchSeed = s.seed ? (s.seed + team.charCodeAt(0)) % 11 - 5 : 0;
+  return (score + matchSeed) >= 50;
+}
+
 export function coachingBefore(s:CoreState) {
   if(!s.match||!['FIRST_HALF','SECOND_HALF'].includes(s.match.phase)||s.referee.timeout)return;
   for(const team of ['HOME','AWAY'] as const) {
     const tactics=s.coaching[team],players=courtPlayers(s,team);
-    if(tactics.timeouts&&s.possession.team===team&&s.ball.controllerId&&s.ball.live&&s.officialClock.timeMs-s.match.periodStartMs>s.match.periodLengthMs*.6&&
-      players.filter(p=>p.condition.energy<.72).length>=3&&tactics.lastTimeoutPossession!==s.possession.id) {
+    if(shouldTakeContextualTimeout(s,team,tactics,players)) {
       if(requestTeamTimeout(s,team))tactics.lastTimeoutPossession=s.possession.id;
     }
     sevenVSixBefore(s,team);
     matchPlanBefore(s,team);
     if(!tactics.rotation)continue;
     const strategy=rotationStrategy(s,team),profile=ROTATION_PROFILES[strategy];
-    // The match situation moves the line, never the rule. A short bench keeps
-    // its best players on in a close finish; a wide one spreads the minutes
-    // once the result is safe. BALANCED keeps the long-standing thresholds.
     const late=s.officialClock.timeMs>s.match.periodLengthMs*2*.83,margin=s.score[team]-s.score[otherTeam(team)];
     const tiredBelow=strategy==='SHORT'&&late&&Math.abs(margin)<=3?.42:strategy==='WIDE'&&late&&Math.abs(margin)>=6?.8:profile.tiredBelow;
     const free=(p:CorePlayer)=>p.kind==='FIELD_PLAYER'&&p.id!==s.ball.controllerId&&!p.airborne&&!exchangeActive(s,p.id);
     const ready=(p:CorePlayer)=>p.team===team&&p.population==='BENCH'&&!p.condition.unavailable&&p.condition.attacksRemaining===0;
-    const tired=players.filter(p=>free(p)&&p.condition.energy<tiredBelow).sort((a,b)=>a.condition.energy-b.condition.energy||a.id.localeCompare(b.id));
+
+    // Specialist pairs protect planned players from premature rotation
+    const plan=tactics.plan;
+    const specialistIds=new Set((plan?.pairs??[]).flatMap(p=>[p.attackId,p.defenceId]));
+    const pairOf=(id:string)=>plan?.pairs?.find(pr=>pr.attackId===id||pr.defenceId===id);
+    const isExhaustedOrNormalTired=(p:CorePlayer)=>specialistIds.has(p.id)?p.condition.energy<.40:p.condition.energy<tiredBelow;
+
+    const tired=players.filter(p=>free(p)&&isExhaustedOrNormalTired(p)).sort((a,b)=>a.condition.energy-b.condition.energy||a.id.localeCompare(b.id));
     let requested=false;
     for(const outgoing of tired) {
-      const incoming=s.players.filter(p=>ready(p)&&p.kind===outgoing.kind&&p.condition.energy>outgoing.condition.energy+profile.freshMargin)
+      const pr=pairOf(outgoing.id);
+      const counterpartId=pr?(pr.attackId===outgoing.id?pr.defenceId:pr.attackId):null;
+      const incoming=s.players.filter(p=>ready(p)&&!specialistIds.has(p.id)&&p.kind===outgoing.kind&&p.id!==counterpartId&&p.condition.energy>outgoing.condition.energy+profile.freshMargin)
         .sort((a,b)=>Number(b.role===outgoing.role)-Number(a.role===outgoing.role)||
           (profile.prefer==='STRENGTH'?playingStrength(b)-playingStrength(a):0)||b.condition.energy-a.condition.energy||a.id.localeCompare(b.id))[0];
       if(incoming&&requestExchange(s,team,outgoing.id,incoming.id)){requested=true;break;}
@@ -151,7 +203,7 @@ export function coachingBefore(s:CoreState) {
     // SHORT also restores its strongest lineup: a clearly stronger player in
     // the same role who has recovered on the bench replaces a weaker one.
     for(const weaker of players.filter(free).sort((a,b)=>playingStrength(a)-playingStrength(b)||a.id.localeCompare(b.id))) {
-      const stronger=s.players.filter(p=>ready(p)&&p.kind===weaker.kind&&p.role===weaker.role&&p.condition.energy>=.78&&
+      const stronger=s.players.filter(p=>ready(p)&&!specialistIds.has(p.id)&&p.kind===weaker.kind&&p.role===weaker.role&&p.condition.energy>=.78&&
         p.condition.energy>=weaker.condition.energy-.05&&playingStrength(p)>playingStrength(weaker)+.04)
         .sort((a,b)=>playingStrength(b)-playingStrength(a)||a.id.localeCompare(b.id))[0];
       if(stronger&&requestExchange(s,team,weaker.id,stronger.id))break;

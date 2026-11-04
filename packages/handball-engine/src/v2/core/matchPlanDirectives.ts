@@ -78,7 +78,7 @@ export function matchPlanBefore(s: CoreState, team: TeamId): void {
   const court = courtPlayers(s, team).filter(p => p.kind === 'FIELD_PLAYER');
   const movable = (p: CorePlayer) => p.id !== s.ball.controllerId && !p.airborne && !exchangeActive(s, p.id);
   const ready = (p: CorePlayer | undefined): p is CorePlayer => !!p && p.team === team && p.population === 'BENCH' && p.kind === 'FIELD_PLAYER' &&
-    !p.condition.unavailable && !p.condition.exitRequired && p.condition.attacksRemaining === 0 && p.suspensionUntilMs === null;
+    !p.condition.unavailable && !p.condition.exitRequired && p.condition.attacksRemaining === 0 && p.suspensionUntilMs === null && p.condition.energy >= .40;
   const byId = (id: string) => s.players.find(p => p.id === id);
 
   const situation = unitSituation(s, team);
@@ -96,10 +96,28 @@ export function matchPlanBefore(s: CoreState, team: TeamId): void {
   }
 
   const attacking = s.possession.team === team;
+  const intendedCourtIds = new Set((plan.pairs ?? []).map(p => attacking ? p.attackId : p.defenceId));
   for (const pair of plan.pairs ?? []) {
     const [onId, offId] = attacking ? [pair.attackId, pair.defenceId] : [pair.defenceId, pair.attackId];
-    const incoming = byId(onId), outgoing = byId(offId);
-    if (!ready(incoming) || !outgoing || outgoing.population !== 'COURT' || !movable(outgoing)) continue;
-    if (requestExchange(s, team, outgoing.id, incoming.id)) return;
+    const incoming = byId(onId);
+    if (!ready(incoming)) continue;
+
+    // Direct exchange with planned counterpart when they are on court and movable:
+    const counterpart = byId(offId);
+    if (counterpart && counterpart.population === 'COURT' && movable(counterpart)) {
+      if (requestExchange(s, team, counterpart.id, incoming.id, incoming.role ?? counterpart.role)) return;
+    }
+
+    // Recovery exchange when counterpart is not on court (e.g. rotated off or suspended):
+    if (!counterpart || counterpart.population !== 'COURT') {
+      const candidates = court.filter(p => !intendedCourtIds.has(p.id) && movable(p));
+      const target = candidates.sort((a, b) =>
+        Number(b.role === incoming.role) - Number(a.role === incoming.role) ||
+        Number(b.role === counterpart?.role) - Number(a.role === counterpart?.role) ||
+        a.condition.energy - b.condition.energy ||
+        a.id.localeCompare(b.id)
+      )[0];
+      if (target && requestExchange(s, team, target.id, incoming.id, incoming.role ?? target.role)) return;
+    }
   }
 }

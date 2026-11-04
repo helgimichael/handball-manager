@@ -36,7 +36,7 @@
     "empirical:calibration:checks": "node --import tsx scripts/check-empirical-calibration.ts",
     "motion:quality:report": "node --import tsx scripts/report-motion-quality.ts",
     "test:empirical": "node --import tsx --test lib/matchBenchmarks/benchmarks.test.ts lib/matchBenchmarks/empirical.test.ts",
-    "test:match-center": "node --import tsx --test lib/matchCenter/model.test.ts lib/matchCenter/presentation.test.ts lib/matchCenter/workspace.test.ts",
+    "test:match-center": "node --import ./scripts/register-asset-loader.cjs --import tsx --test lib/matchCenter/model.test.ts lib/matchCenter/presentation.test.ts lib/matchCenter/workspace.test.ts",
     "build:worker": "node scripts/build-cloudflare-worker.mjs"
   },
   "dependencies": {
