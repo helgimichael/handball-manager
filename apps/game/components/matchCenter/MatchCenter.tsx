@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 import { useMemo, useState, useId, useRef, type ReactNode } from 'react';
 import type { MatchFrame, MatchPerson, ProductionMatchSession, PlayedMatchArchive } from '@/lib/career/productionMatch';
 import type { CoreEvent, TeamId } from '@handball-manager/handball-engine/src/v2/core/state';
@@ -172,12 +172,23 @@ export function MatchCenterSurface({ model, fixture, frames, people, events, tea
                 {!reviewing && (
                     <div className="mc-match-state">
                         <span>{model.period === 2 ? 'Andra halvlek' : 'Första halvlek'} · {clockText(model.remaining)} kvar</span>
-                        {model.manpower && (
-                            <strong className="mc-manpower-badge" data-powerplay={model.manpower.HOME !== model.manpower.AWAY ? 'true' : undefined}>
-                                {model.manpower.HOME} mot {model.manpower.AWAY}
-                                <small>{model.manpower.HOME === model.manpower.AWAY ? 'Utespelare på plan · 6v6 jämnt' : 'Utespelare på plan · Utvisning aktiv'}</small>
-                            </strong>
-                        )}
+                        {model.manpower && (() => {
+                            const hasSusp = homeSuspensions.length > 0 || awaySuspensions.length > 0;
+                            const is7v6 = model.manpower.HOME === 7 || model.manpower.AWAY === 7;
+                            const label = is7v6 && !hasSusp
+                                ? 'Utespelare på plan · 7 mot 6 (tom kasse)'
+                                : is7v6 && hasSusp
+                                ? 'Utespelare på plan · 7 mot 6 vid utvisning'
+                                : hasSusp
+                                ? `Utespelare på plan · ${model.manpower.HOME > model.manpower.AWAY ? '6v5 övertag' : model.manpower.HOME < model.manpower.AWAY ? '5v6 undertag' : 'Utvisningar kvittade'}`
+                                : 'Utespelare på plan · 6v6 jämnt';
+                            return (
+                                <strong className="mc-manpower-badge" data-powerplay={model.manpower.HOME !== model.manpower.AWAY ? 'true' : undefined} data-seven-v-six={is7v6 ? 'true' : undefined}>
+                                    {model.manpower.HOME} mot {model.manpower.AWAY}
+                                    <small>{label}</small>
+                                </strong>
+                            );
+                        })()}
                         {(homeSuspensions.length > 0 || awaySuspensions.length > 0) && (
                             <div className="mc-active-suspensions-summary" aria-live="polite">
                                 {homeSuspensions.map(s => (
@@ -205,7 +216,7 @@ export function MatchCenterSurface({ model, fixture, frames, people, events, tea
                 )}
             </header>
         )}
-        <nav className="mc-workspace-nav" ref={navigation} aria-label="Matchens vyer"><div className="mc-compact-identity"><strong>{names.HOME} <b>{model.result.homeGoals}–{model.result.awayGoals}</b> {names.AWAY}</strong><small>{clockText(model.clock)} · {stateLabels[model.status]}</small>{(homeSuspensions.length > 0 || awaySuspensions.length > 0) && <span className="mc-compact-powerplay" title="Aktiva utvisningar">{model.manpower ? `${model.manpower.HOME}v${model.manpower.AWAY}` : 'Utvisning'}{[...homeSuspensions, ...awaySuspensions].map(s => <time key={s.id}>#{s.number} {clockText(s.remainingSuspension)}</time>)}</span>}</div><div role="tablist" aria-label="Matchvy">{MATCH_VIEWS.map(v => <button type="button" key={v} id={`${uid}-${v}-tab`} role="tab" aria-selected={view === v} aria-controls={`${uid}-${v}-panel`} tabIndex={view === v ? 0 : -1} ref={element => { buttons.current[v] = element; }} onClick={() => changeView(v)} onKeyDown={e => { const next = keyboardView(v, e.key); if (next) { e.preventDefault(); changeView(next); buttons.current[next]?.focus(); } }}>{VIEW_LABELS[v]}</button>)}</div></nav>
+        <nav className="mc-workspace-nav" ref={navigation} aria-label="Matchens vyer"><div className="mc-compact-identity"><strong>{names.HOME} <b>{model.result.homeGoals}–{model.result.awayGoals}</b> {names.AWAY}</strong><small>{clockText(model.clock)} · {stateLabels[model.status]}</small>{(homeSuspensions.length > 0 || awaySuspensions.length > 0 || model.manpower?.HOME === 7 || model.manpower?.AWAY === 7) && <span className="mc-compact-powerplay" title={model.manpower?.HOME === 7 || model.manpower?.AWAY === 7 ? '7 mot 6 spel' : 'Aktiva utvisningar'}>{model.manpower ? `${model.manpower.HOME}v${model.manpower.AWAY}` : 'Övertag'}{(model.manpower?.HOME === 7 || model.manpower?.AWAY === 7) && <b className="mc-7v6-pill">7v6</b>}{[...homeSuspensions, ...awaySuspensions].map(s => <time key={s.id}>#{s.number} {clockText(s.remainingSuspension)}</time>)}</span>}</div><div role="tablist" aria-label="Matchvy">{MATCH_VIEWS.map(v => <button type="button" key={v} id={`${uid}-${v}-tab`} role="tab" aria-selected={view === v} aria-controls={`${uid}-${v}-panel`} tabIndex={view === v ? 0 : -1} ref={element => { buttons.current[v] = element; }} onClick={() => changeView(v)} onKeyDown={e => { const next = keyboardView(v, e.key); if (next) { e.preventDefault(); changeView(next); buttons.current[next]?.focus(); } }}>{VIEW_LABELS[v]}</button>)}</div></nav>
         <div id={`${uid}-controls`} className="mc-controls">{controls}</div>
         <div className={`mc-active-layout ${coach && !reviewing ? 'mc-managing' : ''}`}>
             <section id={`${uid}-${view}-panel`} role="tabpanel" aria-labelledby={`${uid}-${view}-tab`} tabIndex={0} className="mc-view-panel">

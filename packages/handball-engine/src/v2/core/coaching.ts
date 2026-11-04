@@ -70,7 +70,9 @@ export type TeamTactics={defence:'6:0'|'5:1';tempo:OffensiveTempo;attackIdentity
   /** Absent in active saves created before the instruction existed; reads as OFF. */
   sevenVSix?:SevenVSixMode;
   /** HM-PLAYTEST-01: the manager's own match plan (pairs, situational units, defensive spaces, 7m order). Absent: unchanged behaviour. */
-  plan?:TeamMatchPlan};
+  plan?:TeamMatchPlan;
+  /** HM-PLAYTEST-04: contextual timeout team instruction. */
+  instruction?:string};
 /**
  * 7v6: the goalkeeper leaves for a seventh court player during an established
  * attack, and comes back when the ball is lost (population.ts). SITUATIONAL
@@ -110,7 +112,7 @@ function sevenVSixBefore(s:CoreState,team:TeamId) {
 export const initialCoaching=():Record<TeamId,TeamTactics>=>({HOME:{defence:'6:0',tempo:'BALANCED',attackIdentity:'BALANCED',rotation:false,timeouts:false,lastTimeoutPossession:null},AWAY:{defence:'6:0',tempo:'BALANCED',attackIdentity:'BALANCED',rotation:false,timeouts:false,lastTimeoutPossession:null}});
 export const defensiveAggression=(s:CoreState,team:TeamId):DefensiveAggression=>s.coaching[team]?.aggression??'BALANCED';
 /** Commands change future decisions; existing physical commitments finish normally. */
-export function setTactics(s:CoreState,team:TeamId,patch:Partial<Pick<TeamTactics,'defence'|'tempo'|'attackIdentity'|'rotation'|'timeouts'|'aggression'|'rotationStrategy'|'sevenVSix'>>) {
+export function setTactics(s:CoreState,team:TeamId,patch:Partial<Pick<TeamTactics,'defence'|'tempo'|'attackIdentity'|'rotation'|'timeouts'|'aggression'|'rotationStrategy'|'sevenVSix'|'instruction'>>) {
   if(s.status!=='RUNNING')return false;
   if(patch.attackIdentity!==undefined&&!['BALANCED','COMBINATION','WIDTH','DIRECT'].includes(patch.attackIdentity))throw new Error('Invalid attacking identity');
   if(patch.defence!==undefined&&!['6:0','5:1'].includes(patch.defence)||patch.tempo!==undefined&&!OFFENSIVE_TEMPO_LEVELS.includes(patch.tempo)||

@@ -14,6 +14,24 @@ export function requestExchange(s:CoreState,team:TeamId,outId:string|null,inId:s
   // Bench staging is off-court. Admission and court movement are separate transitions.
   incoming.position={...gate};incoming.velocity={x:0,y:0};incoming.action=null;
   delete incoming.handballIntent;delete incoming.carrierRead;delete incoming.reentryReadTicks;delete incoming.motion;
+  if(s.referee.timeout?.reason==='TEAM_TIMEOUT'){
+    const courtPos=outgoing?{...outgoing.position}:{x:10,y:s.directions[team]==='TOP'?24:16};
+    if(outgoing){
+      outgoing.population='BENCH';outgoing.position={...gate};outgoing.velocity={x:0,y:0};
+      outgoing.action=null;outgoing.condition.exitRequired=false;delete s.defence.marks[outgoing.id];
+    }
+    incoming.population='COURT';incoming.position=courtPos;incoming.velocity={x:0,y:0};incoming.action=null;
+    if(outgoing&&outgoing.kind==='FIELD_PLAYER'&&incoming.kind==='FIELD_PLAYER'){incoming.role=role&&role!=='GK'?role:outgoing.role;}
+    if(outgoing&&outgoing.kind==='GOALKEEPER'&&incoming.kind==='FIELD_PLAYER'){incoming.role='P2';s.flow.sevenVTeam=incoming.team;}
+    if(incoming.kind==='GOALKEEPER'&&s.flow.sevenVTeam===incoming.team){s.flow.sevenVTeam=null;}
+    const exId=uid(s,'exchange');
+    s.exchanges.push({id:exId,team,outId,inId,phase:'COMPLETED',gate,requestedTick:s.tick,...(role?{role}:{})});
+    record(s,'EXCHANGE_REQUESTED',outgoing,{incomingId:inId},[inId]);
+    if(outgoing)record(s,'PLAYER_LEFT_COURT',outgoing,{exchangeId:exId},[inId]);
+    record(s,'SUBSTITUTE_ADMITTED',incoming,{exchangeId:exId});
+    record(s,'EXCHANGE_COMPLETED',incoming,{exchangeId:exId,role:incoming.role},outgoing?[outgoing.id]:[]);
+    return true;
+  }
   s.exchanges.push({id:uid(s,'exchange'),team,outId,inId,phase:outgoing?'WAIT_EXIT':'ENTERING',gate,requestedTick:s.tick,...(role?{role}:{})});
   record(s,'EXCHANGE_REQUESTED',outgoing,{incomingId:inId},[inId]);return true;
 }

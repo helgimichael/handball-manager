@@ -395,6 +395,23 @@
 .mc-compact-powerplay time {
   color: #fde68a;
 }
+.mc-7v6-pill {
+  display: inline-block;
+  padding: 1px 4px;
+  background: #3b82f6;
+  color: #ffffff;
+  border-radius: 2px;
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+.mc-manpower-badge[data-seven-v-six="true"] {
+  border-color: #3b82f6;
+  background: rgba(59, 130, 246, 0.2);
+}
+.mc-manpower-badge[data-seven-v-six="true"] small {
+  color: #93c5fd;
+}
 
 /* HM-PLAYTEST-IMPROVEMENT-04: Interactive timeout overlay */
 .mc-timeout-overlay {
@@ -507,6 +524,213 @@
   height: 6px;
   border-radius: 3px;
   transition: width 150ms ease;
+}
+.mc-timeout-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.mc-timeout-section-head {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.mc-timeout-section-head h3 {
+  margin: 0;
+  font-size: 13px;
+  color: #f1f5f9;
+}
+.mc-timeout-section-hint {
+  font-size: 10.5px;
+  color: #94a3b8;
+}
+.mc-timeout-instructions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.mc-timeout-instruction-btn {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: left;
+  padding: 10px 12px;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 150ms ease;
+  color: inherit;
+}
+.mc-timeout-instruction-btn:hover {
+  background: rgba(30, 41, 59, 0.8);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+.mc-timeout-instruction-btn.is-active {
+  background: rgba(20, 83, 45, 0.4);
+  border-color: #22c55e;
+}
+.mc-timeout-instruction-btn.is-recommended {
+  border-left: 3px solid #f59e0b;
+}
+.mc-timeout-instruction-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+.mc-timeout-instruction-header strong {
+  font-size: 12.5px;
+  color: #f8fafc;
+}
+.mc-timeout-instruction-badges {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.mc-timeout-recommended-badge {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 1px 6px;
+  border-radius: 3px;
+  background: rgba(245, 158, 11, 0.2);
+  color: #f59e0b;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+}
+.mc-timeout-active-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 3px;
+  background: rgba(34, 197, 94, 0.2);
+  color: #22c55e;
+  border: 1px solid rgba(34, 197, 94, 0.4);
+}
+.mc-timeout-instruction-btn p {
+  margin: 0;
+  font-size: 11px;
+  color: #94a3b8;
+  line-height: 1.4;
+}
+.mc-timeout-chip-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.mc-timeout-action-pill {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #cbd5e1;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.mc-timeout-player-chip {
+  cursor: pointer;
+  text-align: left;
+  transition: all 120ms ease;
+}
+.mc-timeout-player-chip:hover:not(:disabled) {
+  background: rgba(30, 41, 59, 0.8);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+.mc-timeout-player-chip.is-selected-out {
+  background: rgba(185, 28, 28, 0.25);
+  border-color: #ef4444;
+}
+.mc-timeout-player-chip.is-selected-out .mc-timeout-action-pill {
+  background: #ef4444;
+  color: #ffffff;
+  border-color: transparent;
+}
+.mc-timeout-substitution-box {
+  margin-top: 10px;
+  padding: 12px;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.mc-timeout-sub-header h4 {
+  margin: 0 0 2px;
+  font-size: 12px;
+  color: #f59e0b;
+}
+.mc-timeout-sub-header small {
+  font-size: 10.5px;
+  color: #94a3b8;
+}
+.mc-timeout-bench-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 180px;
+  overflow-y: auto;
+}
+.mc-timeout-bench-chip {
+  display: grid;
+  grid-template-columns: 28px 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px;
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  text-align: left;
+  color: inherit;
+  transition: all 120ms ease;
+}
+.mc-timeout-bench-chip:hover {
+  background: rgba(51, 65, 85, 0.8);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+.mc-timeout-bench-chip.is-selected-in {
+  background: rgba(20, 83, 45, 0.4);
+  border-color: #22c55e;
+}
+.mc-timeout-bench-chip.is-selected-in .mc-timeout-action-pill {
+  background: #22c55e;
+  color: #ffffff;
+  border-color: transparent;
+}
+.mc-timeout-empty-bench {
+  margin: 4px 0;
+  font-size: 11px;
+  color: #94a3b8;
+  font-style: italic;
+}
+.mc-timeout-confirm-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+.mc-timeout-confirm-label {
+  font-size: 11.5px;
+  color: #cbd5e1;
+}
+.mc-timeout-confirm-label strong {
+  color: #f59e0b;
+}
+.mc-timeout-confirm-btn {
+  font-size: 11px;
+  padding: 5px 12px;
+}
+.mc-timeout-pending-notice {
+  padding: 6px 10px;
+  border-radius: 4px;
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  font-size: 11px;
+  color: #f59e0b;
 }
 .mc-timeout-assistant-notice {
   padding: 12px 14px;

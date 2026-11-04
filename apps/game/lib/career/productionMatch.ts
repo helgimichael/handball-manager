@@ -46,7 +46,7 @@ export type ProductionMatchSession = { format: 1; behaviorRevision?:string; fixt
 /** Developer measurement hook. Readers must not mutate state or consume RNG. */
 export type ProductionMatchObserver=(core:Readonly<CoreState>,newEvents:readonly CoreEvent[])=>void;
 export const MATCH_BEHAVIOR_REVISION = 'career-seven-v-six-v1';
-export type MatchCommand = { kind: 'TACTICS'; team: TeamId; patch: Partial<Pick<TeamTactics, 'defence' | 'tempo' | 'attackIdentity' | 'rotation' | 'aggression' | 'rotationStrategy' | 'sevenVSix'>> } | { kind: 'SUBSTITUTION'; team: TeamId; outId: string; inId: string } | { kind: 'TIMEOUT'; team: TeamId } | { kind: 'SECOND_HALF' };
+export type MatchCommand = { kind: 'TACTICS'; team: TeamId; patch: Partial<Pick<TeamTactics, 'defence' | 'tempo' | 'attackIdentity' | 'rotation' | 'aggression' | 'rotationStrategy' | 'sevenVSix' | 'instruction'>> } | { kind: 'SUBSTITUTION'; team: TeamId; outId: string; inId: string } | { kind: 'TIMEOUT'; team: TeamId } | { kind: 'SECOND_HALF' };
 const teamTactics = (core: CoreState): Record<TeamId, ArchivedTeamTactics> => ({
   HOME: { defence: core.coaching.HOME.defence, aggression: defensiveAggression(core, 'HOME'), tempo: core.coaching.HOME.tempo, rotationStrategy: rotationStrategy(core, 'HOME'), assistantRotation: core.coaching.HOME.rotation, sevenVSix: sevenVSixMode(core, 'HOME') },
   AWAY: { defence: core.coaching.AWAY.defence, aggression: defensiveAggression(core, 'AWAY'), tempo: core.coaching.AWAY.tempo, rotationStrategy: rotationStrategy(core, 'AWAY'), assistantRotation: core.coaching.AWAY.rotation, sevenVSix: sevenVSixMode(core, 'AWAY') },

@@ -8,6 +8,7 @@ import { matchPlanBefore } from '@handball-manager/handball-engine/src/v2/core/m
 import { ledger } from '@handball-manager/handball-engine/src/v2/core/ledger';
 import { advanceCoreMutable } from '@handball-manager/handball-engine/src/v2/core/engine';
 import { awardRestart } from '@handball-manager/handball-engine/src/v2/core/transitions';
+import { requestExchange } from '@handball-manager/handball-engine/src/v2/core/population';
 import { getPlayer, record, courtPlayers } from '@handball-manager/handball-engine/src/v2/core/state';
 import { MatchCenterSurface } from '../../components/matchCenter/MatchCenter';
 import { TimeoutOverlay } from '../../components/matchCenter/TimeoutOverlay';
@@ -243,5 +244,180 @@ test('HM-P04-07: TimeoutOverlay renders interactive tactical choices and resume 
   assert.ok(html.includes('Återgå till match'), 'Includes resume action button');
   assert.ok(html.includes('Försvar'), 'Includes tactical choices for defence');
   assert.ok(html.includes('Tempo'), 'Includes tactical choices for tempo');
+  assert.ok(html.includes('Kontextuellt lagdirektiv'), 'Includes contextual team instructions section');
+  assert.ok(html.includes('Hög press') && html.includes('snabb omställning'), 'Offers contextual instruction options');
+});
+
+test('HM-P04-08: Quick substitution and contextual team instruction in timeout persist through save/reload', () => {
+  const s = createMatch(808, 'TOP', 1800000, 0);
+  s.match!.phase = 'FIRST_HALF';
+  s.officialClock.running = true;
+  s.officialClock.timeMs = 700000;
+  s.possession.team = 'HOME';
+  s.ball.controllerId = 'H03';
+  s.ball.live = true;
+
+  // Trigger timeout for HOME
+  s.referee.teamTimeouts.HOME.push(s.period);
+  s.referee.timeout = { untilTick: s.tick + 1200, wasRunning: true, reason: 'TEAM_TIMEOUT' };
+  s.officialClock.running = false;
+
+  // 1. Quick substitution from registered bench during timeout
+  const outPlayer = s.players.find(p => p.team === 'HOME' && p.population === 'COURT' && p.kind === 'FIELD_PLAYER')!;
+  const inPlayer = s.players.find(p => p.team === 'HOME' && p.population === 'BENCH' && p.kind === 'FIELD_PLAYER')!;
+  assert.ok(outPlayer && inPlayer);
+
+  const subSuccess = requestExchange(s, 'HOME', outPlayer.id, inPlayer.id);
+  assert.ok(subSuccess, 'Quick substitution succeeded during timeout');
+  assert.equal(outPlayer.population, 'BENCH', 'Outgoing player moved immediately to bench');
+  assert.equal(inPlayer.population, 'COURT', 'Incoming player moved immediately to court');
+  assert.ok(s.exchanges.some(e => e.inId === inPlayer.id && e.phase === 'COMPLETED'), 'Exchange completed record exists');
+
+  // 2. Select contextual team instruction (HIGH_PRESS_TRANSITION)
+  const tacticsSuccess = setTactics(s, 'HOME', {
+    defence: '5:1',
+    aggression: 'HIGH',
+    tempo: 'QUICK',
+    instruction: 'HIGH_PRESS_TRANSITION',
+  });
+  assert.ok(tacticsSuccess, 'Applied contextual instruction and tactical settings');
+  assert.equal(s.coaching.HOME.defence, '5:1');
+  assert.equal(s.coaching.HOME.aggression, 'HIGH');
+  assert.equal(s.coaching.HOME.tempo, 'QUICK');
+  assert.equal(s.coaching.HOME.instruction, 'HIGH_PRESS_TRANSITION');
+
+  // 3. Persist through save/reload
+  const serialized = JSON.stringify(s);
+  const reloaded = JSON.parse(serialized);
+
+  assert.equal(reloaded.coaching.HOME.defence, '5:1', 'Defence setting persisted');
+  assert.equal(reloaded.coaching.HOME.aggression, 'HIGH', 'Aggression setting persisted');
+  assert.equal(reloaded.coaching.HOME.tempo, 'QUICK', 'Tempo setting persisted');
+  assert.equal(reloaded.coaching.HOME.instruction, 'HIGH_PRESS_TRANSITION', 'Instruction persisted');
+  assert.equal(reloaded.players.find((p: any) => p.id === inPlayer.id).population, 'COURT', 'Incoming player still on court after reload');
+  assert.equal(reloaded.players.find((p: any) => p.id === outPlayer.id).population, 'BENCH', 'Outgoing player still on bench after reload');
+
+  // 4. Resume paused match
+  // Simulate timeout ending (ticks reaching untilTick)
+  reloaded.tick = reloaded.referee.timeout.untilTick;
+  advanceCoreMutable(reloaded);
+  assert.equal(reloaded.referee.timeout, null, 'Timeout cleared upon resume');
+  assert.equal(reloaded.coaching.HOME.instruction, 'HIGH_PRESS_TRANSITION', 'Instruction remains active after resume');
+});
+
+test('HM-P04-09: Suspension display features correct team attribution, expiration, and 6v5 vs 7v6 distinction', () => {
+  const s = createMatch(909, 'TOP', 1800000, 0);
+  s.match!.phase = 'FIRST_HALF';
+  s.officialClock.running = true;
+  s.officialClock.timeMs = 120000;
+
+  // HOME has a player suspended
+  const homeSusp = getPlayer(s, 'H04');
+  homeSusp.population = 'SUSPENDED';
+  homeSusp.suspensionUntilMs = 240000; // 2 minutes later
+  homeSusp.sanctions = 1;
+
+  const people = s.players.map((p, i) => ({
+    id: p.id,
+    name: `Player ${p.id}`,
+    number: i + 1,
+    team: p.team,
+    role: p.role,
+    started: true,
+    startEnergy: 100,
+  }));
+
+  const session: ProductionMatchSession = {
+    format: 1,
+    fixture: {
+      id: 'fix-1',
+      homeClubId: 'swe2-tumba',
+      awayClubId: 'swe2-guif',
+      date: '2026-11-10',
+      competitionId: 'swe-2',
+      round: 1,
+      type: 'LEAGUE',
+    },
+    core: s,
+    people,
+    frames: [],
+    pausedAtHalf: false,
+    error: null,
+  };
+
+  const reader = createLiveMatchReader();
+  const model6v5 = reader(session, false);
+
+  const html6v5 = renderToStaticMarkup(
+    React.createElement(MatchCenterSurface, {
+      model: model6v5,
+      fixture: session.fixture,
+      frames: [],
+      people,
+      events: s.events,
+      team: 'HOME',
+      session,
+    })
+  );
+
+  // 1. Team attribution & player details
+  assert.ok(html6v5.includes('Utvisningar och kort för IFK Tumba'), 'Attributed to HOME club IFK Tumba');
+  assert.ok(html6v5.includes('#4'), 'Includes suspended player number #4');
+  assert.ok(html6v5.includes('2:00'), 'Includes countdown timer 2:00');
+  assert.ok(html6v5.includes('5v6 undertag') || html6v5.includes('6v5'), 'Accurately distinguishes numerical penalty state');
+
+  // 2. 7v6 distinction without suspension
+  const s7v6 = createMatch(910, 'TOP', 1800000, 0);
+  s7v6.match!.phase = 'FIRST_HALF';
+  s7v6.officialClock.running = true;
+  s7v6.officialClock.timeMs = 300000;
+  // Replace keeper with 7th field player
+  const keeper = s7v6.players.find(p => p.team === 'HOME' && p.kind === 'GOALKEEPER')!;
+  keeper.population = 'BENCH';
+  const extra = s7v6.players.find(p => p.team === 'HOME' && p.kind === 'FIELD_PLAYER' && p.population === 'BENCH')!;
+  extra.population = 'COURT';
+  extra.role = 'P2';
+
+  const session7v6: ProductionMatchSession = {
+    ...session,
+    core: s7v6,
+  };
+  const model7v6 = reader(session7v6, false);
+  const html7v6 = renderToStaticMarkup(
+    React.createElement(MatchCenterSurface, {
+      model: model7v6,
+      fixture: session7v6.fixture,
+      frames: [],
+      people,
+      events: s7v6.events,
+      team: 'HOME',
+      session: session7v6,
+    })
+  );
+
+  assert.ok(html7v6.includes('7 mot 6 (tom kasse)'), 'Correctly distinguishes 7v6 empty goal from suspension');
+  assert.ok(html7v6.includes('mc-7v6-pill'), 'Renders 7v6 pill in compact powerplay');
+
+  // 3. Countdown expiration
+  s.officialClock.timeMs = 240001; // Past 2 minutes
+  // Advance one tick for populationBefore to expire suspension
+  advanceCoreMutable(s);
+  assert.equal(homeSusp.suspensionUntilMs, null, 'Suspension timer cleared');
+  assert.notEqual(homeSusp.population, 'SUSPENDED', 'Player no longer has SUSPENDED population');
+
+  const modelExpired = reader(session, false);
+  const htmlExpired = renderToStaticMarkup(
+    React.createElement(MatchCenterSurface, {
+      model: modelExpired,
+      fixture: session.fixture,
+      frames: [],
+      people,
+      events: s.events,
+      team: 'HOME',
+      session,
+    })
+  );
+
+  assert.ok(!htmlExpired.includes('2 min #4'), 'Expired suspension badge cleared from scoreboard');
 });
 
