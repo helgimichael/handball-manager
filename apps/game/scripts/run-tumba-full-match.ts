@@ -123,9 +123,15 @@ console.log(`Final Status: ${c.status}, Period: ${c.period}, Total Ticks: ${c.ti
 console.log('\n=== POSSESSION & ENDINGS (BOTH TEAMS) ===');
 console.log(`Total Possessions: ${l.possessions}`);
 console.log(`Total Attacks: ${l.attacks}`);
-console.log('Endings breakdown:');
-for (const [k, v] of Object.entries(l.endings)) {
-  console.log(`  - ${k}: ${v}`);
+const teamEndings: Record<string, { HOME: number; AWAY: number; Total: number }> = {};
+for (const r of l.records) {
+  if (!teamEndings[r.ending]) teamEndings[r.ending] = { HOME: 0, AWAY: 0, Total: 0 };
+  teamEndings[r.ending][r.team]++;
+  teamEndings[r.ending].Total++;
+}
+console.log('Endings breakdown by team:');
+for (const [k, v] of Object.entries(teamEndings)) {
+  console.log(`  - ${k}: HOME ${v.HOME}, AWAY ${v.AWAY}, Total ${v.Total}`);
 }
 
 console.log('\n=== SHOTS, GOALS & TURNOVERS (BOTH TEAMS) ===');
