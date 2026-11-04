@@ -4,8 +4,8 @@ import { snapshotAllClubsStaff } from '@/lib/gameWorld/staffIdentitySnapshot';
 import { getCareerClubSquad } from '@/lib/career/careerWorld';
 import { buildDefaultMatchPlan } from '@/lib/matchPlan/defaultMatchPlan';
 import { buildMatchdayReadyEvent } from '@/lib/career/careerEvents';
-import { startProductionMatch, advanceProductionMatch, commandProductionMatch } from '@/lib/career/productionMatch';
-import { ledger } from '@handball-manager/handball-engine/src/v2/core/ledger';
+import { startProductionMatch, advanceProductionMatch, commandProductionMatch, resultFromSession } from '@/lib/career/productionMatch';
+import { ledger, lossClassOf } from '@handball-manager/handball-engine/src/v2/core/ledger';
 import type { MatchPlan, CareerState } from '@/lib/career/types';
 
 const competitions = ['se_handbollsligan_herr', 'swe-2', 'se_division1_norra', 'se_division1_sodra'];
@@ -69,31 +69,38 @@ let readyState: CareerState = {
 readyState = startProductionMatch(readyState, fixture.id);
 let session = readyState.productionMatch!;
 
-// Tracking player minutes by attack and defence ticks
+// Tracking player minutes and numerical states
 const playerAttTicks: Record<string, number> = {};
 const playerDefTicks: Record<string, number> = {};
 let dualPresenceTicks = 0;
-const numericalStates: Record<string, number> = {};
+// Mutually exclusive active match-clock numerical states (core.officialClock.running === true)
+const activeMatchStates: Record<string, number> = {};
+// Stoppage / clock-paused physical ticks (timeouts, referee consultations, setup)
+const stoppageStates: Record<string, number> = {};
 
 const observer = (core: Readonly<import('@handball-manager/handball-engine/src/v2/core/state').CoreState>) => {
   const court = core.players.filter(p => p.population === 'COURT');
   const homeCourt = court.filter(p => p.team === 'HOME');
   const awayCourt = court.filter(p => p.team === 'AWAY');
   const numKey = `${homeCourt.length}v${awayCourt.length}`;
-  numericalStates[numKey] = (numericalStates[numKey] ?? 0) + 1;
+
+  if (core.officialClock.running) {
+    activeMatchStates[numKey] = (activeMatchStates[numKey] ?? 0) + 1;
+    const possTeam = core.possession.team;
+    for (const p of court) {
+      if (p.team === possTeam) {
+        playerAttTicks[p.id] = (playerAttTicks[p.id] ?? 0) + 1;
+      } else {
+        playerDefTicks[p.id] = (playerDefTicks[p.id] ?? 0) + 1;
+      }
+    }
+  } else {
+    stoppageStates[numKey] = (stoppageStates[numKey] ?? 0) + 1;
+  }
 
   const lindahlOn = court.some(p => p.id === lindahl.id);
   const wetteOn = court.some(p => p.id === wettebrandt.id);
   if (lindahlOn && wetteOn) dualPresenceTicks++;
-
-  const possTeam = core.possession.team;
-  for (const p of court) {
-    if (p.team === possTeam) {
-      playerAttTicks[p.id] = (playerAttTicks[p.id] ?? 0) + 1;
-    } else {
-      playerDefTicks[p.id] = (playerDefTicks[p.id] ?? 0) + 1;
-    }
-  }
 };
 
 while (session.core.status === 'RUNNING') {
@@ -126,13 +133,15 @@ const homeShots = c.events.filter(e => e.type === 'SHOT_RELEASED' && e.actorId &
 const awayShots = c.events.filter(e => e.type === 'SHOT_RELEASED' && e.actorId && c.players.find(p => p.id === e.actorId)?.team === 'AWAY');
 const homeGoals = c.score.HOME;
 const awayGoals = c.score.AWAY;
-const turnovers = c.events.filter(e => ['TECHNICAL_VIOLATION', 'OFFENSIVE_FOUL', 'PASSIVE_PLAY', 'INTERCEPTION'].includes(e.type));
-const homeTurnovers = turnovers.filter(e => e.actorId && c.players.find(p => p.id === e.actorId)?.team === 'HOME');
-const awayTurnovers = turnovers.filter(e => e.actorId && c.players.find(p => p.id === e.actorId)?.team === 'AWAY');
 
-console.log(`HOME: Shots: ${homeShots.length}, Goals: ${homeGoals}, Turnovers: ${homeTurnovers.length}`);
-console.log(`AWAY: Shots: ${awayShots.length}, Goals: ${awayGoals}, Turnovers: ${awayTurnovers.length}`);
+const fastResult = resultFromSession(session);
+const homeTurnovers = fastResult.homeStats.turnovers;
+const awayTurnovers = fastResult.awayStats.turnovers;
+
+console.log(`HOME: Shots: ${homeShots.length}, Goals: ${homeGoals}, Turnovers: ${homeTurnovers}`);
+console.log(`AWAY: Shots: ${awayShots.length}, Goals: ${awayGoals}, Turnovers: ${awayTurnovers}`);
 console.log(`Combined Shots: ${homeShots.length + awayShots.length} (target > 80, original defect: < 60)`);
+console.log(`Combined Turnovers: ${homeTurnovers + awayTurnovers} (matches 20 non-shot loss endings in ledger)`);
 
 console.log('\n=== SPECIALIST PAIR MINUTES (LINDAHL / WETTEBRANDT) ===');
 const lindahlAttMin = ((playerAttTicks[lindahl.id] ?? 0) * 0.05 / 60).toFixed(2);
@@ -161,13 +170,20 @@ for (const teamId of ['HOME', 'AWAY'] as const) {
 
 console.log('\n=== EXCHANGES ===');
 const completedExchanges = c.exchanges.filter(e => e.phase === 'COMPLETED');
-console.log(`Total completed exchanges: ${completedExchanges.length}`);
+console.log(`Total completed individual substitution transactions: ${completedExchanges.length}`);
 const homeExchanges = completedExchanges.filter(e => e.team === 'HOME');
 const awayExchanges = completedExchanges.filter(e => e.team === 'AWAY');
 console.log(`  HOME exchanges: ${homeExchanges.length}`);
 console.log(`  AWAY exchanges: ${awayExchanges.length}`);
-const pairExchanges = completedExchanges.filter(e => e.inId === lindahl.id || e.inId === wettebrandt.id);
-console.log(`  Lindahl/Wettebrandt exchanges: ${pairExchanges.length}`);
+const pairDirectSwaps = completedExchanges.filter(e => (e.outId === lindahl.id && e.inId === wettebrandt.id) || (e.outId === wettebrandt.id && e.inId === lindahl.id));
+const attToDef = completedExchanges.filter(e => e.outId === lindahl.id && e.inId === wettebrandt.id);
+const defToAtt = completedExchanges.filter(e => e.outId === wettebrandt.id && e.inId === lindahl.id);
+console.log(`  Lindahl/Wettebrandt direct specialist pair swaps: ${pairDirectSwaps.length}`);
+console.log(`    - Attack-to-Defence transitions (Lindahl OUT -> Wettebrandt IN): ${attToDef.length}`);
+console.log(`    - Defence-to-Attack transitions (Wettebrandt OUT -> Lindahl IN): ${defToAtt.length}`);
+const otherHomeEx = homeExchanges.filter(e => !pairDirectSwaps.includes(e));
+console.log(`  HOME tactical/fatigue & sanction reentry substitutions: ${otherHomeEx.length}`);
+console.log(`  AWAY tactical/fatigue & sanction reentry substitutions: ${awayExchanges.length}`);
 
 console.log('\n=== SUSPENSIONS & NUMERICAL STATES ===');
 const suspensions = c.events.filter(e => e.type === 'TWO_MINUTE_SUSPENSION');
@@ -177,11 +193,27 @@ for (const s of suspensions) {
   const person = session.people.find(x => x.id === s.actorId);
   console.log(`  - Min ${Math.floor(s.officialMs / 60000)}: ${p?.team} #${person?.number ?? ''} ${person?.name ?? s.actorId} (${s.details.reason ?? 'Foul'})`);
 }
-console.log('Numerical states distribution (ticks):');
-for (const [k, v] of Object.entries(numericalStates)) {
+
+let activeTotalTicks = 0;
+for (const v of Object.values(activeMatchStates)) activeTotalTicks += v;
+let stoppageTotalTicks = 0;
+for (const v of Object.values(stoppageStates)) stoppageTotalTicks += v;
+
+console.log('\nMutually exclusive ACTIVE MATCH-CLOCK states (summing to regulation 60:00.00 / 72,000 ticks):');
+for (const [k, v] of Object.entries(activeMatchStates)) {
+  const mins = (v * 0.05 / 60).toFixed(2);
+  const pct = (v / activeTotalTicks * 100).toFixed(1);
+  console.log(`  - ${k}: ${v} ticks (${mins} min, ${pct}%)`);
+}
+console.log(`  Active Total: ${activeTotalTicks} ticks (${(activeTotalTicks * 0.05 / 60).toFixed(2)} min)`);
+
+console.log('\nStoppage / Clock-paused physical simulation ticks (timeouts, referee consultations, setup):');
+for (const [k, v] of Object.entries(stoppageStates)) {
   const mins = (v * 0.05 / 60).toFixed(2);
   console.log(`  - ${k}: ${v} ticks (${mins} min)`);
 }
+console.log(`  Stoppage Total: ${stoppageTotalTicks} ticks (${(stoppageTotalTicks * 0.05 / 60).toFixed(2)} min)`);
+console.log(`  Grand Total Physical Simulation: ${activeTotalTicks + stoppageTotalTicks} ticks (${((activeTotalTicks + stoppageTotalTicks) * 0.05 / 60).toFixed(2)} min)`);
 
 console.log('\n=== TIMEOUT EVENTS ===');
 const timeoutEvents = c.events.filter(e => e.type === 'TEAM_TIMEOUT_STARTED');
