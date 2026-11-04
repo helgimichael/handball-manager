@@ -46,12 +46,23 @@ export function ensurePostMatchPress(
   const oppSusp = (isHome ? result.awayStats : result.homeStats).twoMinuteSuspensions;
   const controversy = lost && ownSusp - oppSusp >= 3;
 
+  const oppShort = clubShort(opponentId);
+  const diff = Math.abs(ownGoals - oppGoals);
+  const isDramatic = diff <= 1;
+
   const topics: PressContext[] = [];
 
-  // 1. Primary question on outcome (win vs defeat)
+  // 1. Primary question on match outcome with grounded score and opponent
+  const primaryDetail = won
+    ? (isDramatic ? `en dramatisk uddamålsseger med ${ownGoals}–${oppGoals} mot ${oppShort}` : `seger med ${ownGoals}–${oppGoals} mot ${oppShort}`)
+    : lost
+    ? (diff >= 6 ? `en tung förlust med ${ownGoals}–${oppGoals} mot ${oppShort}` : `förlust med ${ownGoals}–${oppGoals} mot ${oppShort}`)
+    : `oavgjort ${ownGoals}–${oppGoals} mot ${oppShort}`;
+
   topics.push({
-    topic: (won ? 'AFTER_WIN' : 'AFTER_DEFEAT') as PressTopic,
+    topic: (won || (!won && !lost) ? 'AFTER_WIN' : 'AFTER_DEFEAT') as PressTopic,
     opponentId,
+    detail: primaryDetail,
   });
 
   // 2. Referee controversy if significant suspension gap
@@ -63,10 +74,41 @@ export function ensurePostMatchPress(
     });
   }
 
-  // 3. Distinct secondary topic: cup stakes, rivalry, or form trend (guaranteeing no duplicate topics)
-  if (isCup) {
+  // 3. Genuine post-match rival comment if published for this match
+  const rivalStory = Object.values(mediaOf(state).stories).find(
+    (s) => s.kind === 'RIVAL_COMMENT' && s.fixtureId === fixture.id
+  );
+  if (rivalStory && rivalStory.quote?.text) {
     topics.push({
       topic: 'RIVAL_RESPONSE',
+      opponentId,
+      rivalStaffId: rivalStory.personIds?.[0],
+      detail: rivalStory.quote.text,
+    });
+  }
+
+  // 4. Standout player performance (top scorer or goalkeeper)
+  const myContribs = isHome ? result.homePlayerContributions : result.awayPlayerContributions;
+  const topScorer = [...(myContribs ?? [])].sort((a, b) => b.goals - a.goals)[0];
+  const topGk = (myContribs ?? []).find((c) => (c.saves ?? 0) >= 10);
+
+  if (topScorer && topScorer.goals >= 5) {
+    topics.push({
+      topic: (won ? 'AFTER_WIN' : 'AFTER_DEFEAT') as PressTopic,
+      opponentId,
+      playerId: topScorer.playerId,
+      detail: `${topScorer.goals} mål i matchen`,
+    });
+  } else if (topGk && topGk.saves) {
+    topics.push({
+      topic: 'AFTER_WIN' as PressTopic,
+      opponentId,
+      playerId: topGk.playerId,
+      detail: `${topGk.saves} räddningar`,
+    });
+  } else if (isCup) {
+    topics.push({
+      topic: won ? 'AFTER_WIN' : 'AFTER_DEFEAT',
       opponentId,
       detail: `Cupmötet i Svenska Cupen slutade ${ownGoals}–${oppGoals}.`,
     });
@@ -74,22 +116,17 @@ export function ensurePostMatchPress(
     topics.push({
       topic: 'POOR_FORM',
       opponentId,
-      detail: `Förlust med ${ownGoals}–${oppGoals}.`,
-    });
-  } else if (!controversy) {
-    topics.push({
-      topic: 'RIVAL_RESPONSE',
-      opponentId,
-      detail: `Seger med ${ownGoals}–${oppGoals}.`,
+      detail: `Förlust med ${ownGoals}–${oppGoals} mot ${oppShort}.`,
     });
   }
 
   // Deduplicate topics strictly so there are never repeated questions from the same match
-  const seenTopics = new Set<PressTopic>();
+  const seenTopics = new Set<string>();
   const uniqueTopics: PressContext[] = [];
   for (const t of topics) {
-    if (!seenTopics.has(t.topic)) {
-      seenTopics.add(t.topic);
+    const key = `${t.topic}:${t.playerId ?? ''}`;
+    if (!seenTopics.has(key)) {
+      seenTopics.add(key);
       uniqueTopics.push(t);
     }
   }

@@ -5,6 +5,7 @@ import { PageHeading } from '@/components/manager/Workspace';
 import { EnvironmentBanner } from '@/components/clubhq/EnvironmentBanner';
 import { clubColorVars, PlayerCell, PlayerGlyph, playerAvailabilityLabel } from '@/components/game/Identity';
 import ClubCrest from '@/components/ClubCrest';
+import { HandballCourtSvg } from '@/components/court/HandballCourtSvg';
 import { CoachingChoices, COACH_AGGRESSION_LABEL, COACH_ATTACK_LABEL, COACH_ROTATION_LABEL, COACH_SEVEN_V_SIX_LABEL, COACH_TEMPO_LABEL, type CoachAttack } from '@/components/game/CoachingChoices';
 import { useCareer } from '@/lib/career/CareerContext';
 import { getCareerSquad } from '@/lib/career/careerWorld';
@@ -87,12 +88,11 @@ const FIVE_DEFENCE_COORDS: readonly { zone: number; x: number; y: number; short:
 ];
 
 const COURT_MODE_TABS: readonly { id: TacticalCourtMode; label: string; sub: string }[] = [
-  { id: 'ATTACK_6V6', label: 'Anfall 6v6', sub: 'Startsjua' },
-  { id: 'DEFENCE_6V6', label: 'Försvar 6v6', sub: '6–0 / 5–1' },
-  { id: 'EXCHANGES', label: 'Försvarsbyten', sub: 'Diff & Par' },
-  { id: 'ATTACK_6V5', label: 'Övertag 6v5', sub: 'Powerplay' },
-  { id: 'DEFENCE_5V6', label: 'Undertag 5v6', sub: 'Boxplay' },
-  { id: 'ATTACK_7V6', label: 'Anfall 7v6', sub: 'Tomt mål' },
+  { id: 'ATTACK_6V6', label: 'Anfall 6v6', sub: 'Startsjua & rullespel' },
+  { id: 'DEFENCE_6V6', label: 'Försvar 6v6', sub: '6–0 / 5–1 & byten' },
+  { id: 'ATTACK_6V5', label: 'Överläge 6v5', sub: 'Numerärt överläge' },
+  { id: 'DEFENCE_5V6', label: 'Underläge 5v6', sub: 'Numerärt underläge' },
+  { id: 'ATTACK_7V6', label: 'Tomt mål 7v6', sub: '7 mot 6 utan målvakt' },
 ];
 
 export default function TacticsPage() {
@@ -226,6 +226,10 @@ export default function TacticsPage() {
   const defence = engineDefenceSystem(plan.defencePlan.baseFormation);
   const defKey = defenceSystemKey(plan);
   const defSpaces = effectiveDefenceSpaces(plan);
+  const diff = deriveTacticalDiff(plan, squad, p => squadEnergy(career, p), id => matchFitnessOf(career, id));
+  const attackOnlySet = new Set(diff.attackOnlyPlayers.map(p => p.id));
+  const defenceOnlySet = new Set(diff.defenceOnlyPlayers.map(p => p.id));
+  const twoWaySet = new Set(diff.twoWayPlayers.map(p => p.id));
   const aggression = engineDefensiveAggression(plan.defencePlan);
   const rotation = engineRotationStrategy(plan.transitionPlan);
   const sevenVSix = engineSevenVSixMode(plan.attackPlan.sevenVSixPolicy);
@@ -414,11 +418,14 @@ export default function TacticsPage() {
         </span>
         {player && <PlayerGlyph player={player} size={42} />}
         <strong>{player?.lastName ?? 'Välj spelare'}</strong>
+        {player && attackOnlySet.has(player.id) && (
+          <span className="coach-specialist-badge coach-badge-attack-only">⚔️ Endast anfall</span>
+        )}
         <small>
-          {courtMode === 'EXCHANGES' && exchPartner
-            ? `⇄ ${exchPartner.lastName}`
+          {player && attackOnlySet.has(player.id) && exchPartner
+            ? `⇄ Ersätts av ${exchPartner.lastName}`
             : player
-            ? `${player.position} · ${energy}%`
+            ? `${player.position} · ${energy}% · Båda vägar`
             : 'Tom plats'}
         </small>
         {player && (
@@ -437,6 +444,7 @@ export default function TacticsPage() {
         const coord = DEFENCE_COURT_COORDS[defKey][zone];
         const starterId = six.find(s => defSpaces[s.playerId] === zone)?.playerId ?? '';
         const specialistId = starterId ? plan!.substitutionPairs.find(sp => sp.attackPlayerId === starterId)?.defencePlayerId : undefined;
+        const starterPlayer = squad.find(p => p.id === starterId);
         const player = squad.find(p => p.id === (specialistId ?? starterId));
         const energy = player ? Math.round(squadEnergy(career, player)) : 0;
         const isSpets = defKey === '5-1' && zone === 2;
@@ -473,7 +481,14 @@ export default function TacticsPage() {
               </span>
               {player && <PlayerGlyph player={player} size={42} />}
               <strong>{player?.lastName ?? 'Välj försvarare'}</strong>
-              <small>{specialistId ? 'Försvarsspecialist' : `${energy}% energi`}</small>
+              {specialistId ? (
+                <span className="coach-specialist-badge coach-badge-def-only">🛡️ Specialist</span>
+              ) : (
+                <small>{energy}% · Båda vägar</small>
+              )}
+              {specialistId && starterPlayer && (
+                <small style={{ fontSize: '9px', opacity: 0.85 }}>⇄ Ersätter {starterPlayer.lastName}</small>
+              )}
               {player && (
                 <span className="coach-token-bar" aria-hidden="true">
                   <i style={{ width: `${energy}%` }} data-low={energy < 75 ? 'true' : undefined} />
@@ -515,7 +530,7 @@ export default function TacticsPage() {
               <span className="coach-position-code">6v5 · {role.position}</span>
               {player && <PlayerGlyph player={player} size={42} />}
               <strong>{player?.lastName ?? 'Välj spelare'}</strong>
-              <small>Powerplay · {energy}%</small>
+              <small>Överläge · {energy}%</small>
             </button>
           </div>
         );
@@ -551,7 +566,7 @@ export default function TacticsPage() {
               <span className="coach-position-code">5v6 · {coord.short}</span>
               {player && <PlayerGlyph player={player} size={42} />}
               <strong>{player?.lastName ?? 'Välj försvarare'}</strong>
-              <small>Boxplay · {energy}%</small>
+              <small>Underläge · {energy}%</small>
             </button>
           </div>
         );
@@ -585,10 +600,11 @@ export default function TacticsPage() {
                 }
               }}
             >
-              <span className="coach-position-code">7v6 · M6 #2</span>
+              <span className="coach-position-code">7v6 · 7:e utespelare</span>
               {extraPlayer && <PlayerGlyph player={extraPlayer} size={42} />}
               <strong>{extraPlayer?.lastName ?? 'Auto (assistent)'}</strong>
-              <small>7:e utespelare (tomt mål)</small>
+              <span className="coach-specialist-badge coach-badge-attack-only">7:e utespelare</span>
+              <small>Tomt mål i anfall</small>
             </button>
           </div>
         </>
@@ -752,7 +768,7 @@ export default function TacticsPage() {
         <section className="coach-replacements">
           <header className="coach-section-heading">
             <h2>Övertag 6 mot 5 · {matchPlanPositionLabel(activePosition)}</h2>
-            <span>Powerplay · {activePosition}</span>
+            <span>Numerärt överläge (6v5) · {activePosition}</span>
           </header>
           {active6v5Player && (
             <div className="coach-current-player">
@@ -807,18 +823,18 @@ export default function TacticsPage() {
       return (
         <section className="coach-replacements">
           <header className="coach-section-heading">
-            <h2>Undertag 5 mot 6 · {coord?.short ?? 'Boxplay'}</h2>
+            <h2>Numerärt underläge (5v6) · {coord?.short ?? 'Försvar'}</h2>
             <span>Försvarszon {coord?.zone}</span>
           </header>
           {active5v6Player && (
             <div className="coach-current-player">
               <div>
-                <span className="hm-eyebrow">Försvarar i boxplay ({coord?.short})</span>
+                <span className="hm-eyebrow">Försvarar i numerärt underläge ({coord?.short})</span>
                 <PlayerCell player={active5v6Player} />
               </div>
             </div>
           )}
-          <p>Klicka eller dra en utespelare för att placera i boxplay-uppställningen.</p>
+          <p>Klicka eller dra en utespelare för att placera i underlägesuppställningen.</p>
           <div className="coach-candidate-list">
             {outfieldSquad.map(p => (
               <button
@@ -1153,22 +1169,186 @@ export default function TacticsPage() {
             )}
           </header>
 
-          <div className="hm-court-mode-bar" role="tablist" aria-label="Taktiktavlans läge">
-            {COURT_MODE_TABS.map(tab => (
+          <div className="coach-court-mode-bar">
+            {/* Primary Dual Lineup Switch: ATTACK | DEFENCE */}
+            <div className="coach-lineup-dual-switch" role="tablist" aria-label="Primär uppställning">
               <button
-                key={tab.id}
                 type="button"
                 role="tab"
-                aria-selected={courtMode === tab.id}
-                className="hm-court-mode-tab"
-                data-active={courtMode === tab.id}
-                onClick={() => setCourtMode(tab.id)}
+                aria-selected={courtMode === 'ATTACK_6V6'}
+                className="coach-dual-tab coach-dual-tab-attack"
+                data-active={courtMode === 'ATTACK_6V6'}
+                onClick={() => setCourtMode('ATTACK_6V6')}
               >
-                <strong>{tab.label}</strong>
-                <small>{tab.id === 'DEFENCE_6V6' ? `Aktivt: ${defKey}` : tab.sub}</small>
+                <span className="coach-dual-icon">⚔️</span>
+                <div className="coach-dual-content">
+                  <strong>ANFALL (6v6)</strong>
+                  <small>Startsjua & anfallsroller</small>
+                </div>
+                {diff.attackOnlyPlayers.length > 0 ? (
+                  <span className="coach-dual-badge coach-dual-badge-spec">
+                    {diff.attackOnlyPlayers.length} vilar i försvar
+                  </span>
+                ) : (
+                  <span className="coach-dual-badge coach-dual-badge-twoway">6 båda vägar</span>
+                )}
               </button>
-            ))}
+              <button
+                type="button"
+                role="tab"
+                aria-selected={courtMode === 'DEFENCE_6V6'}
+                className="coach-dual-tab coach-dual-tab-defence"
+                data-active={courtMode === 'DEFENCE_6V6'}
+                onClick={() => setCourtMode('DEFENCE_6V6')}
+              >
+                <span className="coach-dual-icon">🛡️</span>
+                <div className="coach-dual-content">
+                  <strong>FÖRSVAR (6v6)</strong>
+                  <small>{defKey} uppställning & byten</small>
+                </div>
+                {diff.activePairs.length > 0 ? (
+                  <span className="coach-dual-badge coach-dual-badge-spec">
+                    {diff.activePairs.length} specialist{diff.activePairs.length > 1 ? 'er' : ''}
+                  </span>
+                ) : (
+                  <span className="coach-dual-badge coach-dual-badge-twoway">Alla 6 båda vägar</span>
+                )}
+              </button>
+            </div>
+
+            {/* Special Situations */}
+            <div className="coach-situation-row">
+              <span className="coach-situation-label">Specialsituationer:</span>
+              <div className="coach-situation-tabs" role="tablist" aria-label="Specialsituationer">
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={courtMode === 'ATTACK_6V5'}
+                  className="coach-situation-tab"
+                  data-active={courtMode === 'ATTACK_6V5'}
+                  onClick={() => setCourtMode('ATTACK_6V5')}
+                >
+                  <strong>6 mot 5</strong>
+                  <small>Numerärt överläge</small>
+                </button>
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={courtMode === 'DEFENCE_5V6'}
+                  className="coach-situation-tab"
+                  data-active={courtMode === 'DEFENCE_5V6'}
+                  onClick={() => setCourtMode('DEFENCE_5V6')}
+                >
+                  <strong>5 mot 6</strong>
+                  <small>Numerärt underläge</small>
+                </button>
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={courtMode === 'ATTACK_7V6'}
+                  className="coach-situation-tab"
+                  data-active={courtMode === 'ATTACK_7V6'}
+                  onClick={() => setCourtMode('ATTACK_7V6')}
+                >
+                  <strong>7 mot 6</strong>
+                  <small>Spel med tomt mål</small>
+                </button>
+              </div>
+            </div>
           </div>
+
+          {/* Derived Exchange Banner (Utväxlingsbalk) */}
+          {(courtMode === 'DEFENCE_6V6' || courtMode === 'EXCHANGES') && (
+            <div className="coach-exchange-banner" data-count={diff.activePairs.length}>
+              <div className="coach-exchange-info">
+                <span className="coach-exchange-icon">{diff.activePairs.length > 0 ? '🔄' : '🛡️'}</span>
+                <div>
+                  <strong>
+                    {diff.activePairs.length > 0
+                      ? `Härledda försvarsbyten (${diff.activePairs.length} av 3)`
+                      : 'Inga försvarsbyten aktiva (0 av 3)'}
+                  </strong>
+                  <span>
+                    {diff.activePairs.length > 0
+                      ? 'Spelarna byts automatiskt vid övergång mellan anfall och försvar:'
+                      : 'Alla 6 utespelare spelar båda vägar. Byt en försvarare för att sätta in en specialist.'}
+                  </span>
+                </div>
+              </div>
+              {diff.activePairs.length > 0 && (
+                <div className="coach-exchange-pairs-list">
+                  {diff.activePairs.map(pair => (
+                    <div key={pair.attackPlayer.id} className="coach-exchange-chip">
+                      <span className="coach-exchange-out">🔴 {pair.attackPlayer.lastName} UT</span>
+                      <span className="coach-exchange-arrow">⇄</span>
+                      <span className="coach-exchange-in">🟢 {pair.defencePlayer.lastName} IN</span>
+                      <span className="coach-exchange-pos">({pair.defensiveZoneLabel.split(' ')[0]})</span>
+                      <button
+                        type="button"
+                        className="coach-exchange-remove"
+                        title={`Återställ ${pair.defensiveZoneLabel} till ${pair.attackPlayer.lastName}`}
+                        onClick={() => save(c => removeDefenderSpecialist(c, pair.defensiveZone))}
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+              <div className="coach-exchange-actions">
+                {diff.activePairs.length > 0 ? (
+                  <button
+                    type="button"
+                    className="hm-btn hm-btn-sm"
+                    onClick={() => save(clearAllExchanges)}
+                  >
+                    Nollställ byten (alla båda vägar)
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    className="hm-btn hm-btn-sm"
+                    onClick={() => {
+                      save(clearAllExchanges);
+                      setNotice('Försvaret är synkroniserat med anfallet (alla 6 spelar båda vägar).');
+                    }}
+                  >
+                    Kopiera anfall till försvar
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
+
+          {courtMode === 'ATTACK_6V6' && diff.activePairs.length > 0 && (
+            <div className="coach-exchange-banner coach-exchange-banner-attack" data-count={diff.activePairs.length}>
+              <div className="coach-exchange-info">
+                <span className="coach-exchange-icon">⚔️</span>
+                <div>
+                  <strong>{diff.attackOnlyPlayers.length} anfallare vilar i försvaret</strong>
+                  <span>Ersätts automatiskt av försvarsspecialister vid bolltapp:</span>
+                </div>
+              </div>
+              <div className="coach-exchange-pairs-list">
+                {diff.activePairs.map(pair => (
+                  <div key={pair.attackPlayer.id} className="coach-exchange-chip">
+                    <span className="coach-exchange-out">⚔️ {pair.attackPlayer.lastName}</span>
+                    <span className="coach-exchange-arrow">→ vilar, ersätts av</span>
+                    <span className="coach-exchange-in">🛡️ {pair.defencePlayer.lastName}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="coach-exchange-actions">
+                <button
+                  type="button"
+                  className="hm-btn hm-btn-sm"
+                  onClick={() => setCourtMode('DEFENCE_6V6')}
+                >
+                  Visa försvarsuppställning →
+                </button>
+              </div>
+            </div>
+          )}
 
           <div
             className="coach-court"
@@ -1176,34 +1356,16 @@ export default function TacticsPage() {
             data-mode={courtMode}
             data-formation={courtMode === 'DEFENCE_6V6' ? defKey : undefined}
           >
-            <svg viewBox="0 0 1000 660" preserveAspectRatio="none" aria-hidden="true">
-              <defs>
-                <linearGradient id="taraflexMain" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#123861" />
-                  <stop offset="100%" stopColor="#0b2442" />
-                </linearGradient>
-                <linearGradient id="taraflexCrease" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#1c5796" />
-                  <stop offset="100%" stopColor="#144478" />
-                </linearGradient>
-              </defs>
-              <rect x="0" y="0" width="1000" height="660" fill="url(#taraflexMain)" />
-              <path d="M180 8 C180 275 820 275 820 8 Z" fill="url(#taraflexCrease)" />
-              <rect x="12" y="8" width="976" height="644" fill="none" stroke="rgba(224,238,255,0.65)" strokeWidth="2.5" />
-              <path d="M180 8 C180 275 820 275 820 8" fill="none" stroke="rgba(245,250,255,0.9)" strokeWidth="3" />
-              <path d="M70 8 C70 490 930 490 930 8" fill="none" stroke="rgba(210,230,252,0.65)" strokeWidth="2.5" strokeDasharray="14 11" />
-              <path d="M440 8v20h120V8" fill="rgba(255,255,255,0.12)" stroke="#f87171" strokeWidth="3.5" />
-              <line x1="475" y1="145" x2="525" y2="145" stroke="rgba(245,250,255,0.75)" strokeWidth="2.5" />
-              <line x1="460" y1="305" x2="540" y2="305" stroke="rgba(245,250,255,0.85)" strokeWidth="3.5" />
+            <HandballCourtSvg className="coach-court-svg">
               {courtMode === 'DEFENCE_6V6' && defKey === '5-1' && (
-                <g>
-                  <ellipse cx="500" cy="422" rx="115" ry="62" fill="rgba(200,67,32,0.18)" stroke="#f59e6c" strokeWidth="2" strokeDasharray="8 6" />
-                  <line x1="500" y1="360" x2="500" y2="235" stroke="rgba(245,158,108,0.55)" strokeWidth="2" strokeDasharray="5 5" />
-                  <line x1="440" y1="395" x2="310" y2="245" stroke="rgba(245,158,108,0.4)" strokeWidth="1.5" strokeDasharray="5 5" />
-                  <line x1="560" y1="395" x2="690" y2="245" stroke="rgba(245,158,108,0.4)" strokeWidth="1.5" strokeDasharray="5 5" />
+                <g id="spets-guide" aria-hidden="true">
+                  <ellipse cx="10" cy="11.5" rx="2.4" ry="1.2" fill="rgba(200,67,32,0.18)" stroke="#f59e6c" strokeWidth="0.08" strokeDasharray="0.2 0.15" />
+                  <line x1="10" y1="10" x2="10" y2="7.5" stroke="rgba(245,158,108,0.55)" strokeWidth="0.06" strokeDasharray="0.15 0.15" />
+                  <line x1="8.5" y1="10.8" x2="6.5" y2="7.5" stroke="rgba(245,158,108,0.4)" strokeWidth="0.05" strokeDasharray="0.15 0.15" />
+                  <line x1="11.5" y1="10.8" x2="13.5" y2="7.5" stroke="rgba(245,158,108,0.4)" strokeWidth="0.05" strokeDasharray="0.15 0.15" />
                 </g>
               )}
-            </svg>
+            </HandballCourtSvg>
             <span className="coach-court-direction">
               {courtMode === 'DEFENCE_6V6' || courtMode === 'DEFENCE_5V6'
                 ? `FÖRSVARSZON FRAMFÖR EGET MÅL (${courtMode === 'DEFENCE_6V6' ? defKey : '5v6'}) ↑`
@@ -1213,7 +1375,16 @@ export default function TacticsPage() {
           </div>
 
           <div className="coach-goalkeeper">
-            <span>{courtMode === 'ATTACK_7V6' ? 'Tomt mål i anfall (7 mot 6)' : 'Målvakt (MV)'}</span>
+            <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              {courtMode === 'ATTACK_7V6' ? (
+                <>
+                  <strong className="coach-badge-empty-net">⚠️ TOMT MÅL I ANFALL</strong>
+                  <small>(Målvakt kliver av vid anfall)</small>
+                </>
+              ) : (
+                'Målvakt (MV)'
+              )}
+            </span>
             {courtPlayer('GK')}
             <div>
               <strong>{plan.squad.players.length} / {MATCH_SQUAD_MAX_PLAYERS}</strong>

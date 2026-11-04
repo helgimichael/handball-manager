@@ -78,13 +78,16 @@
 
 /* --- Tactical Board 2.0 Court & Compact Player Tokens ----------------------- */
 .coach-court {
-  height: 490px;
+  width: 100%;
+  max-width: 520px;
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
   position: relative;
   color: #b7d2eb;
   background: #0d2a4d;
   overflow: hidden;
-  border-top: 1px solid #204672;
-  border-bottom: 1px solid #204672;
+  border-radius: 6px;
+  border: 1px solid #204672;
 }
 .coach-court > svg { width: 100%; height: 100%; position: absolute; inset: 0; }
 .coach-court-direction {
@@ -447,3 +450,223 @@
   .coach-live-out-list { grid-template-columns: 1fr 1fr; }
 }
 .coach-replacement-notes { margin: 6px 0 0; padding-left: 18px; font-size: 12px; line-height: 1.6; }
+
+
+/* --- Dual Lineup Editor Bar & Situation Tabs --- */
+.coach-court-mode-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px 18px;
+  background: var(--hm-surface-1);
+  border-bottom: 1px solid var(--hm-border);
+}
+.coach-lineup-dual-switch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.coach-dual-tab {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 6px;
+  border: 1.5px solid var(--hm-border);
+  background: var(--hm-surface-2);
+  color: var(--hm-text-secondary);
+  cursor: pointer;
+  text-align: left;
+  transition: all 140ms ease;
+}
+.coach-dual-tab:hover {
+  background: var(--hm-surface-hover);
+  border-color: var(--game-signal);
+  color: var(--hm-text-primary);
+}
+.coach-dual-tab[data-active="true"] {
+  background: rgba(14, 38, 68, 0.95);
+  border-color: var(--game-signal);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+}
+.coach-dual-icon {
+  font-size: 24px;
+  line-height: 1;
+}
+.coach-dual-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.coach-dual-content strong {
+  font-family: var(--game-font-display);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.coach-dual-content small {
+  font-size: 11px;
+  color: inherit;
+  opacity: 0.8;
+}
+.coach-dual-badge {
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.coach-dual-badge-spec {
+  background: #f59e0b;
+  color: #1a1a1a;
+}
+.coach-dual-badge-twoway {
+  background: rgba(34, 197, 94, 0.2);
+  color: #22c55e;
+  border: 1px solid rgba(34, 197, 94, 0.4);
+}
+.coach-situation-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.coach-situation-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--hm-text-muted);
+}
+.coach-situation-tabs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.coach-situation-tab {
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: 1px solid var(--hm-border);
+  background: var(--hm-surface-2);
+  color: var(--hm-text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  transition: all 120ms ease;
+}
+.coach-situation-tab:hover {
+  border-color: var(--game-signal);
+  color: var(--hm-text-primary);
+}
+.coach-situation-tab[data-active="true"] {
+  background: var(--game-ink);
+  border-color: var(--game-signal);
+  color: #ffffff;
+}
+.coach-situation-tab small {
+  font-size: 10px;
+  opacity: 0.75;
+}
+
+/* --- Derived Exchange Banner --- */
+.coach-exchange-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 16px;
+  background: rgba(14, 30, 52, 0.95);
+  border-top: 1px solid #204672;
+  border-bottom: 1px solid #204672;
+  color: #e2e8f0;
+}
+.coach-exchange-banner-attack {
+  background: rgba(18, 38, 64, 0.95);
+}
+.coach-exchange-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.coach-exchange-icon {
+  font-size: 20px;
+}
+.coach-exchange-info > div {
+  display: flex;
+  flex-direction: column;
+}
+.coach-exchange-info strong {
+  font-size: 13px;
+  color: #f8fafc;
+}
+.coach-exchange-info span {
+  font-size: 11px;
+  color: #94a3b8;
+}
+.coach-exchange-pairs-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.coach-exchange-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(30, 58, 95, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  font-size: 12px;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+.coach-exchange-out { color: #fca5a5; }
+.coach-exchange-arrow { color: #94a3b8; }
+.coach-exchange-in { color: #86efac; }
+.coach-exchange-pos { font-size: 10px; color: #cbd5e1; }
+.coach-exchange-remove {
+  background: none;
+  border: none;
+  color: #cbd5e1;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 0 2px;
+  margin-left: 2px;
+  transition: color 100ms ease;
+}
+.coach-exchange-remove:hover {
+  color: #f87171;
+}
+.coach-specialist-badge {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+.coach-badge-attack-only {
+  background: rgba(239, 68, 68, 0.25);
+  border: 1px solid rgba(239, 68, 68, 0.6);
+  color: #fca5a5;
+}
+.coach-badge-def-only {
+  background: rgba(34, 197, 94, 0.25);
+  border: 1px solid rgba(34, 197, 94, 0.6);
+  color: #86efac;
+}
+.coach-badge-empty-net {
+  background: rgba(239, 68, 68, 0.35);
+  border: 1px solid rgba(239, 68, 68, 0.8);
+  color: #fca5a5;
+  font-weight: 800;
+}

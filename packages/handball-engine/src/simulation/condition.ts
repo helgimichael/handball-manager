@@ -175,7 +175,8 @@ export function applyExertion(player: Player, distanceMeters: number, speedChang
  * tank, which is enough to make a rotation worth something and not enough to
  * make it free. A man who has emptied himself does not come back new.
  */
-const BENCH_RECOVERY_PER_SECOND = 0.0011;
+// HM-PLAYTEST-03: Calibrated from 0.0011 to 0.0003 (~1.8% per minute) to prevent instant 100% bounceback
+const BENCH_RECOVERY_PER_SECOND = 0.0003;
 
 /**
  * And a smaller trickle for a player still on the court during a stoppage.

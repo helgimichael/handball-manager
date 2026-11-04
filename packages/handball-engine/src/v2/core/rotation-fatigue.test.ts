@@ -4,6 +4,7 @@ import {createCoreScenario} from './scenarios';
 import {createMatch,matchBefore} from './match';
 import {getPlayer,type CorePlayer} from './state';
 import {conditionAfter,movementCapacity,accelerationCapacity,difficultExecutionCapacity,executionCapacity} from './condition';
+import {matchFatigueCeiling} from './physicalLoad';
 import {move,startAction} from './actions';
 import {secondsTo} from './timing';
 import {requestExchange,populationAfter} from './population';
@@ -61,4 +62,60 @@ test('a dribbling carrier physically steps around a stationary teammate without 
  const target={x:p.position.x,y:p.position.y-7};startAction(s,p,'DRIBBLE','Carry through an open transition lane',target);
  for(let n=0;n<200;n++){const old={...p.velocity};move(s,p,target);assert.ok(Math.hypot(p.velocity.x-old.x,p.velocity.y-old.y)<=2*p.profile.acceleration*accelerationCapacity(p)*.05+1e-8);assert.ok(Math.hypot(p.position.x-body.position.x,p.position.y-body.position.y)>=p.radius+body.radius-1e-8);}
  assert.ok(p.position.y<18,'carrier progresses around the actual allied body');assert.equal(s.ball.controllerId,p.id);assert.equal(p.action!.kind,'DRIBBLE');
+});
+
+test('starter with 30 court minutes cannot recover to 100 percent on the bench',()=>{
+  const {s,p}=scene();
+  p.condition.courtMs=1800000; // 30 minutes played
+  p.condition.distanceMetres=2600; // 2.6 km covered
+  work(p,0.60,0.8);
+  p.population='BENCH';
+  const ceiling=matchFatigueCeiling(p);
+  assert.ok(ceiling<0.90,'fatigue ceiling is reduced by match load');
+  // Rest on bench for 25 simulated minutes (30,000 ticks)
+  for(let n=0;n<30000;n++) conditionAfter(s);
+  assert.ok(p.condition.energy<=ceiling+1e-6,'energy is strictly bounded by fatigue ceiling');
+  assert.ok(p.condition.energy<0.90,'tired starter cannot bounce back to 100 percent');
+  assert.ok(p.condition.acuteExertion! < 0.01,'acute exertion is fully cleared');
+});
+
+test('fresh substitute has higher fatigue ceiling than an exhausted starter',()=>{
+  const s=createMatch();
+  const starter=getPlayer(s,'H03');
+  const reserve=getPlayer(s,'H09');
+  starter.condition.courtMs=2400000; // 40 minutes played
+  starter.condition.distanceMetres=3500;
+  reserve.condition.courtMs=0;
+  reserve.condition.distanceMetres=0;
+  const starterCeiling=matchFatigueCeiling(starter);
+  const reserveCeiling=matchFatigueCeiling(reserve);
+  assert.equal(reserveCeiling,1.0,'fresh reserve has 100% capacity');
+  assert.ok(starterCeiling<=0.82,'starter ceiling reflects 40 minutes load');
+  assert.ok(reserveCeiling-starterCeiling>=0.18,'meaningful rotation advantage for fresh player');
+});
+
+test('high endurance player retains higher ceiling after heavy minutes than low endurance player',()=>{
+  const a=scene().p,b=scene().p;
+  // @ts-ignore
+  a.profile={...a.profile,endurance:0.95};
+  // @ts-ignore
+  b.profile={...b.profile,endurance:0.15};
+  for(const p of [a,b]){
+    p.condition.courtMs=2100000; // 35 min
+    p.condition.distanceMetres=3000;
+  }
+  const ceilingA=matchFatigueCeiling(a);
+  const ceilingB=matchFatigueCeiling(b);
+  assert.ok(ceilingA>ceilingB+0.05,'high endurance preserves substantially higher match ceiling');
+});
+
+test('acute exertion clears rapidly on bench even when accumulated energy is ceiling capped',()=>{
+  const {s,p}=scene();
+  p.condition.courtMs=2100000; // 35 min
+  work(p,0.70,0.95);
+  p.population='BENCH';
+  // 3 minutes bench rest (3600 ticks)
+  for(let n=0;n<3600;n++) conditionAfter(s);
+  assert.ok(p.condition.acuteExertion!<0.05,'breathless acute strain cleared within 3 bench minutes');
+  assert.ok(p.condition.energy<=matchFatigueCeiling(p),'energy remains bounded by accumulated match fatigue');
 });

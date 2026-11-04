@@ -217,7 +217,7 @@ function previews(state: CareerState, date: string, emit: Emit): CareerState {
       const line = freshLine(next, coach.staffId, (provoke ? PROVOCATIONS : PRAISE).map((l) => l.replace("{opp}", clubShort(me)).replace("{mgr}", "deras tränare")), `${f.id}:line`).replace("{opp}", clubShort(me)).replace("{mgr}", mgr);
       next = withMedia(next, (m) => adjustRelation(m, "manager", coach.staffId, provoke ? -4 : 2, date, `${coach.name} före matchen: ”${line}”`));
       next = publish(next, { key: `rival-pre:${f.id}`, kind: "RIVAL_COMMENT", date, importance: provoke ? 3 : 2, clubIds: [coach.clubId, me], personIds: [coach.staffId], fixtureId: f.id, topFlight: topFlight(next, coach.clubId), facts: { coach: coach.name, club: coach.clubId, target: me, headline: `${coach.name} ${provoke ? "laddar" : "hyllar"} inför mötet: ”${line}”` }, quote: { who: `${coach.name}, ${getClub(coach.clubId)?.shortName ?? ""}`, text: line }, destinations: [{ route: "MATCH_PREVIEW" }] });
-      if (provoke) topics.push({ topic: "RIVAL_RESPONSE", opponentId: opp, rivalStaffId: coach.staffId } as never);
+      if (provoke) topics.push({ topic: "RIVAL_RESPONSE", opponentId: opp, rivalStaffId: coach.staffId, detail: line } as never);
     }
   }
   // One press conference a day: after a match the post-match questions come first.

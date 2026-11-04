@@ -13,7 +13,7 @@ import { managerSquadIds, personalityOf } from "../players/dynamicsState";
 import { getClub } from "../game-data";
 import { adjustRelation, coachPersona, hash, journalistFor, mediaOf, withMedia } from "./people";
 import { clubShort, playerName, publish } from "./newsEngine";
-import { CLUB_MEDIA } from "./registry";
+import { CLUB_MEDIA, MEDIA_OUTLETS } from "./registry";
 import { openDisciplineCase } from "./discipline";
 import type { Consequence, MediaState, PressAnswer, PressConference, PressContext, PressQuestion, PressTopic, Tone } from "./types";
 export type { PressContext };
@@ -101,17 +101,36 @@ function questionText(topic: PressTopic, c: PressContext, state: CareerState, st
   const opp = clubShort(c.opponentId);
   const rival = c.rivalStaffId ? coachPersona(state, c.rivalStaffId)?.name : undefined;
   const blunt = style === "BLUNT";
+  const player = c.playerId ? playerName(state, c.playerId) : undefined;
   switch (topic) {
-    case "PREVIEW": return c.derby ? (blunt ? `Hela stan pratar om derbyt. Hur stor är pressen på dig?` : `Vad betyder derbyt mot ${opp} för dig och laget?`) : `Hur ser du på mötet med ${opp}?`;
-    case "RIVAL_RESPONSE": return `${rival ?? "Tränaren"} har uttalat sig om er inför matchen. Vad svarar du?`;
-    case "AFTER_WIN": return blunt ? "Är ni nu ett topplag på riktigt?" : "Vad avgjorde matchen i dag?";
-    case "AFTER_DEFEAT": return blunt ? "Var det här pinsamt?" : "Vad gick fel i dag?";
+    case "PREVIEW": return c.derby ? (blunt ? `Hela stan pratar om derbyt mot ${opp}. Hur stor är pressen på dig?` : `Vad betyder derbyt mot ${opp} för dig och laget?`) : `Hur ser du på mötet med ${opp}?`;
+    case "RIVAL_RESPONSE": {
+      if (c.detail) {
+        return `${rival ?? "Motståndartränaren"} sa: ”${c.detail}”. Vad svarar du på det?`;
+      }
+      return `${rival ?? "Tränaren"} har uttalat sig om matchen. Vad är din reaktion?`;
+    }
+    case "AFTER_WIN": {
+      if (player && c.detail) {
+        return `${player} stack ut med ${c.detail}. Hur viktig var hans insats i dag?`;
+      }
+      if (c.detail) {
+        return `Det blev ${c.detail}. Vad avgjorde till er fördel i kväll?`;
+      }
+      return blunt ? "Är ni nu ett topplag på riktigt?" : "Vad avgjorde matchen i dag?";
+    }
+    case "AFTER_DEFEAT": {
+      if (c.detail) {
+        return `Det blev ${c.detail}. Vad gick fel i matchplanen?`;
+      }
+      return blunt ? "Var det här pinsamt?" : "Vad gick fel i dag?";
+    }
     case "REFEREE": return `${c.detail ? `${c.detail} ` : ""}Vad tycker du om domarinsatsen?`;
     case "PLAYER_UNHAPPY": return `${playerName(state, c.playerId)} vill lämna klubben. Hur ser du på det?`;
     case "BOARD_PRESSURE": return blunt ? "Sitter du säkert?" : "Hur ser du på styrelsens oro?";
     case "TRANSFER": return `Varför sålde ni ${playerName(state, c.playerId)}?`;
     case "APPOINTMENT": return "Vad ska supportrarna förvänta sig av dig?";
-    case "POOR_FORM": return blunt ? "Har du tappat omklädningsrummet?" : "Hur vänder ni den här trenden?";
+    case "POOR_FORM": return c.detail ? `${c.detail} Hur vänder ni den här trenden?` : (blunt ? "Har du tappat omklädningsrummet?" : "Hur vänder ni den här trenden?");
     case "DISCIPLINE": return "Du är anmäld till disciplinnämnden. Ångrar du det du sa?";
   }
 }
@@ -224,7 +243,18 @@ export function answerPress(state: CareerState, pressId: string, answers: Record
   if (boldest) {
     const speaker = by === "MANAGER" ? "Tränaren" : by.name;
     const own = getClub(state.playerClubId)?.shortName ?? "";
+    const primaryOutlet = press.outletIds[0] ? (MEDIA_OUTLETS[press.outletIds[0]]?.name ?? "media") : "media";
     next = publish(next, { key: `interview:${pressId}`, kind: "INTERVIEW", date: next.gameDate, importance: boldest.a.tone === "PROVOCATIVE" ? 4 : rank(boldest.a.tone) >= 3 ? 3 : 2, clubIds: [state.playerClubId, ...(ctxs.find((c) => c.opponentId)?.opponentId ? [ctxs.find((c) => c.opponentId)!.opponentId!] : [])], personIds: ["manager"], fixtureId: press.fixtureId, facts: { headline: `${own}-tränaren: ”${trimQuote(boldest.a.text)}”`, standfirst: `${speaker} mötte pressen – ${press.title}.` }, quote: { who: by === "MANAGER" ? `Huvudtränare, ${own}` : `${by.name}, assisterande tränare`, text: boldest.a.text }, destinations: [{ route: "PRESS", pressId }] });
+
+    emit(buildClubEvent(
+      "MEDIA",
+      `media-article:${pressId}`,
+      next.gameDate,
+      boldest.a.tone === "PROVOCATIVE" ? "IMPORTANT" : "INFORMATION",
+      `${own}: ”${trimQuote(boldest.a.text)}”`,
+      `${speaker} mötte pressen efter ${press.title.toLowerCase()}. Uttalandena har publicerats i ${primaryOutlet}.`,
+      [{ route: "PRESS", pressId }, { route: "MEDIA" }]
+    ));
   }
   return next;
 }
@@ -299,7 +329,16 @@ export function skipPress(state: CareerState, pressId: string, emit: Emit): Care
       },
     },
   }));
-  void emit;
+  const own = getClub(state.playerClubId)?.shortName ?? "Klubben";
+  emit(buildClubEvent(
+    "MEDIA",
+    `media-skipped:${pressId}`,
+    next.gameDate,
+    "INFORMATION",
+    `${own} uteblev från presskonferensen`,
+    `Ingen från ledarstaben mötte journalisterna efter ${press.title.toLowerCase()}. Media rapporterar om frånvaron.`,
+    [{ route: "PRESS", pressId }, { route: "MEDIA" }]
+  ));
   return next;
 }
 

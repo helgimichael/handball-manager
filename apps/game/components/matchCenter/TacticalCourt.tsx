@@ -3,7 +3,31 @@ import { useId } from 'react';
 import type { TacticalSnapshot, PlayerRow, ShotFact } from '@/lib/matchCenter/model';
 import type { ActorRole } from '@/lib/matchCenter/workspace';
 import { ROLE_LABEL, SHOT_LABEL } from '@/lib/matchCenter/model';
-function Lines() { return <g transform="matrix(0 1 -1 0 40 0)" fill="none" stroke="currentColor" strokeWidth=".065"><rect width="20" height="40"/><path d="M0 20H20 M8.5 0V-.7H11.5V0 M8.5 40V40.7H11.5V40 M9 7H11 M9 33H11"/><path d="M2.5 0A6 6 0 0 0 8.5 6H11.5A6 6 0 0 0 17.5 0 M2.5 40A6 6 0 0 1 8.5 34H11.5A6 6 0 0 1 17.5 40"/><path strokeDasharray=".2 .18" d="M0 0A10 9 0 0 0 20 0 M0 40A10 9 0 0 1 20 40"/></g>; }
+
+function Lines() {
+  return (
+    <g transform="matrix(0 1 -1 0 40 0)" fill="none" stroke="currentColor" strokeWidth=".065">
+      <rect width="20" height="40" />
+      {/* Center line with break for center circle */}
+      <path d="M0 20H8 M12 20H20" />
+      {/* Center throw-off circle (4m diameter) */}
+      <path d="M8 20A2 2 0 1 0 12 20A2 2 0 1 0 8 20" />
+      {/* Goals (3m wide: x = 8.5 to 11.5) */}
+      <path d="M8.5 0V-.7H11.5V0 M8.5 40V40.7H11.5V40" />
+      {/* 4m Goalkeeper restraint lines (1m long: x = 9.5 to 10.5) */}
+      <path d="M9.5 4H10.5 M9.5 36H10.5" />
+      {/* 7m Penalty lines (1m long: x = 9.5 to 10.5) */}
+      <path d="M9.5 7H10.5 M9.5 33H10.5" />
+      {/* Substitution lines (4.5m from halfway on sideline) */}
+      <path d="M-.15 15.5H.15 M-.15 24.5H.15" />
+      {/* 6m Goal area lines (6m radius quarter arcs + 3m straight) */}
+      <path d="M2.5 0A6 6 0 0 0 8.5 6H11.5A6 6 0 0 0 17.5 0 M2.5 40A6 6 0 0 1 8.5 34H11.5A6 6 0 0 1 17.5 40" />
+      {/* 9m Free throw lines (9m radius quarter arcs + 3m straight, dashed) */}
+      <path strokeDasharray=".25 .22" d="M-.5 0A9 9 0 0 0 8.5 9H11.5A9 9 0 0 0 20.5 0 M-.5 40A9 9 0 0 1 8.5 31H11.5A9 9 0 0 1 20.5 40" />
+    </g>
+  );
+}
+
 export function TacticalCourt({ snapshot, fullCourt = false, focusY = snapshot.ball.y, actors = {} }: {
     snapshot: TacticalSnapshot;
     fullCourt?: boolean;

@@ -20,6 +20,7 @@ const MOCK_PLAYERS: PlayerMock[] = [
   { id: 'm6_1', firstName: 'Max', lastName: 'Darj', position: 'M6' } as PlayerMock,
   { id: 'def_spec_1', firstName: 'Philip', lastName: 'Stenmalm', position: 'V9' } as PlayerMock,
   { id: 'def_spec_2', firstName: 'Oscar', lastName: 'Bergendahl', position: 'M6' } as PlayerMock,
+  { id: 'def_spec_3', firstName: 'Jesper', lastName: 'Nielsen', position: 'M6' } as PlayerMock,
 ];
 
 function createSamplePlan(): MatchPlan {
@@ -118,6 +119,55 @@ test('assignDefenderSpecialist: pairs specialist with the attacker defending in 
   assert.equal(diff.isBalanced, true);
 });
 
+test('supports 0, 1, 2, and 3 exchange pairs naturally', () => {
+  let plan = createSamplePlan();
+
+  // 0 pairs
+  let diff = deriveTacticalDiff(plan, MOCK_PLAYERS);
+  assert.equal(diff.totalExchanges, 0);
+  assert.equal(diff.twoWayPlayers.length, 6);
+
+  // 1 pair (zone 3)
+  plan = assignDefenderSpecialist(plan, 3, 'def_spec_1');
+  diff = deriveTacticalDiff(plan, MOCK_PLAYERS);
+  assert.equal(diff.totalExchanges, 1);
+  assert.equal(diff.twoWayPlayers.length, 5);
+  assert.equal(diff.attackOnlyPlayers.length, 1);
+  assert.equal(diff.defenceOnlyPlayers.length, 1);
+
+  // 2 pairs (zone 4)
+  plan = assignDefenderSpecialist(plan, 4, 'def_spec_2');
+  diff = deriveTacticalDiff(plan, MOCK_PLAYERS);
+  assert.equal(diff.totalExchanges, 2);
+  assert.equal(diff.twoWayPlayers.length, 4);
+  assert.equal(diff.attackOnlyPlayers.length, 2);
+  assert.equal(diff.defenceOnlyPlayers.length, 2);
+
+  // 3 pairs (zone 2)
+  plan = assignDefenderSpecialist(plan, 2, 'def_spec_3');
+  diff = deriveTacticalDiff(plan, MOCK_PLAYERS);
+  assert.equal(diff.totalExchanges, 3);
+  assert.equal(diff.twoWayPlayers.length, 3);
+  assert.equal(diff.attackOnlyPlayers.length, 3);
+  assert.equal(diff.defenceOnlyPlayers.length, 3);
+  assert.equal(diff.isBalanced, true);
+
+  // Verify save/reload idempotency
+  const serialized = JSON.stringify(plan);
+  const deserialized: MatchPlan = JSON.parse(serialized);
+  const diffReloaded = deriveTacticalDiff(deserialized, MOCK_PLAYERS);
+  assert.equal(diffReloaded.totalExchanges, 3);
+  assert.deepEqual(diffReloaded.activePairs.map(p => ({
+    atk: p.attackPlayer.id,
+    def: p.defencePlayer.id,
+    zone: p.defensiveZone,
+  })), diff.activePairs.map(p => ({
+    atk: p.attackPlayer.id,
+    def: p.defencePlayer.id,
+    zone: p.defensiveZone,
+  })));
+});
+
 test('removeDefenderSpecialist: removes specialist and restores two-way play', () => {
   let plan = createSamplePlan();
   plan = assignDefenderSpecialist(plan, 3, 'def_spec_1');
@@ -135,7 +185,6 @@ test('removeDefenderSpecialist: removes specialist and restores two-way play', (
 test('clearAllExchanges: resets multiple substitution pairs', () => {
   let plan = createSamplePlan();
   plan = assignDefenderSpecialist(plan, 3, 'def_spec_1');
-  // In 6-0, V9 ('v9_1') defends in zone 4
   plan = assignDefenderSpecialist(plan, 4, 'def_spec_2');
   assert.equal(plan.substitutionPairs.length, 2);
 

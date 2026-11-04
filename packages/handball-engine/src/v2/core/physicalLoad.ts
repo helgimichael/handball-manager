@@ -47,10 +47,25 @@ export function physicalImpulse(p:CorePlayer,channel:'contact'|'jump',amount=1){
 /** No independent recovery attribute exists: endurance and repeat-sprint support
  * restoring readiness; mobility is used for braking/turn cost, never recovery. */
 export function recoverySeconds(p:CorePlayer){return 14+18*(1-p.profile.endurance)+10*(1-repeat(p));}
+/** HM-PLAYTEST-03: Accumulated match fatigue ceiling. Bench rest restores acute exertion,
+ * but cannot erase accumulated match load. A player who has played heavy minutes cannot return to 100%. */
+export function matchFatigueCeiling(p:CorePlayer):number {
+  if(p.kind==='GOALKEEPER')return 1;
+  const c=p.condition,endurance=p.profile.endurance??.5;
+  const minutes=(c.courtMs??0)/60000;
+  const timeFatigue=(minutes/60)*(0.30-0.12*endurance);
+  const distanceFatigue=Math.min(0.12,((c.distanceMetres??0)/5000)*0.10*(1.2-0.4*endurance));
+  return Math.max(0.60,unit(1.0-timeFatigue-distanceFatigue));
+}
 export function recoverPhysical(p:CorePlayer,seconds:number,rate=.0002,timeout=false){
   if(p.kind==='GOALKEEPER')return;
   const c=p.condition,l=memory(p),before=c.energy;
-  c.energy=unit(c.energy+Math.max(0,seconds)*rate*(.7+.3*p.profile.endurance));l.energyRecovered+=c.energy-before;
+  const ceiling=matchFatigueCeiling(p);
+  if(c.energy<ceiling){
+    const recovered=Math.max(0,seconds)*rate*(.7+.3*p.profile.endurance);
+    c.energy=Math.min(ceiling,c.energy+recovered);
+    l.energyRecovered+=c.energy-before;
+  }
   c.acuteExertion=unit((c.acuteExertion??0)*Math.exp(-Math.max(0,seconds)/(timeout?90+recoverySeconds(p):recoverySeconds(p))));
   l.vx=0;l.vy=0;
 }

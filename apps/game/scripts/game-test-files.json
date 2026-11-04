@@ -274,5 +274,8 @@
   "lib/transfers/trainingCompensation.test.ts",
   "lib/transfers/playerInterest.test.ts",
   "lib/matchPlan/tacticsDiffWorkflow.test.ts",
-  "lib/media/postMatchPress.test.ts"
+  "lib/media/postMatchPress.test.ts",
+  "components/court/handballCourtGeometry.test.ts",
+  "lib/career/contextualContinueAction.test.ts",
+  "lib/media/pressContinuity.test.ts"
 ]
