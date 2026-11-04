@@ -14,6 +14,9 @@ import { getClub, type PlayerMock } from '@/lib/game-data';
 import { squadEnergy } from '@/lib/career/management';
 import { matchFitnessOf } from '@/lib/players/matchFitness';
 import { averageRating } from '@/lib/career/types';
+import { getPlayerLastMatchRating, getPlayerLastFiveAverageRating } from '@/lib/career/playerForm';
+
+export type TacticsVisualMode = 'ENERGY' | 'SUITABILITY' | 'LAST_MATCH' | 'LAST_5_MATCHES';
 import { buildInitialMatchSquad } from '@/lib/matchPlan/careerSquadBridge';
 import { buildDefaultMatchPlan } from '@/lib/matchPlan/defaultMatchPlan';
 import { addPlayerToSquad, removePlayerFromSquad, assignNormalAttackSlot, assignManualStarter, isPlayerStarting } from '@/lib/matchPlan/matchPlanEdits';
@@ -99,6 +102,7 @@ export default function TacticsPage() {
   const { career, updateMatchPlan, updateCareer } = useCareer();
   const [activePosition, setActivePosition] = useState<Position>('V6');
   const [courtMode, setCourtMode] = useState<TacticalCourtMode>('ATTACK_6V6');
+  const [visualMode, setVisualMode] = useState<TacticsVisualMode>('ENERGY');
   const [selectedDefZone, setSelectedDefZone] = useState<number>(3);
   const [selected5v6Index, setSelected5v6Index] = useState<number>(0);
   const [dragOverSlot, setDragOverSlot] = useState<string | null>(null);
@@ -372,6 +376,52 @@ export default function TacticsPage() {
     return 'out';
   }
 
+  function getVisualModeDisplay(player: PlayerMock | undefined, slotPositionOrZone: Position | number) {
+    if (!player) {
+      return {
+        subtitle: 'Tom plats',
+        barWidth: '0%',
+        barColor: undefined,
+        isLow: false,
+      };
+    }
+
+    const energy = Math.round(squadEnergy(career, player));
+    const suit = typeof slotPositionOrZone === 'string'
+      ? suitabilityTone(player, slotPositionOrZone)
+      : 'natural';
+    const lastRating = getPlayerLastMatchRating(career, player.id);
+    const avg5 = getPlayerLastFiveAverageRating(career, player.id);
+
+    if (visualMode === 'SUITABILITY') {
+      const suitPct = suit === 'natural' ? 100 : suit === 'secondary' ? 85 : 55;
+      const subtitle = suit === 'natural' ? 'Naturlig roll (100%)' : suit === 'secondary' ? 'Sekundär roll (85%)' : 'Ovan roll (55%)';
+      const barColor = suit === 'natural' ? 'var(--hm-tone-positive, #10b981)' : suit === 'secondary' ? 'var(--hm-accent-gold, #f59e0b)' : 'var(--hm-tone-negative, #ef4444)';
+      return { subtitle, barWidth: `${suitPct}%`, barColor, isLow: suit === 'out' };
+    }
+
+    if (visualMode === 'LAST_MATCH') {
+      const subtitle = lastRating !== null ? `Senaste betyg: ${lastRating.toFixed(1)}` : 'Senaste: Ingen match';
+      const barWidth = lastRating !== null ? `${Math.min(100, Math.round((lastRating / 10) * 100))}%` : '0%';
+      const barColor = lastRating === null ? undefined : lastRating >= 7.5 ? 'var(--hm-tone-positive, #10b981)' : lastRating >= 6.5 ? 'var(--hm-accent-primary, #3b82f6)' : 'var(--hm-accent-gold, #f59e0b)';
+      return { subtitle, barWidth, barColor, isLow: lastRating !== null && lastRating < 6.0 };
+    }
+
+    if (visualMode === 'LAST_5_MATCHES') {
+      const subtitle = avg5 !== null ? `Form (5M snitt): ${avg5.toFixed(1)}` : 'Form: Inga matcher';
+      const barWidth = avg5 !== null ? `${Math.min(100, Math.round((avg5 / 10) * 100))}%` : '0%';
+      const barColor = avg5 === null ? undefined : avg5 >= 7.5 ? 'var(--hm-tone-positive, #10b981)' : avg5 >= 6.5 ? 'var(--hm-accent-primary, #3b82f6)' : 'var(--hm-accent-gold, #f59e0b)';
+      return { subtitle, barWidth, barColor, isLow: avg5 !== null && avg5 < 6.0 };
+    }
+
+    return {
+      subtitle: `${player.position} · ${energy}% energi`,
+      barWidth: `${energy}%`,
+      barColor: undefined,
+      isLow: energy < 75,
+    };
+  }
+
   function courtPlayer(position: Position) {
     const slot = plan!.attackStartingUnit.slots.find(s => s.position === position);
     const player = squad.find(p => p.id === slot?.playerId);
@@ -382,6 +432,7 @@ export default function TacticsPage() {
     const exchPartner = exchPartnerId ? squad.find(p => p.id === exchPartnerId) : undefined;
     const energy = player ? Math.round(squadEnergy(career, player)) : 0;
     const suit = suitabilityTone(player, position);
+    const vis = getVisualModeDisplay(player, position);
 
     return (
       <button
@@ -422,15 +473,18 @@ export default function TacticsPage() {
           <span className="coach-specialist-badge coach-badge-attack-only">⚔️ Endast anfall</span>
         )}
         <small>
-          {player && attackOnlySet.has(player.id) && exchPartner
+          {player && visualMode === 'ENERGY' && attackOnlySet.has(player.id) && exchPartner
             ? `⇄ Ersätts av ${exchPartner.lastName}`
             : player
-            ? `${player.position} · ${energy}% · Båda vägar`
+            ? (visualMode === 'ENERGY' ? `${player.position} · ${energy}% · Båda vägar` : vis.subtitle)
             : 'Tom plats'}
         </small>
         {player && (
           <span className="coach-token-bar" aria-hidden="true">
-            <i style={{ width: `${energy}%` }} data-low={energy < 75 ? 'true' : undefined} />
+            <i
+              style={{ width: vis.barWidth, ...(vis.barColor ? { background: vis.barColor } : {}) }}
+              data-low={vis.isLow ? 'true' : undefined}
+            />
           </span>
         )}
       </button>
@@ -484,14 +538,17 @@ export default function TacticsPage() {
               {specialistId ? (
                 <span className="coach-specialist-badge coach-badge-def-only">🛡️ Specialist</span>
               ) : (
-                <small>{energy}% · Båda vägar</small>
+                <small>{visualMode === 'ENERGY' ? `${energy}% · Båda vägar` : getVisualModeDisplay(player, zone).subtitle}</small>
               )}
               {specialistId && starterPlayer && (
                 <small style={{ fontSize: '9px', opacity: 0.85 }}>⇄ Ersätter {starterPlayer.lastName}</small>
               )}
               {player && (
                 <span className="coach-token-bar" aria-hidden="true">
-                  <i style={{ width: `${energy}%` }} data-low={energy < 75 ? 'true' : undefined} />
+                  <i
+                    style={{ width: getVisualModeDisplay(player, zone).barWidth, ...(getVisualModeDisplay(player, zone).barColor ? { background: getVisualModeDisplay(player, zone).barColor } : {}) }}
+                    data-low={getVisualModeDisplay(player, zone).isLow ? 'true' : undefined}
+                  />
                 </span>
               )}
             </button>
@@ -507,6 +564,7 @@ export default function TacticsPage() {
         const entry = unit.find(u => u.position === role.position);
         const player = squad.find(p => p.id === entry?.playerId);
         const energy = player ? Math.round(squadEnergy(career, player)) : 0;
+        const vis = getVisualModeDisplay(player, role.position);
         return (
           <div className="coach-court-slot" key={`6v5-${role.position}`} style={{ left: `${role.x}%`, top: `${role.y}%` }}>
             <button
@@ -530,7 +588,15 @@ export default function TacticsPage() {
               <span className="coach-position-code">6v5 · {role.position}</span>
               {player && <PlayerGlyph player={player} size={42} />}
               <strong>{player?.lastName ?? 'Välj spelare'}</strong>
-              <small>Överläge · {energy}%</small>
+              <small>{visualMode === 'ENERGY' ? `Överläge · ${energy}%` : vis.subtitle}</small>
+              {player && (
+                <span className="coach-token-bar" aria-hidden="true">
+                  <i
+                    style={{ width: vis.barWidth, ...(vis.barColor ? { background: vis.barColor } : {}) }}
+                    data-low={vis.isLow ? 'true' : undefined}
+                  />
+                </span>
+              )}
             </button>
           </div>
         );
@@ -543,6 +609,7 @@ export default function TacticsPage() {
         const pid = unit[idx]?.playerId ?? '';
         const player = squad.find(p => p.id === pid);
         const energy = player ? Math.round(squadEnergy(career, player)) : 0;
+        const vis = getVisualModeDisplay(player, coord.zone);
         return (
           <div className="coach-court-slot" key={`5v6-${coord.zone}`} style={{ left: `${coord.x}%`, top: `${coord.y}%` }}>
             <button
@@ -566,7 +633,15 @@ export default function TacticsPage() {
               <span className="coach-position-code">5v6 · {coord.short}</span>
               {player && <PlayerGlyph player={player} size={42} />}
               <strong>{player?.lastName ?? 'Välj försvarare'}</strong>
-              <small>Underläge · {energy}%</small>
+              <small>{visualMode === 'ENERGY' ? `Underläge · ${energy}%` : vis.subtitle}</small>
+              {player && (
+                <span className="coach-token-bar" aria-hidden="true">
+                  <i
+                    style={{ width: vis.barWidth, ...(vis.barColor ? { background: vis.barColor } : {}) }}
+                    data-low={vis.isLow ? 'true' : undefined}
+                  />
+                </span>
+              )}
             </button>
           </div>
         );
@@ -575,6 +650,7 @@ export default function TacticsPage() {
 
     if (courtMode === 'ATTACK_7V6') {
       const extraPlayer = plan!.sevenVSixPlayerId ? squad.find(p => p.id === plan!.sevenVSixPlayerId) : undefined;
+      const extraVis = getVisualModeDisplay(extraPlayer, 'M6');
       return (
         <>
           {COURT_ROLES.map(role => (
@@ -604,7 +680,15 @@ export default function TacticsPage() {
               {extraPlayer && <PlayerGlyph player={extraPlayer} size={42} />}
               <strong>{extraPlayer?.lastName ?? 'Auto (assistent)'}</strong>
               <span className="coach-specialist-badge coach-badge-attack-only">7:e utespelare</span>
-              <small>Tomt mål i anfall</small>
+              <small>{visualMode === 'ENERGY' ? 'Tomt mål i anfall' : extraVis.subtitle}</small>
+              {extraPlayer && (
+                <span className="coach-token-bar" aria-hidden="true">
+                  <i
+                    style={{ width: extraVis.barWidth, ...(extraVis.barColor ? { background: extraVis.barColor } : {}) }}
+                    data-low={extraVis.isLow ? 'true' : undefined}
+                  />
+                </span>
+              )}
             </button>
           </div>
         </>
@@ -1169,6 +1253,68 @@ export default function TacticsPage() {
             )}
           </header>
 
+          {/* Visual Mode Selector: ENERGY | SUITABILITY | LAST_MATCH | LAST_5_MATCHES */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              flexWrap: 'wrap',
+              gap: 10,
+              padding: '8px 12px',
+              background: 'rgba(255,255,255,0.04)',
+              border: '1px solid rgba(255,255,255,0.08)',
+              borderRadius: 6,
+              marginBottom: 10,
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+              <span style={{ fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--hm-text-muted)' }}>
+                Taktikvisning:
+              </span>
+              <div className="hm-btn-group" role="radiogroup" aria-label="Visningsläge för spelare på planen">
+                <button
+                  type="button"
+                  className={`hm-btn hm-btn-xs ${visualMode === 'ENERGY' ? 'hm-btn-primary' : ''}`}
+                  aria-checked={visualMode === 'ENERGY'}
+                  onClick={() => setVisualMode('ENERGY')}
+                >
+                  ⚡ Energi
+                </button>
+                <button
+                  type="button"
+                  className={`hm-btn hm-btn-xs ${visualMode === 'SUITABILITY' ? 'hm-btn-primary' : ''}`}
+                  aria-checked={visualMode === 'SUITABILITY'}
+                  onClick={() => setVisualMode('SUITABILITY')}
+                >
+                  🎯 Lämplighet
+                </button>
+                <button
+                  type="button"
+                  className={`hm-btn hm-btn-xs ${visualMode === 'LAST_MATCH' ? 'hm-btn-primary' : ''}`}
+                  aria-checked={visualMode === 'LAST_MATCH'}
+                  onClick={() => setVisualMode('LAST_MATCH')}
+                >
+                  ⭐ Senaste match
+                </button>
+                <button
+                  type="button"
+                  className={`hm-btn hm-btn-xs ${visualMode === 'LAST_5_MATCHES' ? 'hm-btn-primary' : ''}`}
+                  aria-checked={visualMode === 'LAST_5_MATCHES'}
+                  onClick={() => setVisualMode('LAST_5_MATCHES')}
+                >
+                  📈 Form (5 matcher)
+                </button>
+              </div>
+            </div>
+            <small className="hm-text-muted" style={{ fontSize: '11px' }}>
+              {visualMode === 'ENERGY' && 'Visar dagsaktuell energinivå och ork'}
+              {visualMode === 'SUITABILITY' && 'Visar hur väl spelaren passar rollen (naturlig vs sekundär/ovan)'}
+              {visualMode === 'LAST_MATCH' && 'Visar matchbetyg från spelarens senaste genomförda framträdande'}
+              {visualMode === 'LAST_5_MATCHES' && 'Visar snittbetyg över de senaste 5 spelade matcherna'}
+            </small>
+          </div>
+
           <div className="coach-court-mode-bar">
             {/* Primary Dual Lineup Switch: ATTACK | DEFENCE */}
             <div className="coach-lineup-dual-switch" role="tablist" aria-label="Primär uppställning">
@@ -1443,7 +1589,7 @@ export default function TacticsPage() {
                     <PlayerGlyph player={p} size={32} />
                     <div>
                       <strong>{p.lastName}</strong>
-                      <small>{p.position} · {energy}%</small>
+                      <small>{p.position} · {visualMode === 'ENERGY' ? `${energy}%` : getVisualModeDisplay(p, p.position === 'MV' ? 'GK' : p.position).subtitle}</small>
                     </div>
                   </button>
                 );

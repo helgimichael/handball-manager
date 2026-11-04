@@ -11,7 +11,7 @@ import { EmptyState } from "@/components/manager/Workspace";
 import { OutletChip, PRESSROOM_BACKDROP } from "@/components/media/MediaParts";
 import { useCareer } from "@/lib/career/CareerContext";
 import { answerPressAction, delegatePressAction, skipPressAction } from "@/lib/media/actions";
-import { mediaOf } from "@/lib/media/people";
+import { JOURNALIST_STYLE_LABEL, mediaOf } from "@/lib/media/people";
 import { TONE_LABEL } from "@/lib/media/press";
 import type { Tone } from "@/lib/media/types";
 
@@ -45,7 +45,7 @@ export default function PressPage() {
         const chosen = open ? answers[q.id] : press.answers?.[q.id];
         return (
           <li key={q.id}>
-            <header>{j && <OutletChip outletId={j.outletId} />}<span>{j?.name}</span></header>
+            <header>{j && <OutletChip outletId={j.outletId} />}<span>{j?.name}</span>{j?.style && <span className="hm-badge" style={{ fontSize: '11px', marginLeft: 'auto' }}>{JOURNALIST_STYLE_LABEL[j.style] ?? j.style}</span>}</header>
             <p className="md-q">{q.text}</p>
             <fieldset className="md-answers" disabled={!open}>
               <legend className="sr-only">Ditt svar</legend>

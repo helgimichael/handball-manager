@@ -7,7 +7,7 @@
 import type { EventDestination } from "../career/careerEvents";
 import type { CareerState } from "../career/types";
 import { getCareerPlayer } from "../career/careerWorld";
-import { getClub } from "../game-data";
+import { getClub, getCanonicalClubName, getCanonicalClubShortName } from "../game-data";
 import { hash, journalistFor, mediaOf, withMedia } from "./people";
 import { CLUB_MEDIA, MEDIA_OUTLETS } from "./registry";
 import type { MediaState, NewsStory, StoryKind, StoryScope } from "./types";
@@ -33,8 +33,8 @@ export interface WorldEvent {
   topFlight?: boolean;
 }
 
-export const clubName = (id?: string | number | boolean) => (typeof id === "string" ? getClub(id)?.name ?? id : "");
-export const clubShort = (id?: string | number | boolean) => (typeof id === "string" ? getClub(id)?.shortName ?? id : "");
+export const clubName = (id?: string | number | boolean) => (typeof id === "string" ? getCanonicalClubName(id) : "");
+export const clubShort = (id?: string | number | boolean) => (typeof id === "string" ? getCanonicalClubShortName(id) : "");
 export const playerName = (state: CareerState, id?: string) => { const p = id ? getCareerPlayer(state, id) : undefined; return p ? `${p.firstName} ${p.lastName}` : ""; };
 
 function isoWeek(date: string): string {

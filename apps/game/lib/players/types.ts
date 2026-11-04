@@ -121,7 +121,21 @@ export interface PlayerDeparture {
 // Incoming bids
 // ---------------------------------------------------------------------------
 
-export type IncomingOfferStatus = "OPEN" | "COUNTERED" | "ACCEPTED" | "AWAITING_WINDOW" | "COMPLETED" | "REJECTED" | "WITHDRAWN" | "PLAYER_REFUSED" | "EXPIRED";
+export type IncomingOfferStatus =
+  | "OPEN"
+  | "OFFER_RECEIVED"
+  | "COUNTERED"
+  | "COUNTEROFFER_SUBMITTED"
+  | "CLUBS_AGREED"
+  | "PLAYER_NEGOTIATING"
+  | "AWAITING_FINAL_APPROVAL"
+  | "ACCEPTED"
+  | "AWAITING_WINDOW"
+  | "COMPLETED"
+  | "REJECTED"
+  | "WITHDRAWN"
+  | "PLAYER_REFUSED"
+  | "EXPIRED";
 
 export interface IncomingOfferRound {
   date: string;

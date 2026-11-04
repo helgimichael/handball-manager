@@ -5,7 +5,18 @@
 import type { CareerState } from "../career/types";
 import { getClub } from "../game-data";
 import { clubMedia, geographicTie, MEDIA_OUTLETS } from "./registry";
-import type { Journalist, MediaState, Relation } from "./types";
+import type { Journalist, JournalistStyle, MediaState, Relation } from "./types";
+
+export const JOURNALIST_STYLE_LABEL: Record<JournalistStyle, string> = {
+  NEUTRAL: "Neutral & saklig",
+  ANALYTICAL: "Analytisk & taktisk",
+  CURIOUS: "Nyfiken & personfokuserad",
+  CRITICAL: "Kritisk & granskande",
+  CONFRONTATIONAL: "Konfrontativ & vass",
+  LOCAL_SUPPORTER: "Lokal & varm",
+  BLUNT: "Konfrontativ & vass",
+  LOCAL: "Lokal & varm",
+};
 
 export function hash(text: string): number {
   let h = 2166136261;
@@ -84,7 +95,17 @@ export function journalistFor(m: MediaState, outletId: string, seed: string): { 
   const id = `j:${outletId}:${idx}`;
   if (m.journalists[id]) return { media: m, journalist: m.journalists[id]! };
   const name = `${FIRST[Math.floor(hash(`${id}:f`) * FIRST.length)]} ${LAST[Math.floor(hash(`${id}:l`) * LAST.length)]}`;
-  const style: Journalist["style"] = outlet?.category === "NATIONAL_TABLOID" ? "BLUNT" : outlet?.category === "LOCAL" || outlet?.category === "REGIONAL_RADIO" ? "LOCAL" : "ANALYTICAL";
+  const rStyle = hash(`${id}:style`);
+  let style: JournalistStyle;
+  if (outlet?.category === "NATIONAL_TABLOID") {
+    style = rStyle < 0.65 ? "CONFRONTATIONAL" : "CRITICAL";
+  } else if (outlet?.category === "LOCAL" || outlet?.category === "REGIONAL_RADIO") {
+    style = rStyle < 0.65 ? "LOCAL_SUPPORTER" : "CURIOUS";
+  } else if (outlet?.category === "HANDBALL_SPECIALIST") {
+    style = rStyle < 0.6 ? "ANALYTICAL" : "CURIOUS";
+  } else {
+    style = rStyle < 0.35 ? "NEUTRAL" : rStyle < 0.7 ? "ANALYTICAL" : "CRITICAL";
+  }
   const journalist: Journalist = { id, name, outletId, style };
   return { media: { ...m, journalists: { ...m.journalists, [id]: journalist } }, journalist };
 }

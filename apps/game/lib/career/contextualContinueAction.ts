@@ -1,6 +1,6 @@
 import type { CareerState } from './types';
 import { isSelectableForMatch } from './playerStatus';
-import { getClub } from '../game-data';
+import { getClub, getCanonicalClubShortName } from '../game-data';
 import { openPressConferences } from '../media/press';
 
 export type ContinueActionKind =
@@ -128,7 +128,7 @@ export function resolveContextualContinueAction(
     return {
       kind: 'START_MATCH',
       label: 'Starta match',
-      sublabel: `MOT ${opp?.shortName?.toUpperCase() ?? 'MOTSTÅNDAREN'}`,
+      sublabel: `Mot ${opp ? getCanonicalClubShortName(opp.id) : 'motståndaren'}`,
       ariaLabel: `Starta match mot ${opp?.name ?? 'motståndaren'}`,
       tooltip: `Matchdag mot ${opp?.name ?? 'motståndaren'}. Klicka för att starta matchen!`,
       disabled: isOnRoute,

@@ -37,17 +37,45 @@ export interface NewsStory {
   ownClub: boolean;
 }
 
+export type JournalistStyle =
+  | "NEUTRAL"
+  | "ANALYTICAL"
+  | "CURIOUS"
+  | "CRITICAL"
+  | "CONFRONTATIONAL"
+  | "LOCAL_SUPPORTER"
+  | "BLUNT"
+  | "LOCAL";
+
 export interface Journalist {
   id: string;
   name: string;
   outletId: string;
-  /** How they ask: blunt tabloid, analytical, local and warm. */
-  style: "BLUNT" | "ANALYTICAL" | "LOCAL";
+  /** How they ask: NEUTRAL, ANALYTICAL, CURIOUS, CRITICAL, CONFRONTATIONAL, LOCAL_SUPPORTER (or legacy BLUNT / LOCAL). */
+  style: JournalistStyle;
 }
 
 export type Tone = "DIPLOMATIC" | "CONFIDENT" | "PROTECTIVE" | "CRITICAL" | "PROVOCATIVE" | "HUMOROUS" | "DECLINE";
 
-export type PressTopic = "PREVIEW" | "RIVAL_RESPONSE" | "AFTER_WIN" | "AFTER_DEFEAT" | "REFEREE" | "PLAYER_UNHAPPY" | "BOARD_PRESSURE" | "TRANSFER" | "APPOINTMENT" | "POOR_FORM" | "DISCIPLINE";
+export type PressTopic =
+  | "PREVIEW"
+  | "RIVAL_RESPONSE"
+  | "AFTER_WIN"
+  | "AFTER_DEFEAT"
+  | "REFEREE"
+  | "PLAYER_UNHAPPY"
+  | "BOARD_PRESSURE"
+  | "TRANSFER"
+  | "APPOINTMENT"
+  | "POOR_FORM"
+  | "DISCIPLINE"
+  | "TACTICS"
+  | "INJURY"
+  | "SQUAD_SELECTION"
+  | "FINANCES"
+  | "STAFF"
+  | "LEAGUE_POSITION"
+  | "PROMISES";
 
 export interface PressAnswer {
   tone: Tone;

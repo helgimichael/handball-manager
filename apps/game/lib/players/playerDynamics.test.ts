@@ -11,7 +11,7 @@ import { ensureClubFinances } from "../economy/ledger";
 import { getPlayerMarketValueEur } from "../economy/contractIntegration";
 import { applyMoraleToRatings, moraleMatchFactor, updateMoraleWeekly } from "./morale";
 import { openRenewalTalks, progressRenewalTalks, renewalDemand, submitRenewalOffer } from "./renewals";
-import { acceptIncomingOffer, closeDepartedPlayerBusiness, completeSale, counterIncomingOffer, findBuyer, generateIncomingOffers, progressIncomingOffers, progressPreContracts, releaseCost, releasePlayer, requestBidFor } from "./market";
+import { acceptIncomingOffer, closeDepartedPlayerBusiness, completeSale, confirmIncomingSale, counterIncomingOffer, findBuyer, generateIncomingOffers, progressIncomingOffers, progressPreContracts, rejectIncomingSale, releaseCost, releasePlayer, requestBidFor, withdrawIncomingOffer } from "./market";
 import { listPlayer, progressTalks } from "./talks";
 import { evaluatePromises, makePromise } from "./promises";
 import { addDaysIso, managerSquadIds, personalityOf } from "./dynamicsState";
@@ -102,10 +102,17 @@ test("a listed player attracts a bid; a counter within the buyer's limit is acce
   s = progressIncomingOffers(at(s, addDaysIso(s.gameDate, 1)), addDaysIso(s.gameDate, 1), noEmit);
   const o = s.incomingOffers![offer!.id]!;
   if (o.status === "PLAYER_REFUSED") return; // his own choice -- the flow worked
-  assert.equal(o.status, "COMPLETED", `status ${o.status}`);
+  assert.equal(o.status, "AWAITING_FINAL_APPROVAL", "buyer accepted counter and player agreed, but requires manager final approval");
+  assert.equal(s.playerContracts[id]!.clubId, SKOVDE, "player must not leave squad before manager confirmation");
+  assert.equal(s.clubEconomies[SKOVDE]!.cashEur, cashBefore, "money must not be booked before manager confirmation");
+
+  // Manager confirms sale
+  s = confirmIncomingSale(s, offer!.id);
+  const oCompleted = s.incomingOffers![offer!.id]!;
+  assert.equal(oCompleted.status, "COMPLETED", `status ${oCompleted.status}`);
   assert.equal(s.playerContracts[id]!.clubId, offer!.fromClubId);
-  assert.equal(s.clubEconomies[SKOVDE]!.cashEur, cashBefore + o.feeEur);
-  assert.ok(s.clubFinances![SKOVDE]!.pendingTransactions.some((t) => t.category === "TRANSFER_FEES" && t.amountEur === o.feeEur));
+  assert.equal(s.clubEconomies[SKOVDE]!.cashEur, cashBefore + oCompleted.feeEur);
+  assert.ok(s.clubFinances![SKOVDE]!.pendingTransactions.some((t) => t.category === "TRANSFER_FEES" && t.amountEur === oCompleted.feeEur));
   assert.equal(s.playerDynamics!.departures.at(-1)!.kind, "SALE");
   assert.ok(!getCareerClubSquad(s, SKOVDE).some((p) => p.id === id));
 });
@@ -118,12 +125,44 @@ test("accepting a bid outside the window agrees the deal and completes it when t
   const offer = { id: "in:test", playerId: id, fromClubId: buyer.clubId, foreign: buyer.foreign, openedOn: s.gameDate, feeEur: 5000, maxFeeEur: 8000, wageEurPerMonth: 1500, contractYears: 2, status: "OPEN" as const, respondBy: "2026-11-09", rounds: [], motive: "test" };
   s = { ...s, incomingOffers: { [offer.id]: offer }, playerDynamics: { morale: {}, promises: {}, concerns: {}, requests: { [id]: { playerId: id, submittedOn: s.gameDate, reason: "x", status: "OPEN" } }, listings: {}, departures: [] } };
   s = acceptIncomingOffer(s, offer.id);
+  assert.equal(s.incomingOffers![offer.id]!.status, "AWAITING_FINAL_APPROVAL");
+  s = confirmIncomingSale(s, offer.id);
   assert.equal(s.incomingOffers![offer.id]!.status, "AWAITING_WINDOW");
   assert.equal(s.incomingOffers![offer.id]!.completesOn, "2027-01-01");
   s = progressIncomingOffers(at(s, "2027-01-01"), "2027-01-01", noEmit);
   assert.equal(s.incomingOffers![offer.id]!.status, "COMPLETED");
   assert.equal(s.playerContracts[id]!.clubId, buyer.clubId);
   void completeSale;
+});
+
+test("manager can reject sale at AWAITING_FINAL_APPROVAL and player remains in squad", () => {
+  let s = at(career(), "2026-07-06");
+  const id = managerSquadIds(s)[4]!;
+  const buyer = findBuyer(s, id, "t2");
+  if (!buyer) return;
+  const offer = { id: "in:test-reject", playerId: id, fromClubId: buyer.clubId, foreign: buyer.foreign, openedOn: s.gameDate, feeEur: 6000, maxFeeEur: 9000, wageEurPerMonth: 1800, contractYears: 2, status: "OPEN" as const, respondBy: "2026-07-13", rounds: [], motive: "test" };
+  s = { ...s, incomingOffers: { [offer.id]: offer }, playerDynamics: { morale: {}, promises: {}, concerns: {}, requests: {}, listings: {}, departures: [] } };
+  s = acceptIncomingOffer(s, offer.id);
+  if (s.incomingOffers![offer.id]!.status === "PLAYER_REFUSED") return;
+  assert.equal(s.incomingOffers![offer.id]!.status, "AWAITING_FINAL_APPROVAL");
+  s = rejectIncomingSale(s, offer.id);
+  assert.equal(s.incomingOffers![offer.id]!.status, "REJECTED");
+  assert.equal(s.playerContracts[id]!.clubId, SKOVDE);
+  assert.ok(getCareerClubSquad(s, SKOVDE).some((p) => p.id === id));
+});
+
+test("setting requireFinalTransferApproval to false allows immediate transfer completion", () => {
+  let s = at(career(), "2026-07-06");
+  s = { ...s, requireFinalTransferApproval: false };
+  const id = managerSquadIds(s)[2]!;
+  const buyer = findBuyer(s, id, "t3");
+  if (!buyer) return;
+  const offer = { id: "in:test-no-consent", playerId: id, fromClubId: buyer.clubId, foreign: buyer.foreign, openedOn: s.gameDate, feeEur: 7000, maxFeeEur: 10000, wageEurPerMonth: 2000, contractYears: 2, status: "OPEN" as const, respondBy: "2026-07-13", rounds: [], motive: "test" };
+  s = { ...s, incomingOffers: { [offer.id]: offer }, playerDynamics: { morale: {}, promises: {}, concerns: {}, requests: {}, listings: {}, departures: [] } };
+  s = acceptIncomingOffer(s, offer.id);
+  if (s.incomingOffers![offer.id]!.status === "PLAYER_REFUSED") return;
+  assert.equal(s.incomingOffers![offer.id]!.status, "COMPLETED");
+  assert.equal(s.playerContracts[id]!.clubId, buyer.clubId);
 });
 
 test("releasing a player pays his remaining wages (max six months) as a ledger cost", () => {

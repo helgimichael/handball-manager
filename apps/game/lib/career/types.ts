@@ -559,6 +559,8 @@ export type CareerState = {
   playerDynamics?: PlayerDynamicsState;
   /** Bids from other clubs for the manager's players, keyed by id. */
   incomingOffers?: Record<string, IncomingOffer>;
+  /** HM-PLAYTEST-IMPROVEMENT-05: Require final manager approval before completing outgoing transfers. Defaults to true. */
+  requireFinalTransferApproval?: boolean;
   /** Contract renewal negotiations with the manager's players, keyed by id. */
   renewalTalks?: Record<string, RenewalTalk>;
   /** Pre-contract agreements: the player leaves for another club when his contract ends. Keyed by player id. */

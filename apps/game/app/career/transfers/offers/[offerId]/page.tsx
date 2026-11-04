@@ -18,11 +18,27 @@ import { currencySymbol } from "@/lib/economy/currency";
 import { getClub, positionLabel } from "@/lib/game-data";
 import { useMoney } from "@/lib/settings/usePreferences";
 import { dynamicsOf } from "@/lib/players/dynamicsState";
-import { acceptIncomingOffer, counterIncomingOffer, rejectIncomingOffer } from "@/lib/players/market";
+import { acceptIncomingOffer, confirmIncomingSale, counterIncomingOffer, rejectIncomingOffer, rejectIncomingSale, withdrawIncomingOffer } from "@/lib/players/market";
 import { moraleOf } from "@/lib/players/morale";
 import { activePromises } from "@/lib/players/promises";
+import { getClubBudgets } from "@/lib/economy/clubEconomyIntegration";
 
-const STATUS_LABEL: Record<string, string> = { OPEN: "Väntar på ditt svar", COUNTERED: "Ditt motbud ligger hos köparen", ACCEPTED: "Klubbarna är överens", AWAITING_WINDOW: "Klar – går igenom när fönstret öppnar", COMPLETED: "Såld", REJECTED: "Avvisat", WITHDRAWN: "Köparen drog sig ur", PLAYER_REFUSED: "Spelaren sa nej", EXPIRED: "Gick ut utan svar" };
+const STATUS_LABEL: Record<string, string> = {
+  OPEN: "Väntar på ditt svar",
+  OFFER_RECEIVED: "Väntar på ditt svar",
+  COUNTERED: "Ditt motbud ligger hos köparen",
+  COUNTEROFFER_SUBMITTED: "Ditt motbud ligger hos köparen",
+  CLUBS_AGREED: "Klubbarna är överens",
+  PLAYER_NEGOTIATING: "Spelaren förhandlar villkor",
+  AWAITING_FINAL_APPROVAL: "Slutgiltigt godkännande krävs",
+  ACCEPTED: "Klubbarna är överens",
+  AWAITING_WINDOW: "Klar – går igenom när fönstret öppnar",
+  COMPLETED: "Såld",
+  REJECTED: "Avvisat",
+  WITHDRAWN: "Avbruten / Tillbakadraget",
+  PLAYER_REFUSED: "Spelaren sa nej",
+  EXPIRED: "Gick ut utan svar"
+};
 
 export default function IncomingOfferPage() {
   const params = useParams<{ offerId: string }>();
@@ -42,8 +58,11 @@ export default function IncomingOfferPage() {
   const notSell = activePromises(career, offer.playerId).some((p) => p.kind === "NOT_SELL");
   const request = dynamicsOf(career).requests[offer.playerId];
   const run = (fn: () => void, ok: string) => { try { fn(); setMessage(ok); } catch (e) { setMessage(e instanceof Error ? money.text(e.message) : "Det gick inte."); } };
-  const open = offer.status === "OPEN";
+  const open = offer.status === "OPEN" || offer.status === "OFFER_RECEIVED";
+  const awaitingApproval = offer.status === "AWAITING_FINAL_APPROVAL";
   const departure = dynamicsOf(career).departures.find((d) => d.playerId === offer.playerId && d.kind === "SALE");
+  const playerWage = career.playerContracts[offer.playerId]?.wageEurPerMonth ?? 0;
+  const budgets = getClubBudgets(career, me);
 
   return (
     <div className="game-transfers-page pd-offer-page">
@@ -60,7 +79,7 @@ export default function IncomingOfferPage() {
               <div className="tc-route"><ClubLink clubId={me}>{getClub(me)?.shortName}</ClubLink><span className="tc-route-arrow" aria-hidden="true" /><ClubLink clubId={offer.fromClubId}>{buyer?.shortName ?? offer.fromClubId}</ClubLink></div>
             </div>
           </div>
-          <div className="tc-hero-side"><div className="pd-offer-fee"><small>{STATUS_LABEL[offer.status]}</small><b>{money.format(offer.feeEur)}</b><span>{open ? `Svara senast ${offer.respondBy}` : offer.completesOn ? `Går igenom ${offer.completesOn}` : offer.closedOn ?? ""}</span></div></div>
+          <div className="tc-hero-side"><div className="pd-offer-fee"><small>{STATUS_LABEL[offer.status] ?? offer.status}</small><b>{money.format(offer.feeEur)}</b><span>{open ? `Svara senast ${offer.respondBy}` : awaitingApproval ? "Kräver ditt godkännande" : offer.completesOn ? `Går igenom ${offer.completesOn}` : offer.closedOn ?? ""}</span></div></div>
         </header>
       )}
 
@@ -80,14 +99,35 @@ export default function IncomingOfferPage() {
 
         <aside className="pd-panel" aria-label="Vad en försäljning innebär">
           {/* A completed sale is already in the cash: show what was booked, never add the fee again. */}
-          <h3>{offer.status === "COMPLETED" ? "Försäljningen" : "Om du säljer"}</h3>
+          <h3>{offer.status === "COMPLETED" ? "Försäljningen" : "Ekonomisk & sportslig effekt"}</h3>
           <dl className="pd-demand">
-            {offer.status === "COMPLETED" ? <div><dt>Inbokat i kassan</dt><dd>{money.format(offer.feeEur)}</dd></div> : <div><dt>Kassan efter</dt><dd>{money.format(cash + offer.feeEur)}</dd></div>}
+            <div><dt>Nuvarande kassa</dt><dd>{money.format(cash)}</dd></div>
+            {offer.status === "COMPLETED" ? <div><dt>Inbokat i kassan</dt><dd>{money.format(offer.feeEur)}</dd></div> : <div><dt>Kassa efter försäljning</dt><dd style={{ color: "var(--hm-gold-bright, #e2b13c)", fontWeight: 700 }}>{money.format(cash + offer.feeEur)}</dd></div>}
+            <div><dt>Övergångssumma (netto)</dt><dd>+{money.format(offer.feeEur)}</dd></div>
+            <div><dt>Frigjord lönepost</dt><dd>+{money.format(playerWage)} / mån</dd></div>
+            {budgets && <div><dt>Styrelsens transferram</dt><dd>{money.format(budgets.transferBudgetEur)}</dd></div>}
             <div><dt>Kvar på positionen</dt><dd>{samePos}</dd></div>
             <div><dt>Hans moral</dt><dd>{moraleOf(career, offer.playerId)} %</dd></div>
           </dl>
           {request?.status === "OPEN" || request?.status === "ACCEPTED" ? <p className="pd-note">Han har bett att få lämna. Avvisar du ett bra bud blir han ännu mer missnöjd.</p> : <p className="pd-note">Han har inte bett att få gå. Han bestämmer själv när klubbarna är överens.</p>}
           {notSell && <p className="pd-note" data-tone="loss">Du har lovat att inte sälja honom. En försäljning bryter löftet.</p>}
+
+          {awaitingApproval && (
+            <DecisionCard
+              tone="gold"
+              title="Slutgiltigt godkännande krävs"
+              primary={{
+                label: "Bekräfta försäljning",
+                consequence: `${money.format(offer.feeEur)} bokförs i kassan och övergången slutförs`,
+                onSelect: () => run(() => updateCareer((s) => confirmIncomingSale(s, offer.id)), "Försäljningen är bekräftad och godkänd!")
+              }}
+              secondary={<button type="button" className="hm-btn" onClick={() => run(() => updateCareer((s) => rejectIncomingSale(s, offer.id)), "Affären har avvisats.")}>Avvisa affär</button>}
+            >
+              <p style={{ margin: "0 0 12px 0" }}>Klubbarna är överens om övergångssumman och spelaren har tackat ja till det personliga avtalet. Du har sista ordet innan spelaren skrivs över.</p>
+              <button type="button" className="hm-btn hm-btn-sm hm-btn-ghost" onClick={() => run(() => updateCareer((s) => withdrawIncomingOffer(s, offer.id)), "Du drog dig ur affären.")}>Dra dig ur</button>
+            </DecisionCard>
+          )}
+
           {open && (
             <DecisionCard tone="gold" title="Ditt svar" primary={{ label: "Acceptera budet", consequence: `${money.format(offer.feeEur)} till kassan om spelaren säger ja`, onSelect: () => run(() => updateCareer((s) => acceptIncomingOffer(s, offer.id)), "Du accepterade budet.") }} secondary={<button type="button" className="hm-btn" onClick={() => run(() => updateCareer((s) => rejectIncomingOffer(s, offer.id)), "Budet är avvisat.")}>Avvisa</button>}>
               <label className="pd-counter">Motbud ({currencySymbol()})<MoneyInput className="tc-input" minEur={offer.feeEur + 500} stepEur={500} valueEur={ask} onChangeEur={setAsk} /></label>

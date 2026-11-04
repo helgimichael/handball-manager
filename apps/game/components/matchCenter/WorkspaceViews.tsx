@@ -30,13 +30,105 @@ export function ScoreFlow({ events }: {
 export function Keepers({ model }: {
     model: MatchCenterModel;
 }) { return <section className="mc-keepers"><header><h2>Målvakterna</h2><span>Räddningar / räddningar + insläppta mål</span></header>{model.players.filter(p => p.role === 'GK' && (p.minutes > 0 || p.shotsFaced > 0 || p.population === 'COURT')).map(p => <article key={p.id}><div><strong>{p.name}</strong><small>{p.team === 'HOME' ? 'Hemma' : 'Borta'} · {p.saves}/{p.shotsFaced} räddningar · {p.shotsFaced - p.saves} insläppta</small></div><b>{p.shotsFaced ? Math.round(p.saves / p.shotsFaced * 100) + '%' : '—'}</b><ul>{keeperCategories(p.id, model.shots, model.events).map(r => <li key={r.kind}>{SHOT_LABEL[r.kind] ?? 'Övriga avslut'} <strong>{r.saves}/{r.faced}</strong></li>)}</ul></article>)}</section>; }
+const STAT_TOOLTIPS: Record<string, string> = {
+  'Mål': 'Godkända mål under ordinarie matchtid.',
+  'Skott': 'Samtliga avslut mot mål oavsett utfall (mål, målvaktsräddning, täckt skott eller utanför).',
+  'Mål / skott': 'Träffsäkerhet: andel avslut som resulterat i mål.',
+  'Räddningar': 'Antal skott på mål som målvakten avvärjt.',
+  'Räddningsprocent': 'Andel räddningar av totalt antal skott mot eget mål.',
+  'Bollförluster': 'Förlorat bollinnehav utan avslut mot mål (inklusive brutna passningar, tappade bollar och tekniska fel).',
+  'Tekniska fel (delmängd)': 'Otillåtna regelbrott i anfallet (stegfel, dubbelfattning, anfallsfoul eller övertramp).',
+  'Frikast': 'Avblåsta försvarsförseelser där anfallet startar om från frikastlinjen.',
+  '7m mål / försök': 'Mål på straffkast i förhållande till utdömda 7-meterskast.',
+  '2 min': 'Antal 2-minutersutvisningar utdömda av domaren.',
+  'Omställningsmål': 'Mål gjorda i kontrings- eller andrafas före uppställt försvar.',
+};
+
 export function TeamStats({ model }: {
     model: MatchCenterModel;
 }) {
     const home = model.result.homeStats, away = model.result.awayStats;
-    const rows = [['Mål', home.goals, away.goals], ['Skott', home.shots, away.shots], ['Mål / skott', `${home.shootingPct}%`, `${away.shootingPct}%`], ['Räddningar', `${home.saves}/${home.shotsFaced}`, `${away.saves}/${away.shotsFaced}`], ['Räddningsprocent', home.shotsFaced ? `${Math.round(home.saves / home.shotsFaced * 100)}%` : '—', away.shotsFaced ? `${Math.round(away.saves / away.shotsFaced * 100)}%` : '—'], ['Bollförluster', home.turnovers, away.turnovers], ['7m mål / försök', `${home.sevenMetreGoals}/${home.sevenMetreAttempts}`, `${away.sevenMetreGoals}/${away.sevenMetreAttempts}`], ['2 min', home.twoMinuteSuspensions, away.twoMinuteSuspensions], ['Omställningsmål', model.shots.filter(s => s.team === 'HOME' && s.phase === 'TRANSITION' && s.outcome === 'GOAL').length, model.shots.filter(s => s.team === 'AWAY' && s.phase === 'TRANSITION' && s.outcome === 'GOAL').length]];
+    const homeTechFouls = model.events.filter(e => e.team === 'HOME' && (e.type === 'TECHNICAL_VIOLATION' || e.type === 'OFFENSIVE_FOUL')).length;
+    const awayTechFouls = model.events.filter(e => e.team === 'AWAY' && (e.type === 'TECHNICAL_VIOLATION' || e.type === 'OFFENSIVE_FOUL')).length;
+
+    const rows: [string, string | number, string | number][] = [
+        ['Mål', home.goals, away.goals],
+        ['Skott', home.shots, away.shots],
+        ['Mål / skott', `${home.shootingPct}%`, `${away.shootingPct}%`],
+        ['Räddningar', `${home.saves}/${home.shotsFaced}`, `${away.saves}/${away.shotsFaced}`],
+        ['Räddningsprocent', home.shotsFaced ? `${Math.round(home.saves / home.shotsFaced * 100)}%` : '—', away.shotsFaced ? `${Math.round(away.saves / away.shotsFaced * 100)}%` : '—'],
+        ['Bollförluster', home.turnovers, away.turnovers],
+        ...(homeTechFouls > 0 || awayTechFouls > 0 ? [['Tekniska fel (delmängd)', homeTechFouls, awayTechFouls] as [string, number, number]] : []),
+        ['7m mål / försök', `${home.sevenMetreGoals}/${home.sevenMetreAttempts}`, `${away.sevenMetreGoals}/${away.sevenMetreAttempts}`],
+        ['2 min', home.twoMinuteSuspensions, away.twoMinuteSuspensions],
+        ['Omställningsmål', model.shots.filter(s => s.team === 'HOME' && s.phase === 'TRANSITION' && s.outcome === 'GOAL').length, model.shots.filter(s => s.team === 'AWAY' && s.phase === 'TRANSITION' && s.outcome === 'GOAL').length]
+    ];
     if (model.freeThrows?.counts) rows.splice(6, 0, ['Frikast', model.freeThrows.counts.HOME, model.freeThrows.counts.AWAY]);
-    return <section className="mc-team-stats"><h2>Matchstatistik</h2><table><thead><tr><th>Hemma</th><th>Statistik</th><th>Borta</th></tr></thead><tbody>{rows.map(([label, h, a]) => <tr key={label}><td>{h}</td><th scope="row">{label}</th><td>{a}</td></tr>)}</tbody></table><p className="mc-footnote">Bollförluster omfattar brutna passningar, förlorade lösa bollar, passnings- och mottagningsförluster samt tekniska regelbrott och passivt spel. Det är ett bredare mått än registrerade tekniska fel.{model.freeThrows?.counts && <> Frikast avser avblåsta försvarsförseelser; 7m och administrativa spelavbrott ingår inte.</>} Block och skott utanför räknas inte som målvaktsräddningar.</p><h3>Mål efter registrerad position</h3><div className="mc-position-goals">{['V6', 'V9', 'M9', 'M6', 'H9', 'H6', 'MV'].map(pos => <span key={pos}><small>{pos}</small><strong>{model.players.filter(p => p.team === 'HOME' && ROLE_LABEL[p.role] === pos).reduce((n, p) => n + p.goals, 0)} – {model.players.filter(p => p.team === 'AWAY' && ROLE_LABEL[p.role] === pos).reduce((n, p) => n + p.goals, 0)}</strong></span>)}</div></section>;
+    return (
+        <section className="mc-team-stats">
+            <h2>Matchstatistik</h2>
+            <table>
+                <thead><tr><th>Hemma</th><th>Statistik</th><th>Borta</th></tr></thead>
+                <tbody>
+                    {rows.map(([label, h, a]) => (
+                        <tr key={label} title={STAT_TOOLTIPS[label] ?? label}>
+                            <td>{h}</td>
+                            <th scope="row">{label}</th>
+                            <td>{a}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+            <p className="mc-footnote">
+                Bollförluster omfattar brutna passningar, förlorade lösa bollar, passnings- och mottagningsförluster samt tekniska regelbrott och passivt spel. Det är ett bredare mått än registrerade tekniska fel.
+                {model.freeThrows?.counts && <> Frikast avser avblåsta försvarsförseelser; 7m och administrativa spelavbrott ingår inte.</>} Block och skott utanför räknas inte som målvaktsräddningar.
+            </p>
+
+            <details className="mc-glossary-panel" style={{ margin: '14px 0', padding: '10px 14px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '6px' }}>
+                <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '12px', color: 'var(--hm-accent-primary, #3b82f6)' }}>
+                    📖 Handbollstermer & Statistikguide (Svensk ordlista)
+                </summary>
+                <div style={{ marginTop: '10px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '10px', fontSize: '12px' }}>
+                    <div>
+                        <strong>Skott (Avslut)</strong>
+                        <p className="hm-text-muted" style={{ margin: '2px 0 0' }}>Alla försök att göra mål — omfattar godkända mål, räddningar, täckta skott och skott utanför målramen.</p>
+                    </div>
+                    <div>
+                        <strong>Bollförluster (Turnovers)</strong>
+                        <p className="hm-text-muted" style={{ margin: '2px 0 0' }}>Alla anfall som avbrutits utan skottförsök på grund av tappad boll, bruten passning, tekniskt fel eller passivt spel.</p>
+                    </div>
+                    <div>
+                        <strong>Tekniska fel</strong>
+                        <p className="hm-text-muted" style={{ margin: '2px 0 0' }}>Otillåten bollbehandling eller anfallsförseelse (stegfel, dubbelfattning, anfallsfoul eller övertramp).</p>
+                    </div>
+                    <div>
+                        <strong>Målvaktsräddningar</strong>
+                        <p className="hm-text-muted" style={{ margin: '2px 0 0' }}>Skott på mål som motas av målvakten. Täckta skott av försvarsmuren eller bollar utanför räknas ej.</p>
+                    </div>
+                    <div>
+                        <strong>7-meterskast</strong>
+                        <p className="hm-text-muted" style={{ margin: '2px 0 0' }}>Straffkast tilldömt vid förhindrande av klar målchans.</p>
+                    </div>
+                    <div>
+                        <strong>2 minuter (Utvisning)</strong>
+                        <p className="hm-text-muted" style={{ margin: '2px 0 0' }}>Tidsstraff där laget spelar med en spelare mindre under två minuter.</p>
+                    </div>
+                </div>
+            </details>
+
+            <h3>Mål efter registrerad position</h3>
+            <div className="mc-position-goals">
+                {['V6', 'V9', 'M9', 'M6', 'H9', 'H6', 'MV'].map(pos => (
+                    <span key={pos}>
+                        <small>{pos}</small>
+                        <strong>
+                            {model.players.filter(p => p.team === 'HOME' && ROLE_LABEL[p.role] === pos).reduce((n, p) => n + p.goals, 0)} – {model.players.filter(p => p.team === 'AWAY' && ROLE_LABEL[p.role] === pos).reduce((n, p) => n + p.goals, 0)}
+                        </strong>
+                    </span>
+                ))}
+            </div>
+        </section>
+    );
 }
 export function Shots({ model, team }: {
     model: MatchCenterModel;

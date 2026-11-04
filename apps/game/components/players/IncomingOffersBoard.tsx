@@ -10,7 +10,18 @@ import { getClub } from "@/lib/game-data";
 import { useMoney } from "@/lib/settings/usePreferences";
 import { dynamicsOf } from "@/lib/players/dynamicsState";
 
-const STATUS: Record<string, string> = { OPEN: "Väntar på ditt svar", COUNTERED: "Motbud skickat", AWAITING_WINDOW: "Klar till fönstret", ACCEPTED: "Överens" };
+const STATUS: Record<string, string> = {
+  OPEN: "Väntar på ditt svar",
+  OFFER_RECEIVED: "Väntar på ditt svar",
+  COUNTERED: "Motbud skickat",
+  COUNTEROFFER_SUBMITTED: "Motbud skickat",
+  CLUBS_AGREED: "Klubbarna är överens",
+  PLAYER_NEGOTIATING: "Spelarförhandling",
+  AWAITING_FINAL_APPROVAL: "Slutgiltigt godkännande",
+  AWAITING_WINDOW: "Klar till fönstret",
+  ACCEPTED: "Överens",
+  COMPLETED: "Klar",
+};
 
 function Crest({ clubId }: { clubId: string }) {
   const c = getClub(clubId);

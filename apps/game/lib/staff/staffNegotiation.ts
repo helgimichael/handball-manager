@@ -23,13 +23,19 @@ import { findStaffMember, recruitStaffMember } from "./staffCareerIntegration";
 import type { ResolvedStaffMember, StaffEmployment, StaffRole } from "./types";
 
 export type StaffNegotiationStage = "CLUB" | "TERMS" | "COMPLETED" | "REJECTED" | "WITHDRAWN" | "EXPIRED";
-export type StaffResponse = "ACCEPT" | "COUNTER" | "REJECT";
+export type StaffResponse = "ACCEPT" | "COUNTER" | "REJECT" | "COMPETING_CLUBS";
+
+export type StaffResponsibility = "MAIN_COACHING" | "ASSISTANT_SUPPORT" | "YOUTH_DEV" | "MATCH_ANALYSIS" | "MEDICAL_REHAB";
+export type StaffPromise = "NONE" | "AUTONOMY" | "FACILITY_UPGRADE" | "KEY_STAFF_ROLE";
 
 export interface StaffOffer {
   wageEurPerMonth?: number;
   years?: number;
   role?: StaffRole;
   compensationEur?: number;
+  responsibilities?: StaffResponsibility | string;
+  signingBonusEur?: number;
+  promise?: StaffPromise | string;
 }
 
 export interface StaffNegotiationRound {
@@ -155,8 +161,23 @@ export function submitStaffOffer(state: CareerState, negotiationId: string, offe
     const projected = getClubStaffCostsEurAnnual(state, n.clubId) - current + wage * 12;
     const limit = staffSpendingLimit(state, n.clubId) + vacancyFunding(state, n.clubId, (offer.role ?? n.role), n.kind);
     if (wage * 12 > current && projected > limit) throw new Error(`Personalkostnaden blir ${formatEur(projected)}/år, över styrelsens ram på ${formatEur(limit)}/år.`);
+    if (offer.signingBonusEur && offer.signingBonusEur > (state.clubEconomies[n.clubId]?.cashEur ?? 0)) {
+      throw new Error("Klubben har inte tillräckligt med likvida medel i kassan för den begärda signeringsbonusen.");
+    }
   }
-  const round: StaffNegotiationRound = { date: state.gameDate, party: "MANAGER", offer: { ...offer, wageEurPerMonth: offer.wageEurPerMonth && Math.round(offer.wageEurPerMonth), years: offer.years ?? 2, role: offer.role ?? n.role } };
+  const round: StaffNegotiationRound = {
+    date: state.gameDate,
+    party: "MANAGER",
+    offer: {
+      ...offer,
+      wageEurPerMonth: offer.wageEurPerMonth && Math.round(offer.wageEurPerMonth),
+      years: offer.years ?? 2,
+      role: offer.role ?? n.role,
+      responsibilities: offer.responsibilities,
+      signingBonusEur: offer.signingBonusEur,
+      promise: offer.promise,
+    }
+  };
   return { ...state, staffNegotiations: { ...state.staffNegotiations, [n.id]: { ...n, rounds: [...n.rounds, round], answerOn: addDays(state.gameDate, ANSWER_DAYS) } } };
 }
 
@@ -188,16 +209,74 @@ export function progressStaffNegotiations(state: CareerState, date: string, emit
       emit(buildClubEvent("STAFF_UPDATE", `${n.id}:${date}:club`, date, "IMPORTANT", r.response === "ACCEPT" ? `${clubName(n.fromClubId)} släpper ${name}` : r.response === "COUNTER" ? `Motbud om ${name}` : `${clubName(n.fromClubId)} säger nej`, reply.reason!, [{ route: "STAFF_MEMBER", staffId: n.staffId }]));
       continue;
     }
-    const demand = wageDemand(next, n.staffId, n.clubId, last.offer?.role ?? n.role, n.kind);
-    const r = respond(last.offer?.wageEurPerMonth ?? 0, demand, roundsThisStage);
-    const reply: StaffNegotiationRound = { date, party: "PERSON", response: r.response, counter: r.counter !== undefined ? { wageEurPerMonth: r.counter } : undefined, reason: r.response === "ACCEPT" ? `${name} accepterar villkoren.` : r.response === "COUNTER" ? `${name} vill ha ${formatEur(demand)} i månaden.` : `${name} tackar nej.` };
-    let updated: StaffNegotiation = { ...n, rounds: [...n.rounds, reply], answerOn: null, deadline: addDays(date, DEADLINE_DAYS), stage: r.response === "ACCEPT" ? "COMPLETED" : r.response === "REJECT" ? "REJECTED" : "TERMS" };
+
+    let baseDemand = wageDemand(next, n.staffId, n.clubId, last.offer?.role ?? n.role, n.kind);
+    // Factor in signing bonus amortization
+    if (last.offer?.signingBonusEur && last.offer.signingBonusEur > 0) {
+      const bonusPerMonth = Math.round(last.offer.signingBonusEur / (Math.max(1, last.offer.years ?? 2) * 12));
+      baseDemand = Math.max(500, baseDemand - Math.round(bonusPerMonth * 0.85));
+    }
+    // Factor in promises & responsibilities
+    if (last.offer?.promise && last.offer.promise !== "NONE") {
+      baseDemand = Math.round(baseDemand * 0.95);
+    }
+    if (last.offer?.responsibilities === "MAIN_COACHING" && (ambitionOf(n.staffId) === "HEAD_ROLE" || ambitionOf(n.staffId) === "PROGRESSION")) {
+      baseDemand = Math.round(baseDemand * 0.93);
+    }
+
+    const offeredWage = last.offer?.wageEurPerMonth ?? 0;
+    let response: StaffResponse;
+    let counter: number | undefined;
+    let reason: string;
+
+    const ambition = ambitionOf(n.staffId);
+    const hasCompetingClub = roundsThisStage === 1 && offeredWage < baseDemand * 0.95 && (ambition === "HEAD_ROLE" || ambition === "PROGRESSION" || hash(`${n.staffId}:compete`) < 0.35);
+
+    if (offeredWage >= baseDemand) {
+      response = "ACCEPT";
+      reason = `${name} accepterar villkoren och ser fram emot uppdraget.`;
+    } else if (offeredWage < baseDemand * 0.65) {
+      response = "REJECT";
+      reason = `${name} anser att löneerbjudandet (${formatEur(offeredWage)}/mån) är förolämpande lågt och avbryter förhandlingarna.`;
+    } else if (hasCompetingClub) {
+      response = "COMPETING_CLUBS";
+      counter = baseDemand;
+      reason = `En konkurrerande klubb har också kontaktat ${name}. Personen vill ha ${formatEur(baseDemand)} i månaden för att välja ditt förslag.`;
+    } else if (roundsThisStage >= MAX_ROUNDS) {
+      response = "REJECT";
+      reason = `${name} och klubben kunde inte nå en överenskommelse om villkoren.`;
+    } else {
+      response = "COUNTER";
+      counter = baseDemand;
+      reason = `${name} vill ha ${formatEur(baseDemand)} i månaden.`;
+    }
+
+    const reply: StaffNegotiationRound = {
+      date,
+      party: "PERSON",
+      response,
+      counter: counter !== undefined ? { wageEurPerMonth: counter } : undefined,
+      reason
+    };
+    let updated: StaffNegotiation = {
+      ...n,
+      rounds: [...n.rounds, reply],
+      answerOn: null,
+      deadline: addDays(date, DEADLINE_DAYS),
+      stage: response === "ACCEPT" ? "COMPLETED" : response === "REJECT" ? "REJECTED" : "TERMS"
+    };
     next = { ...next, staffNegotiations: { ...next.staffNegotiations, [n.id]: updated } };
-    if (r.response === "ACCEPT") {
+    if (response === "ACCEPT") {
       next = completeAgreement(next, updated, last.offer!, date);
       updated = next.staffNegotiations![n.id]!;
     }
-    const subject = r.response === "ACCEPT" ? (n.kind === "RENEW" ? `${name} förlänger` : `${name} är klar för klubben`) : r.response === "COUNTER" ? `${name} vill ha mer` : `${name} tackar nej`;
+    const subject = response === "ACCEPT"
+      ? (n.kind === "RENEW" ? `${name} förlänger` : `${name} är klar för klubben`)
+      : response === "COMPETING_CLUBS"
+      ? `Konkurrens om ${name}`
+      : response === "COUNTER"
+      ? `${name} vill ha mer`
+      : `${name} tackar nej`;
     emit(buildClubEvent("STAFF_UPDATE", `${n.id}:${date}:terms`, date, "IMPORTANT", subject, reply.reason!, [{ route: "STAFF_MEMBER", staffId: n.staffId }]));
   }
   return next;
@@ -238,6 +317,9 @@ function completeAgreement(state: CareerState, n: StaffNegotiation, offer: Staff
     next = { ...next, gameDate: state.gameDate };
   } else {
     next = hireFreeAgent(next, n.staffId, n.clubId, wage, end);
+  }
+  if (offer.signingBonusEur && offer.signingBonusEur > 0) {
+    next = adjustClubCash(next, n.clubId, -offer.signingBonusEur, { category: "STAFF_COMPENSATION", label: `Signeringsbonus: ${displayName(next, n.staffId)}`, date });
   }
   next = setRole(next, n.staffId, role);
   return appointment({ ...next, staffKnowledge: { ...next.staffKnowledge, [n.staffId]: 100 } }, { staffId: n.staffId, clubId: n.clubId, role, date, kind: "APPOINTED" });

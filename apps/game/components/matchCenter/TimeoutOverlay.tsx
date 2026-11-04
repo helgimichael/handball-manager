@@ -16,9 +16,67 @@ export type ContextualInstruction = {
     id: string;
     title: string;
     description: string;
+    intendedEffect: string;
+    tradeoff: string;
+    durationCondition: string;
     patch: Partial<Pick<TeamTactics, 'defence' | 'tempo' | 'attackIdentity' | 'rotation' | 'aggression' | 'rotationStrategy' | 'sevenVSix' | 'instruction'>>;
     isRecommended: boolean;
 };
+
+export function getContextualInstructions(margin = 0, opponentDefence = '6:0', period: number | null | undefined = 1): ContextualInstruction[] {
+    return [
+        {
+            id: 'HIGH_PRESS_TRANSITION',
+            title: 'Hög press & snabb omställning',
+            description: 'Flytta fram i 5:1, höj aggressiviteten och tryck intensivt i andrafas.',
+            intendedEffect: 'Ökar bollstölder och snabba kontringsmål genom offensiv spets i 5:1.',
+            tradeoff: 'Ökad risk för utvisningar och stora ytor bakom spetsen om motståndaren bryter pressen.',
+            durationCondition: 'Gäller tills nästa mål/avbrott eller tills du justerar taktiken.',
+            patch: { defence: '5:1', aggression: 'HIGH', tempo: 'QUICK', instruction: 'HIGH_PRESS_TRANSITION' },
+            isRecommended: margin <= -2,
+        },
+        {
+            id: 'COMPACT_CONTROL',
+            title: 'Täta bakåt & kontrollerat tempo',
+            description: 'Sjunk ned i kompakt 6:0 och sänk farten för att vårda bollen och stänga ytor.',
+            intendedEffect: 'Minimerar tekniska fel, stänger mittförsvaret i 6:0 och drar ned motståndarnas fart.',
+            tradeoff: 'Minskar egna kontringsmöjligheter och tillåter motståndarna mer bollinnehav.',
+            durationCondition: 'Gäller tills du återställer till balanserat spel.',
+            patch: { defence: '6:0', aggression: 'LOW', tempo: 'SLOW', instruction: 'COMPACT_CONTROL' },
+            isRecommended: margin >= 2,
+        },
+        {
+            id: 'WIDTH_FOCUS',
+            title: 'Bredda spelet & gå för kantlägen',
+            description: 'Dra isär motståndarnas mur till hörnpositionerna och skapa öppningar utvändigt.',
+            intendedEffect: 'Drar isär motståndarnas 6:0-försvar mot kanterna och skapar fria avslut och inspel.',
+            tradeoff: 'Mindre direkthot från nio meter centralt om kantspelarna missar sina avslut.',
+            durationCondition: 'Gäller under anfallsfaserna fram till nästa taktiska justering.',
+            patch: { attackIdentity: 'WIDTH', tempo: 'BALANCED', instruction: 'WIDTH_FOCUS' },
+            isRecommended: margin >= -1 && margin <= 1 && opponentDefence === '6:0',
+        },
+        {
+            id: 'PATIENT_COMBINATIONS',
+            title: 'Tålamod & uppställt kombinationsspel',
+            description: 'Rulla runt med disciplin, korsa på nio meter och vänta in högprocentiga skottlägen.',
+            intendedEffect: 'Tröttar ut motståndarnas försvarsmur med växlar och tvingar fram luckor för genombrott eller M6.',
+            tradeoff: 'Risk för passivitetsvarning vid utdragna anfall om avsluten dröjer för länge.',
+            durationCondition: 'Gäller i uppställt anfallsspel tills matchbilden förändras.',
+            patch: { attackIdentity: 'COMBINATION', tempo: 'SLOW', instruction: 'PATIENT_COMBINATIONS' },
+            isRecommended: margin >= -1 && margin <= 1 && opponentDefence !== '6:0',
+        },
+        {
+            id: 'SEVEN_ON_SIX_PUSH',
+            title: 'Extraspela 7 mot 6',
+            description: 'Ta ut målvakten och spela med två linjespelare för numerärt överläge i anfall.',
+            intendedEffect: 'Garanterar numerärt övertag (7 mot 6) i anfall med två linjespelare som binder mittförsvaret.',
+            tradeoff: 'Målet står helt tomt vid tekniskt fel eller räddning — motståndaren kan kasta i tomt mål.',
+            durationCondition: 'Gäller så länge 7 mot 6 är aktivt i anfall.',
+            patch: { sevenVSix: 'ALWAYS', tempo: 'BALANCED', instruction: 'SEVEN_ON_SIX_PUSH' },
+            isRecommended: period === 2 && margin <= -3,
+        },
+    ];
+}
 
 export function TimeoutOverlay({
     session,
@@ -103,47 +161,17 @@ export function TimeoutOverlay({
     const margin = team === 'HOME' ? model.result.homeGoals - model.result.awayGoals : model.result.awayGoals - model.result.homeGoals;
     const opponentDefence = core.coaching[opponent]?.defence ?? '6:0';
 
+    const [acknowledgedMessage, setAcknowledgedMessage] = useState<string | null>(null);
+
     const contextualInstructions: ContextualInstruction[] = useMemo(() => {
-        return [
-            {
-                id: 'HIGH_PRESS_TRANSITION',
-                title: 'Hög press & snabb omställning',
-                description: 'Flytta fram i 5:1, höj aggressiviteten och tryck intensivt i andrafas.',
-                patch: { defence: '5:1', aggression: 'HIGH', tempo: 'QUICK', instruction: 'HIGH_PRESS_TRANSITION' },
-                isRecommended: margin <= -2,
-            },
-            {
-                id: 'COMPACT_CONTROL',
-                title: 'Täta bakåt & kontrollerat tempo',
-                description: 'Sjunk ned i kompakt 6:0 och sänk farten för att vårda bollen och stänga ytor.',
-                patch: { defence: '6:0', aggression: 'LOW', tempo: 'SLOW', instruction: 'COMPACT_CONTROL' },
-                isRecommended: margin >= 2,
-            },
-            {
-                id: 'WIDTH_FOCUS',
-                title: 'Bredda spelet & gå för kantlägen',
-                description: 'Dra isär motståndarnas mur till hörnpositionerna och skapa öppningar utvändigt.',
-                patch: { attackIdentity: 'WIDTH', tempo: 'BALANCED', instruction: 'WIDTH_FOCUS' },
-                isRecommended: margin >= -1 && margin <= 1 && opponentDefence === '6:0',
-            },
-            {
-                id: 'PATIENT_COMBINATIONS',
-                title: 'Tålamod & uppställt kombinationsspel',
-                description: 'Rulla runt med disciplin, korsa på nio meter och vänta in högprocentiga skottlägen.',
-                patch: { attackIdentity: 'COMBINATION', tempo: 'SLOW', instruction: 'PATIENT_COMBINATIONS' },
-                isRecommended: margin >= -1 && margin <= 1 && opponentDefence !== '6:0',
-            },
-            {
-                id: 'SEVEN_ON_SIX_PUSH',
-                title: 'Extraspela 7 mot 6',
-                description: 'Ta ut målvakten och spela med två linjespelare för numerärt överläge i anfall.',
-                patch: { sevenVSix: 'ALWAYS', tempo: 'BALANCED', instruction: 'SEVEN_ON_SIX_PUSH' },
-                isRecommended: model.period === 2 && margin <= -3,
-            },
-        ];
+        return getContextualInstructions(margin, opponentDefence, model.period);
     }, [margin, model.period, opponentDefence]);
 
     const activeInstructionId = tactics?.instruction;
+    const activeInstruction = contextualInstructions.find(i => i.id === activeInstructionId);
+    const previousStateSummary = useMemo(() => {
+        return `Försvar: ${tactics?.defence ?? '6:0'} · Tempo: ${tactics?.tempo ?? 'BALANCED'} · Anfall: ${tactics?.attackIdentity ?? 'BALANCED'}`;
+    }, [tactics?.defence, tactics?.tempo, tactics?.attackIdentity]);
 
     function handleApplyInstruction(inst: ContextualInstruction) {
         if (!onCommand) return;
@@ -155,6 +183,17 @@ export function TimeoutOverlay({
         onCommand({ kind: 'SUBSTITUTION', team, outId, inId });
         setOutId(null);
         setInId(null);
+    }
+
+    function handleResume() {
+        if (!onResumeTimeout) return;
+        const msg = activeInstruction
+            ? `Spelet återupptas: ${callingName} samlar spelet. Taktiska direktiv: ${activeInstruction.title} (${activeInstruction.intendedEffect}).`
+            : `Spelet återupptas efter timeout för ${callingName}.`;
+        setAcknowledgedMessage(msg);
+        setTimeout(() => {
+            onResumeTimeout();
+        }, 150);
     }
 
     return (
@@ -193,9 +232,58 @@ export function TimeoutOverlay({
                 </div>
             </header>
 
+            {acknowledgedMessage && (
+                <div className="mc-timeout-resume-banner" role="alert" style={{ margin: '10px 18px', padding: '10px 14px', background: 'rgba(16,185,129,0.15)', border: '1px solid #10b981', borderRadius: '6px', color: '#10b981', fontSize: '13px', fontWeight: 600 }}>
+                    {acknowledgedMessage}
+                </div>
+            )}
+
             <div className="mc-timeout-body">
                 {/* Left Column: Contextual Instructions & Tactical Settings */}
                 <div className="mc-timeout-tactics-col">
+                    {/* Taktisk konsekvensanalys & Åtgärdsstatus */}
+                    <div className="mc-timeout-decision-card" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '6px', padding: '12px 14px', marginBottom: '14px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+                            <strong style={{ fontSize: '13px', color: 'var(--hm-accent-primary, #3b82f6)' }}>
+                                📋 Taktisk åtgärdsanalys & Konsekvenser
+                            </strong>
+                            <span className="hm-badge" style={{ fontSize: '10px' }}>
+                                {activeInstruction ? activeInstruction.title : 'Manuella direktiv'}
+                            </span>
+                        </div>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '8px', fontSize: '12px' }}>
+                            <div>
+                                <span style={{ color: 'var(--hm-text-muted)', display: 'block', fontSize: '10px', textTransform: 'uppercase' }}>Tidigare tillstånd</span>
+                                <span>{previousStateSummary}</span>
+                            </div>
+                            <div>
+                                <span style={{ color: 'var(--hm-text-muted)', display: 'block', fontSize: '10px', textTransform: 'uppercase' }}>Nytt taktiskt läge</span>
+                                <strong style={{ color: '#fff' }}>
+                                    {activeInstruction
+                                        ? `Försvar: ${activeInstruction.patch.defence ?? tactics?.defence} · Tempo: ${activeInstruction.patch.tempo ?? tactics?.tempo} · Anfall: ${activeInstruction.patch.attackIdentity ?? tactics?.attackIdentity}`
+                                        : previousStateSummary}
+                                </strong>
+                            </div>
+                            <div>
+                                <span style={{ color: 'var(--hm-text-muted)', display: 'block', fontSize: '10px', textTransform: 'uppercase' }}>Avsedd effekt</span>
+                                <span style={{ color: 'var(--hm-tone-positive, #10b981)' }}>
+                                    {activeInstruction ? activeInstruction.intendedEffect : 'Direkt anpassning av tempo och försvarsformation'}
+                                </span>
+                            </div>
+                            <div>
+                                <span style={{ color: 'var(--hm-text-muted)', display: 'block', fontSize: '10px', textTransform: 'uppercase' }}>Risk & Kompromiss</span>
+                                <span style={{ color: 'var(--hm-accent-gold, #f59e0b)' }}>
+                                    {activeInstruction ? activeInstruction.tradeoff : 'Kräver disciplin i omställningsfasen'}
+                                </span>
+                            </div>
+                            <div>
+                                <span style={{ color: 'var(--hm-text-muted)', display: 'block', fontSize: '10px', textTransform: 'uppercase' }}>Varaktighet / Villkor</span>
+                                <span style={{ color: 'var(--hm-text-secondary)' }}>
+                                    {activeInstruction ? activeInstruction.durationCondition : 'Gäller tills nästa spelavbrott eller manuell ändring'}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                     <section className="mc-timeout-section">
                         <header className="mc-timeout-section-head">
                             <h3>Kontextuellt lagdirektiv</h3>
@@ -375,7 +463,7 @@ export function TimeoutOverlay({
                     <button
                         type="button"
                         className="hm-btn hm-btn-primary mc-timeout-resume-action"
-                        onClick={onResumeTimeout}
+                        onClick={handleResume}
                     >
                         Återgå till match
                     </button>

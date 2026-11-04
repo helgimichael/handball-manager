@@ -468,16 +468,49 @@ function Decision({ negotiation, run, contractWage, contractEnd }: { negotiation
             </div>
           )}
           {!isLoan && (() => {
+            const playerClubId = career.playerClubId;
+            const cashBalance = career.clubEconomies[playerClubId]?.cashEur ?? 0;
+            const budgets = getClubBudgets(career, playerClubId);
+            const transferBudget = budgets?.transferBudgetEur ?? 0;
+            const wageBudget = Math.round((budgets?.wageBudgetEur ?? 0) / 12);
+            const currentWages = Object.values(career.playerContracts)
+              .filter((c) => c.clubId === playerClubId)
+              .reduce((sum, c) => sum + (c.wageEurPerMonth ?? 0), 0);
+
+            const currentFee = negotiation.stage === "CLUB" ? fee : (negotiation.agreedFeeEur ?? 0);
+            const currentBonus = negotiation.stage === "PLAYER" ? bonus : (lastPlayer?.signingBonusEur ?? 0);
+            const proposedWage = negotiation.stage === "PLAYER" ? wage : (lastPlayer?.counterWageEurPerMonth ?? contractWage);
+            const proposedYears = negotiation.stage === "PLAYER" ? years : (lastPlayer?.contractYears ?? 3);
+
             const acq = calculateAcquisitionCost({
-              transferFeeEur: negotiation.stage === "CLUB" ? fee : (negotiation.agreedFeeEur ?? 0),
+              transferFeeEur: currentFee,
               trainingCompensationEur: trainingComp,
-              signingCostsEur: agentFee + (negotiation.stage === "PLAYER" ? bonus : (lastPlayer?.signingBonusEur ?? 0)),
-              monthlyWageEur: negotiation.stage === "PLAYER" ? wage : (lastPlayer?.counterWageEurPerMonth ?? contractWage),
-              contractYears: negotiation.stage === "PLAYER" ? years : (lastPlayer?.contractYears ?? 3),
+              signingCostsEur: agentFee + currentBonus,
+              monthlyWageEur: proposedWage,
+              contractYears: proposedYears,
               compensationDetails: trainingCompDetail,
             });
+
+            const immediateCost = acq.transferFeeEur + acq.trainingCompensationEur + acq.signingCostsEur;
+            const projectedWages = currentWages + proposedWage;
+            const isCashShort = immediateCost > cashBalance;
+            const isTransferBudgetOver = immediateCost > transferBudget;
+            const isWageBudgetOver = projectedWages > wageBudget;
+
             return (
-              <div className="tc-acquisition-summary" style={{ gridColumn: "1 / -1", marginTop: 4, padding: "10px 12px", background: "rgba(0,0,0,0.25)", borderRadius: "var(--hm-radius-sm)", border: "1px solid rgba(255,255,255,0.08)" }}>
+              <div className="tc-acquisition-summary" style={{ gridColumn: "1 / -1", marginTop: 4, padding: "10px 12px", background: "rgba(0,0,0,0.3)", borderRadius: "var(--hm-radius-sm)", border: "1px solid rgba(255,255,255,0.08)" }}>
+                {/* Board Budgets vs Cash Reserves */}
+                <div style={{ marginBottom: 8, paddingBottom: 6, borderBottom: "1px solid rgba(255,255,255,0.08)", fontSize: "11px" }}>
+                  <div style={{ fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em", color: "var(--hm-text-muted)", marginBottom: 4 }}>Finansiella ramar & kassa</div>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: "4px 10px" }}>
+                    <div>Kassareserv: <b style={{ color: isCashShort ? "var(--hm-tone-loss, #ef4444)" : "var(--hm-text-primary)" }}>{formatMoney(cashBalance)}</b></div>
+                    <div>Transferbudget (styrelsen): <b style={{ color: isTransferBudgetOver ? "var(--hm-tone-loss, #ef4444)" : "var(--hm-text-primary)" }}>{formatMoney(transferBudget)}</b></div>
+                    <div>Lönebudget (styrelsen): <b>{formatMoney(wageBudget)}/mån</b></div>
+                    <div>Nuvarande lönekostnader: <span>{formatMoney(currentWages)}/mån</span></div>
+                    <div>Ny beräknad lönekostnad: <b style={{ color: isWageBudgetOver ? "var(--hm-tone-loss, #ef4444)" : "var(--hm-accent-gold)" }}>{formatMoney(projectedWages)}/mån</b></div>
+                  </div>
+                </div>
+
                 <div style={{ fontWeight: 700, fontSize: "var(--hm-text-xs)", marginBottom: 6, display: "flex", justifyContent: "space-between" }}>
                   <span>Total anskaffningskostnad ({acq.isFreeTransfer ? "Fri övergång" : "Övergång"})</span>
                   <span style={{ color: "var(--hm-accent-gold)" }}>Första året: {formatMoney(acq.totalFirstYearCommitmentEur)}</span>
@@ -486,11 +519,20 @@ function Decision({ negotiation, run, contractWage, contractEnd }: { negotiation
                   <div>Övergångssumma: <b style={{ color: "var(--hm-text-primary)" }}>{formatMoney(acq.transferFeeEur)}</b></div>
                   <div>Utbildningsersättning: <b style={{ color: "var(--hm-text-primary)" }}>{formatMoney(acq.trainingCompensationEur)}</b></div>
                   <div>Signering & agent: <b style={{ color: "var(--hm-text-primary)" }}>{formatMoney(acq.signingCostsEur)}</b></div>
+                  <div>Direkt anskaffning (kontant): <b style={{ color: isCashShort ? "var(--hm-tone-loss, #ef4444)" : "var(--hm-text-primary)" }}>{formatMoney(immediateCost)}</b></div>
                   <div>Årslön ({acq.contractYears} år): <b style={{ color: "var(--hm-text-primary)" }}>{formatMoney(acq.annualWageEur)}/år</b></div>
                 </div>
                 <div style={{ marginTop: 6, fontSize: "11px", color: "var(--hm-text-muted)", borderTop: "1px solid rgba(255,255,255,0.05)", paddingTop: 4 }}>
                   Total förbindelse över hela avtalet ({acq.contractYears} år): <b style={{ color: "var(--hm-text-primary)" }}>{formatMoney(acq.totalContractCommitmentEur)}</b>
                 </div>
+
+                {(isCashShort || isTransferBudgetOver || isWageBudgetOver) && (
+                  <div style={{ marginTop: 8, padding: "6px 8px", background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.3)", borderRadius: 4, color: "#fca5a5", fontSize: "11px" }}>
+                    {isCashShort && <div>• Direktkostnaden ({formatMoney(immediateCost)}) överskrider tillgänglig likvid kassareserv ({formatMoney(cashBalance)}).</div>}
+                    {isTransferBudgetOver && <div>• Anskaffningen överskrider styrelsens transferbudget ({formatMoney(transferBudget)}).</div>}
+                    {isWageBudgetOver && <div>• Den nya lönekostnaden ({formatMoney(projectedWages)}/mån) överskrider styrelsens lönetak ({formatMoney(wageBudget)}/mån).</div>}
+                  </div>
+                )}
               </div>
             );
           })()}

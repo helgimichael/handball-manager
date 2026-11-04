@@ -194,13 +194,13 @@ export function playerStance(state: CareerState, offer: IncomingOffer): { willin
 
 export function acceptIncomingOffer(state: CareerState, offerId: string): CareerState {
   const offer = state.incomingOffers?.[offerId];
-  if (!offer || offer.status !== "OPEN") throw new Error("Budet är inte längre öppet.");
+  if (!offer || (offer.status !== "OPEN" && offer.status !== "OFFER_RECEIVED")) throw new Error("Budet är inte längre öppet.");
   return agree(state, offer, offer.feeEur, state.gameDate, () => undefined);
 }
 
 export function rejectIncomingOffer(state: CareerState, offerId: string): CareerState {
   const offer = state.incomingOffers?.[offerId];
-  if (!offer || (offer.status !== "OPEN" && offer.status !== "COUNTERED")) throw new Error("Budet är inte längre öppet.");
+  if (!offer || (offer.status !== "OPEN" && offer.status !== "OFFER_RECEIVED" && offer.status !== "COUNTERED" && offer.status !== "COUNTEROFFER_SUBMITTED" && offer.status !== "AWAITING_FINAL_APPROVAL")) throw new Error("Budet är inte längre öppet.");
   let next = put(state, { ...offer, status: "REJECTED", closedOn: state.gameDate, rounds: [...offer.rounds, { date: state.gameDate, by: "MANAGER", feeEur: offer.feeEur, note: "Avvisat." }] });
   const request = dynamicsOf(state).requests[offer.playerId];
   const value = getPlayerMarketValueEur(state, offer.playerId) ?? 0;
@@ -210,22 +210,88 @@ export function rejectIncomingOffer(state: CareerState, offerId: string): Career
 
 export function counterIncomingOffer(state: CareerState, offerId: string, askingFeeEur: number): CareerState {
   const offer = state.incomingOffers?.[offerId];
-  if (!offer || offer.status !== "OPEN") throw new Error("Budet är inte längre öppet.");
+  if (!offer || (offer.status !== "OPEN" && offer.status !== "OFFER_RECEIVED")) throw new Error("Budet är inte längre öppet.");
   if (!(askingFeeEur > offer.feeEur)) throw new Error("Motbudet måste vara högre än budet.");
   return put(state, { ...offer, status: "COUNTERED", askingFeeEur: round500(askingFeeEur), answerOn: addDaysIso(state.gameDate, 1), rounds: [...offer.rounds, { date: state.gameDate, by: "MANAGER", feeEur: round500(askingFeeEur), note: "Ditt motbud." }] });
 }
 
-/** Clubs agree on a fee: the player decides, then the sale completes now or when the window opens. */
+/** Clubs agree on a fee: the player decides, then final manager approval is required or the sale completes now / when the window opens. */
 function agree(state: CareerState, offer: IncomingOffer, fee: number, date: string, emit: Emit): CareerState {
   const stance = playerStance(state, offer);
   if (!stance.willing) {
     emit(buildClubEvent("TRANSFER_OFFER", `offer:${offer.id}:refused`, date, "IMPORTANT", `${playerName(state, offer.playerId)} säger nej till flytten`, stance.reason, [{ route: "TRANSFER_OFFER", offerId: offer.id }], { entityType: "player", entityId: offer.playerId }));
     return put(state, { ...offer, feeEur: fee, status: "PLAYER_REFUSED", playerStance: stance, closedOn: date, answerOn: undefined });
   }
+
+  const requireApproval = state.requireFinalTransferApproval ?? true;
+  if (requireApproval) {
+    emit(buildClubEvent("TRANSFER_OFFER", `offer:${offer.id}:awaiting_approval`, date, "IMPORTANT", `${playerName(state, offer.playerId)}: övergång kräver ditt godkännande`, `Klubbarna är överens om ${formatEur(fee)} och spelaren har accepterat villkoren. Bekräfta eller avvisa affären.`, [{ route: "TRANSFER_OFFER", offerId: offer.id }], { entityType: "player", entityId: offer.playerId }));
+    return put(state, {
+      ...offer,
+      feeEur: fee,
+      status: "AWAITING_FINAL_APPROVAL",
+      playerStance: stance,
+      answerOn: undefined,
+      rounds: [...offer.rounds, { date, by: "BUYER", feeEur: fee, note: "Köparen och spelaren är överens. Affären väntar på ditt slutgiltiga godkännande." }]
+    });
+  }
+
   if (isTransferWindowOpen(date)) return completeSale(put(state, { ...offer, feeEur: fee, status: "ACCEPTED", playerStance: stance, answerOn: undefined }), offer.id, date, emit);
   const completesOn = nextTransferWindowOpenDate(date);
   emit(buildClubEvent("TRANSFER_OFFER", `offer:${offer.id}:agreed`, date, "IMPORTANT", `${playerName(state, offer.playerId)} klar för ${getClub(offer.fromClubId)?.shortName ?? ""}`, `Klubbarna är överens om ${formatEur(fee)}. Övergången går igenom när fönstret öppnar ${completesOn}.`, [{ route: "TRANSFER_OFFER", offerId: offer.id }], { entityType: "player", entityId: offer.playerId }));
   return put(state, { ...offer, feeEur: fee, status: "AWAITING_WINDOW", playerStance: stance, completesOn, answerOn: undefined });
+}
+
+/** The manager explicitly confirms the sale at the AWAITING_FINAL_APPROVAL stage. */
+export function confirmIncomingSale(state: CareerState, offerId: string): CareerState {
+  const offer = state.incomingOffers?.[offerId];
+  if (!offer || offer.status !== "AWAITING_FINAL_APPROVAL") throw new Error("Affären väntar inte på ditt godkännande.");
+  const date = state.gameDate;
+  if (isTransferWindowOpen(date)) {
+    return completeSale(state, offerId, date, () => undefined);
+  }
+  const completesOn = nextTransferWindowOpenDate(date);
+  return put(state, {
+    ...offer,
+    status: "AWAITING_WINDOW",
+    completesOn,
+    closedOn: undefined,
+    rounds: [...offer.rounds, { date, by: "MANAGER", feeEur: offer.feeEur, note: `Försäljning godkänd av managern. Slutförs ${completesOn} när fönstret öppnar.` }]
+  });
+}
+
+/** The manager rejects the sale at the AWAITING_FINAL_APPROVAL stage. */
+export function rejectIncomingSale(state: CareerState, offerId: string): CareerState {
+  const offer = state.incomingOffers?.[offerId];
+  if (!offer || (offer.status !== "AWAITING_FINAL_APPROVAL" && offer.status !== "OPEN" && offer.status !== "COUNTERED")) {
+    throw new Error("Affären kan inte avvisas i detta läge.");
+  }
+  let next = put(state, {
+    ...offer,
+    status: "REJECTED",
+    closedOn: state.gameDate,
+    rounds: [...offer.rounds, { date: state.gameDate, by: "MANAGER", feeEur: offer.feeEur, note: "Du avvisade affären vid slutgiltigt godkännande." }]
+  });
+  const request = dynamicsOf(state).requests[offer.playerId];
+  const value = getPlayerMarketValueEur(state, offer.playerId) ?? 0;
+  if ((request?.status === "OPEN" || request?.status === "ACCEPTED") && offer.feeEur >= value * 0.9) {
+    next = addMoraleShock(next, offer.playerId, -8, "Klubben stoppade en övergång som var helt klar", 90);
+  }
+  return next;
+}
+
+/** The manager withdraws from negotiations where procedurally valid. */
+export function withdrawIncomingOffer(state: CareerState, offerId: string): CareerState {
+  const offer = state.incomingOffers?.[offerId];
+  if (!offer || (offer.status !== "OPEN" && offer.status !== "COUNTERED" && offer.status !== "AWAITING_FINAL_APPROVAL")) {
+    throw new Error("Kan inte dra sig ur detta bud.");
+  }
+  return put(state, {
+    ...offer,
+    status: "WITHDRAWN",
+    closedOn: state.gameDate,
+    rounds: [...offer.rounds, { date: state.gameDate, by: "MANAGER", feeEur: offer.feeEur, note: "Du drog dig ur affären." }]
+  });
 }
 
 /** The sale itself: fee into the ledger, ownership to the buyer, the player's dynamics closed. */
@@ -255,14 +321,14 @@ export function progressIncomingOffers(state: CareerState, date: string, emit: E
   }
   for (const offer of Object.values(state.incomingOffers ?? {})) {
     const o = next.incomingOffers![offer.id]!;
-    if (next.playerContracts[o.playerId]?.clubId !== next.playerClubId && (o.status === "OPEN" || o.status === "COUNTERED" || o.status === "AWAITING_WINDOW")) {
+    if (next.playerContracts[o.playerId]?.clubId !== next.playerClubId && (o.status === "OPEN" || o.status === "OFFER_RECEIVED" || o.status === "COUNTERED" || o.status === "COUNTEROFFER_SUBMITTED" || o.status === "AWAITING_WINDOW" || o.status === "AWAITING_FINAL_APPROVAL")) {
       next = put(next, { ...o, status: "WITHDRAWN", closedOn: date });
       continue;
     }
-    if (o.status === "OPEN" && o.respondBy < date) {
+    if ((o.status === "OPEN" || o.status === "OFFER_RECEIVED") && o.respondBy < date) {
       next = put(next, { ...o, status: "EXPIRED", closedOn: date });
       emit(buildClubEvent("TRANSFER_OFFER", `offer:${o.id}:expired`, date, "INFORMATION", `Budet på ${playerName(next, o.playerId)} gick ut`, `${getClub(o.fromClubId)?.shortName ?? ""} fick inget svar och drog tillbaka budet.`, [{ route: "TRANSFER_OFFER", offerId: o.id }]));
-    } else if (o.status === "COUNTERED" && o.answerOn && o.answerOn <= date) {
+    } else if ((o.status === "COUNTERED" || o.status === "COUNTEROFFER_SUBMITTED") && o.answerOn && o.answerOn <= date) {
       const ask = o.askingFeeEur ?? o.feeEur;
       const managerCounters = o.rounds.filter((r) => r.by === "MANAGER").length;
       if (ask <= o.maxFeeEur) next = agree(next, { ...o, rounds: [...o.rounds, { date, by: "BUYER", feeEur: ask, note: "Köparen accepterar ditt pris." }] }, ask, date, emit);

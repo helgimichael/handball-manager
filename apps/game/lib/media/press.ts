@@ -42,18 +42,38 @@ export function answersFor(state: CareerState, c: PressContext): PressAnswer[] {
       { tone: "CONFIDENT", text: "Vi svarar på planen.", hint: "Ger laget extra glöd inför matchen." },
       { tone: "DECLINE", text: "Det kommenterar jag inte.", hint: "Inget händer, men frågan försvinner inte." },
     ];
-    case "AFTER_WIN": return [
-      { tone: "PROTECTIVE", text: "Allt beröm till spelarna. Det är de som gör jobbet.", hint: "Spelarna växer." },
-      { tone: "CONFIDENT", text: "Det här är bara början. Vi siktar högre.", hint: "Supportrarna drömmer – styrelsen höjer förväntningarna." },
-      { tone: "HUMOROUS", text: "Jag tog rätt beslut vid kaffet i halvtid.", hint: "Lättsamt, journalisterna gillar det." },
-      { tone: "DIPLOMATIC", text: "Två viktiga poäng, nu vilar vi och tar nästa.", hint: "Inget ändras." },
-    ];
-    case "AFTER_DEFEAT": return [
-      { tone: "PROTECTIVE", text: "Det här tar jag på mig. Spelarna gav allt.", hint: "Laget sluter upp – styrelsen vill se ansvar i resultaten." },
-      { tone: "CRITICAL", text: "Några spelare var inte på nivån i dag. Det kommer att få konsekvenser.", hint: "Proffsen tar det som en utmaning, andra tappar." },
-      { tone: "CONFIDENT", text: "En dålig dag. Vi kommer tillbaka starkare.", hint: "Lugnar supportrarna." },
-      { tone: "DECLINE", text: "Jag behöver se matchen igen innan jag säger något.", hint: "Neutralt, men pressen blir otålig." },
-    ];
+    case "AFTER_WIN": {
+      if (c.playerId) {
+        return [
+          { tone: "PROTECTIVE", text: `Allt beröm till ${player} som var fantastisk i dag, men hela laget lade grunden.`, hint: "Höjer både spelaren och lagandan." },
+          { tone: "CONFIDENT", text: `${player} visar vilken klasspelare han är när det gäller.`, hint: "Spelarens självförtroende växer." },
+          { tone: "HUMOROUS", text: `${player} får bjuda på fikat i morgon efter den showen.`, hint: "Lättsam stämning." },
+          { tone: "DIPLOMATIC", text: `En stark individuell insats av ${player} i en viktig lagseger.`, hint: "Balanserat." },
+        ];
+      }
+      return [
+        { tone: "PROTECTIVE", text: "Allt beröm till spelarna. Det är de som gör jobbet.", hint: "Spelarna växer." },
+        { tone: "CONFIDENT", text: "Det här är bara början. Vi siktar högre.", hint: "Supportrarna drömmer – styrelsen höjer förväntningarna." },
+        { tone: "HUMOROUS", text: "Jag tog rätt beslut vid kaffet i halvtid.", hint: "Lättsamt, journalisterna gillar det." },
+        { tone: "DIPLOMATIC", text: "Två viktiga poäng, nu vilar vi och tar nästa.", hint: "Inget ändras." },
+      ];
+    }
+    case "AFTER_DEFEAT": {
+      if (c.playerId) {
+        return [
+          { tone: "PROTECTIVE", text: `${player} gjorde ett enormt jobb, men handboll är en lagsport. Vi måste hjälpa varandra mer.`, hint: "Stöttar spelaren och manar resten till samling." },
+          { tone: "CRITICAL", text: "Vi kan inte förlita oss på en enda spelare när resten inte presterar.", hint: "Vass signal till truppen." },
+          { tone: "DIPLOMATIC", text: "Vi tar med oss de positiva delarna men måste analysera helheten.", hint: "Lugnt och sakligt." },
+          { tone: "DECLINE", text: "Jag kommenterar inte enskilda insatser efter en förlust.", hint: "Skyddar laget, men journalisterna vill ha mer." },
+        ];
+      }
+      return [
+        { tone: "PROTECTIVE", text: "Det här tar jag på mig. Spelarna gav allt.", hint: "Laget sluter upp – styrelsen vill se ansvar i resultaten." },
+        { tone: "CRITICAL", text: "Några spelare var inte på nivån i dag. Det kommer att få konsekvenser.", hint: "Proffsen tar det som en utmaning, andra tappar." },
+        { tone: "CONFIDENT", text: "En dålig dag. Vi kommer tillbaka starkare.", hint: "Lugnar supportrarna." },
+        { tone: "DECLINE", text: "Jag behöver se matchen igen innan jag säger något.", hint: "Neutralt, men pressen blir otålig." },
+      ];
+    }
     case "REFEREE": return [
       { tone: "DIPLOMATIC", text: "Domarna har ett svårt jobb. Vi får titta på oss själva.", hint: "Inga problem, men supportrarna vill att du står upp för laget." },
       { tone: "CRITICAL", text: `Jag tycker att utvisningarna var hårda och det påverkade matchen.${c.detail ? ` ${c.detail}` : ""}`, hint: "Saklig kritik – tillåten, supportrarna gillar den." },
@@ -94,44 +114,212 @@ export function answersFor(state: CareerState, c: PressContext): PressAnswer[] {
       { tone: "CRITICAL", text: "Jag står för det jag sa.", hint: "Supportrarna gillar det. Disciplinnämnden mindre." },
       { tone: "DECLINE", text: "Jag inväntar beskedet.", hint: "Neutralt." },
     ];
+    case "TACTICS": return [
+      { tone: "CONFIDENT", text: "Matchplanen satt där den skulle. Vi styrde tempot och ytorna.", hint: "Visar taktisk pondus." },
+      { tone: "DIPLOMATIC", text: "Vi anpassade oss efter motståndaren och spelarna utförde direktiven bra.", hint: "Balanserat och lugnt." },
+      { tone: "CRITICAL", text: "Vi följde inte principerna i spelet utan boll och det straffade sig.", hint: "Skärper kravbilden." },
+      { tone: "HUMOROUS", text: "Taktiktavlan såg fin ut, sen fick spelarna springa också.", hint: "Lättar upp stämningen." },
+    ];
+    case "INJURY": return [
+      { tone: "PROTECTIVE", text: `${player} har fullt medicinskt stöd och vi stressar inte fram en återkomst.`, hint: "Trygghet för spelaren." },
+      { tone: "CONFIDENT", text: "Det är ett avbräck, men vi har en bred trupp där andra kliver fram.", hint: "Stärker reservspelarna." },
+      { tone: "DIPLOMATIC", text: "Vi inväntar läkarteamets slutliga diagnos innan vi drar slutsatser.", hint: "Sakligt." },
+      { tone: "CRITICAL", text: "Belastningen har varit för hög, vi måste se över hur vi roterar.", hint: "Krav på fys- och tränarteamet." },
+    ];
+    case "SQUAD_SELECTION": return [
+      { tone: "CONFIDENT", text: "Jag tar ut det lag som ger oss bäst chans att vinna varje specifik match.", hint: "Visar tydligt ledarskap." },
+      { tone: "PROTECTIVE", text: "Konkurrensen är stenhård och alla i truppen är viktiga under en lång säsong.", hint: "Håller ihop truppen." },
+      { tone: "CRITICAL", text: "Prestation på träning avgör vem som spelar. Svårare än så är det inte.", hint: "Hårdare kravbild." },
+      { tone: "DECLINE", text: "Laguttagningen stannar i omklädningsrummet.", hint: "Stänger dörren för spekulationer." },
+    ];
+    case "FINANCES": return [
+      { tone: "DIPLOMATIC", text: "Vi arbetar ansvarsfullt inom föreningens ramar.", hint: "Lugnar styrelsen." },
+      { tone: "CRITICAL", text: "Ska vi konkurrera i toppen behövs större sportsliga resurser.", hint: "Sätter press på styrelse och sponsorer." },
+      { tone: "CONFIDENT", text: "Ekonomin är stabil och vi bygger långsiktigt med egna krafter.", hint: "Skapar framtidstro." },
+      { tone: "DECLINE", text: "Ekonomiska frågor besvaras av klubbledningen.", hint: "Håller sig till det sportsliga." },
+    ];
+    case "STAFF": return [
+      { tone: "CONFIDENT", text: "Vi har satt ihop ett kompetent ledarteam som kompletterar varandra perfekt.", hint: "Stärker ledarstaben." },
+      { tone: "PROTECTIVE", text: "Hela staben gör ett oerhört jobb i det tysta som möjliggör resultaten.", hint: "Lyfter medarbetarna." },
+      { tone: "DIPLOMATIC", text: "Rollen och ansvarsfördelningen i staben är tydlig och väl förankrad.", hint: "Skapar stabilitet." },
+      { tone: "CRITICAL", text: "Vi behöver fortsätta utveckla resurserna runt laget.", hint: "Pressar på för bättre villkor." },
+    ];
+    case "LEAGUE_POSITION": return [
+      { tone: "CONFIDENT", text: "Tabellen ljuger inte, men vi siktar ännu högre innan säsongen är över.", hint: "Höjer ambitionsnivån." },
+      { tone: "DIPLOMATIC", text: "Vi tar en match i taget och räknar poängen i april.", hint: "Klassiskt och säkert." },
+      { tone: "CRITICAL", text: "Vi ligger inte där vi borde med den här truppen. Vi kan mycket bättre.", hint: "Kräver skärpning." },
+      { tone: "PROTECTIVE", text: "Laget har presterat väl utifrån våra förutsättningar.", hint: "Dämpar pressen på spelarna." },
+    ];
+    case "PROMISES": return [
+      { tone: "DIPLOMATIC", text: "Vi har en öppen dialog och full respekt för vad vi kommit överens om.", hint: "Dämpar oron." },
+      { tone: "PROTECTIVE", text: `${player} är en del av planerna och vi håller alltid det vi lovar.`, hint: "Lugnar spelaren." },
+      { tone: "CRITICAL", text: "Löften måste också förtjänas på planen. Spelaren måste leverera.", hint: "Skärper tonen." },
+      { tone: "CONFIDENT", text: "Vi har full kontroll över situationen och lagets bästa går alltid först.", hint: "Visar pondus." },
+    ];
   }
 }
 
 function questionText(topic: PressTopic, c: PressContext, state: CareerState, style: string): string {
   const opp = clubShort(c.opponentId);
   const rival = c.rivalStaffId ? coachPersona(state, c.rivalStaffId)?.name : undefined;
-  const blunt = style === "BLUNT";
+  const isBlunt = style === "CONFRONTATIONAL" || style === "BLUNT";
+  const isCritical = style === "CRITICAL";
+  const isAnalytic = style === "ANALYTICAL";
+  const isCurious = style === "CURIOUS";
+  const isLocal = style === "LOCAL_SUPPORTER" || style === "LOCAL";
   const player = c.playerId ? playerName(state, c.playerId) : undefined;
+
   switch (topic) {
-    case "PREVIEW": return c.derby ? (blunt ? `Hela stan pratar om derbyt mot ${opp}. Hur stor är pressen på dig?` : `Vad betyder derbyt mot ${opp} för dig och laget?`) : `Hur ser du på mötet med ${opp}?`;
+    case "PREVIEW": {
+      if (c.derby) {
+        if (isBlunt) return `Hela stan kokar inför derbyt mot ${opp}. Tål du pressen om det blir förlust?`;
+        if (isCritical) return `Derbyt mot ${opp} blir ert första riktiga prov. Är defensiven stabil nog?`;
+        if (isAnalytic) return `Hur ser den taktiska matchplanen ut för att låsa upp ${opp}:s försvarsspel i derbyt?`;
+        if (isCurious) return `Vad är känslan i spelartruppen inför prestigemötet mot ${opp}?`;
+        if (isLocal) return `Alla på läktaren lever för det här derbyt mot ${opp}. Hur ska ni göra hemmapubliken stolt?`;
+        return `Vad betyder derbyt mot ${opp} för dig och laget?`;
+      }
+      if (isBlunt) return `Många räknar bort er mot ${opp}. Har ni ens en chans?`;
+      if (isAnalytic) return `Vilka taktiska nycklar blir avgörande mot ${opp}:s uppställda spel?`;
+      if (isLocal) return `Supportrarna ser fram emot matchen mot ${opp}. Hur laddar ni?`;
+      return `Hur ser du på mötet med ${opp}?`;
+    }
     case "RIVAL_RESPONSE": {
       if (c.detail) {
+        if (isBlunt) return `${rival ?? "Motståndartränaren"} skickade en passning: ”${c.detail}”. Tar du det personligt?`;
+        if (isCritical) return `${rival ?? "Tränaren"} hävdar: ”${c.detail}”. Har han en poäng i sin kritik?`;
         return `${rival ?? "Motståndartränaren"} sa: ”${c.detail}”. Vad svarar du på det?`;
       }
       return `${rival ?? "Tränaren"} har uttalat sig om matchen. Vad är din reaktion?`;
     }
     case "AFTER_WIN": {
       if (player && c.detail) {
+        if (isBlunt) return `${player} dominerade med ${c.detail}. Är ni helt beroende av hans individuella klass?`;
+        if (isAnalytic) return `${player} levererade ${c.detail}. Hur skapade grundspelet lägena för honom?`;
+        if (isLocal) return `${player} bjöd på en magisk kväll med ${c.detail}! Hur stolt är du över insatsen?`;
+        if (isCritical) return `${player} bar offensiven med ${c.detail}, men bakåt darrade det. Är du nöjd med helheten?`;
+        if (isCurious) return `${player} glänste med ${c.detail}. Vad sa ni till varandra efter matchen?`;
         return `${player} stack ut med ${c.detail}. Hur viktig var hans insats i dag?`;
       }
       if (c.detail) {
+        if (isAnalytic) return `Det blev ${c.detail}. Hur väl följde laget den taktiska matchplanen?`;
+        if (isLocal) return `Det blev ${c.detail}! Fantastiskt jubel i hallen. Hur känns det i hjärtat just nu?`;
+        if (isBlunt) return `Det blev ${c.detail}. Var det här ett styrkebesked som tystar tvivlarna?`;
+        if (isCritical) return `Det blev ${c.detail}. Ni vinner, men spelet hackade i perioder – vad måste åtgärdas?`;
+        if (isCurious) return `Det blev ${c.detail}. Vad var nyckeln i omklädningsrummet under pausen?`;
         return `Det blev ${c.detail}. Vad avgjorde till er fördel i kväll?`;
       }
-      return blunt ? "Är ni nu ett topplag på riktigt?" : "Vad avgjorde matchen i dag?";
+      return isBlunt ? "Är ni nu ett topplag på riktigt?" : "Vad avgjorde matchen i dag?";
     }
     case "AFTER_DEFEAT": {
+      if (player && c.detail) {
+        if (isBlunt) return `${player} svarade för ${c.detail}, men ni faller ändå tungt. Hur kan resten av laget svika så?`;
+        if (isCritical) return `${player} stod för ${c.detail}, men försvaret läckte. Varför räckte inte det offensiva övertaget?`;
+        if (isAnalytic) return `${player} noterades för ${c.detail}, men motståndarna neutraliserade ert övriga anfall. Vad brast taktiskt?`;
+        if (isLocal) return `${player} slet med ${c.detail}, men det räckte inte. Hur samlar du laget efter den här smällen?`;
+        if (isCurious) return `${player} visade vägen med ${c.detail}. Hur var tongångarna i omklädningsrummet efteråt?`;
+        return `${player} svarade för ${c.detail}, men det räckte inte till seger. Vad saknades i dag?`;
+      }
       if (c.detail) {
+        if (isBlunt) return `Det blev ${c.detail}. Var det här ett rent haveri från er sida?`;
+        if (isCritical) return `Det blev ${c.detail}. Borde du inte ha reagerat med timeout och formationsbyte tidigare?`;
+        if (isAnalytic) return `Det blev ${c.detail}. Motståndarna läste era anfallsmönster – hur ser din taktiska analys ut?`;
+        if (isLocal) return `Det blev ${c.detail}. En tung kväll för supportrarna. Hur ska ni resa er till nästa match?`;
+        if (isCurious) return `Det blev ${c.detail}. Vad gick genom huvudet vid slutsignalen?`;
         return `Det blev ${c.detail}. Vad gick fel i matchplanen?`;
       }
-      return blunt ? "Var det här pinsamt?" : "Vad gick fel i dag?";
+      return isBlunt ? "Var det här pinsamt?" : "Vad gick fel i dag?";
     }
-    case "REFEREE": return `${c.detail ? `${c.detail} ` : ""}Vad tycker du om domarinsatsen?`;
-    case "PLAYER_UNHAPPY": return `${playerName(state, c.playerId)} vill lämna klubben. Hur ser du på det?`;
-    case "BOARD_PRESSURE": return blunt ? "Sitter du säkert?" : "Hur ser du på styrelsens oro?";
-    case "TRANSFER": return `Varför sålde ni ${playerName(state, c.playerId)}?`;
-    case "APPOINTMENT": return "Vad ska supportrarna förvänta sig av dig?";
-    case "POOR_FORM": return c.detail ? `${c.detail} Hur vänder ni den här trenden?` : (blunt ? "Har du tappat omklädningsrummet?" : "Hur vänder ni den här trenden?");
-    case "DISCIPLINE": return "Du är anmäld till disciplinnämnden. Ångrar du det du sa?";
+    case "REFEREE": {
+      if (isBlunt) return `${c.detail ? `${c.detail} ` : ""}Känner du dig rånad av domartrion i dag?`;
+      if (isCritical) return `${c.detail ? `${c.detail} ` : ""}Påverkade domarnivån matchens utgång avgörande?`;
+      return `${c.detail ? `${c.detail} ` : ""}Vad tycker du om domarinsatsen?`;
+    }
+    case "PLAYER_UNHAPPY": {
+      if (isBlunt) return `${playerName(state, c.playerId)} kräver att få lämna. Har du tappat kontrollen över spelaren?`;
+      if (isCritical) return `${playerName(state, c.playerId)} är missnöjd med sin roll. Borde inte klubben hanterat detta bättre?`;
+      return `${playerName(state, c.playerId)} vill lämna klubben. Hur ser du på det?`;
+    }
+    case "BOARD_PRESSURE": {
+      if (isBlunt) return "Sitter du löst på tränarposten nu?";
+      if (isCritical) return "Resultaten sviker och styrelsen oroar sig. Har du förtroendet kvar?";
+      return "Hur ser du på styrelsens oro?";
+    }
+    case "TRANSFER": {
+      if (isBlunt) return `Varför sålde ni ${playerName(state, c.playerId)}? Gav styrelsen upp säsongen?`;
+      if (isAnalytic) return `Hur ska truppen kompensera för tappet av ${playerName(state, c.playerId)} spelmässigt?`;
+      return `Varför sålde ni ${playerName(state, c.playerId)}?`;
+    }
+    case "APPOINTMENT": {
+      if (isBlunt) return "Kritiker menar att uppdraget är för stort för dig. Vad svarar du dem?";
+      if (isLocal) return "Välkommen till klubben! Hur känns det att kliva in i den här anrika föreningen?";
+      return "Vad ska supportrarna förvänta sig av dig?";
+    }
+    case "POOR_FORM": {
+      if (isBlunt) return c.detail ? `${c.detail} Har du tappat omklädningsrummet?` : "Har du tappat omklädningsrummet?";
+      if (isCritical) return c.detail ? `${c.detail} Vad talar för att du har verktygen att bryta raset?` : "Vad talar för att du har verktygen att bryta raset?";
+      return c.detail ? `${c.detail} Hur vänder ni den här trenden?` : "Hur vänder ni den här trenden?";
+    }
+    case "DISCIPLINE": {
+      if (isBlunt) return "Du är anmäld till disciplinnämnden. Ångrar du ditt beteende?";
+      return "Du är anmäld till disciplinnämnden. Vad har du för kommentar?";
+    }
+    case "TACTICS": {
+      if (isAnalytic) return "Hur balanserade du tempo och avslutsval i ert uppställda anfallsspel under matchen?";
+      if (isCritical) return "Varför dröjde ni så länge med att justera försvarsformationen när motståndarna fick utdelning?";
+      if (isBlunt) return "Motståndarna läste era taktiska drag som en öppen bok. Var planen för naiv?";
+      if (isCurious) return "Hur tänkte du kring era specialformationer och byten i dag?";
+      if (isLocal) return "Publiken uppskattade ert modiga spel i dag! Hur viktigt är det att spela attraktiv handboll?";
+      return "Hur utvärderar du lagets taktiska genomförande i dag?";
+    }
+    case "INJURY": {
+      if (isAnalytic) return `Hur påverkar frånvaron av ${player ?? "spelaren"} er taktiska struktur och belastning på övriga niometersspelare?`;
+      if (isCritical) return `Varför matchades ${player ?? "spelaren"} så hårt om det fanns risk för överbelastning?`;
+      if (isBlunt) return `${player ?? "Nyckelspelaren"} är skadad. Hur ska ni överleva säsongen utan er stjärna?`;
+      if (isLocal) return `Hela klubben lider med ${player ?? "spelaren"}. Vad har du för hälsning till supportrarna om hans status?`;
+      if (isCurious) return `Hur mår ${player ?? "spelaren"} och hur har laget reagerat på skadebeskedet?`;
+      return `Hur ser prognosen ut för ${player ?? "spelaren"} och hur påverkar det laget?`;
+    }
+    case "SQUAD_SELECTION": {
+      if (isBlunt) return `${player ? `Att bänka ${player}` : "Din matchtrupp"} väcker starka reaktioner. Är du inte rädd för missnöje?`;
+      if (isAnalytic) return "Vad låg bakom fördelningen av speltid och roller i dagens matchtrupp?";
+      if (isCritical) return "Varför fick inte de hetaste spelarna mer förtroende under slutminuterna?";
+      if (isCurious) return "Hur resonerar du när du sätter ihop startsjuan inför en så här viktig match?";
+      if (isLocal) return "Roligt att se egna produkter i truppen! Hur viktigt är det för klubbens identitet?";
+      return "Hur motiverar du dagens laguttagning och bänkning?";
+    }
+    case "FINANCES": {
+      if (isBlunt) return "Räcker klubbens ekonomi verkligen till för att hålla er kvar i toppen?";
+      if (isCritical) return "Klubbens lönebudget är under press. Hur påverkar det dina möjligheter att värva spets?";
+      if (isAnalytic) return "Hur ser balansen ut mellan truppkostnader, transfers och långsiktig hållbarhet?";
+      if (isCurious) return "Hur nära samarbetar du med styrelsen kring de ekonomiska ramarna?";
+      if (isLocal) return "Föreningen bygger sunt och ansvarsfullt. Hur känns det att leda det bygget?";
+      return "Hur påverkar föreningens ekonomiska situation det sportsliga arbetet?";
+    }
+    case "STAFF": {
+      if (isAnalytic) return "Hur ser ansvarsfördelningen ut mellan dig och dina assisterande tränare vid taktiska beslut?";
+      if (isCritical) return "Har ni tillräcklig kompetens i staben kring analys och fysträning för modern elithandboll?";
+      if (isBlunt) return "Finns det delade meningar inom ledarstaben om lagets riktning?";
+      if (isCurious) return "Hur ser dynamiken ut i ledarrummet före och efter match?";
+      if (isLocal) return "Det märks att ni är ett sammansvetsat team på bänken. Vad betyder staben för dig?";
+      return "Hur fungerar samarbetet inom tränar- och ledarstaben?";
+    }
+    case "LEAGUE_POSITION": {
+      if (isBlunt) return "Er tabellplacering är under förväntan. När börjar alarmklockorna ringa?";
+      if (isCritical) return "Ni tappar mark mot toppen. Vad talar för att ni kan vända säsongen?";
+      if (isAnalytic) return "Tittar vi på poängsnitt och målskillnad ligger ni i fas med målen. Hur analyserar du läget?";
+      if (isLocal) return "Tabelltoppen är inom räckhåll! Vågar supportrarna börja drömma om medalj?";
+      if (isCurious) return "Pratar ni mycket om tabellen och slutspelsstrecket i omklädningsrummet?";
+      return "Hur ser du på lagets position i tabellen just nu?";
+    }
+    case "PROMISES": {
+      if (isBlunt) return `${player ? `Har du brutit dina löften till ${player}` : "Har du brutit dina löften till spelarna"}?`;
+      if (isCritical) return `${player ? `${player} har inte fått den roll han utlovades.` : "Spelare känner att löften inte infrias."} Hur hanterar du det?`;
+      if (isAnalytic) return "Hur balanserar du individuella kontraktslöften mot vad som är taktiskt bäst för laget?";
+      if (isCurious) return "Hur håller du dialogen levande med spelare som vill ha mer speltid?";
+      if (isLocal) return "Ett lag bygger på förtroende. Hur skapar ni harmoni i truppen?";
+      return "Hur ser du på situationen kring de överenskommelser som gjorts med spelartruppen?";
+    }
   }
 }
 
@@ -206,6 +394,34 @@ export function effectsOf(state: CareerState, q: PressQuestion, tone: Tone, ctx:
     case "POOR_FORM:DECLINE": add("MEDIA", -2, "Pressen blev otålig"); break;
     case "DISCIPLINE:DIPLOMATIC": add("MEDIA", 1, "Ursäkten togs emot"); add("SUPPORTERS", -1, "Några supportrar ville att du skulle stå på dig"); break;
     case "DISCIPLINE:CRITICAL": add("SUPPORTERS", 2, "Supportrarna stod bakom dig"); add("BOARD", -1, "Styrelsen ville ha en ursäkt"); break;
+    case "TACTICS:CONFIDENT": add("TEAM", 2, "Laget stärktes av tränarens tydliga linje"); add("PRESSURE", 1, "Förväntningar på fortsatt utdelning"); break;
+    case "TACTICS:DIPLOMATIC": add("BOARD", 1, "Styrelsen uppskattade den balanserade analysen"); break;
+    case "TACTICS:CRITICAL": add("TEAM", -1, "Kritiken mot spelet utan boll skärpte kraven"); add("BOARD", 1, "Tydlig kravbild uppskattades"); break;
+    case "TACTICS:HUMOROUS": add("MEDIA", 2, "Den avväpnande kommentaren spreds"); add("SUPPORTERS", 1, "Lättsam stämning"); break;
+    case "INJURY:PROTECTIVE": add("PLAYER", 3, "Spelaren kände fullt stöd från klubben"); add("TEAM", 1, "Truppen märkte omsorgen"); break;
+    case "INJURY:CONFIDENT": add("TEAM", 2, "Reserverna tände till av tränarens förtroende"); add("SUPPORTERS", 1, "Supportrarna lugnades"); break;
+    case "INJURY:DIPLOMATIC": add("BOARD", 1, "Lugnt och ansvarsfullt besked"); break;
+    case "INJURY:CRITICAL": add("MEDIA", 1, "Ifrågasättandet av belastningen skapade rubriker"); add("BOARD", -1, "Styrelsen ogillar intern kritik"); break;
+    case "SQUAD_SELECTION:CONFIDENT": add("TEAM", 2, "Tydlig auktoritet från tränaren"); add("REPUTATION", 1, "Ledarskapet stärktes"); break;
+    case "SQUAD_SELECTION:PROTECTIVE": add("TEAM", 2, "Hela truppen slöt upp kring lagbygget"); add("SUPPORTERS", 1, "Supportrarna gillar lagsammanhållningen"); break;
+    case "SQUAD_SELECTION:CRITICAL": add("TEAM", -1, "Hårdare kravbild i truppen"); add("BOARD", 1, "Styrelsen gillar prestationsfokuset"); break;
+    case "SQUAD_SELECTION:DECLINE": add("MEDIA", -1, "Pressen ville ha svar om bänkningen"); break;
+    case "FINANCES:DIPLOMATIC": add("BOARD", 2, "Styrelsen uppskattade det ekonomiska ansvaret"); break;
+    case "FINANCES:CRITICAL": add("BOARD", -3, "Kravet på större resurser satte press på styrelsen"); add("SUPPORTERS", 2, "Supportrarna delar din syn"); break;
+    case "FINANCES:CONFIDENT": add("SUPPORTERS", 2, "Framtidstron stärktes i föreningen"); add("BOARD", 1, "Styrelsen gillade optimismen"); break;
+    case "FINANCES:DECLINE": add("MEDIA", -1, "Ekonomiska frågor lämnades obesvarade"); break;
+    case "STAFF:CONFIDENT": add("TEAM", 2, "Ledarstaben känner fullt förtroende"); add("REPUTATION", 1, "Professionellt intryck"); break;
+    case "STAFF:PROTECTIVE": add("TEAM", 3, "Staben uppskattade att deras arbete lyftes fram"); break;
+    case "STAFF:DIPLOMATIC": add("BOARD", 1, "Lugnt och stabilt ledarskap"); break;
+    case "STAFF:CRITICAL": add("BOARD", -1, "Kravet på bättre resurser runt laget noterades"); add("MEDIA", 1, "Staben i fokus"); break;
+    case "LEAGUE_POSITION:CONFIDENT": add("SUPPORTERS", 2, "Supportrarna drömmer"); add("PRESSURE", 2, "Förväntningarna på slutspelsplats stiger"); break;
+    case "LEAGUE_POSITION:DIPLOMATIC": add("BOARD", 1, "Styrelsen uppskattar match-för-match-fokuset"); break;
+    case "LEAGUE_POSITION:CRITICAL": add("TEAM", -1, "Kritiken mot tabellplaceringen skärpte kraven"); add("BOARD", 1, "Ambitiös signal"); break;
+    case "LEAGUE_POSITION:PROTECTIVE": add("TEAM", 2, "Laget kände tränarens beskydd"); add("SUPPORTERS", 1, "Supportrarna sluter upp"); break;
+    case "PROMISES:PROTECTIVE": add("PLAYER", 4, "Spelaren lugnades av tränarens besked"); add("TEAM", 1, "Truppen ser att löften hålls"); break;
+    case "PROMISES:DIPLOMATIC": add("PLAYER", 1, "Konstruktiv dialog dämpade oron"); add("BOARD", 1, "Lugnt hanterat"); break;
+    case "PROMISES:CRITICAL": add("PLAYER", -4, "Hård markering – spelaren måste bevisa sig"); add("BOARD", 1, "Tydlig linje"); break;
+    case "PROMISES:CONFIDENT": add("REPUTATION", 1, "Tränaren visade auktoritet"); add("TEAM", 1, "Lagets bästa sattes i första rummet"); break;
   }
   void q;
   return out;
