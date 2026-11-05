@@ -41,8 +41,8 @@
   },
   "se_player_love_ljungqvist_3f94aca6": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T15:45:48.620Z",
-    "note": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
+    "updatedAt": "2026-11-05T21:45:41.502Z",
+    "note": "HM-PHASE-2B: calibrated CA 92->92, PA 128->128. 17-year-old reserve wing for Kroppskultur. Previous PA 160 was an unevidenced age-inflation artifact (+68 points)."
   },
   "se_player_simon_holmqvist_0f746700": {
     "status": "LOCKED",
@@ -61,8 +61,8 @@
   },
   "se_player_alvin_sundstrom_733a7887": {
     "status": "LOCKED",
-    "updatedAt": "2026-10-31T06:14:33.364Z",
-    "note": "HM-DATA-1.3 (2026-10-31) GK/OUTCOURT branch correction to MV; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1)"
+    "updatedAt": "2026-11-05T21:45:41.412Z",
+    "note": "HM-PHASE-2B: calibrated CA 91->91, PA 126->126. 17-year-old backup GK for Kroppskultur with no senior minutes. Previous PA 158 was an unevidenced age-inflation artifact (+67 points)."
   },
   "se_player_fabian_bjorkman_be3ee917": {
     "status": "LOCKED",

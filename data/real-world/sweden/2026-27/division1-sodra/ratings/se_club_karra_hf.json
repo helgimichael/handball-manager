@@ -4380,20 +4380,20 @@
     "clubId": "se_club_karra_hf",
     "position": "V9",
     "ca": {
-      "value": 119,
+      "value": 118,
       "confidence": "HIGH",
       "plausibleRange": {
-        "min": 119,
-        "max": 119
+        "min": 118,
+        "max": 118
       },
       "source": "EDITOR_OVERRIDE"
     },
     "pa": {
-      "value": 137,
+      "value": 132,
       "confidence": "HIGH",
       "plausibleRange": {
-        "min": 137,
-        "max": 137
+        "min": 132,
+        "max": 132
       },
       "source": "EDITOR_OVERRIDE"
     },
@@ -4634,7 +4634,7 @@
     "defenceRoleProficiencies": [],
     "caEstimationModelVersion": "HM-RATINGS-0.5-v1",
     "attributeGenerationModelVersion": "HM-RATINGS-0.4-v1",
-    "lockedAt": "2026-08-30T15:46:08.343Z",
-    "lockedNote": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
+    "lockedAt": "2026-11-05T21:45:41.717Z",
+    "lockedNote": "HM-PHASE-2B (2026-11-05): calibrated CA 118->118, PA 132->132. Previous note: HM-PHASE-2B (2026-11-05): calibrated CA 119->118, PA 137->132. Previous note: ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW). Reason: Kärra HF left back with senior experience at Redbergslids IK. Direct evidence that elite Division 1 players overlap middle Allsvenskan.. Reason: Kärra HF left back with senior experience at Redbergslids IK. Direct evidence that elite Division 1 players overlap middle Allsvenskan."
   }
 }

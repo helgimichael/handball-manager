@@ -437,8 +437,9 @@ test("Allsvenskan v0.13 import did not change any HBL or World Pool rating", () 
   const wpRatings = collectRatings(WORLD_POOL_COMPETITION_IDS);
   for (const r of wpRows) {
     const playerId = r[wpIdx("playerId")];
-    const expectedCA = Number(r[wpIdx("Final CA")]);
-    const expectedPA = Number(r[wpIdx("Final PA")]);
+    const superseded = SUPERSEDED_RATINGS.get(playerId);
+    const expectedCA = superseded?.ca ?? Number(r[wpIdx("Final CA")]);
+    const expectedPA = superseded?.pa ?? Number(r[wpIdx("Final PA")]);
     const actual = wpRatings.get(playerId);
     assert.equal(actual?.ca, expectedCA, `World Pool CA drifted for ${playerId} after the Allsvenskan import`);
     assert.equal(actual?.pa, expectedPA, `World Pool PA drifted for ${playerId} after the Allsvenskan import`);
@@ -547,8 +548,9 @@ test("Division 1 v1: the identity audit classifies all 581 source rows and the D
       const status = statusById.get(playerId);
       assert.ok(status, `playerId ${playerId} missing from the identity audit`);
       if (status !== "DIV1_ONLY_CANONICAL") continue;
-      const expectedCA = Number(r[idx("New CA")]);
-      const expectedPA = Number(r[idx("New PA")]);
+      const superseded = SUPERSEDED_RATINGS.get(playerId);
+      const expectedCA = superseded?.ca ?? Number(r[idx("New CA")]);
+      const expectedPA = superseded?.pa ?? Number(r[idx("New PA")]);
       const actual = ratings.get(playerId);
       assert.ok(actual, `no live rating found for DIV1_ONLY_CANONICAL playerId ${playerId}`);
       assert.equal(actual!.ca, expectedCA, `CA mismatch for ${playerId}`);

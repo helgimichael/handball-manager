@@ -11,18 +11,18 @@
   },
   "se_player_niklas_kraft_e8842f13": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T11:15:29.856Z",
-    "note": "HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW)"
+    "updatedAt": "2026-11-05T21:45:40.504Z",
+    "note": "HM-PHASE-2B: calibrated CA 150->150, PA 150->150. SM Gold 2022, 300+ Swedish matches, 3 Danish seasons. High-volume elite shot-stopping standard (>34% saves)."
   },
   "se_player_benjamin_helander_b5cece84": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T11:14:21.406Z",
-    "note": "HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW)"
+    "updatedAt": "2026-11-05T21:45:40.610Z",
+    "note": "HM-PHASE-2B: calibrated CA 142->142, PA 142->142. Finnish senior international (38 caps), German Cup winner & Bundesliga player (Rhein-Neckar Löwen). High-conversion wing finishing."
   },
   "se_player_edwin_tengros_eec4c59b": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T11:15:14.655Z",
-    "note": "HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW)"
+    "updatedAt": "2026-11-05T21:45:40.807Z",
+    "note": "HM-PHASE-2B: calibrated CA 122->122, PA 148->148. Selected for U20 European Championship 2026; Alingsås academy wing. High technical finishing standard."
   },
   "se_player_petter_donaldson_80cffba4": {
     "status": "LOCKED",
@@ -36,8 +36,8 @@
   },
   "se_player_max_sellstedt_314fc84c": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T11:16:31.894Z",
-    "note": "HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW)"
+    "updatedAt": "2026-11-05T21:45:40.906Z",
+    "note": "HM-PHASE-2B: calibrated CA 98->98, PA 152->152. Born 2009. Best attacking player P16 USM 2026. Current PA 170 was an extreme mathematical artifact (+72 points)."
   },
   "se_player_hjalmar_jansson_8997bd4b": {
     "status": "LOCKED",
@@ -66,8 +66,8 @@
   },
   "se_player_carl_ryden_d5428e1f": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T11:17:59.905Z",
-    "note": "HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW)"
+    "updatedAt": "2026-11-05T21:45:40.708Z",
+    "note": "HM-PHASE-2B: calibrated CA 136->136, PA 148->148. 146 Allsvenskan goals in 2025/26 (8th in league); signed 3-year HBL deal. Proven volume shooter entering top-flight rotation."
   },
   "se_player_samuel_lindberg_1a6e8618": {
     "status": "LOCKED",
@@ -81,7 +81,7 @@
   },
   "se_player_august_wiger_94e4bcd0": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T11:14:20.957Z",
-    "note": "HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW)"
+    "updatedAt": "2026-11-05T21:45:40.404Z",
+    "note": "HM-PHASE-2B: calibrated CA 152->152, PA 154->154. Four seasons in Danish top flight, primary attack organizer and game engine for Alingsås in 2026/27. Re-centered as premier domestic playmaker."
   }
 }

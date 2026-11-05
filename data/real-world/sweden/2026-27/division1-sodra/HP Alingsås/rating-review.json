@@ -28,5 +28,10 @@
     "status": "LOCKED",
     "updatedAt": "2026-08-30T17:58:59.756Z",
     "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+  },
+  "player_oskar_alf_dahlin_29d39f91": {
+    "status": "LOCKED",
+    "updatedAt": "2026-11-05T21:45:42.095Z",
+    "note": "HM-PHASE-2B: calibrated CA 96->96, PA 122->122. Starting goalkeeper for HP Alingsås in Div 1 Södra (voted best goalkeeper in Herr 1 2025/26). Undervalued at CA 69 by unanchored prior. Calibrated to senior Div 1 starter standard."
   }
 }

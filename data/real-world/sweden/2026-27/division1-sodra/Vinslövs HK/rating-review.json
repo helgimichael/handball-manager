@@ -6,8 +6,8 @@
   },
   "player_alexander_andersson_1718521d": {
     "status": "LOCKED",
-    "updatedAt": "2026-10-31T09:56:16.494Z",
-    "note": "HM-DATA-1.5 (2026-10-31) GK/OUTCOURT branch correction to M9; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1)"
+    "updatedAt": "2026-11-05T21:45:42.204Z",
+    "note": "HM-PHASE-2B: calibrated CA 104->104, PA 104->104. Vinslövs HK central back, age 25. Standard established third-tier rotation player without developmental runway. Normalized from inflated CA 112."
   },
   "player_anders_teige_boe_b477bc82": {
     "status": "LOCKED",

@@ -4692,22 +4692,22 @@
   "se_player_adam_fule_5020dcbf": {
     "playerId": "se_player_adam_fule_5020dcbf",
     "clubId": "se_club_hp_warta",
-    "position": "M6",
+    "position": "M9",
     "ca": {
-      "value": 106,
+      "value": 108,
       "confidence": "HIGH",
       "plausibleRange": {
-        "min": 106,
-        "max": 106
+        "min": 108,
+        "max": 108
       },
       "source": "EDITOR_OVERRIDE"
     },
     "pa": {
-      "value": 149,
+      "value": 130,
       "confidence": "HIGH",
       "plausibleRange": {
-        "min": 149,
-        "max": 149
+        "min": 130,
+        "max": 130
       },
       "source": "EDITOR_OVERRIDE"
     },
@@ -4715,107 +4715,107 @@
       "branch": "OUTCOURT",
       "attributes": {
         "PASSING": {
-          "value": 12,
-          "origin": "GENERATED_PRIOR"
-        },
-        "BALL_HANDLING": {
-          "value": 12,
-          "origin": "GENERATED_PRIOR"
-        },
-        "SHOOTING_POWER": {
-          "value": 12,
-          "origin": "GENERATED_PRIOR"
-        },
-        "SHOOTING_PLACEMENT": {
-          "value": 12,
-          "origin": "GENERATED_PRIOR"
-        },
-        "SHOOTING_VARIETY": {
           "value": 11,
           "origin": "GENERATED_PRIOR"
         },
-        "BREAKTHROUGH": {
+        "BALL_HANDLING": {
+          "value": 11,
+          "origin": "GENERATED_PRIOR"
+        },
+        "SHOOTING_POWER": {
           "value": 13,
+          "origin": "DERIVED"
+        },
+        "SHOOTING_PLACEMENT": {
+          "value": 13,
+          "origin": "DERIVED"
+        },
+        "SHOOTING_VARIETY": {
+          "value": 10,
+          "origin": "GENERATED_PRIOR"
+        },
+        "BREAKTHROUGH": {
+          "value": 12,
           "origin": "GENERATED_PRIOR"
         },
         "FINISHING": {
           "value": 13,
-          "origin": "GENERATED_PRIOR"
-        },
-        "WING_FINISHING": {
-          "value": 13,
-          "origin": "GENERATED_PRIOR"
-        },
-        "PIVOT_PLAY": {
-          "value": 11,
-          "origin": "GENERATED_PRIOR"
-        },
-        "SCREENING": {
-          "value": 14,
           "origin": "DERIVED"
         },
-        "GAME_READING": {
-          "value": 10,
-          "origin": "GENERATED_PRIOR"
-        },
-        "DECISION_MAKING": {
-          "value": 9,
-          "origin": "GENERATED_PRIOR"
-        },
-        "AWARENESS": {
-          "value": 10,
-          "origin": "GENERATED_PRIOR"
-        },
-        "ANTICIPATION": {
-          "value": 9,
-          "origin": "GENERATED_PRIOR"
-        },
-        "PLAYMAKING": {
-          "value": 9,
-          "origin": "GENERATED_PRIOR"
-        },
-        "TEMPO_CONTROL": {
-          "value": 9,
-          "origin": "GENERATED_PRIOR"
-        },
-        "TWO_V_TWO_READING": {
-          "value": 11,
-          "origin": "GENERATED_PRIOR"
-        },
-        "ADVANTAGE_RECOGNITION": {
-          "value": 9,
-          "origin": "GENERATED_PRIOR"
-        },
-        "TACTICAL_UNDERSTANDING": {
-          "value": 10,
-          "origin": "GENERATED_PRIOR"
-        },
-        "ROLE_DISCIPLINE": {
-          "value": 10,
-          "origin": "GENERATED_PRIOR"
-        },
-        "OFF_BALL_MOVEMENT": {
-          "value": 10,
-          "origin": "GENERATED_PRIOR"
-        },
-        "SPACING": {
-          "value": 10,
-          "origin": "GENERATED_PRIOR"
-        },
-        "TIMING": {
-          "value": 11,
-          "origin": "GENERATED_PRIOR"
-        },
-        "TRANSITION_UNDERSTANDING": {
+        "WING_FINISHING": {
           "value": 12,
           "origin": "GENERATED_PRIOR"
         },
-        "SYSTEM_ADAPTABILITY": {
+        "PIVOT_PLAY": {
+          "value": 10,
+          "origin": "GENERATED_PRIOR"
+        },
+        "SCREENING": {
+          "value": 12,
+          "origin": "GENERATED_PRIOR"
+        },
+        "GAME_READING": {
+          "value": 13,
+          "origin": "GENERATED_PRIOR"
+        },
+        "DECISION_MAKING": {
+          "value": 12,
+          "origin": "GENERATED_PRIOR"
+        },
+        "AWARENESS": {
+          "value": 13,
+          "origin": "GENERATED_PRIOR"
+        },
+        "ANTICIPATION": {
+          "value": 12,
+          "origin": "GENERATED_PRIOR"
+        },
+        "PLAYMAKING": {
+          "value": 12,
+          "origin": "GENERATED_PRIOR"
+        },
+        "TEMPO_CONTROL": {
+          "value": 12,
+          "origin": "GENERATED_PRIOR"
+        },
+        "TWO_V_TWO_READING": {
+          "value": 14,
+          "origin": "GENERATED_PRIOR"
+        },
+        "ADVANTAGE_RECOGNITION": {
+          "value": 12,
+          "origin": "GENERATED_PRIOR"
+        },
+        "TACTICAL_UNDERSTANDING": {
           "value": 11,
           "origin": "GENERATED_PRIOR"
         },
-        "SEVEN_V_SIX_UNDERSTANDING": {
+        "ROLE_DISCIPLINE": {
           "value": 11,
+          "origin": "GENERATED_PRIOR"
+        },
+        "OFF_BALL_MOVEMENT": {
+          "value": 11,
+          "origin": "GENERATED_PRIOR"
+        },
+        "SPACING": {
+          "value": 11,
+          "origin": "GENERATED_PRIOR"
+        },
+        "TIMING": {
+          "value": 12,
+          "origin": "GENERATED_PRIOR"
+        },
+        "TRANSITION_UNDERSTANDING": {
+          "value": 13,
+          "origin": "GENERATED_PRIOR"
+        },
+        "SYSTEM_ADAPTABILITY": {
+          "value": 12,
+          "origin": "GENERATED_PRIOR"
+        },
+        "SEVEN_V_SIX_UNDERSTANDING": {
+          "value": 12,
           "origin": "GENERATED_PRIOR"
         },
         "CONTACT_ABILITY": {
@@ -4859,47 +4859,47 @@
           "origin": "GENERATED_PRIOR"
         },
         "ACCELERATION": {
-          "value": 14,
+          "value": 11,
           "origin": "GENERATED_PRIOR"
         },
         "TOP_SPEED": {
-          "value": 13,
+          "value": 10,
           "origin": "GENERATED_PRIOR"
         },
         "LATERAL_QUICKNESS": {
-          "value": 12,
+          "value": 9,
           "origin": "GENERATED_PRIOR"
         },
         "AGILITY": {
-          "value": 13,
+          "value": 10,
           "origin": "GENERATED_PRIOR"
         },
         "EXPLOSIVENESS": {
-          "value": 13,
+          "value": 10,
           "origin": "GENERATED_PRIOR"
         },
         "STRENGTH": {
-          "value": 15,
-          "origin": "DERIVED"
+          "value": 9,
+          "origin": "GENERATED_PRIOR"
         },
         "CONTACT_BALANCE": {
-          "value": 14,
-          "origin": "DERIVED"
+          "value": 9,
+          "origin": "GENERATED_PRIOR"
         },
         "JUMP_ABILITY": {
-          "value": 14,
+          "value": 11,
           "origin": "GENERATED_PRIOR"
         },
         "ENDURANCE": {
-          "value": 12,
+          "value": 9,
           "origin": "GENERATED_PRIOR"
         },
         "REPEAT_SPRINT_ABILITY": {
-          "value": 13,
+          "value": 10,
           "origin": "GENERATED_PRIOR"
         },
         "MOBILITY": {
-          "value": 12,
+          "value": 9,
           "origin": "GENERATED_PRIOR"
         },
         "CONSISTENCY": {
@@ -4942,13 +4942,13 @@
     },
     "attackRoleProficiencies": [
       {
-        "role": "PHYSICAL_PIVOT"
+        "role": "SCORING_CENTRE_BACK"
       }
     ],
     "defenceRoleProficiencies": [],
     "caEstimationModelVersion": "HM-RATINGS-0.5-v1",
     "attributeGenerationModelVersion": "HM-RATINGS-0.4-v1",
-    "lockedAt": "2026-08-30T15:45:51.270Z",
-    "lockedNote": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
+    "lockedAt": "2026-11-05T21:45:41.807Z",
+    "lockedNote": "HM-PHASE-2B (2026-11-05): calibrated CA 108->108, PA 130->130. Previous note: HM-PHASE-2B (2026-11-05): calibrated CA 106->108, PA 149->130. Previous note: ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW). Reason: HP Warta primary playmaker with Kungälv Allsvenskan background. Adjusted CA 108 benchmarks starting Div 1 quality; deflated unevidenced PA 149 to realistic 130.. Reason: HP Warta primary playmaker with Kungälv Allsvenskan background. Adjusted CA 108 benchmarks starting Div 1 quality; deflated unevidenced PA 149 to realistic 130."
   }
 }

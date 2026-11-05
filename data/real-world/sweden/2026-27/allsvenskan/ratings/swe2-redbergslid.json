@@ -3908,20 +3908,20 @@
     "clubId": "swe2-redbergslid",
     "position": "GK",
     "ca": {
-      "value": 116,
+      "value": 114,
       "confidence": "HIGH",
       "plausibleRange": {
-        "min": 116,
-        "max": 116
+        "min": 114,
+        "max": 114
       },
       "source": "EDITOR_OVERRIDE"
     },
     "pa": {
-      "value": 132,
+      "value": 128,
       "confidence": "HIGH",
       "plausibleRange": {
-        "min": 132,
-        "max": 132
+        "min": 128,
+        "max": 128
       },
       "source": "EDITOR_OVERRIDE"
     },
@@ -4018,8 +4018,8 @@
     "defenceRoleProficiencies": [],
     "caEstimationModelVersion": "HM-RATINGS-0.5-v1",
     "attributeGenerationModelVersion": "HM-RATINGS-0.4-v1",
-    "lockedAt": "2026-08-30T15:46:00.056Z",
-    "lockedNote": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
+    "lockedAt": "2026-11-05T21:45:41.143Z",
+    "lockedNote": "HM-PHASE-2B (2026-11-05): calibrated CA 114->114, PA 128->128. Previous note: HM-PHASE-2B (2026-11-05): calibrated CA 116->114, PA 132->128. Previous note: ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW). Reason: Redbergslids IK rotation goalkeeper. Re-centered to represent competitive second-tier backup depth.. Reason: Redbergslids IK rotation goalkeeper. Re-centered to represent competitive second-tier backup depth."
   },
   "se_player_david_johansson_2badcc23": {
     "playerId": "se_player_david_johansson_2badcc23",

@@ -4406,20 +4406,20 @@
     "clubId": "se_club_hk_malmo",
     "position": "H9",
     "ca": {
-      "value": 112,
+      "value": 114,
       "confidence": "HIGH",
       "plausibleRange": {
-        "min": 112,
-        "max": 112
+        "min": 114,
+        "max": 114
       },
       "source": "EDITOR_OVERRIDE"
     },
     "pa": {
-      "value": 160,
+      "value": 156,
       "confidence": "HIGH",
       "plausibleRange": {
-        "min": 160,
-        "max": 160
+        "min": 156,
+        "max": 156
       },
       "source": "EDITOR_OVERRIDE"
     },
@@ -4660,7 +4660,7 @@
     "defenceRoleProficiencies": [],
     "caEstimationModelVersion": "HM-RATINGS-0.5-v1",
     "attributeGenerationModelVersion": "HM-RATINGS-0.4-v1",
-    "lockedAt": "2026-08-30T11:15:22.750Z",
-    "lockedNote": "HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW)"
+    "lockedAt": "2026-11-05T21:45:40.939Z",
+    "lockedNote": "HM-PHASE-2B (2026-11-05): calibrated CA 114->114, PA 156->156. Previous note: HM-PHASE-2B (2026-11-05): calibrated CA 112->114, PA 160->156. Previous note: HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW). Reason: Swedish U20 European Championship delegation 2026; transferred to HK Malmö. Solidified senior rotation ability.. Reason: Swedish U20 European Championship delegation 2026; transferred to HK Malmö. Solidified senior rotation ability."
   }
 }

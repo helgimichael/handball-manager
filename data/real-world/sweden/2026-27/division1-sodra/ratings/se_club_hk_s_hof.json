@@ -6266,20 +6266,20 @@
     "clubId": "se_club_hk_s_hof",
     "position": "H9",
     "ca": {
-      "value": 102,
+      "value": 104,
       "confidence": "HIGH",
       "plausibleRange": {
-        "min": 102,
-        "max": 102
+        "min": 104,
+        "max": 104
       },
       "source": "EDITOR_OVERRIDE"
     },
     "pa": {
-      "value": 154,
+      "value": 152,
       "confidence": "HIGH",
       "plausibleRange": {
-        "min": 154,
-        "max": 154
+        "min": 152,
+        "max": 152
       },
       "source": "EDITOR_OVERRIDE"
     },
@@ -6520,8 +6520,8 @@
     "defenceRoleProficiencies": [],
     "caEstimationModelVersion": "HM-RATINGS-0.5-v1",
     "attributeGenerationModelVersion": "HM-RATINGS-0.4-v1",
-    "lockedAt": "2026-08-30T17:58:56.029Z",
-    "lockedNote": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+    "lockedAt": "2026-11-05T21:45:41.911Z",
+    "lockedNote": "HM-PHASE-2B (2026-11-05): calibrated CA 104->104, PA 152->152. Previous note: HM-PHASE-2B (2026-11-05): calibrated CA 102->104, PA 154->152. Previous note: DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only). Reason: Sävehof academy standout playing senior minutes for reserve HK S-hof. Verified Swedish youth national team right back.. Reason: Sävehof academy standout playing senior minutes for reserve HK S-hof. Verified Swedish youth national team right back."
   },
   "player_vilmer_harlin_962aa4c6": {
     "playerId": "player_vilmer_harlin_962aa4c6",

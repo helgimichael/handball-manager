@@ -80,9 +80,9 @@
     "pa": 126
   },
   "player_victor_tasevski_14ec6a52": {
+    "updatedAt": "2026-10-31T09:56:17.317Z",
     "ca": 104,
-    "pa": 152,
-    "updatedAt": "2026-10-31T09:56:17.317Z"
+    "pa": 152
   },
   "player_william_nyman_0f67635d": {
     "updatedAt": "2026-08-30T17:59:31.251Z",
@@ -100,8 +100,8 @@
     "pa": 120
   },
   "se_player_theodor_kapnias_olsson_60beed3c": {
-    "updatedAt": "2026-08-30T15:46:08.175Z",
-    "ca": 119,
-    "pa": 137
+    "ca": 118,
+    "pa": 132,
+    "updatedAt": "2026-11-05T21:45:41.746Z"
   }
 }

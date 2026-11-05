@@ -240,11 +240,11 @@
     "clubId": "se_club_alingsas_hk",
     "position": "GK",
     "ca": {
-      "value": 147,
+      "value": 150,
       "confidence": "HIGH",
       "plausibleRange": {
-        "min": 147,
-        "max": 147
+        "min": 150,
+        "max": 150
       },
       "source": "EDITOR_OVERRIDE"
     },
@@ -350,28 +350,28 @@
     "defenceRoleProficiencies": [],
     "caEstimationModelVersion": "HM-RATINGS-0.5-v1",
     "attributeGenerationModelVersion": "HM-RATINGS-0.4-v1",
-    "lockedAt": "2026-08-30T11:15:29.423Z",
-    "lockedNote": "HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW)"
+    "lockedAt": "2026-11-05T21:45:40.407Z",
+    "lockedNote": "HM-PHASE-2B (2026-11-05): calibrated CA 150->150, PA 150->150. Previous note: HM-PHASE-2B (2026-11-05): calibrated CA 147->150, PA 150->150. Previous note: HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW). Reason: SM Gold 2022, 300+ Swedish matches, 3 Danish seasons. High-volume elite shot-stopping standard (>34% saves).. Reason: SM Gold 2022, 300+ Swedish matches, 3 Danish seasons. High-volume elite shot-stopping standard (>34% saves)."
   },
   "se_player_benjamin_helander_b5cece84": {
     "playerId": "se_player_benjamin_helander_b5cece84",
     "clubId": "se_club_alingsas_hk",
     "position": "V6",
     "ca": {
-      "value": 138,
+      "value": 142,
       "confidence": "HIGH",
       "plausibleRange": {
-        "min": 138,
-        "max": 138
+        "min": 142,
+        "max": 142
       },
       "source": "EDITOR_OVERRIDE"
     },
     "pa": {
-      "value": 140,
+      "value": 142,
       "confidence": "HIGH",
       "plausibleRange": {
-        "min": 140,
-        "max": 140
+        "min": 142,
+        "max": 142
       },
       "source": "EDITOR_OVERRIDE"
     },
@@ -608,8 +608,8 @@
     "defenceRoleProficiencies": [],
     "caEstimationModelVersion": "HM-RATINGS-0.5-v1",
     "attributeGenerationModelVersion": "HM-RATINGS-0.4-v1",
-    "lockedAt": "2026-08-30T11:14:21.225Z",
-    "lockedNote": "HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW)"
+    "lockedAt": "2026-11-05T21:45:40.506Z",
+    "lockedNote": "HM-PHASE-2B (2026-11-05): calibrated CA 142->142, PA 142->142. Previous note: HM-PHASE-2B (2026-11-05): calibrated CA 138->142, PA 140->142. Previous note: HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW). Reason: Finnish senior international (38 caps), German Cup winner & Bundesliga player (Rhein-Neckar Löwen). High-conversion wing finishing.. Reason: Finnish senior international (38 caps), German Cup winner & Bundesliga player (Rhein-Neckar Löwen). High-conversion wing finishing."
   },
   "se_player_edwin_tengros_eec4c59b": {
     "playerId": "se_player_edwin_tengros_eec4c59b",
@@ -625,11 +625,11 @@
       "source": "EDITOR_OVERRIDE"
     },
     "pa": {
-      "value": 150,
+      "value": 148,
       "confidence": "HIGH",
       "plausibleRange": {
-        "min": 150,
-        "max": 150
+        "min": 148,
+        "max": 148
       },
       "source": "EDITOR_OVERRIDE"
     },
@@ -870,8 +870,8 @@
     "defenceRoleProficiencies": [],
     "caEstimationModelVersion": "HM-RATINGS-0.5-v1",
     "attributeGenerationModelVersion": "HM-RATINGS-0.4-v1",
-    "lockedAt": "2026-08-30T11:15:14.520Z",
-    "lockedNote": "HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW)"
+    "lockedAt": "2026-11-05T21:45:40.710Z",
+    "lockedNote": "HM-PHASE-2B (2026-11-05): calibrated CA 122->122, PA 148->148. Previous note: HM-PHASE-2B (2026-11-05): calibrated CA 122->122, PA 150->148. Previous note: HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW). Reason: Selected for U20 European Championship 2026; Alingsås academy wing. High technical finishing standard.. Reason: Selected for U20 European Championship 2026; Alingsås academy wing. High technical finishing standard."
   },
   "se_player_petter_donaldson_80cffba4": {
     "playerId": "se_player_petter_donaldson_80cffba4",
@@ -1399,7 +1399,7 @@
     "position": "V9",
     "ca": {
       "value": 98,
-      "confidence": "HIGH",
+      "confidence": "MEDIUM",
       "plausibleRange": {
         "min": 98,
         "max": 98
@@ -1407,11 +1407,11 @@
       "source": "EDITOR_OVERRIDE"
     },
     "pa": {
-      "value": 170,
-      "confidence": "HIGH",
+      "value": 152,
+      "confidence": "MEDIUM",
       "plausibleRange": {
-        "min": 170,
-        "max": 170
+        "min": 152,
+        "max": 152
       },
       "source": "EDITOR_OVERRIDE"
     },
@@ -1652,8 +1652,8 @@
     "defenceRoleProficiencies": [],
     "caEstimationModelVersion": "HM-RATINGS-0.5-v1",
     "attributeGenerationModelVersion": "HM-RATINGS-0.4-v1",
-    "lockedAt": "2026-08-30T11:16:31.493Z",
-    "lockedNote": "HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW)"
+    "lockedAt": "2026-11-05T21:45:40.809Z",
+    "lockedNote": "HM-PHASE-2B (2026-11-05): calibrated CA 98->98, PA 152->152. Previous note: HM-PHASE-2B (2026-11-05): calibrated CA 98->98, PA 170->152. Previous note: HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW). Reason: Born 2009. Best attacking player P16 USM 2026. Current PA 170 was an extreme mathematical artifact (+72 points).. Reason: Born 2009. Best attacking player P16 USM 2026. Current PA 170 was an extreme mathematical artifact (+72 points)."
   },
   "se_player_hjalmar_jansson_8997bd4b": {
     "playerId": "se_player_hjalmar_jansson_8997bd4b",
@@ -2975,11 +2975,11 @@
       "source": "EDITOR_OVERRIDE"
     },
     "pa": {
-      "value": 154,
+      "value": 148,
       "confidence": "HIGH",
       "plausibleRange": {
-        "min": 154,
-        "max": 154
+        "min": 148,
+        "max": 148
       },
       "source": "EDITOR_OVERRIDE"
     },
@@ -3220,8 +3220,8 @@
     "defenceRoleProficiencies": [],
     "caEstimationModelVersion": "HM-RATINGS-0.5-v1",
     "attributeGenerationModelVersion": "HM-RATINGS-0.4-v1",
-    "lockedAt": "2026-08-30T11:17:59.505Z",
-    "lockedNote": "HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW)"
+    "lockedAt": "2026-11-05T21:45:40.612Z",
+    "lockedNote": "HM-PHASE-2B (2026-11-05): calibrated CA 136->136, PA 148->148. Previous note: HM-PHASE-2B (2026-11-05): calibrated CA 136->136, PA 154->148. Previous note: HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW). Reason: 146 Allsvenskan goals in 2025/26 (8th in league); signed 3-year HBL deal. Proven volume shooter entering top-flight rotation.. Reason: 146 Allsvenskan goals in 2025/26 (8th in league); signed 3-year HBL deal. Proven volume shooter entering top-flight rotation."
   },
   "se_player_samuel_lindberg_1a6e8618": {
     "playerId": "se_player_samuel_lindberg_1a6e8618",
@@ -3752,20 +3752,20 @@
     "clubId": "se_club_alingsas_hk",
     "position": "M9",
     "ca": {
-      "value": 147,
+      "value": 152,
       "confidence": "HIGH",
       "plausibleRange": {
-        "min": 147,
-        "max": 147
+        "min": 152,
+        "max": 152
       },
       "source": "EDITOR_OVERRIDE"
     },
     "pa": {
-      "value": 153,
+      "value": 154,
       "confidence": "HIGH",
       "plausibleRange": {
-        "min": 153,
-        "max": 153
+        "min": 154,
+        "max": 154
       },
       "source": "EDITOR_OVERRIDE"
     },
@@ -4002,7 +4002,7 @@
     "defenceRoleProficiencies": [],
     "caEstimationModelVersion": "HM-RATINGS-0.5-v1",
     "attributeGenerationModelVersion": "HM-RATINGS-0.4-v1",
-    "lockedAt": "2026-08-30T11:14:20.767Z",
-    "lockedNote": "HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW)"
+    "lockedAt": "2026-11-05T21:45:40.330Z",
+    "lockedNote": "HM-PHASE-2B (2026-11-05): calibrated CA 152->152, PA 154->154. Previous note: HM-PHASE-2B (2026-11-05): calibrated CA 147->152, PA 153->154. Previous note: HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW). Reason: Four seasons in Danish top flight, primary attack organizer and game engine for Alingsås in 2026/27. Re-centered as premier domestic playmaker.. Reason: Four seasons in Danish top flight, primary attack organizer and game engine for Alingsås in 2026/27. Re-centered as premier domestic playmaker."
   }
 }

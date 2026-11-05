@@ -2101,7 +2101,7 @@
     "position": "V6",
     "ca": {
       "value": 92,
-      "confidence": "HIGH",
+      "confidence": "LOW",
       "plausibleRange": {
         "min": 92,
         "max": 92
@@ -2109,11 +2109,11 @@
       "source": "EDITOR_OVERRIDE"
     },
     "pa": {
-      "value": 160,
-      "confidence": "HIGH",
+      "value": 128,
+      "confidence": "LOW",
       "plausibleRange": {
-        "min": 160,
-        "max": 160
+        "min": 128,
+        "max": 128
       },
       "source": "EDITOR_OVERRIDE"
     },
@@ -2121,75 +2121,75 @@
       "branch": "OUTCOURT",
       "attributes": {
         "PASSING": {
-          "value": 13,
+          "value": 12,
           "origin": "GENERATED_PRIOR"
         },
         "BALL_HANDLING": {
-          "value": 12,
+          "value": 11,
           "origin": "GENERATED_PRIOR"
         },
         "SHOOTING_POWER": {
-          "value": 13,
-          "origin": "DERIVED"
+          "value": 11,
+          "origin": "GENERATED_PRIOR"
         },
         "SHOOTING_PLACEMENT": {
-          "value": 12,
+          "value": 11,
           "origin": "GENERATED_PRIOR"
         },
         "SHOOTING_VARIETY": {
-          "value": 13,
+          "value": 12,
           "origin": "GENERATED_PRIOR"
         },
         "BREAKTHROUGH": {
-          "value": 14,
-          "origin": "DERIVED"
+          "value": 12,
+          "origin": "GENERATED_PRIOR"
         },
         "FINISHING": {
-          "value": 11,
+          "value": 10,
           "origin": "GENERATED_PRIOR"
         },
         "WING_FINISHING": {
           "value": 12,
-          "origin": "GENERATED_PRIOR"
+          "origin": "DERIVED"
         },
         "PIVOT_PLAY": {
-          "value": 11,
+          "value": 10,
           "origin": "GENERATED_PRIOR"
         },
         "SCREENING": {
-          "value": 12,
+          "value": 11,
           "origin": "GENERATED_PRIOR"
         },
         "GAME_READING": {
-          "value": 10,
+          "value": 9,
           "origin": "GENERATED_PRIOR"
         },
         "DECISION_MAKING": {
-          "value": 10,
+          "value": 9,
           "origin": "GENERATED_PRIOR"
         },
         "AWARENESS": {
-          "value": 9,
+          "value": 8,
           "origin": "GENERATED_PRIOR"
         },
         "ANTICIPATION": {
-          "value": 10,
-          "origin": "GENERATED_PRIOR"
-        },
-        "PLAYMAKING": {
-          "value": 11,
-          "origin": "DERIVED"
-        },
-        "TEMPO_CONTROL": {
-          "value": 11,
-          "origin": "GENERATED_PRIOR"
-        },
-        "TWO_V_TWO_READING": {
           "value": 9,
           "origin": "GENERATED_PRIOR"
         },
+        "PLAYMAKING": {
+          "value": 9,
+          "origin": "GENERATED_PRIOR"
+        },
+        "TEMPO_CONTROL": {
+          "value": 10,
+          "origin": "GENERATED_PRIOR"
+        },
+        "TWO_V_TWO_READING": {
+          "value": 8,
+          "origin": "GENERATED_PRIOR"
+        },
         "ADVANTAGE_RECOGNITION": {
-          "value": 11,
+          "value": 10,
           "origin": "GENERATED_PRIOR"
         },
         "TACTICAL_UNDERSTANDING": {
@@ -2229,8 +2229,8 @@
           "origin": "GENERATED_PRIOR"
         },
         "DEFENSIVE_POSITIONING": {
-          "value": 8,
-          "origin": "GENERATED_PRIOR"
+          "value": 10,
+          "origin": "DERIVED"
         },
         "DEFENSIVE_TIMING": {
           "value": 8,
@@ -2265,47 +2265,47 @@
           "origin": "GENERATED_PRIOR"
         },
         "ACCELERATION": {
-          "value": 11,
+          "value": 12,
           "origin": "GENERATED_PRIOR"
         },
         "TOP_SPEED": {
-          "value": 11,
+          "value": 12,
           "origin": "GENERATED_PRIOR"
         },
         "LATERAL_QUICKNESS": {
-          "value": 10,
+          "value": 11,
           "origin": "GENERATED_PRIOR"
         },
         "AGILITY": {
-          "value": 10,
+          "value": 11,
           "origin": "GENERATED_PRIOR"
         },
         "EXPLOSIVENESS": {
-          "value": 11,
+          "value": 12,
           "origin": "GENERATED_PRIOR"
         },
         "STRENGTH": {
-          "value": 12,
+          "value": 13,
           "origin": "GENERATED_PRIOR"
         },
         "CONTACT_BALANCE": {
-          "value": 11,
+          "value": 12,
           "origin": "GENERATED_PRIOR"
         },
         "JUMP_ABILITY": {
-          "value": 10,
-          "origin": "GENERATED_PRIOR"
-        },
-        "ENDURANCE": {
-          "value": 12,
-          "origin": "GENERATED_PRIOR"
-        },
-        "REPEAT_SPRINT_ABILITY": {
           "value": 11,
           "origin": "GENERATED_PRIOR"
         },
-        "MOBILITY": {
+        "ENDURANCE": {
+          "value": 13,
+          "origin": "GENERATED_PRIOR"
+        },
+        "REPEAT_SPRINT_ABILITY": {
           "value": 12,
+          "origin": "GENERATED_PRIOR"
+        },
+        "MOBILITY": {
+          "value": 13,
           "origin": "GENERATED_PRIOR"
         },
         "CONSISTENCY": {
@@ -2354,8 +2354,8 @@
     "defenceRoleProficiencies": [],
     "caEstimationModelVersion": "HM-RATINGS-0.5-v1",
     "attributeGenerationModelVersion": "HM-RATINGS-0.4-v1",
-    "lockedAt": "2026-08-30T15:45:48.473Z",
-    "lockedNote": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
+    "lockedAt": "2026-11-05T21:45:41.414Z",
+    "lockedNote": "HM-PHASE-2B (2026-11-05): calibrated CA 92->92, PA 128->128. Previous note: HM-PHASE-2B (2026-11-05): calibrated CA 92->92, PA 160->128. Previous note: ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW). Reason: 17-year-old reserve wing for Kroppskultur. Previous PA 160 was an unevidenced age-inflation artifact (+68 points).. Reason: 17-year-old reserve wing for Kroppskultur. Previous PA 160 was an unevidenced age-inflation artifact (+68 points)."
   },
   "se_player_simon_holmqvist_0f746700": {
     "playerId": "se_player_simon_holmqvist_0f746700",
@@ -3005,7 +3005,7 @@
     "position": "GK",
     "ca": {
       "value": 91,
-      "confidence": "HIGH",
+      "confidence": "LOW",
       "plausibleRange": {
         "min": 91,
         "max": 91
@@ -3013,11 +3013,11 @@
       "source": "EDITOR_OVERRIDE"
     },
     "pa": {
-      "value": 158,
-      "confidence": "HIGH",
+      "value": 126,
+      "confidence": "LOW",
       "plausibleRange": {
-        "min": 158,
-        "max": 158
+        "min": 126,
+        "max": 126
       },
       "source": "EDITOR_OVERRIDE"
     },
@@ -3114,8 +3114,8 @@
     "defenceRoleProficiencies": [],
     "caEstimationModelVersion": "HM-RATINGS-0.5-v1",
     "attributeGenerationModelVersion": "HM-RATINGS-0.4-v1",
-    "lockedAt": "2026-10-31T06:14:33.334Z",
-    "lockedNote": "HM-DATA-1.3 (2026-10-31) GK/OUTCOURT branch correction to MV; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1)"
+    "lockedAt": "2026-11-05T21:45:41.349Z",
+    "lockedNote": "HM-PHASE-2B (2026-11-05): calibrated CA 91->91, PA 126->126. Previous note: HM-PHASE-2B (2026-11-05): calibrated CA 91->91, PA 158->126. Previous note: HM-DATA-1.3 (2026-10-31) GK/OUTCOURT branch correction to MV; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1). Reason: 17-year-old backup GK for Kroppskultur with no senior minutes. Previous PA 158 was an unevidenced age-inflation artifact (+67 points).. Reason: 17-year-old backup GK for Kroppskultur with no senior minutes. Previous PA 158 was an unevidenced age-inflation artifact (+67 points)."
   },
   "se_player_fabian_bjorkman_be3ee917": {
     "playerId": "se_player_fabian_bjorkman_be3ee917",

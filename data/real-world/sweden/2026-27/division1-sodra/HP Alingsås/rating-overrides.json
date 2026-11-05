@@ -25,8 +25,13 @@
     "pa": 122
   },
   "player_oscar_ernelind_c8bb4605": {
+    "updatedAt": "2026-08-30T17:58:59.447Z",
     "ca": 100,
-    "pa": 136,
-    "updatedAt": "2026-08-30T17:58:59.447Z"
+    "pa": 136
+  },
+  "player_oskar_alf_dahlin_29d39f91": {
+    "ca": 96,
+    "pa": 122,
+    "updatedAt": "2026-11-05T21:45:42.063Z"
   }
 }

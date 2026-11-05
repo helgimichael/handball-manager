@@ -10,19 +10,19 @@
     "pa": 150
   },
   "se_player_niklas_kraft_e8842f13": {
-    "updatedAt": "2026-08-30T11:15:28.948Z",
-    "ca": 147,
+    "updatedAt": "2026-11-05T21:45:40.469Z",
+    "ca": 150,
     "pa": 150
   },
   "se_player_benjamin_helander_b5cece84": {
-    "updatedAt": "2026-08-30T11:14:21.049Z",
-    "ca": 138,
-    "pa": 140
+    "updatedAt": "2026-11-05T21:45:40.576Z",
+    "ca": 142,
+    "pa": 142
   },
   "se_player_edwin_tengros_eec4c59b": {
-    "updatedAt": "2026-08-30T11:15:14.352Z",
+    "updatedAt": "2026-11-05T21:45:40.775Z",
     "ca": 122,
-    "pa": 150
+    "pa": 148
   },
   "se_player_petter_donaldson_80cffba4": {
     "updatedAt": "2026-08-30T11:14:21.486Z",
@@ -35,9 +35,9 @@
     "pa": 156
   },
   "se_player_max_sellstedt_314fc84c": {
-    "updatedAt": "2026-08-30T11:16:31.121Z",
     "ca": 98,
-    "pa": 170
+    "pa": 152,
+    "updatedAt": "2026-11-05T21:45:40.874Z"
   },
   "se_player_hjalmar_jansson_8997bd4b": {
     "updatedAt": "2026-08-30T11:15:12.809Z",
@@ -65,14 +65,14 @@
     "pa": 142
   },
   "se_player_carl_ryden_d5428e1f": {
-    "updatedAt": "2026-08-30T11:17:59.069Z",
+    "updatedAt": "2026-11-05T21:45:40.676Z",
     "ca": 136,
-    "pa": 154
+    "pa": 148
   },
   "se_player_samuel_lindberg_1a6e8618": {
+    "updatedAt": "2026-08-30T11:18:00.130Z",
     "ca": 148,
-    "pa": 148,
-    "updatedAt": "2026-08-30T11:18:00.130Z"
+    "pa": 148
   },
   "se_player_hugo_lignell_af49387a": {
     "updatedAt": "2026-08-30T11:16:50.819Z",
@@ -80,8 +80,8 @@
     "pa": 150
   },
   "se_player_august_wiger_94e4bcd0": {
-    "updatedAt": "2026-08-30T11:14:20.586Z",
-    "ca": 147,
-    "pa": 153
+    "updatedAt": "2026-11-05T21:45:40.369Z",
+    "ca": 152,
+    "pa": 154
   }
 }

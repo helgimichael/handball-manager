@@ -4179,11 +4179,11 @@
       "source": "EDITOR_OVERRIDE"
     },
     "pa": {
-      "value": 138,
+      "value": 136,
       "confidence": "HIGH",
       "plausibleRange": {
-        "min": 138,
-        "max": 138
+        "min": 136,
+        "max": 136
       },
       "source": "EDITOR_OVERRIDE"
     },
@@ -4280,7 +4280,7 @@
     "defenceRoleProficiencies": [],
     "caEstimationModelVersion": "HM-RATINGS-0.5-v1",
     "attributeGenerationModelVersion": "HM-RATINGS-0.4-v1",
-    "lockedAt": "2026-08-30T15:46:18.107Z",
-    "lockedNote": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
+    "lockedAt": "2026-11-05T21:45:41.045Z",
+    "lockedNote": "HM-PHASE-2B (2026-11-05): calibrated CA 118->118, PA 136->136. Previous note: HM-PHASE-2B (2026-11-05): calibrated CA 118->118, PA 138->136. Previous note: ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW). Reason: HK Drott starting goalkeeper; core second-tier performer, consistent 60-minute match volume.. Reason: HK Drott starting goalkeeper; core second-tier performer, consistent 60-minute match volume."
   }
 }

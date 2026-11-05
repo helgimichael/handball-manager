@@ -5,7 +5,7 @@
     "position": "GK",
     "ca": {
       "value": 105,
-      "confidence": "HIGH",
+      "confidence": "MEDIUM",
       "plausibleRange": {
         "min": 105,
         "max": 105
@@ -13,11 +13,11 @@
       "source": "EDITOR_OVERRIDE"
     },
     "pa": {
-      "value": 158,
-      "confidence": "HIGH",
+      "value": 142,
+      "confidence": "MEDIUM",
       "plausibleRange": {
-        "min": 158,
-        "max": 158
+        "min": 142,
+        "max": 142
       },
       "source": "EDITOR_OVERRIDE"
     },
@@ -114,8 +114,8 @@
     "defenceRoleProficiencies": [],
     "caEstimationModelVersion": "HM-RATINGS-0.5-v1",
     "attributeGenerationModelVersion": "HM-RATINGS-0.4-v1",
-    "lockedAt": "2026-08-30T11:29:48.296Z",
-    "lockedNote": "WORLD_POOL_FINAL_RATING_RESEARCH_v1 World Pool final import (100/100, individually verified, 0 REVIEW)"
+    "lockedAt": "2026-11-05T21:45:40.201Z",
+    "lockedNote": "HM-PHASE-2B (2026-11-05): calibrated CA 105->105, PA 142->142. Previous note: HM-PHASE-2B (2026-11-05): calibrated CA 105->105, PA 158->142. Previous note: WORLD_POOL_FINAL_RATING_RESEARCH_v1 World Pool final import (100/100, individually verified, 0 REVIEW). Reason: Danish academy reserve goalkeeper. Previous PA 158 was an artificial +53 age-formula artifact without senior minutes.. Reason: Danish academy reserve goalkeeper. Previous PA 158 was an artificial +53 age-formula artifact without senior minutes."
   },
   "player_intl_mads_svane_knudsen_3fab6b0f": {
     "playerId": "player_intl_mads_svane_knudsen_3fab6b0f",

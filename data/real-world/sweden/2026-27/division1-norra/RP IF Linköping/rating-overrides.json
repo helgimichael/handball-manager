@@ -1,8 +1,8 @@
 {
   "player_markus_stegefelt_8aedec38": {
-    "updatedAt": "2026-08-30T17:57:07.512Z",
-    "ca": 146,
-    "pa": 146
+    "ca": 142,
+    "pa": 142,
+    "updatedAt": "2026-11-05T21:45:41.658Z"
   },
   "player_albin_fingal_e2689556": {
     "updatedAt": "2026-08-30T17:57:02.498Z",
@@ -40,9 +40,9 @@
     "pa": 118
   },
   "player_karl_engberg_389321b6": {
+    "updatedAt": "2026-10-31T09:56:15.881Z",
     "ca": 108,
-    "pa": 120,
-    "updatedAt": "2026-10-31T09:56:15.881Z"
+    "pa": 120
   },
   "player_karl_lindsten_51273d54": {
     "updatedAt": "2026-08-30T17:57:05.639Z",

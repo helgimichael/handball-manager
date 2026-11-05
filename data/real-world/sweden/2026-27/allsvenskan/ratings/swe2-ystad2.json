@@ -4179,11 +4179,11 @@
       "source": "EDITOR_OVERRIDE"
     },
     "pa": {
-      "value": 140,
+      "value": 138,
       "confidence": "HIGH",
       "plausibleRange": {
-        "min": 140,
-        "max": 140
+        "min": 138,
+        "max": 138
       },
       "source": "EDITOR_OVERRIDE"
     },
@@ -4424,7 +4424,7 @@
     "defenceRoleProficiencies": [],
     "caEstimationModelVersion": "HM-RATINGS-0.5-v1",
     "attributeGenerationModelVersion": "HM-RATINGS-0.4-v1",
-    "lockedAt": "2026-10-31T10:56:07.420Z",
-    "lockedNote": "HM-DATA-1.7 (2026-10-31): owner-approved researched CA 109 (was 137, game prior); PA 140 kept. Source: HM-DATA-1.6 six-player rating research (C:/DEV/QA/reports/HM-DATA-1.6/six-player-rating-research-2026-10-31.md), anchored to v0.13 researched analogues; evidence: Ystads IF HBL apprentice/defence specialist 2025/26 (~27 sheets); Herrallsvenskan 6/3 in 2026/27; analogues Millard 105, O. Nilsson 106, Setterlund 113. Approved by owner in HM-DATA-1.7."
+    "lockedAt": "2026-11-05T21:45:41.242Z",
+    "lockedNote": "HM-PHASE-2B (2026-11-05): calibrated CA 109->109, PA 138->138. Previous note: HM-PHASE-2B (2026-11-05): calibrated CA 109->109, PA 140->138. Previous note: HM-DATA-1.7 (2026-10-31): owner-approved researched CA 109 (was 137, game prior); PA 140 kept. Source: HM-DATA-1.6 six-player rating research (C:/DEV/QA/reports/HM-DATA-1.6/six-player-rating-research-2026-10-31.md), anchored to v0.13 researched analogues; evidence: Ystads IF HBL apprentice/defence specialist 2025/26 (~27 sheets); Herrallsvenskan 6/3 in 2026/27; analogues Millard 105, O. Nilsson 106, Setterlund 113. Approved by owner in HM-DATA-1.7.. Reason: IFK Ystad defender with HBL apprentice experience (~27 match sheets at Ystads IF).. Reason: IFK Ystad defender with HBL apprentice experience (~27 match sheets at Ystads IF)."
   }
 }

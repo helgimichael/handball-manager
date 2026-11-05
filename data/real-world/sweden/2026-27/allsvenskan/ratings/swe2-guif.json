@@ -3529,7 +3529,7 @@
     "position": "H6",
     "ca": {
       "value": 105,
-      "confidence": "HIGH",
+      "confidence": "MEDIUM",
       "plausibleRange": {
         "min": 105,
         "max": 105
@@ -3537,11 +3537,11 @@
       "source": "EDITOR_OVERRIDE"
     },
     "pa": {
-      "value": 137,
-      "confidence": "HIGH",
+      "value": 132,
+      "confidence": "MEDIUM",
       "plausibleRange": {
-        "min": 137,
-        "max": 137
+        "min": 132,
+        "max": 132
       },
       "source": "EDITOR_OVERRIDE"
     },
@@ -3782,8 +3782,8 @@
     "defenceRoleProficiencies": [],
     "caEstimationModelVersion": "HM-RATINGS-0.5-v1",
     "attributeGenerationModelVersion": "HM-RATINGS-0.4-v1",
-    "lockedAt": "2026-10-31T06:14:32.851Z",
-    "lockedNote": "HM-DATA-1.3 (2026-10-31) GK/OUTCOURT branch correction to H6; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1)"
+    "lockedAt": "2026-11-05T21:45:41.535Z",
+    "lockedNote": "HM-PHASE-2B (2026-11-05): calibrated CA 105->105, PA 132->132. Previous note: HM-PHASE-2B (2026-11-05): calibrated CA 105->105, PA 137->132. Previous note: HM-DATA-1.3 (2026-10-31) GK/OUTCOURT branch correction to H6; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1). Reason: 19-year-old right wing for Eskilstuna Guif. Active in second-tier rotation; realistic developmental runway.. Reason: 19-year-old right wing for Eskilstuna Guif. Active in second-tier rotation; realistic developmental runway."
   },
   "se_player_gustav_boren_d9cd262e": {
     "playerId": "se_player_gustav_boren_d9cd262e",
