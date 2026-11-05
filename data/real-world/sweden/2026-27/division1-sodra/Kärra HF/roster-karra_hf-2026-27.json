@@ -659,5 +659,37 @@
     ],
     "defaultSquadStatus": null,
     "specialTags": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_division1_sodra_karra_hf__60beed3c",
+    "playerId": "se_player_theodor_kapnias_olsson_60beed3c",
+    "clubId": "se_club_karra_hf",
+    "competitionId": "se_division1_sodra",
+    "season": "2026/27",
+    "snapshotDate": "2026-11-05",
+    "shirtNumber": 19,
+    "sourcePosition": "V9",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_profixio_roster_2026_27"
+      ],
+      "position": [
+        "src_profixio_roster_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "2026/27 Division 1 Södra official registration at Kärra HF. Transferred from Redbergslids IK."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
   }
 ]

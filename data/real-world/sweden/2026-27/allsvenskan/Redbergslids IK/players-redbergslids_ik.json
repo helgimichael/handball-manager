@@ -426,26 +426,6 @@
     "dataNotes": []
   },
   {
-    "playerId": "se_player_theodor_kapnias_olsson_60beed3c",
-    "firstName": "Theodor",
-    "lastName": "Kapnias Olsson",
-    "fullName": "Theodor Kapnias Olsson",
-    "aliases": [],
-    "dateOfBirth": "2005-06-16",
-    "birthYear": 2005,
-    "nationalities": null,
-    "heightCm": null,
-    "handedness": null,
-    "recordConfidence": "VERIFIED",
-    "fieldConfidence": {},
-    "sourceRefs": {
-      "identity": [
-        "src_as_v5_qa_spreadsheet"
-      ]
-    },
-    "dataNotes": []
-  },
-  {
     "playerId": "se_player_luka_cvjetkovic_9e685b1d",
     "firstName": "Luka",
     "lastName": "Cvjetkovic",

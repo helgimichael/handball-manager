@@ -51,28 +51,6 @@
     "dataNotes": []
   },
   {
-    "playerId": "se_player_emil_arthursson_db40e94c",
-    "firstName": "Emil",
-    "lastName": "Arthursson",
-    "fullName": "Emil Arthursson",
-    "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
-    "nationalities": null,
-    "heightCm": 205,
-    "handedness": null,
-    "recordConfidence": "PARTIAL",
-    "sourceRefs": {
-      "identity": [
-        "src_hfk_roster_20260513"
-      ],
-      "heightCm": [
-        "src_hblstats_arthursson"
-      ]
-    },
-    "dataNotes": []
-  },
-  {
     "playerId": "se_player_filip_psajd_5da4e6a8",
     "firstName": "Filip",
     "lastName": "Psajd",

@@ -525,34 +525,6 @@
     ]
   },
   {
-    "rosterEntryId": "se_2026_27_allsvenskan_redbergslids_ik__60beed3c",
-    "playerId": "se_player_theodor_kapnias_olsson_60beed3c",
-    "clubId": "swe2-redbergslid",
-    "competitionId": "swe-2",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": 19,
-    "sourcePosition": "V9",
-    "primaryPosition": "V9",
-    "secondaryPositions": [],
-    "rosterStatus": "CONFIRMED",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "VERIFIED",
-    "sourceRefs": {
-      "roster": [
-        "src_as_v5_qa_spreadsheet"
-      ],
-      "position": [
-        "src_as_position_evidence"
-      ]
-    },
-    "dataNotes": []
-  },
-  {
     "rosterEntryId": "se_2026_27_allsvenskan_redbergslids_ik__292f4e62",
     "playerId": "se_player_noel_fagerlin_292f4e62",
     "clubId": "swe2-redbergslid",

@@ -13,7 +13,7 @@ import { snapshotWorldSquads, snapshotGameplayRatings } from "./serverSnapshot";
 import { WORLD_POOL_COMPETITION_IDS } from "../career/careerWorld";
 import { loadRatingDatabase } from "../editor/ratingDatabaseRepository";
 import { buildCatalog, findClubById } from "../editor/catalog";
-import { MERGED_IDENTITIES, RELOCATED_TO_ALLSVENSKAN, REMOVED_MEMBERSHIPS, RENAMED, SUPERSEDED_RATINGS } from "./realWorldRosterCorrections";
+import { MERGED_IDENTITIES, RELOCATED_TO_ALLSVENSKAN, RELOCATED_TO_DIVISION1, REMOVED_MEMBERSHIPS, RENAMED, SUPERSEDED_RATINGS } from "./realWorldRosterCorrections";
 
 const EXPORTS_DIR = path.join(__dirname, "..", "..", "..", "..", "exports", "player-rating-research");
 const HBL_CSV_PATH = path.join(EXPORTS_DIR, "HBL_rating_import_candidates_v2.13.csv");
@@ -113,16 +113,22 @@ function collectImportedRatings(competitionIds: readonly string[]): Map<string, 
   const out = collectRatings(competitionIds);
   for (const [playerId, { lock }] of documentedRemovedMemberships(competitionIds)) if (lock && !out.has(playerId)) out.set(playerId, lock);
   const relocated = RELOCATED_TO_ALLSVENSKAN.filter((r) => competitionIds.includes(r.fromCompetitionId) && !out.has(r.playerId));
-  const merged = competitionIds.includes(ALLSVENSKAN_COMPETITION_ID) ? MERGED_IDENTITIES : [];
+  const merged = MERGED_IDENTITIES.filter((m) => !out.has(m.retiredPlayerId));
   if (relocated.length > 0 || merged.length > 0) {
     const allsvenskan = collectRatings([ALLSVENSKAN_COMPETITION_ID]);
     for (const r of relocated) { const rating = allsvenskan.get(r.playerId); if (rating) out.set(r.playerId, rating); }
     for (const m of merged) { const rating = allsvenskan.get(m.canonicalPlayerId); if (rating) out.set(m.retiredPlayerId, rating); }
   }
+
   if (competitionIds.includes(ALLSVENSKAN_COMPETITION_ID)) {
     for (const r of REMOVED_MEMBERSHIPS) {
       const lock = loadRatingDatabase(r.clubId)[r.playerId];
       if (lock) out.set(r.playerId, { ca: lock.ca.value, pa: lock.pa?.value ?? lock.ca.value });
+    }
+    const div1Ratings = collectRatings(D1_COMPETITION_IDS);
+    for (const r of RELOCATED_TO_DIVISION1) {
+      const rating = div1Ratings.get(r.playerId);
+      if (rating && !out.has(r.playerId)) out.set(r.playerId, rating);
     }
   }
   return out;
@@ -138,9 +144,17 @@ function importedIdentityIds(competitionId: string): Set<string> {
     const allsvenskan = snapshotWorldSquads(ALLSVENSKAN_COMPETITION_ID);
     for (const r of relocated) if (allsvenskan[r.toClubId]?.some((p) => p.id === r.playerId)) ids.add(r.playerId);
   }
+  if (competitionId === HBL_COMPETITION_ID) {
+    const allsvenskan = snapshotWorldSquads(ALLSVENSKAN_COMPETITION_ID);
+    for (const m of MERGED_IDENTITIES) if (allsvenskan[m.clubId]?.some((p) => p.id === m.canonicalPlayerId)) ids.add(m.retiredPlayerId);
+  }
   if (competitionId === ALLSVENSKAN_COMPETITION_ID) {
     for (const r of REMOVED_MEMBERSHIPS) if (loadRatingDatabase(r.clubId)[r.playerId]) ids.add(r.playerId);
     for (const m of MERGED_IDENTITIES) if (squads[m.clubId]?.some((p) => p.id === m.canonicalPlayerId)) ids.add(m.retiredPlayerId);
+    for (const r of RELOCATED_TO_DIVISION1) {
+      const div1 = snapshotWorldSquads(r.toCompetitionId);
+      if (div1[r.toClubId]?.some((p) => p.id === r.playerId)) ids.add(r.playerId);
+    }
   }
   return ids;
 }
@@ -207,9 +221,15 @@ function loadProvenance(competitionIds: readonly string[]): Map<string, RatingPr
   for (const r of RELOCATED_TO_ALLSVENSKAN) if (competitionIds.includes(r.fromCompetitionId) && !clubIds.has(r.playerId)) clubIds.set(r.playerId, r.toClubId);
   // A merged duplicate's provenance now lives under its canonical id.
   const canonicalOf = new Map<string, string>();
+  for (const m of MERGED_IDENTITIES) {
+    if (!clubIds.has(m.retiredPlayerId)) {
+      clubIds.set(m.retiredPlayerId, m.clubId);
+      canonicalOf.set(m.retiredPlayerId, m.canonicalPlayerId);
+    }
+  }
+  for (const r of RELOCATED_TO_DIVISION1) if (!clubIds.has(r.playerId)) clubIds.set(r.playerId, r.toClubId);
   if (competitionIds.includes(ALLSVENSKAN_COMPETITION_ID)) {
     for (const r of REMOVED_MEMBERSHIPS) clubIds.set(r.playerId, r.clubId);
-    for (const m of MERGED_IDENTITIES) { clubIds.set(m.retiredPlayerId, m.clubId); canonicalOf.set(m.retiredPlayerId, m.canonicalPlayerId); }
   }
   for (const [playerId, clubId] of clubIds) {
     if (!perClub.has(clubId)) {
@@ -257,8 +277,9 @@ function assertImportFidelity(opts: {
 
   for (const row of opts.rows) {
     const playerId = opts.idOf(row);
-    const expectedCA = opts.caOf(row);
-    const expectedPA = opts.paOf(row);
+    const superseded = SUPERSEDED_RATINGS.get(playerId);
+    const expectedCA = superseded?.ca ?? opts.caOf(row);
+    const expectedPA = superseded?.pa ?? opts.paOf(row);
     const actual = ratings.get(playerId);
     assert.ok(actual, `no live rating found for ${opts.label} playerId ${playerId}`);
 
@@ -482,6 +503,11 @@ test("HBL + World Pool + Allsvenskan: non-rating player fields are untouched by 
     if (identity) allsvById.set(playerId, { firstName: identity.firstName, lastName: identity.lastName });
   }
   for (const m of MERGED_IDENTITIES) { const canonical = allsvById.get(m.canonicalPlayerId); if (canonical) allsvById.set(m.retiredPlayerId, canonical); }
+  for (const r of RELOCATED_TO_DIVISION1) {
+    const club = findClubById(buildCatalog(), r.toClubId);
+    const identity = club && (JSON.parse(fs.readFileSync(club.playersFile, "utf8")) as { playerId: string; firstName: string; lastName: string }[]).find((p) => p.playerId === r.playerId);
+    if (identity) allsvById.set(r.playerId, { firstName: identity.firstName, lastName: identity.lastName });
+  }
 
   for (const r of allsvRows.slice(0, 20)) {
     const playerId = r[allsvIdx("playerId")];

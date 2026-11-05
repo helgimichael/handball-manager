@@ -715,5 +715,27 @@
     "dataNotes": [
       "HM-PLAYER-DATABASE-2026-27: Imported verified player from official Profixio 2026/27 competition roster."
     ]
+  },
+  {
+    "playerId": "se_player_theodor_kapnias_olsson_60beed3c",
+    "firstName": "Theodor",
+    "lastName": "Kapnias Olsson",
+    "fullName": "Theodor Kapnias Olsson",
+    "aliases": [],
+    "dateOfBirth": "2005-06-16",
+    "birthYear": 2005,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {},
+    "sourceRefs": {
+      "identity": [
+        "src_as_v5_qa_spreadsheet"
+      ]
+    },
+    "dataNotes": [
+      "HM-PLAYER-DATABASE-2026-27 (2026-11-05): Transferred from Redbergslids IK to Kärra HF for season 2026/27 (Profixio official roster). Previous club: Redbergslids IK."
+    ]
   }
 ]

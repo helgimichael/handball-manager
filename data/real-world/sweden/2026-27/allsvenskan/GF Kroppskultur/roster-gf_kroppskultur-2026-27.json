@@ -551,36 +551,6 @@
     "specialTags": []
   },
   {
-    "rosterEntryId": "se_2026_27_allsvenskan_gf_kroppskultur__1d49a03b",
-    "playerId": "player_malte_mansson_1d49a03b",
-    "clubId": "swe2-kroppskultur",
-    "competitionId": "swe-2",
-    "season": "2026/27",
-    "snapshotDate": "2026-10-31",
-    "shirtNumber": 27,
-    "sourcePosition": "H9",
-    "primaryPosition": "H9",
-    "secondaryPositions": [],
-    "rosterStatus": "CONFIRMED",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "VERIFIED",
-    "sourceRefs": {
-      "roster": [
-        "src_hm13_profixio_registration"
-      ],
-      "position": [
-        "src_hm13_previous_league_record"
-      ]
-    },
-    "dataNotes": [],
-    "defaultSquadStatus": null,
-    "specialTags": []
-  },
-  {
     "rosterEntryId": "se_2026_27_allsvenskan_gf_kroppskultur__f36c0ffe",
     "playerId": "se_player_patrik_sandberg_f36c0ffe",
     "clubId": "swe2-kroppskultur",

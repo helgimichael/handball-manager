@@ -98,5 +98,10 @@
     "status": "LOCKED",
     "updatedAt": "2026-08-30T17:59:07.530Z",
     "note": "DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only)"
+  },
+  "se_player_theodor_kapnias_olsson_60beed3c": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T15:46:08.488Z",
+    "note": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
   }
 }

@@ -60,33 +60,6 @@
     }
   },
   {
-    "rosterEntryId": "se_2026_27_handbollsligan_hfk_db40e94c",
-    "playerId": "se_player_emil_arthursson_db40e94c",
-    "clubId": "se_club_hf_karlskrona",
-    "competitionId": "se_handbollsligan_herr",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-19",
-    "shirtNumber": null,
-    "sourcePosition": "Goalkeeper",
-    "primaryPosition": "MV",
-    "secondaryPositions": [],
-    "rosterStatus": "CONFIRMED",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "VERIFIED",
-    "sourceRefs": {
-      "roster": [
-        "src_hfk_roster_20260513"
-      ],
-      "position": [
-        "src_hfk_roster_20260513"
-      ]
-    }
-  },
-  {
     "rosterEntryId": "se_2026_27_handbollsligan_hfk_5da4e6a8",
     "playerId": "se_player_filip_psajd_5da4e6a8",
     "clubId": "se_club_hf_karlskrona",

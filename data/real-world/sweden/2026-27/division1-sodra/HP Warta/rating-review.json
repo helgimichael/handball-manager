@@ -93,5 +93,10 @@
     "status": "LOCKED",
     "updatedAt": "2026-10-31T09:56:17.200Z",
     "note": "HM-DATA-1.5 (2026-10-31) GK/OUTCOURT branch correction to M6; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1)"
+  },
+  "se_player_adam_fule_5020dcbf": {
+    "status": "LOCKED",
+    "updatedAt": "2026-08-30T15:45:51.426Z",
+    "note": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
   }
 }

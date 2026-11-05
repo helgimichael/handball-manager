@@ -746,5 +746,34 @@
     "dataNotes": [
       "HM-PLAYER-DATABASE-2026-27: Imported verified player from official Profixio 2026/27 competition roster."
     ]
+  },
+  {
+    "playerId": "se_player_adam_fule_5020dcbf",
+    "firstName": "Adam",
+    "lastName": "Füle",
+    "fullName": "Adam Füle",
+    "aliases": [],
+    "dateOfBirth": "2005-11-01",
+    "birthYear": 2005,
+    "nationalities": null,
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "PARTIAL",
+    "fieldConfidence": {
+      "dateOfBirth": "PARTIAL"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_as_v5_qa_spreadsheet"
+      ],
+      "dateOfBirth": [
+        "src_as_v5_qa_spreadsheet"
+      ]
+    },
+    "dataNotes": [
+      "Provisional: sourced from a previous-season match protocol, not yet confirmed by a current-season document.",
+      "HM-DATA-1.3 (2026-10-31): 2026/27 Herrallsvenskan roster membership at Kungälvs HK removed -- not in any of the 288 Profixio registrations nor on any of the 21 published match sheets. Identity and locked rating retained.",
+      "HM-PLAYER-DATABASE-2026-27 (2026-11-05): Transferred from Kungälvs HK to HP Warta for season 2026/27 (Profixio official roster). Previous club: Kungälvs HK."
+    ]
   }
 ]
