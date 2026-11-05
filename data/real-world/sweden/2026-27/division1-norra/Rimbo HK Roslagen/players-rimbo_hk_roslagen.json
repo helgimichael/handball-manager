@@ -250,16 +250,21 @@
     "lastName": "Eriksson",
     "fullName": "Lukas Eriksson",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
+    "dateOfBirth": "2007-11-23",
+    "birthYear": 2007,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
-    "fieldConfidence": {},
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    },
     "sourceRefs": {
       "identity": [
         "src_div1_norra_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": []

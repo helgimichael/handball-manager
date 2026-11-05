@@ -486,7 +486,7 @@
     "competitionId": "swe-2",
     "season": "2026/27",
     "snapshotDate": "2026-08-27",
-    "shirtNumber": null,
+    "shirtNumber": 36,
     "sourcePosition": "",
     "primaryPosition": "H6",
     "secondaryPositions": [],
@@ -501,7 +501,10 @@
       "roster": [
         "src_as_v5_qa_spreadsheet"
       ],
-      "position": []
+      "position": [],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
+      ]
     },
     "dataNotes": [
       "HM-DATA-ALLSVENSKAN-1.1: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."

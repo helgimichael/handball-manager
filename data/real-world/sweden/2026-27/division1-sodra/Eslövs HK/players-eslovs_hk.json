@@ -234,14 +234,15 @@
     "lastName": "Nilsson",
     "fullName": "Gabriel Nilsson",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2004-01-08",
     "birthYear": 2004,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
     "fieldConfidence": {
-      "birthYear": "VERIFIED"
+      "birthYear": "VERIFIED",
+      "dateOfBirth": "SOURCE_VERIFIED"
     },
     "sourceRefs": {
       "identity": [
@@ -249,6 +250,9 @@
       ],
       "birthYear": [
         "src_div1_sodra_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": []

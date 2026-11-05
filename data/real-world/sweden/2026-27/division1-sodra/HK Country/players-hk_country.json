@@ -145,16 +145,21 @@
     "lastName": "Andersson",
     "fullName": "Hampus Andersson",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2001-08-18",
     "birthYear": 2001,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
-    "fieldConfidence": {},
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    },
     "sourceRefs": {
       "identity": [
         "src_div1_sodra_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": []
@@ -347,16 +352,21 @@
     "lastName": "Ljungquist",
     "fullName": "Isak Ljungquist",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2007-09-01",
     "birthYear": 2007,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
-    "fieldConfidence": {},
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    },
     "sourceRefs": {
       "identity": [
         "src_div1_sodra_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": []
@@ -367,16 +377,21 @@
     "lastName": "Hedman",
     "fullName": "Per Hedman",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2001-08-26",
     "birthYear": 2001,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
-    "fieldConfidence": {},
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    },
     "sourceRefs": {
       "identity": [
         "src_div1_sodra_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": []
@@ -387,16 +402,21 @@
     "lastName": "Kangas",
     "fullName": "Elliot Kangas",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2000-11-23",
     "birthYear": 2000,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
-    "fieldConfidence": {},
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    },
     "sourceRefs": {
       "identity": [
         "src_div1_sodra_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": []
@@ -407,16 +427,21 @@
     "lastName": "Rinkefjord",
     "fullName": "Gustav Rinkefjord",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2003-11-23",
     "birthYear": 2003,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
-    "fieldConfidence": {},
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    },
     "sourceRefs": {
       "identity": [
         "src_div1_sodra_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": []
@@ -427,16 +452,21 @@
     "lastName": "Winblad",
     "fullName": "Filip Winblad",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2001-08-19",
     "birthYear": 2001,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
-    "fieldConfidence": {},
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    },
     "sourceRefs": {
       "identity": [
         "src_div1_sodra_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": []
@@ -447,16 +477,21 @@
     "lastName": "Friberg",
     "fullName": "Olle Friberg",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2006-05-02",
     "birthYear": 2006,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
-    "fieldConfidence": {},
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    },
     "sourceRefs": {
       "identity": [
         "src_div1_sodra_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": []
@@ -467,16 +502,21 @@
     "lastName": "Nyström",
     "fullName": "Erik Nyström",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "1999-03-03",
     "birthYear": 1999,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
-    "fieldConfidence": {},
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    },
     "sourceRefs": {
       "identity": [
         "src_div1_sodra_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": []
@@ -487,16 +527,21 @@
     "lastName": "Johansson",
     "fullName": "Hugo Johansson",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2005-07-23",
     "birthYear": 2005,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
-    "fieldConfidence": {},
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    },
     "sourceRefs": {
       "identity": [
         "src_div1_sodra_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": []
@@ -529,16 +574,21 @@
     "lastName": "Leverin",
     "fullName": "Pelle Leverin",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2007-08-07",
     "birthYear": 2007,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
-    "fieldConfidence": {},
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    },
     "sourceRefs": {
       "identity": [
         "src_div1_sodra_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": []
@@ -549,16 +599,21 @@
     "lastName": "Karlsson",
     "fullName": "Gustaf Karlsson",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2004-04-17",
     "birthYear": 2004,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
-    "fieldConfidence": {},
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    },
     "sourceRefs": {
       "identity": [
         "src_div1_sodra_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": []
@@ -569,16 +624,21 @@
     "lastName": "Andersson",
     "fullName": "Erik Andersson",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2002-03-09",
     "birthYear": 2002,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
-    "fieldConfidence": {},
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    },
     "sourceRefs": {
       "identity": [
         "src_div1_sodra_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": []
@@ -589,16 +649,21 @@
     "lastName": "Fock",
     "fullName": "William Fock",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2003-01-11",
     "birthYear": 2003,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
-    "fieldConfidence": {},
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    },
     "sourceRefs": {
       "identity": [
         "src_div1_sodra_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": []
@@ -609,16 +674,21 @@
     "lastName": "Lööw Brunell",
     "fullName": "William Lööw Brunell",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2003-05-22",
     "birthYear": 2003,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
-    "fieldConfidence": {},
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    },
     "sourceRefs": {
       "identity": [
         "src_div1_sodra_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": []
@@ -629,16 +699,21 @@
     "lastName": "Doverfors",
     "fullName": "Liam Doverfors",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2007-04-26",
     "birthYear": 2007,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
-    "fieldConfidence": {},
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    },
     "sourceRefs": {
       "identity": [
         "src_div1_sodra_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": []
@@ -649,16 +724,21 @@
     "lastName": "Rohdin",
     "fullName": "Melvin Rohdin",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2007-03-03",
     "birthYear": 2007,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
-    "fieldConfidence": {},
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    },
     "sourceRefs": {
       "identity": [
         "src_div1_sodra_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": []
@@ -689,16 +769,21 @@
     "lastName": "Gustavsson",
     "fullName": "Jacob Gustavsson",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2004-05-04",
     "birthYear": 2004,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
-    "fieldConfidence": {},
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    },
     "sourceRefs": {
       "identity": [
         "src_div1_sodra_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": []
@@ -709,16 +794,21 @@
     "lastName": "Hallerhed",
     "fullName": "Rasmus Hallerhed",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2006-02-03",
     "birthYear": 2006,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
-    "fieldConfidence": {},
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    },
     "sourceRefs": {
       "identity": [
         "src_div1_sodra_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": []

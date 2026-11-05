@@ -78,7 +78,7 @@
     "competitionId": "se_handbollsligan_herr",
     "season": "2026/27",
     "snapshotDate": "2026-08-19",
-    "shirtNumber": null,
+    "shirtNumber": 1,
     "sourcePosition": "Målvakt",
     "primaryPosition": "MV",
     "secondaryPositions": [],
@@ -98,6 +98,9 @@
       ],
       "contract": [
         "src_ahk_kraft_20260515"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "defaultSquadStatus": "KEY_PLAYER",
@@ -356,7 +359,7 @@
     "competitionId": "se_handbollsligan_herr",
     "season": "2026/27",
     "snapshotDate": "2026-08-19",
-    "shirtNumber": null,
+    "shirtNumber": 29,
     "sourcePosition": "Vänsternio",
     "primaryPosition": "V9",
     "secondaryPositions": [],
@@ -376,6 +379,9 @@
       ],
       "contract": [
         "src_ahk_max_sellstedt_20260624"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     }
   },

@@ -5,7 +5,7 @@
     "lastName": "Andersson",
     "fullName": "Oliver Andersson",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2007-04-30",
     "birthYear": 2007,
     "nationalities": null,
     "heightCm": null,
@@ -14,9 +14,15 @@
     "sourceRefs": {
       "identity": [
         "src_ohk_roster_20260820"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [],
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    }
   },
   {
     "playerId": "player_max_dahlen_36c0e887",

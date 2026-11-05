@@ -6,7 +6,7 @@
     "competitionId": "se_handbollsligan_herr",
     "season": "2026/27",
     "snapshotDate": "2026-08-20",
-    "shirtNumber": null,
+    "shirtNumber": 36,
     "sourcePosition": "Goalkeeper",
     "primaryPosition": "MV",
     "secondaryPositions": [],
@@ -23,6 +23,9 @@
       ],
       "position": [
         "src_hbl_lugi_20260617"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "defaultSquadStatus": "KEY_PLAYER",
@@ -35,7 +38,7 @@
     "competitionId": "se_handbollsligan_herr",
     "season": "2026/27",
     "snapshotDate": "2026-08-20",
-    "shirtNumber": null,
+    "shirtNumber": 24,
     "sourcePosition": "Goalkeeper",
     "primaryPosition": "MV",
     "secondaryPositions": [],
@@ -52,6 +55,9 @@
       ],
       "position": [
         "src_hbl_lugi_20260617"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     }
   },
@@ -89,7 +95,7 @@
     "competitionId": "se_handbollsligan_herr",
     "season": "2026/27",
     "snapshotDate": "2026-08-20",
-    "shirtNumber": null,
+    "shirtNumber": 81,
     "sourcePosition": "Left Wing",
     "primaryPosition": "V6",
     "secondaryPositions": [],
@@ -106,6 +112,9 @@
       ],
       "position": [
         "src_hbl_lugi_20260617"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "defaultSquadStatus": "FIRST_CHOICE",
@@ -118,7 +127,7 @@
     "competitionId": "se_handbollsligan_herr",
     "season": "2026/27",
     "snapshotDate": "2026-08-20",
-    "shirtNumber": null,
+    "shirtNumber": 9,
     "sourcePosition": "Left Wing",
     "primaryPosition": "V6",
     "secondaryPositions": [],
@@ -135,6 +144,9 @@
       ],
       "position": [
         "src_hbl_lugi_20260617"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "defaultSquadStatus": "ROTATION",
@@ -147,7 +159,7 @@
     "competitionId": "se_handbollsligan_herr",
     "season": "2026/27",
     "snapshotDate": "2026-08-20",
-    "shirtNumber": null,
+    "shirtNumber": 22,
     "sourcePosition": "Left Wing",
     "primaryPosition": "V6",
     "secondaryPositions": [],
@@ -164,6 +176,9 @@
       ],
       "position": [
         "src_hbl_lugi_20260617"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     }
   },
@@ -228,7 +243,7 @@
     "competitionId": "se_handbollsligan_herr",
     "season": "2026/27",
     "snapshotDate": "2026-08-20",
-    "shirtNumber": null,
+    "shirtNumber": 97,
     "sourcePosition": "Line Player",
     "primaryPosition": "M6",
     "secondaryPositions": [],
@@ -245,6 +260,9 @@
       ],
       "position": [
         "src_hbl_lugi_20260617"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     }
   },
@@ -255,7 +273,7 @@
     "competitionId": "se_handbollsligan_herr",
     "season": "2026/27",
     "snapshotDate": "2026-08-20",
-    "shirtNumber": null,
+    "shirtNumber": 11,
     "sourcePosition": "Right Wing",
     "primaryPosition": "H6",
     "secondaryPositions": [],
@@ -272,6 +290,9 @@
       ],
       "position": [
         "src_hbl_lugi_20260617"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     }
   },
@@ -282,7 +303,7 @@
     "competitionId": "se_handbollsligan_herr",
     "season": "2026/27",
     "snapshotDate": "2026-08-20",
-    "shirtNumber": null,
+    "shirtNumber": 67,
     "sourcePosition": "Right Wing",
     "primaryPosition": "H6",
     "secondaryPositions": [],
@@ -299,6 +320,9 @@
       ],
       "position": [
         "src_hbl_lugi_20260617"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     }
   },
@@ -338,7 +362,7 @@
     "competitionId": "se_handbollsligan_herr",
     "season": "2026/27",
     "snapshotDate": "2026-08-20",
-    "shirtNumber": null,
+    "shirtNumber": 15,
     "sourcePosition": "Left Back",
     "primaryPosition": "V9",
     "secondaryPositions": [],
@@ -355,6 +379,9 @@
       ],
       "position": [
         "src_hbl_lugi_20260617"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     }
   },
@@ -365,7 +392,7 @@
     "competitionId": "se_handbollsligan_herr",
     "season": "2026/27",
     "snapshotDate": "2026-08-20",
-    "shirtNumber": null,
+    "shirtNumber": 77,
     "sourcePosition": "Left Back",
     "primaryPosition": "V9",
     "secondaryPositions": [],
@@ -382,6 +409,9 @@
       ],
       "position": [
         "src_hbl_lugi_20260617"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     }
   },
@@ -392,7 +422,7 @@
     "competitionId": "se_handbollsligan_herr",
     "season": "2026/27",
     "snapshotDate": "2026-08-20",
-    "shirtNumber": null,
+    "shirtNumber": 32,
     "sourcePosition": "Left Back",
     "primaryPosition": "V9",
     "secondaryPositions": [],
@@ -409,6 +439,9 @@
       ],
       "position": [
         "src_hbl_lugi_20260617"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "defaultSquadStatus": "KEY_PLAYER",
@@ -421,7 +454,7 @@
     "competitionId": "se_handbollsligan_herr",
     "season": "2026/27",
     "snapshotDate": "2026-08-20",
-    "shirtNumber": null,
+    "shirtNumber": 7,
     "sourcePosition": "Centre Back",
     "primaryPosition": "M9",
     "secondaryPositions": [],
@@ -438,6 +471,9 @@
       ],
       "position": [
         "src_hbl_lugi_20260617"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "defaultSquadStatus": "KEY_PLAYER",
@@ -452,7 +488,7 @@
     "competitionId": "se_handbollsligan_herr",
     "season": "2026/27",
     "snapshotDate": "2026-08-20",
-    "shirtNumber": null,
+    "shirtNumber": 20,
     "sourcePosition": "Centre Back",
     "primaryPosition": "M9",
     "secondaryPositions": [],
@@ -469,6 +505,9 @@
       ],
       "position": [
         "src_hbl_lugi_20260617"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     }
   },
@@ -506,7 +545,7 @@
     "competitionId": "se_handbollsligan_herr",
     "season": "2026/27",
     "snapshotDate": "2026-08-20",
-    "shirtNumber": null,
+    "shirtNumber": 13,
     "sourcePosition": "Right Back",
     "primaryPosition": "H9",
     "secondaryPositions": [],
@@ -523,6 +562,9 @@
       ],
       "position": [
         "src_hbl_lugi_20260617"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "defaultSquadStatus": "FIRST_CHOICE",
@@ -589,7 +631,7 @@
     "competitionId": "se_handbollsligan_herr",
     "season": "2026/27",
     "snapshotDate": "2026-08-20",
-    "shirtNumber": null,
+    "shirtNumber": 17,
     "sourcePosition": "Right Back",
     "primaryPosition": "H9",
     "secondaryPositions": [],
@@ -606,6 +648,9 @@
       ],
       "position": [
         "src_hbl_lugi_20260617"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "defaultSquadStatus": "TALENT",

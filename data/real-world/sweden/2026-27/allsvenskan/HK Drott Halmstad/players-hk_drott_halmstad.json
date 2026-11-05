@@ -5,7 +5,7 @@
     "lastName": "Holmqvist",
     "fullName": "Albin Holmqvist",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2006-03-01",
     "birthYear": 2006,
     "nationalities": [
       "SE"
@@ -13,10 +13,15 @@
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
-    "fieldConfidence": {},
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    },
     "sourceRefs": {
       "identity": [
         "src_as_v5_qa_spreadsheet"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": []
@@ -124,16 +129,21 @@
     "lastName": "Sivertsson",
     "fullName": "Jesper Sivertsson",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "1993-11-05",
     "birthYear": 1993,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
-    "fieldConfidence": {},
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    },
     "sourceRefs": {
       "identity": [
         "src_as_v5_qa_spreadsheet"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": []
@@ -371,16 +381,21 @@
     "lastName": "Petersson",
     "fullName": "Johan Petersson",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "1999-05-08",
     "birthYear": 1999,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
-    "fieldConfidence": {},
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    },
     "sourceRefs": {
       "identity": [
         "src_as_v5_qa_spreadsheet"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": []

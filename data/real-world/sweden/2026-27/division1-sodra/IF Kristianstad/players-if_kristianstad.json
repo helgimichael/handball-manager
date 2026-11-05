@@ -69,16 +69,21 @@
     "lastName": "Wandås",
     "fullName": "Felix Wandås",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
+    "dateOfBirth": "2006-06-26",
+    "birthYear": 2006,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
-    "fieldConfidence": {},
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    },
     "sourceRefs": {
       "identity": [
         "src_div1_sodra_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": []

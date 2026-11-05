@@ -99,7 +99,7 @@
     "competitionId": "se_division1_norra",
     "season": "2026/27",
     "snapshotDate": "2026-10-31",
-    "shirtNumber": null,
+    "shirtNumber": 2,
     "sourcePosition": "V6",
     "primaryPosition": "V6",
     "secondaryPositions": [],
@@ -117,6 +117,9 @@
       "position": [
         "src_hm16_profixio_registration",
         "src_hm16_profixio_match_sheets"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": [
@@ -130,7 +133,7 @@
     "competitionId": "se_division1_norra",
     "season": "2026/27",
     "snapshotDate": "2026-10-31",
-    "shirtNumber": null,
+    "shirtNumber": 25,
     "sourcePosition": "V6",
     "primaryPosition": "V6",
     "secondaryPositions": [],
@@ -148,6 +151,9 @@
       "position": [
         "src_hm16_profixio_registration",
         "src_hm16_profixio_match_sheets"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": [
@@ -321,7 +327,7 @@
     "competitionId": "se_division1_norra",
     "season": "2026/27",
     "snapshotDate": "2026-10-31",
-    "shirtNumber": null,
+    "shirtNumber": 8,
     "sourcePosition": "M9",
     "primaryPosition": "M9",
     "secondaryPositions": [
@@ -341,6 +347,9 @@
       "position": [
         "src_hm16_profixio_registration",
         "src_hm16_profixio_match_sheets"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": [
@@ -354,7 +363,7 @@
     "competitionId": "se_division1_norra",
     "season": "2026/27",
     "snapshotDate": "2026-10-31",
-    "shirtNumber": null,
+    "shirtNumber": 11,
     "sourcePosition": "H9",
     "primaryPosition": "H9",
     "secondaryPositions": [
@@ -374,6 +383,9 @@
       "position": [
         "src_hm16_profixio_registration",
         "src_hm16_profixio_match_sheets"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": [
@@ -637,7 +649,7 @@
     "competitionId": "se_division1_norra",
     "season": "2026/27",
     "snapshotDate": "2026-10-31",
-    "shirtNumber": null,
+    "shirtNumber": 19,
     "sourcePosition": "M6",
     "primaryPosition": "M6",
     "secondaryPositions": [
@@ -658,6 +670,9 @@
         "src_hm16_profixio_registration",
         "src_hm16_profixio_match_sheets",
         "src_hm16_rating_research"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": [
@@ -671,7 +686,7 @@
     "competitionId": "se_division1_norra",
     "season": "2026/27",
     "snapshotDate": "2026-10-31",
-    "shirtNumber": null,
+    "shirtNumber": 21,
     "sourcePosition": "M9",
     "primaryPosition": "M9",
     "secondaryPositions": [
@@ -692,6 +707,9 @@
         "src_hm16_profixio_registration",
         "src_hm16_profixio_match_sheets",
         "src_hm16_rating_research"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": [

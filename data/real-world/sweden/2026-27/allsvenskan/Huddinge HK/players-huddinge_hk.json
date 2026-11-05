@@ -395,16 +395,21 @@
     "lastName": "Edlund",
     "fullName": "Oliver Edlund",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2007-10-01",
     "birthYear": 2007,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
-    "fieldConfidence": {},
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    },
     "sourceRefs": {
       "identity": [
         "src_as_v5_qa_spreadsheet"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": []
@@ -455,16 +460,21 @@
     "lastName": "Yilmaz",
     "fullName": "Özgür Yilmaz",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2003-03-03",
     "birthYear": 2003,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
-    "fieldConfidence": {},
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    },
     "sourceRefs": {
       "identity": [
         "src_as_v5_qa_spreadsheet"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": []

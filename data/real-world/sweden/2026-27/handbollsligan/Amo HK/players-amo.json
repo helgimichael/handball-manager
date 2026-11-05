@@ -259,8 +259,8 @@
     "lastName": "Larsen",
     "fullName": "Emil Larsen",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
+    "dateOfBirth": "2002-02-06",
+    "birthYear": 2002,
     "nationalities": [
       "DK"
     ],
@@ -271,9 +271,15 @@
       "identity": [
         "src_hbl_amo_20260817",
         "src_hbl_amo_guide_20260609"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [],
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    }
   },
   {
     "playerId": "se_player_shaban_zogaj_71e0c93f",

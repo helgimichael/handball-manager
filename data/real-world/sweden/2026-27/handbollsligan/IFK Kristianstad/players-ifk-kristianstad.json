@@ -116,7 +116,7 @@
     "lastName": "Petrovic",
     "fullName": "Niko Petrovic",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2006-12-07",
     "birthYear": 2006,
     "nationalities": [
       "HR"
@@ -127,9 +127,15 @@
     "sourceRefs": {
       "identity": [
         "src_hbl_ifk_20260817"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [],
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    }
   },
   {
     "playerId": "player_albin_selin_8af77244",

@@ -47,16 +47,21 @@
     "lastName": "Lindsten",
     "fullName": "Karl Lindsten",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2003-10-30",
     "birthYear": 2003,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
-    "fieldConfidence": {},
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    },
     "sourceRefs": {
       "identity": [
         "src_div1_norra_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": []
@@ -169,16 +174,21 @@
     "lastName": "Johansson",
     "fullName": "Robin Johansson",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
+    "dateOfBirth": "2000-05-13",
+    "birthYear": 2000,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
-    "fieldConfidence": {},
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    },
     "sourceRefs": {
       "identity": [
         "src_div1_norra_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": []

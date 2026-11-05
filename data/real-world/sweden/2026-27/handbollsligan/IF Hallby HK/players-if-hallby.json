@@ -47,7 +47,7 @@
     "lastName": "Bjerklin",
     "fullName": "Wilmer Bjerklin",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2009-02-10",
     "birthYear": 2009,
     "nationalities": null,
     "heightCm": null,
@@ -56,9 +56,15 @@
     "sourceRefs": {
       "identity": [
         "src_hbl_hallby_20260817"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [],
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    }
   },
   {
     "playerId": "se_player_hampus_dahlgren_01f1dc4f",
@@ -308,7 +314,7 @@
     "lastName": "Legrell",
     "fullName": "Herman Legrell",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2008-02-04",
     "birthYear": 2008,
     "nationalities": null,
     "heightCm": null,
@@ -317,9 +323,15 @@
     "sourceRefs": {
       "identity": [
         "src_hbl_hallby_20260817"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [],
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    }
   },
   {
     "playerId": "se_player_hampus_soderman_4fc3c02e",

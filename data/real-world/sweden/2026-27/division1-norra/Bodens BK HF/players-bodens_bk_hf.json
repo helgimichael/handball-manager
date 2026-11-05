@@ -5,14 +5,15 @@
     "lastName": "Kneissl",
     "fullName": "Lucas Kneissl",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "1995-07-04",
     "birthYear": 1995,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
     "fieldConfidence": {
-      "birthYear": "VERIFIED"
+      "birthYear": "VERIFIED",
+      "dateOfBirth": "SOURCE_VERIFIED"
     },
     "sourceRefs": {
       "identity": [
@@ -20,6 +21,9 @@
       ],
       "birthYear": [
         "src_div1_norra_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": []
@@ -57,14 +61,15 @@
     "lastName": "Vidgren",
     "fullName": "Jonatan Vidgren",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "1993-12-25",
     "birthYear": 1993,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
     "fieldConfidence": {
-      "birthYear": "VERIFIED"
+      "birthYear": "VERIFIED",
+      "dateOfBirth": "SOURCE_VERIFIED"
     },
     "sourceRefs": {
       "identity": [
@@ -72,6 +77,9 @@
       ],
       "birthYear": [
         "src_div1_norra_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": []
@@ -465,14 +473,15 @@
     "lastName": "Rubin Bauer",
     "fullName": "Benjamin Rubin Bauer",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2005-03-05",
     "birthYear": 2005,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
     "fieldConfidence": {
-      "birthYear": "VERIFIED"
+      "birthYear": "VERIFIED",
+      "dateOfBirth": "SOURCE_VERIFIED"
     },
     "sourceRefs": {
       "identity": [
@@ -480,6 +489,9 @@
       ],
       "birthYear": [
         "src_div1_norra_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": []
@@ -517,14 +529,15 @@
     "lastName": "Finndahl",
     "fullName": "Edward Finndahl",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2005-04-17",
     "birthYear": 2005,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
     "fieldConfidence": {
-      "birthYear": "VERIFIED"
+      "birthYear": "VERIFIED",
+      "dateOfBirth": "SOURCE_VERIFIED"
     },
     "sourceRefs": {
       "identity": [
@@ -532,6 +545,9 @@
       ],
       "birthYear": [
         "src_div1_norra_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": []
@@ -650,14 +666,15 @@
     "lastName": "Sami",
     "fullName": "Kaleb Sami",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": 2010,
+    "dateOfBirth": "2009-01-04",
+    "birthYear": 2009,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
     "fieldConfidence": {
-      "birthYear": "VERIFIED"
+      "birthYear": "VERIFIED",
+      "dateOfBirth": "SOURCE_VERIFIED"
     },
     "sourceRefs": {
       "identity": [
@@ -665,6 +682,9 @@
       ],
       "birthYear": [
         "src_div1_norra_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": []
@@ -700,14 +720,15 @@
     "lastName": "Andersson Männikkö",
     "fullName": "Lukas Andersson Männikkö",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "1998-02-11",
     "birthYear": 1998,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
     "fieldConfidence": {
-      "birthYear": "VERIFIED"
+      "birthYear": "VERIFIED",
+      "dateOfBirth": "SOURCE_VERIFIED"
     },
     "sourceRefs": {
       "identity": [
@@ -715,6 +736,9 @@
       ],
       "birthYear": [
         "src_div1_norra_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": []
@@ -829,14 +853,15 @@
     "lastName": "Keith",
     "fullName": "Ture Keith",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2008-12-01",
     "birthYear": 2008,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
     "fieldConfidence": {
-      "birthYear": "VERIFIED"
+      "birthYear": "VERIFIED",
+      "dateOfBirth": "SOURCE_VERIFIED"
     },
     "sourceRefs": {
       "identity": [
@@ -844,6 +869,9 @@
       ],
       "birthYear": [
         "src_div1_norra_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": []
@@ -854,14 +882,15 @@
     "lastName": "Näslund",
     "fullName": "Ville Näslund",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2006-02-01",
     "birthYear": 2006,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
     "fieldConfidence": {
-      "birthYear": "VERIFIED"
+      "birthYear": "VERIFIED",
+      "dateOfBirth": "SOURCE_VERIFIED"
     },
     "sourceRefs": {
       "identity": [
@@ -869,6 +898,9 @@
       ],
       "birthYear": [
         "src_div1_norra_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": []

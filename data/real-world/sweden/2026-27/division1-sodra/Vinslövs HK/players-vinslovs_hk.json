@@ -117,16 +117,21 @@
     "lastName": "Karlsson",
     "fullName": "Elias Karlsson",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
+    "dateOfBirth": "2002-02-14",
+    "birthYear": 2002,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
-    "fieldConfidence": {},
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    },
     "sourceRefs": {
       "identity": [
         "src_div1_sodra_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": [

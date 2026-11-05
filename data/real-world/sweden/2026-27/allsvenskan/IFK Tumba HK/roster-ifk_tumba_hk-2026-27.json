@@ -491,7 +491,7 @@
     "competitionId": "swe-2",
     "season": "2026/27",
     "snapshotDate": "2026-08-27",
-    "shirtNumber": null,
+    "shirtNumber": 43,
     "sourcePosition": "MV",
     "primaryPosition": "MV",
     "secondaryPositions": [],
@@ -508,6 +508,9 @@
       ],
       "position": [
         "src_as_position_evidence"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": [],

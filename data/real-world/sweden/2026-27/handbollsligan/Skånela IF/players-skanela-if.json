@@ -45,7 +45,7 @@
     "lastName": "Rotsman",
     "fullName": "Oscar Rotsman",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2008-03-12",
     "birthYear": 2008,
     "nationalities": [
       "SE"
@@ -56,9 +56,15 @@
     "sourceRefs": {
       "identity": [
         "src_hbl_skanela_20260623"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [],
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    }
   },
   {
     "playerId": "player_max_broman_36125fbf",
@@ -226,7 +232,7 @@
     "lastName": "Ekholm",
     "fullName": "Victor Ekholm",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2006-05-10",
     "birthYear": 2006,
     "nationalities": null,
     "heightCm": null,
@@ -235,9 +241,15 @@
     "sourceRefs": {
       "identity": [
         "src_hbl_skanela_20260623"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [],
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    }
   },
   {
     "playerId": "player_tobias_johansson_f5f887f6",
@@ -323,7 +335,7 @@
     "lastName": "Haglund",
     "fullName": "Malte Haglund",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2008-05-21",
     "birthYear": 2008,
     "nationalities": [
       "SE"
@@ -334,9 +346,15 @@
     "sourceRefs": {
       "identity": [
         "src_hbl_skanela_20260623"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [],
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    }
   },
   {
     "playerId": "player_alexander_ritter_42f60d18",
@@ -344,8 +362,8 @@
     "lastName": "Ritter",
     "fullName": "Alexander Ritter",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
+    "dateOfBirth": "2004-09-19",
+    "birthYear": 2004,
     "nationalities": [
       "DK"
     ],
@@ -355,9 +373,15 @@
     "sourceRefs": {
       "identity": [
         "src_hbl_skanela_20260623"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [],
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    }
   },
   {
     "playerId": "player_elias_lundstad_7f6204ac",

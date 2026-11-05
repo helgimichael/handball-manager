@@ -181,16 +181,21 @@
     "lastName": "Ström",
     "fullName": "Henrik Ström",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2000-10-19",
     "birthYear": 2000,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
-    "fieldConfidence": {},
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    },
     "sourceRefs": {
       "identity": [
         "src_div1_norra_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": [
@@ -913,16 +918,21 @@
     "lastName": "Lundqvist Karlsson",
     "fullName": "Karl Lundqvist Karlsson",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2004-11-21",
     "birthYear": 2004,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
-    "fieldConfidence": {},
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    },
     "sourceRefs": {
       "identity": [
         "src_div1_norra_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": [
@@ -1001,16 +1011,21 @@
     "lastName": "Freberg",
     "fullName": "Markus Freberg",
     "aliases": [],
-    "dateOfBirth": null,
-    "birthYear": null,
+    "dateOfBirth": "1999-03-02",
+    "birthYear": 1999,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
-    "fieldConfidence": {},
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    },
     "sourceRefs": {
       "identity": [
         "src_div1_norra_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": [

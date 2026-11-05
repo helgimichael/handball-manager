@@ -581,7 +581,7 @@
     "competitionId": "se_division1_norra",
     "season": "2026/27",
     "snapshotDate": "2026-10-31",
-    "shirtNumber": null,
+    "shirtNumber": 1,
     "sourcePosition": "H9",
     "primaryPosition": "H9",
     "secondaryPositions": [],
@@ -598,6 +598,9 @@
       ],
       "position": [
         "src_hm16_profixio_registration"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": [

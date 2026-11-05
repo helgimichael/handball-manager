@@ -47,7 +47,7 @@
     "lastName": "Jerrhag",
     "fullName": "Helge Jerrhag",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2007-06-18",
     "birthYear": 2007,
     "nationalities": null,
     "heightCm": null,
@@ -56,9 +56,15 @@
     "sourceRefs": {
       "identity": [
         "src_hbl_yif_20260710"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [],
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    }
   },
   {
     "playerId": "player_linus_fernebrand_78ad61c3",
@@ -406,7 +412,7 @@
     "lastName": "Näslund",
     "fullName": "Gustav Näslund",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "1998-05-01",
     "birthYear": 1998,
     "nationalities": null,
     "heightCm": null,
@@ -415,9 +421,15 @@
     "sourceRefs": {
       "identity": [
         "src_hbl_yif_20260710"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [],
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    }
   },
   {
     "playerId": "player_johannes_liljeberg_ee116a28",

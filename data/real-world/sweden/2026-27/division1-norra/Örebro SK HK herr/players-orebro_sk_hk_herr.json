@@ -205,16 +205,21 @@
     "lastName": "Kollgård",
     "fullName": "Sami Kollgård",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2010-07-06",
     "birthYear": 2010,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
-    "fieldConfidence": {},
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    },
     "sourceRefs": {
       "identity": [
         "src_div1_norra_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": [

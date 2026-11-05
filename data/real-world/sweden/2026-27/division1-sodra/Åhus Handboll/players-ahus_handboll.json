@@ -572,16 +572,21 @@
     "lastName": "Yngvesson",
     "fullName": "Jakob Yngvesson",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2003-03-28",
     "birthYear": 2003,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
-    "fieldConfidence": {},
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    },
     "sourceRefs": {
       "identity": [
         "src_div1_sodra_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": []
@@ -612,16 +617,21 @@
     "lastName": "Lindau",
     "fullName": "Walter Lindau",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2004-12-29",
     "birthYear": 2004,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "VERIFIED",
-    "fieldConfidence": {},
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    },
     "sourceRefs": {
       "identity": [
         "src_div1_sodra_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": []
@@ -656,14 +666,15 @@
     "lastName": "Svensson",
     "fullName": "Isac Svensson",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2006-12-26",
     "birthYear": 2006,
     "nationalities": null,
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
     "fieldConfidence": {
-      "birthYear": "PARTIAL"
+      "birthYear": "PARTIAL",
+      "dateOfBirth": "SOURCE_VERIFIED"
     },
     "sourceRefs": {
       "identity": [
@@ -671,6 +682,9 @@
       ],
       "birthYear": [
         "src_div1_sodra_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": [

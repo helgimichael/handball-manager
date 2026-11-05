@@ -36,7 +36,7 @@
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
     "snapshotDate": "2026-10-31",
-    "shirtNumber": null,
+    "shirtNumber": 5,
     "sourcePosition": "M6",
     "primaryPosition": "M6",
     "secondaryPositions": [],
@@ -54,6 +54,9 @@
       "position": [
         "src_hm16_profixio_registration",
         "src_hm16_profixio_match_sheets"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": [
@@ -67,7 +70,7 @@
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
     "snapshotDate": "2026-10-31",
-    "shirtNumber": null,
+    "shirtNumber": 27,
     "sourcePosition": "H6",
     "primaryPosition": "H6",
     "secondaryPositions": [],
@@ -85,6 +88,9 @@
       "position": [
         "src_hm16_profixio_registration",
         "src_hm16_profixio_match_sheets"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": [
@@ -98,7 +104,7 @@
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
     "snapshotDate": "2026-10-31",
-    "shirtNumber": null,
+    "shirtNumber": 6,
     "sourcePosition": "M6",
     "primaryPosition": "M6",
     "secondaryPositions": [],
@@ -116,6 +122,9 @@
       "position": [
         "src_hm16_profixio_registration",
         "src_hm16_profixio_match_sheets"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": [
@@ -129,7 +138,7 @@
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
     "snapshotDate": "2026-10-31",
-    "shirtNumber": null,
+    "shirtNumber": 3,
     "sourcePosition": "V6",
     "primaryPosition": "V6",
     "secondaryPositions": [],
@@ -147,6 +156,9 @@
       "position": [
         "src_hm16_profixio_registration",
         "src_hm16_profixio_match_sheets"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": [
@@ -160,7 +172,7 @@
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
     "snapshotDate": "2026-10-31",
-    "shirtNumber": null,
+    "shirtNumber": 20,
     "sourcePosition": "MV",
     "primaryPosition": "MV",
     "secondaryPositions": [],
@@ -178,6 +190,9 @@
       "position": [
         "src_hm15_profixio_registration",
         "src_hm15_profixio_match_sheets"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": [
@@ -191,7 +206,7 @@
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
     "snapshotDate": "2026-10-31",
-    "shirtNumber": null,
+    "shirtNumber": 7,
     "sourcePosition": "V6",
     "primaryPosition": "V6",
     "secondaryPositions": [],
@@ -209,6 +224,9 @@
       "position": [
         "src_hm16_profixio_registration",
         "src_hm16_profixio_match_sheets"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": [
@@ -222,7 +240,7 @@
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
     "snapshotDate": "2026-10-31",
-    "shirtNumber": null,
+    "shirtNumber": 22,
     "sourcePosition": "M9",
     "primaryPosition": "M9",
     "secondaryPositions": [],
@@ -240,6 +258,9 @@
       "position": [
         "src_hm16_profixio_registration",
         "src_hm16_profixio_match_sheets"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": [
@@ -253,7 +274,7 @@
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
     "snapshotDate": "2026-10-31",
-    "shirtNumber": null,
+    "shirtNumber": 1,
     "sourcePosition": "MV",
     "primaryPosition": "MV",
     "secondaryPositions": [],
@@ -271,6 +292,9 @@
       "position": [
         "src_hm16_profixio_registration",
         "src_hm16_profixio_match_sheets"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": [
@@ -284,7 +308,7 @@
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
     "snapshotDate": "2026-10-31",
-    "shirtNumber": null,
+    "shirtNumber": 12,
     "sourcePosition": "MV",
     "primaryPosition": "MV",
     "secondaryPositions": [],
@@ -302,6 +326,9 @@
       "position": [
         "src_hm15_profixio_registration",
         "src_hm15_profixio_match_sheets"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": [
@@ -315,7 +342,7 @@
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
     "snapshotDate": "2026-10-31",
-    "shirtNumber": null,
+    "shirtNumber": 72,
     "sourcePosition": "M6",
     "primaryPosition": "M6",
     "secondaryPositions": [],
@@ -333,6 +360,9 @@
       "position": [
         "src_hm16_profixio_registration",
         "src_hm16_profixio_match_sheets"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": [
@@ -346,7 +376,7 @@
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
     "snapshotDate": "2026-10-31",
-    "shirtNumber": null,
+    "shirtNumber": 4,
     "sourcePosition": "H6",
     "primaryPosition": "H6",
     "secondaryPositions": [],
@@ -364,6 +394,9 @@
       "position": [
         "src_hm16_profixio_registration",
         "src_hm16_profixio_match_sheets"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": [
@@ -407,7 +440,7 @@
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
     "snapshotDate": "2026-10-31",
-    "shirtNumber": null,
+    "shirtNumber": 33,
     "sourcePosition": "V6",
     "primaryPosition": "V6",
     "secondaryPositions": [],
@@ -424,6 +457,9 @@
       ],
       "position": [
         "src_hm16_profixio_registration"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": [
@@ -437,7 +473,7 @@
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
     "snapshotDate": "2026-10-31",
-    "shirtNumber": null,
+    "shirtNumber": 17,
     "sourcePosition": "H9",
     "primaryPosition": "H9",
     "secondaryPositions": [
@@ -458,6 +494,9 @@
         "src_hm16_profixio_registration",
         "src_hm16_profixio_match_sheets",
         "src_hm16_rating_research"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": [
@@ -471,7 +510,7 @@
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
     "snapshotDate": "2026-10-31",
-    "shirtNumber": null,
+    "shirtNumber": 15,
     "sourcePosition": "V9",
     "primaryPosition": "V9",
     "secondaryPositions": [
@@ -492,6 +531,9 @@
         "src_hm16_profixio_registration",
         "src_hm16_profixio_match_sheets",
         "src_hm16_rating_research"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": [
@@ -505,7 +547,7 @@
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
     "snapshotDate": "2026-10-31",
-    "shirtNumber": null,
+    "shirtNumber": 25,
     "sourcePosition": "M9",
     "primaryPosition": "M9",
     "secondaryPositions": [
@@ -525,6 +567,9 @@
       "position": [
         "src_hm16_profixio_registration",
         "src_hm16_rating_research"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": [
@@ -538,7 +583,7 @@
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
     "snapshotDate": "2026-10-31",
-    "shirtNumber": null,
+    "shirtNumber": 8,
     "sourcePosition": "V9",
     "primaryPosition": "V9",
     "secondaryPositions": [
@@ -558,6 +603,9 @@
       "position": [
         "src_hm16_profixio_registration",
         "src_hm16_rating_research"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": [
@@ -571,7 +619,7 @@
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
     "snapshotDate": "2026-10-31",
-    "shirtNumber": null,
+    "shirtNumber": 14,
     "sourcePosition": "H9",
     "primaryPosition": "H9",
     "secondaryPositions": [],
@@ -589,6 +637,9 @@
       "position": [
         "src_hm16_profixio_registration",
         "src_hm16_profixio_match_sheets"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": [
@@ -602,7 +653,7 @@
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
     "snapshotDate": "2026-10-31",
-    "shirtNumber": null,
+    "shirtNumber": 88,
     "sourcePosition": "M9",
     "primaryPosition": "M9",
     "secondaryPositions": [],
@@ -620,6 +671,9 @@
       "position": [
         "src_hm16_profixio_registration",
         "src_hm16_profixio_match_sheets"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": [
@@ -633,7 +687,7 @@
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
     "snapshotDate": "2026-10-31",
-    "shirtNumber": null,
+    "shirtNumber": 2,
     "sourcePosition": "V9",
     "primaryPosition": "V9",
     "secondaryPositions": [
@@ -654,6 +708,9 @@
         "src_hm16_profixio_registration",
         "src_hm16_profixio_match_sheets",
         "src_hm16_rating_research"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": [

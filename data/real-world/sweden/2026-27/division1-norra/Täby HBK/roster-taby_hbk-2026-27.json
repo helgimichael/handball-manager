@@ -34,7 +34,7 @@
     "competitionId": "se_division1_norra",
     "season": "2026/27",
     "snapshotDate": "2026-08-27",
-    "shirtNumber": null,
+    "shirtNumber": 12,
     "sourcePosition": "Målvakt",
     "primaryPosition": "MV",
     "secondaryPositions": [],
@@ -51,6 +51,9 @@
       ],
       "position": [
         "src_div1_norra_2026_27"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": []
@@ -62,7 +65,7 @@
     "competitionId": "se_division1_norra",
     "season": "2026/27",
     "snapshotDate": "2026-08-27",
-    "shirtNumber": null,
+    "shirtNumber": 37,
     "sourcePosition": "Målvakt",
     "primaryPosition": "MV",
     "secondaryPositions": [],
@@ -79,6 +82,9 @@
       ],
       "position": [
         "src_div1_norra_2026_27"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": []
@@ -424,7 +430,7 @@
     "competitionId": "se_division1_norra",
     "season": "2026/27",
     "snapshotDate": "2026-08-27",
-    "shirtNumber": null,
+    "shirtNumber": 73,
     "sourcePosition": "",
     "primaryPosition": "H9",
     "secondaryPositions": [],
@@ -439,7 +445,10 @@
       "roster": [
         "src_div1_norra_2026_27"
       ],
-      "position": []
+      "position": [],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
+      ]
     },
     "dataNotes": [
       "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
@@ -452,7 +461,7 @@
     "competitionId": "se_division1_norra",
     "season": "2026/27",
     "snapshotDate": "2026-10-31",
-    "shirtNumber": null,
+    "shirtNumber": 34,
     "sourcePosition": "M6",
     "primaryPosition": "M6",
     "secondaryPositions": [],
@@ -470,6 +479,9 @@
       "position": [
         "src_hm16_profixio_registration",
         "src_hm16_profixio_match_sheets"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": [
@@ -483,7 +495,7 @@
     "competitionId": "se_division1_norra",
     "season": "2026/27",
     "snapshotDate": "2026-08-27",
-    "shirtNumber": null,
+    "shirtNumber": 10,
     "sourcePosition": "",
     "primaryPosition": "V9",
     "secondaryPositions": [],
@@ -498,7 +510,10 @@
       "roster": [
         "src_div1_norra_2026_27"
       ],
-      "position": []
+      "position": [],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
+      ]
     },
     "dataNotes": [
       "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
@@ -539,7 +554,7 @@
     "competitionId": "se_division1_norra",
     "season": "2026/27",
     "snapshotDate": "2026-08-27",
-    "shirtNumber": null,
+    "shirtNumber": 5,
     "sourcePosition": "",
     "primaryPosition": "V9",
     "secondaryPositions": [],
@@ -554,7 +569,10 @@
       "roster": [
         "src_div1_norra_2026_27"
       ],
-      "position": []
+      "position": [],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
+      ]
     },
     "dataNotes": [
       "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
@@ -567,7 +585,7 @@
     "competitionId": "se_division1_norra",
     "season": "2026/27",
     "snapshotDate": "2026-08-27",
-    "shirtNumber": null,
+    "shirtNumber": 14,
     "sourcePosition": "",
     "primaryPosition": "V6",
     "secondaryPositions": [],
@@ -582,7 +600,10 @@
       "roster": [
         "src_div1_norra_2026_27"
       ],
-      "position": []
+      "position": [],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
+      ]
     },
     "dataNotes": [
       "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."

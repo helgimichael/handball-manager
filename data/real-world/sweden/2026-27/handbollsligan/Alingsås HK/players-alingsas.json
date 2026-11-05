@@ -280,7 +280,7 @@
     "lastName": "Lignell",
     "fullName": "Hugo Lignell",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2006-02-12",
     "birthYear": 2006,
     "nationalities": [
       "SE"
@@ -291,7 +291,8 @@
     "fieldConfidence": {
       "birthYear": "VERIFIED",
       "nationalities": "VERIFIED",
-      "heightCm": "VERIFIED"
+      "heightCm": "VERIFIED",
+      "dateOfBirth": "SOURCE_VERIFIED"
     },
     "sourceRefs": {
       "identity": [
@@ -306,6 +307,9 @@
       ],
       "heightCm": [
         "src_ahk_roster_20260819"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": [
@@ -392,7 +396,7 @@
     "lastName": "Sellstedt",
     "fullName": "Max Sellstedt",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2009-04-04",
     "birthYear": 2009,
     "nationalities": [
       "SE"
@@ -402,7 +406,8 @@
     "recordConfidence": "PARTIAL",
     "fieldConfidence": {
       "birthYear": "VERIFIED",
-      "handedness": "VERIFIED"
+      "handedness": "VERIFIED",
+      "dateOfBirth": "SOURCE_VERIFIED"
     },
     "sourceRefs": {
       "identity": [
@@ -414,6 +419,9 @@
       ],
       "handedness": [
         "src_ahk_max_sellstedt_20260624"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": [
@@ -523,7 +531,7 @@
     "lastName": "Hurtig",
     "fullName": "Noel Hurtig",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2006-03-20",
     "birthYear": 2006,
     "nationalities": [
       "SE"
@@ -533,7 +541,8 @@
     "recordConfidence": "PARTIAL",
     "fieldConfidence": {
       "birthYear": "VERIFIED",
-      "heightCm": "VERIFIED"
+      "heightCm": "VERIFIED",
+      "dateOfBirth": "SOURCE_VERIFIED"
     },
     "sourceRefs": {
       "identity": [
@@ -545,6 +554,9 @@
       ],
       "heightCm": [
         "src_ahk_roster_20260819"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": []
@@ -557,7 +569,7 @@
     "aliases": [
       "Calle Rydén"
     ],
-    "dateOfBirth": null,
+    "dateOfBirth": "2005-03-05",
     "birthYear": 2005,
     "nationalities": [
       "SE"
@@ -565,11 +577,16 @@
     "heightCm": null,
     "handedness": null,
     "recordConfidence": "PARTIAL",
-    "fieldConfidence": {},
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    },
     "sourceRefs": {
       "identity": [
         "src_hbl_20260817_season_preview",
         "src_ahk_carl_20260330"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": [

@@ -6,7 +6,7 @@
     "competitionId": "se_division1_sodra",
     "season": "2026/27",
     "snapshotDate": "2026-10-31",
-    "shirtNumber": null,
+    "shirtNumber": 12,
     "sourcePosition": "MV",
     "primaryPosition": "MV",
     "secondaryPositions": [],
@@ -24,6 +24,9 @@
       "position": [
         "src_hm16_profixio_registration",
         "src_hm16_profixio_match_sheets"
+      ],
+      "shirtNumber": [
+        "src_profixio_hbl_2026_27"
       ]
     },
     "dataNotes": [

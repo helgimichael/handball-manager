@@ -104,7 +104,7 @@
     "lastName": "Leo Larsson",
     "fullName": "Truls Leo Larsson",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2009-02-25",
     "birthYear": 2009,
     "nationalities": null,
     "heightCm": null,
@@ -113,9 +113,15 @@
     "sourceRefs": {
       "identity": [
         "src_hbl_lugi_20260617"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [],
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    }
   },
   {
     "playerId": "player_calle_lindqvist_8e626c43",
@@ -266,7 +272,7 @@
     "lastName": "Sandberg",
     "fullName": "Daniel Sandberg",
     "aliases": [],
-    "dateOfBirth": null,
+    "dateOfBirth": "2008-03-04",
     "birthYear": 2008,
     "nationalities": [
       "SE"
@@ -277,9 +283,15 @@
     "sourceRefs": {
       "identity": [
         "src_hbl_lugi_20260617"
+      ],
+      "dateOfBirth": [
+        "src_profixio_hbl_2026_27"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [],
+    "fieldConfidence": {
+      "dateOfBirth": "SOURCE_VERIFIED"
+    }
   },
   {
     "playerId": "player_adam_lonn_c83602c9",
