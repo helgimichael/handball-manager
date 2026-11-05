@@ -13,6 +13,7 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
+    "calibrate:dry-run": "node --import tsx scripts/run-offline-calibration-engine.ts",
     "test": "node scripts/run-game-tests.mjs",
     "test:all:portable": "node scripts/run-game-tests.mjs",
     "test:season:management": "node --import tsx scripts/management-season-smoke.ts",
