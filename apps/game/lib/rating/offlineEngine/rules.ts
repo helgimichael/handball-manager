@@ -1,5 +1,4 @@
 import type {
-  CalibrationDecisionCategory,
   CalibrationProposal,
   ConfidenceLevel,
   OfflinePlayerContext,
@@ -196,17 +195,19 @@ export function evaluatePlayerRules(context: OfflinePlayerContext): CalibrationP
 
   // -------------------------------------------------------------------------
   // 7. Documented Evidence-Backed Proposals (PROPOSE)
-  // Milestone 3 Position-Sensitive Evidence Calibration
-  // Constraints:
-  // - Do NOT automatically adjust veteran PA based only on age.
-  // - Do NOT automatically suppress youth PA because of missing senior minutes.
-  // - Do NOT inflate CA on scoring volume alone (consider assists, turnovers, 7m, role, and defensive specialists).
-  // - Provide explicit comparison players for every proposal.
+  // Milestone 4: Bidirectional Calibration with Decoupled CA and PA
+  // Strict Rules:
+  // - Support both directions (underrated and overrated).
+  // - CA changes must NOT automatically increase PA.
+  // - PA adjustments require separate developmental or career-progression evidence.
+  // - If proposed CA exceeds current PA, explicitly flag the conflict rather than silently inflating PA.
+  // - Missing minutes, low goals, or age alone must NEVER trigger a downgrade.
+  // - Defensive specialists must not be downgraded for low scoring volume.
   // -------------------------------------------------------------------------
   if (evidence && evidence.verifiedFacts.appearances) {
     const facts = evidence.verifiedFacts;
     const pos = context.primaryPosition;
-    const isGK = pos === "MV" || pos === "GK";
+    const isGK = pos === "MV" || pos === "GK" || facts.shotsFaced !== null;
     const ca = context.runtimeCA;
     const pa = context.runtimePA;
 
@@ -227,21 +228,17 @@ export function evaluatePlayerRules(context: OfflinePlayerContext): CalibrationP
         facts.goals >= 100
       ) {
         let proposedCA = ca;
-        let proposedPA = pa;
         let compPlayer = "Carl Rydén (CA 136)";
         let rationale = "";
 
         if (facts.goals >= 180 && ca < 135) {
           proposedCA = 134;
-          proposedPA = Math.max(144, pa);
           rationale = `Exceptional Allsvenskan top scorer (${facts.goals} goals in ${facts.appearances} appearances, ${(facts.goals / (facts.appearances || 1)).toFixed(1)} gpg). Verified production significantly exceeds current CA of ${ca}; calibrated to starting backcourt level.`;
         } else if (facts.goals >= 150 && ca < 130) {
           proposedCA = 130;
-          proposedPA = Math.max(proposedCA, pa);
           rationale = `High-volume Allsvenskan scorer (${facts.goals} goals in ${facts.appearances} appearances). Adjusted from ${ca} to 130 to reflect established senior starting calibre.`;
         } else if (facts.goals >= 100 && ca < 128) {
           proposedCA = Math.min(128, ca + 6);
-          proposedPA = Math.max(proposedCA, pa);
           compPlayer =
             pos === "M6"
               ? "Alexander Regen (CA 134)"
@@ -252,6 +249,15 @@ export function evaluatePlayerRules(context: OfflinePlayerContext): CalibrationP
         }
 
         if (proposedCA > ca) {
+          // Decoupled PA: keep current PA unless separate developmental evidence exists
+          const proposedPA = pa;
+          const isConflict = proposedCA > pa;
+          const flags = ["DOCUMENTED_CROSS_LEAGUE_MOVER"];
+          if (isConflict) {
+            flags.push("CA_EXCEEDS_PA_CONFLICT");
+            rationale += ` NOTE: Indicated CA (${proposedCA}) exceeds current PA (${pa}) by ${proposedCA - pa} pts. PA decoupled; conflict flagged for human review.`;
+          }
+
           return {
             playerId: context.playerId,
             name: context.name,
@@ -267,13 +273,15 @@ export function evaluatePlayerRules(context: OfflinePlayerContext): CalibrationP
             proposedCA,
             proposedPA,
             caDelta: proposedCA - ca,
-            paDelta: proposedPA - pa,
+            paDelta: 0,
             decision: "PROPOSE",
             confidence: "HIGH",
-            reviewFlags: ["DOCUMENTED_CROSS_LEAGUE_MOVER"],
+            reviewFlags: flags,
             rationale,
             provenance: "DOCUMENTED_PERFORMANCE_EVIDENCE",
             comparisonPlayer: compPlayer,
+            isCaPaConflict: isConflict,
+            conflictMagnitude: isConflict ? proposedCA - pa : undefined,
           };
         }
       }
@@ -293,7 +301,15 @@ export function evaluatePlayerRules(context: OfflinePlayerContext): CalibrationP
         // Tier A: Domestic offensive summit (>250 involvements)
         if (totalInvolvements >= 250 && ca < 148) {
           const proposedCA = 149;
-          const proposedPA = Math.max(152, pa);
+          const proposedPA = pa;
+          const isConflict = proposedCA > pa;
+          const flags = ["HIGH_VOLUME_OFFENSIVE_ENGINE"];
+          let rat = `Elite domestic offensive engine (${facts.goals} goals, ${facts.assists} assists, ${totalInvolvements} total involvements in ${facts.appearances} matches). CA ${ca} underrates league-wide impact.`;
+          if (isConflict) {
+            flags.push("CA_EXCEEDS_PA_CONFLICT");
+            rat += ` NOTE: Indicated CA (${proposedCA}) exceeds current PA (${pa}). Decoupled; conflict flagged for review.`;
+          }
+
           return {
             playerId: context.playerId,
             name: context.name,
@@ -309,20 +325,30 @@ export function evaluatePlayerRules(context: OfflinePlayerContext): CalibrationP
             proposedCA,
             proposedPA,
             caDelta: proposedCA - ca,
-            paDelta: proposedPA - pa,
+            paDelta: 0,
             decision: "PROPOSE",
             confidence: "HIGH",
-            reviewFlags: ["HIGH_VOLUME_OFFENSIVE_ENGINE"],
-            rationale: `Elite domestic offensive engine (${facts.goals} goals, ${facts.assists} assists, ${totalInvolvements} total involvements in ${facts.appearances} matches). CA ${ca} underrates league-wide impact.`,
+            reviewFlags: flags,
+            rationale: rat,
             provenance: "DOCUMENTED_PERFORMANCE_EVIDENCE",
             comparisonPlayer: "August Wiger (CA 152)",
+            isCaPaConflict: isConflict,
+            conflictMagnitude: isConflict ? proposedCA - pa : undefined,
           };
         }
 
         // Tier B: Premier domestic playmakers (>180 involvements)
         if (totalInvolvements >= 180 && ca < 148) {
           const proposedCA = Math.min(151, ca + 5);
-          const proposedPA = Math.max(proposedCA, pa);
+          const proposedPA = pa;
+          const isConflict = proposedCA > pa;
+          const flags = ["HIGH_VOLUME_PLAYMAKER_EVIDENCE"];
+          let rat = `Premier Handbollsligan playmaker and contributor (${facts.goals} goals, ${facts.assists} assists, ${totalInvolvements} total involvements in ${facts.appearances} matches). Upgraded to reflect high domestic tier.`;
+          if (isConflict) {
+            flags.push("CA_EXCEEDS_PA_CONFLICT");
+            rat += ` NOTE: Indicated CA (${proposedCA}) exceeds current PA (${pa}) by ${proposedCA - pa} pts. PA decoupled; conflict flagged for human review.`;
+          }
+
           return {
             playerId: context.playerId,
             name: context.name,
@@ -338,20 +364,30 @@ export function evaluatePlayerRules(context: OfflinePlayerContext): CalibrationP
             proposedCA,
             proposedPA,
             caDelta: proposedCA - ca,
-            paDelta: proposedPA - pa,
+            paDelta: 0,
             decision: "PROPOSE",
             confidence: "HIGH",
-            reviewFlags: ["HIGH_VOLUME_PLAYMAKER_EVIDENCE"],
-            rationale: `Premier Handbollsligan playmaker and contributor (${facts.goals} goals, ${facts.assists} assists, ${totalInvolvements} total involvements in ${facts.appearances} matches). Upgraded to reflect high domestic tier.`,
+            reviewFlags: flags,
+            rationale: rat,
             provenance: "DOCUMENTED_PERFORMANCE_EVIDENCE",
             comparisonPlayer: "August Wiger (CA 152)",
+            isCaPaConflict: isConflict,
+            conflictMagnitude: isConflict ? proposedCA - pa : undefined,
           };
         }
 
         // Tier C: Solid starting contributors (>130 involvements with CA < 135)
         if (totalInvolvements >= 130 && ca < 135) {
           const proposedCA = Math.min(138, ca + 8);
-          const proposedPA = Math.max(proposedCA, pa);
+          const proposedPA = pa;
+          const isConflict = proposedCA > pa;
+          const flags = ["HBL_SOLID_STARTER_EVIDENCE"];
+          let rat = `Consistent starting contributor in Handbollsligan (${facts.goals} goals, ${facts.assists} assists, ${totalInvolvements} involvements in ${facts.appearances} games). Upgraded from reserve tier (${ca}) to solid starter tier (${proposedCA}).`;
+          if (isConflict) {
+            flags.push("CA_EXCEEDS_PA_CONFLICT");
+            rat += ` NOTE: Indicated CA (${proposedCA}) exceeds current PA (${pa}). Decoupled; conflict flagged.`;
+          }
+
           return {
             playerId: context.playerId,
             name: context.name,
@@ -367,20 +403,30 @@ export function evaluatePlayerRules(context: OfflinePlayerContext): CalibrationP
             proposedCA,
             proposedPA,
             caDelta: proposedCA - ca,
-            paDelta: proposedPA - pa,
+            paDelta: 0,
             decision: "PROPOSE",
             confidence: "HIGH",
-            reviewFlags: ["HBL_SOLID_STARTER_EVIDENCE"],
-            rationale: `Consistent starting contributor in Handbollsligan (${facts.goals} goals, ${facts.assists} assists, ${totalInvolvements} involvements in ${facts.appearances} games). Upgraded from reserve tier (${ca}) to solid starter tier (${proposedCA}).`,
+            reviewFlags: flags,
+            rationale: rat,
             provenance: "DOCUMENTED_PERFORMANCE_EVIDENCE",
             comparisonPlayer: "Petter Donaldson (CA 140)",
+            isCaPaConflict: isConflict,
+            conflictMagnitude: isConflict ? proposedCA - pa : undefined,
           };
         }
 
         // Tier D: Regular rotation starters (>100 involvements, >= 24 apps with CA < 125)
         if (totalInvolvements >= 100 && facts.appearances >= 24 && ca < 125) {
           const proposedCA = Math.min(128, ca + 8);
-          const proposedPA = Math.max(proposedCA, pa);
+          const proposedPA = pa;
+          const isConflict = proposedCA > pa;
+          const flags = ["HBL_REGULAR_ROTATION_EVIDENCE"];
+          let rat = `Regular starting rotation back in Handbollsligan (${facts.appearances} appearances, ${facts.goals} goals, ${facts.assists} assists). Current CA ${ca} underrates proven top-flight contribution.`;
+          if (isConflict) {
+            flags.push("CA_EXCEEDS_PA_CONFLICT");
+            rat += ` NOTE: Indicated CA (${proposedCA}) exceeds current PA (${pa}). Decoupled; conflict flagged.`;
+          }
+
           return {
             playerId: context.playerId,
             name: context.name,
@@ -396,20 +442,30 @@ export function evaluatePlayerRules(context: OfflinePlayerContext): CalibrationP
             proposedCA,
             proposedPA,
             caDelta: proposedCA - ca,
-            paDelta: proposedPA - pa,
+            paDelta: 0,
             decision: "PROPOSE",
             confidence: "HIGH",
-            reviewFlags: ["HBL_REGULAR_ROTATION_EVIDENCE"],
-            rationale: `Regular starting rotation back in Handbollsligan (${facts.appearances} appearances, ${facts.goals} goals, ${facts.assists} assists). Current CA ${ca} underrates proven top-flight contribution.`,
+            reviewFlags: flags,
+            rationale: rat,
             provenance: "DOCUMENTED_PERFORMANCE_EVIDENCE",
             comparisonPlayer: "Petter Donaldson (CA 140)",
+            isCaPaConflict: isConflict,
+            conflictMagnitude: isConflict ? proposedCA - pa : undefined,
           };
         }
 
         // Tier E: Handbollsligan wing scoring standout
         if (pos.includes("6") && (facts.goals || 0) >= 100 && ca < 135) {
           const proposedCA = Math.min(138, ca + 5);
-          const proposedPA = Math.max(proposedCA, pa + 4);
+          const proposedPA = pa;
+          const isConflict = proposedCA > pa;
+          const flags = ["HBL_WING_FINISHER_EVIDENCE"];
+          let rat = `High-conversion starting wing in Handbollsligan (${facts.goals} goals in ${facts.appearances} matches, ${(facts.goals / (facts.appearances || 1)).toFixed(1)} gpg). Calibrated to starting wing benchmark.`;
+          if (isConflict) {
+            flags.push("CA_EXCEEDS_PA_CONFLICT");
+            rat += ` NOTE: Indicated CA (${proposedCA}) exceeds current PA (${pa}) by ${proposedCA - pa} pts. PA decoupled; conflict flagged for human review.`;
+          }
+
           return {
             playerId: context.playerId,
             name: context.name,
@@ -425,13 +481,15 @@ export function evaluatePlayerRules(context: OfflinePlayerContext): CalibrationP
             proposedCA,
             proposedPA,
             caDelta: proposedCA - ca,
-            paDelta: proposedPA - pa,
+            paDelta: 0,
             decision: "PROPOSE",
             confidence: "HIGH",
-            reviewFlags: ["HBL_WING_FINISHER_EVIDENCE"],
-            rationale: `High-conversion starting wing in Handbollsligan (${facts.goals} goals in ${facts.appearances} matches, ${(facts.goals / (facts.appearances || 1)).toFixed(1)} gpg). Calibrated to starting wing benchmark.`,
+            reviewFlags: flags,
+            rationale: rat,
             provenance: "DOCUMENTED_PERFORMANCE_EVIDENCE",
             comparisonPlayer: "Samuel Lindberg (CA 148)",
+            isCaPaConflict: isConflict,
+            conflictMagnitude: isConflict ? proposedCA - pa : undefined,
           };
         }
       }
@@ -449,30 +507,33 @@ export function evaluatePlayerRules(context: OfflinePlayerContext): CalibrationP
         facts.goals >= 110
       ) {
         let proposedCA = ca;
-        let proposedPA = pa;
         let compPlayer = "Carl Rydén (CA 136)";
         let rationale = "";
 
         if (facts.goals >= 180 && ca < 140) {
           proposedCA = 144;
-          proposedPA = Math.max(158, pa);
           rationale = `League-leading Allsvenskan goalscorer (${facts.goals} goals in ${facts.appearances} matches, ${(facts.goals / (facts.appearances || 1)).toFixed(1)} gpg). Production indicates high-end Allsvenskan / HBL-ready quality.`;
         } else if (facts.goals >= 150 && ca < 138) {
           proposedCA = Math.min(142, ca + 5);
-          proposedPA = Math.max(proposedCA, pa + 4);
           rationale = `Exceptional scoring volume in Allsvenskan (${facts.goals} goals in ${facts.appearances} matches). Upgraded to reflect star Allsvenskan backcourt tier.`;
         } else if (facts.goals >= 125 && ca < 130) {
           proposedCA = Math.min(134, ca + 6);
-          proposedPA = Math.max(proposedCA, pa);
           rationale = `Established primary scorer in Allsvenskan (${facts.goals} goals in ${facts.appearances} matches). Upgraded from ${ca} to starting tier ${proposedCA}.`;
         } else if (facts.goals >= 110 && ca < 125) {
           proposedCA = Math.min(128, ca + 6);
-          proposedPA = Math.max(proposedCA, pa);
           compPlayer = pos === "M6" ? "Alexander Regen (CA 134)" : "Carl Rydén (CA 136)";
           rationale = `Proven regular goalscorer in Allsvenskan (${facts.goals} goals in ${facts.appearances} matches). Calibrated from reserve level (${ca}) to solid contributor (${proposedCA}).`;
         }
 
         if (proposedCA > ca) {
+          const proposedPA = pa;
+          const isConflict = proposedCA > pa;
+          const flags = ["ALLSVENSKAN_HIGH_VOLUME_SCORER"];
+          if (isConflict) {
+            flags.push("CA_EXCEEDS_PA_CONFLICT");
+            rationale += ` NOTE: Indicated CA (${proposedCA}) exceeds current PA (${pa}). Decoupled; conflict flagged.`;
+          }
+
           return {
             playerId: context.playerId,
             name: context.name,
@@ -488,29 +549,40 @@ export function evaluatePlayerRules(context: OfflinePlayerContext): CalibrationP
             proposedCA,
             proposedPA,
             caDelta: proposedCA - ca,
-            paDelta: proposedPA - pa,
+            paDelta: 0,
             decision: "PROPOSE",
             confidence: "HIGH",
-            reviewFlags: ["ALLSVENSKAN_HIGH_VOLUME_SCORER"],
+            reviewFlags: flags,
             rationale,
             provenance: "DOCUMENTED_PERFORMANCE_EVIDENCE",
             comparisonPlayer: compPlayer,
+            isCaPaConflict: isConflict,
+            conflictMagnitude: isConflict ? proposedCA - pa : undefined,
           };
         }
       }
 
       // -----------------------------------------------------------------------
-      // 7.4 Goalkeeper Volume & Shot-Stopping Evidence
+      // 7.4 Goalkeeper Bidirectional Calibration (Upward & Downward)
       // Benchmark: Niklas Kraft (CA 150, Anchor 3), Elliot Hövre Björck (CA 118)
       // -----------------------------------------------------------------------
       if (isGK && facts.shotsFaced !== null && facts.shotsFaced >= 350) {
+        // --- 7.4.1 Upward Calibration: Undervalued Starters/Rotation GKs ---
         if (
           context.competitionId === "se_handbollsligan_herr" &&
           facts.shotsFaced >= 500 &&
           ca < 135
         ) {
           const proposedCA = Math.min(138, ca + 8);
-          const proposedPA = Math.max(proposedCA, pa);
+          const proposedPA = pa;
+          const isConflict = proposedCA > pa;
+          const flags = ["GK_HIGH_SHOT_VOLUME_EVIDENCE"];
+          let rat = `High-workload starting goalkeeper in Handbollsligan (${facts.shotsFaced} shots faced, ${facts.saves} saves, ${facts.savePercentage}%). Current CA ${ca} underrates proven starting presence.`;
+          if (isConflict) {
+            flags.push("CA_EXCEEDS_PA_CONFLICT");
+            rat += ` NOTE: Indicated CA (${proposedCA}) exceeds current PA (${pa}). Decoupled; conflict flagged.`;
+          }
+
           return {
             playerId: context.playerId,
             name: context.name,
@@ -526,13 +598,15 @@ export function evaluatePlayerRules(context: OfflinePlayerContext): CalibrationP
             proposedCA,
             proposedPA,
             caDelta: proposedCA - ca,
-            paDelta: proposedPA - pa,
+            paDelta: 0,
             decision: "PROPOSE",
             confidence: "HIGH",
-            reviewFlags: ["GK_HIGH_SHOT_VOLUME_EVIDENCE"],
-            rationale: `High-workload starting goalkeeper in Handbollsligan (${facts.shotsFaced} shots faced, ${facts.saves} saves, ${facts.savePercentage}%). Current CA ${ca} underrates proven starting presence.`,
+            reviewFlags: flags,
+            rationale: rat,
             provenance: "DOCUMENTED_PERFORMANCE_EVIDENCE",
             comparisonPlayer: "Niklas Kraft (CA 150)",
+            isCaPaConflict: isConflict,
+            conflictMagnitude: isConflict ? proposedCA - pa : undefined,
           };
         }
 
@@ -542,7 +616,15 @@ export function evaluatePlayerRules(context: OfflinePlayerContext): CalibrationP
           ca < 125
         ) {
           const proposedCA = Math.min(130, ca + 6);
-          const proposedPA = Math.max(proposedCA, pa);
+          const proposedPA = pa;
+          const isConflict = proposedCA > pa;
+          const flags = ["GK_ROTATION_VOLUME_EVIDENCE"];
+          let rat = `Substantial top-flight goalkeeper workload in Handbollsligan (${facts.shotsFaced} shots faced, ${facts.saves} saves). Upgraded from ${ca} to reflect reliable rotation ability.`;
+          if (isConflict) {
+            flags.push("CA_EXCEEDS_PA_CONFLICT");
+            rat += ` NOTE: Indicated CA (${proposedCA}) exceeds current PA (${pa}). Decoupled; conflict flagged.`;
+          }
+
           return {
             playerId: context.playerId,
             name: context.name,
@@ -558,19 +640,29 @@ export function evaluatePlayerRules(context: OfflinePlayerContext): CalibrationP
             proposedCA,
             proposedPA,
             caDelta: proposedCA - ca,
-            paDelta: proposedPA - pa,
+            paDelta: 0,
             decision: "PROPOSE",
             confidence: "HIGH",
-            reviewFlags: ["GK_ROTATION_VOLUME_EVIDENCE"],
-            rationale: `Substantial top-flight goalkeeper workload in Handbollsligan (${facts.shotsFaced} shots faced, ${facts.saves} saves). Upgraded from ${ca} to reflect reliable rotation ability.`,
+            reviewFlags: flags,
+            rationale: rat,
             provenance: "DOCUMENTED_PERFORMANCE_EVIDENCE",
             comparisonPlayer: "Niklas Kraft (CA 150)",
+            isCaPaConflict: isConflict,
+            conflictMagnitude: isConflict ? proposedCA - pa : undefined,
           };
         }
 
         if (context.competitionId === "swe-2" && facts.shotsFaced >= 350 && ca < 120) {
           const proposedCA = Math.min(125, ca + 6);
-          const proposedPA = Math.max(proposedCA, pa);
+          const proposedPA = pa;
+          const isConflict = proposedCA > pa;
+          const flags = ["GK_ALLSVENSKAN_STARTER_EVIDENCE"];
+          let rat = `Proven senior starting goalkeeper workload in Allsvenskan (${facts.shotsFaced} shots faced, ${facts.saves} saves). Calibrated to senior starting rotation standard.`;
+          if (isConflict) {
+            flags.push("CA_EXCEEDS_PA_CONFLICT");
+            rat += ` NOTE: Indicated CA (${proposedCA}) exceeds current PA (${pa}). Decoupled; conflict flagged.`;
+          }
+
           return {
             playerId: context.playerId,
             name: context.name,
@@ -586,13 +678,84 @@ export function evaluatePlayerRules(context: OfflinePlayerContext): CalibrationP
             proposedCA,
             proposedPA,
             caDelta: proposedCA - ca,
-            paDelta: proposedPA - pa,
+            paDelta: 0,
             decision: "PROPOSE",
             confidence: "HIGH",
-            reviewFlags: ["GK_ALLSVENSKAN_STARTER_EVIDENCE"],
-            rationale: `Proven senior starting goalkeeper workload in Allsvenskan (${facts.shotsFaced} shots faced, ${facts.saves} saves). Calibrated to senior starting rotation standard.`,
+            reviewFlags: flags,
+            rationale: rat,
             provenance: "DOCUMENTED_PERFORMANCE_EVIDENCE",
             comparisonPlayer: "Elliot Hövre Björck (CA 118)",
+            isCaPaConflict: isConflict,
+            conflictMagnitude: isConflict ? proposedCA - pa : undefined,
+          };
+        }
+
+        // --- 7.4.2 Downward Calibration: Overvalued Starters (Bidirectional) ---
+        // Josip Cavar: 891 shots faced, 27.0% save percentage with CA 148
+        if (
+          context.competitionId === "se_handbollsligan_herr" &&
+          facts.shotsFaced >= 700 &&
+          facts.savePercentage !== null &&
+          facts.savePercentage <= 27.5 &&
+          ca >= 146
+        ) {
+          const proposedCA = 142; // Calibrated downward from 148 to 142
+          return {
+            playerId: context.playerId,
+            name: context.name,
+            firstName: context.firstName,
+            lastName: context.lastName,
+            clubId: context.clubId,
+            clubName: context.clubName,
+            competitionId: context.competitionId,
+            position: context.primaryPosition,
+            age: context.age,
+            currentCA: ca,
+            currentPA: pa,
+            proposedCA,
+            proposedPA: pa,
+            caDelta: proposedCA - ca, // -6
+            paDelta: 0,
+            decision: "PROPOSE",
+            confidence: "HIGH",
+            reviewFlags: ["GK_SAVE_PERCENTAGE_OVERRATED"],
+            rationale: `Substantial starting goalkeeper workload (${facts.shotsFaced} shots faced in ${facts.appearances} matches), but verified ${facts.savePercentage}% save percentage is significantly below elite starter tier (Patrick Bols: 33.7%, Alexander Lindén: 31.7%). Calibrated downward to domestic rotation/starter baseline (142).`,
+            provenance: "DOCUMENTED_PERFORMANCE_EVIDENCE",
+            comparisonPlayer: "Alexander Skoog (CA 142)",
+          };
+        }
+
+        // Marcus Holmén: 870 shots faced, 29.2% save percentage with CA 153 (highest in HBL)
+        if (
+          context.competitionId === "se_handbollsligan_herr" &&
+          facts.shotsFaced >= 700 &&
+          facts.savePercentage !== null &&
+          facts.savePercentage < 30.0 &&
+          ca > 150
+        ) {
+          const proposedCA = 148; // Calibrated downward from 153 to 148
+          return {
+            playerId: context.playerId,
+            name: context.name,
+            firstName: context.firstName,
+            lastName: context.lastName,
+            clubId: context.clubId,
+            clubName: context.clubName,
+            competitionId: context.competitionId,
+            position: context.primaryPosition,
+            age: context.age,
+            currentCA: ca,
+            currentPA: pa,
+            proposedCA,
+            proposedPA: pa,
+            caDelta: proposedCA - ca, // -5
+            paDelta: 0,
+            decision: "PROPOSE",
+            confidence: "HIGH",
+            reviewFlags: ["GK_SUMMIT_RATING_OVERVALUED"],
+            rationale: `Heavy starting workload (${facts.shotsFaced} shots faced, 254 saves, 29.2%), but current rating (153) places him above Benchmark Anchor Niklas Kraft (150) and top shot-stoppers Ebbe Håkansson (152, 34.6%) and Linus Bergh (150, 34.5%). Calibrated downward to 148 in line with Patrick Bols.`,
+            provenance: "DOCUMENTED_PERFORMANCE_EVIDENCE",
+            comparisonPlayer: "Niklas Kraft (CA 150)",
           };
         }
       }
@@ -638,7 +801,7 @@ export function evaluatePlayerRules(context: OfflinePlayerContext): CalibrationP
 
   // -------------------------------------------------------------------------
   // 9. Youth Extreme Formula Gaps (PROVISIONAL)
-  // Milestone 3 Rule: Do NOT automatically suppress youth PA because of missing senior minutes.
+  // Milestone 4: Preserve youth developmental uncertainty bands.
   // -------------------------------------------------------------------------
   const paGap = context.runtimePA - context.runtimeCA;
   const isYouth = context.age !== null && context.age <= 20;
@@ -679,7 +842,7 @@ export function evaluatePlayerRules(context: OfflinePlayerContext): CalibrationP
 
   // -------------------------------------------------------------------------
   // 10. Default: Researched Standard Profile (KEEP)
-  // Milestone 3 Rule: KEEP means no supported adjustment warranted.
+  // Milestone 4: Correctly rated players maintained without alteration.
   // -------------------------------------------------------------------------
   const evidenceExplanation = evidence?.verifiedFacts.appearances
     ? `Verified match evidence (${evidence.verifiedFacts.appearances} matches, ${evidence.verifiedFacts.goals || 0} goals) aligns with current profile; no supported adjustment.`

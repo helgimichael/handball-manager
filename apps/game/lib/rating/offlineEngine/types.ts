@@ -74,6 +74,8 @@ export interface CalibrationProposal {
   rationale: string;
   provenance: string;
   comparisonPlayer?: string;
+  isCaPaConflict?: boolean;
+  conflictMagnitude?: number;
 }
 
 export interface RegressionFixture {
@@ -96,6 +98,10 @@ export interface CalibrationBatchSummary {
   averagePADelta: number;
   maxCADelta: number;
   maxPADelta: number;
+  caIncreasesCount: number;
+  caDecreasesCount: number;
+  paIndependentChangesCount: number;
+  caPaConflictsCount: number;
   mathematicalInvariantViolations: number;
   byCompetition: Record<string, {
     total: number;

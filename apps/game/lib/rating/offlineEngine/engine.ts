@@ -9,7 +9,7 @@ import { evaluatePlayerRules } from "./rules";
 import { verifyRegressionFixtures } from "./fixtures";
 
 /**
- * Evaluates a single player context and strictly enforces rating invariants.
+ * Evaluates a single player context and strictly enforces decoupled rating invariants.
  */
 export function evaluatePlayer(context: OfflinePlayerContext): CalibrationProposal {
   const proposal = evaluatePlayerRules(context);
@@ -18,12 +18,14 @@ export function evaluatePlayer(context: OfflinePlayerContext): CalibrationPropos
   proposal.proposedCA = Math.max(1, Math.min(200, Math.round(proposal.proposedCA)));
   proposal.proposedPA = Math.max(1, Math.min(200, Math.round(proposal.proposedPA)));
 
-  // Invariant Guard 2: CA <= PA strictly enforced
-  if (proposal.proposedCA > proposal.proposedPA) {
-    proposal.proposedPA = proposal.proposedCA;
-    proposal.reviewFlags.push("INVARIANT_CLAMP_CA_LE_PA");
-    if (proposal.decision !== "REVIEW_REQUIRED") {
-      proposal.decision = "REVIEW_REQUIRED";
+  // Invariant Guard 2: CA/PA Decoupling & Conflict Detection
+  // Milestone 4: CA changes must not automatically increase PA.
+  // If proposed CA exceeds current PA, explicitly flag the conflict rather than silently inflating PA.
+  if (proposal.proposedCA > proposal.currentPA) {
+    proposal.isCaPaConflict = true;
+    proposal.conflictMagnitude = proposal.proposedCA - proposal.currentPA;
+    if (!proposal.reviewFlags.includes("CA_EXCEEDS_PA_CONFLICT")) {
+      proposal.reviewFlags.push("CA_EXCEEDS_PA_CONFLICT");
     }
   }
 
@@ -49,6 +51,10 @@ export function runOfflineCalibration(players: OfflinePlayerContext[]): Calibrat
   let totalPADelta = 0;
   let maxCADelta = 0;
   let maxPADelta = 0;
+  let caIncreasesCount = 0;
+  let caDecreasesCount = 0;
+  let paIndependentChangesCount = 0;
+  let caPaConflictsCount = 0;
   let mathematicalInvariantViolations = 0;
 
   const byCompetition: CalibrationBatchSummary["byCompetition"] = {};
@@ -84,14 +90,32 @@ export function runOfflineCalibration(players: OfflinePlayerContext[]): Calibrat
     // Track confidence
     byConfidence[proposal.confidence] = (byConfidence[proposal.confidence] || 0) + 1;
 
-    // Track deltas
+    // Track deltas and directions
     totalCADelta += Math.abs(proposal.caDelta);
     totalPADelta += Math.abs(proposal.paDelta);
     if (Math.abs(proposal.caDelta) > maxCADelta) maxCADelta = Math.abs(proposal.caDelta);
     if (Math.abs(proposal.paDelta) > maxPADelta) maxPADelta = Math.abs(proposal.paDelta);
 
-    // Track invariant violations
-    if (proposal.proposedCA > proposal.proposedPA) {
+    if (proposal.decision === "PROPOSE") {
+      if (proposal.caDelta > 0) caIncreasesCount++;
+      else if (proposal.caDelta < 0) caDecreasesCount++;
+
+      if (proposal.paDelta !== 0) {
+        paIndependentChangesCount++;
+      }
+    }
+
+    // Track decoupled CA/PA conflicts
+    if (proposal.isCaPaConflict || proposal.reviewFlags.includes("CA_EXCEEDS_PA_CONFLICT")) {
+      caPaConflictsCount++;
+    }
+
+    // Track unflagged invariant violations (bugs/unhandled leaks)
+    if (
+      proposal.proposedCA > proposal.proposedPA &&
+      !proposal.isCaPaConflict &&
+      !proposal.reviewFlags.includes("CA_EXCEEDS_PA_CONFLICT")
+    ) {
       mathematicalInvariantViolations++;
     }
 
@@ -130,6 +154,10 @@ export function runOfflineCalibration(players: OfflinePlayerContext[]): Calibrat
     averagePADelta: Number((totalPADelta / (players.length || 1)).toFixed(2)),
     maxCADelta,
     maxPADelta,
+    caIncreasesCount,
+    caDecreasesCount,
+    paIndependentChangesCount,
+    caPaConflictsCount,
     mathematicalInvariantViolations,
     byCompetition,
     byPosition,
