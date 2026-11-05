@@ -643,5 +643,133 @@
     ],
     "defaultSquadStatus": null,
     "specialTags": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_varberg__70ff1050",
+    "playerId": "se_player_jesper_arvidsson_70ff1050",
+    "clubId": "swe2-varberg",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-11-05",
+    "shirtNumber": null,
+    "sourcePosition": "M9",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_profixio_roster_2026_27"
+      ],
+      "position": [
+        "src_profixio_roster_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-PLAYER-DATABASE-2026-27: Imported verified squad member for 2026/27 season."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_varberg__e8df2832",
+    "playerId": "se_player_mans_svensson_e8df2832",
+    "clubId": "swe2-varberg",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-11-05",
+    "shirtNumber": null,
+    "sourcePosition": "M9",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_profixio_roster_2026_27"
+      ],
+      "position": [
+        "src_profixio_roster_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-PLAYER-DATABASE-2026-27: Imported verified squad member for 2026/27 season."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_varberg__2b455cb5",
+    "playerId": "se_player_melvin_sjolin_2b455cb5",
+    "clubId": "swe2-varberg",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-11-05",
+    "shirtNumber": null,
+    "sourcePosition": "M9",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_profixio_roster_2026_27"
+      ],
+      "position": [
+        "src_profixio_roster_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-PLAYER-DATABASE-2026-27: Imported verified squad member for 2026/27 season."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_varberg__96e2c4a5",
+    "playerId": "se_player_viktor_hedin_96e2c4a5",
+    "clubId": "swe2-varberg",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-11-05",
+    "shirtNumber": 55,
+    "sourcePosition": "M9",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_profixio_roster_2026_27"
+      ],
+      "position": [
+        "src_profixio_roster_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-PLAYER-DATABASE-2026-27: Imported verified squad member for 2026/27 season."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
   }
 ]

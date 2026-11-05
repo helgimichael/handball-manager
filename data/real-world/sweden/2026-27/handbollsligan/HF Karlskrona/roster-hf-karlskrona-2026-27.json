@@ -591,5 +591,165 @@
     "specialTags": [
       "DEFENCE_SPECIALIST"
     ]
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hfk__f0c40898",
+    "playerId": "se_player_alfred_langstrom_f0c40898",
+    "clubId": "se_club_hf_karlskrona",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-11-05",
+    "shirtNumber": 9,
+    "sourcePosition": "V6",
+    "primaryPosition": "V6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_profixio_roster_2026_27"
+      ],
+      "position": [
+        "src_profixio_roster_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-PLAYER-DATABASE-2026-27: Imported verified squad member for 2026/27 season."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hfk__6843cb3f",
+    "playerId": "se_player_arnor_vi_arsson_6843cb3f",
+    "clubId": "se_club_hf_karlskrona",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-11-05",
+    "shirtNumber": 20,
+    "sourcePosition": "V9",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_profixio_roster_2026_27"
+      ],
+      "position": [
+        "src_profixio_roster_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-PLAYER-DATABASE-2026-27: Imported verified squad member for 2026/27 season."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hfk__46478f88",
+    "playerId": "se_player_markus_viitkar_m6_46478f88",
+    "clubId": "se_club_hf_karlskrona",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-11-05",
+    "shirtNumber": 6,
+    "sourcePosition": "MV",
+    "primaryPosition": "MV",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_profixio_roster_2026_27"
+      ],
+      "position": [
+        "src_profixio_roster_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-PLAYER-DATABASE-2026-27: Imported verified squad member for 2026/27 season."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hfk__f3e54fda",
+    "playerId": "se_player_melker_ramleback_f3e54fda",
+    "clubId": "se_club_hf_karlskrona",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-11-05",
+    "shirtNumber": 23,
+    "sourcePosition": "V9",
+    "primaryPosition": "V9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_profixio_roster_2026_27"
+      ],
+      "position": [
+        "src_profixio_roster_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-PLAYER-DATABASE-2026-27: Imported verified squad member for 2026/27 season."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_hfk__2aadba1c",
+    "playerId": "se_player_ville_johnsson_2aadba1c",
+    "clubId": "se_club_hf_karlskrona",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-11-05",
+    "shirtNumber": 7,
+    "sourcePosition": "M6",
+    "primaryPosition": "M6",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_profixio_roster_2026_27"
+      ],
+      "position": [
+        "src_profixio_roster_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-PLAYER-DATABASE-2026-27: Imported verified squad member for 2026/27 season."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
   }
 ]

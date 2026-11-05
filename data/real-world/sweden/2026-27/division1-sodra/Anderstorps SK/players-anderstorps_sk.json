@@ -373,5 +373,34 @@
     "dataNotes": [
       "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Södra squad registration; Profixio person 631173 (https://www.profixio.com/app/lx/clubs/26264/player/631173)."
     ]
+  },
+  {
+    "playerId": "player_theodor_arrhenius_1cf8df89",
+    "firstName": "Theodor",
+    "lastName": "Arrhenius",
+    "fullName": "Theodor Arrhenius",
+    "aliases": [],
+    "dateOfBirth": "2005-11-20",
+    "birthYear": 2005,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_profixio_roster_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_roster_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-PLAYER-DATABASE-2026-27: Imported verified player from official Profixio 2026/27 competition roster."
+    ]
   }
 ]

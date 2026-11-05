@@ -636,5 +636,121 @@
     "dataNotes": [
       "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Norra squad registration; Profixio person 606940 (https://www.profixio.com/app/lx/clubs/25984/player/606940)."
     ]
+  },
+  {
+    "playerId": "player_erik_daniel_harnas_fe8069ff",
+    "firstName": "Erik",
+    "lastName": "Daniel Harnäs",
+    "fullName": "Erik Daniel Harnäs",
+    "aliases": [],
+    "dateOfBirth": "2003-03-03",
+    "birthYear": 2003,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_profixio_roster_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_roster_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-PLAYER-DATABASE-2026-27: Imported verified player from official Profixio 2026/27 competition roster."
+    ]
+  },
+  {
+    "playerId": "player_gabriel_svahn_fc8c5299",
+    "firstName": "Gabriel",
+    "lastName": "Svahn",
+    "fullName": "Gabriel Svahn",
+    "aliases": [],
+    "dateOfBirth": "2001-07-27",
+    "birthYear": 2001,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_profixio_roster_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_roster_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-PLAYER-DATABASE-2026-27: Imported verified player from official Profixio 2026/27 competition roster."
+    ]
+  },
+  {
+    "playerId": "player_jesper_forslund_fcf3bce3",
+    "firstName": "Jesper",
+    "lastName": "Forslund",
+    "fullName": "Jesper Forslund",
+    "aliases": [],
+    "dateOfBirth": "2002-11-15",
+    "birthYear": 2002,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_profixio_roster_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_roster_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-PLAYER-DATABASE-2026-27: Imported verified player from official Profixio 2026/27 competition roster."
+    ]
+  },
+  {
+    "playerId": "player_linus_warnmark_0edb5234",
+    "firstName": "Linus",
+    "lastName": "Wärnmark",
+    "fullName": "Linus Wärnmark",
+    "aliases": [],
+    "dateOfBirth": "2001-01-16",
+    "birthYear": 2001,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_profixio_roster_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_roster_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-PLAYER-DATABASE-2026-27: Imported verified player from official Profixio 2026/27 competition roster."
+    ]
   }
 ]

@@ -341,5 +341,92 @@
     "dataNotes": [
       "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Norra squad registration; Profixio person 762640 (https://www.profixio.com/app/lx/clubs/26796/player/762640)."
     ]
+  },
+  {
+    "playerId": "player_calle_lundberg_19b9baf8",
+    "firstName": "Calle",
+    "lastName": "Lundberg",
+    "fullName": "Calle Lundberg",
+    "aliases": [],
+    "dateOfBirth": "2009-06-07",
+    "birthYear": 2009,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_profixio_roster_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_roster_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-PLAYER-DATABASE-2026-27: Imported verified player from official Profixio 2026/27 competition roster."
+    ]
+  },
+  {
+    "playerId": "player_leo_sundgren_elvermark_4fddeae1",
+    "firstName": "Leo",
+    "lastName": "Sundgren Elvermark",
+    "fullName": "Leo Sundgren Elvermark",
+    "aliases": [],
+    "dateOfBirth": "2001-06-25",
+    "birthYear": 2001,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_profixio_roster_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_roster_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-PLAYER-DATABASE-2026-27: Imported verified player from official Profixio 2026/27 competition roster."
+    ]
+  },
+  {
+    "playerId": "player_oliver_skogh_0b698579",
+    "firstName": "Oliver",
+    "lastName": "Skogh",
+    "fullName": "Oliver Skogh",
+    "aliases": [],
+    "dateOfBirth": "2009-04-03",
+    "birthYear": 2009,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_profixio_roster_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_roster_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-PLAYER-DATABASE-2026-27: Imported verified player from official Profixio 2026/27 competition roster."
+    ]
   }
 ]

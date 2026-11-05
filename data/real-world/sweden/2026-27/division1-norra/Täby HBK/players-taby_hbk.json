@@ -500,5 +500,121 @@
     "dataNotes": [
       "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Norra squad registration; Profixio person 632026 (https://www.profixio.com/app/lx/clubs/25989/player/632026)."
     ]
+  },
+  {
+    "playerId": "player_andreas_holtsjo_8e662fa9",
+    "firstName": "Andreas",
+    "lastName": "Holtsjö",
+    "fullName": "Andreas Holtsjö",
+    "aliases": [],
+    "dateOfBirth": "2005-09-22",
+    "birthYear": 2005,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_profixio_roster_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_roster_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-PLAYER-DATABASE-2026-27: Imported verified player from official Profixio 2026/27 competition roster."
+    ]
+  },
+  {
+    "playerId": "player_carl_kallviks_svensson_b1b300b2",
+    "firstName": "Carl",
+    "lastName": "Källviks Svensson",
+    "fullName": "Carl Källviks Svensson",
+    "aliases": [],
+    "dateOfBirth": "2004-03-13",
+    "birthYear": 2004,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_profixio_roster_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_roster_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-PLAYER-DATABASE-2026-27: Imported verified player from official Profixio 2026/27 competition roster."
+    ]
+  },
+  {
+    "playerId": "player_gustaf_raften_berg_75454593",
+    "firstName": "Gustaf",
+    "lastName": "Raftén Berg",
+    "fullName": "Gustaf Raftén Berg",
+    "aliases": [],
+    "dateOfBirth": "2005-06-09",
+    "birthYear": 2005,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_profixio_roster_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_roster_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-PLAYER-DATABASE-2026-27: Imported verified player from official Profixio 2026/27 competition roster."
+    ]
+  },
+  {
+    "playerId": "player_jonas_naumann_umegard_fbe8b2e1",
+    "firstName": "Jonas",
+    "lastName": "Naumann Umegård",
+    "fullName": "Jonas Naumann Umegård",
+    "aliases": [],
+    "dateOfBirth": "2005-03-20",
+    "birthYear": 2005,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_profixio_roster_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_roster_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-PLAYER-DATABASE-2026-27: Imported verified player from official Profixio 2026/27 competition roster."
+    ]
   }
 ]

@@ -349,5 +349,92 @@
       ]
     },
     "dataNotes": []
+  },
+  {
+    "playerId": "player_albin_nilsson_selin_4575a6d6",
+    "firstName": "Albin",
+    "lastName": "Nilsson Selin",
+    "fullName": "Albin Nilsson Selin",
+    "aliases": [],
+    "dateOfBirth": "2001-11-17",
+    "birthYear": 2001,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_profixio_roster_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_roster_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-PLAYER-DATABASE-2026-27: Imported verified player from official Profixio 2026/27 competition roster."
+    ]
+  },
+  {
+    "playerId": "player_einar_adalsteinsson_26066696",
+    "firstName": "Einar",
+    "lastName": "Adalsteinsson",
+    "fullName": "Einar Adalsteinsson",
+    "aliases": [],
+    "dateOfBirth": "2002-08-22",
+    "birthYear": 2002,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_profixio_roster_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_roster_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-PLAYER-DATABASE-2026-27: Imported verified player from official Profixio 2026/27 competition roster."
+    ]
+  },
+  {
+    "playerId": "player_olafur_gudmundsson_307fa72d",
+    "firstName": "Olafur",
+    "lastName": "Gudmundsson",
+    "fullName": "Olafur Gudmundsson",
+    "aliases": [],
+    "dateOfBirth": "1990-05-13",
+    "birthYear": 1990,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_profixio_roster_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_roster_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-PLAYER-DATABASE-2026-27: Imported verified player from official Profixio 2026/27 competition roster."
+    ]
   }
 ]

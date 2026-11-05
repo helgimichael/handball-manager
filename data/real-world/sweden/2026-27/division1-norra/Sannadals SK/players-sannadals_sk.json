@@ -1331,5 +1331,63 @@
     "dataNotes": [
       "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Norra squad registration; Profixio person 652374 (https://www.profixio.com/app/lx/clubs/25992/player/652374)."
     ]
+  },
+  {
+    "playerId": "player_anton_waldna_ccfd9e5e",
+    "firstName": "Anton",
+    "lastName": "Waldna",
+    "fullName": "Anton Waldna",
+    "aliases": [],
+    "dateOfBirth": "2006-01-27",
+    "birthYear": 2006,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_profixio_roster_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_roster_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-PLAYER-DATABASE-2026-27: Imported verified player from official Profixio 2026/27 competition roster."
+    ]
+  },
+  {
+    "playerId": "player_eskil_glaumann_kristoffersen_0b97a49b",
+    "firstName": "Eskil",
+    "lastName": "Glaumann Kristoffersen",
+    "fullName": "Eskil Glaumann Kristoffersen",
+    "aliases": [],
+    "dateOfBirth": "2008-06-15",
+    "birthYear": 2008,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_profixio_roster_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_roster_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-PLAYER-DATABASE-2026-27: Imported verified player from official Profixio 2026/27 competition roster."
+    ]
   }
 ]

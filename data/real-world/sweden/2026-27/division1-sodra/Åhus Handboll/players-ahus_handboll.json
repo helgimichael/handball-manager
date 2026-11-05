@@ -757,5 +757,63 @@
     "dataNotes": [
       "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Södra squad registration; Profixio person 615202 (https://www.profixio.com/app/lx/clubs/26027/player/615202)."
     ]
+  },
+  {
+    "playerId": "player_anton_kropp_olsson_4a02bf73",
+    "firstName": "Anton",
+    "lastName": "Kropp Olsson",
+    "fullName": "Anton Kropp Olsson",
+    "aliases": [],
+    "dateOfBirth": "2003-08-28",
+    "birthYear": 2003,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_profixio_roster_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_roster_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-PLAYER-DATABASE-2026-27: Imported verified player from official Profixio 2026/27 competition roster."
+    ]
+  },
+  {
+    "playerId": "player_hannes_olsson_63d04892",
+    "firstName": "Hannes",
+    "lastName": "Olsson",
+    "fullName": "Hannes Olsson",
+    "aliases": [],
+    "dateOfBirth": "2007-03-08",
+    "birthYear": 2007,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_profixio_roster_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_roster_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-PLAYER-DATABASE-2026-27: Imported verified player from official Profixio 2026/27 competition roster."
+    ]
   }
 ]

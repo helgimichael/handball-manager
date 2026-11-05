@@ -655,5 +655,101 @@
     },
     "defaultSquadStatus": "TALENT",
     "specialTags": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_lugi__3152d03b",
+    "playerId": "player_carl_lindqvist_3152d03b",
+    "clubId": "se_club_lugi_hf",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-11-05",
+    "shirtNumber": 18,
+    "sourcePosition": "M9",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_profixio_roster_2026_27"
+      ],
+      "position": [
+        "src_profixio_roster_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-PLAYER-DATABASE-2026-27: Imported verified squad member for 2026/27 season."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_lugi__24ac7c80",
+    "playerId": "player_emil_lindkvist_24ac7c80",
+    "clubId": "se_club_lugi_hf",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-11-05",
+    "shirtNumber": 5,
+    "sourcePosition": "M9",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_profixio_roster_2026_27"
+      ],
+      "position": [
+        "src_profixio_roster_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-PLAYER-DATABASE-2026-27: Imported verified squad member for 2026/27 season."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_handbollsligan_lugi__6283a379",
+    "playerId": "player_jakob_lindstrand_markoff_6283a379",
+    "clubId": "se_club_lugi_hf",
+    "competitionId": "se_handbollsligan_herr",
+    "season": "2026/27",
+    "snapshotDate": "2026-11-05",
+    "shirtNumber": 23,
+    "sourcePosition": "M9",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_profixio_roster_2026_27"
+      ],
+      "position": [
+        "src_profixio_roster_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-PLAYER-DATABASE-2026-27: Imported verified squad member for 2026/27 season."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
   }
 ]

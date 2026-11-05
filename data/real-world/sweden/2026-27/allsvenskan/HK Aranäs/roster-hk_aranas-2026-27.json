@@ -550,5 +550,37 @@
     ],
     "defaultSquadStatus": null,
     "specialTags": []
+  },
+  {
+    "rosterEntryId": "se_2026_27_allsvenskan_hk_aranas__2da44477",
+    "playerId": "se_player_ville_florin_2da44477",
+    "clubId": "swe2-aranas",
+    "competitionId": "swe-2",
+    "season": "2026/27",
+    "snapshotDate": "2026-11-05",
+    "shirtNumber": null,
+    "sourcePosition": "M9",
+    "primaryPosition": "M9",
+    "secondaryPositions": [],
+    "rosterStatus": "CONFIRMED",
+    "contract": {
+      "untilDate": null,
+      "untilSeason": null,
+      "optionUntilSeason": null
+    },
+    "rosterConfidence": "VERIFIED",
+    "sourceRefs": {
+      "roster": [
+        "src_profixio_roster_2026_27"
+      ],
+      "position": [
+        "src_profixio_roster_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-PLAYER-DATABASE-2026-27: Imported verified squad member for 2026/27 season."
+    ],
+    "defaultSquadStatus": null,
+    "specialTags": []
   }
 ]

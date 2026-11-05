@@ -489,5 +489,34 @@
     "dataNotes": [
       "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Norra squad registration; Profixio person 610817 (https://www.profixio.com/app/lx/clubs/26222/player/610817)."
     ]
+  },
+  {
+    "playerId": "player_pontus_wangenborn_f1155c2d",
+    "firstName": "Pontus",
+    "lastName": "Wangenborn",
+    "fullName": "Pontus Wangenborn",
+    "aliases": [],
+    "dateOfBirth": "2004-07-07",
+    "birthYear": 2004,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_profixio_roster_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_roster_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-PLAYER-DATABASE-2026-27: Imported verified player from official Profixio 2026/27 competition roster."
+    ]
   }
 ]

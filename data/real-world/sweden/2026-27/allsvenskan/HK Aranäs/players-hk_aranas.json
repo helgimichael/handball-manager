@@ -505,5 +505,34 @@
     "dataNotes": [
       "HM-DATA-1.3 (2026-10-31): added from the Profixio Herrallsvenskan squad registration; Profixio person 708137 (https://www.profixio.com/app/lx/clubs/26311/player/708137)."
     ]
+  },
+  {
+    "playerId": "se_player_ville_florin_2da44477",
+    "firstName": "Ville",
+    "lastName": "Florin",
+    "fullName": "Ville Florin",
+    "aliases": [],
+    "dateOfBirth": "2009-03-12",
+    "birthYear": 2009,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_profixio_roster_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_roster_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-PLAYER-DATABASE-2026-27: Imported verified player from official Profixio 2026/27 competition roster."
+    ]
   }
 ]

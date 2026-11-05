@@ -812,5 +812,63 @@
       ]
     },
     "dataNotes": []
+  },
+  {
+    "playerId": "player_alfred_gustafsson_76141876",
+    "firstName": "Alfred",
+    "lastName": "Gustafsson",
+    "fullName": "Alfred Gustafsson",
+    "aliases": [],
+    "dateOfBirth": "2004-05-26",
+    "birthYear": 2004,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_profixio_roster_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_roster_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-PLAYER-DATABASE-2026-27: Imported verified player from official Profixio 2026/27 competition roster."
+    ]
+  },
+  {
+    "playerId": "player_miguel_mbumba_80767eb0",
+    "firstName": "Miguel",
+    "lastName": "Mbumba",
+    "fullName": "Miguel Mbumba",
+    "aliases": [],
+    "dateOfBirth": "2000-09-21",
+    "birthYear": 2000,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_profixio_roster_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_roster_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-PLAYER-DATABASE-2026-27: Imported verified player from official Profixio 2026/27 competition roster."
+    ]
   }
 ]

@@ -625,5 +625,34 @@
     "dataNotes": [
       "HM-DATA-1.6 (2026-10-31): added from the Profixio Division 1 Södra squad registration; Profixio person 698379 (https://www.profixio.com/app/lx/clubs/26144/player/698379)."
     ]
+  },
+  {
+    "playerId": "player_oskar_alf_dahlin_29d39f91",
+    "firstName": "Oskar",
+    "lastName": "Alf Dahlin",
+    "fullName": "Oskar Alf Dahlin",
+    "aliases": [],
+    "dateOfBirth": "2005-12-02",
+    "birthYear": 2005,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_profixio_roster_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_roster_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-PLAYER-DATABASE-2026-27: Imported verified player from official Profixio 2026/27 competition roster."
+    ]
   }
 ]

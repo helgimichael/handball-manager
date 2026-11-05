@@ -592,5 +592,34 @@
     "dataNotes": [
       "Club uses Calle as nickname, but official signing article identifies full name as Carl Rydén."
     ]
+  },
+  {
+    "playerId": "se_player_oskar_alf_dahlin_591a8ba2",
+    "firstName": "Oskar",
+    "lastName": "Alf Dahlin",
+    "fullName": "Oskar Alf Dahlin",
+    "aliases": [],
+    "dateOfBirth": "2005-12-02",
+    "birthYear": 2005,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_profixio_roster_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_roster_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-PLAYER-DATABASE-2026-27: Imported verified player from official Profixio 2026/27 competition roster."
+    ]
   }
 ]

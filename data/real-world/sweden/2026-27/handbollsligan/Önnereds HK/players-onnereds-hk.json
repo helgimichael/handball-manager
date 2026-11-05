@@ -454,5 +454,34 @@
       ]
     },
     "dataNotes": []
+  },
+  {
+    "playerId": "player_joel_pedersen_lindberg_9f2afd84",
+    "firstName": "Joel",
+    "lastName": "Pedersén Lindberg",
+    "fullName": "Joel Pedersén Lindberg",
+    "aliases": [],
+    "dateOfBirth": "2006-04-02",
+    "birthYear": 2006,
+    "nationalities": [
+      "SE"
+    ],
+    "heightCm": null,
+    "handedness": null,
+    "recordConfidence": "VERIFIED",
+    "fieldConfidence": {
+      "dateOfBirth": "VERIFIED"
+    },
+    "sourceRefs": {
+      "identity": [
+        "src_profixio_roster_2026_27"
+      ],
+      "dateOfBirth": [
+        "src_profixio_roster_2026_27"
+      ]
+    },
+    "dataNotes": [
+      "HM-PLAYER-DATABASE-2026-27: Imported verified player from official Profixio 2026/27 competition roster."
+    ]
   }
 ]
