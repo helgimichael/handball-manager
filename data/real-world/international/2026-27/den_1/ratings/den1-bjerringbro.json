@@ -13,11 +13,11 @@
       "source": "EDITOR_OVERRIDE"
     },
     "pa": {
-      "value": 142,
+      "value": 158,
       "confidence": "MEDIUM",
       "plausibleRange": {
-        "min": 142,
-        "max": 142
+        "min": 158,
+        "max": 158
       },
       "source": "EDITOR_OVERRIDE"
     },
@@ -115,7 +115,7 @@
     "caEstimationModelVersion": "HM-RATINGS-0.5-v1",
     "attributeGenerationModelVersion": "HM-RATINGS-0.4-v1",
     "lockedAt": "2026-11-05T21:45:40.201Z",
-    "lockedNote": "HM-PHASE-2B (2026-11-05): calibrated CA 105->105, PA 142->142. Previous note: HM-PHASE-2B (2026-11-05): calibrated CA 105->105, PA 158->142. Previous note: WORLD_POOL_FINAL_RATING_RESEARCH_v1 World Pool final import (100/100, individually verified, 0 REVIEW). Reason: Danish academy reserve goalkeeper. Previous PA 158 was an artificial +53 age-formula artifact without senior minutes.. Reason: Danish academy reserve goalkeeper. Previous PA 158 was an artificial +53 age-formula artifact without senior minutes."
+    "lockedNote": "HM-PHASE-2C (2026-11-05): reverted unsupported PA deflation; restored pre-calibration PA 158 (CA 105)."
   },
   "player_intl_mads_svane_knudsen_3fab6b0f": {
     "playerId": "player_intl_mads_svane_knudsen_3fab6b0f",

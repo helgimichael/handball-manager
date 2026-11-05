@@ -1,8 +1,8 @@
 {
   "player_intl_emil_hovgaard_pedersen_a169f355": {
     "status": "LOCKED",
-    "updatedAt": "2026-11-05T21:45:40.290Z",
-    "note": "HM-PHASE-2B: calibrated CA 105->105, PA 142->142. Danish academy reserve goalkeeper. Previous PA 158 was an artificial +53 age-formula artifact without senior minutes."
+    "updatedAt": "2026-11-05T22:08:37.820Z",
+    "note": "HM-PHASE-2C: restored pre-calibration PA 158."
   },
   "player_intl_mads_svane_knudsen_3fab6b0f": {
     "status": "LOCKED",

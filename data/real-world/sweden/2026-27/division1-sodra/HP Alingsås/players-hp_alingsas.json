@@ -652,7 +652,8 @@
       ]
     },
     "dataNotes": [
-      "HM-PLAYER-DATABASE-2026-27: Imported verified player from official Profixio 2026/27 competition roster."
+      "HM-PLAYER-DATABASE-2026-27: Imported verified player from official Profixio 2026/27 competition roster.",
+      "HM-OWNER-DECISION (2026-11-05): duplicate Division 1 identity of se_player_oskar_dahlin_50f8181d (Alingsås HK). Removed from HP Alingsås roster -- player belongs to senior parent club Alingsås HK with farm-team (HP Alingsås) affiliation."
     ]
   }
 ]

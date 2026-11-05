@@ -4703,11 +4703,11 @@
       "source": "EDITOR_OVERRIDE"
     },
     "pa": {
-      "value": 130,
+      "value": 149,
       "confidence": "HIGH",
       "plausibleRange": {
-        "min": 130,
-        "max": 130
+        "min": 149,
+        "max": 149
       },
       "source": "EDITOR_OVERRIDE"
     },
@@ -4949,6 +4949,6 @@
     "caEstimationModelVersion": "HM-RATINGS-0.5-v1",
     "attributeGenerationModelVersion": "HM-RATINGS-0.4-v1",
     "lockedAt": "2026-11-05T21:45:41.807Z",
-    "lockedNote": "HM-PHASE-2B (2026-11-05): calibrated CA 108->108, PA 130->130. Previous note: HM-PHASE-2B (2026-11-05): calibrated CA 106->108, PA 149->130. Previous note: ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW). Reason: HP Warta primary playmaker with Kungälv Allsvenskan background. Adjusted CA 108 benchmarks starting Div 1 quality; deflated unevidenced PA 149 to realistic 130.. Reason: HP Warta primary playmaker with Kungälv Allsvenskan background. Adjusted CA 108 benchmarks starting Div 1 quality; deflated unevidenced PA 149 to realistic 130."
+    "lockedNote": "HM-PHASE-2C (2026-11-05): retained calibrated CA 108; restored pre-calibration PA 149."
   }
 }

@@ -39,9 +39,11 @@
   {
     "playerId": "se_player_oskar_dahlin_50f8181d",
     "firstName": "Oskar",
-    "lastName": "Dahlin",
-    "fullName": "Oskar Dahlin",
-    "aliases": [],
+    "lastName": "Alf Dahlin",
+    "fullName": "Oskar Alf Dahlin",
+    "aliases": [
+      "Oskar Dahlin"
+    ],
     "dateOfBirth": "2005-12-02",
     "birthYear": 2005,
     "nationalities": [
@@ -66,7 +68,9 @@
         "src_ahk_roster_20260819"
       ]
     },
-    "dataNotes": []
+    "dataNotes": [
+      "HM-OWNER-DECISION (2026-11-05): confirmed as canonical identity for Oskar Alf Dahlin (primary club Alingsås HK, farm team HP Alingsås). Merged duplicate identities se_player_oskar_alf_dahlin_591a8ba2 and player_oskar_alf_dahlin_29d39f91."
+    ]
   },
   {
     "playerId": "se_player_niklas_kraft_e8842f13",
@@ -619,7 +623,8 @@
       ]
     },
     "dataNotes": [
-      "HM-PLAYER-DATABASE-2026-27: Imported verified player from official Profixio 2026/27 competition roster."
+      "HM-PLAYER-DATABASE-2026-27: Imported verified player from official Profixio 2026/27 competition roster.",
+      "HM-OWNER-DECISION (2026-11-05): duplicate registration merged into canonical identity se_player_oskar_dahlin_50f8181d."
     ]
   }
 ]

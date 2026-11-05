@@ -41,6 +41,7 @@ const CONFIRMED_B_TEAM_DUPLICATES: { div1PlayerId: string; hblPlayerId: string }
   { div1PlayerId: "player_oliver_andersson_2285d6b0", hblPlayerId: "player_oliver_andersson_ef8ef0a2" },
   { div1PlayerId: "player_sebastian_kallemyr_3674d2fb", hblPlayerId: "player_sebastian_kallemyr_ef0da952" },
   { div1PlayerId: "player_theo_ivarsson_4a592c8a", hblPlayerId: "player_theo_ivarsson_77eb2224" },
+  { div1PlayerId: "player_oskar_alf_dahlin_29d39f91", hblPlayerId: "se_player_oskar_dahlin_50f8181d" },
 ];
 
 function parseCsvLine(line: string): string[] {

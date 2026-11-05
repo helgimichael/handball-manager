@@ -134,10 +134,20 @@ export function verifyReleaseDatabase() {
   const axelRik = allsvSquads["swe2-redbergslid"]?.find((p) => p.id === "se_player_axel_winstrom_c59447b8");
   assert.ok(axelRik, "Axel Winström must remain at Redbergslids IK");
 
-  const oskarAlingsas = hblSquads["se_club_alingsas_hk"]?.find((p) => p.id === "se_player_oskar_alf_dahlin_591a8ba2");
-  assert.ok(oskarAlingsas, "Oskar Alf Dahlin must remain at Alingsås HK");
+  const oskarAlingsas = hblSquads["se_club_alingsas_hk"]?.find((p) => p.id === "se_player_oskar_dahlin_50f8181d");
+  assert.ok(oskarAlingsas, "Canonical Oskar Alf Dahlin must be in Alingsås HK squad");
+  const oskarDuplicateHbl = hblSquads["se_club_alingsas_hk"]?.find((p) => p.id === "se_player_oskar_alf_dahlin_591a8ba2");
+  assert.equal(oskarDuplicateHbl, undefined, "Duplicate Oskar Alf Dahlin must not be in Alingsås HK squad");
+  const oskarDuplicateHp = d1sSquads["se_club_hp_alingsas"]?.find((p) => p.id === "player_oskar_alf_dahlin_29d39f91");
+  assert.equal(oskarDuplicateHp, undefined, "Duplicate Oskar Alf Dahlin must not be in HP Alingsås squad");
 
-  console.log("  -> All 4 deferred cases verified intact with zero unauthorized squad changes.");
+  const stegefeltActive = snapshotWorldSquads("se_division1_norra")["se_club_rp_if_linkoping"]?.find((p) => p.id === "player_markus_stegefelt_8aedec38");
+  assert.equal(stegefeltActive, undefined, "Retired Markus Stegefelt must not be in active squad");
+
+  console.log("  -> Owner decisions verified: Oskar unified at Alingsås HK with farm affiliation; Markus Stegefelt retired; 3 remaining deferred cases intact.");
+
+
+
 
   // -------------------------------------------------------------------
   // 4. PLAYABLE CAREER CREATION & INTEGRITY

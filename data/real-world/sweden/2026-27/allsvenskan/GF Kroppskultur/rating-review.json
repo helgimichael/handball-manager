@@ -41,8 +41,8 @@
   },
   "se_player_love_ljungqvist_3f94aca6": {
     "status": "LOCKED",
-    "updatedAt": "2026-11-05T21:45:41.502Z",
-    "note": "HM-PHASE-2B: calibrated CA 92->92, PA 128->128. 17-year-old reserve wing for Kroppskultur. Previous PA 160 was an unevidenced age-inflation artifact (+68 points)."
+    "updatedAt": "2026-11-05T22:08:38.019Z",
+    "note": "HM-PHASE-2C: restored pre-calibration PA 160."
   },
   "se_player_simon_holmqvist_0f746700": {
     "status": "LOCKED",
@@ -61,8 +61,8 @@
   },
   "se_player_alvin_sundstrom_733a7887": {
     "status": "LOCKED",
-    "updatedAt": "2026-11-05T21:45:41.412Z",
-    "note": "HM-PHASE-2B: calibrated CA 91->91, PA 126->126. 17-year-old backup GK for Kroppskultur with no senior minutes. Previous PA 158 was an unevidenced age-inflation artifact (+67 points)."
+    "updatedAt": "2026-11-05T22:08:37.920Z",
+    "note": "HM-PHASE-2C: restored pre-calibration PA 158."
   },
   "se_player_fabian_bjorkman_be3ee917": {
     "status": "LOCKED",

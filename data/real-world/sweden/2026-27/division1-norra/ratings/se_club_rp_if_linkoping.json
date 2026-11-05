@@ -4,20 +4,20 @@
     "clubId": "se_club_rp_if_linkoping",
     "position": "V9",
     "ca": {
-      "value": 142,
+      "value": 146,
       "confidence": "HIGH",
       "plausibleRange": {
-        "min": 142,
-        "max": 142
+        "min": 146,
+        "max": 146
       },
       "source": "EDITOR_OVERRIDE"
     },
     "pa": {
-      "value": 142,
+      "value": 146,
       "confidence": "HIGH",
       "plausibleRange": {
-        "min": 142,
-        "max": 142
+        "min": 146,
+        "max": 146
       },
       "source": "EDITOR_OVERRIDE"
     },
@@ -259,7 +259,7 @@
     "caEstimationModelVersion": "HM-RATINGS-0.5-v1",
     "attributeGenerationModelVersion": "HM-RATINGS-0.4-v1",
     "lockedAt": "2026-11-05T21:45:41.630Z",
-    "lockedNote": "HM-PHASE-2B (2026-11-05): calibrated CA 142->142, PA 142->142. Previous note: HM-PHASE-2B (2026-11-05): calibrated CA 146->142, PA 146->142. Previous note: DIV1N_rating_import_candidates_v0.6 / DIV1S_rating_import_candidates_v0.5 Division 1 import (DIV1_ONLY_CANONICAL set only). Reason: Former Bundesliga (Balingen) and HBL (Skövde) starting back playing for hometown Linköping. Re-centered to reflect veteran status while remaining clear #1 in Div 1.. Reason: Former Bundesliga (Balingen) and HBL (Skövde) starting back playing for hometown Linköping. Re-centered to reflect veteran status while remaining clear #1 in Div 1."
+    "lockedNote": "HM-OWNER-DECISION (2026-11-05): player retired; restored pre-calibration CA 146 / PA 146 historical record."
   },
   "player_albin_fingal_e2689556": {
     "playerId": "player_albin_fingal_e2689556",

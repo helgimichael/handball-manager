@@ -545,37 +545,5 @@
         "src_ahk_carl_20260330"
       ]
     }
-  },
-  {
-    "rosterEntryId": "se_2026_27_handbollsligan_alingsas__591a8ba2",
-    "playerId": "se_player_oskar_alf_dahlin_591a8ba2",
-    "clubId": "se_club_alingsas_hk",
-    "competitionId": "se_handbollsligan_herr",
-    "season": "2026/27",
-    "snapshotDate": "2026-11-05",
-    "shirtNumber": 12,
-    "sourcePosition": "MV",
-    "primaryPosition": "MV",
-    "secondaryPositions": [],
-    "rosterStatus": "CONFIRMED",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "VERIFIED",
-    "sourceRefs": {
-      "roster": [
-        "src_profixio_roster_2026_27"
-      ],
-      "position": [
-        "src_profixio_roster_2026_27"
-      ]
-    },
-    "dataNotes": [
-      "HM-PLAYER-DATABASE-2026-27: Imported verified squad member for 2026/27 season."
-    ],
-    "defaultSquadStatus": null,
-    "specialTags": []
   }
 ]

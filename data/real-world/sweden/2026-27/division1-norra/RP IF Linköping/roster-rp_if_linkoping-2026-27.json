@@ -384,34 +384,6 @@
     ]
   },
   {
-    "rosterEntryId": "se_2026_27_division1_norra_rp_if_linkoping__8aedec38",
-    "playerId": "player_markus_stegefelt_8aedec38",
-    "clubId": "se_club_rp_if_linkoping",
-    "competitionId": "se_division1_norra",
-    "season": "2026/27",
-    "snapshotDate": "2026-08-27",
-    "shirtNumber": null,
-    "sourcePosition": "",
-    "primaryPosition": "V9",
-    "secondaryPositions": [],
-    "rosterStatus": "CONFIRMED",
-    "contract": {
-      "untilDate": null,
-      "untilSeason": null,
-      "optionUntilSeason": null
-    },
-    "rosterConfidence": "UNKNOWN",
-    "sourceRefs": {
-      "roster": [
-        "src_div1_norra_2026_27"
-      ],
-      "position": []
-    },
-    "dataNotes": [
-      "HM-DATA-DIV1-1.0: position not present in any available source for this club -- deterministically GENERATED as a structural placeholder only (never a researched fact). See this milestone's report."
-    ]
-  },
-  {
     "rosterEntryId": "se_2026_27_division1_norra_rp_if_linkoping__bbb945b4",
     "playerId": "player_karl_falkenteg_bbb945b4",
     "clubId": "se_club_rp_if_linkoping",
