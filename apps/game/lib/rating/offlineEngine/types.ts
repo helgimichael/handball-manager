@@ -73,6 +73,7 @@ export interface CalibrationProposal {
   reviewFlags: string[];
   rationale: string;
   provenance: string;
+  comparisonPlayer?: string;
 }
 
 export interface RegressionFixture {
