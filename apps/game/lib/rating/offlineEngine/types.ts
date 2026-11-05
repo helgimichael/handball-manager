@@ -1,3 +1,5 @@
+import type { PlayerEvidenceRecord } from "../evidencePipeline/schema";
+
 export type CalibrationDecisionCategory =
   | "KEEP"
   | "PROPOSE"
@@ -46,6 +48,7 @@ export interface OfflinePlayerContext {
   dataNotes?: string;
   outlierFlags: string[];
   isRetired?: boolean;
+  evidence?: PlayerEvidenceRecord;
 }
 
 export interface CalibrationProposal {

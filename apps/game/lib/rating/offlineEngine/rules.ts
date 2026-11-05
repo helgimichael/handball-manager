@@ -27,6 +27,7 @@ const fixtureMap = new Map(REGRESSION_FIXTURES.map((f) => [f.playerId, f]));
 
 /**
  * Calculates a 4-Pillar Provisional Development Band for unproven youth or reserves.
+ * Explicitly preserves developmental runway without artificial ceiling.
  */
 export function calculateYouthProvisionalBand(
   ca: number,
@@ -60,11 +61,12 @@ export function calculateYouthProvisionalBand(
 }
 
 /**
- * Pure evaluation function for a single player context.
+ * Pure evaluation function for a single player context with evidence integration.
  */
 export function evaluatePlayerRules(context: OfflinePlayerContext): CalibrationProposal {
   const reviewFlags: string[] = [];
   const fixture = fixtureMap.get(context.playerId);
+  const evidence = context.evidence;
 
   // -------------------------------------------------------------------------
   // 1. Owner Decision: Retired / Inactive Exclusions
@@ -131,7 +133,7 @@ export function evaluatePlayerRules(context: OfflinePlayerContext): CalibrationP
   }
 
   // -------------------------------------------------------------------------
-  // 5. Fixture Override / Regression Lock (Already Reviewed in Phase 2A/2B/2C)
+  // 5. Fixture Override / Regression Lock (Reviewed in Phase 2A/2B/2C)
   // -------------------------------------------------------------------------
   if (fixture) {
     return {
@@ -193,7 +195,7 @@ export function evaluatePlayerRules(context: OfflinePlayerContext): CalibrationP
   }
 
   // -------------------------------------------------------------------------
-  // 7. Unresearched / Unlocked Generated Priors
+  // 7. Unresearched / Unlocked Generated Priors (PROVISIONAL)
   // -------------------------------------------------------------------------
   if (!context.isLocked || context.status === "PROVISIONAL") {
     const band = calculateYouthProvisionalBand(
@@ -224,13 +226,14 @@ export function evaluatePlayerRules(context: OfflinePlayerContext): CalibrationP
       confidence: "PROVISIONAL",
       provisionalBand: band,
       reviewFlags,
-      rationale: `Unresearched generated prior. Assigned provisional developmental band [${band.paMin}, ${band.paMax}] with nominal midpoint ${band.paNominal} to prevent false precision.`,
+      rationale: `Unresearched generated prior. Assigned 4-Pillar Provisional Band [${band.paMin}, ${band.paMax}] with nominal midpoint ${band.paNominal} to preserve uncertainty without false precision.`,
       provenance: "PROVISIONAL_BAND_MODEL",
     };
   }
 
   // -------------------------------------------------------------------------
-  // 8. Youth Extreme Formula Gaps (PA - CA >= 35 without national scouting)
+  // 8. Youth Extreme Formula Gaps (PROVISIONAL)
+  // Milestone 2 Rule: Do NOT automatically suppress youth PA because of missing senior minutes.
   // -------------------------------------------------------------------------
   const paGap = context.runtimePA - context.runtimeCA;
   const isYouth = context.age !== null && context.age <= 20;
@@ -242,7 +245,7 @@ export function evaluatePlayerRules(context: OfflinePlayerContext): CalibrationP
       context.primaryPosition,
       context.runtimePA
     );
-    reviewFlags.push("YOUTH_EXTREME_FORMULA_GAP");
+    reviewFlags.push("YOUTH_DEVELOPMENTAL_BAND");
 
     return {
       playerId: context.playerId,
@@ -264,72 +267,98 @@ export function evaluatePlayerRules(context: OfflinePlayerContext): CalibrationP
       confidence: "LOW",
       provisionalBand: band,
       reviewFlags,
-      rationale: `Youth reserve with extreme linear formula gap (PA-CA = ${paGap}). Rationalized via 4-Pillar Provisional Band [${band.paMin}, ${band.paMax}], preserving developmental runway without artificial ceiling.`,
+      rationale: `Youth profile with legacy linear formula gap (PA-CA = ${paGap}). Uncertainty preserved via 4-Pillar Provisional Band [${band.paMin}, ${band.paMax}], ensuring absence of senior minutes does not artificially suppress potential.`,
       provenance: "YOUTH_4_PILLAR_FRAMEWORK",
     };
   }
 
   // -------------------------------------------------------------------------
-  // 9. Veteran Potential Normalization (Age >= 32 with PA > CA)
+  // 9. Documented Evidence-Backed Proposals (PROPOSE)
+  // Milestone 2 Rule: PROPOSE requires documented evidence.
+  // Do NOT automatically adjust veteran PA based only on age.
   // -------------------------------------------------------------------------
-  const isMatureVeteran = context.age !== null && context.age >= 32;
-  if (isMatureVeteran && context.runtimePA - context.runtimeCA >= 3) {
-    return {
-      playerId: context.playerId,
-      name: context.name,
-      firstName: context.firstName,
-      lastName: context.lastName,
-      clubId: context.clubId,
-      clubName: context.clubName,
-      competitionId: context.competitionId,
-      position: context.primaryPosition,
-      age: context.age,
-      currentCA: context.runtimeCA,
-      currentPA: context.runtimePA,
-      proposedCA: context.runtimeCA,
-      proposedPA: context.runtimeCA,
-      caDelta: 0,
-      paDelta: context.runtimeCA - context.runtimePA,
-      decision: "PROPOSE",
-      confidence: "HIGH",
-      reviewFlags: ["VETERAN_POTENTIAL_NORMALIZATION"],
-      rationale: `Veteran potential normalization (age ${context.age}). Eliminated unrealistic developmental runway for mature veteran; re-anchored PA (${context.runtimePA} -> ${context.runtimeCA}) to current ability ceiling.`,
-      provenance: "VETERAN_DEVELOPMENT_RULE",
-    };
+  if (evidence) {
+    const facts = evidence.verifiedFacts;
+
+    // Documented high-scoring Allsvenskan player transitioning to Handbollsligan
+    if (
+      evidence.careerProgression.isCrossLeagueMover &&
+      facts.goals !== null &&
+      facts.goals >= 120 &&
+      context.runtimeCA < 135
+    ) {
+      const proposedCA = Math.min(136, context.runtimeCA + 4);
+      const proposedPA = Math.max(proposedCA, context.runtimePA);
+
+      return {
+        playerId: context.playerId,
+        name: context.name,
+        firstName: context.firstName,
+        lastName: context.lastName,
+        clubId: context.clubId,
+        clubName: context.clubName,
+        competitionId: context.competitionId,
+        position: context.primaryPosition,
+        age: context.age,
+        currentCA: context.runtimeCA,
+        currentPA: context.runtimePA,
+        proposedCA,
+        proposedPA,
+        caDelta: proposedCA - context.runtimeCA,
+        paDelta: proposedPA - context.runtimePA,
+        decision: "PROPOSE",
+        confidence: "HIGH",
+        reviewFlags: ["DOCUMENTED_CROSS_LEAGUE_MOVER"],
+        rationale: `Documented cross-league mover evidence: verified ${facts.goals} goals in ${facts.appearances} appearances in ${facts.competition}. Upgraded CA to starter transition benchmark.`,
+        provenance: "DOCUMENTED_PERFORMANCE_EVIDENCE",
+      };
+    }
+
+    // Documented Handbollsligan standout scorer exceeding current tier
+    if (
+      facts.competition === "se_handbollsligan_herr" &&
+      facts.appearances !== null &&
+      facts.appearances >= 20 &&
+      facts.goals !== null &&
+      facts.goals >= 150 &&
+      context.runtimeCA < 145
+    ) {
+      const proposedCA = Math.min(150, context.runtimeCA + 4);
+      const proposedPA = Math.max(proposedCA, context.runtimePA);
+
+      return {
+        playerId: context.playerId,
+        name: context.name,
+        firstName: context.firstName,
+        lastName: context.lastName,
+        clubId: context.clubId,
+        clubName: context.clubName,
+        competitionId: context.competitionId,
+        position: context.primaryPosition,
+        age: context.age,
+        currentCA: context.runtimeCA,
+        currentPA: context.runtimePA,
+        proposedCA,
+        proposedPA,
+        caDelta: proposedCA - context.runtimeCA,
+        paDelta: proposedPA - context.runtimePA,
+        decision: "PROPOSE",
+        confidence: "HIGH",
+        reviewFlags: ["HIGH_VOLUME_SCORER_EVIDENCE"],
+        rationale: `Documented elite domestic production: verified ${facts.goals} goals in ${facts.appearances} appearances in Handbollsligan 2025/26. Upgraded CA to reflect proven starting volume.`,
+        provenance: "DOCUMENTED_PERFORMANCE_EVIDENCE",
+      };
+    }
   }
 
-  // Veteran physical age deceleration (Age >= 33, High Load / Tier Mismatch)
-  if (isMatureVeteran && context.runtimeCA >= 135 && context.competitionId.includes("division1")) {
-    const proposedCA = Math.max(125, context.runtimeCA - 4);
-    const proposedPA = Math.max(proposedCA, context.runtimePA - 4);
-
-    return {
-      playerId: context.playerId,
-      name: context.name,
-      firstName: context.firstName,
-      lastName: context.lastName,
-      clubId: context.clubId,
-      clubName: context.clubName,
-      competitionId: context.competitionId,
-      position: context.primaryPosition,
-      age: context.age,
-      currentCA: context.runtimeCA,
-      currentPA: context.runtimePA,
-      proposedCA,
-      proposedPA,
-      caDelta: proposedCA - context.runtimeCA,
-      paDelta: proposedPA - context.runtimePA,
-      decision: "PROPOSE",
-      confidence: "MEDIUM",
-      reviewFlags: ["VETERAN_AGE_DECELERATION"],
-      rationale: `Veteran physical age deceleration (age ${context.age}). Re-centers physical attributes to lower-tier competitive training load while preserving technical skills.`,
-      provenance: "AGE_DECELERATION_RULE",
-    };
-  }
-
   // -------------------------------------------------------------------------
-  // 10. Default: Researched Standard Profile (Variance <= 2 pts -> KEEP)
+  // 10. Default: Researched Standard Profile (KEEP)
+  // Milestone 2 Rule: KEEP means no supported adjustment, not necessarily verified.
   // -------------------------------------------------------------------------
+  const evidenceExplanation = evidence?.verifiedFacts.appearances
+    ? `Verified match evidence (${evidence.verifiedFacts.appearances} matches, ${evidence.verifiedFacts.goals || 0} goals) aligns with current profile; no supported adjustment.`
+    : "Researched baseline profile; no supported adjustment warranted by current evidence.";
+
   return {
     playerId: context.playerId,
     name: context.name,
@@ -349,8 +378,7 @@ export function evaluatePlayerRules(context: OfflinePlayerContext): CalibrationP
     decision: "KEEP",
     confidence: (context.confidence as ConfidenceLevel) || "HIGH",
     reviewFlags,
-    rationale:
-      "Researched profile verified against competition role. Rating variance <= 2 pts from evidence center; baseline retained.",
+    rationale: `KEEP: ${evidenceExplanation} Current rating maintained.`,
     provenance: context.caSource || "RESEARCHED_BASELINE",
   };
 }
