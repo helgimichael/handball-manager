@@ -368,6 +368,45 @@ export function runReconciliationAndSafeImport() {
     evidenceType: "ROSTER_DOB_POSITION_SHIRT",
   });
 
+  // Register all unique team URLs from Profixio
+  for (const entry of allPfxEntries) {
+    if (entry.sourceUrl) {
+      const sId = `src_pfx_team_${entry.profixioTeamId || fnv1a(entry.sourceUrl)}`;
+      registerSource({
+        sourceId: sId,
+        sourceType: "OFFICIAL_TEAM_ROSTER",
+        publisher: "Svenska Handbollförbundet / Profixio",
+        title: `${entry.club} Official Team Roster`,
+        url: entry.sourceUrl,
+        accessedAt: "2026-11-05",
+        seasonContext: "2026/27",
+        evidenceType: "ROSTER_SQUAD_LIST",
+      });
+    }
+  }
+
+  // Register master bio & world pool sources
+  registerSource({
+    sourceId: "src_swedish_player_bio_master_v3_1",
+    sourceType: "RESEARCH_DATABASE",
+    publisher: "Handball Manager Rating Research",
+    title: "Swedish Player Bio Master Research v3.1",
+    url: "exports/player-rating-research/SWEDISH_PLAYER_BIO_MASTER_v3.1.csv",
+    accessedAt: "2026-11-05",
+    seasonContext: "2026/27",
+    evidenceType: "EXACT_DOB_POSITION_EVALUATION",
+  });
+  registerSource({
+    sourceId: "src_world_pool_rating_research_v1",
+    sourceType: "RESEARCH_DATABASE",
+    publisher: "Handball Manager Rating Research",
+    title: "World Pool Final Rating Research v1",
+    url: "exports/player-rating-research/WORLD_POOL_FINAL_RATING_RESEARCH_v1.csv",
+    accessedAt: "2026-11-05",
+    seasonContext: "2026/27",
+    evidenceType: "INTERNATIONAL_EHF_VERIFICATION",
+  });
+
   // === STEP 2: LOAD CANONICAL PLAYERS ===
   console.log("\n=== STEP 2: LOADING ALL CANONICAL & FICTIONAL GAME PLAYERS ===");
   const allPlayers: PlayerRecord[] = [];
@@ -392,7 +431,28 @@ export function runReconciliationAndSafeImport() {
       const clubId = manifest.clubId || CLUB_NAME_TO_ID[norm(clubName)] || `unknown_${slugify(clubName)}`;
       const playersFileRel = manifest.files?.find((f: string) => f.startsWith("players-") && f.endsWith(".json"));
       const rosterFileRel = manifest.files?.find((f: string) => f.startsWith("roster-") && f.endsWith(".json"));
+      const sourcesFileRel = manifest.files?.find((f: string) => f.startsWith("sources-") && f.endsWith(".json"));
       if (!playersFileRel) continue;
+
+      if (sourcesFileRel) {
+        try {
+          const rawS = JSON.parse(fs.readFileSync(path.join(clubDir, sourcesFileRel), "utf8"));
+          if (Array.isArray(rawS)) {
+            for (const s of rawS) {
+              registerSource({
+                sourceId: s.sourceId,
+                sourceType: s.sourceType || "CLUB_OFFICIAL",
+                publisher: s.publisher || s.domain || clubName,
+                title: s.title || s.label || `${clubName} Source Record`,
+                url: s.url || "",
+                accessedAt: s.snapshotDate || s.retrievedAt || "2026-10-31",
+                seasonContext: s.season || "2026/27",
+                evidenceType: s.evidenceType || "CLUB_ROSTER_IDENTITY",
+              });
+            }
+          }
+        } catch {}
+      }
 
       const playersPath = path.join(clubDir, playersFileRel);
       const rosterPath = rosterFileRel ? path.join(clubDir, rosterFileRel) : undefined;
