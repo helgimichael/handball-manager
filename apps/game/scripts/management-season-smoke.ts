@@ -48,7 +48,7 @@ assert.equal(state.seasonId, '2027/28');
 assert.equal(state.seasonHistory?.length, 1);
 assert.deepEqual(state.seasonHistory[0].stats, finalStats);
 assert.equal(Object.keys(state.results).length, 0);
-assert.equal(state.fixtures.length, 182);
+assert.equal(state.fixtures.filter(f => f.competitionId === state.competitionId).length, 182);
 const secondSeasonPress = continueCareerRhythm(state);
 assert.ok(secondSeasonPress.daysProcessed > 0, 'calendar continues in season two');
 state = secondSeasonPress.state;

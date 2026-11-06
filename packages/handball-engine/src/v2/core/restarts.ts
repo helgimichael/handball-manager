@@ -65,6 +65,12 @@ export function restartStep(s:CoreState) {
   // still failed to finish.
   if(s.tick-r.awardedTick-r.pausedTicks>1600) {
     record(s,'RESTART_UNRESOLVED',null,{kind:r.kind,owner:r.owner,ticks:s.tick-r.awardedTick});
+    if(s.match?.phase==='PREMATCH') {
+      s.officialClock.running=true;
+      s.match.phase=s.period===1?'FIRST_HALF':'SECOND_HALF';
+      s.match.periodStartMs=s.officialClock.timeMs;
+      record(s,'PERIOD_STARTED',null,{period:s.period});
+    }
     awardRestart(s,'FREE_THROW',otherTeam(r.owner),r.location,'Restart could not be organised',null,false);
     // The replacement still opens the half. Dropping the context left the
     // period in PREMATCH with live play and a stopped clock, so it never ended.
@@ -179,7 +185,7 @@ export function restartStep(s:CoreState) {
     if(restartReady(s)&&(r.kind==='SEVEN_METRE'||s.match?.phase==='FINAL_THROW'||receiver?.action?.kind==='RECEIVE'&&receiver.action.phase==='EXECUTING')) {r.phase='AUTHORISED';r.authorisedTick=s.tick;taker.handling.heldSinceTick=s.tick;
       const timedRestart=s.referee.resumeOnWhistle;
       if(timedRestart){s.referee.resumeOnWhistle=false;s.officialClock.running=true;record(s,'OFFICIAL_CLOCK_RESTARTED',taker,{reason:'Restart whistle after time-out'});}
-      if(s.match&&r.context==='OPENING_HALF'){s.officialClock.running=true;s.match.phase=s.period===1?'FIRST_HALF':'SECOND_HALF';s.match.periodStartMs=s.officialClock.timeMs;record(s,'PERIOD_STARTED',null,{period:s.period});}
+      if(s.match&&(r.context==='OPENING_HALF'||s.match.phase==='PREMATCH')){s.officialClock.running=true;s.match.phase=s.period===1?'FIRST_HALF':'SECOND_HALF';s.match.periodStartMs=s.officialClock.timeMs;record(s,'PERIOD_STARTED',null,{period:s.period});}
       record(s,r.kind==='GOALKEEPER_THROW'&&!timedRestart?'RESTART_READY':'RESTART_AUTHORISED',taker,{kind:r.kind,whistle:r.kind!=='GOALKEEPER_THROW'||timedRestart});}
   }
   if(r.phase==='AUTHORISED'&&s.tick-r.authorisedTick!>=(r.kind==='GOALKEEPER_THROW'?0:6)&&actionAvailable(taker)) {

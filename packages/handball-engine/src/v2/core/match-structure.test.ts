@@ -227,3 +227,26 @@ test('a throw-off that cannot be organised still opens the half through the refe
   assert.equal(s.officialClock.running,true);
   assert.ok(s.events.some(e=>e.type==='PERIOD_STARTED'));
 });
+
+test('second half kickoff organizes and transitions from PREMATCH to SECOND_HALF without tick budget exhaustion', () => {
+  const s = createMatch(2026, 'TOP', 1800000, 0);
+  s.officialClock.timeMs = 1800000;
+  s.match!.phase = 'HALFTIME';
+  s.match!.resumeTick = s.tick;
+  matchBefore(s);
+  assert.equal(s.period, 2);
+  assert.equal(s.match!.phase, 'PREMATCH');
+  assert.equal(s.restart?.kind, 'CENTRE_THROW_OFF');
+  assert.equal(s.restart?.context, 'OPENING_HALF');
+  assert.equal(s.directions.HOME, 'BOTTOM');
+  assert.equal(s.directions.AWAY, 'TOP');
+
+  let ticks = 0;
+  while (s.match?.phase === 'PREMATCH' && ticks++ < 1000) {
+    advanceCoreMutable(s);
+  }
+
+  assert.equal(s.match!.phase, 'SECOND_HALF', 'Match must advance from PREMATCH to SECOND_HALF');
+  assert.equal(s.officialClock.running, true, 'Official clock must resume on kickoff whistle');
+  assert.ok(ticks < 500, `Second half kickoff must organize promptly, took ${ticks} ticks`);
+});
