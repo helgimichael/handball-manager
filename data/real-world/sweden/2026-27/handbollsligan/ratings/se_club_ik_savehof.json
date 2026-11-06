@@ -4,11 +4,11 @@
     "clubId": "se_club_ik_savehof",
     "position": "GK",
     "ca": {
-      "value": 128,
+      "value": 136,
       "confidence": "HIGH",
       "plausibleRange": {
-        "min": 128,
-        "max": 128
+        "min": 136,
+        "max": 136
       },
       "source": "EDITOR_OVERRIDE"
     },
@@ -25,87 +25,87 @@
       "branch": "GOALKEEPER",
       "attributes": {
         "GK_POSITIONING": {
-          "value": 12,
+          "value": 13,
           "origin": "GENERATED_PRIOR"
         },
         "SET_POSITION": {
-          "value": 12,
+          "value": 13,
           "origin": "GENERATED_PRIOR"
         },
         "REACTION": {
-          "value": 13,
+          "value": 14,
           "origin": "GENERATED_PRIOR"
         },
         "GK_EXPLOSIVENESS": {
-          "value": 13,
+          "value": 14,
           "origin": "GENERATED_PRIOR"
         },
         "LOW_SAVES": {
-          "value": 13,
+          "value": 14,
           "origin": "GENERATED_PRIOR"
         },
         "HIGH_SAVES": {
-          "value": 14,
+          "value": 15,
           "origin": "GENERATED_PRIOR"
         },
         "CLOSE_RANGE_SAVES": {
-          "value": 14,
+          "value": 15,
           "origin": "GENERATED_PRIOR"
         },
         "LONG_RANGE_SAVES": {
-          "value": 12,
+          "value": 13,
           "origin": "GENERATED_PRIOR"
         },
         "WING_SAVES": {
-          "value": 14,
+          "value": 15,
           "origin": "GENERATED_PRIOR"
         },
         "SEVEN_M_SAVES": {
-          "value": 12,
+          "value": 13,
           "origin": "GENERATED_PRIOR"
         },
         "SHOOTER_READING": {
-          "value": 12,
+          "value": 13,
           "origin": "GENERATED_PRIOR"
         },
         "SHOT_ANTICIPATION": {
-          "value": 12,
+          "value": 13,
           "origin": "GENERATED_PRIOR"
         },
         "PATIENCE": {
-          "value": 13,
+          "value": 14,
           "origin": "GENERATED_PRIOR"
         },
         "DECISION_TIMING": {
-          "value": 12,
+          "value": 13,
           "origin": "GENERATED_PRIOR"
         },
         "OUTLET_PASSING": {
-          "value": 16,
+          "value": 17,
           "origin": "DERIVED"
         },
         "RESTART_SPEED": {
-          "value": 14,
+          "value": 15,
           "origin": "DERIVED"
         },
         "TRANSITION_DECISION": {
-          "value": 14,
+          "value": 15,
           "origin": "DERIVED"
         },
         "GK_CONSISTENCY": {
-          "value": 14,
+          "value": 15,
           "origin": "GENERATED_PRIOR"
         },
         "GK_COMPOSURE": {
-          "value": 14,
+          "value": 15,
           "origin": "GENERATED_PRIOR"
         },
         "GK_CONCENTRATION": {
-          "value": 13,
+          "value": 14,
           "origin": "GENERATED_PRIOR"
         },
         "GK_PRESSURE_HANDLING": {
-          "value": 13,
+          "value": 14,
           "origin": "GENERATED_PRIOR"
         }
       }
@@ -114,8 +114,8 @@
     "defenceRoleProficiencies": [],
     "caEstimationModelVersion": "HM-RATINGS-0.5-v1",
     "attributeGenerationModelVersion": "HM-RATINGS-0.4-v1",
-    "lockedAt": "2026-08-30T11:17:18.312Z",
-    "lockedNote": "HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW)"
+    "lockedAt": "2026-11-06T08:11:23.080Z",
+    "lockedNote": "HM-MILESTONE-6 (2026-11-06): calibrated CA 128->136, PA 152->152 (unchanged). Previous note: HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW). Rationale: High-workload starting goalkeeper in Handbollsligan (641 shots faced, 186 saves, 29%). Current CA 128 underrates proven starting presence."
   },
   "player_erik_andersson_b7790e0e": {
     "playerId": "player_erik_andersson_b7790e0e",

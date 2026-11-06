@@ -16,8 +16,8 @@
   },
   "se_player_shaban_zogaj_71e0c93f": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T11:14:56.676Z",
-    "note": "HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW)"
+    "updatedAt": "2026-11-06T08:11:23.872Z",
+    "note": "HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW) | HM-MILESTONE-6: calibrated CA 120->130, PA 142->142. High-volume Allsvenskan scorer (162 goals in 25 appearances, 6.5 gpg). Adjusted from 120 to 130 to reflect established senior starting calibre."
   },
   "dk_player_jonas_jensen_02a38472": {
     "status": "LOCKED",
@@ -78,5 +78,10 @@
     "status": "LOCKED",
     "updatedAt": "2026-08-30T11:18:07.574Z",
     "note": "HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW)"
+  },
+  "se_player_mathias_mark_pedersen_46a47242": {
+    "status": "LOCKED",
+    "updatedAt": "2026-11-06T08:11:23.970Z",
+    "note": "HM-MILESTONE-6: calibrated CA 143->149, PA 150->150. Elite domestic offensive engine (189 goals, 140 assists, 329 total involvements in 25 matches, 13.2 inv/g). CA 143 underrates league-wide impact."
   }
 }

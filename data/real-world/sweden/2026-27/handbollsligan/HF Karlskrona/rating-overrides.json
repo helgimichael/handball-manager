@@ -5,8 +5,8 @@
     "pa": 143
   },
   "se_player_melvin_hildingsson_edd5d2a3": {
-    "updatedAt": "2026-08-30T11:16:48.661Z",
-    "ca": 122,
+    "updatedAt": "2026-11-06T08:11:24.036Z",
+    "ca": 128,
     "pa": 160
   },
   "se_player_filip_psajd_5da4e6a8": {
@@ -30,8 +30,8 @@
     "pa": 142
   },
   "se_player_alex_andersson_654b2ac2": {
-    "updatedAt": "2026-08-30T11:14:21.884Z",
-    "ca": 142,
+    "updatedAt": "2026-11-06T08:11:24.141Z",
+    "ca": 147,
     "pa": 148
   },
   "se_player_albin_stenberg_8766543f": {
@@ -88,5 +88,10 @@
     "updatedAt": "2026-08-30T11:17:23.648Z",
     "ca": 148,
     "pa": 148
+  },
+  "se_player_arnor_vi_arsson_6843cb3f": {
+    "ca": 138,
+    "pa": 144,
+    "updatedAt": "2026-11-06T08:11:24.241Z"
   }
 }

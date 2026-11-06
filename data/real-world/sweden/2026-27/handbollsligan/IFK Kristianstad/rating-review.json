@@ -51,8 +51,8 @@
   },
   "player_niko_petrovic_d603dfbe": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T11:15:47.250Z",
-    "note": "HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW)"
+    "updatedAt": "2026-11-06T08:11:24.463Z",
+    "note": "HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW) | HM-MILESTONE-6: calibrated CA 118->124, PA 160->160. Proven Allsvenskan scoring record (101 goals in 26 appearances, 3.9 gpg) earns promotion to Handbollsligan; upgraded from 118 to 124."
   },
   "player_anton_hallback_54886b8b": {
     "status": "LOCKED",
@@ -73,5 +73,10 @@
     "status": "LOCKED",
     "updatedAt": "2026-08-30T11:16:25.403Z",
     "note": "HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW)"
+  },
+  "player_einar_adalsteinsson_26066696": {
+    "status": "LOCKED",
+    "updatedAt": "2026-11-06T08:11:24.559Z",
+    "note": "HM-MILESTONE-6: calibrated CA 134->138, PA 143->143. Consistent starting contributor in Handbollsligan (88 goals, 43 assists, 131 involvements in 22 games, 6.0 inv/g). Upgraded from reserve tier (134) to solid starter tier (138)."
   }
 }

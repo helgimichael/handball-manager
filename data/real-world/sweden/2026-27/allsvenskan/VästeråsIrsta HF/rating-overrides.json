@@ -35,9 +35,9 @@
     "pa": 143
   },
   "se_player_albin_lindblom_ebc224c8": {
-    "updatedAt": "2026-10-31T06:14:33.660Z",
-    "ca": 118,
-    "pa": 145
+    "ca": 124,
+    "pa": 145,
+    "updatedAt": "2026-11-06T08:11:23.725Z"
   },
   "se_player_rasmus_solver_808081cf": {
     "updatedAt": "2026-08-30T15:46:44.903Z",
@@ -80,8 +80,8 @@
     "pa": 137
   },
   "se_player_anton_jansson_396049ed": {
+    "updatedAt": "2026-10-31T10:56:07.283Z",
     "ca": 98,
-    "pa": 139,
-    "updatedAt": "2026-10-31T10:56:07.283Z"
+    "pa": 139
   }
 }

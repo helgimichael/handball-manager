@@ -23,10 +23,10 @@ export function createCatalogSnapshot(
     const lockedRatings = loadRatingDatabase(club.clubId);
     for (const [playerId, record] of Object.entries(lockedRatings)) {
       snapshot.ratings[playerId] = {
-        ca: record.ca,
-        pa: record.pa,
+        ca: record.ca.value,
+        pa: record.pa?.value ?? record.ca.value,
         clubId: club.clubId,
-        source: record.source,
+        source: record.ca.source,
       };
     }
   }

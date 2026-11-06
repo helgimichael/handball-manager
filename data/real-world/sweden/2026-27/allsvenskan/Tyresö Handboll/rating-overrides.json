@@ -25,8 +25,8 @@
     "pa": 138
   },
   "se_player_marvin_barrett_8d02e65e": {
-    "updatedAt": "2026-08-30T15:46:28.485Z",
-    "ca": 125,
+    "updatedAt": "2026-11-06T08:11:23.514Z",
+    "ca": 131,
     "pa": 142
   },
   "se_player_andreas_lagerstrom_32dc9ce4": {
@@ -35,9 +35,9 @@
     "pa": 138
   },
   "se_player_simon_hjortenbo_246e9de6": {
+    "updatedAt": "2026-08-30T15:46:30.073Z",
     "ca": 130,
-    "pa": 130,
-    "updatedAt": "2026-08-30T15:46:30.073Z"
+    "pa": 130
   },
   "se_player_norton_kjellner_442607e4": {
     "updatedAt": "2026-08-30T15:46:28.852Z",
@@ -98,5 +98,10 @@
     "updatedAt": "2026-08-30T15:46:29.665Z",
     "ca": 130,
     "pa": 131
+  },
+  "se_player_ludde_nystrom_5250f25e": {
+    "ca": 125,
+    "pa": 133,
+    "updatedAt": "2026-11-06T08:11:23.620Z"
   }
 }

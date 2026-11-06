@@ -30,9 +30,9 @@
     "pa": 158
   },
   "player_albin_leyman_6d0ef97f": {
+    "updatedAt": "2026-08-30T11:16:36.876Z",
     "ca": 122,
-    "pa": 136,
-    "updatedAt": "2026-08-30T11:16:36.876Z"
+    "pa": 136
   },
   "player_philip_henningsson_01636570": {
     "updatedAt": "2026-08-30T11:15:35.626Z",
@@ -50,8 +50,8 @@
     "pa": 160
   },
   "player_niko_petrovic_d603dfbe": {
-    "updatedAt": "2026-08-30T11:15:46.296Z",
-    "ca": 118,
+    "updatedAt": "2026-11-06T08:11:24.433Z",
+    "ca": 124,
     "pa": 160
   },
   "player_anton_hallback_54886b8b": {
@@ -73,5 +73,10 @@
     "updatedAt": "2026-08-30T11:16:24.457Z",
     "ca": 124,
     "pa": 146
+  },
+  "player_einar_adalsteinsson_26066696": {
+    "ca": 138,
+    "pa": 143,
+    "updatedAt": "2026-11-06T08:11:24.526Z"
   }
 }

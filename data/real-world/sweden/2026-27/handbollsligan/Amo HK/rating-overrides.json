@@ -15,8 +15,8 @@
     "pa": 148
   },
   "se_player_shaban_zogaj_71e0c93f": {
-    "updatedAt": "2026-08-30T11:14:55.948Z",
-    "ca": 120,
+    "updatedAt": "2026-11-06T08:11:23.840Z",
+    "ca": 130,
     "pa": 142
   },
   "dk_player_jonas_jensen_02a38472": {
@@ -45,9 +45,9 @@
     "pa": 150
   },
   "se_player_jesper_jensen_7ce5d872": {
+    "updatedAt": "2026-08-30T11:18:18.476Z",
     "ca": 142,
-    "pa": 142,
-    "updatedAt": "2026-08-30T11:18:18.476Z"
+    "pa": 142
   },
   "se_player_simon_roos_b75e2dc7": {
     "updatedAt": "2026-08-30T11:17:10.852Z",
@@ -78,5 +78,10 @@
     "updatedAt": "2026-08-30T11:18:06.642Z",
     "ca": 146,
     "pa": 150
+  },
+  "se_player_mathias_mark_pedersen_46a47242": {
+    "ca": 149,
+    "pa": 150,
+    "updatedAt": "2026-11-06T08:11:23.935Z"
   }
 }

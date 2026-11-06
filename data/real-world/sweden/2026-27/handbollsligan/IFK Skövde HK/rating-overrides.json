@@ -25,9 +25,9 @@
     "pa": 168
   },
   "player_thomas_stenersen_781c3d9f": {
-    "updatedAt": "2026-08-30T11:14:50.802Z",
-    "ca": 118,
-    "pa": 145
+    "ca": 126,
+    "pa": 145,
+    "updatedAt": "2026-11-06T08:11:24.622Z"
   },
   "player_jonas_kruse_kristensen_87652b66": {
     "updatedAt": "2026-08-30T11:14:58.873Z",
@@ -70,9 +70,9 @@
     "pa": 150
   },
   "player_linus_gustavsson_2f35e9ed": {
+    "updatedAt": "2026-08-30T11:18:02.708Z",
     "ca": 144,
-    "pa": 160,
-    "updatedAt": "2026-08-30T11:18:02.708Z"
+    "pa": 160
   },
   "player_jonas_samuelsson_c0e5d465": {
     "updatedAt": "2026-08-30T11:14:33.349Z",

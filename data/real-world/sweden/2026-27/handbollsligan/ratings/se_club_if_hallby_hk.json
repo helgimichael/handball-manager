@@ -1406,11 +1406,11 @@
     "clubId": "se_club_if_hallby_hk",
     "position": "V9",
     "ca": {
-      "value": 132,
+      "value": 138,
       "confidence": "HIGH",
       "plausibleRange": {
-        "min": 132,
-        "max": 132
+        "min": 138,
+        "max": 138
       },
       "source": "EDITOR_OVERRIDE"
     },
@@ -1660,8 +1660,8 @@
     "defenceRoleProficiencies": [],
     "caEstimationModelVersion": "HM-RATINGS-0.5-v1",
     "attributeGenerationModelVersion": "HM-RATINGS-0.4-v1",
-    "lockedAt": "2026-08-30T11:16:52.134Z",
-    "lockedNote": "HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW)"
+    "lockedAt": "2026-11-06T08:11:23.080Z",
+    "lockedNote": "HM-MILESTONE-6 (2026-11-06): calibrated CA 132->138, PA 142->142 (unchanged). Previous note: HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW). Rationale: Consistent starting contributor in Handbollsligan (89 goals, 64 assists, 153 involvements in 24 games, 6.4 inv/g). Upgraded from reserve tier (132) to solid starter tier (138)."
   },
   "se_player_herman_legrell_072b951c": {
     "playerId": "se_player_herman_legrell_072b951c",

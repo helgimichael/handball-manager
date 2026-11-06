@@ -1026,11 +1026,11 @@
     "clubId": "se_club_ifk_skovde_hk",
     "position": "V9",
     "ca": {
-      "value": 118,
+      "value": 126,
       "confidence": "HIGH",
       "plausibleRange": {
-        "min": 118,
-        "max": 118
+        "min": 126,
+        "max": 126
       },
       "source": "EDITOR_OVERRIDE"
     },
@@ -1047,227 +1047,227 @@
       "branch": "OUTCOURT",
       "attributes": {
         "PASSING": {
-          "value": 13,
+          "value": 14,
           "origin": "GENERATED_PRIOR"
         },
         "BALL_HANDLING": {
-          "value": 14,
+          "value": 15,
           "origin": "GENERATED_PRIOR"
         },
         "SHOOTING_POWER": {
-          "value": 15,
+          "value": 16,
           "origin": "GENERATED_PRIOR"
         },
         "SHOOTING_PLACEMENT": {
-          "value": 13,
+          "value": 14,
           "origin": "GENERATED_PRIOR"
         },
         "SHOOTING_VARIETY": {
-          "value": 13,
+          "value": 14,
           "origin": "GENERATED_PRIOR"
         },
         "BREAKTHROUGH": {
-          "value": 13,
+          "value": 14,
           "origin": "GENERATED_PRIOR"
         },
         "FINISHING": {
-          "value": 15,
+          "value": 16,
           "origin": "GENERATED_PRIOR"
         },
         "WING_FINISHING": {
-          "value": 13,
+          "value": 14,
           "origin": "GENERATED_PRIOR"
         },
         "PIVOT_PLAY": {
-          "value": 13,
+          "value": 14,
           "origin": "GENERATED_PRIOR"
         },
         "SCREENING": {
-          "value": 14,
+          "value": 15,
           "origin": "GENERATED_PRIOR"
         },
         "GAME_READING": {
-          "value": 13,
+          "value": 14,
           "origin": "DERIVED"
         },
         "DECISION_MAKING": {
-          "value": 11,
+          "value": 12,
           "origin": "GENERATED_PRIOR"
         },
         "AWARENESS": {
-          "value": 12,
+          "value": 13,
           "origin": "GENERATED_PRIOR"
         },
         "ANTICIPATION": {
-          "value": 11,
+          "value": 12,
           "origin": "GENERATED_PRIOR"
         },
         "PLAYMAKING": {
-          "value": 14,
+          "value": 15,
           "origin": "DERIVED"
         },
         "TEMPO_CONTROL": {
-          "value": 13,
+          "value": 14,
           "origin": "GENERATED_PRIOR"
         },
         "TWO_V_TWO_READING": {
-          "value": 12,
+          "value": 13,
           "origin": "GENERATED_PRIOR"
         },
         "ADVANTAGE_RECOGNITION": {
-          "value": 13,
+          "value": 14,
           "origin": "GENERATED_PRIOR"
         },
         "TACTICAL_UNDERSTANDING": {
-          "value": 11,
+          "value": 12,
           "origin": "GENERATED_PRIOR"
         },
         "ROLE_DISCIPLINE": {
-          "value": 13,
+          "value": 14,
           "origin": "GENERATED_PRIOR"
         },
         "OFF_BALL_MOVEMENT": {
-          "value": 11,
+          "value": 12,
           "origin": "GENERATED_PRIOR"
         },
         "SPACING": {
-          "value": 12,
+          "value": 13,
           "origin": "GENERATED_PRIOR"
         },
         "TIMING": {
-          "value": 11,
+          "value": 12,
           "origin": "GENERATED_PRIOR"
         },
         "TRANSITION_UNDERSTANDING": {
-          "value": 12,
+          "value": 13,
           "origin": "GENERATED_PRIOR"
         },
         "SYSTEM_ADAPTABILITY": {
-          "value": 11,
+          "value": 12,
           "origin": "GENERATED_PRIOR"
         },
         "SEVEN_V_SIX_UNDERSTANDING": {
-          "value": 12,
+          "value": 13,
           "origin": "GENERATED_PRIOR"
         },
         "CONTACT_ABILITY": {
-          "value": 10,
+          "value": 11,
           "origin": "GENERATED_PRIOR"
         },
         "DEFENSIVE_POSITIONING": {
-          "value": 10,
+          "value": 11,
           "origin": "GENERATED_PRIOR"
         },
         "DEFENSIVE_TIMING": {
-          "value": 10,
+          "value": 11,
           "origin": "GENERATED_PRIOR"
         },
         "LATERAL_DEFENCE": {
-          "value": 11,
+          "value": 12,
           "origin": "GENERATED_PRIOR"
         },
         "DEPTH_DEFENCE": {
-          "value": 10,
+          "value": 11,
           "origin": "GENERATED_PRIOR"
         },
         "CENTRAL_DEFENCE": {
-          "value": 12,
+          "value": 13,
           "origin": "GENERATED_PRIOR"
         },
         "COVERING": {
-          "value": 10,
+          "value": 11,
           "origin": "GENERATED_PRIOR"
         },
         "SWITCHING_HANDOVER": {
-          "value": 12,
+          "value": 13,
           "origin": "GENERATED_PRIOR"
         },
         "BALL_WINNING": {
-          "value": 11,
+          "value": 12,
           "origin": "GENERATED_PRIOR"
         },
         "SHOT_BLOCKING": {
-          "value": 11,
+          "value": 12,
           "origin": "GENERATED_PRIOR"
         },
         "ACCELERATION": {
-          "value": 13,
+          "value": 14,
           "origin": "GENERATED_PRIOR"
         },
         "TOP_SPEED": {
-          "value": 13,
+          "value": 14,
           "origin": "GENERATED_PRIOR"
         },
         "LATERAL_QUICKNESS": {
-          "value": 12,
+          "value": 13,
           "origin": "GENERATED_PRIOR"
         },
         "AGILITY": {
-          "value": 12,
+          "value": 13,
           "origin": "GENERATED_PRIOR"
         },
         "EXPLOSIVENESS": {
-          "value": 12,
+          "value": 13,
           "origin": "GENERATED_PRIOR"
         },
         "STRENGTH": {
-          "value": 12,
+          "value": 13,
           "origin": "GENERATED_PRIOR"
         },
         "CONTACT_BALANCE": {
-          "value": 14,
+          "value": 15,
           "origin": "GENERATED_PRIOR"
         },
         "JUMP_ABILITY": {
-          "value": 14,
+          "value": 15,
           "origin": "GENERATED_PRIOR"
         },
         "ENDURANCE": {
-          "value": 14,
+          "value": 15,
           "origin": "GENERATED_PRIOR"
         },
         "REPEAT_SPRINT_ABILITY": {
-          "value": 14,
+          "value": 15,
           "origin": "GENERATED_PRIOR"
         },
         "MOBILITY": {
-          "value": 13,
+          "value": 14,
           "origin": "GENERATED_PRIOR"
         },
         "CONSISTENCY": {
-          "value": 13,
+          "value": 14,
           "origin": "GENERATED_PRIOR"
         },
         "COMPOSURE": {
-          "value": 13,
+          "value": 14,
           "origin": "GENERATED_PRIOR"
         },
         "CONCENTRATION": {
-          "value": 11,
+          "value": 12,
           "origin": "GENERATED_PRIOR"
         },
         "COMPETITIVE_MENTALITY": {
-          "value": 12,
-          "origin": "GENERATED_PRIOR"
-        },
-        "RESILIENCE": {
           "value": 13,
           "origin": "GENERATED_PRIOR"
         },
+        "RESILIENCE": {
+          "value": 14,
+          "origin": "GENERATED_PRIOR"
+        },
         "DISCIPLINE": {
-          "value": 11,
+          "value": 12,
           "origin": "GENERATED_PRIOR"
         },
         "COACHABILITY": {
-          "value": 12,
+          "value": 13,
           "origin": "GENERATED_PRIOR"
         },
         "LEADERSHIP": {
-          "value": 11,
+          "value": 12,
           "origin": "GENERATED_PRIOR"
         },
         "PRESSURE_HANDLING": {
-          "value": 12,
+          "value": 13,
           "origin": "GENERATED_PRIOR"
         }
       }
@@ -1280,8 +1280,8 @@
     "defenceRoleProficiencies": [],
     "caEstimationModelVersion": "HM-RATINGS-0.5-v1",
     "attributeGenerationModelVersion": "HM-RATINGS-0.4-v1",
-    "lockedAt": "2026-08-30T11:14:51.214Z",
-    "lockedNote": "HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW)"
+    "lockedAt": "2026-11-06T08:11:23.080Z",
+    "lockedNote": "HM-MILESTONE-6 (2026-11-06): calibrated CA 118->126, PA 145->145 (unchanged). Previous note: HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW). Rationale: Regular starting rotation back in Handbollsligan (26 appearances, 71 goals, 31 assists, 3.9 inv/g). Current CA 118 underrates proven top-flight contribution."
   },
   "player_jonas_kruse_kristensen_87652b66": {
     "playerId": "player_jonas_kruse_kristensen_87652b66",

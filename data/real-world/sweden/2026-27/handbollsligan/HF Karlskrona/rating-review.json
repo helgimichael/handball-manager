@@ -6,8 +6,8 @@
   },
   "se_player_melvin_hildingsson_edd5d2a3": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T11:16:49.006Z",
-    "note": "HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW)"
+    "updatedAt": "2026-11-06T08:11:24.078Z",
+    "note": "HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW) | HM-MILESTONE-6: calibrated CA 122->128, PA 160->160. Substantial top-flight goalkeeper workload in Handbollsligan (390 shots faced, 111 saves). Upgraded from 122 to reflect reliable rotation ability."
   },
   "se_player_filip_psajd_5da4e6a8": {
     "status": "LOCKED",
@@ -31,8 +31,8 @@
   },
   "se_player_alex_andersson_654b2ac2": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T11:14:22.406Z",
-    "note": "HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW)"
+    "updatedAt": "2026-11-06T08:11:24.172Z",
+    "note": "HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW) | HM-MILESTONE-6: calibrated CA 142->147, PA 148->148. Premier Handbollsligan playmaker and contributor (115 goals, 86 assists, 201 total involvements in 24 matches, 8.4 inv/g). Upgraded to reflect high domestic tier."
   },
   "se_player_albin_stenberg_8766543f": {
     "status": "LOCKED",
@@ -88,5 +88,10 @@
     "status": "LOCKED",
     "updatedAt": "2026-08-30T11:17:24.549Z",
     "note": "HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW)"
+  },
+  "se_player_arnor_vi_arsson_6843cb3f": {
+    "status": "LOCKED",
+    "updatedAt": "2026-11-06T08:11:24.274Z",
+    "note": "HM-MILESTONE-6: calibrated CA 131->138, PA 144->144. Consistent starting contributor in Handbollsligan (79 goals, 49 assists, 128 involvements in 23 games, 5.6 inv/g). Upgraded from reserve tier (131) to solid starter tier (138)."
   }
 }

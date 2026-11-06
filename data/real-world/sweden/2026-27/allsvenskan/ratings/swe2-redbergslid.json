@@ -3646,11 +3646,11 @@
     "clubId": "swe2-redbergslid",
     "position": "V9",
     "ca": {
-      "value": 137,
+      "value": 142,
       "confidence": "HIGH",
       "plausibleRange": {
-        "min": 137,
-        "max": 137
+        "min": 142,
+        "max": 142
       },
       "source": "EDITOR_OVERRIDE"
     },
@@ -3900,8 +3900,8 @@
     "defenceRoleProficiencies": [],
     "caEstimationModelVersion": "HM-RATINGS-0.5-v1",
     "attributeGenerationModelVersion": "HM-RATINGS-0.4-v1",
-    "lockedAt": "2026-08-30T15:46:03.468Z",
-    "lockedNote": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
+    "lockedAt": "2026-11-06T08:11:23.080Z",
+    "lockedNote": "HM-MILESTONE-6 (2026-11-06): calibrated CA 137->142, PA 143->143 (unchanged). Previous note: ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW). Rationale: Exceptional scoring volume in Allsvenskan (168 goals in 26 matches, 6.5 gpg). Upgraded to reflect star Allsvenskan backcourt tier."
   },
   "se_player_axel_winstrom_c59447b8": {
     "playerId": "se_player_axel_winstrom_c59447b8",

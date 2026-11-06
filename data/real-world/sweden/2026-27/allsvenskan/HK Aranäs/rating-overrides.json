@@ -30,9 +30,9 @@
     "pa": 140
   },
   "se_player_william_lund_a1cef7d9": {
-    "updatedAt": "2026-08-30T15:45:07.617Z",
-    "ca": 128,
-    "pa": 134
+    "ca": 133,
+    "pa": 134,
+    "updatedAt": "2026-11-06T08:11:23.222Z"
   },
   "se_player_arvid_larsson_0fac8bfb": {
     "updatedAt": "2026-08-30T15:45:01.031Z",
@@ -80,8 +80,8 @@
     "pa": 146
   },
   "se_player_oliver_hagberg_0b320b66": {
+    "updatedAt": "2026-10-31T10:56:07.681Z",
     "ca": 95,
-    "pa": 143,
-    "updatedAt": "2026-10-31T10:56:07.681Z"
+    "pa": 143
   }
 }

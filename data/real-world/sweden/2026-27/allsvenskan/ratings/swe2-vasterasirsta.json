@@ -1694,11 +1694,11 @@
     "clubId": "swe2-vasterasirsta",
     "position": "GK",
     "ca": {
-      "value": 118,
+      "value": 124,
       "confidence": "HIGH",
       "plausibleRange": {
-        "min": 118,
-        "max": 118
+        "min": 124,
+        "max": 124
       },
       "source": "EDITOR_OVERRIDE"
     },
@@ -1715,87 +1715,87 @@
       "branch": "GOALKEEPER",
       "attributes": {
         "GK_POSITIONING": {
-          "value": 16,
+          "value": 17,
           "origin": "DERIVED"
         },
         "SET_POSITION": {
-          "value": 14,
+          "value": 15,
           "origin": "DERIVED"
         },
         "REACTION": {
-          "value": 11,
+          "value": 12,
           "origin": "GENERATED_PRIOR"
         },
         "GK_EXPLOSIVENESS": {
-          "value": 11,
+          "value": 12,
           "origin": "GENERATED_PRIOR"
         },
         "LOW_SAVES": {
-          "value": 12,
+          "value": 13,
           "origin": "GENERATED_PRIOR"
         },
         "HIGH_SAVES": {
-          "value": 13,
+          "value": 14,
           "origin": "GENERATED_PRIOR"
         },
         "CLOSE_RANGE_SAVES": {
-          "value": 11,
-          "origin": "GENERATED_PRIOR"
-        },
-        "LONG_RANGE_SAVES": {
-          "value": 11,
-          "origin": "GENERATED_PRIOR"
-        },
-        "WING_SAVES": {
-          "value": 11,
-          "origin": "GENERATED_PRIOR"
-        },
-        "SEVEN_M_SAVES": {
-          "value": 13,
-          "origin": "GENERATED_PRIOR"
-        },
-        "SHOOTER_READING": {
-          "value": 13,
-          "origin": "DERIVED"
-        },
-        "SHOT_ANTICIPATION": {
-          "value": 13,
-          "origin": "DERIVED"
-        },
-        "PATIENCE": {
-          "value": 11,
-          "origin": "GENERATED_PRIOR"
-        },
-        "DECISION_TIMING": {
           "value": 12,
           "origin": "GENERATED_PRIOR"
         },
+        "LONG_RANGE_SAVES": {
+          "value": 12,
+          "origin": "GENERATED_PRIOR"
+        },
+        "WING_SAVES": {
+          "value": 12,
+          "origin": "GENERATED_PRIOR"
+        },
+        "SEVEN_M_SAVES": {
+          "value": 14,
+          "origin": "GENERATED_PRIOR"
+        },
+        "SHOOTER_READING": {
+          "value": 14,
+          "origin": "DERIVED"
+        },
+        "SHOT_ANTICIPATION": {
+          "value": 14,
+          "origin": "DERIVED"
+        },
+        "PATIENCE": {
+          "value": 12,
+          "origin": "GENERATED_PRIOR"
+        },
+        "DECISION_TIMING": {
+          "value": 13,
+          "origin": "GENERATED_PRIOR"
+        },
         "OUTLET_PASSING": {
-          "value": 11,
+          "value": 12,
           "origin": "GENERATED_PRIOR"
         },
         "RESTART_SPEED": {
-          "value": 11,
+          "value": 12,
           "origin": "GENERATED_PRIOR"
         },
         "TRANSITION_DECISION": {
-          "value": 13,
+          "value": 14,
           "origin": "GENERATED_PRIOR"
         },
         "GK_CONSISTENCY": {
-          "value": 11,
+          "value": 12,
           "origin": "GENERATED_PRIOR"
         },
         "GK_COMPOSURE": {
-          "value": 11,
+          "value": 12,
           "origin": "GENERATED_PRIOR"
         },
         "GK_CONCENTRATION": {
-          "value": 11,
+          "value": 12,
           "origin": "GENERATED_PRIOR"
         },
         "GK_PRESSURE_HANDLING": {
-          "value": 13,
+          "value": 14,
           "origin": "GENERATED_PRIOR"
         }
       }
@@ -1804,8 +1804,8 @@
     "defenceRoleProficiencies": [],
     "caEstimationModelVersion": "HM-RATINGS-0.5-v1",
     "attributeGenerationModelVersion": "HM-RATINGS-0.4-v1",
-    "lockedAt": "2026-10-31T06:14:33.692Z",
-    "lockedNote": "HM-DATA-1.3 (2026-10-31) GK/OUTCOURT branch correction to MV; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1)"
+    "lockedAt": "2026-11-06T08:11:23.080Z",
+    "lockedNote": "HM-MILESTONE-6 (2026-11-06): calibrated CA 118->124, PA 145->145 (unchanged). Previous note: HM-DATA-1.3 (2026-10-31) GK/OUTCOURT branch correction to MV; researched CA/PA preserved, generated attributes regenerated (HM-RATINGS-0.4-v1). Rationale: Proven senior starting goalkeeper workload in Allsvenskan (370 shots faced, 100 saves). Calibrated to senior starting rotation standard."
   },
   "se_player_rasmus_solver_808081cf": {
     "playerId": "se_player_rasmus_solver_808081cf",

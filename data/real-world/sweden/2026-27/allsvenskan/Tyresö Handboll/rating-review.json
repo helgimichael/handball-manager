@@ -26,8 +26,8 @@
   },
   "se_player_marvin_barrett_8d02e65e": {
     "status": "LOCKED",
-    "updatedAt": "2026-08-30T15:46:28.775Z",
-    "note": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
+    "updatedAt": "2026-11-06T08:11:23.549Z",
+    "note": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW) | HM-MILESTONE-6: calibrated CA 125->131, PA 142->142. Established primary scorer in Allsvenskan (131 goals in 26 matches, 5.0 gpg). Upgraded from 125 to starting tier 131."
   },
   "se_player_andreas_lagerstrom_32dc9ce4": {
     "status": "LOCKED",
@@ -98,5 +98,10 @@
     "status": "LOCKED",
     "updatedAt": "2026-08-30T15:46:29.982Z",
     "note": "ALLSV_rating_import_candidates_v0.13 Allsvenskan final import (261/261, individually researched, 0 REVIEW)"
+  },
+  "se_player_ludde_nystrom_5250f25e": {
+    "status": "LOCKED",
+    "updatedAt": "2026-11-06T08:11:23.658Z",
+    "note": "HM-MILESTONE-6: calibrated CA 119->125, PA 133->133. Proven regular goalscorer in Allsvenskan (110 goals in 25 matches, 4.4 gpg). Calibrated from reserve level (119) to solid contributor (125)."
   }
 }

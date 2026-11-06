@@ -4546,11 +4546,11 @@
     "clubId": "se_club_lugi_hf",
     "position": "H6",
     "ca": {
-      "value": 124,
+      "value": 128,
       "confidence": "HIGH",
       "plausibleRange": {
-        "min": 124,
-        "max": 124
+        "min": 128,
+        "max": 128
       },
       "source": "EDITOR_OVERRIDE"
     },
@@ -4800,8 +4800,8 @@
     "defenceRoleProficiencies": [],
     "caEstimationModelVersion": "HM-RATINGS-0.5-v1",
     "attributeGenerationModelVersion": "HM-RATINGS-0.4-v1",
-    "lockedAt": "2026-08-30T11:18:42.446Z",
-    "lockedNote": "HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW)"
+    "lockedAt": "2026-11-06T08:11:23.080Z",
+    "lockedNote": "HM-MILESTONE-6 (2026-11-06): calibrated CA 124->128, PA 138->138 (unchanged). Previous note: HM_Player_Rating_Research_v2.13 HBL final import (268/268, individually researched, 0 REVIEW). Rationale: Proven Allsvenskan scoring record (110 goals in 26 appearances, 4.2 gpg) earns promotion to Handbollsligan; upgraded from 124 to 128."
   },
   "player_hampus_olsson_c352e73c": {
     "playerId": "player_hampus_olsson_c352e73c",

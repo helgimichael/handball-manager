@@ -50,9 +50,9 @@
     "pa": 132
   },
   "se_player_lowe_knutsson_edd52e78": {
-    "updatedAt": "2026-08-30T15:46:48.675Z",
-    "ca": 138,
-    "pa": 158
+    "ca": 144,
+    "pa": 158,
+    "updatedAt": "2026-11-06T08:11:23.314Z"
   },
   "se_player_edvin_persson_a930b582": {
     "updatedAt": "2026-08-30T15:46:47.051Z",
@@ -85,8 +85,8 @@
     "pa": 114
   },
   "se_player_hugo_lundberg_eef2c0f4": {
+    "updatedAt": "2026-11-05T21:45:41.273Z",
     "ca": 109,
-    "pa": 138,
-    "updatedAt": "2026-11-05T21:45:41.273Z"
+    "pa": 138
   }
 }

@@ -1,8 +1,8 @@
 {
   "player_arvid_noren_b702c6de": {
-    "updatedAt": "2026-08-30T11:17:17.764Z",
-    "ca": 128,
-    "pa": 152
+    "ca": 136,
+    "pa": 152,
+    "updatedAt": "2026-11-06T08:11:24.706Z"
   },
   "player_erik_andersson_b7790e0e": {
     "updatedAt": "2026-08-30T11:17:16.669Z",
@@ -55,9 +55,9 @@
     "pa": 150
   },
   "player_janne_delkvist_adb9dc92": {
+    "updatedAt": "2026-08-30T11:17:45.290Z",
     "ca": 112,
-    "pa": 164,
-    "updatedAt": "2026-08-30T11:17:45.290Z"
+    "pa": 164
   },
   "player_magnus_persson_4822f217": {
     "updatedAt": "2026-08-30T11:14:34.567Z",
