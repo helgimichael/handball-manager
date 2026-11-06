@@ -30,6 +30,8 @@ export interface EditorCatalog {
   clubs: EditorClubEntry[];
 }
 
+export type CatalogClub = EditorClubEntry;
+
 function readJson(filePath: string): unknown {
   return JSON.parse(readDataFile(filePath));
 }

@@ -61,6 +61,7 @@ function createMockEvidence(
     sourceUrl: null,
     sourceDate: "2026-11-05",
     sourceQuality: "OFFICIAL_LEAGUE_STATS",
+    evidenceProvenanceNote: "Synthetic test provenance",
     completenessScore: 0.9,
     verifiedFacts: {
       competition: "se_handbollsligan_herr",
