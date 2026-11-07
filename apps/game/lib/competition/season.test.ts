@@ -7,9 +7,9 @@ import { createNewCareerState } from "../career/newCareer";
 import { snapshotGameplayRatings, snapshotWorldSquads } from "../gameWorld/serverSnapshot";
 import { continueCareerRhythm } from "../career/continueController";
 import { playManagerFixtureLegacy } from "../career/legacy/matchday";
-import { rolloverSeason } from "../career/seasonRollover";
+import { attemptSeasonTransition } from "../career/seasonRollover";
+import { syntheticTransitionCareer } from "../career/seasonTransition.fixtures";
 import type { CareerState } from "../career/types";
-import { CLUBS } from "../game-data";
 import { ALLSVENSKAN, HANDBOLLSLIGAN, KVAL_HBL, SM_SLUTSPEL, SVENSKA_CUPEN } from "./rules";
 import { competitionTable } from "./tables";
 import { tieWins } from "./season";
@@ -94,24 +94,12 @@ test("the season completes only after the postseason, with awards and prize mone
   assert.ok(prize.some((t) => t.label === "SM-guld"), "the champion is paid");
 });
 
-test("rollover applies promotion and relegation and builds both leagues for the new season", () => {
-  const state = finished();
-  const next = rolloverSeason(state);
-  const o = state.seasonOutcome!;
-  // HM-ALPHA3-M10: a club relegated into Division 1 may be placed in the other group to keep the groups even.
-  const division1 = ["se_division1_norra", "se_division1_sodra"];
-  for (const [club, competitionId] of Object.entries(o.nextMembership)) {
-    if (division1.includes(competitionId)) assert.ok(division1.includes(next.competitionMembership![club]!), `${club} is in Division 1`);
-    else assert.equal(next.competitionMembership![club], competitionId);
-  }
-  const groupSize = (g: string) => CLUBS.filter((c) => (next.competitionMembership![c.id] ?? c.competitionId) === g).length;
-  assert.ok(Math.abs(groupSize(division1[0]!) - groupSize(division1[1]!)) <= 1, "Division 1 groups stay even");
-  for (const c of [HANDBOLLSLIGAN, ALLSVENSKAN]) {
-    const clubs = new Set(next.fixtures.filter((f) => f.competitionId === c).flatMap((f) => [f.homeClubId, f.awayClubId]));
-    assert.equal(clubs.size, 14, `${c} still has 14 clubs`);
-  }
-  for (const id of o.promoted.filter((id) => o.nextMembership[id] === HANDBOLLSLIGAN)) assert.ok(next.fixtures.some((f) => f.competitionId === HANDBOLLSLIGAN && (f.homeClubId === id || f.awayClubId === id)), `${id} plays in HBL`);
-  assert.equal(next.seasonHistory!.at(-1)!.outcome?.champion, o.champion);
-  assert.equal(next.seasonOutcome!.phase, "REGULAR");
-  assert.equal(new Set(next.fixtures.map((f) => f.id)).size, next.fixtures.length);
+test("legacy postseason outcome cannot bypass the atomic readiness gate", () => {
+  const state = syntheticTransitionCareer();
+  state.seasonOutcome!.nextMembership = { [state.playerClubId]: HANDBOLLSLIGAN };
+  const result = attemptSeasonTransition(state);
+  assert.equal(result.status, "BLOCKED");
+  assert.equal(result.state, state);
+  assert.ok(result.blockers.some(b => b.code === "MISSING_STANDINGS"));
+  assert.ok(result.blockers.some(b => b.code === "NEXT_SEASON_PROFILE_REQUIRED"));
 });

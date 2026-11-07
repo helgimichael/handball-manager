@@ -1,4 +1,4 @@
-// M1.2A verified ordinary sporting rules only. This package is NOT used by live rollover.
+// M1.2A verified ordinary sporting rules only. Live rollover preserves every readiness limitation.
 import type { CompetitionRules, EntryRule, Evidence, QualificationStage, StageEntrant } from "./types";
 
 export const SWEDISH_LEAGUES = {

@@ -45,12 +45,12 @@ export function ensureSeasonCalendar(state: CareerState): CareerState {
   return next;
 }
 
-/** A complete, fresh calendar for a new season after rollover: both leagues from the new membership, then the cup. */
-export function buildNewSeasonCalendar(state: CareerState, kickoff: string): CareerState {
+/** Build the explicitly validated league set; the cup follows through the existing daily calendar flow. */
+export function buildNewSeasonCalendar(state: CareerState, kickoff: string, affectedCompetitions?: readonly string[]): CareerState {
   const year = state.seasonId.slice(0, 4);
   // The manager's own league is always played -- including a Division 1 group after relegation (simulated as a league; see rules.ts).
-  const competitions = [...new Set([HANDBOLLSLIGAN, ALLSVENSKAN, state.competitionId])];
-  const fixtures = competitions.flatMap((c) => (competitionClubIds(state, c).length >= 4 ? leagueFixtures(state, c, kickoff, `${year}-`, false) : []));
+  const competitions = [...new Set(affectedCompetitions ?? [HANDBOLLSLIGAN, ALLSVENSKAN, state.competitionId])];
+  const fixtures = competitions.flatMap((c) => (affectedCompetitions || competitionClubIds(state, c).length >= 4 ? leagueFixtures(state, c, kickoff, `${year}-`, false) : []));
   const next: CareerState = { ...state, fixtures, competitionTies: {} };
   return { ...next, seasonOutcome: newSeasonOutcome(next) };
 }
