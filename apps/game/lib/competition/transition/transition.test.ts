@@ -6,7 +6,8 @@ import { planCompetitionTransition } from "./planner";
 import { canonicalCompetitionClubs, snapshotCompetitionTransitionInput } from "./careerSnapshot";
 import { SWEDISH_2026_RULES as rules, SWEDISH_FAMILIES as F, SWEDISH_LEAGUES as L } from "./sweden2026";
 import { rankCompletedTable } from "./ranking";
-import type { KnownQualificationResult, LeagueTableInput, PlannerInput, Standing } from "./types";
+import type { KnownQualificationResult, LeagueTableInput, PlannerInput, QualificationFixture, Standing } from "./types";
+import { previewSeasonTransition } from "./preview";
 import type { CareerState } from "../../career/types";
 
 function syntheticSeason(): PlannerInput {
@@ -338,4 +339,204 @@ test("unsupported graph policies, ambiguous decisions, unknown identities and co
     [{ ...base,standings:base.standings.map((t,i) => i ? t : { ...t,mutualResults:t.mutualResults!.map((g,j) => j ? g : { ...g,homeGoals:999 }) }) },"MUTUAL_TOTALS_MISMATCH"],
   ];
   for (const [input,code] of invalid) assert.ok(dep(planCompetitionTransition(input),code),code);
+});
+
+function completedFixtures(q: KnownQualificationResult): QualificationFixture[] {
+  const s=rules.stages.find((s) => s.id === q.stageId)!;
+  assert.ok(s.homeOrder,"Fixture helper only generates verified home patterns");
+  const games=s.format === "BEST_OF_5" ? 3 : 2;
+  return Array.from({ length:games },(_,i) => {
+    const homeClubId=q.participants[s.homeOrder![i]!]!,awayClubId=q.participants[1-s.homeOrder![i]!]!;
+    return { id:`${q.stageId}:game:${i+1}`,stageId:q.stageId,seasonId:rules.seasonId,game:i+1,homeClubId,awayClubId,
+      result:{ homeGoals:homeClubId === q.winnerClubId ? 30 : 20,awayGoals:awayClubId === q.winnerClubId ? 30 : 20,origin:"CAREER_SIMULATED",evidence:"Synthetic completed fixture; not a real-world outcome" } };
+  });
+}
+
+test("completed fixture scores resolve top-tier qualification feeds and membership movements", () => {
+  const base=syntheticSeason();
+  const results=topResults(base).map((q) => ["hbl-11","ha-final-11"].includes(q.stageId) ? { ...q,winnerClubId:q.participants[1] } : q);
+  const qualificationFixtures=results.flatMap(completedFixtures);
+  const input=freeze({ ...base,qualificationFixtures }),before=JSON.stringify(input);
+  const plan=planCompetitionTransition(input);
+  assert.ok(plan.qualification.slice(0,7).every((q) => q.status === "CONFIRMED" && q.resolutionMethod === "FIXTURES"));
+  assert.ok(plan.qualificationMovements.some((c) => c.clubId === at(base,L.allsvenskan,4) && c.toFamilyId === F.hbl));
+  assert.ok(plan.qualificationMovements.some((c) => c.clubId === at(base,L.hbl,11) && c.toFamilyId === F.allsvenskan));
+  assert.ok(plan.qualificationMovements.some((c) => c.clubId === at(base,L.norra,2) && c.toFamilyId === F.allsvenskan));
+  assert.ok(plan.remaining.some((c) => c.clubId === at(base,L.allsvenskan,3)));
+  assert.ok(plan.sizes.filter((s) => [F.hbl,F.allsvenskan].includes(s.scopeId as typeof F.hbl)).every((s) => s.status === "VALID" && s.confirmed === 14));
+  assert.equal(new Set([...plan.remaining,...plan.qualificationMovements,...plan.directPromotions,...plan.directRelegations].map((c) => c.clubId)).size,48);
+  assert.equal(JSON.stringify(input),before);
+});
+
+test("partial fixtures keep qualification unresolved and only show outstanding potential games", () => {
+  const base=syntheticSeason(), fixtures=completedFixtures(topResults(base)[0]!).slice(0,2);
+  const plan=planCompetitionTransition({ ...base,qualificationFixtures:fixtures });
+  const stage=plan.qualification[0]!;
+  assert.equal(stage.status,"UNRESOLVED");
+  assert.equal(stage.winnerClubId,undefined);
+  assert.deepEqual(stage.unresolvedFixtures.map((f) => f.game),[3,4,5]);
+  assert.deepEqual(stage.seriesWins,{ [at(base,L.hbl,11)]:2,[at(base,L.allsvenskan,4)]:0 });
+  const gap=planCompetitionTransition({ ...base,qualificationFixtures:[fixtures[1]!] });
+  assert.ok(dep(gap,"QUALIFICATION_FIXTURE_GAP"));
+  assert.equal(gap.qualification[0]!.winnerClubId,undefined);
+});
+
+test("drawn series games require an observed decider instead of a guessed shoot-out", () => {
+  const base=syntheticSeason(), fixtures=completedFixtures(topResults(base)[0]!);
+  fixtures[0]={ ...fixtures[0]!,result:{ ...fixtures[0]!.result!,homeGoals:25,awayGoals:25 } };
+  const unresolved=planCompetitionTransition({ ...base,qualificationFixtures:fixtures });
+  assert.ok(dep(unresolved,"MATCH_DECIDER_REQUIRED"));
+  assert.equal(unresolved.qualification[0]!.winnerClubId,undefined);
+  fixtures[0]={ ...fixtures[0],result:{ ...fixtures[0].result!,decider:{ winnerClubId:at(base,L.hbl,11),evidence:"Observed synthetic terminal winner" } } };
+  const decided=planCompetitionTransition({ ...base,qualificationFixtures:fixtures });
+  assert.equal(decided.qualification[0]!.winnerClubId,at(base,L.hbl,11));
+  assert.match(decided.qualification[0]!.resultEvidence!,/Observed synthetic terminal winner/);
+});
+
+test("two-leg qualification uses combined points/goals, never away goals, and preserves aggregate ties", () => {
+  const base=completeExternalFixture(), q=base.qualificationResults!.find((q) => q.stageId === "d1-n-pre")!;
+  const fixtures=completedFixtures(q);
+  fixtures[0]={ ...fixtures[0]!,result:{ ...fixtures[0]!.result!,homeGoals:30,awayGoals:29 } };
+  fixtures[1]={ ...fixtures[1]!,result:{ ...fixtures[1]!.result!,homeGoals:31,awayGoals:30 } };
+  const input={ ...base,qualificationResults:[],qualificationFixtures:fixtures };
+  const unresolved=planCompetitionTransition(input);
+  assert.ok(dep(unresolved,"AGGREGATE_DECIDER_REQUIRED"));
+  assert.equal(unresolved.qualification.find((s) => s.stageId === q.stageId)!.winnerClubId,undefined);
+  fixtures[1]={ ...fixtures[1],result:{ ...fixtures[1].result!,decider:{ winnerClubId:q.participants[1],evidence:"Synthetic observed aggregate decider" } } };
+  const decided=planCompetitionTransition({ ...input,qualificationFixtures:fixtures });
+  assert.equal(decided.qualification.find((s) => s.stageId === q.stageId)!.winnerClubId,q.participants[1]);
+  const plain=planCompetitionTransition({ ...input,qualificationFixtures:completedFixtures(q) });
+  assert.equal(plain.qualification.find((s) => s.stageId === q.stageId)!.winnerClubId,q.participants[0]);
+});
+
+test("all supported fixture paths resolve with external evidence while the unverified home path stays blocked", () => {
+  const base=completeExternalFixture(), unresolved=base.qualificationResults!.find((q) => q.stageId === "d1-n-semi-10")!;
+  const qualificationFixtures=base.qualificationResults!.filter((q) => q !== unresolved).flatMap(completedFixtures);
+  const unsupported: QualificationFixture[] = [1,2].map((game) => ({ id:`unverified-home:${game}`,stageId:unresolved.stageId,seasonId:rules.seasonId,game,homeClubId:unresolved.participants[0],awayClubId:unresolved.participants[1],result:{ homeGoals:30,awayGoals:20,origin:"CAREER_SIMULATED",evidence:"Observed scores cannot establish an unverified home policy" } }));
+  const plan=planCompetitionTransition({ ...base,qualificationResults:[],qualificationFixtures:[...qualificationFixtures,...unsupported] });
+  assert.equal(plan.qualification.filter((q) => q.status === "CONFIRMED").length,13);
+  assert.deepEqual(plan.qualification.filter((q) => q.status === "BLOCKED").map((q) => q.stageId),["d1-n-semi-10","d1-n-final"]);
+  assert.ok(dep(plan,"UPSTREAM_QUALIFICATION_BLOCKED"));
+  // Existing evidenced concluded-series input remains compatible; it does not certify the missing home rule.
+  const concluded=planCompetitionTransition({ ...base,qualificationResults:[unresolved],qualificationFixtures });
+  assert.ok(concluded.qualification.every((q) => q.status === "CONFIRMED"));
+  assert.equal(concluded.clubs.length,64);
+  assert.ok(concluded.clubs.every((c) => c.status === "CONFIRMED"));
+  assert.equal(concluded.sizes.find((s) => s.scopeId === F.division1)!.confirmed,24);
+});
+
+test("conflicting winner records, opponents, home order and post-clinch scores block the affected path", () => {
+  const base=syntheticSeason(), q=topResults(base)[0]!, fixtures=completedFixtures(q);
+  const conflict=planCompetitionTransition({ ...base,qualificationResults:[{ ...q,winnerClubId:q.participants[1] }],qualificationFixtures:fixtures });
+  assert.ok(dep(conflict,"QUALIFICATION_RESULT_CONFLICT"));
+  assert.equal(conflict.qualification[0]!.status,"BLOCKED");
+  assert.equal(conflict.qualification[0]!.winnerClubId,undefined);
+  const duplicate=planCompetitionTransition({ ...base,qualificationFixtures:[...fixtures,{ ...fixtures[0]!,id:"another-id-same-game" }] });
+  assert.ok(dep(duplicate,"DUPLICATE_OR_EMPTY_ID"));
+  assert.equal(duplicate.directPromotions.length,0);
+  const wrong=planCompetitionTransition({ ...base,qualificationFixtures:fixtures.map((f,i) => i ? f : { ...f,awayClubId:at(base,L.allsvenskan,5) }) });
+  assert.ok(dep(wrong,"FIXTURE_PARTICIPANTS_MISMATCH"));
+  const home=planCompetitionTransition({ ...base,qualificationFixtures:fixtures.map((f,i) => i ? f : { ...f,homeClubId:f.awayClubId,awayClubId:f.homeClubId }) });
+  assert.ok(dep(home,"QUALIFICATION_HOME_MISMATCH"));
+  const late={ ...fixtures[0]!,id:"too-late",game:4 };
+  const after=planCompetitionTransition({ ...base,qualificationFixtures:[...fixtures,late] });
+  assert.ok(dep(after,"RESULT_AFTER_SERIES_CLINCH"));
+  assert.ok(dep(planCompetitionTransition({ ...base,qualificationFixtures:[...fixtures,{ ...fixtures[2]!,id:"even-later",game:5 }] }),"RESULT_AFTER_SERIES_CLINCH"));
+  const hidden=planCompetitionTransition({ ...base,qualificationResults:[q],qualificationFixtures:fixtures.slice(0,1) });
+  assert.ok(dep(hidden,"RECORDED_RESULT_AWAITS_FIXTURES"));
+  assert.equal(hidden.qualification[0]!.winnerClubId,undefined);
+});
+
+test("fixture evidence cannot bootstrap missing district entrants or source standings", () => {
+  const base=completeExternalFixture(), fixture=completedFixtures(base.qualificationResults!.find((q) => q.stageId === "d1-n-pre")!)[0]!;
+  const plan=planCompetitionTransition({ ...base,qualificationResults:[],externalEntrants:[],qualificationFixtures:[fixture] });
+  assert.ok(dep(plan,"MISSING_EXTERNAL_ENTRANT"));
+  assert.ok(dep(plan,"FIXTURES_AWAIT_ENTRANTS"));
+  assert.equal(plan.qualification.find((s) => s.stageId === fixture.stageId)!.winnerClubId,undefined);
+});
+
+test("season preview lists memberships, incoming/outgoing clubs, waiting clubs and exact readiness blockers", () => {
+  const base=syntheticSeason(), qualificationFixtures=topResults(base).flatMap(completedFixtures);
+  const input=freeze({ ...base,qualificationFixtures }),before=JSON.stringify(input);
+  const preview=previewSeasonTransition(input);
+  const hbl=preview.leagues.find((l) => l.competitionId === L.hbl)!;
+  assert.equal(hbl.currentClubIds.length,14);
+  assert.equal(hbl.confirmedNextClubIds.length,14);
+  assert.equal(hbl.retainedLeagueClubIds.length,13);
+  assert.ok(hbl.confirmedIncoming.some((c) => c.clubId === at(base,L.allsvenskan,1)));
+  assert.ok(hbl.confirmedOutgoing.some((c) => c.clubId === at(base,L.hbl,14)));
+  assert.equal(hbl.awaitingQualificationClubIds.length,0);
+  assert.equal(hbl.membershipReady,true);
+  const n=preview.leagues.find((l) => l.competitionId === L.norra)!;
+  assert.ok(n.awaitingQualificationClubIds.includes(at(base,L.norra,9)));
+  assert.ok(n.familyClubIdsAwaitingAllocation.length > 0);
+  assert.equal(n.missingExternalEntryIds.length,12);
+  assert.equal(n.membershipReady,false);
+  assert.equal(preview.modeledMembershipReady,false);
+  assert.equal(preview.canGenerateNextSeason,false);
+  assert.ok(preview.unresolvedPaths.some((s) => s.stageId === "d1-n-final" && s.status === "BLOCKED"));
+  assert.deepEqual(previewSeasonTransition(input),preview);
+  assert.deepEqual(previewSeasonTransition({ ...input,qualificationFixtures:[...qualificationFixtures].reverse(),standings:[...input.standings].reverse() }),preview);
+  assert.equal(JSON.stringify(input),before);
+});
+
+test("validated modeled memberships are distinct from safe full-season generation", () => {
+  const base=completeExternalFixture(), plan=planCompetitionTransition(base);
+  const assignments=[...plan.directPromotions,...plan.directRelegations,...plan.qualificationMovements,...plan.remaining].filter((c) => c.toFamilyId === F.division1);
+  const input={ ...base,groupAllocations:assignments.map((c,i) => ({ clubId:c.clubId,competitionId:i < 12 ? L.norra : L.sodra,evidence:"Synthetic organizer allocation" })) };
+  const preview=previewSeasonTransition(input);
+  assert.equal(preview.modeledMembershipReady,true);
+  assert.equal(preview.canGenerateNextSeason,false);
+  assert.ok(preview.blockers.some((d) => d.code === "NEXT_SEASON_RULES_UNVERIFIED"));
+  const bad=previewSeasonTransition({ ...input,groupAllocations:input.groupAllocations.map((a) => ({ ...a,competitionId:L.norra })) });
+  assert.equal(bad.modeledMembershipReady,false);
+  assert.ok(bad.blockers.some((d) => d.code === "GROUP_SIZE_MISMATCH"));
+});
+
+test("best-of-five and best-of-three use match wins rather than aggregate goals", () => {
+  const base=syntheticSeason();
+  for (const stageId of ["hbl-11","ha-semi-n"]) {
+    const q=topResults(base).find((q) => q.stageId === stageId)!, stage=rules.stages.find((s) => s.id === stageId)!;
+    const winners=stage.format === "BEST_OF_5" ? [1,0,1,0,1] : [0,1,1];
+    const fixtures: QualificationFixture[]=winners.map((winner,i) => {
+      const host=stage.homeOrder![i]!,homeClubId=q.participants[host]!,awayClubId=q.participants[1-host]!;
+      const margin=winner === 0 ? 20 : 1;
+      return { id:`${stageId}:split:${i+1}`,stageId,seasonId:rules.seasonId,game:i+1,homeClubId,awayClubId,result:{ homeGoals:20+(host === winner ? margin : 0),awayGoals:20+(host !== winner ? margin : 0),origin:"CAREER_SIMULATED",evidence:"Synthetic split series" } };
+    });
+    const decided=planCompetitionTransition({ ...base,qualificationFixtures:fixtures }).qualification.find((q) => q.stageId === stageId)!;
+    assert.equal(decided.winnerClubId,q.participants[1]);
+    assert.equal(decided.completedFixtureIds!.length,winners.length);
+  }
+});
+
+test("unplayed conditional fixtures after a clinch are harmless and remain unchanged in the input", () => {
+  const base=syntheticSeason(), q=topResults(base).find((q) => q.stageId === "ha-semi-n")!, fixtures=completedFixtures(q);
+  const conditional: QualificationFixture={ ...fixtures[1]!,id:"unplayed-third",game:3,result:undefined };
+  const input=freeze({ ...base,qualificationFixtures:[...fixtures,conditional] }),before=JSON.stringify(input);
+  const decided=planCompetitionTransition(input).qualification.find((q) => q.stageId === "ha-semi-n")!;
+  assert.equal(decided.winnerClubId,q.winnerClubId);
+  assert.deepEqual(decided.unresolvedFixtures,[]);
+  assert.equal(JSON.stringify(input),before);
+});
+
+test("invalid fixture seasons, scores and terminal decisions cannot create any sporting claims", () => {
+  const base=syntheticSeason(), f=completedFixtures(topResults(base)[0]!)[0]!;
+  const cases: [QualificationFixture,string][]=[
+    [{ ...f,seasonId:"2027/28" },"INVALID_QUALIFICATION_FIXTURE"],
+    [{ ...f,game:6 },"INVALID_QUALIFICATION_FIXTURE"],
+    [{ ...f,result:{ ...f.result!,homeGoals:-1 } },"INVALID_QUALIFICATION_SCORE"],
+    [{ ...f,result:{ ...f.result!,decider:{ winnerClubId:"unknown-club",evidence:"contradiction" } } },"INVALID_FIXTURE_DECIDER"],
+  ];
+  for (const [fixture,code] of cases) {
+    const plan=planCompetitionTransition({ ...base,qualificationFixtures:[fixture] });
+    assert.equal(plan.status,"BLOCKED"); assert.ok(dep(plan,code)); assert.equal(plan.directPromotions.length,0);
+  }
+});
+
+test("an empty competition model cannot declare a season ready", () => {
+  const base=syntheticSeason();
+  const preview=previewSeasonTransition({ ...base,standings:[],clubs:[],eligibility:[],rules:{ ...rules,leagues:[],families:[],entries:[],stages:[],limitations:[] } });
+  assert.equal(preview.modeledMembershipReady,false);
+  assert.equal(preview.canGenerateNextSeason,false);
+  assert.ok(preview.blockers.some((d) => d.code === "EMPTY_COMPETITION_MODEL"));
 });

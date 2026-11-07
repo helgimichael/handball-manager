@@ -40,6 +40,20 @@ Only affected destinations are withheld: direct moves and unaffected retention c
 
 The SM title tournament does not change league membership and stays in the existing competition engine. This planner covers league movement paths, not title/cup execution. No fixture regeneration, persistence migration or live career mutation is included.
 
+## M1.2C fixture resolution and readiness
+
+Supply `qualificationFixtures` with stage ID, season, game number, canonical opponents and optional observed results. Goals include played extra time; shoot-out throws are separate terminal-winner evidence. Unplayed fixtures omit `result`. The same planner now resolves verified best-of-three/five and two-leg formats, advances its existing graph and validates all resulting memberships/counts.
+
+Fixture evidence must form a completed prefix. Conflicting opponents/home order, duplicate games, invalid scores and games completed after a series clinch are blocked. Drawn deciding games/aggregates require evidenced terminal winners. If fixtures and a winner-only record are supplied together, the fixtures must fully resolve and agree. Pending fixture evidence cannot be hidden behind an attested winner.
+
+[Home-priority verification and exact blocked paths](HOME-PRIORITY.md) records the official findings. The northern N10 semi-off retains its unverified home reference; its final is explicitly blocked upstream. Neither the rule package nor any home advantage was guessed or changed.
+
+`previewSeasonTransition(input)` calls the planner and returns current membership, confirmed incoming/outgoing clubs, retained divisional membership, known next group assignments, clubs awaiting qualification, missing external slots and shared geographic-allocation pools. Unallocated Division 1 clubs are never presented as confirmed entrants in either group.
+
+Per-league `membershipReady` and overall `modeledMembershipReady` mean the modeled participant lists validate. `canGenerateNextSeason` additionally requires no remaining planner dependencies. The current package's administrative, calendar, terminal-method and future-season limitations stay visible; a membership-ready proposal does not authorize rollover. All preview objects are read-only outputs.
+
+Smallest safe live follow-up: add a read-only readiness gate at rollover first. Apply no new memberships while `canGenerateNextSeason` is false. Once all required external/administrative decisions and the next-season profile are supplied and verified, commit the complete membership transaction once, archive the qualification evidence, and generate fixtures from that finalized membership. Do not replace a blocked plan with the legacy strength-selected Division 1 outcome.
+
 ## Run
 
 From `apps/game`:
@@ -48,6 +62,7 @@ From `apps/game`:
 npm run test:competition:planner
 npm run competition:preview
 npm run competition:preview -- --full
+npm run competition:preview -- --unresolved
 ```
 
-The developer preview uses deterministic **synthetic** completed seasons and explicit synthetic eligibility on current canonical IDs. It leaves all qualification results and district entrants unknown. Fully supplied external-provider test cases use isolated `fixture-only:*` identities in tests; they are never added to production data.
+The developer preview uses deterministic **synthetic** completed seasons and explicit synthetic eligibility on current canonical IDs. By default it supplies completed fixtures for the seven HBL/HA qualification stages; `--unresolved` omits those fixtures. District entrants remain unknown. Fully supplied external-provider test cases use isolated `fixture-only:*` identities in tests; they are never added to production data.

@@ -17,7 +17,7 @@ export function canonicalCompetitionClubs(): PlannerInput["clubs"] {
  */
 export function snapshotCompetitionTransitionInput(
   state: Pick<CareerState, "seasonId" | "competitionMembership" | "fixtures" | "results">,
-  evidence: Pick<PlannerInput, "eligibility" | "qualificationResults" | "externalEntrants" | "groupAllocations"> = {},
+  evidence: Pick<PlannerInput, "eligibility" | "qualificationResults" | "qualificationFixtures" | "externalEntrants" | "groupAllocations"> = {},
   rules: CompetitionRules = SWEDISH_2026_RULES,
 ): PlannerInput {
   return {

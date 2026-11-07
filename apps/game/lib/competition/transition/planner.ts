@@ -1,5 +1,6 @@
 import { rankCompletedTable } from "./ranking";
 import { validatePlannerInput } from "./validation";
+import { resolveQualificationFixtures } from "./qualificationFixtures";
 import type { Dependency, EntryRule, EntrySelection, MovementClaim, PlannerInput, RankGroup, StageProposal, TransitionProposal } from "./types";
 
 const alphabetical = (a: string, b: string) => a < b ? -1 : a > b ? 1 : 0;
@@ -191,14 +192,25 @@ export function planCompetitionTransition(input: PlannerInput): TransitionPropos
       else if (ranks[1] < ranks[0]) homeOrder = homeOrder?.map((i) => i === 0 ? 1 : 0) ?? null;
     }
     const recorded = input.qualificationResults?.find((q) => q.stageId === s.id);
-    let result: typeof recorded;
+    const hasFixtures = input.qualificationFixtures?.some((f) => f.stageId === s.id) ?? false;
+    const entrantsReady = participants.every((p) => p.ready);
+    const fixtureResolution = hasFixtures && entrantsReady ? resolveQualificationFixtures(input,s,ids as string[],homeOrder) : undefined;
+    for (const d of fixtureResolution?.dependencies ?? []) issue(d.code,d.ref,d.message,d.status);
+    if (hasFixtures && !entrantsReady) issue("FIXTURES_AWAIT_ENTRANTS",s.id,"Fixture scores cannot establish missing entrants or bypass unresolved qualification feeds/eligibility.");
+    for (const feed of s.entrants) if (feed.kind === "WINNER" && qualification.find((q) => q.stageId === feed.stageId)?.status === "BLOCKED") issue("UPSTREAM_QUALIFICATION_BLOCKED",s.id,`Required winner feed ${feed.stageId} is blocked.`,"BLOCKED");
+    let result: { winnerClubId: string; evidence: string } | undefined;
     if (recorded && participants.every((p) => p.ready)) {
       if (ids[0] === ids[1] || !recorded.participants.every((id) => ids.includes(id))) issue("RESULT_PARTICIPANTS_MISMATCH", s.id, "Recorded result does not match the entrants selected by this season's graph.", "BLOCKED");
-      else result = recorded;
+      else if (!hasFixtures) result = recorded;
+      else if (fixtureResolution?.winnerClubId && fixtureResolution.winnerClubId !== recorded.winnerClubId) issue("QUALIFICATION_RESULT_CONFLICT",s.id,"Recorded series winner contradicts supplied completed fixture results.","BLOCKED");
+      else if (!fixtureResolution?.winnerClubId) issue("RECORDED_RESULT_AWAITS_FIXTURES",s.id,"Supplied fixture evidence must resolve completely; a winner-only record cannot hide missing or undecided fixtures.");
     } else if (recorded) issue("RESULT_AWAITS_ENTRANTS", s.id, "A recorded winner cannot bypass a missing source table, qualification feed or eligibility decision.");
+    if (fixtureResolution?.winnerClubId) result = { winnerClubId:fixtureResolution.winnerClubId,evidence:fixtureResolution.evidence! };
+    if (dependencies.some((d) => d.ref === s.id && d.status === "BLOCKED")) result = undefined;
+    const fixtureDetails = hasFixtures ? { completedFixtureIds:fixtureResolution?.completedFixtureIds ?? [],seriesWins:fixtureResolution?.seriesWins } : {};
     if (result) {
       const loserClubId = ids.find((id) => id !== result.winnerClubId)!;
-      qualification.push({ stageId: s.id, status: "CONFIRMED", participants: ids, winnerClubId: result.winnerClubId, loserClubId, resultEvidence: result.evidence, format: s.format, source: { ...s.source }, unresolvedFixtures: [] });
+      qualification.push({ stageId: s.id, status: "CONFIRMED", participants: ids, winnerClubId: result.winnerClubId, loserClubId, resultEvidence: result.evidence, resolutionMethod:hasFixtures ? "FIXTURES" : "RECORDED_RESULT",...fixtureDetails,format: s.format, source: { ...s.source }, unresolvedFixtures: [] });
       if (s.winnerFamilyId) addClaim(result.winnerClubId,s.winnerFamilyId,s.id,s.source);
       if (s.loserFamilyId) addClaim(loserClubId,s.loserFamilyId,s.id,s.source);
     } else {
@@ -206,7 +218,7 @@ export function planCompetitionTransition(input: PlannerInput): TransitionPropos
       if (!homeOrder) issue("HOME_PRIORITY_UNVERIFIED", s.id, "Home reference is unverified or the actual source ranks do not establish a better finisher. Home fixtures cannot be assigned.", "BLOCKED");
       stageFamilyIds(s.id).forEach((id) => pendingFamilies.add(id));
       const games = s.format === "BEST_OF_5" ? 5 : s.format === "BEST_OF_3" ? 3 : 2;
-      qualification.push({ stageId: s.id, status: dependencies.some((d) => d.ref === s.id && d.status === "BLOCKED") ? "BLOCKED" : "UNRESOLVED", participants: ids, format: s.format, source: { ...s.source }, unresolvedFixtures: Array.from({ length: games }, (_,i) => ({ game: i+1, homeClubId: homeOrder ? ids[homeOrder[i]!]! : null, awayClubId: homeOrder ? ids[1-homeOrder[i]!]! : null, conditional: s.format !== "TWO_LEG" && i >= Math.ceil(games/2) })) });
+      qualification.push({ stageId: s.id, status: dependencies.some((d) => d.ref === s.id && d.status === "BLOCKED") ? "BLOCKED" : "UNRESOLVED", participants: ids,...fixtureDetails,format: s.format, source: { ...s.source }, unresolvedFixtures: Array.from({ length: games }, (_,i) => ({ game: i+1, homeClubId: homeOrder ? ids[homeOrder[i]!]! : null, awayClubId: homeOrder ? ids[1-homeOrder[i]!]! : null, conditional: s.format !== "TWO_LEG" && i >= Math.ceil(games/2) })).filter((f) => !fixtureResolution?.decidedGames.includes(f.game)) });
     }
   }
 

@@ -103,6 +103,23 @@ export type KnownQualificationResult = {
   readonly origin: "CAREER_SIMULATED" | "OFFICIAL_IMPORTED" | "ADMINISTRATIVE_DECISION";
   readonly evidence: string;
 };
+/** Supplied fixture evidence. Missing result means unplayed; goals include played extra time, not shoot-out throws. */
+export type QualificationFixture = {
+  readonly id: string;
+  readonly stageId: string;
+  readonly seasonId: string;
+  readonly game: number;
+  readonly homeClubId: string;
+  readonly awayClubId: string;
+  readonly result?: {
+    readonly homeGoals: number;
+    readonly awayGoals: number;
+    readonly origin: KnownQualificationResult["origin"];
+    readonly evidence: string;
+    /** Observed terminal decision, not a request to simulate one. */
+    readonly decider?: { readonly winnerClubId: string; readonly evidence: string };
+  };
+};
 export type ExternalEntrant = { readonly slotId: string; readonly clubId: string; readonly evidence: string };
 export type GroupAllocation = { readonly clubId: string; readonly competitionId: string; readonly evidence: string };
 export type PlannerInput = {
@@ -111,6 +128,7 @@ export type PlannerInput = {
   readonly clubs: readonly CanonicalClub[];
   readonly standings: readonly LeagueTableInput[];
   readonly qualificationResults?: readonly KnownQualificationResult[];
+  readonly qualificationFixtures?: readonly QualificationFixture[];
   readonly eligibility?: readonly EligibilityDecision[];
   readonly externalEntrants?: readonly ExternalEntrant[];
   readonly groupAllocations?: readonly GroupAllocation[];
@@ -151,6 +169,9 @@ export type StageProposal = {
   readonly winnerClubId?: string;
   readonly loserClubId?: string;
   readonly resultEvidence?: string;
+  readonly resolutionMethod?: "FIXTURES" | "RECORDED_RESULT";
+  readonly completedFixtureIds?: readonly string[];
+  readonly seriesWins?: Readonly<Record<string, number>>;
   readonly format: QualificationStage["format"];
   readonly source: Evidence;
   /** Potential games, not scheduled fixtures. No dates or results are invented. */

@@ -12,6 +12,7 @@ export function validatePlannerInput(input: PlannerInput): Dependency[] {
     }
   };
   const r = input.rules;
+  if (!r.leagues.length || !r.families.length) fail("EMPTY_COMPETITION_MODEL",r.id,"A transition/readiness proposal needs at least one modeled league and its family.");
   if (input.seasonId !== r.seasonId) fail("SEASON_MISMATCH", input.seasonId, `Rule package governs ${r.seasonId}, not ${input.seasonId}.`);
   if (r.ranking !== "POINTS_GD_GF_MUTUAL_NEUTRAL") fail("UNSUPPORTED_RANKING_POLICY", r.id, "No fallback ranking policy is available.");
   if (!r.id || !r.nextSeasonId || r.nextSeasonId === r.seasonId) fail("INVALID_RULES", r.id, "Rules must identify distinct source and target seasons.");
@@ -139,6 +140,17 @@ export function validatePlannerInput(input: PlannerInput): Dependency[] {
   const results = input.qualificationResults ?? [];
   unique(results.map((q) => q.stageId), "qualification-results");
   for (const q of results) if (!seenStages.has(q.stageId) || q.seasonId !== r.seasonId || q.participants.length !== 2 || new Set(q.participants).size !== 2 || q.participants.some((id) => !clubs.has(id)) || !q.participants.includes(q.winnerClubId) || !q.evidence.trim() || !["CAREER_SIMULATED","OFFICIAL_IMPORTED","ADMINISTRATIVE_DECISION"].includes(q.origin)) fail("INVALID_QUALIFICATION_RESULT", q.stageId, "Result must name a known stage, season, distinct canonical opponents and an evidenced winner.");
+  const fixtures = input.qualificationFixtures ?? [];
+  unique(fixtures.map((f) => f.id),"qualification-fixture-ids");
+  unique(fixtures.map((f) => `${f.stageId}:${f.game}`),"qualification-fixture-games");
+  for (const f of fixtures) {
+    const s = r.stages.find((s) => s.id === f.stageId);
+    const max = s?.format === "BEST_OF_5" ? 5 : s?.format === "BEST_OF_3" ? 3 : 2;
+    if (!s || f.seasonId !== r.seasonId || !Number.isSafeInteger(f.game) || f.game < 1 || f.game > max || f.homeClubId === f.awayClubId || !clubs.has(f.homeClubId) || !clubs.has(f.awayClubId)) fail("INVALID_QUALIFICATION_FIXTURE",f.id,"Fixture must identify a known stage/season, valid game number and distinct canonical opponents.");
+    const result = f.result;
+    if (result && (!Number.isSafeInteger(result.homeGoals) || result.homeGoals < 0 || !Number.isSafeInteger(result.awayGoals) || result.awayGoals < 0 || !result.evidence.trim() || !["CAREER_SIMULATED","OFFICIAL_IMPORTED","ADMINISTRATIVE_DECISION"].includes(result.origin))) fail("INVALID_QUALIFICATION_SCORE",f.id,"Completed fixture scores need nonnegative integer goals, origin and evidence.");
+    if (result?.decider && (![f.homeClubId,f.awayClubId].includes(result.decider.winnerClubId) || !result.decider.evidence.trim())) fail("INVALID_FIXTURE_DECIDER",f.id,"Observed terminal decision needs an opponent winner and evidence.");
+  }
   unique((input.groupAllocations ?? []).map((a) => a.clubId), "group-allocations");
   for (const a of input.groupAllocations ?? []) if (!clubs.has(a.clubId) || !leagues.has(a.competitionId) || !a.evidence.trim()) fail("INVALID_GROUP_ALLOCATION", a.clubId, "Allocation requires a canonical club, modeled target league and evidence.");
   return findings;
