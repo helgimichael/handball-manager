@@ -2,6 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import type { PlayerMock } from '../game-data';
 import type { MatchPlan } from './types';
+import { activeSubstitutionPairs } from './substitutionPairs';
+import { engineTeamMatchPlan } from './engineMatchPlan';
 import {
   deriveTacticalDiff,
   assignDefenderSpecialist,
@@ -22,6 +24,26 @@ const MOCK_PLAYERS: PlayerMock[] = [
   { id: 'def_spec_2', firstName: 'Oscar', lastName: 'Bergendahl', position: 'M6' } as PlayerMock,
   { id: 'def_spec_3', firstName: 'Jesper', lastName: 'Nielsen', position: 'M6' } as PlayerMock,
 ];
+
+test('Alpha hotfix: stale saved pairs and manual starter edits never project one defender into two positions', () => {
+  const base = createSamplePlan();
+  const corrupt = { ...base, substitutionPairs: [
+    { attackPlayerId: 'v9_1', defencePlayerId: 'def_spec_1' },
+    { attackPlayerId: 'm6_1', defencePlayerId: 'def_spec_1' },
+  ] };
+  const saved = JSON.parse(JSON.stringify(corrupt));
+  assert.equal(activeSubstitutionPairs(saved).length, 1);
+  assert.equal(engineTeamMatchPlan(saved, undefined)!.pairs!.length, 1);
+  assert.equal(deriveTacticalDiff(saved, MOCK_PLAYERS).activePairs.length, 1);
+  const promoted = { ...saved, attackStartingUnit: { ...saved.attackStartingUnit, slots: saved.attackStartingUnit.slots.map((s: { playerId: string; position: string }) => s.playerId === 'h9_1' ? { ...s, playerId: 'def_spec_1' } : s) } };
+  assert.equal(activeSubstitutionPairs(promoted).length, 0);
+  assert.equal(engineTeamMatchPlan(promoted, undefined)!.pairs, undefined);
+  const diff = deriveTacticalDiff(promoted, MOCK_PLAYERS);
+  const defenders = [...diff.twoWayPlayers, ...diff.defenceOnlyPlayers].map(p => p.id);
+  assert.equal(defenders.length, 6);
+  assert.equal(new Set(defenders).size, 6);
+  assert.deepEqual(corrupt, saved, 'reading an old plan does not rewrite saved history');
+});
 
 function createSamplePlan(): MatchPlan {
   return {

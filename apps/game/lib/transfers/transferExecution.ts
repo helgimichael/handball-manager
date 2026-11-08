@@ -103,7 +103,7 @@ export function transferPlayerPermanently(state: CareerState, playerId: string, 
   // protects every caller (CPU and human alike), not just the offer
   // layer above it. See progressDailyTransfers for the explicit
   // stale-offer cancellation this guard backs up.
-  if (!player || player.clubId !== fromClubId) return state;
+  if (!player || player.clubId !== fromClubId || fromClubId === toClubId) return state;
 
   let next = ensureCareerWorldSquad(state, fromClubId);
   next = ensureCareerWorldSquad(next, toClubId);

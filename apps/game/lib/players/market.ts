@@ -19,6 +19,7 @@ import { getClub, getClubsByCompetition, getCompetition, positionLabel } from ".
 import { assessTransferAffordability } from "../transfers/affordability";
 import { transferPlayerPermanently } from "../transfers/transferExecution";
 import { isTransferWindowOpen, nextTransferWindowOpenDate } from "../transfers/transferWindow";
+import { activePendingTransferPlayerIds, getActiveLoanForPlayer } from '../transfers/transferIntegration';
 import { addMoraleShock, moraleOf } from "./morale";
 import { breakNotSellPromises } from "./promises";
 import { addDaysIso, caOf, dynamicsEvent, dynamicsOf, hash, managerSquadIds, personalityOf, playerName, type Emit } from "./dynamicsState";
@@ -89,9 +90,11 @@ export function generateIncomingOffers(state: CareerState, date: string, emit: E
   if (open.length >= MAX_OPEN_OFFERS) return state;
   const d = dynamicsOf(state);
   const windowOpen = isTransferWindowOpen(date);
+  const committed = activePendingTransferPlayerIds(state);
   const soon = !windowOpen && nextTransferWindowOpenDate(date) <= addDaysIso(date, 42);
   const top = managerSquadIds(state).map((id) => ({ id, ca: caOf(state, id) })).sort((a, b) => b.ca - a.ca).slice(0, 3).map((x) => x.id);
   const candidates = managerSquadIds(state)
+    .filter(id => !committed.has(id))
     .filter((id) => !open.some((o) => o.playerId === id) && !state.preContracts?.[id] && contractOutlastsCompletion(state, id, date))
     .filter((id) => !Object.values(state.incomingOffers ?? {}).some((o) => o.playerId === id && o.closedOn && addDaysIso(o.closedOn, 30) > date && !d.listings[id]))
     .map((id) => {
@@ -120,6 +123,7 @@ export function generateIncomingOffers(state: CareerState, date: string, emit: E
 
 /** Asks the market for a bid on one player now (a delegated sporting director shopping a listed player around; QA). Same buyer search and bid rules as the weekly market. */
 export function requestBidFor(state: CareerState, playerId: string, date: string, emit: Emit): CareerState {
+  if (!ownsSalePlayer(state, playerId) || activePendingTransferPlayerIds(state).has(playerId)) return state;
   if (Object.values(state.incomingOffers ?? {}).some((o) => o.playerId === playerId && (o.status === "OPEN" || o.status === "COUNTERED"))) return state;
   if (!contractOutlastsCompletion(state, playerId, date)) return state; // HM-ALPHA3-M10: his contract ends first -- clubs wait for him as a free agent.
   const buyer = findBuyer(state, playerId, `${state.saveSeed}:ask:${playerId}:${date}`);
@@ -194,7 +198,9 @@ export function playerStance(state: CareerState, offer: IncomingOffer): { willin
 
 export function acceptIncomingOffer(state: CareerState, offerId: string): CareerState {
   const offer = state.incomingOffers?.[offerId];
+  if (offer && ['AWAITING_FINAL_APPROVAL', 'ACCEPTED', 'AWAITING_WINDOW', 'COMPLETED'].includes(offer.status)) return state;
   if (!offer || (offer.status !== "OPEN" && offer.status !== "OFFER_RECEIVED")) throw new Error("Budet är inte längre öppet.");
+  if (!ownsSalePlayer(state, offer.playerId) || activePendingTransferPlayerIds(state, { incomingOfferId: offerId }).has(offer.playerId)) return put(state, { ...offer, status: 'WITHDRAWN', closedOn: state.gameDate });
   return agree(state, offer, offer.feeEur, state.gameDate, () => undefined);
 }
 
@@ -217,11 +223,13 @@ export function counterIncomingOffer(state: CareerState, offerId: string, asking
 
 /** Clubs agree on a fee: the player decides, then final manager approval is required or the sale completes now / when the window opens. */
 function agree(state: CareerState, offer: IncomingOffer, fee: number, date: string, emit: Emit): CareerState {
+  if (!ownsSalePlayer(state, offer.playerId) || activePendingTransferPlayerIds(state, { incomingOfferId: offer.id }).has(offer.playerId)) return put(state, { ...offer, status: 'WITHDRAWN', closedOn: date });
   const stance = playerStance(state, offer);
   if (!stance.willing) {
     emit(buildClubEvent("TRANSFER_OFFER", `offer:${offer.id}:refused`, date, "IMPORTANT", `${playerName(state, offer.playerId)} säger nej till flytten`, stance.reason, [{ route: "TRANSFER_OFFER", offerId: offer.id }], { entityType: "player", entityId: offer.playerId }));
     return put(state, { ...offer, feeEur: fee, status: "PLAYER_REFUSED", playerStance: stance, closedOn: date, answerOn: undefined });
   }
+  offer = { ...offer, agreedOn: date };
 
   const requireApproval = state.requireFinalTransferApproval ?? true;
   if (requireApproval) {
@@ -245,8 +253,10 @@ function agree(state: CareerState, offer: IncomingOffer, fee: number, date: stri
 /** The manager explicitly confirms the sale at the AWAITING_FINAL_APPROVAL stage. */
 export function confirmIncomingSale(state: CareerState, offerId: string): CareerState {
   const offer = state.incomingOffers?.[offerId];
+  if (offer && (offer.status === 'AWAITING_WINDOW' || offer.status === 'COMPLETED')) return state;
   if (!offer || offer.status !== "AWAITING_FINAL_APPROVAL") throw new Error("Affären väntar inte på ditt godkännande.");
   const date = state.gameDate;
+  if (!ownsSalePlayer(state, offer.playerId) || activePendingTransferPlayerIds(state, { incomingOfferId: offerId }).has(offer.playerId)) return put(state, { ...offer, status: 'WITHDRAWN', closedOn: date });
   if (isTransferWindowOpen(date)) {
     return completeSale(state, offerId, date, () => undefined);
   }
@@ -296,19 +306,27 @@ export function withdrawIncomingOffer(state: CareerState, offerId: string): Care
 
 /** The sale itself: fee into the ledger, ownership to the buyer, the player's dynamics closed. */
 export function completeSale(state: CareerState, offerId: string, date: string, emit: Emit): CareerState {
-  const offer = state.incomingOffers![offerId]!;
+  const offer = state.incomingOffers?.[offerId];
+  // Terminal history is immutable, including duplicate records in older saves.
+  if (!offer || !['ACCEPTED', 'AWAITING_FINAL_APPROVAL', 'AWAITING_WINDOW'].includes(offer.status)) return state;
+  if (!isTransferWindowOpen(date) || (offer.completesOn && offer.completesOn > date)) return state;
   const me = state.playerClubId;
-  if (state.playerContracts[offer.playerId]?.clubId !== me) return put(state, { ...offer, status: "WITHDRAWN", closedOn: date });
+  if (!ownsSalePlayer(state, offer.playerId) || offer.fromClubId === me || activePendingTransferPlayerIds(state, { incomingOfferId: offerId }).has(offer.playerId)) return put(state, { ...offer, status: "WITHDRAWN", closedOn: date });
   const name = playerName(state, offer.playerId);
   const buyerName = getClub(offer.fromClubId)?.shortName ?? offer.fromClubId;
-  let next = adjustClubCash(state, me, offer.feeEur, { category: "TRANSFER_FEES", label: `Försäljning: ${name} till ${buyerName}`, date });
+  let next = transferPlayerPermanently(state, offer.playerId, me, offer.fromClubId, offer.wageEurPerMonth, `${seasonEndYear(date) + offer.contractYears}-05-31`);
+  if (next === state) return put(state, { ...offer, status: 'WITHDRAWN', closedOn: date });
+  next = adjustClubCash(next, me, offer.feeEur, { category: "TRANSFER_FEES", label: `Försäljning: ${name} till ${buyerName}`, date });
   if (getClubEconomyBaseline(next, offer.fromClubId)) next = adjustClubCash(next, offer.fromClubId, -offer.feeEur, { category: "TRANSFER_FEES", label: `Köp: ${name}`, date });
   next = breakNotSellPromises(next, offer.playerId, date);
-  next = transferPlayerPermanently(next, offer.playerId, me, offer.fromClubId, offer.wageEurPerMonth, `${seasonEndYear(date) + offer.contractYears}-05-31`);
   next = closePlayerDynamics(next, offer.playerId);
   next = recordDeparture(next, { playerId: offer.playerId, playerName: name, toClubId: offer.fromClubId, date, kind: "SALE", feeEur: offer.feeEur });
   emit(buildClubEvent("TRANSFER_OFFER", `offer:${offer.id}:completed`, date, "IMPORTANT", `${name} är såld till ${buyerName}`, `${formatEur(offer.feeEur)} är bokfört i Ekonomi. ${offer.foreign ? "Han lämnar för utlandet." : ""}`, [{ route: "TRANSFER_OFFER", offerId: offer.id }, { route: "FINANCE", tab: "ledger" }]));
   return put(next, { ...next.incomingOffers![offerId]!, status: "COMPLETED", closedOn: date });
+}
+
+function ownsSalePlayer(state: CareerState, playerId: string): boolean {
+  return state.playerContracts[playerId]?.clubId === state.playerClubId && getCareerPlayer(state, playerId)?.clubId === state.playerClubId && !getActiveLoanForPlayer(state, playerId);
 }
 
 /** Daily: buyer answers to counters, expiries and completions at the window. */
@@ -375,7 +393,7 @@ export function progressPreContracts(state: CareerState, date: string, emit: Emi
     const end = `${date.slice(0, 4)}-05-31`;
     for (const id of managerSquadIds(next)) {
       const c = next.playerContracts[id];
-      if (!c || c.contractEndDate > end || next.preContracts?.[id]) continue;
+      if (!c || c.contractEndDate > end || activePendingTransferPlayerIds(next).has(id)) continue;
       const talks = Object.values(next.renewalTalks ?? {}).some((t) => t.playerId === id && (t.status === "OPEN" || (t.status === "AGREED")));
       const p = personalityOf(next, id);
       const morale = moraleOf(next, id);

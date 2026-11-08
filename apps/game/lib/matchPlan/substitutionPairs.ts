@@ -2,7 +2,21 @@
 // A pair only ever declares coach INTENT -- whether the swap actually
 // succeeds during a real transition is the future Match Engine's job.
 import { matchSquadPlayerIds, type MatchPlanValidationResult } from "./matchSquad";
-import type { MatchSquad, SubstitutionPair } from "./types";
+import type { MatchPlan, MatchSquad, SubstitutionPair } from "./types";
+
+/** Phase exchanges must produce one physical player per slot, even for stale saved pairs. */
+export function activeSubstitutionPairs(plan: MatchPlan): SubstitutionPair[] {
+  const squad = matchSquadPlayerIds(plan.squad);
+  const attackers = new Set(plan.attackStartingUnit.slots.filter(s => s.playerId && s.position !== 'GK').map(s => s.playerId));
+  const starters = new Set(plan.attackStartingUnit.slots.map(s => s.playerId));
+  const used = new Set<string>();
+  return plan.substitutionPairs.filter(pair => {
+    if (!squad.has(pair.attackPlayerId) || !squad.has(pair.defencePlayerId) || !attackers.has(pair.attackPlayerId) || starters.has(pair.defencePlayerId) || used.has(pair.attackPlayerId) || used.has(pair.defencePlayerId)) return false;
+    used.add(pair.attackPlayerId);
+    used.add(pair.defencePlayerId);
+    return true;
+  });
+}
 
 function ok(): MatchPlanValidationResult {
   return { ok: true, errors: [] };

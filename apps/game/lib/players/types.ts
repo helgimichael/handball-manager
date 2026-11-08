@@ -171,6 +171,8 @@ export interface IncomingOffer {
   /** The player's stance on the move (decided when the clubs agree). */
   playerStance?: { willing: boolean; reason: string };
   completesOn?: string;
+  /** Clubs and player agreed; completion/registration is recorded separately in closedOn. */
+  agreedOn?: string;
   closedOn?: string;
 }
 

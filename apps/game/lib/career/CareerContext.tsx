@@ -390,15 +390,20 @@ export function CareerProvider({ children, loadingFallback, initializationErrorF
   }
 
   function updateCareer(update: (state: CareerState) => CareerState) {
-    const nextCareer = update(value!.career);
-    if (nextCareer === value!.career) return;
-    const advancing = nextCareer.productionMatch && value!.career.productionMatch && nextCareer.productionMatch.core.tick !== value!.career.productionMatch.core.tick && nextCareer.productionMatch.core.status === 'RUNNING' && !nextCareer.productionMatch.pausedAtHalf;
-    // Wall time schedules storage only; it never enters the simulation or RNG.
-    if (!advancing || performance.now() - lastMatchAutoSave.current >= 1000) {
-      persistCareerState(value!.save.saveId, nextCareer);
-      lastMatchAutoSave.current = performance.now();
-    }
-    setValue({ save: value!.save, career: nextCareer });
+    // Apply queued decisions to the latest domain state so rapid clicks cannot
+    // execute against the same pre-sale snapshot or overwrite a completed sale.
+    setValue(current => {
+      if (!current) return current;
+      const nextCareer = update(current.career);
+      if (nextCareer === current.career) return current;
+      const advancing = nextCareer.productionMatch && current.career.productionMatch && nextCareer.productionMatch.core.tick !== current.career.productionMatch.core.tick && nextCareer.productionMatch.core.status === 'RUNNING' && !nextCareer.productionMatch.pausedAtHalf;
+      // Wall time schedules storage only; it never enters the simulation or RNG.
+      if (!advancing || performance.now() - lastMatchAutoSave.current >= 1000) {
+        persistCareerState(current.save.saveId, nextCareer);
+        lastMatchAutoSave.current = performance.now();
+      }
+      return { save: current.save, career: nextCareer };
+    });
   }
 
   function markInboxMessageRead(messageId: string) {

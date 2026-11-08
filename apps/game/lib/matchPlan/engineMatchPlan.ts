@@ -7,6 +7,7 @@ import type { Role } from "@handball-manager/handball-engine/src/v2/core/state";
 import { normalizeBaseFormation } from "./defenceFormation";
 import type { DefenceSystemKey, MatchPlan } from "./types";
 import type { TeamRoles } from "../career/teamRoles";
+import { activeSubstitutionPairs } from './substitutionPairs';
 
 export const ENGINE_ROLE_BY_CODE: Readonly<Record<string, Role>> = { V6: "LW", V9: "LB", M9: "CB", H9: "RB", H6: "RW", M6: "P" };
 /** The engine's own default space per attacking role (defence.ts ZONE_BY_ROLE). */
@@ -34,7 +35,7 @@ export function engineTeamMatchPlan(plan: MatchPlan | null | undefined, roles: T
   const squad = new Set(plan.squad.players.map((p) => p.playerId));
   const starters = new Set(plan.attackStartingUnit.slots.map((s) => s.playerId));
   const spaces = effectiveDefenceSpaces(plan);
-  const pairs = plan.substitutionPairs.filter((p) => squad.has(p.attackPlayerId) && squad.has(p.defencePlayerId) && starters.has(p.attackPlayerId) && !starters.has(p.defencePlayerId) && p.attackPlayerId !== p.defencePlayerId)
+  const pairs = activeSubstitutionPairs(plan)
     .map((p) => ({ attackId: p.attackPlayerId, defenceId: p.defencePlayerId }));
   // A defensive specialist takes his partner's space.
   const defenceZones: Record<string, number> = { ...spaces };
