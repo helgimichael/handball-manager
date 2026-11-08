@@ -2,6 +2,7 @@
 import type { PlayerMock } from '../game-data';
 import type { MatchPlan, SubstitutionPair } from './types';
 import { defenceSystemKey, effectiveDefenceSpaces } from './engineMatchPlan';
+import { activeSubstitutionPairs } from './substitutionPairs';
 
 export interface TacticalDiffPlayer {
   id: string;
@@ -88,13 +89,8 @@ export function deriveTacticalDiff(
 
   const attackOutfieldSlots = plan.attackStartingUnit.slots.filter(s => s.position !== 'GK' && s.playerId);
   const attackOutfieldIds = attackOutfieldSlots.map(s => s.playerId);
-  const attackOutfieldSet = new Set(attackOutfieldIds);
 
-  const validPairs = plan.substitutionPairs.filter(p =>
-    attackOutfieldSet.has(p.attackPlayerId) &&
-    p.defencePlayerId &&
-    !attackOutfieldSet.has(p.defencePlayerId)
-  );
+  const validPairs = activeSubstitutionPairs(plan);
 
   const activePairAttackerIds = new Set(validPairs.map(p => p.attackPlayerId));
   const activePairDefenderIds = new Set(validPairs.map(p => p.defencePlayerId));

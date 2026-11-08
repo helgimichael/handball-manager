@@ -156,6 +156,14 @@ export function carriedLineupFor(state: CareerState, fixtureId: string, availabl
   const unavailableIds = source.squad.players.map((p) => p.playerId).filter((id) => !availableIds.has(id));
   let plan = removeUnavailableFromPlan(source, availableIds);
   const replacements: LineupReplacement[] = [];
+  // Defensive starters are already on court in that phase. A specialist is
+  // not an ordinary spare just because he sits out the attacking phase.
+  const attackIds = new Set(source.attackStartingUnit.slots.map(s => s.playerId));
+  const reservedDefenders = new Set([
+    ...source.defenceStartingUnit.courtSlots.filter(s => !attackIds.has(s.playerId)).map(s => s.playerId),
+    ...source.substitutionPairs.map(p => p.defencePlayerId),
+    ...source.playerUsage.filter(u => u.phaseUsage === 'DEFENCE_ONLY').map(u => u.playerId),
+  ]);
   const ca = (id: string) => getCareerPlayerRating(state, id)?.ca ?? 0;
   for (const slot of source.attackStartingUnit.slots) {
     if (!slot.playerId || availableIds.has(slot.playerId)) continue;
@@ -164,12 +172,20 @@ export function carriedLineupFor(state: CareerState, fixtureId: string, availabl
     const code = naturalCode(slot.position);
     const fits = (p: PlayerMock) => (slot.position === "GK" ? p.position === "MV" : p.position !== "MV");
     const rank = (p: PlayerMock) => (inSquad.has(p.id) ? 0 : 3) + (p.position === code ? 0 : p.secondaryPosition === code || p.secondaryPositions?.includes(code) ? 1 : 2);
-    const candidates = available.filter((p) => fits(p) && !starting.has(p.id) && (inSquad.has(p.id) || plan.squad.players.length < MATCH_SQUAD_MAX_PLAYERS))
+    const candidates = available.filter((p) => fits(p) && !starting.has(p.id) && !reservedDefenders.has(p.id) && (inSquad.has(p.id) || plan.squad.players.length < MATCH_SQUAD_MAX_PLAYERS))
       .sort((a, b) => rank(a) - rank(b) || ca(b.id) - ca(a.id) || a.id.localeCompare(b.id));
     const pick = candidates[0];
     if (pick) plan = assignNormalAttackSlot(addPlayerToSquad(plan, pick.id, slot.position), slot.position, pick.id);
     replacements.push({ position: slot.position, outId: slot.playerId, inId: pick?.id ?? null });
   }
+  // Keep an available specialist paired with the real replacement when his
+  // attacking partner was injured; removeUnavailableFromPlan dropped the old pair.
+  plan = { ...plan, substitutionPairs: source.substitutionPairs.flatMap(pair => {
+    const replacement = replacements.find(r => r.outId === pair.attackPlayerId);
+    const attackPlayerId = replacement ? replacement.inId : pair.attackPlayerId;
+    return attackPlayerId && availableIds.has(attackPlayerId) && availableIds.has(pair.defencePlayerId)
+      ? [{ ...pair, attackPlayerId }] : [];
+  }) };
   return { plan: linkDefenceStarters(plan), replacements, unavailableIds };
 }
 

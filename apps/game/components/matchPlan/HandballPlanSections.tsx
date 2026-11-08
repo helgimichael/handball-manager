@@ -7,6 +7,7 @@ import type { CareerState } from "@/lib/career/types";
 import type { PlayerMock } from "@/lib/game-data";
 import type { MatchPlan, Position } from "@/lib/matchPlan/types";
 import { defenceSystemKey, effectiveDefenceSpaces } from "@/lib/matchPlan/engineMatchPlan";
+import { activeSubstitutionPairs } from '@/lib/matchPlan/substitutionPairs';
 import { currentTeamRoles, leadershipOf, MAX_PENALTY_TAKERS, setCaptaincy, setPenaltyTakers, STEADYING_LEADERSHIP } from "@/lib/career/teamRoles";
 import { matchFitnessOf } from "@/lib/players/matchFitness";
 import { PlayerGlyph } from "@/components/game/Identity";
@@ -175,7 +176,8 @@ export function DefenceSection({
   const six = plan.attackStartingUnit.slots.filter((s) => s.position !== "GK" && s.playerId);
   const byId = new Map(squad.map((p) => [p.id, p]));
   const atSpace = (zone: number) => six.find((s) => spaces[s.playerId] === zone)?.playerId ?? "";
-  const partnerOf = (id: string) => plan.substitutionPairs.find((p) => p.attackPlayerId === id)?.defencePlayerId;
+  const pairs = activeSubstitutionPairs(plan);
+  const partnerOf = (id: string) => pairs.find((p) => p.attackPlayerId === id)?.defencePlayerId;
   const assign = (zone: number, playerId: string) =>
     save((current) => {
       const now = effectiveDefenceSpaces(current);

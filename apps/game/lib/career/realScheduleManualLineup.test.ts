@@ -23,8 +23,48 @@ import { linkDefenceStarters } from "../matchPlan/startingUnits";
 import { OUTCOURT_POSITIONS } from "../rating/types";
 import type { CareerState } from "./types";
 import type { MatchPlan } from "../matchPlan/types";
+import { engineTeamMatchPlan } from '../matchPlan/engineMatchPlan';
 
 const SNAPSHOT = new URL("../../../../data/real-world/sweden/2026-27/fixtures/profixio-schedules-2026-10-31.psv", import.meta.url);
+
+test('Alpha hotfix: injury repair reserves the defensive specialist and reports an unresolved slot if nobody else can play', () => {
+  const state = newGameCareer('se_club_ik_savehof', 'se_handbollsligan_herr');
+  const own = state.fixtures.filter(f => f.homeClubId === state.playerClubId || f.awayClubId === state.playerClubId);
+  let first = selectByHand(state, own[0].id);
+  const squad = getCareerSquad(state);
+  const starters = new Set(first.attackStartingUnit.slots.map(s => s.playerId));
+  const specialist = squad.find(p => p.position !== 'MV' && !starters.has(p.id))!;
+  const injured = first.attackStartingUnit.slots.find(s => s.position === specialist.position)!;
+  const partner = first.attackStartingUnit.slots.find(s => s.position !== 'GK' && s.playerId !== injured.playerId)!;
+  first = addPlayerToSquad(first, specialist.id, specialist.position as MatchPlan['squad']['players'][number]['position']);
+  first = { ...first, substitutionPairs: [{ attackPlayerId: partner.playerId, defencePlayerId: specialist.id }], playerUsage: first.playerUsage.map(u => u.playerId === specialist.id ? { ...u, phaseUsage: 'DEFENCE_ONLY' } : u) };
+  const withPlan = { ...state, matchPlans: { [own[0].id]: first } };
+  const available = squad.filter(p => p.id !== injured.playerId && (starters.has(p.id) || p.id === specialist.id));
+  const carried = carriedLineupFor(withPlan, own[1].id, available)!;
+  assert.equal(carried.replacements[0].inId, null, 'a defender already occupying a different defensive slot is not a spare');
+  assert.deepEqual(missingStartingPositions(carried.plan), [injured.position]);
+  assert.ok(!carried.plan.attackStartingUnit.slots.some(s => s.playerId === specialist.id));
+  assert.equal(engineTeamMatchPlan(carried.plan, undefined)!.pairs![0].defenceId, specialist.id);
+  assert.ok(manualLineupIssues(carried.plan, available).length > 0);
+
+  const spare = squad.find(p => p.position !== 'MV' && !starters.has(p.id) && p.id !== specialist.id)!;
+  const repaired = carriedLineupFor(withPlan, own[1].id, [...available, spare])!;
+  assert.equal(repaired.replacements[0].inId, spare.id);
+  assert.deepEqual(manualLineupIssues(repaired.plan, [...available, spare]), []);
+  assert.deepEqual(repaired.plan.substitutionPairs, first.substitutionPairs);
+  const loaded = migrateCareerState(JSON.parse(JSON.stringify({ ...withPlan, matchPlans: { [own[1].id]: repaired.plan } })));
+  assert.deepEqual(loaded.matchPlans[own[1].id], repaired.plan);
+  const session = createProductionSession({ ...loaded, gameDate: own[1].date }, own[1]);
+  assert.equal(new Set(session.core.players.map(p => p.id)).size, session.core.players.length);
+  const defenders = repaired.plan.attackStartingUnit.slots.filter(s => s.position !== 'GK').map(s => s.playerId === partner.playerId ? specialist.id : s.playerId);
+  assert.equal(new Set(defenders).size, 6);
+
+  const partnerUnavailable = squad.filter(p => p.id !== partner.playerId && (starters.has(p.id) || p.id === specialist.id || p.id === spare.id));
+  const partnerRepaired = carriedLineupFor(withPlan, own[1].id, partnerUnavailable)!;
+  assert.equal(partnerRepaired.replacements[0].inId, spare.id);
+  assert.deepEqual(partnerRepaired.plan.substitutionPairs, [{ attackPlayerId: spare.id, defencePlayerId: specialist.id }], 'an injured attacking partner is replaced without losing the specialist');
+  assert.equal(engineTeamMatchPlan(partnerRepaired.plan, undefined)!.pairs![0].defenceId, specialist.id);
+});
 
 function newGameCareer(clubId: string, competitionId: string): CareerState {
   return createNewCareerState(`alpha2-${clubId}`, clubId, snapshotWorldSquads(competitionId), undefined, snapshotGameplayRatings(competitionId), null, "4_WEEKS");

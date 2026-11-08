@@ -52,9 +52,8 @@ function resolveMatchRoleForDecision(state: CareerState, playerId: string): Matc
 /**
  * HM-CPU-SQUAD-BUILDING-1.0B Part 1: "A player must never have more than
  * one unresolved/pending transfer outcome that can later execute."
- * AGREED_AWAITING_WINDOW is the ONE status in this synchronous-resolution
- * model that can still execute later (every other terminal status is
- * already fully resolved) -- exported so callers that rank/filter
+ * Both recruitment offers and incoming sales reserve the canonical player ID;
+ * pre-contract departures reserve it too. Exported so callers that rank/filter
  * candidates BEFORE submitting an offer (e.g. cpuCandidateEvaluation.ts)
  * can avoid wasting a pursuit on a player who would just get blocked
  * here anyway, without this guard itself living only in that one caller.
@@ -74,11 +73,15 @@ export function hasActivePendingTransfer(state: CareerState, playerId: string, p
 }
 
 /** The exact set of playerIds `hasActivePendingTransfer` would return `true` for right now -- the ONE place that scan is expressed, reused by both the default per-call path above and any caller precomputing it once for a loop. */
-export function activePendingTransferPlayerIds(state: CareerState): Set<string> {
+export function activePendingTransferPlayerIds(state: CareerState, exclude: { incomingOfferId?: string } = {}): Set<string> {
   const ids = new Set<string>();
   for (const offer of Object.values(state.transferOffers)) {
     if (offer.status === "AGREED_AWAITING_WINDOW") ids.add(offer.playerId);
   }
+  for (const offer of Object.values(state.incomingOffers ?? {})) {
+    if (offer.id !== exclude.incomingOfferId && ['AWAITING_FINAL_APPROVAL', 'ACCEPTED', 'AWAITING_WINDOW', 'CLUBS_AGREED', 'PLAYER_NEGOTIATING'].includes(offer.status)) ids.add(offer.playerId);
+  }
+  for (const agreement of Object.values(state.preContracts ?? {})) ids.add(agreement.playerId);
   return ids;
 }
 
@@ -267,6 +270,10 @@ export function resolveTransferOffer(
     return finalize("BLOCKED_PENDING_TRANSFER", { clubDecisionReason: "Spelaren har redan en pågående affär som väntar på att slutföras." }, state);
   }
 
+  if (fromClubId === toClubId) {
+    return finalize('REJECTED_BY_CLUB', { clubDecisionReason: 'Spelaren tillhör redan den köpande klubben.' }, state);
+  }
+
   // HM-ALPHA2-05C: `fromClubId` above is the contract OWNER even during a
   // loan, so a permanent bid is always negotiated with (and paid to) the
   // owner. A player already on loan cannot be loaned a second time.
@@ -339,7 +346,9 @@ export function resolveTransferOffer(
   }
 
   if (isTransferWindowOpen(offeredDate)) {
-    let next = transferPlayerPermanently(activeLoan ? endActiveLoan(state, activeLoan) : state, playerId, fromClubId, toClubId, params.newWageEurPerMonth, computeNewContractEndDate(playerId, offeredDate, params.contractYears ?? 3));
+    const ready = activeLoan ? endActiveLoan(state, activeLoan) : state;
+    let next = transferPlayerPermanently(ready, playerId, fromClubId, toClubId, params.newWageEurPerMonth, computeNewContractEndDate(playerId, offeredDate, params.contractYears ?? 3));
+    if (next === ready) return finalize('CANCELLED_STALE', { clubDecisionReason: 'Spelarens klubbtillhörighet har ändrats.' }, state);
     next = payForSigning(next, toClubId, transferFeeEur, trainingCompensationEur, extraSigningCostsEur, playerId, offeredDate);
     if (!isFreeAgent) next = adjustClubCash(next, fromClubId, transferFeeEur, { category: "TRANSFER_FEES", label: transferLabel(next, playerId, "Försäljning"), date: offeredDate });
     next = creditTrainingCompensationClubs(next, trainingComp, offeredDate);
@@ -392,8 +401,14 @@ export function progressDailyTransfers(state: CareerState, date: string): Career
   for (const offer of Object.values(next.transferOffers)) {
     if (offer.status !== "AGREED_AWAITING_WINDOW" || !offer.scheduledCompletionDate) continue;
     if (!isSameOrBefore(offer.scheduledCompletionDate, date)) continue;
+    if (!isTransferWindowOpen(date)) continue;
     const contract = getPlayerContract(next, offer.playerId);
     if (!contract) continue;
+
+    if (contract.clubId !== offer.fromClubId || offer.fromClubId === offer.toClubId) {
+      next = { ...next, transferOffers: { ...next.transferOffers, [offer.id]: { ...offer, status: 'CANCELLED_STALE', resolvedDate: date } } };
+      continue;
+    }
 
     // HM-CPU-SQUAD-BUILDING-1.0B Part 2: never trust the offer's own
     // stored `fromClubId` blindly -- verify the player still canonically
@@ -415,6 +430,7 @@ export function progressDailyTransfers(state: CareerState, date: string): Career
     }
 
     let moved = transferPlayerPermanently(next, offer.playerId, offer.fromClubId, offer.toClubId, offer.newWageEurPerMonth, offer.newContractEndDate);
+    if (moved === next) continue;
     moved = payForSigning(moved, offer.toClubId, offer.transferFeeEur, offer.trainingCompensationEur, signingCostsEur(offer), offer.playerId, date);
     moved = adjustClubCash(moved, offer.fromClubId, offer.transferFeeEur, { category: "TRANSFER_FEES", label: transferLabel(moved, offer.playerId, "Försäljning"), date });
     const player = getCareerPlayer(next, offer.playerId);

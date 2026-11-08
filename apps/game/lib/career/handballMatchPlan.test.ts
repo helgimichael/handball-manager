@@ -75,6 +75,7 @@ test('a real match follows the attack/defence pair, the defensive spaces, the si
     const own = core.players.filter(p => p.team === team);
     for (const p of own) assert.ok(squad.has(p.id), 'only registered players');
     const court = own.filter(p => p.population === 'COURT');
+    assert.equal(new Set(court.map(p => p.id)).size, court.length, 'canonical on-court identities remain unique across exchanges and halves');
     const situation = unitSituation(core as CoreState, team);
     if (situation === 'ATTACK_6V5') { unitTicks++; if (plan.situationUnits!.ATTACK_6V5!.every(e => court.some(p => p.id === e.playerId))) unitComplete++; }
     if (!situation && core.ball.live && court.length === 7) {
