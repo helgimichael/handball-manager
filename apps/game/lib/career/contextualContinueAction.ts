@@ -6,7 +6,7 @@ import { openPressConferences } from '../media/press';
 export type ContinueActionKind =
   | 'ADVANCE_DAY'         // "Fortsätt »"
   | 'PREPARE_MATCH'       // "Förbered match" -> /career/tactics
-  | 'START_MATCH'         // "Starta match" -> /career/match-day/${fixtureId}
+  | 'START_MATCH'         // "Starta match" -> /career/match-preview
   | 'RESUME_MATCH'        // "Återgå till match" -> /career/match-day/${fixtureId}
   | 'PRESS_CONFERENCE'    // "Presskonferens" -> /career/media?tab=press
   | 'DECISION_BLOCKED'    // "Beslut krävs" -> /career/inbox or decision URL
@@ -104,7 +104,13 @@ export function resolveContextualContinueAction(
     !career.results[f.id]
   );
 
-  if (todayFixture) {
+  // A fixture on the displayed date is not ready until the daily tick has
+  // processed that date (including availability/recovery and required events).
+  // In particular FIRST_MATCH careers begin with that first day unprocessed.
+  const matchdayReady = todayFixture && career.careerEvents.some(
+    e => e.id === `MATCHDAY_READY:${todayFixture.id}` && !e.resolved
+  );
+  if (todayFixture && matchdayReady) {
     const oppId = todayFixture.homeClubId === career.playerClubId ? todayFixture.awayClubId : todayFixture.homeClubId;
     const opp = getClub(oppId);
     const lineupReady = isMatchLineupReady(career, todayFixture.id);
@@ -122,8 +128,8 @@ export function resolveContextualContinueAction(
       };
     }
 
-    // Lineup is ready: directly open matchday!
-    const targetHref = `/career/match-day/${todayFixture.id}`;
+    // The preview validates the squad and creates the session; match-day resumes it.
+    const targetHref = '/career/match-preview';
     const isOnRoute = Boolean(pathname && pathname === targetHref);
     return {
       kind: 'START_MATCH',

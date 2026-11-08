@@ -17,10 +17,7 @@
 //    and conflates role tier with availability; this module only reads
 //    it ONCE, as a reasonable starting default, then never again.
 //
-// Reserved for later consumers (contracts, morale, player decisions,
-// playing-time expectations) -- none of those consequences are built
-// yet (Part 3: "Bygg inte dessa konsekvenser ännu"). This pass only
-// establishes the persistent, editable state itself.
+// M1.3A: the existing player dynamics system consumes this role for rolling playing-time expectations.
 import type { PlayerMock } from "../game-data";
 import type { CareerState } from "./types";
 

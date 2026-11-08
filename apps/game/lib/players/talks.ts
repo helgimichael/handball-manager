@@ -5,10 +5,10 @@
 // turn into a transfer request. Nothing here is random: concerns follow
 // from the morale factors.
 import { getCareerClubSquad } from "../career/careerWorld";
-import { SQUAD_STATUS_TIER_LABEL_SV } from "../career/squadStatus";
 import type { CareerState } from "../career/types";
 import { getPlayerMarketValueEur } from "../economy/contractIntegration";
 import { UNHAPPY_MORALE, addMoraleShock, moraleOf } from "./morale";
+import { assessPlayingTime } from "./playingTime";
 import { makePromise } from "./promises";
 import { openRenewalTalks } from "./renewals";
 import { EXPECTED_START_SHARE, addDaysIso, dynamicsEvent, dynamicsOf, managerSquadIds, personalityOf, playerName, tierOf, type Emit } from "./dynamicsState";
@@ -19,21 +19,19 @@ const CONCERN_LAPSE_DAYS = 10;
 
 function concernFor(state: CareerState, playerId: string): { kind: ConcernKind; message: string; options: TalkOption[] } | null {
   const m = dynamicsOf(state).morale[playerId];
+  const time = assessPlayingTime(state,playerId);
+  const priorTime = Object.values(dynamicsOf(state).concerns).filter(c => c.playerId === playerId && c.kind === 'PLAYING_TIME').sort((a,b) => b.raisedOn.localeCompare(a.raisedOn))[0];
+  if ((m?.playingTimeUnmetWeeks ?? 0) >= 3 && time.status === 'UNMET' && (!priorTime || priorTime.playingTimeFixtureId !== time.lastFixtureId)) return {
+    kind:'PLAYING_TIME',message:`Min speltid motsvarar inte min roll. ${time.explanation}`,
+    options:[
+      {id:'EARN_IT',label:'Förklara att han behöver slå sig in',consequence:'Inget löfte. Professionella spelare tar utmaningen; andra blir mer missnöjda. Svaret påverkar moralen i fem veckor, men fortsatt bänkning räknas fortfarande.'},
+      {id:'LISTEN_OFFERS',label:'Lyssna på bud',consequence:'Spelaren transferlistas och får en tillfällig lättnad. Ingen flytt genomförs utan den vanliga transferprocessen.'},
+    ],
+  };
   if (!m || m.moralePct >= 52) return null;
   const worst = [...m.factors].sort((a, b) => a.points - b.points)[0];
   if (!worst || worst.points > -4) return null;
-  const tier = tierOf(state, playerId);
   switch (worst.key) {
-    case "PLAYING_TIME":
-      return {
-        kind: "PLAYING_TIME",
-        message: `Jag är ${SQUAD_STATUS_TIER_LABEL_SV[tier].toLowerCase()} men får knappt starta. Jag behöver spela.`,
-        options: [
-          { id: "PROMISE_TIME", label: "Lova mer speltid", consequence: `Löfte: starta minst ${Math.round(EXPECTED_START_SHARE[tier] * 100)} % av matcherna de närmaste sex veckorna. Moralen stiger nu, men ett brutet löfte svider mer.` },
-          { id: "EARN_IT", label: "Han får slå sig in", consequence: "Professionella spelare tar det som en utmaning; andra blir mer missnöjda." },
-          { id: "LISTEN_OFFERS", label: "Lyssna på bud", consequence: "Spelaren sätts på transferlistan. Han blir lättad, men du kan förlora honom." },
-        ],
-      };
     case "CONTRACT":
       return {
         kind: "CONTRACT",
@@ -82,14 +80,14 @@ export function progressTalks(state: CareerState, date: string, emit: Emit): Car
   let raised = 0;
   for (const playerId of managerSquadIds(next)) {
     const d = dynamicsOf(next);
-    const recent = Object.values(d.concerns).some((c) => c.playerId === playerId && (c.status === "OPEN" || addDaysIso(c.raisedOn, CONCERN_COOLDOWN_DAYS) > date));
+    const recent = Object.values(d.concerns).some((c) => c.playerId === playerId && (c.status === "OPEN" || addDaysIso(c.kind === "PLAYING_TIME" ? c.answeredOn ?? c.raisedOn : c.raisedOn, CONCERN_COOLDOWN_DAYS) > date));
     if (!recent && raised < 2 && d.requests[playerId]?.status !== "OPEN") {
-      const concern = concernFor(next, playerId);
+      const concern = concernFor({...next,gameDate:date}, playerId);
       if (concern) {
-        const c: PlayerConcern = { id: `concern:${playerId}:${date}`, playerId, kind: concern.kind, raisedOn: date, message: concern.message, options: concern.options, status: "OPEN" };
+        const c: PlayerConcern = { id: `concern:${playerId}:${date}`, playerId, kind: concern.kind, raisedOn: date, message: concern.message, options: concern.options, status: "OPEN", ...(concern.kind === "PLAYING_TIME" ? {playingTimeFixtureId:assessPlayingTime(next,playerId,date).lastFixtureId} : {}) };
         next = setConcern(next, c);
         raised++;
-        emit(dynamicsEvent(`concern:${c.id}`, date, "IMPORTANT", `${playerName(next, playerId)} vill prata med dig`, concern.message, playerId));
+        emit(dynamicsEvent(`concern:${c.id}`, date, c.kind === "PLAYING_TIME" ? "ACTION_REQUIRED" : "IMPORTANT", `${playerName(next, playerId)} vill prata med dig`, concern.message, playerId));
       }
     }
     next = maybeTransferRequest(next, playerId, date, emit);
@@ -117,13 +115,17 @@ function maybeTransferRequest(state: CareerState, playerId: string, date: string
 
 function setConcern(state: CareerState, c: PlayerConcern): CareerState {
   const d = dynamicsOf(state);
-  return { ...state, playerDynamics: { ...d, concerns: { ...d.concerns, [c.id]: c } } };
+  const next = { ...state, playerDynamics: { ...d, concerns: { ...d.concerns, [c.id]: c } } };
+  if (c.status === 'OPEN' || c.kind !== 'PLAYING_TIME') return next;
+  const eventId = `PLAYER_DYNAMICS:concern:${c.id}`;
+  return {...next,careerEvents:next.careerEvents.map(e => e.id === eventId ? {...e,resolved:true,requiresAction:false} : e),inbox:next.inbox.map(m => m.careerEventId === eventId ? {...m,resolved:true,actionRequired:false} : m)};
 }
 
 /** The manager answers a player talk. */
 export function answerConcern(state: CareerState, concernId: string, optionId: string): CareerState {
   const c = dynamicsOf(state).concerns[concernId];
   if (!c || c.status !== "OPEN") throw new Error("Samtalet är redan avslutat.");
+  if (c.kind === "PLAYING_TIME" && !managerSquadIds(state).includes(c.playerId)) throw new Error("Spelaren tillhör inte längre din trupp.");
   const option = c.options.find((o) => o.id === optionId);
   if (!option) throw new Error("Okänt svar.");
   const p = personalityOf(state, c.playerId);

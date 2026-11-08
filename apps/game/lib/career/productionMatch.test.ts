@@ -74,6 +74,14 @@ test('real career match: commands, save continuation, exact archive and exactly-
   const frames = archiveFrames(archive);
   assert.ok(frames.length > 1000);
   assert.equal(archive.result.engine, 'V2');
+  const playingTime=done.playerDynamics!.playingTime![archive.fixture.id]!;
+  assert.equal(playingTime.source,'MEASURED');
+  assert.equal(playingTime.clubId,done.playerClubId);
+  for (const [id,sample] of Object.entries(playingTime.players)) {
+    assert.equal(sample.courtMinutes,Math.min(60,archive.load[id]?.minutes ?? 0),'expectations use actual court time, including defensive work');
+  }
+  assert.deepEqual(done.playerDynamics!.playingTime,restored.playerDynamics!.playingTime,'same match evidence after session save/load');
+
   assert.equal(archive.result.homeGoals + archive.result.awayGoals, archive.events.filter(e => e.type === 'GOAL').length);
   assert.equal(archive.result.homeGoals, archive.result.homePlayerContributions.reduce((n, p) => n + p.goals, 0));
   assert.equal(archive.result.awayGoals, archive.result.awayPlayerContributions.reduce((n, p) => n + p.goals, 0));

@@ -279,5 +279,6 @@
   "lib/media/postMatchPress.test.ts",
   "components/court/handballCourtGeometry.test.ts",
   "lib/career/contextualContinueAction.test.ts",
-  "lib/media/pressContinuity.test.ts"
+  "lib/media/pressContinuity.test.ts",
+  "lib/players/playingTime.test.ts"
 ]

@@ -19,7 +19,7 @@ import { getCareerClubSquad, getCareerSquad } from "../careerWorld";
 import { withoutNationalDuty } from "../../nationalTeam/duty";
 import { isManualLineupCareer, resolveManualMatchPlan } from "../manualLineup";
 import { careerEventToInboxMessage } from "../inboxBridge";
-import { computeAttackActiveWindows, computeTeamUsageTrace, resolveMatchUsageTimeline } from "../matchUsageEngine";
+import { computeAttackActiveWindows, computeTeamUsageTrace, computeUsageMinutesReport, resolveMatchUsageTimeline } from "../matchUsageEngine";
 import { applyMatchResultBookkeeping } from "../matchResultApplication";
 import { buildStaminaByPlayerId, computePlayerMatchStrengthAdjustment, resolveClubMatchPlanForFixture } from "../playerMatchStrength";
 import type { MatchPhysicalReport } from "../../matchPlan/physicalModel";
@@ -34,6 +34,7 @@ import { applyMatchInjuryResolution } from "../../medical/injuryIntegration";
 import { isSelectableForMatch } from "../playerStatus";
 import { buildInitialMatchSquad } from "../../matchPlan/careerSquadBridge";
 import { applyMoraleToRatings } from "../../players/morale";
+import { recordPlayingTimeMatch } from "../../players/playingTime";
 import { buildDefaultMatchPlan } from "../../matchPlan/defaultMatchPlan";
 
 export interface PlayManagerFixtureResult {
@@ -378,6 +379,7 @@ export function playManagerFixtureLegacy(state: CareerState): PlayManagerFixture
     inbox,
   };
 
+  if (managerPlan) next = recordPlayingTimeMatch(next,fixture,new Map(computeUsageMinutesReport(managerPlan,managerUsageSeed,managerStaminaByPlayerId).map(p => [p.playerId,p.courtMinutes])), 'USAGE_TIMELINE',state);
   const completedEvent = buildMatchCompletedEvent(fixture.id, fixture.competitionId, state.gameDate);
   if (!next.careerEvents.some((e) => e.id === completedEvent.id)) {
     next = {

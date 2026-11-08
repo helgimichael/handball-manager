@@ -32,6 +32,9 @@ export interface PlayerMoraleState {
   unhappyWeeks: number;
   /** One-off effects (talk outcomes, rejected requests) that fade out by date. */
   shocks?: { points: number; label: string; until: string }[];
+  /** Consecutive evidenced weekly shortfalls; idle weeks never add another strike. */
+  playingTimeUnmetWeeks?: number;
+  playingTimeLastFixtureId?: string;
 }
 
 export type PromiseKind = "PLAYING_TIME" | "SQUAD_ROLE" | "NOT_SELL" | "SIGN_POSITION";
@@ -74,6 +77,8 @@ export interface PlayerConcern {
   options: TalkOption[];
   status: "OPEN" | "ANSWERED" | "LAPSED";
   answeredOn?: string;
+  /** Last eligible match when this playing-time issue was raised (dedup after resolution). */
+  playingTimeFixtureId?: string;
   answer?: string;
   outcome?: string;
 }
@@ -94,6 +99,22 @@ export interface TransferListing {
   reason: "MANAGER" | "TRANSFER_REQUEST";
 }
 
+/** A bounded match fact inside the existing player dynamics state, not a second relationship model. */
+export interface PlayingTimeMatch {
+  fixtureId: string;
+  seasonId: string;
+  clubId: string;
+  date: string;
+  source: 'MEASURED' | 'USAGE_TIMELINE';
+  players: Record<string, {
+    tier: SquadStatusTier;
+    phase: import('../matchPlan/types').PlayerPhaseUsage;
+    available: boolean;
+    expectedMinutes: number;
+    courtMinutes: number;
+  }>;
+}
+
 export interface PlayerDynamicsState {
   morale: Record<string, PlayerMoraleState>;
   promises: Record<string, PlayerPromise>;
@@ -102,6 +123,8 @@ export interface PlayerDynamicsState {
   listings: Record<string, TransferListing>;
   /** Last weekly morale update (ISO date) -- idempotency for the tick. */
   lastWeeklyUpdate?: string;
+  /** Recorded forward only; absent on older saves. Never reconstructed from starts or attacking actions. */
+  playingTime?: Record<string, PlayingTimeMatch>;
   /** Recent departures of the manager's players (sales, releases, pre-contract exits) for Moments and the Transfers page. */
   departures: PlayerDeparture[];
 }

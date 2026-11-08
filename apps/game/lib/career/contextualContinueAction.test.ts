@@ -2,6 +2,17 @@ import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import type { CareerState, CareerFixture } from './types';
 import { resolveContextualContinueAction, isMatchLineupReady } from './contextualContinueAction';
+import { buildMatchdayReadyEvent } from './careerEvents';
+import { createNewCareerState } from './newCareer';
+import { continueCareerRhythm } from './continueController';
+import { startProductionMatch } from './productionMatch';
+import { getCareerSquad } from './careerWorld';
+import { isSelectableForMatch } from './playerStatus';
+import { setMatchPlan } from './matchPlanActions';
+import { migrateCareerState } from './saveMigration';
+import { snapshotWorldSquads, snapshotGameplayRatings } from '../gameWorld/serverSnapshot';
+import { buildDefaultMatchPlan } from '../matchPlan/defaultMatchPlan';
+import { buildInitialMatchSquad } from '../matchPlan/careerSquadBridge';
 
 function createMockState(overrides: Partial<CareerState> = {}): CareerState {
   return {
@@ -51,7 +62,7 @@ describe('Contextual Continue Action Resolution', () => {
       round: 1,
       competitionId: 'swe_allsvenskan',
     };
-    const state = createMockState({ fixtures: [fixture] });
+    const state = createMockState({ fixtures: [fixture], careerEvents: [buildMatchdayReadyEvent(fixture.id, fixture.date)] });
     const action = resolveContextualContinueAction(state);
 
     assert.equal(action.kind, 'PREPARE_MATCH');
@@ -73,6 +84,7 @@ describe('Contextual Continue Action Resolution', () => {
     };
     const state = createMockState({
       fixtures: [fixture],
+      careerEvents: [buildMatchdayReadyEvent(fixture.id, fixture.date)],
       matchPlans: {
         'fix-1': {
           fixtureId: 'fix-1',
@@ -95,7 +107,7 @@ describe('Contextual Continue Action Resolution', () => {
     const action = resolveContextualContinueAction(state);
     assert.equal(action.kind, 'START_MATCH');
     assert.equal(action.label, 'Starta match');
-    assert.equal(action.targetHref, '/career/match-day/fix-1');
+    assert.equal(action.targetHref, '/career/match-preview');
     assert.equal(action.disabled, false);
   });
 
@@ -177,4 +189,56 @@ describe('Contextual Continue Action Resolution', () => {
     assert.equal(action.disabled, true);
     assert.equal(action.targetHref, null);
   });
+});
+
+
+it('FIRST_MATCH Continue processes the first day before lineup preparation and session creation', () => {
+  const initial = createNewCareerState('first-match-readiness', 'swe2-tumba',
+    snapshotWorldSquads('swe-2'), undefined, snapshotGameplayRatings('swe-2'), null, 'FIRST_MATCH');
+  const fixture = initial.fixtures.find(f => f.date === initial.gameDate &&
+    (f.homeClubId === initial.playerClubId || f.awayClubId === initial.playerClubId))!;
+  const planFor = (state: CareerState) => {
+    const available = getCareerSquad(state).filter(p => isSelectableForMatch(state.playerStatuses, p.id));
+    const built = buildDefaultMatchPlan(buildInitialMatchSquad(available, fixture.id, state.playerClubId));
+    assert.ok(built.ok && built.plan);
+    return built.plan;
+  };
+  assert.ok(initial.processedThroughDate < initial.gameDate);
+  assert.equal(resolveContextualContinueAction(initial).kind, 'ADVANCE_DAY');
+  const selectedBeforeTick = setMatchPlan(initial, fixture.id, planFor(initial));
+  assert.equal(resolveContextualContinueAction(selectedBeforeTick).targetHref, null,
+    'even an already selected lineup must not bypass the first daily tick');
+  assert.equal(startProductionMatch(selectedBeforeTick, fixture.id), selectedBeforeTick);
+
+  const tick = continueCareerRhythm(initial);
+  const ready = tick.state;
+  assert.equal(tick.daysProcessed, 1);
+  assert.equal(ready.gameDate, fixture.date);
+  assert.equal(ready.processedThroughDate, fixture.date);
+  assert.equal(ready.careerEvents.filter(e => e.id === `MATCHDAY_READY:${fixture.id}` && !e.resolved).length, 1);
+  assert.equal(resolveContextualContinueAction(ready).kind, 'PREPARE_MATCH');
+  assert.throws(() => startProductionMatch(ready, fixture.id), /Taktik/,
+    'readiness does not bypass the required manual lineup');
+
+  const selected = setMatchPlan(ready, fixture.id, planFor(ready));
+  const starterId = selected.matchPlans[fixture.id].attackStartingUnit.slots[0].playerId;
+  const injured: CareerState = { ...selected, playerStatuses: { ...selected.playerStatuses,
+    [starterId]: { playerId: starterId, availability: 'INJURED' } } };
+  assert.equal(isMatchLineupReady(injured, fixture.id), false);
+  assert.throws(() => startProductionMatch(injured, fixture.id),
+    'an unavailable starter still prevents match creation');
+
+  const loaded = migrateCareerState(JSON.parse(JSON.stringify(selected)));
+  const action = resolveContextualContinueAction(loaded);
+  assert.equal(action.kind, 'START_MATCH');
+  assert.equal(action.targetHref, '/career/match-preview',
+    'the preview validates selection and creates the session; the match-day view only resumes it');
+  const repeat = continueCareerRhythm(loaded);
+  assert.equal(repeat.daysProcessed, 0);
+  assert.equal(repeat.state, loaded);
+  const started = startProductionMatch(loaded, fixture.id);
+  assert.equal(started.productionMatch?.fixture.id, fixture.id);
+  assert.deepEqual(started.playerDynamics, loaded.playerDynamics,
+    'readiness and kickoff do not invent playing-time evidence or change morale');
+  assert.equal(resolveContextualContinueAction(started).kind, 'RESUME_MATCH');
 });

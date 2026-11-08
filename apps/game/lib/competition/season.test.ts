@@ -13,6 +13,7 @@ import { CLUBS } from "../game-data";
 import { ALLSVENSKAN, HANDBOLLSLIGAN, KVAL_HBL, SM_SLUTSPEL, SVENSKA_CUPEN } from "./rules";
 import { competitionTable } from "./tables";
 import { tieWins } from "./season";
+import { answerConcern, openConcerns } from "../players/talks";
 
 function careerAt(clubId = "se_club_ifk_skovde_hk"): CareerState {
   const comps = [HANDBOLLSLIGAN, ALLSVENSKAN, "se_division1_norra", "se_division1_sodra"];
@@ -26,7 +27,11 @@ function playSeason(start: CareerState): CareerState {
   for (let i = 0; i < 3000 && !state.seasonComplete; i++) {
     const { state: next, stopReason } = continueCareerRhythm(state);
     state = next;
-    if (stopReason === "ACTION_REQUIRED" || stopReason === "ACTION_REQUIRED_PENDING") state = playManagerFixtureLegacy(state).state;
+    if (stopReason === "ACTION_REQUIRED" || stopReason === "ACTION_REQUIRED_PENDING") {
+      // M1.3A: the test manager answers the new playing-time decisions before continuing to matchday.
+      for (const concern of openConcerns(state).filter(c => c.kind === 'PLAYING_TIME')) state = answerConcern(state,concern.id,'EARN_IT');
+      state = playManagerFixtureLegacy(state).state;
+    }
   }
   return state;
 }

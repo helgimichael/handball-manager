@@ -4,11 +4,11 @@
 // staff around him -- and moves a few points toward it. No random swings:
 // the same circumstances always give the same morale.
 import { currentTeamRoles, leadershipOf, STEADYING_LEADERSHIP } from "../career/teamRoles";
-import { SQUAD_STATUS_TIER_LABEL_SV } from "../career/squadStatus";
+import { assessPlayingTime } from "./playingTime";
 import type { CareerState } from "../career/types";
 import type { GameplayPlayerRating } from "../gameWorld/gameplayRatingSnapshot";
 import { departmentQuality } from "../staff/organisation";
-import { EXPECTED_START_SHARE, addDaysIso, caOf, dynamicsOf, managerMatchesPlayed, managerSquadIds, personalityOf, startsOf, tierOf } from "./dynamicsState";
+import { addDaysIso, caOf, dynamicsOf, managerMatchesPlayed, managerSquadIds, personalityOf } from "./dynamicsState";
 import type { MoraleFactor, PlayerMoraleState } from "./types";
 
 export const NEUTRAL_MORALE = 70;
@@ -34,18 +34,13 @@ export function moraleLabel(pct: number): string {
 export function moraleFactors(state: CareerState, playerId: string): MoraleFactor[] {
   const out: MoraleFactor[] = [];
   const p = personalityOf(state, playerId);
-  const tier = tierOf(state, playerId);
   const played = managerMatchesPlayed(state);
 
-  // Playing time against the role (needs a few matches before it counts).
-  if (played.length >= 4) {
-    const { starts } = startsOf(state, playerId);
-    const share = starts / played.length;
-    const expected = EXPECTED_START_SHARE[tier];
-    const gap = share - expected;
-    if (gap < -0.15) out.push({ key: "PLAYING_TIME", label: `Startar ${Math.round(share * 100)} % av matcherna, ${SQUAD_STATUS_TIER_LABEL_SV[tier].toLowerCase()} borde starta runt ${Math.round(expected * 100)} %`, points: Math.round(Math.max(-18, gap * 40) * (0.7 + p.ambition / 40)) });
-    else if (gap > 0.15) out.push({ key: "PLAYING_TIME", label: `Får mer speltid än rollen lovar (${Math.round(share * 100)} % starter)`, points: 4 });
-  }
+  const time = assessPlayingTime(state,playerId);
+  if (time.status === 'UNMET') {
+    const deficit = 1-time.courtMinutes/time.expectedMinutes;
+    out.push({key:'PLAYING_TIME',label:time.explanation,points:-Math.round(Math.min(28,24*deficit*(.7+p.ambition/40)))});
+  } else if (time.status === 'EXCEEDED') out.push({key:'PLAYING_TIME',label:time.explanation,points:4});
 
   // Results: points per game in the last five matches.
   const recent = played.slice(-5);
@@ -111,10 +106,15 @@ export function moraleFactors(state: CareerState, playerId: string): MoraleFacto
 /** Weekly update for the manager's squad: target from factors, a bounded step toward it. */
 export function updateMoraleWeekly(state: CareerState, date: string): CareerState {
   const d = dynamicsOf(state);
+  if (d.lastWeeklyUpdate && d.lastWeeklyUpdate >= date) return state;
+  const dated = {...state,gameDate:date};
   const morale: Record<string, PlayerMoraleState> = {};
   for (const id of managerSquadIds(state)) {
     const prev = d.morale[id];
-    const factors = moraleFactors(state, id);
+    const factors = moraleFactors(dated, id);
+    const time = assessPlayingTime(dated,id);
+    const newMatch = time.lastFixtureId !== prev?.playingTimeLastFixtureId;
+    const unmetWeeks = time.status === "UNMET" ? (prev?.playingTimeUnmetWeeks ?? 0) + (newMatch ? 1 : 0) : 0;
     const target = Math.max(5, Math.min(98, NEUTRAL_MORALE + factors.reduce((s, f) => s + f.points, 0)));
     const current = prev?.moralePct ?? NEUTRAL_MORALE;
     const step = Math.max(-WEEKLY_STEP, Math.min(WEEKLY_STEP, target - current));
@@ -124,6 +124,8 @@ export function updateMoraleWeekly(state: CareerState, date: string): CareerStat
       targetPct: Math.round(target),
       factors,
       updatedOn: date,
+      playingTimeUnmetWeeks:unmetWeeks,
+      playingTimeLastFixtureId:time.lastFixtureId,
       unhappyWeeks: next < UNHAPPY_MORALE ? (prev?.unhappyWeeks ?? 0) + 1 : 0,
       shocks: (prev?.shocks ?? []).filter((s) => s.until >= date),
     };

@@ -14,6 +14,7 @@ import { ledger, lossClassOf } from '@handball-manager/handball-engine/src/v2/co
 import { resolveCareerLineup, validateCareerLineup } from './spatialMatch/careerLineup';
 import { buildSpatialMatchInput } from './spatialMatch/spatialCareerMatch';
 import { isManualLineupCareer, manualLineupIssues, resolveManualMatchPlan } from './manualLineup';
+import { recordPlayingTimeMatch } from '../players/playingTime';
 import { applyMatchResultBookkeeping } from './matchResultApplication';
 import { applyKnockoutDecider } from '../competition/season';
 import { checkSeasonComplete, getPlayerFixtureOn } from './calendar';
@@ -311,6 +312,7 @@ export function finalizeProductionMatch(state: CareerState): CareerState {
   const archive: PlayedMatchArchive = { format: 2, fixture: session.fixture, version: session.core.version, behaviorRevision:session.behaviorRevision??MATCH_BEHAVIOR_REVISION, seed: session.core.seed, people: session.people, frameData: encodeFrames(session.frames), events: session.core.events.filter(e => archiveEventTypes.has(e.type)), result, load, tactics: { ...(session.kickoffTactics ? { kickoff: session.kickoffTactics } : {}), final: teamTactics(session.core) } };
   const readyId = `MATCHDAY_READY:${session.fixture.id}`;
   let next: CareerState = { ...state, productionMatch: null, results: { ...state.results, [session.fixture.id]: result }, matchArchives: { ...state.matchArchives, [session.fixture.id]: archive }, clubForm, playerSeasonStats, careerEvents: state.careerEvents.map(e => e.id === readyId ? { ...e, read: true, resolved: true } : e), inbox: state.inbox.map(m => m.id === `msg:${readyId}` ? { ...m, read: true, resolved: true, actionRequired: false } : m), playerPhysicalState: { ...state.playerPhysicalState }, workloadLedger };
+  next = recordPlayingTimeMatch(next,session.fixture,new Map(session.core.players.map(p => [p.id,p.condition.courtMs/60000])), 'MEASURED',state,new Set(session.core.players.filter(p => p.population === 'DISQUALIFIED').map(p => p.id)));
   const managerTeam = session.fixture.homeClubId === state.playerClubId ? 'HOME' : 'AWAY';
   const managerIds = new Set(session.people.filter(p => p.team === managerTeam).map(p => p.id));
   const exposure = new Map<string, { attackExposure: number; defenceExposure: number; goalkeeperExposure: number }>();

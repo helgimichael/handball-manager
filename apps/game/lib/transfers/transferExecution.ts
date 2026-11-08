@@ -12,6 +12,7 @@
 // things are actually club-keyed and need moving: (1) worldSquads
 // membership, (2) gameplayRatings, (3) PlayerContract.clubId/wage.
 import { getClub, getCompetition, type PlayerMock } from "../game-data";
+import { closePlayingTimeConcerns } from "../players/playingTime";
 import { getCareerClubSquad, getCareerPlayer } from "../career/careerWorld";
 import { playerAgeAtDate } from "../development/developmentIntegration";
 import { generateContractEndDate } from "../economy/contractGeneration";
@@ -46,7 +47,8 @@ function moveSquadMembership(state: CareerState, player: PlayerMock, fromClubId:
   const movedPlayer: PlayerMock = { ...player, clubId: toClubId };
   const fromSquad = (state.worldSquads[fromClubId] ?? []).filter((p) => p.id !== player.id);
   const toSquad = [...(state.worldSquads[toClubId] ?? []).filter((p) => p.id !== player.id), movedPlayer];
-  return { ...state, worldSquads: { ...state.worldSquads, [fromClubId]: fromSquad, [toClubId]: toSquad } };
+  const next = { ...state, worldSquads: { ...state.worldSquads, [fromClubId]: fromSquad, [toClubId]: toSquad } };
+  return fromClubId === state.playerClubId && toClubId !== state.playerClubId ? closePlayingTimeConcerns(next,player.id) : next;
 }
 
 /** Moves the player's own GameplayPlayerRating entry (if any) from one club's array to another's -- the rating object itself carries no clubId, only the outer Record key does. */
