@@ -54,6 +54,7 @@ export interface PlayManagerFixtureResult {
  */
 /** Historical regression helper only. Normal career calls playManagerFixture above. */
 export function playManagerFixtureLegacy(state: CareerState): PlayManagerFixtureResult {
+  if (state.managerCareer?.seekingJob) return {state,result:null};
   const fixture = getPlayerFixtureOn(state, state.gameDate);
   if (!fixture) {
     return { state, result: null };

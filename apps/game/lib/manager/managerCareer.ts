@@ -234,11 +234,12 @@ export function declineOffer(state: CareerState, offerId: string): CareerState {
 
 /** The board ends the relationship: the stint closes, reputation drops, and clubs within reach come forward. */
 export function dismissManager(state: CareerState, date: string, reason: string, emit: Emit): CareerState {
+  if (state.managerCareer?.seekingJob) return state;
   let next = ensureManagerCareer(state);
   const clubId = next.playerClubId;
-  next = withCareer(next, (c) => milestone({ ...c, reputation: Math.max(5, c.reputation - 6), stints: c.stints.map((s, i) => (i === c.stints.length - 1 && !s.to ? { ...s, to: date, leftReason: "DISMISSED" } : s)), seekingJob: { since: date, reason: "DISMISSED" } }, { date, kind: "DISMISSED", text: `Sparkad av ${nameOf(clubId)}. ${reason}`, clubId }));
+  next = withCareer(next, (c) => milestone({ ...c, contract:{...c.contract,endDate:date}, reputation: Math.max(5, c.reputation - 6), stints: c.stints.map((s, i) => (i === c.stints.length - 1 && !s.to ? { ...s, to: date, leftReason: "DISMISSED" } : s)), seekingJob: { since: date, reason: "DISMISSED" } }, { date, kind: "DISMISSED", text: `Sparkad av ${nameOf(clubId)}. ${reason}`, clubId }));
   next = offersAfterDismissal(next, date, emit);
-  emit(buildClubEvent("MANAGER_CAREER", `dismissed:${clubId}:${date}`, date, "ACTION_REQUIRED", `${shortOf(clubId)} har sparkat dig`, `${reason} Du leder laget tills en ny klubb är klar – välj bland erbjudandena på jobbmarknaden för att fortsätta.`, [{ route: "JOB_MARKET" }]));
+  emit(buildClubEvent("MANAGER_CAREER", `dismissed:${clubId}:${date}`, date, "ACTION_REQUIRED", `${shortOf(clubId)} har sparkat dig`, `${reason} Du leder inte längre laget – välj bland erbjudandena på jobbmarknaden för att fortsätta.`, [{ route: "JOB_MARKET" }]));
   return next;
 }
 

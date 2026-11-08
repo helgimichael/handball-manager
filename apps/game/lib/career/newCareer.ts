@@ -1,3 +1,6 @@
+import { ensureBoard } from '../board/board';
+import { withEvents } from '../manager/events';
+import type { CareerEvent } from './careerEvents';
 import { displaceIncumbentHeadCoach } from "../staff/headCoachDisplacement";
 import { emptyMatchFitnessLedger, LEGACY_MATCH_FITNESS, PRESEASON_MATCH_FITNESS } from "../players/matchFitness";
 import { generateDoubleRoundRobin } from "@handball-manager/game-simulation";
@@ -273,5 +276,7 @@ export function createNewCareerState(
   // staffRoster is fully resolved (above) so the duplicate-person check
   // has real data to check against.
   // HM-PLAYTEST-01 4.4: the manager takes the head coach's job; the incumbent goes to the staff market.
-  return displaceIncumbentHeadCoach(seedScoutPool(withPartnerships));
+  const events: CareerEvent[] = [];
+  const ready = ensureBoard(displaceIncumbentHeadCoach(seedScoutPool(withPartnerships)),careerStartDate,e => events.push(e));
+  return withEvents(ready,events);
 }

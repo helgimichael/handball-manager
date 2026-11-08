@@ -37,10 +37,24 @@ export interface BoardMeeting {
   verdict: "PLEASED" | "SATISFIED" | "CONCERNED" | "WARNING" | "DISMISSED";
 }
 
+export type BoardPressureStage = 'STABLE' | 'CONCERN' | 'WARNING' | 'CRITICAL' | 'DISMISSAL';
+export interface BoardRecoveryPlan {
+  meetingId: string;
+  agreedOn: string;
+  baseline: { position: number | null; form: number | null; finance: number; overBudget: boolean };
+  status: 'ACTIVE' | 'MET' | 'FAILED';
+  reviewedOn?: string;
+}
+
 export interface BoardState {
+  /** Optional for older saves; reviewed monthly through the existing board tick. */
+  pressureStage?: BoardPressureStage;
+  poorReviews?: number;
+  financialReviews?: number;
+  recoveryPlans?: BoardRecoveryPlan[];
   clubId: string;
   seasonId: string;
-  /** The board's predicted league position at season start (from squad strength). */
+  /** The board's expected season rank, from squad strength, resources and recent competitive status. */
   predictedPosition: number;
   objectives: BoardObjective[];
   /** 0-100. */

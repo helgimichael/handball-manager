@@ -67,6 +67,11 @@ export function resolveContextualContinueAction(
     };
   }
 
+  if (career.managerCareer?.seekingJob) return {kind:'DECISION_BLOCKED',label:'Sök nytt jobb',sublabel:'JOBBMARKNADEN',ariaLabel:'Välj en ny klubb',disabled:false,targetHref:'/career/manager?tab=jobs'};
+
+  const boardDecision = career.careerEvents.find(e => e.type === 'BOARD_UPDATE' && e.requiresAction && !e.resolved);
+  if (boardDecision) return {kind:'DECISION_BLOCKED',label:'Styrelsemöte',sublabel:'SVAR KRÄVS',ariaLabel:boardDecision.subject,disabled:false,targetHref:'/career/board'};
+
   // 2. Season complete
   if (career.seasonComplete) {
     return {

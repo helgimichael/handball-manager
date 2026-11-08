@@ -41,7 +41,7 @@ test("monthly confidence moves at most eight points toward an explained target",
 
 test("after two warnings a confidence below the line means dismissal, explained, with offers and a blocked Continue", () => {
   let s = ensureManagerCareer(ensureBoard(career(), "2026-09-15"));
-  s = { ...s, board: { ...s.board!, confidence: 4, warnings: 2 }, clubFinances: { ...s.clubFinances, [SKOVDE]: { ...s.clubFinances![SKOVDE]!, status: "CRISIS" } } };
+  s = { ...s, board: { ...s.board!, confidence: 4, warnings: 2, pressureStage: "CRITICAL" }, clubFinances: { ...s.clubFinances, [SKOVDE]: { ...s.clubFinances![SKOVDE]!, status: "CRISIS" } } };
   const { events, emit } = collect();
   const next = progressBoard(s, "2026-10-01", emit, (x, reason) => dismissManager(x, "2026-10-01", reason, emit));
   assert.ok(next.board!.confidence < DISMISSAL_LINE);
@@ -136,7 +136,7 @@ test("a manager appointed mid-season is not judged on the matches or youth minut
   const results = { ...s.results };
   for (const f of before) results[f.id] = { homeClubId: f.homeClubId, awayClubId: f.awayClubId, homeGoals: f.homeClubId === SKOVDE ? 20 : 35, awayGoals: f.homeClubId === SKOVDE ? 35 : 20 } as never;
   const appointed = before.at(-1)!.date > "2026-12-01" ? before.at(-1)!.date : "2026-12-01";
-  s = { ...s, results, gameDate: appointed };
+  s = { ...s, results, gameDate: appointed, board: undefined };
   const b = ensureBoard(s, appointed).board!;
   assert.equal(b.since, appointed);
   const factors = confidenceFactors({ ...s, board: b }, b);

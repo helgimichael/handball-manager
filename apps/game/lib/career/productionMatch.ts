@@ -180,7 +180,7 @@ export function createProductionSession(state: CareerState, fixture: CareerFixtu
 }
 
 export function startProductionMatch(state: CareerState, fixtureId?: string, options: { quick?: boolean } = {}): CareerState {
-  if (state.productionMatch) return state;
+  if (state.managerCareer?.seekingJob || state.productionMatch) return state;
   const fixture = fixtureId ? state.fixtures.find(f => f.id === fixtureId) : getPlayerFixtureOn(state, state.gameDate);
   if (!fixture || state.results[fixture.id]) return state;
   if (fixture.date !== state.gameDate || !state.careerEvents.some(e => e.id === `MATCHDAY_READY:${fixture.id}` && !e.resolved)) return state;
