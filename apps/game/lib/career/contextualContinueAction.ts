@@ -70,7 +70,22 @@ export function resolveContextualContinueAction(
   if (career.managerCareer?.seekingJob) return {kind:'DECISION_BLOCKED',label:'Sök nytt jobb',sublabel:'JOBBMARKNADEN',ariaLabel:'Välj en ny klubb',disabled:false,targetHref:'/career/manager?tab=jobs'};
 
   const boardDecision = career.careerEvents.find(e => e.type === 'BOARD_UPDATE' && e.requiresAction && !e.resolved);
-  if (boardDecision) return {kind:'DECISION_BLOCKED',label:'Styrelsemöte',sublabel:'SVAR KRÄVS',ariaLabel:boardDecision.subject,disabled:false,targetHref:'/career/board'};
+  if (boardDecision) return {kind:'DECISION_BLOCKED',label:'Styrelsemöte',sublabel:'SVAR KRÄVS',ariaLabel:boardDecision.subject,blockReason:boardDecision.summary,disabled:false,targetHref:'/career/board'};
+
+  // Required decisions precede optional media and matchday navigation.
+  const pendingAction = career.careerEvents.find(e => e.requiresAction && !e.resolved && e.type !== 'MATCHDAY_READY');
+  if (pendingAction) {
+    return {
+      kind: 'DECISION_BLOCKED',
+      label: 'Beslut krävs',
+      sublabel: 'ÅTGÄRD KRÄVS',
+      ariaLabel: `Beslut krävs: ${pendingAction.subject}`,
+      tooltip: pendingAction.summary,
+      blockReason: pendingAction.summary,
+      disabled: false,
+      targetHref: `/career/inbox?message=${encodeURIComponent(`msg:${pendingAction.id}`)}`,
+    };
+  }
 
   // 2. Season complete
   if (career.seasonComplete) {
@@ -144,21 +159,6 @@ export function resolveContextualContinueAction(
       tooltip: `Matchdag mot ${opp?.name ?? 'motståndaren'}. Klicka för att starta matchen!`,
       disabled: isOnRoute,
       targetHref: isOnRoute ? null : targetHref,
-    };
-  }
-
-  // 5. Mandatory blocking decision (e.g. transfer offer, contract expiry)
-  const pendingAction = career.careerEvents.find(e => e.requiresAction && !e.resolved && e.type !== 'MATCHDAY_READY');
-  if (pendingAction) {
-    return {
-      kind: 'DECISION_BLOCKED',
-      label: 'Beslut krävs',
-      sublabel: 'ÅTGÄRD KRÄVS',
-      ariaLabel: `Beslut krävs: ${pendingAction.subject}`,
-      tooltip: pendingAction.summary,
-      blockReason: pendingAction.summary,
-      disabled: false,
-      targetHref: `/career/inbox?message=${encodeURIComponent(`msg:${pendingAction.id}`)}`,
     };
   }
 

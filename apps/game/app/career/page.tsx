@@ -12,7 +12,7 @@ import { getClubEconomySnapshot } from '@/lib/economy/clubEconomyIntegration';
 import { formatMoney } from '@/lib/economy/currency';
 import { useMoney } from '@/lib/settings/usePreferences';
 import { resolveStatusLabel } from '@/lib/career/playerStatus';
-import { mondayOf, resolveTrainingWeek } from '@/lib/training/trainingSchedule';
+import { WeeklyManagerOverview } from '@/components/game/WeeklyManagerOverview';
 import { categoryLabel } from '@/lib/career/inboxBridge';
 import { ClubLink, PlayerLink } from '@/components/entityLinks';
 import ClubCrest from '@/components/ClubCrest';
@@ -37,7 +37,6 @@ export default function HomePage() {
   const next = getNextPlayerFixture(career);
   const competition = COMPETITIONS.find(c => c.id === career.competitionId);
   const economy = getClubEconomySnapshot(career, club.id);
-  const week = resolveTrainingWeek(career, mondayOf(career.gameDate));
   const messages = [...career.inbox].filter(m => !m.archived).reverse().slice(0, 4);
   const recent = career.fixtures.filter(f => career.results[f.id]).sort((a,b) => b.date.localeCompare(a.date));
   const ownRecent = recent.filter(f => f.homeClubId === club.id || f.awayClubId === club.id).slice(0,3);
@@ -89,7 +88,7 @@ export default function HomePage() {
       <section><div className="game-section-heading"><h2>Senaste avtrycket</h2><Link href="/career/schedule">Matcharkivet →</Link></div>{ownRecent.length ? ownRecent.map(f=>{const result=career.results[f.id];return <Link className="game-recent-score" href={`/career/match-report/${f.id}`} key={f.id}><span>{getClub(f.homeClubId)?.shortName}<br />{getClub(f.awayClubId)?.shortName}<small> · {f.date}</small></span><strong>{result.homeGoals}–{result.awayGoals}</strong></Link>;}) : <EmptyState>Säsongens första avkast väntar. Här följer dina resultat och matchrapporter.</EmptyState>}</section>
     </div><div className="game-home-column">
       <section><div className="game-section-heading"><h2>Från klubben</h2><Link href="/career/inbox">Alla nyheter →</Link></div>{messages.map(m=><article className="game-news-line" key={m.id}><Link href={`/career/inbox?message=${encodeURIComponent(m.id)}`}><small>{categoryLabel(m.category)} · {m.date}{!m.read ? ' · NYTT' : ''}</small><strong>{m.subject}</strong><p>{m.preview}</p></Link></article>)}</section>
-      <section><div className="game-section-heading"><h2>Veckans rytm</h2><Link href="/career/calendar">Kalender →</Link></div>{week.days.filter(d=>d.date>=career.gameDate).map(d=>{ const match = d.dayType==='MATCH' && career.fixtures.some(f=>f.date===d.date && !career.results[f.id] && (f.homeClubId===career.playerClubId || f.awayClubId===career.playerClubId)); return <Link className="game-week-line" href={match ? '/career/match-preview' : `/career/training?week=${encodeURIComponent(week.weekStart)}`} key={d.date}><time>{d.date}</time><strong>{match ? 'MATCHDAG' : d.dayType==='MATCH' ? 'Ingen match' : d.dayType==='REST' ? 'Vila' : d.dayType==='RECOVERY' ? 'Återhämtning' : `${d.sessions.length} träningspass`}</strong></Link>; })}</section>
+      <WeeklyManagerOverview career={career}/>
     </div><div className="game-home-column">
       <section className="game-board-card"><div className="game-section-heading"><h2>Styrelsen</h2><Link href="/career/board">Styrelserummet →</Link></div><MeterBar label="Förtroende" value={board.confidence/100} figure={`${board.confidence} / 100`} tone={board.confidence>=60?'success':board.confidence>=35?'gold':'loss'}/><p>{BOARD_PRESSURE_LABEL[boardPressureStage(board)]} · {board.factors.slice(0,2).map(f=>f.label).join(" · ") || "Styrelsen bedömer utvecklingen månadsvis."}</p><ul>{boardObjectives.slice(0,3).map(o=><li key={o.id}><span>{o.label}</span><span className="tc-pill" data-status={o.status}>{o.status==='ON_TRACK'?'I fas':o.status==='AT_RISK'?'I fara':o.status==='MET'?'Uppfyllt':o.status==='PARTLY_MET'?'Delvis':'Missat'}</span></li>)}</ul></section>
       <section><div className="game-section-heading"><h2>Rivalerna</h2><Link href={`/career/competitions/${career.competitionId}`}>Ligan →</Link></div><table className="hm-table"><thead><tr><th>#</th><th>Klubb</th><th>SM</th><th>P</th></tr></thead><tbody>{table.filter((r,i)=>i<4||r.clubId===club.id).map(r=><tr key={r.clubId} data-highlight={r.clubId===club.id}><td><RankIndicator position={table.indexOf(r)+1}/></td><td><ClubLink clubId={r.clubId}>{getClub(r.clubId)?.shortName ?? r.clubId}</ClubLink></td><td>{r.played}</td><td><strong>{r.points}</strong></td></tr>)}</tbody></table></section>

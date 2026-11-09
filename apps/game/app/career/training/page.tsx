@@ -1,4 +1,5 @@
 "use client";
+import { DAY_TYPE_LABEL, SESSION_TYPE_LABEL } from '@/lib/training/labels';
 import TrainingFeedback from '@/components/manager/TrainingFeedback';
 import Link from "next/link";
 import { clubColorVars, MatchHero, PlayerCell } from "@/components/game/Identity";
@@ -42,28 +43,6 @@ import { REHAB_PHASE_LABELS } from "../../../lib/medical/labels";
 import { abilityStarsFromCA, INDIVIDUAL_DEVELOPMENT_FOCUSES, potentialStarsFromPA, type IndividualDevelopmentFocus } from "../../../lib/development/types";
 import { computeStaffTrainingQuality, eligibleStaffForSession, findHeadCoach, resolveResponsibleCoach, staffQualityLabel } from "../../../lib/staff/roleSuitability";
 
-const DAY_TYPE_LABEL: Record<TrainingDayType, string> = {
-  TRAINING: "Träning",
-  RECOVERY: "Återhämtning",
-  REST: "Vila",
-  MATCH: "Match",
-  TRAVEL: "Resa",
-};
-
-const SESSION_TYPE_LABEL: Record<TrainingSessionType, string> = {
-  TEAM_TACTICAL: "Lagtaktik",
-  ATTACK: "Anfallsspel",
-  DEFENCE: "Försvarsspel",
-  TRANSITION: "Omställning",
-  SPECIAL_PLAY: "Specialspel",
-  TECHNICAL: "Teknik",
-  PHYSICAL: "Fysik",
-  STRENGTH: "Styrka",
-  CONDITIONING: "Kondition",
-  GOALKEEPER: "Målvakt",
-  MATCH_PREPARATION: "Matchförberedelse",
-  RECOVERY: "Återhämtning",
-};
 
 function sessionCategory(type: TrainingSessionType): { label: string; tone: "tactical" | "physical" | "technical" | "recovery" } {
   switch (type) {

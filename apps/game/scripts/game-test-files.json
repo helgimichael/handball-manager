@@ -281,5 +281,6 @@
   "lib/career/contextualContinueAction.test.ts",
   "lib/media/pressContinuity.test.ts",
   "lib/players/playingTime.test.ts",
-  "lib/board/clubCareerPressure.test.ts"
+  "lib/board/clubCareerPressure.test.ts",
+  "lib/career/weeklyManagement.test.ts"
 ]
