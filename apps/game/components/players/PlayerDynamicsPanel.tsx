@@ -10,11 +10,18 @@ import { useCareer } from "@/lib/career/CareerContext";
 import { getClub } from "@/lib/game-data";
 import { useMoney } from "@/lib/settings/usePreferences";
 import { getPlayerMarketValueEur } from "@/lib/economy/contractIntegration";
+import { playerIntentionOf, INTENTION_LABEL } from "@/lib/players/intentions";
 import { dynamicsOf } from "@/lib/players/dynamicsState";
 import { releaseCost, releasePlayer } from "@/lib/players/market";
 import { moraleLabel, moraleOf, NEUTRAL_MORALE } from "@/lib/players/morale";
 import { activePromises, describePromise, PROMISE_KIND_LABEL } from "@/lib/players/promises";
 import { answerConcern, decideTransferRequest, listPlayer, openConcerns, unlistPlayer } from "@/lib/players/talks";
+
+export function PlayerIntentionSummary({ playerId }: { playerId: string }) {
+  const { career } = useCareer();
+  const intention = playerIntentionOf(career, playerId);
+  return <p className="pd-note"><strong>{intention ? INTENTION_LABEL[intention.kind] : 'Avsikt bedöms vid nästa veckogenomgång'}</strong>{intention && <> &middot; {intention.reasons.join(' ')}</>}</p>;
+}
 
 export function MoraleBadge({ playerId }: { playerId: string }) {
   const { career } = useCareer();
@@ -53,6 +60,7 @@ export function PlayerDynamicsPanel({ playerId }: { playerId: string }) {
       ) : <p className="pd-note">Inget särskilt påverkar honom just nu (neutral {NEUTRAL_MORALE} %). Moralen uppdateras varje måndag.</p>}
       <p className="pd-note">Moralen påverkar prestationen i match med högst ±3 %.</p>
 
+      <PlayerIntentionSummary playerId={playerId} />
       {pre && <EventCard tone="loss" eyebrow="Förhandsavtal" title={`Lämnar för ${getClub(pre.toClubId)?.shortName ?? pre.toClubId}`}>{`Han går ${pre.effectiveOn} när avtalet löper ut. Klubben får ingen ersättning.`}</EventCard>}
 
       {concerns.map((c) => (

@@ -17,6 +17,7 @@ import { addMoraleShock, moraleOf } from "./morale";
 import { makePromise } from "./promises";
 import { addDaysIso, ageOf, caOf, dynamicsEvent, dynamicsOf, personalityOf, playerName, tierOf, type Emit } from "./dynamicsState";
 import { formatEur } from "../economy/currency";
+import { intentionRenewalBlocker, intentionWageMultiplier, intentionMinimumWage, INTENTION_LABEL, playerIntentionOf } from "./intentions";
 import type { RenewalTalk } from "./types";
 
 const MAX_ROUNDS = 3;
@@ -36,6 +37,8 @@ export function renewalBlocker(state: CareerState, playerId: string): string | n
   if (state.playerContracts[playerId]?.clubId !== state.playerClubId) return "Spelaren tillhör inte klubben.";
   if (state.preContracts?.[playerId]) return "Han har redan skrivit förhandsavtal med en annan klubb.";
   if (dynamicsOf(state).requests[playerId]?.status === "OPEN") return "Han har begärt att få lämna och vill inte förlänga.";
+  const intentionBlocker = intentionRenewalBlocker(state, playerId);
+  if (intentionBlocker) return intentionBlocker;
   const last = lastTalkFor(state, playerId);
   if (last?.cooldownUntil && last.cooldownUntil > state.gameDate) return `Han vill inte prata förlängning igen före ${last.cooldownUntil}.`;
   if (moraleOf(state, playerId) < 30) return "Han är för missnöjd för att prata förlängning just nu.";
@@ -81,9 +84,11 @@ export function renewalDemand(state: CareerState, playerId: string, promisedRole
     const skill = negotiator?.profile.attributes.NEGOTIATION?.value ?? 10;
     apply(1.04 - ((skill - 1) / 19) * 0.08, `Förhandlas av ${negotiator?.displayName ?? "staben"}`);
   }
+  const intention = playerIntentionOf(state, playerId);
+  if (intention) apply(intentionWageMultiplier(state, playerId), INTENTION_LABEL[intention.kind]);
   const refusesRole = !!promisedRole && rank(promisedRole) - rank(expectedRole) >= 2;
   // Never below what he already earns.
-  return { demandEurPerMonth: Math.max(Math.ceil(contract.wageEurPerMonth / 10) * 10, Math.round(demand / 10) * 10), factors, expectedRole, refusesRole };
+  return { demandEurPerMonth: Math.max(intentionMinimumWage(state,playerId), Math.ceil(contract.wageEurPerMonth / 10) * 10, Math.round(demand / 10) * 10), factors, expectedRole, refusesRole };
 }
 
 export function openRenewalTalks(state: CareerState, playerId: string, by: RenewalTalk["by"]): CareerState {
@@ -112,6 +117,8 @@ export function openRenewalTalks(state: CareerState, playerId: string, by: Renew
 export function submitRenewalOffer(state: CareerState, talkId: string, offer: { wageEurPerMonth: number; years: number; promisedRole?: SquadStatusTier }): CareerState {
   const talk = state.renewalTalks?.[talkId];
   if (!talk || talk.status !== "OPEN") throw new Error("Förhandlingen är inte öppen.");
+  const blocker = renewalBlocker(state, talk.playerId);
+  if (blocker) throw new Error(blocker);
   if (talk.answerOn) throw new Error("Spelaren har inte svarat på förra budet än.");
   if (![1, 2, 3, 4].includes(offer.years)) throw new Error("Välj ett till fyra år.");
   const current = state.playerContracts[talk.playerId]!;
@@ -149,7 +156,9 @@ export function progressRenewalTalks(state: CareerState, date: string, emit: Emi
     const yearsOk = !(age >= 32 && last.offer.years >= 3) || ratio >= 1.05;
     let response: "ACCEPT" | "COUNTER" | "REJECT";
     let reason: string;
-    if (demand.refusesRole) { response = "REJECT"; reason = "Rollen du erbjuder är för liten för honom."; }
+    const blocker = renewalBlocker(next, talk.playerId);
+    if (blocker) { response = "REJECT"; reason = blocker; }
+    else if (demand.refusesRole) { response = "REJECT"; reason = "Rollen du erbjuder är för liten för honom."; }
     else if (ratio >= 1 && yearsOk) { response = "ACCEPT"; reason = "Han accepterar villkoren."; }
     else if (ratio >= 0.88 && roundIdx + 1 < MAX_ROUNDS) { response = "COUNTER"; reason = `Han vill ha ${formatEur(demand.demandEurPerMonth)} i månaden.`; }
     else { response = "REJECT"; reason = ratio < 0.88 ? "Budet ligger för långt från hans krav." : "Han är inte beredd att gå längre ner."; }
@@ -171,7 +180,7 @@ export function progressRenewalTalks(state: CareerState, date: string, emit: Emi
       next = put(next, { ...talk, rounds, answerOn: undefined, demandEurPerMonth: demand.demandEurPerMonth, demandFactors: demand.factors });
       emit(dynamicsEvent(`renewal:${talk.id}:r${roundIdx}`, date, "IMPORTANT", `${name} svarar på förlängningsbudet`, reason, talk.playerId, [{ route: "CONTRACTS" }]));
     } else {
-      const final = roundIdx + 1 >= MAX_ROUNDS || ratio < 0.8 || demand.refusesRole;
+      const final = !!blocker || roundIdx + 1 >= MAX_ROUNDS || ratio < 0.8 || demand.refusesRole;
       next = put(next, { ...talk, rounds, answerOn: undefined, ...(final ? { status: "REFUSED" as const, closedOn: date, cooldownUntil: addDaysIso(date, COOLDOWN_DAYS) } : {}) });
       if (final) next = addMoraleShock(next, talk.playerId, -4, "Förhandlingen sprack", 45);
       emit(dynamicsEvent(`renewal:${talk.id}:r${roundIdx}`, date, "IMPORTANT", final ? `${name} säger nej till förlängning` : `${name} avvisar budet`, `${reason}${final ? ` Han vill inte förhandla igen före ${addDaysIso(date, COOLDOWN_DAYS)}.` : ""}`, talk.playerId, [{ route: "CONTRACTS" }]));

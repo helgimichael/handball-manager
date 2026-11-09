@@ -8,6 +8,7 @@ import { generateIncomingOffers, progressIncomingOffers, progressPreContracts } 
 import { updateMoraleWeekly } from "./morale";
 import { evaluatePromises } from "./promises";
 import { progressRenewalTalks } from "./renewals";
+import { progressPlayerIntentions } from "./intentions";
 import { progressTalks } from "./talks";
 
 export function progressPlayerDynamics(state: CareerState, date: string, emit: Emit): CareerState {
@@ -21,6 +22,7 @@ export function progressPlayerDynamics(state: CareerState, date: string, emit: E
   const monday = new Date(`${date}T00:00:00Z`).getUTCDay() === 1;
   if (!d.lastWeeklyUpdate || (monday && d.lastWeeklyUpdate < date) || addDaysIso(d.lastWeeklyUpdate, 7) <= date) {
     next = updateMoraleWeekly(next, date);
+    next = progressPlayerIntentions(next, date, emit);
     next = progressTalks(next, date, emit);
     next = generateIncomingOffers(next, date, emit);
   }

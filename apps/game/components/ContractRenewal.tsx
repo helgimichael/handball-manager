@@ -2,6 +2,7 @@
 // HM-ALPHA3-M05: contract renewal is a negotiation. The player states a
 // demand with its reasons, answers each offer the next day and can refuse.
 // Used on the player profile and the Contracts page.
+import { PlayerIntentionSummary } from './players/PlayerDynamicsPanel';
 import { useState } from 'react';
 import { useCareer } from '@/lib/career/CareerContext';
 import { SQUAD_STATUS_TIERS, SQUAD_STATUS_TIER_LABEL_SV, type SquadStatusTier } from '@/lib/career/squadStatus';
@@ -31,6 +32,8 @@ export default function ContractRenewal({ playerId }: { playerId: string }) {
 
   return (
     <div className="pd-renewal">
+      <PlayerIntentionSummary playerId={playerId} />
+      {talk && blocker && <p className="pd-note" role="status">{blocker}</p>}
       <strong>Förläng kontrakt</strong>
       {agreedRecently && last && <MomentHero kind="SIGNING" size="compact" headingLevel={2} backdrop={{ kind: 'photo', style: DEAL_SIGNED_BACKDROP }} tags={[last.closedOn!]} headline="Förlängningen är klar" lede={`Nytt avtal till ${contract.contractEndDate}, ${money.format(contract.wageEurPerMonth)} i månaden.`} />}
       {!talk ? (

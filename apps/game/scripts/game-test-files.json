@@ -282,5 +282,6 @@
   "lib/media/pressContinuity.test.ts",
   "lib/players/playingTime.test.ts",
   "lib/board/clubCareerPressure.test.ts",
-  "lib/career/weeklyManagement.test.ts"
+  "lib/career/weeklyManagement.test.ts",
+  "lib/players/intentions.test.ts"
 ]

@@ -81,6 +81,8 @@ export interface PlayerConcern {
   playingTimeFixtureId?: string;
   answer?: string;
   outcome?: string;
+  /** Recorded at the existing manager response; old saves may omit it. */
+  responseEffect?: "POSITIVE" | "NEGATIVE" | "NEUTRAL";
 }
 
 export interface TransferRequest {
@@ -115,8 +117,25 @@ export interface PlayingTimeMatch {
   }>;
 }
 
+export type PlayerIntention = "HAPPY_TO_STAY" | "OPEN_TO_RENEWAL" | "CONSIDERING_OPTIONS" | "WANTS_TO_LEAVE";
+
+/** Weekly, club-scoped memory inside the existing dynamics model. */
+export interface PlayerIntentionState {
+  kind: PlayerIntention;
+  clubId: string;
+  active: boolean;
+  since: string;
+  reviewedOn: string;
+  adverseReviews: number;
+  recoveryReviews: number;
+  lastFixtureId?: string;
+  reasons: string[];
+  history: { date: string; kind: PlayerIntention; reasons: string[] }[];
+}
+
 export interface PlayerDynamicsState {
   morale: Record<string, PlayerMoraleState>;
+  intentions?: Record<string, PlayerIntentionState>;
   promises: Record<string, PlayerPromise>;
   concerns: Record<string, PlayerConcern>;
   requests: Record<string, TransferRequest>;

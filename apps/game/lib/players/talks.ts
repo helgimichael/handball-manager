@@ -106,8 +106,10 @@ function maybeTransferRequest(state: CareerState, playerId: string, date: string
   const p = personalityOf(state, playerId);
   const patience = p.loyalty >= 15 ? 2 : 0;
   const unhappyLongEnough = m.unhappyWeeks >= 4 + patience && m.moralePct < UNHAPPY_MORALE;
-  if (!unhappyLongEnough && broken < 2) return state;
-  const reason = broken >= 2 ? "Klubben har brutit flera löften till honom." : (m.factors.slice().sort((a, b) => a.points - b.points)[0]?.label ?? "Han trivs inte längre.");
+  const intention = d.intentions?.[playerId];
+  const leaving = intention?.active && intention.clubId === state.playerClubId && intention.kind === "WANTS_TO_LEAVE" && intention.adverseReviews >= 6;
+  if (!unhappyLongEnough && broken < 2 && !leaving) return state;
+  const reason = leaving ? intention.reasons.join(" ") : broken >= 2 ? "Klubben har brutit flera löften till honom." : (m.factors.slice().sort((a, b) => a.points - b.points)[0]?.label ?? "Han trivs inte längre.");
   const request: TransferRequest = { playerId, submittedOn: date, reason, status: "OPEN" };
   emit(dynamicsEvent(`request:${playerId}:${date}`, date, "IMPORTANT", `${playerName(state, playerId)} begär att få lämna`, `${reason} Han vill att klubben lyssnar på bud.`, playerId));
   return { ...state, playerDynamics: { ...d, requests: { ...d.requests, [playerId]: request } } };
@@ -166,7 +168,9 @@ export function answerConcern(state: CareerState, concernId: string, optionId: s
       break;
     }
   }
-  return setConcern(next, { ...c, status: "ANSWERED", answeredOn: state.gameDate, answer: option.label, outcome });
+  const priorShocks = dynamicsOf(state).morale[c.playerId]?.shocks?.length ?? 0;
+  const responsePoints = (dynamicsOf(next).morale[c.playerId]?.shocks ?? []).slice(priorShocks).reduce((sum,s) => sum+s.points,0);
+  return setConcern(next, { ...c, status: "ANSWERED", answeredOn: state.gameDate, answer: option.label, outcome, responseEffect: responsePoints>0?"POSITIVE":responsePoints<0?"NEGATIVE":"NEUTRAL" });
 }
 
 function weakestPosition(state: CareerState): string {

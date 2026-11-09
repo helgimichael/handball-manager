@@ -1,3 +1,5 @@
+import { intentionRenewalBlocker, intentionMinimumWage } from '../players/intentions';
+import { formatEur } from '../economy/currency';
 import { getCareerPlayer } from './careerWorld';
 import { assessTransferAffordability } from '../transfers/affordability';
 import type { CareerState } from './types';
@@ -17,6 +19,10 @@ export function renewPlayerContract(state: CareerState, playerId: string, years 
   if (![1, 2, 3].includes(years)) throw new Error('Välj ett, två eller tre år.');
   const wage = wageEurPerMonth ?? current.wageEurPerMonth;
   if (!Number.isFinite(wage) || wage < current.wageEurPerMonth) throw new Error('En förlängning kräver minst spelarens nuvarande månadslön.');
+  const blocker = intentionRenewalBlocker(state, playerId);
+  if (blocker) throw new Error(blocker);
+  const minimum = intentionMinimumWage(state, playerId);
+  if (wage < minimum) throw new Error("Han kräver minst " + formatEur(minimum) + " i månaden för att överväga att stanna.");
   const increase = wage - current.wageEurPerMonth;
   if (increase > 0) {
     const affordability = assessTransferAffordability(state, state.playerClubId, 0, 0, increase);

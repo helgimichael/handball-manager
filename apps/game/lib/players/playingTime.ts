@@ -86,10 +86,11 @@ export function closePlayingTimeConcerns(state: CareerState, playerId: string): 
   const d = state.playerDynamics;
   if (!d) return state;
   const open = Object.values(d.concerns).filter(c => c.playerId === playerId && c.kind === 'PLAYING_TIME' && c.status === 'OPEN');
-  if (!open.length && !d.morale[playerId]?.playingTimeLastFixtureId) return state;
+  const held = d.intentions?.[playerId];
+  if (!open.length && !d.morale[playerId]?.playingTimeLastFixtureId && !held?.active) return state;
   const ids = new Set(open.map(c => c.id)), eventIds = new Set(open.map(c => `PLAYER_DYNAMICS:concern:${c.id}`));
   const concerns = Object.fromEntries(Object.entries(d.concerns).map(([id,c]) => [id,ids.has(id) ? {...c,status:'LAPSED' as const,outcome:'Spelaren representerar inte längre klubben; speltidssamtalet avslutas.'} : c]));
   const prev = d.morale[playerId];
   const morale = prev ? {...d.morale,[playerId]:{...prev,playingTimeUnmetWeeks:0,playingTimeLastFixtureId:undefined}} : d.morale;
-  return {...state,playerDynamics:{...d,concerns,morale},careerEvents:state.careerEvents.map(e => eventIds.has(e.id) ? {...e,resolved:true,requiresAction:false} : e),inbox:state.inbox.map(m => m.careerEventId && eventIds.has(m.careerEventId) ? {...m,resolved:true,actionRequired:false} : m)};
+  return {...state,playerDynamics:{...d,concerns,morale,...(held?{intentions:{...d.intentions,[playerId]:{...held,active:false}}}:{})},careerEvents:state.careerEvents.map(e => eventIds.has(e.id) ? {...e,resolved:true,requiresAction:false} : e),inbox:state.inbox.map(m => m.careerEventId && eventIds.has(m.careerEventId) ? {...m,resolved:true,actionRequired:false} : m)};
 }
