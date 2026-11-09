@@ -4,6 +4,8 @@
 // Used on the player profile and the Contracts page.
 import { PlayerIntentionSummary } from './players/PlayerDynamicsPanel';
 import { useState } from 'react';
+import { flushSync } from 'react-dom';
+import type { CareerState } from '@/lib/career/types';
 import { useCareer } from '@/lib/career/CareerContext';
 import { SQUAD_STATUS_TIERS, SQUAD_STATUS_TIER_LABEL_SV, type SquadStatusTier } from '@/lib/career/squadStatus';
 import { localizeMoneyText } from '@/lib/economy/currency';
@@ -26,7 +28,16 @@ export default function ContractRenewal({ playerId }: { playerId: string }) {
   const [role, setRole] = useState<SquadStatusTier | ''>('');
   const [message, setMessage] = useState('');
   if (!contract || contract.clubId !== career.playerClubId) return null;
-  const run = (fn: () => void, ok: string) => { try { fn(); setMessage(ok); } catch (e) { setMessage(e instanceof Error ? e.message : 'Det gick inte.'); } };
+  const run = (update: (state: CareerState) => CareerState, ok: string) => {
+    let outcome = ok;
+    // Catch validation where React evaluates the queued decision, using the latest
+    // career. Flush this button action before reporting its committed outcome.
+    flushSync(() => updateCareer(state => {
+      try { return update(state); }
+      catch (error) { outcome = error instanceof Error ? error.message : 'Det gick inte.'; return state; }
+    }));
+    setMessage(outcome);
+  };
   const blocker = renewalBlocker(career, playerId);
   const agreedRecently = last?.status === 'AGREED' && !!last.closedOn && addDaysIso(last.closedOn, 14) >= career.gameDate;
 
@@ -39,7 +50,7 @@ export default function ContractRenewal({ playerId }: { playerId: string }) {
       {!talk ? (
         <>
           {last?.status === 'REFUSED' && <p className="pd-note" data-tone="loss">{localizeMoneyText(last.rounds.at(-1)?.reason ?? 'Han sa nej.')} {last.cooldownUntil ? `Nytt försök tidigast ${last.cooldownUntil}.` : ''}</p>}
-          {blocker ? <p className="pd-note">{blocker}</p> : <><p className="hm-text-muted">Spelaren berättar vad han vill ha. Han svarar på varje bud dagen efter och kan säga nej.</p><button className="hm-btn" onClick={() => run(() => updateCareer((s) => openRenewalTalks(s, playerId, { kind: 'MANAGER' })), 'Förhandlingen är öppnad.')}>Inled förlängningssamtal</button></>}
+          {blocker ? <p className="pd-note">{blocker}</p> : <><p className="hm-text-muted">Spelaren berättar vad han vill ha. Han svarar på varje bud dagen efter och kan säga nej.</p><button className="hm-btn" onClick={() => run((s) => openRenewalTalks(s, playerId, { kind: 'MANAGER' }), 'Förhandlingen är öppnad.')}>Inled förlängningssamtal</button></>}
         </>
       ) : (
         <>
@@ -51,13 +62,13 @@ export default function ContractRenewal({ playerId }: { playerId: string }) {
           {talk.demandFactors.length > 0 && <ul className="pd-factors">{talk.demandFactors.map((f) => <li key={f.label} data-tone={f.effectPct > 0 ? 'up' : 'down'}><span>{f.label}</span><b>{f.effectPct > 0 ? '+' : ''}{f.effectPct} %</b></li>)}</ul>}
           {lastRound?.response && <blockquote className="tc-stance" data-response={lastRound.response}>{localizeMoneyText(lastRound.reason ?? '')}</blockquote>}
           {talk.answerOn ? (
-            <div className="tc-wait" role="status"><span className="tc-wait-mark" aria-hidden="true" /><span>Budet ligger hos spelaren. Svar {talk.answerOn}.</span><button className="hm-btn hm-btn-sm" onClick={() => run(() => updateCareer((s) => withdrawRenewalTalks(s, talk.id)), 'Du drog dig ur.')}>Dra dig ur</button></div>
+            <div className="tc-wait" role="status"><span className="tc-wait-mark" aria-hidden="true" /><span>Budet ligger hos spelaren. Svar {talk.answerOn}.</span><button className="hm-btn hm-btn-sm" onClick={() => run((s) => withdrawRenewalTalks(s, talk.id), 'Du drog dig ur.')}>Dra dig ur</button></div>
           ) : (
             <div className="pd-offer">
               <label>Förlängning<select aria-label="Förlängning" value={years} onChange={(e) => setYears(Number(e.target.value))}>{[1, 2, 3, 4].map((n) => <option value={n} key={n}>{n} år efter säsongens slut</option>)}</select></label>
               <label>Lön, {money.symbol}/månad<MoneyInput aria-label={`Lön, ${money.symbol}/månad`} minEur={contract.wageEurPerMonth} stepEur={10} valueEur={wage} onChangeEur={setWage} /></label>
               <label>Lova roll (valfritt)<select value={role} onChange={(e) => setRole(e.target.value as SquadStatusTier | '')}><option value="">Inget löfte</option>{SQUAD_STATUS_TIERS.map((t) => <option key={t} value={t}>{SQUAD_STATUS_TIER_LABEL_SV[t]}</option>)}</select></label>
-              <button className="hm-btn hm-btn-primary" onClick={() => run(() => updateCareer((s) => submitRenewalOffer(s, talk.id, { wageEurPerMonth: wage, years, promisedRole: role || undefined })), 'Budet är lämnat. Svar i morgon.')}>Förläng kontrakt</button>
+              <button className="hm-btn hm-btn-primary" onClick={() => run((s) => submitRenewalOffer(s, talk.id, { wageEurPerMonth: wage, years, promisedRole: role || undefined }), 'Budet är lämnat. Svar i morgon.')}>Förläng kontrakt</button>
               {role && <p className="pd-note">Ett löfte om rollen sänker kravet något men utvärderas om ett halvår.</p>}
             </div>
           )}
