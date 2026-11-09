@@ -5,6 +5,10 @@
 // (ranking) + transfers/transferIntegration.ts's own submitTransferOffer
 // (the SAME canonical pipeline a human manager's offer goes through --
 // Part: "Bypassa aldrig transferregler... Ingen separat forceCpuTransfer()").
+import { requestBidFor } from "../players/market";
+import { dynamicsOf, type Emit } from "../players/dynamicsState";
+import { getPlayerMarketValueEur } from "../economy/contractIntegration";
+import { getActiveLoanForPlayer, hasActivePendingTransfer } from "../transfers/transferIntegration";
 import { type HandballPosition } from "../game-data";
 import { submitTransferOffer } from "../transfers/transferIntegration";
 import { isTransferWindowOpen } from "../transfers/transferWindow";
@@ -124,7 +128,13 @@ function planId(clubId: string, position: HandballPosition): string {
 /** Exported so other CPU-decision producers (e.g. cpuContractDecisions.ts's own log, wired in from dailyTick.ts) share the exact same cap/ordering, never a second log-writing convention. */
 export function pushLog(log: readonly CpuDecisionLogEntry[], entries: readonly CpuDecisionLogEntry[]): readonly CpuDecisionLogEntry[] {
   if (entries.length === 0) return log;
-  return [...entries, ...log].slice(0, DECISION_LOG_CAP);
+  const existing = new Set(log.map(entry => entry.id));
+  const additions = entries.filter(entry => {
+    if (existing.has(entry.id)) return false;
+    existing.add(entry.id);
+    return true;
+  });
+  return additions.length ? [...additions, ...log].slice(0, DECISION_LOG_CAP) : log;
 }
 
 /**
@@ -176,7 +186,7 @@ function existingPlan(state: CareerState, clubId: string, position: HandballPosi
 }
 
 /** One club's own evaluation pass: assess needs, log them, then pursue as many HIGH/MEDIUM positions as the active-pursuit cap and cooldowns allow. Returns whether this pass was "urgent" (drives the next scheduling interval). */
-function evaluateClub(state: CareerState, clubId: string, date: string): { state: CareerState; urgent: boolean } {
+function evaluateClub(state: CareerState, clubId: string, date: string, emit: Emit): { state: CareerState; urgent: boolean } {
   let next = state;
   const assessment = assessSquadNeeds(next, clubId, date);
   const needy = priorityNeeds(assessment);
@@ -215,7 +225,7 @@ function evaluateClub(state: CareerState, clubId: string, date: string): { state
     // still runs before returning. It logs and pursues only when a materially
     // better player is actually available; a balanced AND strong squad still
     // does nothing, which is what that requirement really protects.
-    const upgraded = pursueQualityUpgrades(next, clubId, date, CPU_RECRUITMENT_MAX_ACTIVE_PURSUITS - activePursuitCount(next, clubId));
+    const upgraded = pursueQualityUpgrades(next, clubId, date, CPU_RECRUITMENT_MAX_ACTIVE_PURSUITS - activePursuitCount(next, clubId), emit);
     return { state: upgraded, urgent: false };
   }
 
@@ -238,7 +248,7 @@ function evaluateClub(state: CareerState, clubId: string, date: string): { state
     if (isRetry && existing.lastEvaluatedAt && daysBetweenIso(existing.lastEvaluatedAt, date) < CPU_RECRUITMENT_COOLDOWN_DAYS) continue;
     if (existing?.cooldownUntil !== null && existing?.cooldownUntil !== undefined && !isSameOrBefore(existing.cooldownUntil, date)) continue; // Part 3/4: cooldown active -- covers both a failed deal AND a recently-solved position, regardless of the existing plan's own status.
 
-    const result = pursuePosition(next, clubId, need.position, need.level, date);
+    const result = pursuePosition(next, clubId, need.position, need.level, date, emit);
     next = result.state;
     if (result.pursued && !isRetry) slotsRemaining -= 1;
   }
@@ -246,7 +256,7 @@ function evaluateClub(state: CareerState, clubId: string, date: string): { state
   // HM-CPU-SQUAD-QUALITY-UPGRADES-1.0: replacement recruitment, strictly
   // AFTER every depth need above has had its chance and only with capacity
   // left over -- depth priority is unchanged.
-  next = pursueQualityUpgrades(next, clubId, date, slotsRemaining);
+  next = pursueQualityUpgrades(next, clubId, date, slotsRemaining, emit);
 
   return { state: next, urgent };
 }
@@ -340,7 +350,7 @@ function hasCommittedIncomingArrival(state: CareerState, clubId: string): boolea
  * needs have already been served by the caller; `slotsRemaining` is whatever
  * the active-pursuit cap left behind.
  */
-function pursueQualityUpgrades(state: CareerState, clubId: string, date: string, slotsRemaining: number): CareerState {
+function pursueQualityUpgrades(state: CareerState, clubId: string, date: string, slotsRemaining: number, emit: Emit): CareerState {
   if (slotsRemaining <= 0) return state;
   // Absolute temporary ceiling -- retained as a safety net.
   if (projectedSquadSize(state, clubId) >= UPGRADE_MAX_PROJECTED_SQUAD_SIZE) return state;
@@ -390,7 +400,7 @@ function pursueQualityUpgrades(state: CareerState, clubId: string, date: string,
       }]),
     };
 
-    const result = pursuePosition(next, clubId, position.position, "MEDIUM", date);
+    const result = pursuePosition(next, clubId, position.position, "MEDIUM", date, emit);
     next = result.state;
     if (result.pursued) {
       // A pursued upgrade IS an unresolved replacement by definition, so this
@@ -412,7 +422,7 @@ function pursueQualityUpgrades(state: CareerState, clubId: string, date: string,
  * candidate/offer resulted, so the persisted state honestly reflects
  * "this club is searching for this position" either way.
  */
-function pursuePosition(state: CareerState, clubId: string, position: HandballPosition, need: NeedLevel, date: string): { state: CareerState; pursued: boolean } {
+function pursuePosition(state: CareerState, clubId: string, position: HandballPosition, need: NeedLevel, date: string, emit: Emit): { state: CareerState; pursued: boolean } {
   const candidates = rankCandidates(state, clubId, position, date);
   const chosen = bestAffordableCandidate(candidates);
   const id = planId(clubId, position);
@@ -446,6 +456,19 @@ function pursuePosition(state: CareerState, clubId: string, position: HandballPo
       cpuDecisionLog: pushLog(state.cpuDecisionLog, candidateLog),
     };
     return { state: next, pursued: false };
+  }
+
+  if (chosen.clubId === state.playerClubId) {
+    const afterBid = requestBidFor(state, chosen.playerId, date, emit, clubId);
+    const incoming = Object.values(afterBid.incomingOffers ?? {}).find(o => o.playerId === chosen.playerId && o.fromClubId === clubId && o.openedOn === date && o.status === "OPEN");
+    const plan: CpuRecruitmentPlan = {
+      id, clubId, targetPosition: position, need, candidatePlayerId: chosen.playerId,
+      status: incoming ? "SEARCHING" : "FAILED", createdAt: state.cpuRecruitmentPlans[id]?.createdAt ?? date,
+      lastEvaluatedAt: date, offerId: incoming?.id ?? null,
+      cooldownUntil: addDays(date, CPU_RECRUITMENT_COOLDOWN_DAYS),
+      reason: incoming ? "Bud skickat till managern; ingen spelare flyttas utan godkännande." : "Inget genomförbart bud till managerklubben.",
+    };
+    return { state: { ...afterBid, cpuRecruitmentPlans: { ...afterBid.cpuRecruitmentPlans, [id]: plan }, cpuDecisionLog: pushLog(afterBid.cpuDecisionLog, candidateLog) }, pursued: !!incoming };
   }
 
   const { state: afterOffer, offer } = submitTransferOffer(state, {
@@ -510,13 +533,35 @@ function pursuePosition(state: CareerState, clubId: string, position: HandballPo
  * every-club-every-day scan). Never touches `state.playerClubId` (Part:
  * "Human-controlled club får aldrig styras av detta").
  */
-export function progressCpuRecruitment(state: CareerState, date: string): CareerState {
+function reconcilePursuits(state: CareerState, date: string): CareerState {
+  let next = state;
+  for (const plan of Object.values(state.cpuRecruitmentPlans)) {
+    if (!plan.offerId) continue;
+    const transfer = state.transferOffers[plan.offerId];
+    if (plan.status === "SUCCEEDED" && transfer && ["BLOCKED_UNAFFORDABLE", "CANCELLED_STALE"].includes(transfer.status)) {
+      next = { ...next, cpuRecruitmentPlans: { ...next.cpuRecruitmentPlans, [plan.id]: { ...plan, status: "FAILED", lastEvaluatedAt: date, cooldownUntil: addDays(transfer.resolvedDate ?? date, CPU_RECRUITMENT_COOLDOWN_DAYS), reason: transfer.clubDecisionReason ?? "Den avtalade affären kunde inte slutföras." } } };
+      continue;
+    }
+    if (plan.status !== "SEARCHING" && plan.status !== "SATISFIED") continue;
+    const offer = state.incomingOffers?.[plan.offerId];
+    if (!offer || ["OPEN", "COUNTERED", "AWAITING_FINAL_APPROVAL", "ACCEPTED", "AWAITING_WINDOW"].includes(offer.status)) continue;
+    const succeeded = offer.status === "COMPLETED";
+    next = { ...next, cpuRecruitmentPlans: { ...next.cpuRecruitmentPlans, [plan.id]: { ...plan,
+      status: succeeded ? "SUCCEEDED" : "FAILED", lastEvaluatedAt: date,
+      cooldownUntil: addDays(offer.closedOn ?? date, succeeded ? SIGNING_SOLVED_COOLDOWN_DAYS : CPU_RECRUITMENT_COOLDOWN_DAYS),
+      reason: succeeded ? "Managern godkände affären; spelaren har anslutit." : "Budet avslutades utan övergång.",
+    } } };
+  }
+  return next;
+}
+
+export function progressCpuRecruitment(state: CareerState, date: string, emit: Emit = () => undefined): CareerState {
   const clubIds = cpuRecruiterClubIds(state);
-  let next = ensureSchedule(state, clubIds, date);
+  let next = ensureSchedule(reconcilePursuits(state, date), clubIds, date);
 
   const due = clubIds.filter((id) => isSameOrBefore(next.cpuClubEvaluationSchedule[id], date));
   for (const clubId of due) {
-    const result = evaluateClub(next, clubId, date);
+    const result = evaluateClub(next, clubId, date, emit);
     next = result.state;
     const interval = result.urgent ? CPU_RECRUITMENT_URGENT_CYCLE_DAYS : CPU_RECRUITMENT_NORMAL_CYCLE_DAYS;
     next = { ...next, cpuClubEvaluationSchedule: { ...next.cpuClubEvaluationSchedule, [clubId]: addDays(date, interval) } };
@@ -584,7 +629,7 @@ function daysBetweenIso(from: string, to: string): number {
  * up-to-date `next` (no staleness there, only in "is this club emergency
  * today").
  */
-export function progressCpuEmergencyRecruitment(state: CareerState, date: string): CareerState {
+export function progressCpuEmergencyRecruitment(state: CareerState, date: string, emit: Emit = () => undefined): CareerState {
   let next = state;
 
   const clubTargets = new Map<string, ReturnType<typeof priorityNeeds>>();
@@ -612,7 +657,7 @@ export function progressCpuEmergencyRecruitment(state: CareerState, date: string
       }
       if (existing?.cooldownUntil !== null && existing?.cooldownUntil !== undefined && !isSameOrBefore(existing.cooldownUntil, date)) continue; // cooldown still respected (Part 4).
 
-      const result = pursuePosition(next, clubId, target.position, target.level, date);
+      const result = pursuePosition(next, clubId, target.position, target.level, date, emit);
       next = result.state;
       if (result.pursued && !isRetry) slotsRemaining -= 1;
     }
@@ -627,4 +672,22 @@ export function getCpuRecruitmentPlansForClub(state: CareerState, clubId: string
 
 export function getCpuDecisionLogForClub(state: CareerState, clubId: string, limit = 30): CpuDecisionLogEntry[] {
   return state.cpuDecisionLog.filter((e) => e.clubId === clubId).slice(0, limit);
+}
+
+/** CPU response to an existing, club-scoped request. Listing permits bids, not an automatic move. */
+export function progressCpuTransferRequests(state: CareerState, date: string): CareerState {
+  let next = state;
+  const clubs = new Set(cpuRecruiterClubIds(state));
+  for (const request of Object.values(dynamicsOf(state).requests)) {
+    const clubId = request.clubId ?? state.playerClubId;
+    if (request.status !== "OPEN" || !clubs.has(clubId)) continue;
+    if (next.playerContracts[request.playerId]?.clubId !== clubId || !(next.worldSquads[clubId] ?? []).some(p => p.id === request.playerId && p.clubId === clubId)) continue;
+    if (getActiveLoanForPlayer(next, request.playerId) || hasActivePendingTransfer(next, request.playerId)) continue;
+    const d = dynamicsOf(next);
+    next = { ...next, playerDynamics: { ...d,
+      requests: { ...d.requests, [request.playerId]: { ...request, status: "ACCEPTED", decidedOn: date } },
+      listings: { ...d.listings, [request.playerId]: { playerId: request.playerId, clubId, listedOn: date, askingEur: Math.round(getPlayerMarketValueEur(next, request.playerId) ?? 0), reason: "TRANSFER_REQUEST" } },
+    }, cpuDecisionLog: pushLog(next.cpuDecisionLog, [{ id: `cpu-request-${clubId}-${request.playerId}-${request.submittedOn}`, date, clubId, category: "CONTRACT", summary: `Lyssnar på bud: ${request.playerId}`, reason: request.reason }]) };
+  }
+  return next;
 }

@@ -138,12 +138,15 @@ function qualityAdjustedLevel(state: CareerState, clubId: string, squad: readonl
  * `position` is available before the move executes.
  */
 function pendingIncomingCount(state: CareerState, clubId: string, position: HandballPosition): number {
-  let count = 0;
+  const players = new Set<string>();
   for (const offer of Object.values(state.transferOffers)) {
     if (offer.toClubId !== clubId || offer.status !== "AGREED_AWAITING_WINDOW") continue;
-    if (getCareerPlayer(state, offer.playerId)?.position === position) count += 1;
+    if (getCareerPlayer(state, offer.playerId)?.position === position) players.add(offer.playerId);
   }
-  return count;
+  for (const offer of Object.values(state.incomingOffers ?? {})) {
+    if (offer.fromClubId === clubId && offer.status === "AWAITING_WINDOW" && getCareerPlayer(state, offer.playerId)?.position === position) players.add(offer.playerId);
+  }
+  return players.size;
 }
 
 export function assessPositionNeed(state: CareerState, clubId: string, position: HandballPosition, squad: readonly PlayerMock[]): PositionNeedAssessment {
@@ -192,8 +195,10 @@ export function assessSquadNeeds(state: CareerState, clubId: string, date: strin
  */
 export function projectedSquadSize(state: CareerState, clubId: string): number {
   const squad = (state.worldSquads[clubId] ?? []).filter((p) => isUsableForSquadPlanning(state, p));
-  const pendingIncoming = Object.values(state.transferOffers).filter((o) => o.toClubId === clubId && o.status === "AGREED_AWAITING_WINDOW" && o.dealType === "PERMANENT").length;
-  return squad.length + pendingIncoming;
+  const players = new Set(squad.map(p => p.id));
+  for (const offer of Object.values(state.transferOffers)) if (offer.toClubId === clubId && offer.status === "AGREED_AWAITING_WINDOW" && offer.dealType === "PERMANENT") players.add(offer.playerId);
+  for (const offer of Object.values(state.incomingOffers ?? {})) if (offer.fromClubId === clubId && offer.status === "AWAITING_WINDOW") players.add(offer.playerId);
+  return players.size;
 }
 
 /** HIGH needs first, then MEDIUM -- Part: "en uppenbar lucka ... ska prioriteras före lyxvärvningar". LOW/NONE are never pursued (Part: "Balanced squad ska kunna ge NO ACTION"). */

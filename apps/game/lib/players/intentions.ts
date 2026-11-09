@@ -10,13 +10,14 @@ export const INTENTION_LABEL: Record<PlayerIntention,string> = {
 
 export function playerIntentionOf(state: CareerState, playerId: string): PlayerIntentionState | undefined {
   const held=dynamicsOf(state).intentions?.[playerId];
-  return held?.active && held.clubId===state.playerClubId && state.playerContracts[playerId]?.clubId===held.clubId ? held : undefined;
+  return held?.active && state.playerContracts[playerId]?.clubId===held.clubId ? held : undefined;
 }
 
 /** Shared by negotiations and the direct domain agreement entry point. */
 export function intentionRenewalBlocker(state: CareerState, playerId: string): string | null {
   if(state.preContracts?.[playerId])return "Han har redan skrivit avtal med en annan klubb.";
-  if(dynamicsOf(state).requests[playerId]?.status==='OPEN')return "Han har begärt att få lämna och vill inte förlänga just nu.";
+  const request=dynamicsOf(state).requests[playerId];
+  if(request?.status==='OPEN' && (request.clubId??state.playerClubId)===state.playerContracts[playerId]?.clubId)return "Han har begärt att få lämna och vill inte förlänga just nu.";
   const held=playerIntentionOf(state,playerId);
   if(held?.kind==='WANTS_TO_LEAVE')return `Han vill l\u00e4mna och avvisar en f\u00f6rl\u00e4ngning. ${held.reasons.join(' ')}`;
   return null;

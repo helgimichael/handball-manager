@@ -18,7 +18,10 @@ function setup(date = '2026-11-08') {
   const base = ensureClubFinances(createNewCareerState('alpha-hotfix', SELLER, snapshotWorldSquads('swe-2'), undefined, snapshotGameplayRatings('swe-2')), date);
   assert.equal(getCareerPlayer(base, PLAYER)?.clubId, SELLER);
   const offer: IncomingOffer = { id: 'sale-oskar', playerId: PLAYER, fromClubId: BUYER, foreign: false, openedOn: date, feeEur: 5000, maxFeeEur: 8000, wageEurPerMonth: 1500, contractYears: 2, status: 'OPEN', respondBy: '2027-01-30', rounds: [], motive: 'hotfix reproduction' };
-  const state = { ...base, gameDate: date, incomingOffers: { [offer.id]: offer }, playerDynamics: { morale: {}, promises: {}, concerns: {}, requests: { [PLAYER]: { playerId: PLAYER, submittedOn: date, reason: 'move', status: 'OPEN' as const } }, listings: {}, departures: [] } };
+  // Fund the buyer explicitly: these tests isolate duplicate-sale/window guards,
+  // while completion also revalidates the actual buyer's financial capacity.
+  const funded: typeof base = { ...base, clubEconomies: { ...base.clubEconomies, [BUYER]: { ...base.clubEconomies[BUYER]!, cashEur: 1_000_000, revenue: { ...base.clubEconomies[BUYER]!.revenue, commercialRevenueEur: 1_000_000 } } }, clubFinances: { ...base.clubFinances, [BUYER]: { ...base.clubFinances![BUYER]!, bridgeEurAnnual: 0 } } };
+  const state = { ...funded, gameDate: date, incomingOffers: { [offer.id]: offer }, playerDynamics: { morale: {}, promises: {}, concerns: {}, requests: { [PLAYER]: { playerId: PLAYER, submittedOn: date, reason: 'move', status: 'OPEN' as const } }, listings: {}, departures: [] } };
   return { state, offer };
 }
 

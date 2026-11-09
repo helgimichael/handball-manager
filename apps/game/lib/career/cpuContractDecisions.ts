@@ -21,6 +21,9 @@
 // CareerState glue below" split as every economy module in this
 // codebase) so it stays trivially unit-testable without constructing a
 // full CareerState.
+import { assessRenewalAffordability } from "../transfers/affordability";
+import { intentionRenewalBlocker, intentionWageMultiplier } from "../players/intentions";
+import { hasActivePendingTransfer } from "../transfers/transferIntegration";
 import type { HandballPosition, PlayerMock } from "../game-data";
 import { getClubBudgets, getClubFinancialHealth, getClubPlayerWageCostsEurAnnual } from "../economy/clubEconomyIntegration";
 import { getPlayerContract, getPlayerContractStatus, getPlayerFairWageEurPerMonth } from "../economy/contractIntegration";
@@ -315,7 +318,7 @@ export function progressCpuContractDecisions(state: CareerState, date: string, c
       const status = getPlayerContractStatus(next, player.id);
       if (status !== "EXPIRING_SOON" && status !== "EXPIRING") continue;
       const contract = getPlayerContract(next, player.id);
-      if (!contract) continue;
+      if (!contract || contract.clubId !== clubId || hasActivePendingTransfer(next, player.id) || next.preContracts?.[player.id]) continue;
 
       const tier = deriveDefaultSquadStatusTier(player);
       const age = playerAgeAtDate(player.dateOfBirth, player.birthYear, date);
@@ -333,7 +336,7 @@ export function progressCpuContractDecisions(state: CareerState, date: string, c
       const needIfLeaves = assessPositionNeed(next, clubId, player.position, squadWithoutPlayer);
       const standing = positionStanding(next, clubId, player, positionPeers);
 
-      const { decision, reasons } = decideContractAction({
+      let { decision, reasons } = decideContractAction({
         tier,
         age,
         ca,
@@ -351,6 +354,16 @@ export function progressCpuContractDecisions(state: CareerState, date: string, c
         wageBillOverBudget,
         hasAgreedReplacement: needIfLeaves.pendingIncoming > 0,
       });
+      const request = next.playerDynamics?.requests[player.id];
+      const requestHere = request && (request.clubId ?? next.playerClubId) === clubId && ["OPEN", "ACCEPTED"].includes(request.status);
+      const blocker = intentionRenewalBlocker(next, player.id);
+      const multiplier = intentionWageMultiplier(next, player.id);
+      const renewalWage = multiplier === 1 ? contract.wageEurPerMonth : Math.ceil(contract.wageEurPerMonth * multiplier / 10) * 10;
+      const affordability = assessRenewalAffordability(next, clubId, player.id, renewalWage);
+      if (decision === "RENEW" && (requestHere || blocker || !affordability.affordable)) {
+        decision = "WAIT";
+        reasons = [requestHere ? "Spelaren har begärt att få lämna; klubben lyssnar på bud." : blocker ?? affordability.reasons.join(" ")];
+      }
       const reason = reasons.join(" ");
 
       if (decision === "RENEW") {
@@ -373,7 +386,7 @@ export function progressCpuContractDecisions(state: CareerState, date: string, c
         // the EXPIRING_SOON window).
         const years = renewalYears(tier, age);
         const newEndDate = computeNewContractEndDate(player.id, contract.contractEndDate, years);
-        next = { ...next, playerContracts: { ...next.playerContracts, [player.id]: { ...contract, contractEndDate: newEndDate } } };
+        next = { ...next, playerContracts: { ...next.playerContracts, [player.id]: { ...contract, contractEndDate: newEndDate, wageEurPerMonth: renewalWage } } };
         log.push({ playerId: player.id, clubId, position: player.position, decision, reason });
       } else if (daysUntilContractEnd(contract.contractEndDate, date) % NO_ACTION_LOG_REVIEW_INTERVAL_DAYS === 0) {
         // HM-CPU-CONTRACT-DECISIONS-1.1: RELEASE is still a pure no-op on

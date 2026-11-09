@@ -4,14 +4,15 @@
 // -- no separate CPU database, no fake data. Deterministic throughout
 // (seededOffset jitter, never Math.random -- Part: "Ingen Math.random()...
 // same career seed + same state -> same beslut").
-import { positionLabel, type HandballPosition, type PlayerMock } from "../game-data";
+import { getClub, positionLabel, type HandballPosition, type PlayerMock } from "../game-data";
 import { getClubBudgets, getClubPlayerWageCostsEurAnnual } from "../economy/clubEconomyIntegration";
 import { getPlayerContract, getPlayerContractStatus, getPlayerMarketValueEur } from "../economy/contractIntegration";
+import { getPlayerTrainingCompensation } from "../economy/trainingCompensationIntegration";
 import { assessTransferAffordability } from "../transfers/affordability";
 import { competitionTierForClub } from "../transfers/transferExecution";
 import { playerAgeAtDate } from "../development/developmentIntegration";
 import { seededOffset } from "../rating/generation/deterministicVariation";
-import { hasActivePendingTransfer, activePendingTransferPlayerIds } from "../transfers/transferIntegration";
+import { getSellingClubAskingPriceEur, hasActivePendingTransfer, activePendingTransferPlayerIds } from "../transfers/transferIntegration";
 import { getExternalCandidateClubs, WORLD_POOL_COMPETITION_IDS } from "./careerWorld";
 import { projectedSquadSize } from "./cpuSquadNeeds";
 import { FREE_AGENT_CLUB_ID, getFreeAgents } from "./contractExpiry";
@@ -175,7 +176,8 @@ export function rankCandidates(state: CareerState, buyerClubId: string, position
   const jitterMagnitude = hasScout ? SCOUTED_JITTER_MAGNITUDE : UNSCOUTED_JITTER_MAGNITUDE;
   const squadSizePenalty = Math.max(0, projectedSquadSize(state, buyerClubId) - SQUAD_SIZE_PENALTY_START) * SQUAD_SIZE_PENALTY_PER_PLAYER;
 
-  const candidateClubs = getExternalCandidateClubs(state).filter((c) => c.id !== buyerClubId);
+  const humanClub = getClub(state.playerClubId);
+  const candidateClubs = [...getExternalCandidateClubs(state), ...(humanClub ? [humanClub] : [])].filter((c) => c.id !== buyerClubId);
   const results: CandidateScore[] = [];
 
   /**
@@ -191,16 +193,16 @@ export function rankCandidates(state: CareerState, buyerClubId: string, position
 
     const rating = clubGameplayRating(state, sourceClubId, player.id);
     const contract = getPlayerContract(state, player.id);
-    if (!rating || !contract) return; // defensive -- every real candidate should have both by this point in career setup.
+    if (!rating || !contract || contract.clubId !== sourceClubId || player.clubId !== sourceClubId) return; // defensive -- every real candidate should have both by this point in career setup.
 
     const contractStatus = getPlayerContractStatus(state, player.id);
     const isFreeAgent = contractStatus === "FREE_AGENT";
     const marketValueEur = getPlayerMarketValueEur(state, player.id) ?? 0;
     // Part 6: "Transfer fee: 0" -- a free agent has no selling club to pay, matching submitTransferOffer's own existing isFreeAgent skip of the selling-club payout.
-    const estimatedFeeEur = isFreeAgent ? 0 : marketValueEur;
+    const estimatedFeeEur = isFreeAgent ? 0 : Math.max(marketValueEur, getSellingClubAskingPriceEur(state, player.id) ?? 0);
     const estimatedWageEurPerMonth = Math.round(contract.wageEurPerMonth * 1.1) || Math.round(marketValueEur * 0.02); // Part: a modest incentive above their current wage; a true free agent's contract wage is 0 (Part 2), so fall back to a market-value-derived starting offer instead of proposing 0€/month.
 
-    const affordability = assessTransferAffordability(state, buyerClubId, estimatedFeeEur, 0, estimatedWageEurPerMonth, 100, { budgets: buyerBudgets, currentWageCostsEurAnnual });
+    const affordability = assessTransferAffordability(state, buyerClubId, estimatedFeeEur, getPlayerTrainingCompensation(state, player.id)?.totalEur ?? 0, estimatedWageEurPerMonth, 100, { budgets: buyerBudgets, currentWageCostsEurAnnual });
     const age = playerAgeAtDate(player.dateOfBirth, player.birthYear, date);
     const buyerTier = competitionTierForClub(buyerClubId);
     const candidateTier = competitionTierForClub(sourceClubId);
@@ -212,7 +214,11 @@ export function rankCandidates(state: CareerState, buyerClubId: string, position
     let score = rating.ca * 1.0 + Math.max(0, rating.pa - rating.ca) * 0.3 + ageScore(age) + contractSituationScore(contractStatus) + tierGapPenalty - levelGapPenalty - internationalReachPenalty - squadSizePenalty + jitter;
     if (!affordability.affordable) score -= 1000; // Part: "för dyr kandidat ska kunna avvisas" -- still ranked/visible for explainability, but never chosen while unaffordable ones exist.
 
+    const listing = state.playerDynamics?.listings[player.id];
+    if (listing && (listing.clubId ?? state.playerClubId) === sourceClubId) score += 8;
+
     const reasonParts = [
+      listing && (listing.clubId ?? state.playerClubId) === sourceClubId ? "klubben lyssnar på bud" : null,
       `${positionLabel(position)}, nivå ${Math.round(rating.ca)}`,
       isFreeAgent ? "fri agent -- ingen övergångssumma" : contractStatus === "EXPIRING" ? "kontrakt går snart ut" : null,
       affordability.affordable ? "råd att värva" : `för dyr (${affordability.reasons.join(" ")})`,

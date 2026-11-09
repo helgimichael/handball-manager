@@ -410,6 +410,12 @@ export function progressDailyTransfers(state: CareerState, date: string): Career
       continue;
     }
 
+    const affordability = assessTransferAffordability(next, offer.toClubId, offer.transferFeeEur + signingCostsEur(offer), offer.trainingCompensationEur, offer.newWageEurPerMonth, 100, undefined, { transferOfferId: offer.id });
+    if (!affordability.affordable) {
+      next = { ...next, transferOffers: { ...next.transferOffers, [offer.id]: { ...offer, status: "BLOCKED_UNAFFORDABLE", clubDecisionReason: affordability.reasons.join(" "), resolvedDate: date } } };
+      continue;
+    }
+
     // HM-CPU-SQUAD-BUILDING-1.0B Part 2: never trust the offer's own
     // stored `fromClubId` blindly -- verify the player still canonically
     // belongs there right now. The BLOCKED_PENDING_TRANSFER guard in

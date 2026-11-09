@@ -86,6 +86,8 @@ export interface PlayerConcern {
 }
 
 export interface TransferRequest {
+  /** Owning club when raised; absent on legacy manager-only records. */
+  clubId?: string;
   playerId: string;
   submittedOn: string;
   reason: string;
@@ -95,6 +97,7 @@ export interface TransferRequest {
 
 /** The manager's transfer list: players the club will listen to offers for. */
 export interface TransferListing {
+  clubId?: string;
   playerId: string;
   listedOn: string;
   askingEur: number;

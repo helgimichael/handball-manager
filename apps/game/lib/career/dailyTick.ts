@@ -67,7 +67,7 @@ import {
   progressPartnershipSearches,
 } from "./clubPartnerships";
 import { accrueDailyPlacementExposure, progressPlacementExpiry } from "./playerPlacements";
-import { progressCpuRecruitment, progressCpuEmergencyRecruitment, cpuRecruiterClubIds, pushLog as pushCpuDecisionLog, type CpuDecisionLogEntry } from "./cpuRecruitment";
+import { progressCpuRecruitment, progressCpuEmergencyRecruitment, progressCpuTransferRequests, cpuRecruiterClubIds, pushLog as pushCpuDecisionLog, type CpuDecisionLogEntry } from "./cpuRecruitment";
 import { progressCpuContractDecisions } from "./cpuContractDecisions";
 import { adjustClubCash } from "../economy/clubEconomyIntegration";
 import {
@@ -353,17 +353,20 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
   // HM-CPU-SQUAD-BUILDING-1.0: autonomous CPU club recruitment -- a
   // lightweight, per-club rotating schedule (never a full every-club
   // every-day scan), and the first simple CPU contract RENEW/WAIT/RELEASE
-  // decisions for genuinely expiring contracts. Both are silent to the
-  // manager's own inbox by design (Part: "ingen transfer spam") --
+  // decisions for genuinely expiring contracts. Internal decisions stay in
+  // the CPU log; bids for manager-owned players use the existing inbox --
   // explainability lives in state.cpuDecisionLog, not CareerEvents.
   // Never touches state.playerClubId (Part: "Human-controlled club får
   // aldrig styras av detta").
-  next = progressCpuRecruitment(next, date);
+  next = progressCpuTransferRequests(next, date);
+  const recruitmentEvents: CareerEvent[] = [];
+  next = progressCpuRecruitment(next, date, event => recruitmentEvents.push(event));
   // HM-CPU-SQUAD-RESILIENCE-1.0: a narrow, every-day resilience check on
   // top of the calibrated cadence above -- see cpuRecruitment.ts's own
   // doc on why this is a separate pass rather than a change to the
   // scheduled evaluation cycle itself.
-  next = progressCpuEmergencyRecruitment(next, date);
+  next = progressCpuEmergencyRecruitment(next, date, event => recruitmentEvents.push(event));
+  recruitmentEvents.forEach(emit);
   const contractDecisions = progressCpuContractDecisions(next, date, cpuRecruiterClubIds(next));
   next = contractDecisions.state;
   const contractLogEntries: CpuDecisionLogEntry[] = contractDecisions.log.map((entry) => ({

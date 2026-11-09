@@ -54,7 +54,7 @@ function foreignBar(state: CareerState): number {
 interface Buyer { clubId: string; foreign: boolean; level: number; motive: string }
 
 /** The most plausible buyer for a player right now, or null. */
-export function findBuyer(state: CareerState, playerId: string, salt: string): Buyer | null {
+export function findBuyer(state: CareerState, playerId: string, salt: string, buyerClubId?: string): Buyer | null {
   const player = getCareerPlayer(state, playerId);
   if (!player) return null;
   const ca = caOf(state, playerId);
@@ -62,13 +62,13 @@ export function findBuyer(state: CareerState, playerId: string, salt: string): B
   const wage = state.playerContracts[playerId]?.wageEurPerMonth ?? 0;
   const domestic = getCareerWorldCompetitionIds(state)
     .flatMap((id) => getClubsByCompetition(id))
-    .filter((c) => c.id !== state.playerClubId && getClubEconomyBaseline(state, c.id) && (state.worldSquads[c.id]?.length ?? 0) > 0)
+    .filter((c) => (!buyerClubId || c.id === buyerClubId) && c.id !== state.playerClubId && getClubEconomyBaseline(state, c.id) && (state.worldSquads[c.id]?.length ?? 0) > 0)
     .map((c) => ({ club: c, level: ownLevelScore(state, c.id) }))
     .filter(({ club, level }) => level <= ca + 6 && level >= ca - 25 && assessPositionNeed(state, club.id, player.position, getCareerClubSquad(state, club.id)).level !== "NONE")
     .filter(({ club }) => assessTransferAffordability(state, club.id, value * 0.8, 0, Math.max(wage * 1.1, getPlayerFairWageEurPerMonth(state, playerId) ?? wage)).affordable)
     .sort((a, b) => b.level - a.level || a.club.id.localeCompare(b.club.id));
   const foreignInterest = ca >= foreignBar(state);
-  const pickForeign = foreignInterest && (domestic.length === 0 || hash(`${salt}:abroad`) < 0.45);
+  const pickForeign = !buyerClubId && foreignInterest && (domestic.length === 0 || hash(`${salt}:abroad`) < 0.45);
   if (pickForeign) {
     const pool = FOREIGN_LEAGUES.flatMap((l) => getClubsByCompetition(l));
     if (pool.length) {
@@ -122,11 +122,12 @@ export function generateIncomingOffers(state: CareerState, date: string, emit: E
 }
 
 /** Asks the market for a bid on one player now (a delegated sporting director shopping a listed player around; QA). Same buyer search and bid rules as the weekly market. */
-export function requestBidFor(state: CareerState, playerId: string, date: string, emit: Emit): CareerState {
+export function requestBidFor(state: CareerState, playerId: string, date: string, emit: Emit, buyerClubId?: string): CareerState {
+  if (Object.values(state.incomingOffers ?? {}).filter(o => ["OPEN", "COUNTERED", "AWAITING_FINAL_APPROVAL"].includes(o.status)).length >= MAX_OPEN_OFFERS) return state;
   if (!ownsSalePlayer(state, playerId) || activePendingTransferPlayerIds(state).has(playerId)) return state;
   if (Object.values(state.incomingOffers ?? {}).some((o) => o.playerId === playerId && (o.status === "OPEN" || o.status === "COUNTERED"))) return state;
   if (!contractOutlastsCompletion(state, playerId, date)) return state; // HM-ALPHA3-M10: his contract ends first -- clubs wait for him as a free agent.
-  const buyer = findBuyer(state, playerId, `${state.saveSeed}:ask:${playerId}:${date}`);
+  const buyer = findBuyer(state, playerId, `${state.saveSeed}:ask:${playerId}:${date}`, buyerClubId);
   const offer = buyer ? buildOffer(state, playerId, buyer, date) : null;
   if (!buyer || !offer) return state;
   emit(buildClubEvent("TRANSFER_OFFER", `offer:${offer.id}`, date, "IMPORTANT", `Bud på ${playerName(state, playerId)} från ${getClub(buyer.clubId)?.shortName ?? buyer.clubId}`, `${formatEur(offer.feeEur)}. ${buyer.motive} Svara senast ${offer.respondBy}.`, [{ route: "TRANSFER_OFFER", offerId: offer.id }, { route: "PLAYER_PROFILE", playerId }], { entityType: "player", entityId: playerId }));
@@ -134,6 +135,7 @@ export function requestBidFor(state: CareerState, playerId: string, date: string
 }
 
 function buildOffer(state: CareerState, playerId: string, buyer: Buyer, date: string): IncomingOffer | null {
+  if (state.incomingOffers?.[`in:${playerId}:${date}`]) return null; // Preserve terminal bid history on repeated same-day decisions.
   const value = getPlayerMarketValueEur(state, playerId) ?? 0;
   if (value <= 0) return null;
   const listing = dynamicsOf(state).listings[playerId];
@@ -312,6 +314,14 @@ export function completeSale(state: CareerState, offerId: string, date: string, 
   if (!isTransferWindowOpen(date) || (offer.completesOn && offer.completesOn > date)) return state;
   const me = state.playerClubId;
   if (!ownsSalePlayer(state, offer.playerId) || offer.fromClubId === me || activePendingTransferPlayerIds(state, { incomingOfferId: offerId }).has(offer.playerId)) return put(state, { ...offer, status: "WITHDRAWN", closedOn: date });
+  if (!offer.foreign) {
+    const affordability = assessTransferAffordability(state, offer.fromClubId, offer.feeEur, 0, offer.wageEurPerMonth, 100, undefined, { incomingOfferId: offerId });
+    if (!affordability.affordable) {
+      const note = `Köparen kan inte längre finansiera affären. ${affordability.reasons.join(" ")}`;
+      emit(buildClubEvent("TRANSFER_OFFER", `offer:${offer.id}:funds`, date, "IMPORTANT", "Köparen drar tillbaka budet", note, [{ route: "TRANSFER_OFFER", offerId }]));
+      return put(state, { ...offer, status: "WITHDRAWN", closedOn: date, rounds: [...offer.rounds, { date, by: "BUYER", feeEur: offer.feeEur, note }] });
+    }
+  }
   const name = playerName(state, offer.playerId);
   const buyerName = getClub(offer.fromClubId)?.shortName ?? offer.fromClubId;
   let next = transferPlayerPermanently(state, offer.playerId, me, offer.fromClubId, offer.wageEurPerMonth, `${seasonEndYear(date) + offer.contractYears}-05-31`);
@@ -335,7 +345,9 @@ export function progressIncomingOffers(state: CareerState, date: string, emit: E
   // HM-ALPHA3-M10: a listing or request left behind by a player who is no longer here (saves from before the
   // contract-expiry cleanup) is closed, so nobody keeps shopping him around.
   for (const playerId of new Set([...Object.keys(dynamicsOf(next).listings), ...Object.values(dynamicsOf(next).requests).filter((r) => r.status === "OPEN").map((r) => r.playerId)])) {
-    if (next.playerContracts[playerId]?.clubId !== next.playerClubId) next = closePlayerDynamics(next, playerId);
+    const d = dynamicsOf(next);
+    const owner = d.listings[playerId]?.clubId ?? d.requests[playerId]?.clubId ?? next.playerClubId;
+    if (next.playerContracts[playerId]?.clubId !== owner) next = closePlayerDynamics(next, playerId);
   }
   for (const offer of Object.values(state.incomingOffers ?? {})) {
     const o = next.incomingOffers![offer.id]!;

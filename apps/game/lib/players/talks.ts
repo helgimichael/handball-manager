@@ -110,7 +110,7 @@ function maybeTransferRequest(state: CareerState, playerId: string, date: string
   const leaving = intention?.active && intention.clubId === state.playerClubId && intention.kind === "WANTS_TO_LEAVE" && intention.adverseReviews >= 6;
   if (!unhappyLongEnough && broken < 2 && !leaving) return state;
   const reason = leaving ? intention.reasons.join(" ") : broken >= 2 ? "Klubben har brutit flera löften till honom." : (m.factors.slice().sort((a, b) => a.points - b.points)[0]?.label ?? "Han trivs inte längre.");
-  const request: TransferRequest = { playerId, submittedOn: date, reason, status: "OPEN" };
+  const request: TransferRequest = { clubId: state.playerClubId, playerId, submittedOn: date, reason, status: "OPEN" };
   emit(dynamicsEvent(`request:${playerId}:${date}`, date, "IMPORTANT", `${playerName(state, playerId)} begär att få lämna`, `${reason} Han vill att klubben lyssnar på bud.`, playerId));
   return { ...state, playerDynamics: { ...d, requests: { ...d.requests, [playerId]: request } } };
 }
@@ -201,7 +201,7 @@ export function listPlayer(state: CareerState, playerId: string, reason: "MANAGE
   if (state.playerContracts[playerId]?.clubId !== state.playerClubId) throw new Error("Bara klubbens egna spelare kan transferlistas.");
   const d = dynamicsOf(state);
   const value = getPlayerMarketValueEur(state, playerId) ?? 0;
-  const listing = { playerId, listedOn: state.gameDate, askingEur: Math.round(askingEur ?? value), reason };
+  const listing = { clubId: state.playerClubId, playerId, listedOn: state.gameDate, askingEur: Math.round(askingEur ?? value), reason };
   let next: CareerState = { ...state, playerDynamics: { ...d, listings: { ...d.listings, [playerId]: listing } } };
   if (reason === "MANAGER" && d.requests[playerId]?.status !== "OPEN") next = addMoraleShock(next, playerId, moraleOf(state, playerId) < 50 ? 2 : -6, "Transferlistad", 45);
   return next;

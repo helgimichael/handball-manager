@@ -49,25 +49,49 @@ export function assessTransferAffordability(
   newWageEurPerMonth: number,
   wageShareBorrowingPct: number = 100,
   precomputed?: PrecomputedBuyerAffordabilityInputs,
+  exclude: { transferOfferId?: string; incomingOfferId?: string } = {},
 ): TransferAffordabilityResult {
   const budgets = precomputed?.budgets ?? getClubBudgets(state, buyingClubId);
   if (!budgets) return { affordable: false, reasons: ["Ingen ekonomidata finns för klubben."] };
 
   const reasons: string[] = [];
 
-  const totalAcquisitionCostEur = transferFeeEur + trainingCompensationEur;
+  const { reservedFees, reservedAnnualWages } = pendingTransferCommitments(state, buyingClubId, exclude);
+  const totalAcquisitionCostEur = transferFeeEur + trainingCompensationEur + reservedFees;
   if (totalAcquisitionCostEur > budgets.transferBudgetEur) {
     reasons.push(`Total övergångskostnad (${Math.round(totalAcquisitionCostEur)} €) överstiger transferbudgeten (${Math.round(budgets.transferBudgetEur)} €).`);
   }
 
   const borrowingShareWageEurPerMonth = newWageEurPerMonth * (wageShareBorrowingPct / 100);
   const currentWageCostsEurAnnual = precomputed?.currentWageCostsEurAnnual ?? getClubPlayerWageCostsEurAnnual(state, buyingClubId);
-  const projectedAnnualWageCosts = currentWageCostsEurAnnual + borrowingShareWageEurPerMonth * 12;
+  const projectedAnnualWageCosts = currentWageCostsEurAnnual + borrowingShareWageEurPerMonth * 12 + reservedAnnualWages;
   if (projectedAnnualWageCosts > budgets.wageBudgetEur) {
     reasons.push(`Ny total lönekostnad (${Math.round(projectedAnnualWageCosts)} €/år) skulle överstiga lönebudgeten (${Math.round(budgets.wageBudgetEur)} €/år).`);
   }
 
   return { affordable: reasons.length === 0, reasons };
+}
+
+/** Commitments are derived from existing transactions, never a second financial ledger. */
+function pendingTransferCommitments(state: CareerState, buyingClubId: string, exclude: { transferOfferId?: string; incomingOfferId?: string } = {}) {
+  // Agreements reserve resources until completion; speculative bids do not.
+  let reservedFees = 0, reservedAnnualWages = 0;
+  const reservedPlayers = new Set<string>();
+  for (const offer of Object.values(state.transferOffers)) {
+    if (offer.id === exclude.transferOfferId || offer.toClubId !== buyingClubId || offer.status !== "AGREED_AWAITING_WINDOW" || reservedPlayers.has(offer.playerId)) continue;
+    if (state.playerContracts[offer.playerId]?.clubId !== offer.fromClubId) continue;
+    reservedPlayers.add(offer.playerId);
+    reservedFees += offer.transferFeeEur + offer.trainingCompensationEur + (offer.agentFeeEur ?? 0) + (offer.signingBonusEur ?? 0);
+    reservedAnnualWages += offer.newWageEurPerMonth * 12;
+  }
+  for (const offer of Object.values(state.incomingOffers ?? {})) {
+    if (offer.id === exclude.incomingOfferId || offer.fromClubId !== buyingClubId || !["AWAITING_FINAL_APPROVAL", "ACCEPTED", "AWAITING_WINDOW"].includes(offer.status) || reservedPlayers.has(offer.playerId)) continue;
+    if (state.playerContracts[offer.playerId]?.clubId !== state.playerClubId) continue;
+    reservedPlayers.add(offer.playerId);
+    reservedFees += offer.feeEur;
+    reservedAnnualWages += offer.wageEurPerMonth * 12;
+  }
+  return { reservedFees, reservedAnnualWages };
 }
 
 /**
@@ -83,7 +107,7 @@ export function assessRenewalAffordability(state: CareerState, clubId: string, p
   const from = state.playerContracts[playerId]?.contractEndDate ?? state.gameDate;
   let committed = 0;
   for (const c of Object.values(state.playerContracts)) if (c.clubId === clubId && c.playerId !== playerId && c.contractEndDate > from) committed += c.wageEurPerMonth * 12;
-  const projected = committed + newWageEurPerMonth * 12;
+  const projected = committed + newWageEurPerMonth * 12 + pendingTransferCommitments(state, clubId).reservedAnnualWages;
   if (projected > budgets.wageBudgetEur) return { affordable: false, reasons: [`Lönekostnaden nästa säsong (${Math.round(projected)} €/år) skulle överstiga lönebudgeten (${Math.round(budgets.wageBudgetEur)} €/år).`] };
   return { affordable: true, reasons: [] };
 }
