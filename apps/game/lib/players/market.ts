@@ -8,7 +8,7 @@
 import { getCareerClubSquad, getCareerPlayer } from "../career/careerWorld";
 import { releasePlayerToFreeAgency } from "../career/contractExpiry";
 import { clubCompetitionTier } from "../career/competitionMembership";
-import { getCareerWorldCompetitionIds } from "../career/worldCompetitions";
+import { careerWorldCatalogClubs } from "../career/worldCompetitions";
 import type { CareerState } from "../career/types";
 import { ownLevelScore } from "../career/cpuCandidateEvaluation";
 import { assessPositionNeed } from "../career/cpuSquadNeeds";
@@ -60,8 +60,7 @@ export function findBuyer(state: CareerState, playerId: string, salt: string, bu
   const ca = caOf(state, playerId);
   const value = getPlayerMarketValueEur(state, playerId) ?? 0;
   const wage = state.playerContracts[playerId]?.wageEurPerMonth ?? 0;
-  const domestic = getCareerWorldCompetitionIds(state)
-    .flatMap((id) => getClubsByCompetition(id))
+  const domestic = careerWorldCatalogClubs(state)
     .filter((c) => (!buyerClubId || c.id === buyerClubId) && c.id !== state.playerClubId && getClubEconomyBaseline(state, c.id) && (state.worldSquads[c.id]?.length ?? 0) > 0)
     .map((c) => ({ club: c, level: ownLevelScore(state, c.id) }))
     .filter(({ club, level }) => level <= ca + 6 && level >= ca - 25 && assessPositionNeed(state, club.id, player.position, getCareerClubSquad(state, club.id)).level !== "NONE")

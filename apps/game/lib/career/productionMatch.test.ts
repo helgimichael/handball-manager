@@ -4,7 +4,7 @@ import { createNewCareerState } from './newCareer';
 import { snapshotWorldSquads, snapshotGameplayRatings } from '../gameWorld/serverSnapshot';
 import { buildMatchdayReadyEvent } from './careerEvents';
 import { createProductionSession, MATCH_BEHAVIOR_REVISION, startProductionMatch, advanceProductionMatch, commandProductionMatch, finishProductionMatch, finalizeProductionMatch, archiveFrames,resultFromSession } from './productionMatch';
-import { rolloverSeason } from './seasonRollover';
+import { attemptSeasonTransition } from './seasonRollover';
 import { getLiveStandings } from './standings';
 import { simulateFixture } from '@handball-manager/game-simulation';
 import { computeSquadDerivedClubStrength } from './squadDerivedClubStrength';
@@ -209,22 +209,14 @@ test('alpha kickoff rejects two pivots and preserves the exact selected 16 on a 
   assert.deepEqual(people.map(p => p.id).sort(), plan.squad.players.map(p => p.playerId).sort());
 });
 
-test('next season archives table and statistics, gives unique fixtures and preserves contracts/calendar', () => {
+test('completed legacy match calendar blocks rollover without losing contracts or archives', () => {
   let state = ready();
   for (const f of state.fixtures) state.results[f.id] = simulateFixture(f, state.saveSeed, id => computeSquadDerivedClubStrength(id, getCareerClubSquad(state, id), state.gameplayRatings[id] ?? []));
   state = { ...state, seasonComplete: true, gameDate: state.fixtures.at(-1)!.date };
-  const next = rolloverSeason(state);
-  assert.equal(next.seasonId, '2027/28');
-  assert.equal(next.seasonComplete, false);
-  assert.equal(next.gameDate, state.gameDate, 'no offseason lifecycle days skipped');
-  assert.deepEqual(next.playerContracts, state.playerContracts);
-  assert.equal(next.seasonHistory!.length, 1);
-  assert.equal(Object.keys(next.results).length, 0);
-  // HM-ALPHA3-M03: the new calendar holds both Swedish leagues; the manager's own league keeps its full schedule.
-  assert.equal(next.fixtures.filter(f => f.competitionId === next.competitionId).length, state.fixtures.filter(f => f.type === 'LEAGUE' && f.competitionId === state.competitionId).length);
-  assert.ok(next.fixtures.every(f => !state.fixtures.some(old => old.id === f.id)));
-  assert.ok(next.fixtures.every(f => !f.id.includes('/')), 'fixture identities must fit the normal match URL');
-  assert.deepEqual(rolloverSeason(next), next, 'cannot roll over an incomplete season twice');
+  const result = attemptSeasonTransition(state);
+  assert.equal(result.status, 'BLOCKED');
+  assert.equal(result.state, state);
+  assert.ok(result.blockers.some(b => b.code === 'NEXT_SEASON_PROFILE_REQUIRED'));
 });
 
 test('own player agreements extend persistent contracts without duplicate wage commitments', () => {

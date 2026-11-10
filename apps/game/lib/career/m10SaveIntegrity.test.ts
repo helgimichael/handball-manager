@@ -14,7 +14,7 @@ import type { CareerState } from "./types";
 import type { CompetitionTie } from "../competition/types";
 import { ALLSVENSKAN, KVAL_ALLSVENSKAN } from "../competition/rules";
 import { newSeasonOutcome } from "../competition/season";
-import { rolloverSeason } from "./seasonRollover";
+import { attemptSeasonTransition } from "./seasonRollover";
 import { compactCareerHistory } from "./historyCompaction";
 
 const base = migrateCareerState(createNewCareerState("m10-wages", TUMBA_CLUB_ID));
@@ -74,7 +74,7 @@ test("save -> load -> save preserves contracts, finances and the formula stamp e
 // Long-career structure: promotion/relegation membership and bounded history
 // ---------------------------------------------------------------------------
 
-test("a relegation play-off loser goes to the challenger's actual Division 1 group, also in saves made before the fix", () => {
+test("legacy qualification selections cannot bypass validated transition readiness", () => {
   const s0 = createNewCareerState("m10-kval", TUMBA_CLUB_ID);
   const challenger = "swe2-drott"; // catalogue league Allsvenskan, relegated earlier in this career
   const defender = "swe2-redbergslid";
@@ -86,9 +86,9 @@ test("a relegation play-off loser goes to the challenger's actual Division 1 gro
     competitionTies: { [tie.id]: tie },
     seasonOutcome: { ...newSeasonOutcome(s0), phase: "COMPLETE", nextMembership: { [challenger]: ALLSVENSKAN, [defender]: ALLSVENSKAN } },
   };
-  const after = rolloverSeason(before);
-  assert.equal(after.competitionMembership?.[challenger], ALLSVENSKAN);
-  assert.equal(after.competitionMembership?.[defender], "se_division1_sodra", "the beaten Allsvenskan club drops to Division 1, not back into Allsvenskan");
+  const result = attemptSeasonTransition(before);
+  assert.equal(result.status, "BLOCKED");
+  assert.equal(result.state, before);
 });
 
 test("season rollover trims old working records but keeps history and anything still open", () => {
@@ -105,13 +105,14 @@ test("season rollover trims old working records but keeps history and anything s
   assert.deepEqual(compactCareerHistory(out, today), out, "idempotent");
 });
 
-test("Division 1 groups that drifted apart are evened out at rollover, so every group can get a fixture list", () => {
+test("drifted Division 1 groups are blocked rather than automatically reallocated", () => {
   const s0 = createNewCareerState("m10-div1", TUMBA_CLUB_ID);
   const sodra = CLUBS.filter((c) => c.competitionId === "se_division1_sodra").slice(0, 3).map((c) => c.id);
   const drifted: CareerState = { ...s0, seasonComplete: true, competitionMembership: { ...s0.competitionMembership, ...Object.fromEntries(sodra.map((id) => [id, "se_division1_norra"])) } };
   const size = (s: CareerState, g: string) => competitionClubIds(s, g).length;
   assert.equal(size(drifted, "se_division1_norra") - size(drifted, "se_division1_sodra"), 6);
-  const after = rolloverSeason(drifted);
-  assert.ok(Math.abs(size(after, "se_division1_norra") - size(after, "se_division1_sodra")) <= 1);
-  assert.equal(size(after, "se_division1_norra") + size(after, "se_division1_sodra"), size(drifted, "se_division1_norra") + size(drifted, "se_division1_sodra"));
+  const result = attemptSeasonTransition(drifted);
+  assert.equal(result.status, "BLOCKED");
+  assert.equal(result.state, drifted);
+  assert.equal(size(result.state, "se_division1_norra") - size(result.state, "se_division1_sodra"), 6);
 });

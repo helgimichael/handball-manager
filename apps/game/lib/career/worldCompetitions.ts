@@ -22,7 +22,7 @@
 // This module is the single place that lists which Swedish competitions
 // are WORLD-ACTIVE (all four tiers, always) so every other subsystem can
 // stop re-deriving or hard-coding its own club-enumeration logic.
-import { getClubsByCompetition } from "../game-data";
+import { CLUBS, type Club } from "../game-data";
 import type { CareerState } from "./types";
 
 /**
@@ -59,8 +59,12 @@ export function getCareerWorldCompetitionIds(state: CareerState): readonly strin
  * doc on `eligibleYouthIntakeClubIds` for why that stays narrower.
  */
 export function careerWorldClubIds(state: CareerState): string[] {
-  return getCareerWorldCompetitionIds(state)
-    .flatMap((competitionId) => getClubsByCompetition(competitionId))
+  return careerWorldCatalogClubs(state)
     .map((c) => c.id)
     .filter((clubId) => state.worldSquads[clubId] !== undefined);
+}
+
+/** Membership-aware world catalog: promotions enter the existing world systems; roster-backed pool clubs retain lifecycle/finances. */
+export function careerWorldCatalogClubs(state: CareerState): Club[] {
+  return CLUBS.filter(c => { const id=state.competitionMembership?.[c.id] ?? c.competitionId; return (getCareerWorldCompetitionIds(state).includes(id) || (id.startsWith('se_division2_') && state.worldSquads[c.id] !== undefined)); });
 }

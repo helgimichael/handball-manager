@@ -1,0 +1,785 @@
+{
+  "schemaVersion": 1,
+  "reviewedOn": "2026-11-10",
+  "sources": {
+    "thb3": {
+      "url": "https://www.svenskhandboll.se/download/18.360a4fd619fada88abaa4917/1788947681512/THB%202026-2027%20kap%2003%20sid%2008-25%20F%C3%B6rbund%20o%20reg.pdf",
+      "section": "Body §§3:1-5, printed pp.8-17; geography on p.8, qualification diagram p.11",
+      "seasonIds": [
+        "2026/27"
+      ],
+      "effectiveDate": null,
+      "verifiedOn": "2026-11-10",
+      "verification": "VERIFIED_SOURCE",
+      "sha256": "c89c567707e8096139bb68687bdc02437f3a5be00f6e0a8c43541a3cb09916ce",
+      "documentDate": "2026-06-05"
+    },
+    "administration": {
+      "url": "https://www.svenskhandboll.se/download/18.360a4fd619fada88abaa522d/1785837932400/T%C3%A4vlingshandboken%202026-2027%2C%20sid%2056-58%20Bilaga%2010.pdf",
+      "section": "Appendix 10, printed p.58, Startavgifter table; duties pp.56-57",
+      "seasonIds": [
+        "2026/27",
+        "2027/28",
+        "2028/29"
+      ],
+      "effectiveDate": null,
+      "verifiedOn": "2026-11-10",
+      "verification": "VERIFIED_SOURCE",
+      "sha256": "094b73add47dd2c34babb93c0f495f615b7b19fb92bbde7aa68fa68c7750755e",
+      "documentDate": "2025-06-11"
+    },
+    "norr": {
+      "url": "https://www.profixio.com/app/leagueid28071/teams",
+      "section": "Registered teams, individual team links",
+      "seasonIds": [
+        "2026/27"
+      ],
+      "effectiveDate": null,
+      "verifiedOn": "2026-11-10",
+      "verification": "VERIFIED_SOURCE",
+      "sha256": "0bf071caed96522765abe615b6fb77ab0bf515d67f5c1546ed8dbdcb61b48836"
+    },
+    "mitt": {
+      "url": "https://www.profixio.com/app/leagueid28151/teams",
+      "section": "Registered teams, individual team links",
+      "seasonIds": [
+        "2026/27"
+      ],
+      "effectiveDate": null,
+      "verifiedOn": "2026-11-10",
+      "verification": "VERIFIED_SOURCE",
+      "sha256": "d5ca93aa0fcf4f26fb660331c44250d86a76fd33512d45ca1aaaaa8846a0a310"
+    },
+    "syd": {
+      "url": "https://www.profixio.com/app/leagueid28096/teams",
+      "section": "Registered teams, individual team links",
+      "seasonIds": [
+        "2026/27"
+      ],
+      "effectiveDate": null,
+      "verifiedOn": "2026-11-10",
+      "verification": "VERIFIED_SOURCE",
+      "sha256": "54ea49eec2ef15842b0de5a9ffdb48dbc7b8491fd13ee7253ba70f10de25754f"
+    },
+    "vast": {
+      "url": "https://www.profixio.com/app/leagueid28052/teams",
+      "section": "Registered teams, individual team links",
+      "seasonIds": [
+        "2026/27"
+      ],
+      "effectiveDate": null,
+      "verifiedOn": "2026-11-10",
+      "verification": "VERIFIED_SOURCE",
+      "sha256": "cf3c1cd11de0bc28c2f3f7410007b3e305025e818e33d332b370e32d448fe640"
+    },
+    "ost": {
+      "url": "https://www.svenskhandboll.se/hf-ost/tavling/senior--trim/serieindelning",
+      "section": "Herr 2 Öst club list",
+      "seasonIds": [
+        "2026/27"
+      ],
+      "effectiveDate": null,
+      "verifiedOn": "2026-11-10",
+      "verification": "VERIFIED_SOURCE",
+      "sha256": "e7f689873210d7a564c7b1a2517c6ba1f124c4979aebe0ca0d3226537a1c28da"
+    },
+    "handbook": {
+      "url": "https://www.svenskhandboll.se/handboll-i-sverige/tavling/tavlingshandboken",
+      "section": "Season heading and chapter links",
+      "seasonIds": [
+        "2026/27"
+      ],
+      "effectiveDate": null,
+      "verifiedOn": "2026-11-10",
+      "verification": "VERIFIED_SOURCE",
+      "sha256": "eb1c6973324e78149893807736812b5c635f35fcc663d5eaca1040d7f05033c5"
+    },
+    "calendar": {
+      "url": "https://www.svenskhandboll.se/handboll-i-sverige/tavling/terminplan",
+      "section": "Season heading and version 7 publication",
+      "seasonIds": [
+        "2026/27"
+      ],
+      "effectiveDate": null,
+      "verifiedOn": "2026-11-10",
+      "verification": "VERIFIED_SOURCE",
+      "sha256": "62cf6da968b8ad2e3428fcedbac915d08b632af655fa469a7e84a6444d4379ae"
+    },
+    "licence": {
+      "url": "https://www.svenskhandboll.se/handboll-i-sverige/tavling/elitlicens",
+      "section": "2026/27 requirements and publication of final licence decisions",
+      "seasonIds": [
+        "2026/27"
+      ],
+      "effectiveDate": null,
+      "verifiedOn": "2026-11-10",
+      "verification": "VERIFIED_SOURCE",
+      "sha256": "47676ac2902056cdf2ff5d1b8949573d6f62bbb1ba11323dc4587fa9a42996f8"
+    },
+    "cooperation": {
+      "url": "https://www.svenskhandboll.se/handboll-i-sverige/tavling/samarbetsavtal",
+      "section": "Current agreements link and association A/B restrictions",
+      "seasonIds": [
+        "2026/27"
+      ],
+      "effectiveDate": null,
+      "verifiedOn": "2026-11-10",
+      "verification": "HISTORICAL_REGISTER_ONLY",
+      "sha256": "6fa64d5a91c150a2d1d05e8f27e11e0a8e9de7264de7f42c65f27824d275859d",
+      "note": "Linked workbook is 2025/26, not evidence of current or 2027/28 club eligibility."
+    },
+    "ostRegistrations": {
+      "url": "https://www.profixio.com/app/leagueid27989/teams",
+      "section": "Registered teams, individual team links",
+      "seasonIds": [
+        "2026/27"
+      ],
+      "effectiveDate": null,
+      "verifiedOn": "2026-11-10",
+      "verification": "VERIFIED_SOURCE",
+      "sha256": "3054690ff5728e5c1d1a8b8cc67797ab20b61d806c2789c5308ac0756ca78980"
+    },
+    "vastWorkbook": {
+      "url": "https://svenskhandboll.se/download/18.2c9b060119d9a648df1e4a72/1776935881178/Fastst%C3%A4llda%20serieindelningar%20div.%202%20och%20div.%203%202026-2027.xlsx",
+      "section": "Herrar!B5:B16",
+      "seasonIds": [
+        "2026/27"
+      ],
+      "effectiveDate": null,
+      "publishedOn": "2026-04-23",
+      "verifiedOn": "2026-11-10",
+      "verification": "VERIFIED_SOURCE",
+      "sha256": "af5284b18f74a3a8c19cfaa52c5e07fa7eaacf43e93ca42ebe1adb536cfd805e"
+    }
+  },
+  "division2Registrations": [
+    {
+      "district": "n",
+      "sourceId": "norr",
+      "observedOn": "2026-11-10",
+      "seasonId": "2026/27",
+      "competitionSourceId": "leagueid28071",
+      "registeredCount": 7,
+      "registrations": [
+        {
+          "sourceTeamId": "1577093",
+          "sourceUrl": "https://www.profixio.com/app/leagueid28071/teams/1577093",
+          "name": "Bodens BK Handbollförening",
+          "canonicalClubId": null,
+          "canonicalMappingStatus": "AMBIGUOUS_SENIOR_RESERVE",
+          "mappingEvidence": "The generic Bodens BK source name cannot distinguish the Division 2 registration from the existing Division 1 senior club. Do not merge registrations or duplicate that team."
+        },
+        {
+          "sourceTeamId": "1571761",
+          "sourceUrl": "https://www.profixio.com/app/leagueid28071/teams/1571761",
+          "name": "Gimonäs Umeå IF",
+          "canonicalClubId": "se_div2_team_1571761",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid28071/teams/1571761; explicit distinct playing-team registration in leagueid28071 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1574316",
+          "sourceUrl": "https://www.profixio.com/app/leagueid28071/teams/1574316",
+          "name": "Härnösands HF",
+          "canonicalClubId": "se_div2_team_1574316",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid28071/teams/1574316; explicit distinct playing-team registration in leagueid28071 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1582047",
+          "sourceUrl": "https://www.profixio.com/app/leagueid28071/teams/1582047",
+          "name": "Kiruna HK",
+          "canonicalClubId": "se_div2_team_1582047",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid28071/teams/1582047; explicit distinct playing-team registration in leagueid28071 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1583325",
+          "sourceUrl": "https://www.profixio.com/app/leagueid28071/teams/1583325",
+          "name": "Norrfjärdens IF",
+          "canonicalClubId": "se_div2_team_1583325",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid28071/teams/1583325; explicit distinct playing-team registration in leagueid28071 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1583328",
+          "sourceUrl": "https://www.profixio.com/app/leagueid28071/teams/1583328",
+          "name": "Sikeå SK",
+          "canonicalClubId": "se_div2_team_1583328",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid28071/teams/1583328; explicit distinct playing-team registration in leagueid28071 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1578618",
+          "sourceUrl": "https://www.profixio.com/app/leagueid28071/teams/1578618",
+          "name": "Sundsvall HK",
+          "canonicalClubId": "se_div2_team_1578618",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid28071/teams/1578618; explicit distinct playing-team registration in leagueid28071 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        }
+      ],
+      "directRanks": [
+        1
+      ],
+      "qualificationRanks": [
+        2
+      ],
+      "slotSourceId": "thb3",
+      "eligibilityConfirmed": false
+    },
+    {
+      "district": "o",
+      "sourceId": "ostRegistrations",
+      "observedOn": "2026-11-10",
+      "seasonId": "2026/27",
+      "competitionSourceId": "leagueid27989",
+      "registeredCount": 12,
+      "registrations": [
+        {
+          "sourceTeamId": "1575294",
+          "sourceUrl": "https://www.profixio.com/app/leagueid27989/teams/1575294",
+          "name": "AIK",
+          "canonicalClubId": "se_div2_team_1575294",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid27989/teams/1575294; explicit distinct playing-team registration in leagueid27989 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1577066",
+          "sourceUrl": "https://www.profixio.com/app/leagueid27989/teams/1577066",
+          "name": "Djurgårdens HF",
+          "canonicalClubId": "se_div2_team_1577066",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid27989/teams/1577066; explicit distinct playing-team registration in leagueid27989 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1576032",
+          "sourceUrl": "https://www.profixio.com/app/leagueid27989/teams/1576032",
+          "name": "HF SIF",
+          "canonicalClubId": "se_div2_team_1576032",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid27989/teams/1576032; explicit distinct playing-team registration in leagueid27989 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1570960",
+          "sourceUrl": "https://www.profixio.com/app/leagueid27989/teams/1570960",
+          "name": "HK Tyrold",
+          "canonicalClubId": "se_div2_team_1570960",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid27989/teams/1570960; explicit distinct playing-team registration in leagueid27989 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1581926",
+          "sourceUrl": "https://www.profixio.com/app/leagueid27989/teams/1581926",
+          "name": "Kungsängens SK",
+          "canonicalClubId": "se_div2_team_1581926",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid27989/teams/1581926; explicit distinct playing-team registration in leagueid27989 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1587488",
+          "sourceUrl": "https://www.profixio.com/app/leagueid27989/teams/1587488",
+          "name": "Lidingö SK",
+          "canonicalClubId": "se_div2_team_1587488",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid27989/teams/1587488; explicit distinct playing-team registration in leagueid27989 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1576098",
+          "sourceUrl": "https://www.profixio.com/app/leagueid27989/teams/1576098",
+          "name": "SK Kvarnberga",
+          "canonicalClubId": "se_div2_team_1576098",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid27989/teams/1576098; explicit distinct playing-team registration in leagueid27989 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1587398",
+          "sourceUrl": "https://www.profixio.com/app/leagueid27989/teams/1587398",
+          "name": "Skogås HK",
+          "canonicalClubId": "se_div2_team_1587398",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid27989/teams/1587398; explicit distinct playing-team registration in leagueid27989 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1578302",
+          "sourceUrl": "https://www.profixio.com/app/leagueid27989/teams/1578302",
+          "name": "Skuru IK",
+          "canonicalClubId": "se_div2_team_1578302",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid27989/teams/1578302; explicit distinct playing-team registration in leagueid27989 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1581054",
+          "sourceUrl": "https://www.profixio.com/app/leagueid27989/teams/1581054",
+          "name": "Spånga HK",
+          "canonicalClubId": "se_div2_team_1581054",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid27989/teams/1581054; explicit distinct playing-team registration in leagueid27989 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1582988",
+          "sourceUrl": "https://www.profixio.com/app/leagueid27989/teams/1582988",
+          "name": "Tumba HK",
+          "canonicalClubId": "se_div2_team_1582988",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid27989/teams/1582988; explicit distinct playing-team registration in leagueid27989 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1585773",
+          "sourceUrl": "https://www.profixio.com/app/leagueid27989/teams/1585773",
+          "name": "Årsta AIK HF",
+          "canonicalClubId": "se_div2_team_1585773",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid27989/teams/1585773; explicit distinct playing-team registration in leagueid27989 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        }
+      ],
+      "directRanks": [
+        1
+      ],
+      "qualificationRanks": [
+        2
+      ],
+      "slotSourceId": "thb3",
+      "eligibilityConfirmed": false
+    },
+    {
+      "district": "m",
+      "sourceId": "mitt",
+      "observedOn": "2026-11-10",
+      "seasonId": "2026/27",
+      "competitionSourceId": "leagueid28151",
+      "registeredCount": 10,
+      "registrations": [
+        {
+          "sourceTeamId": "1587217",
+          "sourceUrl": "https://www.profixio.com/app/leagueid28151/teams/1587217",
+          "name": "Borlänge HK",
+          "canonicalClubId": "se_div2_team_1587217",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid28151/teams/1587217; explicit distinct playing-team registration in leagueid28151 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1583225",
+          "sourceUrl": "https://www.profixio.com/app/leagueid28151/teams/1583225",
+          "name": "Eksjö BK",
+          "canonicalClubId": "se_div2_team_1583225",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid28151/teams/1583225; explicit distinct playing-team registration in leagueid28151 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1585081",
+          "sourceUrl": "https://www.profixio.com/app/leagueid28151/teams/1585081",
+          "name": "HK Erping",
+          "canonicalClubId": "se_div2_team_1585081",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid28151/teams/1585081; explicit distinct playing-team registration in leagueid28151 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1575788",
+          "sourceUrl": "https://www.profixio.com/app/leagueid28151/teams/1575788",
+          "name": "HK Lif Blå",
+          "canonicalClubId": "se_div2_team_1575788",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid28151/teams/1575788; explicit distinct playing-team registration in leagueid28151 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1579109",
+          "sourceUrl": "https://www.profixio.com/app/leagueid28151/teams/1579109",
+          "name": "IFK Nyköping",
+          "canonicalClubId": "se_div2_team_1579109",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid28151/teams/1579109; explicit distinct playing-team registration in leagueid28151 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1575015",
+          "sourceUrl": "https://www.profixio.com/app/leagueid28151/teams/1575015",
+          "name": "Ludvika HF Herr",
+          "canonicalClubId": "se_div2_team_1575015",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid28151/teams/1575015; explicit distinct playing-team registration in leagueid28151 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1574743",
+          "sourceUrl": "https://www.profixio.com/app/leagueid28151/teams/1574743",
+          "name": "Mantorps IF HF",
+          "canonicalClubId": "se_div2_team_1574743",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid28151/teams/1574743; explicit distinct playing-team registration in leagueid28151 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1584203",
+          "sourceUrl": "https://www.profixio.com/app/leagueid28151/teams/1584203",
+          "name": "Norrköpings HK",
+          "canonicalClubId": "se_div2_team_1584203",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid28151/teams/1584203; explicit distinct playing-team registration in leagueid28151 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1584878",
+          "sourceUrl": "https://www.profixio.com/app/leagueid28151/teams/1584878",
+          "name": "Vetlanda HF",
+          "canonicalClubId": "se_div2_team_1584878",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid28151/teams/1584878; explicit distinct playing-team registration in leagueid28151 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1578886",
+          "sourceUrl": "https://www.profixio.com/app/leagueid28151/teams/1578886",
+          "name": "VästeråsIrsta HK",
+          "canonicalClubId": "se_div2_team_1578886",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid28151/teams/1578886; explicit distinct playing-team registration in leagueid28151 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        }
+      ],
+      "directRanks": [
+        1
+      ],
+      "qualificationRanks": [
+        2
+      ],
+      "slotSourceId": "thb3",
+      "eligibilityConfirmed": false
+    },
+    {
+      "district": "v",
+      "sourceId": "vast",
+      "observedOn": "2026-11-10",
+      "seasonId": "2026/27",
+      "competitionSourceId": "leagueid28052",
+      "registeredCount": 12,
+      "registrations": [
+        {
+          "sourceTeamId": "1582839",
+          "sourceUrl": "https://www.profixio.com/app/leagueid28052/teams/1582839",
+          "name": "Backa HK",
+          "canonicalClubId": "se_div2_team_1582839",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid28052/teams/1582839; explicit distinct playing-team registration in leagueid28052 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1580934",
+          "sourceUrl": "https://www.profixio.com/app/leagueid28052/teams/1580934",
+          "name": "Fjärås HK",
+          "canonicalClubId": "se_div2_team_1580934",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid28052/teams/1580934; explicit distinct playing-team registration in leagueid28052 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1570589",
+          "sourceUrl": "https://www.profixio.com/app/leagueid28052/teams/1570589",
+          "name": "HB 78 Jönköping",
+          "canonicalClubId": "se_div2_team_1570589",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid28052/teams/1570589; explicit distinct playing-team registration in leagueid28052 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1581244",
+          "sourceUrl": "https://www.profixio.com/app/leagueid28052/teams/1581244",
+          "name": "HK Skövde",
+          "canonicalClubId": "se_div2_team_1581244",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid28052/teams/1581244; explicit distinct playing-team registration in leagueid28052 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1575715",
+          "sourceUrl": "https://www.profixio.com/app/leagueid28052/teams/1575715",
+          "name": "HK Varberg 09",
+          "canonicalClubId": "se_div2_team_1575715",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid28052/teams/1575715; explicit distinct playing-team registration in leagueid28052 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1578882",
+          "sourceUrl": "https://www.profixio.com/app/leagueid28052/teams/1578882",
+          "name": "IF Hellton Karlstad",
+          "canonicalClubId": "se_div2_team_1578882",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid28052/teams/1578882; explicit distinct playing-team registration in leagueid28052 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1574211",
+          "sourceUrl": "https://www.profixio.com/app/leagueid28052/teams/1574211",
+          "name": "IK Baltichov",
+          "canonicalClubId": "se_div2_team_1574211",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid28052/teams/1574211; explicit distinct playing-team registration in leagueid28052 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1586623",
+          "sourceUrl": "https://www.profixio.com/app/leagueid28052/teams/1586623",
+          "name": "Skara HK",
+          "canonicalClubId": "se_div2_team_1586623",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid28052/teams/1586623; explicit distinct playing-team registration in leagueid28052 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1579656",
+          "sourceUrl": "https://www.profixio.com/app/leagueid28052/teams/1579656",
+          "name": "Stenungsunds HK",
+          "canonicalClubId": "se_div2_team_1579656",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid28052/teams/1579656; explicit distinct playing-team registration in leagueid28052 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1578270",
+          "sourceUrl": "https://www.profixio.com/app/leagueid28052/teams/1578270",
+          "name": "Torslanda HK",
+          "canonicalClubId": "se_div2_team_1578270",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid28052/teams/1578270; explicit distinct playing-team registration in leagueid28052 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1585949",
+          "sourceUrl": "https://www.profixio.com/app/leagueid28052/teams/1585949",
+          "name": "Vårgårda IK HK",
+          "canonicalClubId": "se_div2_team_1585949",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid28052/teams/1585949; explicit distinct playing-team registration in leagueid28052 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1578815",
+          "sourceUrl": "https://www.profixio.com/app/leagueid28052/teams/1578815",
+          "name": "Örgryte IS Handboll",
+          "canonicalClubId": "se_div2_team_1578815",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid28052/teams/1578815; explicit distinct playing-team registration in leagueid28052 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        }
+      ],
+      "directRanks": [
+        1
+      ],
+      "qualificationRanks": [
+        2,
+        3
+      ],
+      "slotSourceId": "thb3",
+      "eligibilityConfirmed": false
+    },
+    {
+      "district": "s",
+      "sourceId": "syd",
+      "observedOn": "2026-11-10",
+      "seasonId": "2026/27",
+      "competitionSourceId": "leagueid28096",
+      "registeredCount": 13,
+      "registrations": [
+        {
+          "sourceTeamId": "1578982",
+          "sourceUrl": "https://www.profixio.com/app/leagueid28096/teams/1578982",
+          "name": "Helsingborgs HK",
+          "canonicalClubId": "se_div2_team_1578982",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid28096/teams/1578982; explicit distinct playing-team registration in leagueid28096 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1582183",
+          "sourceUrl": "https://www.profixio.com/app/leagueid28096/teams/1582183",
+          "name": "HF Karlskrona U",
+          "canonicalClubId": "se_div2_team_1582183",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid28096/teams/1582183; explicit distinct playing-team registration in leagueid28096 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1583015",
+          "sourceUrl": "https://www.profixio.com/app/leagueid28096/teams/1583015",
+          "name": "HK Ystadpågarna",
+          "canonicalClubId": "se_div2_team_1583015",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid28096/teams/1583015; explicit distinct playing-team registration in leagueid28096 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1586014",
+          "sourceUrl": "https://www.profixio.com/app/leagueid28096/teams/1586014",
+          "name": "IFK Malmö HF",
+          "canonicalClubId": "se_div2_team_1586014",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid28096/teams/1586014; explicit distinct playing-team registration in leagueid28096 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1581343",
+          "sourceUrl": "https://www.profixio.com/app/leagueid28096/teams/1581343",
+          "name": "IK Sund",
+          "canonicalClubId": "se_div2_team_1581343",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid28096/teams/1581343; explicit distinct playing-team registration in leagueid28096 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1580548",
+          "sourceUrl": "https://www.profixio.com/app/leagueid28096/teams/1580548",
+          "name": "KFUM Kalmar HK",
+          "canonicalClubId": "se_div2_team_1580548",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid28096/teams/1580548; explicit distinct playing-team registration in leagueid28096 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1583912",
+          "sourceUrl": "https://www.profixio.com/app/leagueid28096/teams/1583912",
+          "name": "Kävlinge HK",
+          "canonicalClubId": "se_div2_team_1583912",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid28096/teams/1583912; explicit distinct playing-team registration in leagueid28096 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1585295",
+          "sourceUrl": "https://www.profixio.com/app/leagueid28096/teams/1585295",
+          "name": "LUGI HF U",
+          "canonicalClubId": "se_div2_team_1585295",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid28096/teams/1585295; explicit distinct playing-team registration in leagueid28096 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1576008",
+          "sourceUrl": "https://www.profixio.com/app/leagueid28096/teams/1576008",
+          "name": "Lunds HS Lejon",
+          "canonicalClubId": "se_div2_team_1576008",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid28096/teams/1576008; explicit distinct playing-team registration in leagueid28096 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1571471",
+          "sourceUrl": "https://www.profixio.com/app/leagueid28096/teams/1571471",
+          "name": "Lödde Vikings HK",
+          "canonicalClubId": "se_div2_team_1571471",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid28096/teams/1571471; explicit distinct playing-team registration in leagueid28096 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1579219",
+          "sourceUrl": "https://www.profixio.com/app/leagueid28096/teams/1579219",
+          "name": "Malmö HP",
+          "canonicalClubId": "se_div2_team_1579219",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid28096/teams/1579219; explicit distinct playing-team registration in leagueid28096 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1586501",
+          "sourceUrl": "https://www.profixio.com/app/leagueid28096/teams/1586501",
+          "name": "Växjö HF",
+          "canonicalClubId": "se_div2_team_1586501",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid28096/teams/1586501; explicit distinct playing-team registration in leagueid28096 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        },
+        {
+          "sourceTeamId": "1585596",
+          "sourceUrl": "https://www.profixio.com/app/leagueid28096/teams/1585596",
+          "name": "Ystads IF HF U",
+          "canonicalClubId": "se_div2_team_1585596",
+          "canonicalMappingStatus": "RESOLVED_SOURCE_REGISTRATION",
+          "mappingEvidence": "https://www.profixio.com/app/leagueid28096/teams/1585596; explicit distinct playing-team registration in leagueid28096 (2026/27). ID is assigned once and retained across simulated seasons, not recomputed from names or new season registrations. No parent affiliation, eligibility or squad inferred."
+        }
+      ],
+      "directRanks": [
+        1
+      ],
+      "qualificationRanks": [
+        2,
+        3
+      ],
+      "slotSourceId": "thb3",
+      "eligibilityConfirmed": false
+    }
+  ],
+  "requirements": [
+    {
+      "id": "DISTRICT_REGISTRATION_MAPPING",
+      "category": "C",
+      "status": "BLOCKED",
+      "seasonId": "2026/27",
+      "sourceIds": [
+        "norr",
+        "ostRegistrations",
+        "mitt",
+        "vast",
+        "syd"
+      ],
+      "requiredInput": "53 source registrations now have distinct identity-only canonical entries. Bodens BK source registration 1577093 still needs senior/reserve identification. District squads, eligibility and sporting results are separate prerequisites."
+    },
+    {
+      "id": "DISTRICT_SPORTING_OUTCOMES",
+      "category": "A",
+      "status": "UNRESOLVED",
+      "seasonId": "2026/27",
+      "sourceIds": [
+        "thb3"
+      ],
+      "requiredInput": "Completed simulated district standings and supported qualification results using eligible registered canonical clubs. Published current tables are not future final results."
+    },
+    {
+      "id": "NORRA_10_HOME_PRIORITY",
+      "category": "B",
+      "status": "BLOCKED",
+      "seasonId": "2026/27",
+      "sourceIds": [
+        "thb3"
+      ],
+      "requiredInput": "Explicit reference entrant or organizer ruling for H1N-10 versus H2Ö-2. General B-H-H text does not choose the reference entrant."
+    },
+    {
+      "id": "GEOGRAPHIC_ALLOCATION",
+      "category": "C",
+      "status": "BLOCKED",
+      "seasonId": "2027/28",
+      "sourceIds": [
+        "thb3"
+      ],
+      "requiredInput": "Organizer-approved allocation after sporting outcomes, based on national travel geography; district destinations for relegated clubs. Current groups are not next-season allocations."
+    },
+    {
+      "id": "CLUB_ELIGIBILITY",
+      "category": "C",
+      "status": "BLOCKED",
+      "seasonId": "2027/28",
+      "sourceIds": [
+        "thb3",
+        "licence",
+        "cooperation"
+      ],
+      "requiredInput": "Season-specific entry acceptance, HBL licence and dated cooperation/B-team decisions for each affected club. No blanket eligible default."
+    },
+    {
+      "id": "NEXT_SEASON_COMPETITION_PROFILE",
+      "category": "B",
+      "status": "BLOCKED",
+      "seasonId": "2027/28",
+      "sourceIds": [
+        "handbook",
+        "calendar"
+      ],
+      "requiredInput": "Verified 2027/28 sporting rules and kickoff/calendar profile. Confirmed fees do not establish league structure or match dates."
+    },
+    {
+      "id": "DISTRICT_SQUAD_COVERAGE",
+      "category": "C",
+      "status": "BLOCKED",
+      "seasonId": "2026/27",
+      "sourceIds": [
+        "norr",
+        "ostRegistrations",
+        "mitt",
+        "vast",
+        "syd"
+      ],
+      "requiredInput": "Supported canonical squad/registration coverage for district match simulation. Identity-only catalog entries do not create players, ratings or completed district matches."
+    }
+  ],
+  "nextSeason": {
+    "seasonId": "2027/28",
+    "rulesStatus": "UNVERIFIED",
+    "calendarStatus": "UNVERIFIED",
+    "profile": null,
+    "entryFeesSEK": {
+      "se_handbollsligan_herr": 54000,
+      "swe-2": 32000,
+      "se_division1_norra": 22000,
+      "se_division1_sodra": 22000
+    },
+    "feeSourceId": "administration",
+    "feeVerification": "CONFIRMED",
+    "applyFeesToCareer": false
+  },
+  "notes": [
+    "Registration snapshots are as of review date, not retroactive July career membership or qualification entrants.",
+    "HF Mitt May page says 12 teams but lists 11; review-date Profixio lists 10 with 18 matches each. No twelfth club or withdrawal ruling inferred.",
+    "Source registrations are kept separate from canonical club identities. Bodens BK reserve identity, Tumba HK versus IFK Tumba HK, and HF Karlskrona U versus senior club must be reviewed separately.",
+    "No 2027/28 official league package was found on current handbook/calendar publications. Future cup registration is not league profile evidence."
+  ]
+}

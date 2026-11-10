@@ -244,6 +244,7 @@
   "components/crests/crestPalette.test.ts",
   "lib/economy/ledger.test.ts",
   "lib/competition/season.test.ts",
+  "lib/competition/transition/transition.test.ts",
   "lib/staff/staffManagement.test.ts",
   "lib/career/alpha3SaveCompatibility.test.ts",
   "lib/career/alpha3ManagementLoop.test.ts",
@@ -283,5 +284,10 @@
   "lib/players/playingTime.test.ts",
   "lib/board/clubCareerPressure.test.ts",
   "lib/career/weeklyManagement.test.ts",
-  "lib/players/intentions.test.ts"
+  "lib/players/intentions.test.ts",
+  "lib/competition/transition/careerQualifications.test.ts",
+  "lib/competition/transition/swedenDataCompletion.test.ts",
+  "lib/competition/transition/swedishIdentityCompletion.test.ts",
+  "lib/competition/transition/gameContinuity.test.ts",
+  "lib/competition/transition/gameContinuity.seasons.test.ts"
 ]
