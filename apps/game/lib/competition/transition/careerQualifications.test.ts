@@ -80,7 +80,10 @@ test('unknown eligibility never creates a qualification tie or a strength-picked
 });
 
 test('supported upper qualification games simulate through saved career results, feeds, clinches and load', () => {
-  let s=completeLeagues(); s={...s,seasonTransitionRequest:reviewedTestRequest(s)};
+  let s=completeLeagues();
+  // Explicit hypothetical pre-deadline terminations isolate the official home-priority/series regression.
+  // A caller's blanket ELIGIBLE attestation must never disable an ACTIVE production cooperation.
+  s={...s,clubPartnerships:Object.fromEntries(Object.entries(s.clubPartnerships).map(([id,p])=>[id,{...p,permanent:false,status:'TERMINATED' as const,endDate:'2026-12-31'}])),seasonTransitionRequest:reviewedTestRequest(s)};
   const first=progressCareerQualifications(s,'2027-03-19');
   s=first.state;
   assert.equal(Object.values(s.competitionTies!).filter(t=>t.transition).length,5,JSON.stringify(first.blockers));

@@ -289,5 +289,6 @@
   "lib/competition/transition/swedenDataCompletion.test.ts",
   "lib/competition/transition/swedishIdentityCompletion.test.ts",
   "lib/competition/transition/gameContinuity.test.ts",
-  "lib/competition/transition/gameContinuity.seasons.test.ts"
+  "lib/competition/transition/gameContinuity.seasons.test.ts",
+  "lib/competition/transition/cooperationEligibility.test.ts"
 ]

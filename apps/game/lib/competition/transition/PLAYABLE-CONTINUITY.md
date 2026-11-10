@@ -34,9 +34,12 @@ supported 2026/27 structure, not future official appointments.
   lifecycle, market and economy enumerations follow effective membership.
 - Optional dated `competitionRestriction` on the existing ClubPartnership model
   identifies evidence, origin, maximum eligible tier and optional parent-division
-  restriction. Historic permanent-affiliation seeds alone impose no competition
-  restriction. Existing upper-half replacement rules handle rejected upward
-  entries. No currently active Hammarby/HK Cliff agreement is asserted.
+  restriction. Existing ACTIVE AFFILIATED_B_TEAM career rows also enforce SHF
+  9:1, 9:4-7 without optional metadata. Ending after December 31 does not restore
+  spring advancement. Past inactive agreements are not reactivated. The same
+  checks apply to caller/QA evidence and the final atomic target membership.
+  Existing upper-half replacement rules handle rejected upward entries. No
+  historical register is imported as a currently active real-world agreement.
 
 ## Known shipped-data blocker
 

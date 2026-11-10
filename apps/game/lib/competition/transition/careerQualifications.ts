@@ -1,3 +1,4 @@
+import { enforceCareerCooperationEligibility } from './cooperationEligibility';
 import type { CareerFixture, CareerState } from '../../career/types';
 import type { SeasonTransitionRequest } from '../../career/seasonTransition';
 import { prepareGameContinuity } from './gameContinuity';
@@ -32,7 +33,7 @@ export function progressCareerQualifications(state: CareerState, date: string, r
   state = prepared?.state ?? state;
   request = request ?? state.seasonTransitionRequest ?? prepared!.request;
   const rules = request.rules ?? SWEDISH_2026_RULES;
-  const input = snapshotCompetitionTransitionInput(state,request.evidence,rules);
+  const input = enforceCareerCooperationEligibility(state,snapshotCompetitionTransitionInput(state,request.evidence,rules),date);
   const proposal = planCompetitionTransition({ ...input,standings:input.standings.map(t => ({ ...t,rankingDecisions:request.evidence?.rankingDecisions?.[t.competitionId] })) });
   const blockers: Dependency[] = [...(prepared?.blockers ?? []),...proposal.dependencies,...careerQualificationEvidence(state,rules).blockers];
   const issue = (code: string, ref: string, message: string) => blockers.push({ code,ref,message,status:'BLOCKED' });

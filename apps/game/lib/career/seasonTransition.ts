@@ -1,3 +1,4 @@
+import { enforceCareerCooperationEligibility, cooperationEligibility } from '../competition/transition/cooperationEligibility';
 import type { CareerState } from './types';
 import { prepareGameContinuity } from '../competition/transition/gameContinuity';
 import { compactCareerHistory } from './historyCompaction';
@@ -75,7 +76,7 @@ export function attemptSeasonTransition(input: CareerState, request?: SeasonTran
     // Recompute against this request; persisted display blockers are not authority.
     if (input.seasonComplete) blockers.push(...progressCareerQualifications(input,input.gameDate,request).blockers.filter(b => QUALIFICATION_SCHEDULING_BLOCKER_CODES.has(b.code)));
     const evidence = request.evidence;
-    const rawSnapshot = snapshotCompetitionTransitionInput(input, evidence, rules);
+    const rawSnapshot = enforceCareerCooperationEligibility(input,snapshotCompetitionTransitionInput(input, evidence, rules));
     const snapshot: PlannerInput = { ...rawSnapshot, standings: rawSnapshot.standings.map((table) => ({ ...table, rankingDecisions: evidence?.rankingDecisions?.[table.competitionId] })) };
     preview = previewSeasonTransition(snapshot);
     blockers.push(...preview.blockers);
@@ -117,6 +118,9 @@ export function attemptSeasonTransition(input: CareerState, request?: SeasonTran
       for (const id of league.confirmedNextClubIds) {
         if (!canonical.has(id) || seen.has(id)) fail('INVALID_TARGET_CLUB', id, 'Each target member must be a unique canonical club.');
         if (getClub(id)?.dataSource === 'IDENTITY_ONLY' && !input.worldSquads[id]?.length) fail('TARGET_SQUAD_COVERAGE_REQUIRED',id,'Identity-only club requires a supplied squad before entering an active league.');
+        const tier = rules.families.find(f => f.id === definition.familyId)!.tier;
+        const cooperation = cooperationEligibility(input,id,tier,input.gameDate);
+        if (!cooperation.eligible) fail('COOPERATION_TARGET_INELIGIBLE',id,cooperation.reasons.join(' | '));
         seen.add(id);
         membership[id] = league.competitionId;
       }
