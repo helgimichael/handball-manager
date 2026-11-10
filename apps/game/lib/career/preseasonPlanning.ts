@@ -1,3 +1,4 @@
+import { CalendarSchedulingError, validateCupCalendar } from "../competition/cupSchedule";
 // HM-PLAYTEST-01 3.1: preseason planning -- friendlies (home, away or at a
 // neutral venue, singly or as a programme), training camps, training trips
 // abroad and friendly tournaments.
@@ -112,6 +113,7 @@ export function planFriendly(state: CareerState, input: { date: string; opponent
   if (state.fixtures.some((f) => f.id === fixture.id)) return { ok: false, state, error: "Matchen är redan bokad." };
   const cost = input.charged === false ? 0 : input.venue === "HOME" ? PRESEASON_COSTS.friendlyHome : input.venue === "AWAY" ? PRESEASON_COSTS.friendlyAway : PRESEASON_COSTS.friendlyNeutral;
   const withFixture = { ...state, fixtures: [...state.fixtures, fixture] };
+  try { validateCupCalendar(withFixture); } catch (error) { if (error instanceof CalendarSchedulingError) return { ok: false, state, error: error.message }; throw error; }
   if (cost === 0) return { ok: true, state: withFixture, costEur: 0 };
   return charge(withFixture, cost, `Träningsmatch mot ${getClub(input.opponentClubId)?.shortName ?? input.opponentClubId}`, input.date);
 }

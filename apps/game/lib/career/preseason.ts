@@ -1,3 +1,4 @@
+import { CalendarSchedulingError, validateCupCalendar } from "../competition/cupSchedule";
 // HM-PRESEASON-1.0: career-start timing (preseason length), the real
 // Swedish 2026/27 league-kickoff calendar, a single provisional early
 // cup round, season-phase derivation, and friendly-match booking. One
@@ -155,5 +156,7 @@ export function bookFriendly(state: CareerState, date: string, opponentClubId: s
     awayClubId: opponentClubId,
     type: "FRIENDLY",
   };
-  return { ok: true, state: { ...state, fixtures: [...state.fixtures, fixture] } };
+  const next = { ...state, fixtures: [...state.fixtures, fixture] };
+  try { validateCupCalendar(next); } catch (error) { if (error instanceof CalendarSchedulingError) return { ok: false, state, error: error.message }; throw error; }
+  return { ok: true, state: next };
 }

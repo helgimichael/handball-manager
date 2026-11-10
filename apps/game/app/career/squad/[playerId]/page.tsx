@@ -1,4 +1,5 @@
 "use client";
+import { DevelopmentHistory } from "@/components/players/DevelopmentHistory";
 import PlayerActions from '@/components/manager/PlayerActions';
 import { careerPlayerVisibility } from "@/lib/knowledge/careerVisibility";
 import PlayerPerformance from '@/components/manager/PlayerPerformance';
@@ -417,16 +418,7 @@ function DevelopmentPanel({ playerId }: { playerId: string }) {
             Ingen synlig förbättring registrerad ännu.
           </p>
         ) : (
-          recentEvents.map((ev, i) => (
-            <div key={i} style={{ display: "flex", justifyContent: "space-between", fontSize: "var(--hm-text-2xs)" }}>
-              <span className="hm-text-muted">
-                {ev.attribute} ({ev.date})
-              </span>
-              <span style={{ fontWeight: 600 }}>
-                {ev.previousValue} → {ev.newValue}
-              </span>
-            </div>
-          ))
+          <DevelopmentHistory events={recentEvents} />
         )}
       </div>
     </div>

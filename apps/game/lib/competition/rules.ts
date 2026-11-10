@@ -13,7 +13,7 @@
 //         https://svenskhandboll.se/download/18.1b6a4306199a34c4a6dda536/1759908889212/THB%202025-2026%20hela%20samlad.pdf
 // - [CUP] ATG Svenska cupen 2025/26 tävlingsreglemente
 //         https://www.svenskhandboll.se/download/18.5397bd2e1947419831b6b9a7/1737382251824/ATG%20Svenska%20cupen%2025-26%20t%C3%A4vlingsreglemente.pdf
-// No structural change between 2025/26 and 2026/27 for these tiers.
+// League formats below are unchanged; the cup changed in 2026/27 (see cupSchedule.ts).
 
 export const HANDBOLLSLIGAN = "se_handbollsligan_herr";
 export const ALLSVENSKAN = "swe-2";
@@ -108,7 +108,7 @@ export const CUP_RULES = {
    * clubs make up the 32; (3) the "shoot-out inför match" handicap is not
    * modelled; (4) dates are set by the game around the league calendar.
    */
-  assumptions: { verified: false, assumption: "2025/26 format; rounds 1-3 and the pre-match handicap shoot-out are not played; game-set dates." } as Provenance,
+  assumptions: { verified: false, assumption: "Legacy saves keep the 2025/26 format. New cups use the verified 2026/27 knockout format and cupSchedule date profiles. District entrants and the pre-match handicap remain unmodelled; future dates and the existing prize amounts are provisional." } as Provenance,
 };
 
 /**

@@ -52,9 +52,9 @@ test('camps block the calendar, cost money, lift the match-fitness ceiling and m
   const after = applyPreseasonEventDay(s, add(start, 4));
   assert.ok(after.playerDynamics?.morale?.[ids[0]]?.shocks?.some(x => x.label.startsWith('Gemenskap')));
   assert.deepEqual(applyPreseasonEventDay(after, add(start, 4)).playerDynamics, after.playerDynamics, 'idempotent');
-  const t = planFriendlyTournament(s, { name: 'Cup', location: 'Partille', startDate: add(start, 8), opponentClubIds: ['swe2-guif', 'swe2-drott', 'swe2-varberg'] });
+  const t = planFriendlyTournament(s, { name: 'Cup', location: 'Partille', startDate: add(start, 6), opponentClubIds: ['swe2-guif', 'swe2-drott', 'swe2-varberg'] });
   assert.ok(t.ok);
-  assert.deepEqual(t.state.fixtures.slice(-3).map(f => f.date), [add(start, 8), add(start, 9), add(start, 10)]);
+  assert.deepEqual(t.state.fixtures.slice(-3).map(f => f.date), [add(start, 6), add(start, 7), add(start, 8)]);
 });
 
 test('a club that cannot pay is refused', () => {

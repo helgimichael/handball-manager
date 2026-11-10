@@ -1,3 +1,6 @@
+import { CalendarSchedulingError } from "../competition/cupSchedule";
+import { buildClubEvent } from "./careerEvents";
+import { withEvents } from "../manager/events";
 // Continue Controller (HM-GAME-0.3, Spec S18-S19).
 //
 //   CONTINUE
@@ -18,6 +21,7 @@ import { CONTINUE_MAX_DAYS_PER_PRESS } from "./careerRhythmConfig";
 import type { CareerState } from "./types";
 
 export type ContinueStopReason =
+  | "CALENDAR_CONFLICT"
   | "SEASON_COMPLETE"
   | "ACTION_REQUIRED_PENDING"
   | "ACTION_REQUIRED"
@@ -51,7 +55,14 @@ export function continueCareerRhythm(state: CareerState): ContinueResult {
 
   for (let daysProcessed = 1; daysProcessed <= CONTINUE_MAX_DAYS_PER_PRESS; daysProcessed += 1) {
     const nextDate = addDays(current.processedThroughDate, 1);
-    const { state: tickState, events } = processDay(current, nextDate);
+    let day: ReturnType<typeof processDay>;
+    try { day = processDay(current, nextDate); }
+    catch (error) {
+      if (!(error instanceof CalendarSchedulingError)) throw error;
+      const event = buildClubEvent('SEASON_MILESTONE', `calendar-conflict:${current.seasonId}:${error.fixtureId}`, current.gameDate, 'IMPORTANT', 'Kalendern kan inte fortsätta', error.message, [{ route: 'SEASON' }]);
+      return { state: event ? withEvents(current, [event]) : current, events: [...allEvents, ...(event ? [event] : [])], stopReason: 'CALENDAR_CONFLICT', daysProcessed: daysProcessed - 1 };
+    }
+    const { state: tickState, events } = day;
     current = tickState;
     allEvents.push(...events);
 

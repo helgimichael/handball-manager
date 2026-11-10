@@ -67,7 +67,8 @@ test('Alpha hotfix: injury repair reserves the defensive specialist and reports 
 });
 
 function newGameCareer(clubId: string, competitionId: string): CareerState {
-  return createNewCareerState(`alpha2-${clubId}`, clubId, snapshotWorldSquads(competitionId), undefined, snapshotGameplayRatings(competitionId), null, "4_WEEKS");
+  const competitions = ['se_handbollsligan_herr','swe-2','se_division1_norra','se_division1_sodra'];
+  return createNewCareerState(`alpha2-${clubId}`, clubId, Object.assign({},...competitions.map(snapshotWorldSquads)), undefined, Object.assign({},...competitions.map(snapshotGameplayRatings)), null, "4_WEEKS");
 }
 
 function onMatchday(state: CareerState): CareerState {
@@ -134,7 +135,7 @@ test("spot checks against Profixio: kickoff, local time across DST, postponed fi
 test("New Game career uses the real schedule (ids, rounds, dates, kickoff times) and no real results", () => {
   for (const [clubId, competitionId] of [["se_club_ik_savehof", "se_handbollsligan_herr"], ["swe2-tumba", "swe-2"]] as const) {
     const state = newGameCareer(clubId, competitionId);
-    const league = state.fixtures.filter((f) => f.type === "LEAGUE");
+    const league = state.fixtures.filter((f) => f.type === "LEAGUE" && f.competitionId === competitionId);
     assert.equal(league.length, 182);
     assert.deepEqual(
       league.map((f) => [f.id, f.round, f.date, f.kickoffTime, f.homeClubId, f.awayClubId, f.sourceMatchId]),

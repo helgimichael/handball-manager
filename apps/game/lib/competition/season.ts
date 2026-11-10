@@ -12,7 +12,7 @@
 // 3. COMPLETE: champion, promotion/relegation for next season, awards and
 //    prize money. Season completion (calendar.checkSeasonComplete) waits
 //    for this phase.
-// Svenska cupen runs alongside the league from its group stage to Final4.
+// Svenska cupen uses fixed knockout slots; existing group-stage saves retain their format.
 // Formats: rules.ts (verified rules and isolated assumptions).
 import { matchWinnerClubId, resolveKnockoutDecider, type ClubStrength, type FastMatchResult } from "@handball-manager/game-simulation";
 import type { CareerEvent } from "../career/careerEvents";
@@ -32,13 +32,15 @@ import { competitionClubIds, competitionTable, hasLeagueCalendar, remainingLeagu
 import { nationalBreaks } from "../nationalTeam/nationalTeam";
 import { clubCompetitionId } from "../career/competitionMembership";
 import type { CompetitionTie, SeasonAward, SeasonOutcome, TieStage } from "./types";
+import { cupDateProfile, scheduleCupFixtures, CalendarSchedulingError, earliestUnprocessedFixtureDate, CUP_SCHEDULING_RULES } from "./cupSchedule";
+import { withEvents } from "../manager/events";
 import { svOrdinal } from "../format/ordinal";
 
 type Emit = (event: CareerEvent) => void;
 
 const STAGE_LABEL: Record<TieStage, string> = {
   QF: "Kvartsfinal", SF: "Semifinal", F: "SM-final", KVAL_HBL: "Kval till Handbollsligan", KVAL_ALLSV: "Kval till Allsvenskan",
-  CUP_GROUP: "Gruppspel", CUP_R16: "Åttondelsfinal", CUP_QF: "Kvartsfinal", CUP_SF: "Semifinal", CUP_F: "Final", CUP_3RD: "Match om tredjepris",
+  CUP_GROUP: "Gruppspel", CUP_R32: "Sextondelsfinal", CUP_R16: "Åttondelsfinal", CUP_QF: "Kvartsfinal", CUP_SF: "Semifinal", CUP_F: "Final", CUP_3RD: "Match om tredjepris",
 };
 
 export function seasonYear(seasonId: string): number {
@@ -104,12 +106,16 @@ export function freeDate(state: Pick<CareerState, "fixtures" | "gameDate">, club
   for (const f of [...state.fixtures, ...extra]) {
     if (clubIds.includes(f.homeClubId) || clubIds.includes(f.awayClubId)) {
       busy.add(f.date);
-      busy.add(addDays(f.date, 1));
+      for (let gap = 1; gap < CUP_SCHEDULING_RULES.minimumRestDays; gap++) {
+        busy.add(addDays(f.date, gap));
+        busy.add(addDays(f.date, -gap));
+      }
     }
   }
   const inBreak = (d: string) => nationalBreaks().some((b) => d >= b.start && d <= b.end);
   let date = preferred;
   for (let i = 0; i < 60 && (busy.has(date) || inBreak(date)); i++) date = addDays(date, 1);
+  if (busy.has(date) || inBreak(date)) throw new CalendarSchedulingError("ledig-speldag", { start: preferred, end: addDays(preferred, 59) }, ["Ingen ledig speldag inom sökperioden."]);
   return date;
 }
 
@@ -122,6 +128,15 @@ function tieFixtures(state: CareerState, tie: CompetitionTie, start: string): Ca
   const base = `${seasonYear(tie.seasonId)}-${tie.competitionId === SVENSKA_CUPEN ? "cup" : tie.competitionId === SM_SLUTSPEL ? "sm" : "kval"}-${tie.key}`;
   const out: CareerFixture[] = [];
   const pair = [tie.highClubId, tie.lowClubId];
+  if (tie.competitionId === SVENSKA_CUPEN) {
+    const legacy = Object.values(state.competitionTies ?? {}).some(t => t.stage === 'CUP_GROUP' && t.competitionId === SVENSKA_CUPEN);
+    const windows = cupDateProfile(state.seasonId, legacy).rounds[tie.stage];
+    const count = tie.format.kind === 'TWO_LEGS' ? 2 : 1;
+    if (!windows || windows.length !== count) throw new CalendarSchedulingError(tie.id, { start, end: start }, ['Datumprofilen motsvarar inte sparad matchstruktur.']);
+    return windows.map((window, k) => ({ id: count === 2 ? `${base}-l${k + 1}` : `${base}-g1`, competitionId: tie.competitionId, round: k + 1, date: window.start,
+      homeClubId: count === 2 && k === 0 ? tie.lowClubId : tie.highClubId, awayClubId: count === 2 && k === 0 ? tie.highClubId : tie.lowClubId, type,
+      stage: { tieId: tie.id, game: k + 1, mustDecide: k === count - 1 } }));
+  }
   if (tie.format.kind === "SERIES") {
     let date = start;
     tie.format.series.homePattern.forEach((side, k) => {
@@ -145,7 +160,8 @@ function addTie(state: CareerState, tie: Omit<CompetitionTie, "fixtureIds">, sta
   const full: CompetitionTie = { ...tie, fixtureIds: [] };
   const fixtures = tieFixtures(state, full, start);
   full.fixtureIds = fixtures.map((f) => f.id);
-  return { ...state, fixtures: [...state.fixtures, ...fixtures], competitionTies: { ...state.competitionTies, [full.id]: full } };
+  const next = { ...state, competitionTies: { ...state.competitionTies, [full.id]: full } };
+  return tie.competitionId === SVENSKA_CUPEN ? scheduleCupFixtures(next, fixtures) : { ...next, fixtures: [...state.fixtures, ...fixtures] };
 }
 
 const series = (s: SeriesFormat) => ({ kind: "SERIES" as const, series: s });
@@ -296,38 +312,24 @@ function clubName(id: string): string {
 
 const GROUP_LETTERS = ["A", "B", "C", "D", "E", "F", "G", "H"];
 
-/** Creates this season's cup: 32 clubs (HBL, Allsvenskan, the four strongest Division 1 clubs), eight seeded groups of four. Skipped when the group stage would start after 1 October (a season joined late). */
+/** Uses the existing 32-club pool and deterministic draw, not the historical 2026/27 pairings. */
 export function createSvenskaCupen(state: CareerState): CareerState {
-  if (Object.values(state.competitionTies ?? {}).some((t) => t.competitionId === SVENSKA_CUPEN)) return state;
-  const year = seasonYear(state.seasonId);
-  const firstRound = state.gameDate > `${year}-08-24` ? addDays(state.gameDate, 4) : `${year}-08-26`;
-  if (firstRound > `${year}-10-01`) return state;
+  if (Object.values(state.competitionTies ?? {}).some(t => t.competitionId === SVENSKA_CUPEN)) return state;
+  const profile = cupDateProfile(state.seasonId);
+  if (earliestUnprocessedFixtureDate(state) > profile.rounds.CUP_R32![0]!.end) {
+    const event = buildClubEvent('SEASON_MILESTONE', `${state.seasonId}:cup-late-start`, state.gameDate, 'INFORMATION', 'Cupen startade före karriären', 'Säsongens cup kan inte återskapas inom de fasta speldatumen. Inga historiska matcher eller resultat har lagts till.', [{ route: 'SEASON' }]);
+    return event ? withEvents(state, [event]) : state;
+  }
   const strength = (id: string) => strengthOf(state, id).overall;
   const lot = (id: string) => hashRank(`${state.saveSeed}:${state.seasonId}:cup:${id}`);
-  const rank = (ids: string[]) => [...ids].sort((a, b) => strength(b) - strength(a) || lot(a) - lot(b));
-  const hbl = rank(competitionClubIds(state, HANDBOLLSLIGAN));
-  const allsv = rank(competitionClubIds(state, ALLSVENSKAN));
-  const div1 = rankDivision1(state).slice(0, 4);
-  const entrants = [...hbl, ...allsv, ...div1];
-  if (entrants.length < 32) return state;
-  // Four pots of eight in strength order; each group draws one club per pot (seeded lot).
-  const pots = [0, 1, 2, 3].map((p) => entrants.slice(p * 8, p * 8 + 8).sort((a, b) => lot(a) - lot(b)));
+  const rank = (ids: string[]) => [...ids].sort((a,b) => strength(b) - strength(a) || lot(a) - lot(b));
+  // Existing entrant assumption is unchanged; district qualification is outside this hotfix.
+  const entrants = [...rank(competitionClubIds(state, HANDBOLLSLIGAN)), ...rank(competitionClubIds(state, ALLSVENSKAN)), ...rankDivision1(state).slice(0,4)];
+  if (entrants.length !== 32) return state;
   let next = state;
-  GROUP_LETTERS.forEach((letter, g) => {
-    const clubs = pots.map((pot) => pot[g]!);
-    const id = `${state.seasonId}:cup:G${letter}`;
-    const tie: CompetitionTie = { id, seasonId: state.seasonId, competitionId: SVENSKA_CUPEN, stage: "CUP_GROUP", label: `Grupp ${letter}`, highClubId: clubs[0]!, lowClubId: clubs[3]!, format: { kind: "SINGLE" }, fixtureIds: [], key: `G${letter}`, group: letter, clubIds: clubs };
-    const rounds = [[[0, 3], [1, 2]], [[2, 0], [3, 1]], [[0, 1], [2, 3]]] as const;
-    const fixtures: CareerFixture[] = [];
-    rounds.forEach((pairs, r) => {
-      for (const [h, a] of pairs) {
-        const date = freeDate(next, [clubs[h]!, clubs[a]!], addDays(firstRound, r * 7), fixtures);
-        fixtures.push({ id: `${year}-cup-G${letter}-r${r + 1}-${h}${a}`, competitionId: SVENSKA_CUPEN, round: r + 1, date, homeClubId: clubs[h]!, awayClubId: clubs[a]!, type: "CUP", stage: { tieId: id, game: r + 1, mustDecide: false } });
-      }
-    });
-    tie.fixtureIds = fixtures.map((f) => f.id);
-    next = { ...next, fixtures: [...next.fixtures, ...fixtures], competitionTies: { ...next.competitionTies, [id]: tie } };
-  });
+  for (let k = 0; k < 16; k++) next = addTie(next, { id: `${state.seasonId}:cup:R32-${k + 1}`, seasonId: state.seasonId, competitionId: SVENSKA_CUPEN,
+    stage: 'CUP_R32', label: `Sextondelsfinal ${k + 1}`, highClubId: entrants[k]!, lowClubId: entrants[31-k]!, format: { kind:'TWO_LEGS' }, key: `R32-${k + 1}`,
+    feeds: { tieKey: `R16-${Math.floor(k/2)+1}`, slot: (k%2) as 0|1 } }, profile.rounds.CUP_R32![0]!.start);
   return next;
 }
 
@@ -349,7 +351,8 @@ export function cupGroupTable(state: CareerState, tie: CompetitionTie) {
 function progressCup(state: CareerState): CareerState {
   const ties = Object.values(state.competitionTies ?? {}).filter((t) => t.competitionId === SVENSKA_CUPEN);
   if (ties.length === 0) return state;
-  const year = seasonYear(state.seasonId);
+  const modern = ties.some(t => t.stage === "CUP_R32");
+  const dates = cupDateProfile(state.seasonId, !modern).rounds;
   let next = state;
   const byKey = (key: string) => Object.values(next.competitionTies ?? {}).find((t) => t.competitionId === SVENSKA_CUPEN && t.key === key);
   const groups = ties.filter((t) => t.stage === "CUP_GROUP");
@@ -361,18 +364,19 @@ function progressCup(state: CareerState): CareerState {
       const [x, y] = [GROUP_LETTERS[Math.floor(k / 2) * 2]!, GROUP_LETTERS[Math.floor(k / 2) * 2 + 1]!];
       const winner = (k % 2 === 0 ? standings[x] : standings[y])![0]!.clubId;
       const runner = (k % 2 === 0 ? standings[y] : standings[x])![1]!.clubId;
-      next = addTie(next, { id: `${next.seasonId}:cup:R16-${k + 1}`, seasonId: next.seasonId, competitionId: SVENSKA_CUPEN, stage: "CUP_R16", label: `Åttondelsfinal ${k + 1}`, highClubId: winner, lowClubId: runner, format: { kind: "TWO_LEGS" }, key: `R16-${k + 1}`, feeds: { tieKey: `CQF-${Math.floor(k / 2) + 1}`, slot: (k % 2) as 0 | 1 } }, `${year}-10-21`);
+      next = addTie(next, { id: `${next.seasonId}:cup:R16-${k + 1}`, seasonId: next.seasonId, competitionId: SVENSKA_CUPEN, stage: "CUP_R16", label: `Åttondelsfinal ${k + 1}`, highClubId: winner, lowClubId: runner, format: { kind: "TWO_LEGS" }, key: `R16-${k + 1}`, feeds: { tieKey: `CQF-${Math.floor(k / 2) + 1}`, slot: (k % 2) as 0 | 1 } }, dates.CUP_R16![0]!.start);
     }
   }
   next = advanceBracket(next, SVENSKA_CUPEN, (key) => {
-    if (key.startsWith("CQF-")) return { stage: "CUP_QF", label: `Kvartsfinal ${key.slice(4)}`, format: { kind: "TWO_LEGS" }, start: `${year}-12-02`, feeds: { tieKey: `CSF-${Math.ceil(Number(key.slice(4)) / 2)}`, slot: ((Number(key.slice(4)) - 1) % 2) as 0 | 1 } };
-    if (key.startsWith("CSF-")) return { stage: "CUP_SF", label: `Semifinal ${key.slice(4)} (Final4)`, format: { kind: "SINGLE" }, start: `${year + 1}-03-06`, feeds: { tieKey: "CF", slot: (Number(key.slice(4)) - 1) as 0 | 1 } };
-    return { stage: "CUP_F", label: "Final (Final4)", format: { kind: "SINGLE" }, start: `${year + 1}-03-07` };
+    if (key.startsWith("R16-")) return { stage: "CUP_R16", label: `Åttondelsfinal ${key.slice(4)}`, format: { kind: "TWO_LEGS" }, start: dates.CUP_R16![0]!.start, feeds: { tieKey: `CQF-${Math.ceil(Number(key.slice(4))/2)}`, slot: ((Number(key.slice(4))-1)%2) as 0|1 } };
+    if (key.startsWith("CQF-")) return { stage: "CUP_QF", label: `Kvartsfinal ${key.slice(4)}`, format: modern ? { kind: "SINGLE" } : { kind: "TWO_LEGS" }, start: dates.CUP_QF![0]!.start, feeds: { tieKey: `CSF-${Math.ceil(Number(key.slice(4)) / 2)}`, slot: ((Number(key.slice(4)) - 1) % 2) as 0 | 1 } };
+    if (key.startsWith("CSF-")) return { stage: "CUP_SF", label: `Semifinal ${key.slice(4)}`, format: { kind: "SINGLE" }, start: dates.CUP_SF![0]!.start, feeds: { tieKey: "CF", slot: (Number(key.slice(4)) - 1) as 0 | 1 } };
+    return { stage: "CUP_F", label: "Final", format: { kind: "SINGLE" }, start: dates.CUP_F![0]!.start };
   });
   // Final4 also plays a 3rd-place match between the semifinal losers.
   const sf1 = byKeyIn(next, SVENSKA_CUPEN, "CSF-1"), sf2 = byKeyIn(next, SVENSKA_CUPEN, "CSF-2");
-  if (sf1?.loserClubId && sf2?.loserClubId && !byKeyIn(next, SVENSKA_CUPEN, "C3")) {
-    next = addTie(next, { id: `${next.seasonId}:cup:C3`, seasonId: next.seasonId, competitionId: SVENSKA_CUPEN, stage: "CUP_3RD", label: "Match om tredjepris", highClubId: sf1.loserClubId, lowClubId: sf2.loserClubId, format: { kind: "SINGLE" }, key: "C3" }, `${year + 1}-03-07`);
+  if (!modern && sf1?.loserClubId && sf2?.loserClubId && !byKeyIn(next, SVENSKA_CUPEN, "C3")) {
+    next = addTie(next, { id: `${next.seasonId}:cup:C3`, seasonId: next.seasonId, competitionId: SVENSKA_CUPEN, stage: "CUP_3RD", label: "Match om tredjepris", highClubId: sf1.loserClubId, lowClubId: sf2.loserClubId, format: { kind: "SINGLE" }, key: "C3" }, dates.CUP_3RD![0]!.start);
   }
   return next;
 }
@@ -397,7 +401,7 @@ function advanceBracket(state: CareerState, competitionId: string, describe: (ke
     const [high, low] = seed(a!) <= seed(b!) ? [a!, b!] : [b!, a!];
     const spec = describe(key);
     const lastGame = feeders.flatMap((t) => t.fixtureIds.map((id) => next.results[id] ? next.fixtures.find((f) => f.id === id)?.date ?? "" : "")).reduce((m, d) => (d > m ? d : m), "");
-    const start = lastGame && addDays(lastGame, 4) > spec.start ? addDays(lastGame, 4) : spec.start;
+    const start = competitionId !== SVENSKA_CUPEN && lastGame && addDays(lastGame, 4) > spec.start ? addDays(lastGame, 4) : spec.start;
     next = addTie(next, { id: `${next.seasonId}:${competitionId === SM_SLUTSPEL ? "sm" : "cup"}:${key}`, seasonId: next.seasonId, competitionId, stage: spec.stage, label: spec.label, highClubId: high, lowClubId: low, format: spec.format, key, feeds: spec.feeds }, start);
   }
   return next;
@@ -536,7 +540,7 @@ function finalizeSeason(state: CareerState, date: string, emit: Emit): CareerSta
   next = { ...next, seasonOutcome: { ...o, phase: "COMPLETE", champion: final?.winnerClubId, runnerUp: final?.loserClubId, cupWinner: cupFinal?.winnerClubId, awards } };
   const me = next.playerClubId;
   if (final?.winnerClubId === me) next = announce(next, "champion", emit, () => buildClubEvent("SEASON_MILESTONE", `${o.seasonId}:champion`, date, "IMPORTANT", "Svenska mästare!", `${clubName(me)} vann SM-finalen mot ${clubName(final.loserClubId!)}.`, [{ route: "SEASON" }]));
-  if (cupFinal?.winnerClubId === me) next = announce(next, "cup", emit, () => buildClubEvent("SEASON_MILESTONE", `${o.seasonId}:cup`, date, "IMPORTANT", "Svenska cupen vunnen!", `${clubName(me)} vann Final4.`, [{ route: "SEASON" }]));
+  if (cupFinal?.winnerClubId === me) next = announce(next, "cup", emit, () => buildClubEvent("SEASON_MILESTONE", `${o.seasonId}:cup`, date, "IMPORTANT", "Svenska cupen vunnen!", `${clubName(me)} vann cupfinalen.`, [{ route: "SEASON" }]));
   const ownAwards = awards.filter((a) => a.clubId === me && a.id !== "ALL_STAR");
   if (ownAwards.length) next = announce(next, "awards", emit, () => buildClubEvent("SEASON_MILESTONE", `${o.seasonId}:awards`, date, "INFORMATION", "Utmärkelser till klubben", ownAwards.map((a) => `${a.label}: ${a.value}`).join(" · "), [{ route: "SEASON" }]));
   return next;

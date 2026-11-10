@@ -1,3 +1,4 @@
+import { addDays } from "./dateUtils";
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
@@ -78,7 +79,7 @@ function freshTumba(seed: string): CareerState {
 test("(5) bookFriendly appends a well-formed FRIENDLY fixture on success", () => {
   const state = freshTumba("book-1");
   const opponent = state.fixtures.find((f) => f.type === "LEAGUE")!.homeClubId === TUMBA_CLUB_ID ? state.fixtures.find((f) => f.type === "LEAGUE")!.awayClubId : state.fixtures.find((f) => f.type === "LEAGUE")!.homeClubId;
-  const freeDate = state.gameDate; // career's own first day -- guaranteed free of any generated fixture
+  const freeDate = addDays(state.gameDate, 2); // one clear day after the fixed opening cup fixture
   const result = bookFriendly(state, freeDate, opponent);
   assert.equal(result.ok, true);
   const friendly = result.state.fixtures.find((f) => f.type === "FRIENDLY");

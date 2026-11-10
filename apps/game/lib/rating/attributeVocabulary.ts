@@ -174,9 +174,15 @@ function isOutcourtAttribute(attribute: string): attribute is OutcourtAttribute 
  * it once a second locale exists) purely so future callers never need
  * to change -- only a new label table needs adding here.
  */
-export function getAttributeLabel(attribute: OutcourtAttribute | GoalkeeperAttribute, locale: AttributeLocale = "sv"): string {
+export function getAttributeLabel(attribute: string, locale: AttributeLocale = "sv"): string {
   assertLocaleSupported(locale);
-  return isOutcourtAttribute(attribute) ? OUTCOURT_ATTRIBUTE_LABELS_SV[attribute] : GOALKEEPER_ATTRIBUTE_LABELS_SV[attribute];
+  const label = Object.hasOwn(OUTCOURT_ATTRIBUTE_LABELS_SV, attribute)
+    ? OUTCOURT_ATTRIBUTE_LABELS_SV[attribute as OutcourtAttribute]
+    : Object.hasOwn(GOALKEEPER_ATTRIBUTE_LABELS_SV, attribute)
+      ? GOALKEEPER_ATTRIBUTE_LABELS_SV[attribute as GoalkeeperAttribute] : undefined;
+  if (label) return label;
+  const readable = attribute.replace(/([a-zåäö])([A-ZÅÄÖ])/g, "$1 $2").replace(/[_-]+/g, " ").trim().toLocaleLowerCase("sv");
+  return readable ? readable[0].toLocaleUpperCase("sv") + readable.slice(1) : "Okänd egenskap";
 }
 
 /** Which family (technical/mental/etc.) an attribute belongs to. */

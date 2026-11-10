@@ -1,3 +1,6 @@
+import { ensureSeasonCalendar } from "../competition/seasonCalendar";
+import { cupDateProfile } from "../competition/cupSchedule";
+import { HANDBOLLSLIGAN, ALLSVENSKAN } from "../competition/rules";
 import { ensureBoard } from '../board/board';
 import { withEvents } from '../manager/events';
 import type { CareerEvent } from './careerEvents';
@@ -16,7 +19,7 @@ import type { GameplayPlayerRating } from "../gameWorld/gameplayRatingSnapshot";
 import type { RawClubStaffIdentityLike } from "../staff/staffRosterResolution";
 import { resolveCompetitionStaffRoster } from "../staff/staffCareerIntegration";
 import { ensureCareerGameplayRatings } from "./careerRatingNormalization";
-import { computeCareerStartDate, generateProvisionalCupRound, resolveLeagueKickoffDate, type PreseasonStartOption } from "./preseason";
+import { computeCareerStartDate, resolveLeagueKickoffDate, type PreseasonStartOption } from "./preseason";
 import { CONTRACT_WAGE_FORMULA_VERSION, ensureCareerPlayerContracts } from "../economy/contractIntegration";
 import { ensureCareerPlayerClubHistory } from "../economy/clubHistoryIntegration";
 import { ensureCareerAllClubEconomies } from "../economy/clubEconomyIntegration";
@@ -114,31 +117,12 @@ export function createNewCareerState(
         type: "LEAGUE",
       }));
 
-  // Part: "eventuella cupmatcher" -- only generated when the manager
-  // actually chose a preseason length (see the `preseasonStart` doc
-  // comment above); a cup fixture dated before the career's own start
-  // (the manager started too late to experience it) is simply omitted,
-  // never backdated/faked as already played (Part: "CAREER START ->
-  // PRESEASON -> eventuella cupmatcher" -- "eventuella" = optional/if any).
-  let cupFixtures: CareerFixture[] = [];
-  if (preseasonStart !== undefined) {
-    const provisionalCup = generateProvisionalCupRound(competitionId, clubIds, leagueKickoffDate);
-    const provisionalCareerStart = computeCareerStartDate(leagueKickoffDate, preseasonStart);
-    cupFixtures = provisionalCareerStart === null ? provisionalCup : provisionalCup.filter((f) => f.date >= provisionalCareerStart);
-  }
-  const allFixtures = [...leagueFixtures, ...cupFixtures];
-
-  // Part: "vid första tävlingsmatchen" -- resolved AFTER the full fixture
-  // list is known, as the earliest fixture (league OR cup) involving the
-  // manager's own club. Every other option is a fixed weeks-before-kickoff
-  // offset, independent of the fixture list.
-  const careerStartDate =
-    preseasonStart === undefined
-      ? GAME_CURRENT_DATE
-      : (computeCareerStartDate(leagueKickoffDate, preseasonStart) ??
-        allFixtures
-          .filter((f) => f.homeClubId === playerClubId || f.awayClubId === playerClubId)
-          .reduce((earliest, f) => (f.date < earliest ? f.date : earliest), leagueKickoffDate));
+  // The full cup calendar replaces the former extra provisional cup fixture.
+  const allFixtures = leagueFixtures;
+  const firstLeague = leagueFixtures.filter(f => f.homeClubId === playerClubId || f.awayClubId === playerClubId).reduce((min,f) => f.date < min ? f.date : min, leagueKickoffDate);
+  const cupStart = cupDateProfile('2026/27').rounds.CUP_R32![0]!.start;
+  const firstMatch = [HANDBOLLSLIGAN, ALLSVENSKAN].includes(competitionId) && cupStart < firstLeague ? cupStart : firstLeague;
+  const careerStartDate = preseasonStart === undefined ? GAME_CURRENT_DATE : computeCareerStartDate(leagueKickoffDate, preseasonStart) ?? firstMatch;
 
   const playerSquad: readonly PlayerMock[] = worldSquads[playerClubId] ?? TUMBA_SQUAD;
 
@@ -278,5 +262,5 @@ export function createNewCareerState(
   // HM-PLAYTEST-01 4.4: the manager takes the head coach's job; the incumbent goes to the staff market.
   const events: CareerEvent[] = [];
   const ready = ensureBoard(displaceIncumbentHeadCoach(seedScoutPool(withPartnerships)),careerStartDate,e => events.push(e));
-  return withEvents(ready,events);
+  return preseasonStart === undefined ? withEvents(ready,events) : ensureSeasonCalendar(withEvents(ready,events));
 }

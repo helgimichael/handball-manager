@@ -1,7 +1,7 @@
 // HM-ALPHA3-M03: knockout ties and the season's competitive outcome.
 import type { SeriesFormat } from "./rules";
 
-export type TieStage = "QF" | "SF" | "F" | "KVAL_HBL" | "KVAL_ALLSV" | "CUP_GROUP" | "CUP_R16" | "CUP_QF" | "CUP_SF" | "CUP_F" | "CUP_3RD";
+export type TieStage = "QF" | "SF" | "F" | "KVAL_HBL" | "KVAL_ALLSV" | "CUP_GROUP" | "CUP_R32" | "CUP_R16" | "CUP_QF" | "CUP_SF" | "CUP_F" | "CUP_3RD";
 
 export interface CompetitionTie {
   id: string;

@@ -1,3 +1,7 @@
+import { continueCareerRhythm } from "./continueController";
+import { answerConcern, openConcerns } from "../players/talks";
+import { getPlayerFixtureOn } from "./calendar";
+import { snapshotWorldSquads, snapshotGameplayRatings } from "../gameWorld/serverSnapshot";
 // Historical match adapter regression. Production lifecycle is covered by productionMatch.test.ts.
 // HM-PRESEASON-1.0: CareerState-level integration proofs -- real
 // newCareer/dailyTick/matchdayAction/saveMigration flow.
@@ -135,9 +139,9 @@ test("(8) a friendly fixture is excluded from getUnplayedLeagueFixtures/checkSea
       };
     }
   }
-  const allLeaguePlayed = { ...booking.state, results: fakeResults };
+  const allLeaguePlayed: CareerState = { ...booking.state, results: fakeResults, seasonOutcome: { ...booking.state.seasonOutcome!, phase: "COMPLETE" } };
   const completed = checkSeasonComplete(allLeaguePlayed);
-  assert.equal(completed.seasonComplete, true, "season must complete once every LEAGUE fixture has a result, regardless of the still-unplayed friendly");
+  assert.equal(completed.seasonComplete, true, "once league and postseason are complete, an unplayed friendly must not block the season");
 });
 
 // (8b) a played friendly must never move the manager's own club in the LIVE standings table either (Part: getLiveStandings/getLiveTableStandings -- the Match Report/Analysis "Tabellplacering" widget's own real data source, found and fixed during this milestone's browser QA to also filter by fixture type, same as checkSeasonComplete/clubForm/playerSeasonStats).
@@ -193,30 +197,19 @@ test("(11b) migrating an already-current save is a true no-op for the new fields
 });
 
 // (12) a fresh career can be played from preseason start through to the first league match.
-test("(12) a fresh 4-week-preseason IFK Tumba career can Continue all the way from career start to the first league fixture, including a played cup fixture in between", () => {
-  const state = createNewCareerState("full-run", TUMBA_CLUB_ID, {}, {}, {}, null, "4_WEEKS");
-  assert.equal(getSeasonPhase(state), "PRESEASON");
-
-  const cupFixture = state.fixtures.find((f) => f.type === "CUP" && (f.homeClubId === TUMBA_CLUB_ID || f.awayClubId === TUMBA_CLUB_ID));
-  let current = state;
-  if (cupFixture) {
-    current = advanceToDate(current, cupFixture.date);
-    const { result } = playManagerFixture(current);
-    assert.ok(result, "the manager's own cup fixture must actually be playable during preseason");
-    current = playManagerFixture(current).state;
+test("(12) a fresh career plays its cup ties through Continue before its first league match", () => {
+  const competitions=['se_handbollsligan_herr','swe-2','se_division1_norra','se_division1_sodra'];
+  let current=createNewCareerState('full-run',TUMBA_CLUB_ID,Object.assign({},...competitions.map(snapshotWorldSquads)),undefined,Object.assign({},...competitions.map(snapshotGameplayRatings)),null,'4_WEEKS');
+  let cupMatches=0, leaguePlayed=false;
+  for(let guard=0;guard<150&&!leaguePlayed;guard++){
+    for(const c of openConcerns(current)) current=answerConcern(current,c.id,'EARN_IT');
+    const next=continueCareerRhythm(current);current=next.state;
+    assert.notEqual(next.stopReason,'CALENDAR_CONFLICT');
+    const fixture=getPlayerFixtureOn(current,current.gameDate);
+    if(current.careerEvents.some(e=>e.type==='MATCHDAY_READY'&&!e.resolved)&&fixture){
+      const played=playManagerFixture(current);assert.ok(played.result);current=played.state;
+      if(fixture.type==='CUP')cupMatches++;else if(fixture.type==='LEAGUE'){leaguePlayed=true;assert.ok(current.results[fixture.id]);assert.ok(fixture.date>=current.leagueKickoffDate);assert.ok(fixture.date<=addDays(current.leagueKickoffDate,13));}
+    }
   }
-
-  const firstLeague = state.fixtures.filter((f) => f.type === "LEAGUE" && (f.homeClubId === TUMBA_CLUB_ID || f.awayClubId === TUMBA_CLUB_ID)).sort((a, b) => (a.date < b.date ? -1 : 1))[0];
-  current = advanceToDate(current, firstLeague.date);
-  assert.equal(getSeasonPhase(current), "COMPETITIVE_SEASON");
-  const { result: leagueResult, state: afterLeague } = playManagerFixture(current);
-  assert.ok(leagueResult, "the first league fixture must play successfully");
-  assert.ok(afterLeague.results[firstLeague.id]);
-  // Round 1's own fixtures spread across a few consecutive days from
-  // leagueKickoffDate (generateDoubleRoundRobin's deterministic
-  // spreadDays -- see packages/game-simulation/src/fixtures.ts), so IFK
-  // Tumba's own first league fixture lands ON or within a few days AFTER
-  // the real 2026-09-17 league kickoff, never before it and never far after.
-  assert.ok(firstLeague.date >= state.leagueKickoffDate, `firstLeague.date=${firstLeague.date} kickoff=${state.leagueKickoffDate}`);
-  assert.ok(firstLeague.date <= addDays(state.leagueKickoffDate, 6), `firstLeague.date=${firstLeague.date} kickoff=${state.leagueKickoffDate}`);
+  assert.ok(cupMatches>=2);assert.ok(leaguePlayed,'a valid first league match completes without skipping required cup matches');
 });

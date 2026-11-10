@@ -12,6 +12,7 @@ import { getRealLeagueSchedule } from "../game-data/realLeagueSchedules";
 import { ALLSVENSKAN, HANDBOLLSLIGAN } from "./rules";
 import { createSvenskaCupen, ensureSeasonOutcome, newSeasonOutcome } from "./season";
 import { competitionClubIds, hasLeagueCalendar } from "./tables";
+import { ensureCupCalendar } from "./cupSchedule";
 import { avoidNationalBreaks } from "../nationalTeam/nationalTeam";
 
 function leagueFixtures(state: CareerState, competitionId: string, kickoff: string, idPrefix: string, preferReal: boolean): CareerFixture[] {
@@ -32,7 +33,7 @@ export function ensureSeasonCalendar(state: CareerState): CareerState {
   const own = next.competitionId;
   const other = own === HANDBOLLSLIGAN ? ALLSVENSKAN : own === ALLSVENSKAN ? HANDBOLLSLIGAN : null;
   const ownLeague = next.fixtures.filter((f) => f.type === "LEAGUE" && f.competitionId === own);
-  if (ownLeague.length === 0) return next;
+  if (ownLeague.length === 0) return ensureCupCalendar(next);
   const kickoff = ownLeague.reduce((min, f) => (f.date < min ? f.date : min), ownLeague[0]!.date);
   const notStarted = next.gameDate < kickoff && !ownLeague.some((f) => next.results[f.id]);
   if (other && notStarted && !hasLeagueCalendar(next, other) && competitionClubIds(next, other).length >= 4) {
@@ -42,7 +43,7 @@ export function ensureSeasonCalendar(state: CareerState): CareerState {
     next = { ...next, seasonOutcome: { ...next.seasonOutcome!, bothTiersSimulated: hasLeagueCalendar(next, HANDBOLLSLIGAN) && hasLeagueCalendar(next, ALLSVENSKAN) } };
   }
   if (notStarted) next = createSvenskaCupen(next);
-  return next;
+  return ensureCupCalendar(next);
 }
 
 /** A complete, fresh calendar for a new season after rollover: both leagues from the new membership, then the cup. */
@@ -52,5 +53,5 @@ export function buildNewSeasonCalendar(state: CareerState, kickoff: string): Car
   const competitions = [...new Set([HANDBOLLSLIGAN, ALLSVENSKAN, state.competitionId])];
   const fixtures = competitions.flatMap((c) => (competitionClubIds(state, c).length >= 4 ? leagueFixtures(state, c, kickoff, `${year}-`, false) : []));
   const next: CareerState = { ...state, fixtures, competitionTies: {} };
-  return { ...next, seasonOutcome: newSeasonOutcome(next) };
+  return ensureSeasonCalendar({ ...next, seasonOutcome: newSeasonOutcome(next) });
 }

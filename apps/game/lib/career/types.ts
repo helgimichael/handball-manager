@@ -68,6 +68,9 @@ export type CareerFixture = {
   kickoffTime?: string;
   /** HM-ALPHA2-01: the original Profixio match id of a real schedule fixture. */
   sourceMatchId?: string;
+  /** Original date when an unplayed league fixture is coordinated with a fixed cup slot. */
+  originalDate?: string;
+  scheduleNote?: string;
   stage?: FixtureStage;
   /** HM-PLAYTEST-01 3.1: a friendly at a neutral venue names its location. */
   location?: string;
