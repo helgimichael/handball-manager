@@ -16,6 +16,7 @@ export interface DelegationSetting {
 }
 
 export type ProposalAction =
+  | { kind: "TRAINING_PLAN"; plan: import("../training/assistantTrainingTypes").AssistantTrainingPlan }
   | { kind: "START_SCOUTING"; scoutStaffId: string; position: string }
   | { kind: "SHORTLIST"; playerId: string }
   | { kind: "OPEN_NEGOTIATION"; playerId: string }
@@ -61,6 +62,6 @@ export interface DelegationState {
 }
 
 /** Areas with delegated behaviour in this version (the rest are shown, not yet delegable). */
-export const DELEGABLE_AREAS: ResponsibilityArea[] = ["SCOUTING_ASSIGNMENTS", "PLAYER_RECRUITMENT", "CONTRACT_RENEWALS", "STAFF_HIRING"];
+export const DELEGABLE_AREAS: ResponsibilityArea[] = ["SCOUTING_ASSIGNMENTS", "PLAYER_RECRUITMENT", "CONTRACT_RENEWALS", "STAFF_HIRING", "TRAINING_SCHEDULE"];
 
 export const DELEGATION_MODE_LABEL: Record<DelegationMode, string> = { MANAGER: "Du själv", DELEGATE: "Delegera", ADVISE: "Råd först" };

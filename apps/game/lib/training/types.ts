@@ -112,6 +112,8 @@ export interface TrainingDay {
 }
 
 export interface TrainingWeek {
+  /** Additive provenance; absent older weeks are conservatively manager-owned. */
+  planning?: { source: "MANAGER" | "ASSISTANT"; staffId?: string };
   /** Monday, ISO date. */
   weekStart: string;
   /** Always exactly 7 entries, Monday through Sunday. */

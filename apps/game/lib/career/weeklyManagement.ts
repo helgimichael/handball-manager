@@ -39,6 +39,11 @@ export function weeklyManagement(state: CareerState) {
     decisions.push({id:`concern:${c.id}`,title:`${player.firstName} ${player.lastName} vill prata`,detail:c.message,
       required:pending.some(e=>e.id===`PLAYER_DYNAMICS:concern:${c.id}`),href:`/career/squad/${encodeURIComponent(c.playerId)}`});
   }
+  for (const p of Object.values(state.delegation?.proposals ?? {})) {
+    if (p.status === 'PENDING' && p.action.kind === 'TRAINING_PLAN' && p.action.plan.clubId === state.playerClubId && p.action.plan.week.weekStart === mondayOf(state.gameDate)) {
+      decisions.push({id:p.id,title:p.title,detail:p.consequence,href:'/career/training',required:false,due:addDays(p.action.plan.week.weekStart,6)});
+    }
+  }
   const due=(id:string,title:string,date:string,href:string)=>{
     if(date>=state.gameDate&&date<=through)decisions.push({id,title,detail:`Svar eller beslut senast ${date}`,due:date,href,required:false});
   };

@@ -23,7 +23,7 @@ function withWeek(state: CareerState, weekStart: string, fn: (week: TrainingWeek
   const week = ensured.trainingWeeks[weekStart];
   const nextWeek = fn(week);
   if (nextWeek === week) return ensured;
-  return { ...ensured, trainingWeeks: { ...ensured.trainingWeeks, [weekStart]: nextWeek } };
+  return { ...ensured, trainingWeeks: { ...ensured.trainingWeeks, [weekStart]: { ...nextWeek, planning: { source: "MANAGER" } } } };
 }
 
 export function setTrainingDayTypeAction(state: CareerState, weekStart: string, date: string, dayType: TrainingDayType): CareerState {
@@ -64,5 +64,5 @@ export function applyWeeklyTemplateAction(state: CareerState, weekStart: string,
     const existingDay = existingWeek?.days.find((d) => d.date === day.date);
     return existingDay?.executed ? existingDay : day;
   });
-  return { ...state, trainingWeeks: { ...state.trainingWeeks, [weekStart]: { ...freshWeek, days } } };
+  return { ...state, trainingWeeks: { ...state.trainingWeeks, [weekStart]: { ...freshWeek, days, planning: { source: "MANAGER" } } } };
 }

@@ -79,6 +79,7 @@ import {
 import { addDays, daysBetween, isSameOrBefore } from "./dateUtils";
 import { careerEventToInboxMessage } from "./inboxBridge";
 import type { CareerState } from "./types";
+import { progressAssistantTraining } from "../training/assistantTraining";
 import { executeTrainingDay } from "../training/trainingExecution";
 import { applyCpuDailyCondition } from "./cpuCondition";
 import { applyPlacementDevelopmentStimulus, applyTrainingDayDevelopmentStimulus, resolveWeeklyDevelopmentIfDue } from "../development/developmentIntegration";
@@ -149,6 +150,9 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
   // `dayType` (MATCH days never carry a scheduled session, see
   // lib/training/trainingSchedule.ts's own fixture-aware builder), so no
   // separate "is this a matchday" branch is needed here.
+  const trainingPlanningEvents: CareerEvent[] = [];
+  next = progressAssistantTraining(next, date, event => trainingPlanningEvents.push(event));
+  trainingPlanningEvents.forEach(emit);
   next = executeTrainingDay(next, date);
   // HM-ALPHA2-02C/02C.1: CPU squads recover and train through the same
   // recovery model and default training week (once per date, before fixtures).

@@ -294,5 +294,6 @@
   "lib/career/promotionSquads.test.ts",
   "lib/career/promotionStockRollover.test.ts",
   "lib/career/retirementSaveMigration.test.ts",
-  "components/game/clubMembershipPresentation.test.ts"
+  "components/game/clubMembershipPresentation.test.ts",
+  "lib/training/assistantTraining.test.ts"
 ]

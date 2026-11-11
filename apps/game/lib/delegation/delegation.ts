@@ -8,6 +8,7 @@ import { buildClubEvent, type CareerEvent } from "../career/careerEvents";
 import { getCareerPlayer } from "../career/careerWorld";
 import { addToShortlist, isShortlisted } from "../career/recruitment";
 import { createBroadScoutingAssignment, getClubScouts } from "../career/scouting";
+import { applyAssistantTrainingPlan } from "../training/assistantTraining";
 import type { CareerState } from "../career/types";
 import { formatEur } from "../economy/currency";
 import { getClubStaffCostsEurAnnual } from "../economy/clubEconomyIntegration";
@@ -72,13 +73,13 @@ function withdrawProposals(state: CareerState, match: (p: DelegationProposal) =>
 
 const staffStillHere = (state: CareerState, staffId: string) => findStaffMember(state, staffId)?.clubId === state.playerClubId;
 
-function log(state: CareerState, entry: Omit<DelegationLogEntry, "staffName">): CareerState {
+export function log(state: CareerState, entry: Omit<DelegationLogEntry, "staffName">): CareerState {
   const d = delegationOf(state);
   const staffName = findStaffMember(state, entry.staffId)?.displayName ?? "Staben";
   return { ...state, delegation: { ...d, log: [...d.log, { ...entry, staffName }].slice(-120) } };
 }
 
-const proposalTarget = (a: ProposalAction) => `${a.kind}:${"playerId" in a ? a.playerId : "staffId" in a ? a.staffId : "position" in a ? a.position : ""}`;
+const proposalTarget = (a: ProposalAction) => a.kind === "TRAINING_PLAN" ? `training:${a.plan.week.weekStart}` : `${a.kind}:${"playerId" in a ? a.playerId : "staffId" in a ? a.staffId : "position" in a ? a.position : ""}`;
 /** HM-ALPHA3-M10: a declined, failed or lapsed proposal is not put forward again for this long. */
 const PROPOSAL_COOLDOWN_DAYS = 28;
 /** Pending, or decided against within the cooldown -- the same proposal is not raised again yet. */
@@ -86,13 +87,13 @@ function recentlyProposed(state: CareerState, area: DelegationProposal["area"], 
   return Object.values(delegationOf(state).proposals).some((x) => x.area === area && proposalTarget(x.action) === target && (x.status === "PENDING" || (x.status !== "APPROVED" && (x.decidedOn ?? x.expiresOn) >= addDaysIso(date, -PROPOSAL_COOLDOWN_DAYS))));
 }
 
-function propose(state: CareerState, date: string, emit: Emit, p: Omit<DelegationProposal, "id" | "createdOn" | "expiresOn" | "status">): CareerState {
+export function propose(state: CareerState, date: string, emit: Emit, p: Omit<DelegationProposal, "id" | "createdOn" | "expiresOn" | "status">): CareerState {
   const d = delegationOf(state);
   // One pending proposal per area, action and target -- a changed wage or date is not a new proposal.
   // HM-ALPHA3-M10: nor one the manager just declined or that just failed (it was raised every Monday).
-  if (recentlyProposed(state, p.area, proposalTarget(p.action), date)) return state;
+  if (p.action.kind !== "TRAINING_PLAN" && recentlyProposed(state, p.area, proposalTarget(p.action), date)) return state;
   const id = `proposal:${p.area}:${date}:${Object.keys(d.proposals).length}`;
-  const proposal: DelegationProposal = { ...p, id, createdOn: date, expiresOn: addDaysIso(date, PROPOSAL_DAYS), status: "PENDING" };
+  const proposal: DelegationProposal = { ...p, id, createdOn: date, expiresOn: p.action.kind === "TRAINING_PLAN" ? addDaysIso(p.action.plan.week.weekStart, 6) : addDaysIso(date, PROPOSAL_DAYS), status: "PENDING" };
   const name = findStaffMember(state, p.staffId)?.displayName ?? "Staben";
   emit(buildClubEvent("DELEGATION_REPORT", id, date, "IMPORTANT", `Förslag från ${name}: ${p.title}`, `${p.reason} ${p.consequence}`, [{ route: "DELEGATION" }]));
   let next: CareerState = { ...state, delegation: { ...d, proposals: { ...d.proposals, [id]: proposal } } };
@@ -297,6 +298,7 @@ export function rejectProposal(state: CareerState, proposalId: string): CareerSt
 
 function execute(state: CareerState, action: ProposalAction, staffId: string): CareerState {
   switch (action.kind) {
+    case "TRAINING_PLAN": return applyAssistantTrainingPlan(state, action.plan);
     case "START_SCOUTING": {
       const res = createBroadScoutingAssignment(state, action.scoutStaffId, "POSITION", { targetPosition: action.position }, state.gameDate);
       if (!res.ok) throw new Error(res.errors.join(" "));
