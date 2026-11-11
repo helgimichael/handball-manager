@@ -26,11 +26,11 @@ import { adjustClubCash } from "../economy/clubEconomyIntegration";
 import { EUR_TO_SEK_REFERENCE_RATE } from "../economy/currency";
 import { getClub, CLUBS } from "../game-data";
 import {
-  ALLSVENSKAN, ALLSVENSKAN_RULES, CUP_RULES, DIVISION_1, HANDBOLLSLIGAN, KVAL_ALLSVENSKAN, KVAL_HBL, KVAL_HBL_RULES, PLAYOFF_BONUS_EUR, SERIES_OVERTIME_ROUNDS, SM_SLUTSPEL, SM_SLUTSPEL_RULES, SVENSKA_CUPEN, type SeriesFormat,
+  ALLSVENSKAN, CUP_RULES, DIVISION_1, HANDBOLLSLIGAN, PLAYOFF_BONUS_EUR, SERIES_OVERTIME_ROUNDS, SM_SLUTSPEL, SM_SLUTSPEL_RULES, SVENSKA_CUPEN, type SeriesFormat,
 } from "./rules";
 import { competitionClubIds, competitionTable, hasLeagueCalendar, remainingLeagueFixtures } from "./tables";
 import { nationalBreaks } from "../nationalTeam/nationalTeam";
-import { clubCompetitionId } from "../career/competitionMembership";
+import { progressCareerQualifications, recordPlannedSportingOutcome, QUALIFICATION_SCHEDULING_BLOCKER_CODES } from "./transition/careerQualifications";
 import type { CompetitionTie, SeasonAward, SeasonOutcome, TieStage } from "./types";
 import { cupDateProfile, scheduleCupFixtures, CalendarSchedulingError, earliestUnprocessedFixtureDate, CUP_SCHEDULING_RULES } from "./cupSchedule";
 import { withEvents } from "../manager/events";
@@ -39,7 +39,7 @@ import { svOrdinal } from "../format/ordinal";
 type Emit = (event: CareerEvent) => void;
 
 const STAGE_LABEL: Record<TieStage, string> = {
-  QF: "Kvartsfinal", SF: "Semifinal", F: "SM-final", KVAL_HBL: "Kval till Handbollsligan", KVAL_ALLSV: "Kval till Allsvenskan",
+  QF: "Kvartsfinal", SF: "Semifinal", F: "SM-final", KVAL_HBL: "Kval till Handbollsligan", KVAL_ALLSV: "Kval till Allsvenskan", KVAL_DIV1: "Kval till Division 1",
   CUP_GROUP: "Gruppspel", CUP_R32: "Sextondelsfinal", CUP_R16: "Åttondelsfinal", CUP_QF: "Kvartsfinal", CUP_SF: "Semifinal", CUP_F: "Final", CUP_3RD: "Match om tredjepris",
 };
 
@@ -230,9 +230,9 @@ function lastLeagueDate(state: CareerState): string {
   return state.fixtures.filter((f) => f.type === "LEAGUE").reduce((max, f) => (f.date > max ? f.date : max), state.gameDate);
 }
 
-/** Division 1 clubs ranked by squad strength (assumption: Division 1 is not simulated -- rules.ts). */
-export function rankDivision1(state: CareerState): string[] {
-  // A Division 1 group that is actually played (the manager's club after relegation) sends its real table leader up.
+/** Existing cup invitation seeding only. Never used for pyramid advancement. */
+function division1CupSeeds(state: CareerState): string[] {
+  // Preserve existing cup invitation priority for leaders of groups actually played.
   const leaders = new Set(DIVISION_1.filter((c) => hasLeagueCalendar(state, c)).map((c) => competitionTable(state, c)[0]?.clubId).filter((id): id is string => !!id));
   const ids = CLUBS.filter((c) => (DIVISION_1 as readonly string[]).includes(state.competitionMembership?.[c.id] ?? c.competitionId)).map((c) => c.id);
   return ids
@@ -245,9 +245,6 @@ function startPostseason(state: CareerState, date: string, emit: Emit): CareerSt
   let next = state;
   const outcome = { ...next.seasonOutcome! };
   const start = addDays(lastLeagueDate(next) > date ? lastLeagueDate(next) : date, 5);
-  const nextMembership: Record<string, string> = {};
-  const promoted: string[] = [];
-  const relegated: string[] = [];
 
   if (hasLeagueCalendar(next, HANDBOLLSLIGAN)) {
     const hbl = competitionTable(next, HANDBOLLSLIGAN).map((r) => r.clubId);
@@ -255,35 +252,14 @@ function startPostseason(state: CareerState, date: string, emit: Emit): CareerSt
     SM_SLUTSPEL_RULES.quarterFinals.forEach(([h, l], i) => {
       next = addTie(next, { id: `${next.seasonId}:sm:QF${i + 1}`, seasonId: next.seasonId, competitionId: SM_SLUTSPEL, stage: "QF", label: `Kvartsfinal ${i + 1}`, highClubId: hbl[h - 1]!, lowClubId: hbl[l - 1]!, format: series(SM_SLUTSPEL_RULES.series), key: `QF${i + 1}`, feeds: { tieKey: `SF${Math.floor(i / 2) + 1}`, slot: (i % 2) as 0 | 1 } }, start);
     });
-    if (outcome.bothTiersSimulated) {
-      const allsv = competitionTable(next, ALLSVENSKAN).map((r) => r.clubId);
-      KVAL_HBL_RULES.pairs.forEach(([h, a], i) => {
-        next = addTie(next, { id: `${next.seasonId}:kval-hbl:K${i + 1}`, seasonId: next.seasonId, competitionId: KVAL_HBL, stage: "KVAL_HBL", label: `Kval ${i + 1}: HBL ${h} – Allsvenskan ${a}`, highClubId: hbl[h - 1]!, lowClubId: allsv[a - 1]!, format: series(KVAL_HBL_RULES.series), key: `K${i + 1}`, stakes: { highCompetitionId: HANDBOLLSLIGAN, lowCompetitionId: ALLSVENSKAN } }, start);
-      });
-      for (const pos of KVAL_HBL_RULES.directRelegation) { nextMembership[hbl[pos - 1]!] = ALLSVENSKAN; relegated.push(hbl[pos - 1]!); }
+  }
+  for (const competitionId of [ALLSVENSKAN,...DIVISION_1]) {
+    if (hasLeagueCalendar(next,competitionId)) {
+      const table = competitionTable(next,competitionId);
+      outcome.regularSeasonWinners = { ...outcome.regularSeasonWinners,[competitionId]:table[0]!.clubId };
     }
   }
-  if (hasLeagueCalendar(next, ALLSVENSKAN)) {
-    const allsv = competitionTable(next, ALLSVENSKAN).map((r) => r.clubId);
-    outcome.regularSeasonWinners = { ...outcome.regularSeasonWinners, [ALLSVENSKAN]: allsv[0]! };
-    if (outcome.bothTiersSimulated) {
-      for (const pos of ALLSVENSKAN_RULES.directPromotion) { nextMembership[allsv[pos - 1]!] = HANDBOLLSLIGAN; promoted.push(allsv[pos - 1]!); }
-    }
-    const div1 = rankDivision1(next);
-    if (div1.length >= 4) {
-      // Group winners up directly; the next two meet Allsvenskan 11-12 (assumption: ranked by strength).
-      // HM-ALPHA3-M10: a club's Division 1 group is its CURRENT membership. The static catalogue league
-      // sent the loser of a play-off against a once-relegated Allsvenskan club back into Allsvenskan,
-      // growing it to 15 clubs and stopping the next season's fixture generation.
-      const [up1, up2, k1, k2] = div1;
-      for (const id of [up1!, up2!]) { nextMembership[id] = ALLSVENSKAN; promoted.push(id); }
-      ALLSVENSKAN_RULES.relegationKval.forEach((pos, i) => {
-        next = addTie(next, { id: `${next.seasonId}:kval-allsv:A${i + 1}`, seasonId: next.seasonId, competitionId: KVAL_ALLSVENSKAN, stage: "KVAL_ALLSV", label: `Kval ${i + 1}: Allsvenskan ${pos} – Division 1`, highClubId: allsv[pos - 1]!, lowClubId: (i === 0 ? k1 : k2)!, format: series(ALLSVENSKAN_RULES.kvalSeries), key: `A${i + 1}`, stakes: { highCompetitionId: ALLSVENSKAN, lowCompetitionId: clubCompetitionId(next, (i === 0 ? k1 : k2)!) ?? DIVISION_1[0] } }, start);
-      });
-      for (const pos of ALLSVENSKAN_RULES.directRelegation) { const id = allsv[pos - 1]!; nextMembership[id] = clubCompetitionId(next, div1.at(-1)!) ?? DIVISION_1[0]; relegated.push(id); }
-    }
-  }
-  next = { ...next, seasonOutcome: { ...outcome, phase: "POSTSEASON", nextMembership: { ...outcome.nextMembership, ...nextMembership }, promoted: [...outcome.promoted, ...promoted], relegated: [...outcome.relegated, ...relegated] } };
+  next = { ...next, seasonOutcome: { ...outcome, phase: "POSTSEASON", nextMembership: {}, promoted: [], relegated: [] } };
   return announcePostseasonPlace(next, date, emit);
 }
 
@@ -324,7 +300,7 @@ export function createSvenskaCupen(state: CareerState): CareerState {
   const lot = (id: string) => hashRank(`${state.saveSeed}:${state.seasonId}:cup:${id}`);
   const rank = (ids: string[]) => [...ids].sort((a,b) => strength(b) - strength(a) || lot(a) - lot(b));
   // Existing entrant assumption is unchanged; district qualification is outside this hotfix.
-  const entrants = [...rank(competitionClubIds(state, HANDBOLLSLIGAN)), ...rank(competitionClubIds(state, ALLSVENSKAN)), ...rankDivision1(state).slice(0,4)];
+  const entrants = [...rank(competitionClubIds(state, HANDBOLLSLIGAN)), ...rank(competitionClubIds(state, ALLSVENSKAN)), ...division1CupSeeds(state).slice(0,4)];
   if (entrants.length !== 32) return state;
   let next = state;
   for (let k = 0; k < 16; k++) next = addTie(next, { id: `${state.seasonId}:cup:R32-${k + 1}`, seasonId: state.seasonId, competitionId: SVENSKA_CUPEN,
@@ -424,7 +400,7 @@ function seedPosition(state: CareerState, clubId: string): number {
 function settleTies(state: CareerState, date: string, emit: Emit): CareerState {
   let next = state;
   for (const tie of Object.values(next.competitionTies ?? {})) {
-    if (tie.winnerClubId || tie.stage === "CUP_GROUP") continue;
+    if (tie.transition || tie.winnerClubId || tie.stage === "CUP_GROUP") continue;
     const winner = decideTie(next, tie);
     if (!winner) continue;
     const loser = winner === tie.highClubId ? tie.lowClubId : tie.highClubId;
@@ -461,12 +437,21 @@ export function progressCompetitions(state: CareerState, date: string, emit: Emi
   next = settleTies(next, date, emit);
   const outcome = next.seasonOutcome!;
   if (outcome.phase === "REGULAR") {
-    const competitions = outcome.bothTiersSimulated ? [HANDBOLLSLIGAN, ALLSVENSKAN] : [next.competitionId];
-    if (competitions.every((c) => remainingLeagueFixtures(next, c) === 0) && hasLeagueCalendar(next, next.competitionId)) {
+    const competitions = [...new Set(next.fixtures.filter(f => f.type === "LEAGUE").map(f => f.competitionId))];
+    if (competitions.every((c) => remainingLeagueFixtures(next, c) === 0) && (hasLeagueCalendar(next, next.competitionId) || (next.competitionId.startsWith('se_division2_') && !!next.swedishContinuity))) {
       next = startPostseason(next, date, emit);
     }
   }
+  // Division 2 qualifiers can start once their own sources are complete, while
+  // published Allsvenskan rounds are still being played. The planner gates each entry.
+  if (next.seasonOutcome!.phase === "REGULAR") {
+    next = progressCareerQualifications(next,date).state;
+  }
+  if (next.seasonOutcome!.phase === "COMPLETE" && next.seasonTransitionRequest) next = progressCareerQualifications(next,date).state;
   if (next.seasonOutcome!.phase === "POSTSEASON") {
+    const qualification = progressCareerQualifications(next,date);
+    next = recordPlannedSportingOutcome(qualification.state,qualification.proposal);
+    next = { ...next,seasonOutcome:{ ...next.seasonOutcome!,qualificationBlockers:qualification.blockers.filter(b => QUALIFICATION_SCHEDULING_BLOCKER_CODES.has(b.code)) } };
     next = advanceBracket(next, SM_SLUTSPEL, (key) => key.startsWith("SF")
       ? { stage: "SF", label: `Semifinal ${key.slice(2)}`, format: series(SM_SLUTSPEL_RULES.series), start: date, feeds: { tieKey: "F", slot: (Number(key.slice(2)) - 1) as 0 | 1 } }
       : { stage: "F", label: "SM-final", format: series(SM_SLUTSPEL_RULES.series), start: date });

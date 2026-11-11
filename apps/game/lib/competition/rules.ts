@@ -72,13 +72,8 @@ export const ALLSVENSKAN_RULES = {
   /** Final kval best of three, B-H-H: the Allsvenskan club starts away. [THB §3:3] VERIFIED. */
   kvalSeries: { bestOf: 3, homePattern: ["LOW", "HIGH", "HIGH"], days: 3 } as SeriesFormat,
   provenance: { verified: true, source: "THB 2025/26 & 2026/27 §3:3" } as Provenance,
-  /**
-   * ASSUMPTION: Division 1 (two groups of 12) is not simulated. Its group
-   * winners (promoted directly in reality) and the two semi-kval winners
-   * that meet Allsvenskan 11-12 are chosen from Division 1 clubs ranked by
-   * squad strength, with a seeded tiebreak -- the semi-kval itself is not played.
-   */
-  division1Assumption: { verified: false, assumption: "Division 1 not simulated: promoted clubs and kval opponents are ranked by squad strength." } as Provenance,
+  // Division 1 sporting movement now comes exclusively from transition/sweden2026.ts.
+
 };
 
 /** Draws in series games: 2x5 min overtime, a second 2x5, then a shootout. [THB §2:13] VERIFIED. */

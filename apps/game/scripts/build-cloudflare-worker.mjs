@@ -42,9 +42,6 @@ function findSharpPaths() {
   const candidates = [
     path.join(repoRoot, "node_modules"),
     path.join(appDir, "node_modules"),
-    "C:/DEV/WORKTREES/handball-manager/alpha-release-03/node_modules",
-    "C:/DEV/WORKTREES/handball-manager/hm-playtest-improvement-03/node_modules",
-    "C:/DEV/PROJECTS/handball-manager/node_modules",
   ];
   const realDirSet = new Set();
   for (const c of candidates) {
@@ -58,6 +55,11 @@ function findSharpPaths() {
   }
   const toDisable = [];
   for (const nm of realDirSet) {
+    // Packaging must never rename dependencies belonging to another checkout.
+    const relative = path.relative(repoRoot, nm);
+    if (relative === ".." || relative.startsWith(`..${path.sep}`) || path.isAbsolute(relative)) {
+      throw new Error(`Refusing to modify dependencies outside this checkout: ${nm}`);
+    }
     for (const name of ["sharp", "@img"]) {
       const p = path.join(nm, name);
       if (existsSync(p)) {

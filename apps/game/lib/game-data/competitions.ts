@@ -1,3 +1,4 @@
+import { SWEDISH_DIVISION_2_COMPETITIONS } from './swedishDivision2';
 import type { Competition } from "./types";
 
 /**
@@ -11,6 +12,7 @@ import type { Competition } from "./types";
  * name, per the task brief.
  */
 export const COMPETITIONS: readonly Competition[] = [
+  ...SWEDISH_DIVISION_2_COMPETITIONS,
   {
     // HM-DATA-0.2: aligned to the real-world database's own competitionId
     // (data/real-world/sweden/2026-27/handbollsligan/*/roster-*.json),

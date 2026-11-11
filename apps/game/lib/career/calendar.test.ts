@@ -10,6 +10,9 @@ import { createNewCareerState } from "./newCareer";
 import { getNextPlayerFixture, getPlayerFixtureOn, simulateAiFixturesForDate } from "./calendar";
 import { processDay } from "./dailyTick";
 import { continueCareerRhythm } from "./continueController";
+import { answerConcern, openConcerns } from "../players/talks";
+import { submitBoardRecoveryPlan } from "../board/board";
+import { acceptBoardContract } from "../manager/managerCareer";
 import { playManagerFixtureLegacy as playManagerFixture } from "./legacy/matchday";
 import { getLiveStandings } from "./standings";
 import { GAME_CURRENT_DATE, TUMBA_CLUB_ID } from "../game-data";
@@ -195,6 +198,19 @@ test("HM-TACTICS-0.10: full season simulation remains deterministic end-to-end w
       const { state: next, stopReason } = continueCareerRhythm(state);
       state = next;
       if (stopReason === "ACTION_REQUIRED" || stopReason === "ACTION_REQUIRED_PENDING") {
+        // Current Alpha pauses for conversations and board decisions as well
+        // as matches. Resolve those normal actions instead of retrying a match
+        // forever on a day with no manager fixture.
+        for (const concern of openConcerns(state)) {
+          const option = concern.options.find(o => ["EARN_IT", "PATIENCE", "LATER"].includes(o.id)) ?? concern.options[0];
+          if (option) state = answerConcern(state, concern.id, option.id);
+        }
+        for (const meeting of state.board?.meetings ?? []) {
+          if (["WARNING", "FINAL_WARNING"].includes(meeting.kind) && state.careerEvents.some(e => e.id === `BOARD_UPDATE:${meeting.id}` && e.requiresAction && !e.resolved)) {
+            state = submitBoardRecoveryPlan(state, meeting.id);
+          }
+        }
+        if (state.board?.contractOffer && state.board.contractOffer.expiresOn >= state.gameDate) state = acceptBoardContract(state);
         state = playManagerFixture(state).state;
       }
     }

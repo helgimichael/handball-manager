@@ -65,7 +65,9 @@ export type Club = {
   /** True for IFK Tumba and every real-world-imported Handbollsligan club (HM-DATA-0.2). */
   playable: boolean;
   /** HM-DATA-0.2: set for clubs whose squad is imported from data/real-world/ rather than authored as fiction. Undefined means mock (equivalent to "MOCK") -- a dev-only distinction, not shown prominently in the normal UI. */
-  dataSource?: "REAL_WORLD" | "MOCK";
+  dataSource?: "REAL_WORLD" | "MOCK" | "IDENTITY_ONLY";
+  /** Verified playing-team identity with no squad/ratings supplied. Never enables a playable career. */
+  sourceRegistration?: { provider: "PROFIXIO"; teamId: string; seasonId: string; url: string };
   founded?: number;
   venue?: string;
   /** HM-PLAYTEST-01 5.4: published arena capacity, from the verified venue registry. */
@@ -146,6 +148,8 @@ export type PlayerMock = {
   specialTags?: PlayerTag[];
   /** HM-DATA-0.2: "REAL_WORLD" for imported Handbollsligan players, undefined/"MOCK" for authored fiction (e.g. TUMBA_SQUAD). Dev-facing distinction only. */
   dataSource?: "REAL_WORLD" | "MOCK";
+  /** Persisted fictional identity provenance; never a researched player claim. */
+  generatedOrigin?: { kind: "DIVISION2_PROMOTION"; seasonId: string; modelVersion: string };
   /** 1-200 hidden development scale -- see CA/PA note in players.ts. */
   currentAbility: number;
   potentialAbility: number;

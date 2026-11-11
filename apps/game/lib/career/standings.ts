@@ -14,6 +14,8 @@ export function getLiveStandings(state: CareerState): StandingRow[] {
   // only LEAGUE fixtures' own results ever feed the table.
   // HM-ALPHA3-M03: of the manager's own competition only (both Swedish
   // tiers now have a calendar), with the verified Swedish tiebreakers.
+  const pool = state.swedishContinuity?.pools?.[state.seasonId]?.districts[state.competitionId.replace('se_division2_','')];
+  if (state.competitionId.startsWith('se_division2_') && pool) return [...pool.rows].sort((a,b)=>pool.order.indexOf(a.clubId)-pool.order.indexOf(b.clubId));
   return competitionTable(state, state.competitionId);
 }
 

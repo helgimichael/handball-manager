@@ -109,7 +109,12 @@ export type CareerState = {
   matchArchives?: Record<string, import('./productionMatch').PlayedMatchArchive>;
   matchArchiveIds?: string[];
   matchArchiveSummaries?: Record<string, import('./matchArchiveSummary').MatchArchiveSummary>;
-  seasonHistory?: { seasonId: string; competitionId: string; table: import('@handball-manager/game-simulation').StandingRow[]; stats: Record<string, PlayerSeasonStats>; /** HM-ALPHA3-M03 */ outcome?: SeasonOutcome; tables?: Record<string, import('@handball-manager/game-simulation').StandingRow[]>; ties?: CompetitionTie[] }[];
+  /** Additive optional receipt: older saves require no inferred transition evidence. */
+  swedishContinuity?: import('../competition/transition/gameContinuity').SwedishContinuityState;
+  lastSeasonTransition?: import('./seasonTransition').SeasonTransitionReceipt;
+  /** Reviewed inputs for the existing planner/gate, preserved verbatim across save/load. Never inferred from club strength. */
+  seasonTransitionRequest?: import('./seasonTransition').SeasonTransitionRequest;
+  seasonHistory?: { seasonId: string; competitionId: string; table: import('@handball-manager/game-simulation').StandingRow[]; stats: Record<string, PlayerSeasonStats>; /** HM-ALPHA3-M03 */ outcome?: SeasonOutcome; tables?: Record<string, import('@handball-manager/game-simulation').StandingRow[]>; ties?: CompetitionTie[]; fixtures?: readonly CareerFixture[]; results?: Readonly<Record<string, FastMatchResult>>; transition?: { receipt: import('./seasonTransition').SeasonTransitionReceipt; preview: import('../competition/transition/preview').SeasonTransitionPreview; evidence: import('./seasonTransition').SeasonTransitionEvidence } }[];
   seasonId: string; // e.g. "2026/27"
   competitionId: string; // "swe-2" -- the one fully-simulated competition this pass
   playerClubId: string;

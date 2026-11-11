@@ -44,6 +44,8 @@ export type PartnershipStatus = (typeof PARTNERSHIP_STATUSES)[number];
  * never duplicated here).
  */
 export interface ClubPartnership {
+  /** Dated competition eligibility evidence. Historical/permanent affiliation alone does not activate it. */
+  competitionRestriction?: { origin: 'OFFICIAL_RECORD' | 'CAREER_AGREEMENT'; evidence: string; effectiveFrom: string; effectiveUntil: string | null; highestEligibleTier?: number; applyParentDivisionRule?: boolean };
   id: string;
   type: PartnershipType;
   clubAId: string;

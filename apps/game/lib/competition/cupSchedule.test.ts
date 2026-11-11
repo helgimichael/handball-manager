@@ -8,7 +8,8 @@ import { cupDateProfile, scheduleCupFixtures, ensureCupCalendar, validateCupCale
 import { SVENSKA_CUPEN, HANDBOLLSLIGAN, ALLSVENSKAN } from './rules';
 import { progressCompetitions, freeDate } from './season';
 import { snapshotWorldSquads, snapshotGameplayRatings } from '../gameWorld/serverSnapshot';
-import { rolloverSeason } from '../career/seasonRollover';
+import { attemptSeasonTransition } from '../career/seasonRollover';
+import { buildNewSeasonCalendar } from './seasonCalendar';
 import { migrateCareerState } from '../career/saveMigration';
 import { continueCareerRhythm } from '../career/continueController';
 
@@ -78,8 +79,8 @@ test('legacy save repair preserves played groups, results and two-leg assignment
  const loaded=migrateCareerState(JSON.parse(JSON.stringify(n)));assert.deepEqual(loaded.fixtures,n.fixtures);assert.deepEqual(loaded.results,n.results);
 });
 
-test('rollover builds and validates the next season profile atomically and is idempotent',()=>{
- const s={...fresh(),seasonComplete:true};const n=rolloverSeason(s);assert.equal(n.seasonId,'2027/28');assert.ok(n.fixtures.some(f=>f.id.startsWith('2027-cup-R32-')));validateCupCalendar(n);assert.equal(rolloverSeason(n),n);const loaded=migrateCareerState(JSON.parse(JSON.stringify(n)));assert.deepEqual(loaded.fixtures,n.fixtures);
+test('calendar generation preserves provisional next-season cup slots while incomplete official rollover stays blocked',()=>{
+ const s={...fresh(),seasonComplete:true};const blocked=attemptSeasonTransition(s);assert.equal(blocked.status,'BLOCKED');assert.equal(blocked.state,s);const n=buildNewSeasonCalendar({...s,seasonId:'2027/28',seasonComplete:false},'2027-09-20');assert.equal(n.seasonId,'2027/28');assert.ok(n.fixtures.some(f=>f.id.startsWith('2027-cup-R32-')));validateCupCalendar(n);assert.deepEqual(buildNewSeasonCalendar(n,'2027-09-20').fixtures,n.fixtures);const loaded=migrateCareerState(JSON.parse(JSON.stringify(n)));assert.deepEqual(loaded.fixtures,n.fixtures);
 });
 
 

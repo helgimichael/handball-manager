@@ -1,11 +1,13 @@
 // HM-ALPHA3-M03: knockout ties and the season's competitive outcome.
 import type { SeriesFormat } from "./rules";
 
-export type TieStage = "QF" | "SF" | "F" | "KVAL_HBL" | "KVAL_ALLSV" | "CUP_GROUP" | "CUP_R32" | "CUP_R16" | "CUP_QF" | "CUP_SF" | "CUP_F" | "CUP_3RD";
+export type TieStage = "QF" | "SF" | "F" | "KVAL_HBL" | "KVAL_ALLSV" | "KVAL_DIV1" | "CUP_GROUP" | "CUP_R32" | "CUP_R16" | "CUP_QF" | "CUP_SF" | "CUP_F" | "CUP_3RD";
 
 export interface CompetitionTie {
   id: string;
   seasonId: string;
+  /** Existing planner stage authorizes this tie; no separate qualification bracket. */
+  transition?: { ruleId: string; stageId: string };
   /** SM_SLUTSPEL / KVAL_HBL / KVAL_ALLSVENSKAN / SVENSKA_CUPEN from rules.ts. */
   competitionId: string;
   stage: TieStage;
@@ -52,6 +54,8 @@ export interface SeasonOutcome {
   cupWinner?: string;
   /** clubId -> competitionId for next season, decided as the postseason resolves. */
   nextMembership: Record<string, string>;
+  /** Unresolved scheduling decisions; persisted so a missed window remains explicit after load. */
+  qualificationBlockers?: readonly import("./transition/types").Dependency[];
   promoted: string[];
   relegated: string[];
   awards: SeasonAward[];

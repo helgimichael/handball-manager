@@ -17,7 +17,7 @@ import { useCareer } from "@/lib/career/CareerContext";
 import { getCareerPlayer } from "@/lib/career/careerWorld";
 import { formatGameDate } from "@/lib/career/dateUtils";
 import type { CareerState } from "@/lib/career/types";
-import { ALLSVENSKAN, CUP_RULES, HANDBOLLSLIGAN, KVAL_ALLSVENSKAN, KVAL_HBL, LEAGUE_RULES, SHOOTOUT_ASSUMPTION, SM_SLUTSPEL, SM_SLUTSPEL_RULES, SVENSKA_CUPEN, ALLSVENSKAN_RULES, PLAYOFF_BONUS_PROVENANCE } from "@/lib/competition/rules";
+import { ALLSVENSKAN, CUP_RULES, HANDBOLLSLIGAN, KVAL_ALLSVENSKAN, KVAL_HBL, LEAGUE_RULES, SHOOTOUT_ASSUMPTION, SM_SLUTSPEL, SM_SLUTSPEL_RULES, SVENSKA_CUPEN, PLAYOFF_BONUS_PROVENANCE } from "@/lib/competition/rules";
 import { competitionTable, hasLeagueCalendar } from "@/lib/competition/tables";
 import { cupGroupTable } from "@/lib/competition/season";
 import type { CompetitionTie } from "@/lib/competition/types";
@@ -105,8 +105,8 @@ export default function SeasonPage() {
       <section className="ss-section ss-sources" aria-labelledby="rules-title">
         <header className="ss-section-head"><div><span className="xp-eyebrow">Regler och källor</span><h2 id="rules-title">Så avgörs säsongen</h2></div></header>
         <ul>
-          <li><b>Verifierat:</b> 14 lag per serie, 2–1–0 poäng, tabellordning ({LEAGUE_RULES.tiebreakProvenance.verified ? LEAGUE_RULES.tiebreakProvenance.source : ""}). SM-slutspel för plats 1–8, alla omgångar bäst av fem ({SM_SLUTSPEL_RULES.provenance.verified ? SM_SLUTSPEL_RULES.provenance.source : ""}). Kval och uppflyttning enligt tävlingshandboken §3:3. Oavgjort i slutspel och kval: 2×5 min förlängning två gånger, sedan straffkastning (THB §2:13).</li>
-          <li><b>Antaganden:</b> {SHOOTOUT_ASSUMPTION.verified ? "" : SHOOTOUT_ASSUMPTION.assumption} {ALLSVENSKAN_RULES.division1Assumption.verified ? "" : ALLSVENSKAN_RULES.division1Assumption.assumption} {CUP_RULES.assumptions.verified ? "" : CUP_RULES.assumptions.assumption} {PLAYOFF_BONUS_PROVENANCE.verified ? "" : PLAYOFF_BONUS_PROVENANCE.assumption}</li>
+          <li><b>Verifierat:</b> 14 lag i Handbollsligan/Allsvenskan och 12 i varje Division 1-grupp, 2–1–0 poäng, tabellordning ({LEAGUE_RULES.tiebreakProvenance.verified ? LEAGUE_RULES.tiebreakProvenance.source : ""}). SM-slutspel för plats 1–8, alla omgångar bäst av fem ({SM_SLUTSPEL_RULES.provenance.verified ? SM_SLUTSPEL_RULES.provenance.source : ""}). Kval och uppflyttning enligt tävlingshandboken §3:3. Oavgjort i slutspel och kval: 2×5 min förlängning två gånger, sedan straffkastning (THB §2:13).</li>
+          <li><b>Antaganden:</b> {SHOOTOUT_ASSUMPTION.verified ? "" : SHOOTOUT_ASSUMPTION.assumption} {CUP_RULES.assumptions.verified ? "" : CUP_RULES.assumptions.assumption} {PLAYOFF_BONUS_PROVENANCE.verified ? "" : PLAYOFF_BONUS_PROVENANCE.assumption}</li>
         </ul>
       </section>
     </div>

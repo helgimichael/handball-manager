@@ -20,7 +20,7 @@ import type { CareerState } from "./types";
 import { ensureCareerGameplayRatings } from "./careerRatingNormalization";
 import { ensureCareerPlayerContracts, getPlayerContractStatus, migrateContractWages, recalibratePlayerContractEndDates } from "../economy/contractIntegration";
 import { migrateLegacyLoanContracts } from "../transfers/transferExecution";
-import { isFreeAgentClubId, releasePlayerToFreeAgency } from "./contractExpiry";
+import { isFreeAgentClubId, isRetiredClubId, releasePlayerToFreeAgency } from "./contractExpiry";
 import { ensureCareerPlayerClubHistory } from "../economy/clubHistoryIntegration";
 import { ensureCareerAllClubEconomies } from "../economy/clubEconomyIntegration";
 import { ensureCareerPlayerSquadStatus } from "./squadStatus";
@@ -551,7 +551,7 @@ export function migrateCareerState(career: CareerState): CareerState {
   // is already at the free-agent key), safe unconditionally on every
   // migration, same precedent as the other unconditional passes above.
   for (const clubId of Object.keys(next.worldSquads)) {
-    if (isFreeAgentClubId(clubId)) continue;
+    if (isFreeAgentClubId(clubId) || isRetiredClubId(clubId)) continue;
     const squad = next.worldSquads[clubId] ?? [];
     for (const player of squad) {
       if (player.clubId !== clubId) continue; // already reconciled/moved earlier this same pass

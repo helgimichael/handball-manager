@@ -207,6 +207,8 @@ export function recalibratePlayerContractEndDates(state: CareerState): CareerSta
   let changed = false;
   const nextContracts: Record<string, PlayerContract> = {};
   for (const [playerId, contract] of entries) {
+    // A retirement date is a completed career event, not a legacy contract-year hint.
+    if (contract.clubId === 'retired') { nextContracts[playerId] = contract; continue; }
     const endYear = contract.contractEndDate.slice(0, 4);
     const correctedEndDate = `${endYear}-05-31`;
     if (correctedEndDate !== contract.contractEndDate) changed = true;

@@ -1,3 +1,4 @@
+import { cooperationEligibility } from './transition/cooperationEligibility';
 // HM-ALPHA3-M03: season engine -- verified formats, series, kval,
 // promotion/relegation, cup, awards, prize money and the season boundary.
 import { test } from "node:test";
@@ -7,9 +8,9 @@ import { createNewCareerState } from "../career/newCareer";
 import { snapshotGameplayRatings, snapshotWorldSquads } from "../gameWorld/serverSnapshot";
 import { continueCareerRhythm } from "../career/continueController";
 import { playManagerFixtureLegacy } from "../career/legacy/matchday";
-import { rolloverSeason } from "../career/seasonRollover";
+import { attemptSeasonTransition } from "../career/seasonRollover";
+import { syntheticTransitionCareer } from "../career/seasonTransition.fixtures";
 import type { CareerState } from "../career/types";
-import { CLUBS } from "../game-data";
 import { ALLSVENSKAN, HANDBOLLSLIGAN, KVAL_HBL, SM_SLUTSPEL, SVENSKA_CUPEN } from "./rules";
 import { competitionTable } from "./tables";
 import { tieWins } from "./season";
@@ -43,9 +44,9 @@ test("a new career gets both Swedish leagues and Svenska cupen before kickoff", 
   const s = careerAt();
   const { state } = continueCareerRhythm(s);
   for (const c of [HANDBOLLSLIGAN, ALLSVENSKAN]) assert.equal(state.fixtures.filter((f) => f.type === "LEAGUE" && f.competitionId === c).length, 14 * 13, c);
-  const groups = Object.values(state.competitionTies ?? {}).filter((t) => t.competitionId === SVENSKA_CUPEN && t.stage === "CUP_GROUP");
-  assert.equal(groups.length, 8);
-  assert.equal(new Set(groups.flatMap((g) => g.clubIds ?? [])).size, 32);
+  const firstRound = Object.values(state.competitionTies ?? {}).filter((t) => t.competitionId === SVENSKA_CUPEN && t.key.startsWith("R32-"));
+  assert.equal(firstRound.length, 16);
+  assert.equal(new Set(firstRound.flatMap(t => [t.highClubId,t.lowClubId])).size, 32);
   assert.ok(state.seasonOutcome?.bothTiersSimulated);
 });
 
@@ -75,16 +76,15 @@ test("SM-slutspel follows the verified bracket: HBL 1-8, 1v8 4v5 2v7 3v6, best o
   assert.equal(state.seasonOutcome!.champion, ties.find((t) => t.stage === "F")!.winnerClubId);
 });
 
-test("kval pairs HBL 11/12/13 with Allsvenskan 4/3/2; 14th goes down and the Allsvenskan winner goes up", () => {
+test("default game continuity resolves eligible qualifiers while membership remains advisory", () => {
   const state = finished();
-  const hbl = competitionTable(state, HANDBOLLSLIGAN).map((r) => r.clubId);
-  const allsv = competitionTable(state, ALLSVENSKAN).map((r) => r.clubId);
-  const kval = Object.values(state.competitionTies!).filter((t) => t.competitionId === KVAL_HBL).sort((a, b) => a.key.localeCompare(b.key));
-  assert.deepEqual(kval.map((t) => [hbl.indexOf(t.highClubId) + 1, allsv.indexOf(t.lowClubId) + 1]), [[11, 4], [12, 3], [13, 2]]);
-  const next = state.seasonOutcome!.nextMembership;
-  assert.equal(next[hbl[13]!], ALLSVENSKAN);
-  assert.equal(next[allsv[0]!], HANDBOLLSLIGAN);
-  for (const t of kval) assert.equal(next[t.winnerClubId!], HANDBOLLSLIGAN);
+  const hbl = competitionTable(state, HANDBOLLSLIGAN).map(r => r.clubId);
+  const qualifiers=Object.values(state.competitionTies!).filter(t=>t.competitionId===KVAL_HBL);
+  assert.equal(qualifiers.length,3);
+  for(const tie of qualifiers)assert.ok(cooperationEligibility(state,tie.lowClubId,1,state.gameDate).eligible);
+  assert.equal(state.seasonOutcome!.nextMembership[hbl[13]!],ALLSVENSKAN);
+  assert.ok(state.seasonOutcome!.promoted.length>0);
+  assert.equal(state.competitionMembership,undefined,"postseason is advisory; gate owns membership");
 });
 
 test("the season completes only after the postseason, with awards and prize money booked", () => {
@@ -99,24 +99,12 @@ test("the season completes only after the postseason, with awards and prize mone
   assert.ok(prize.some((t) => t.label === "SM-guld"), "the champion is paid");
 });
 
-test("rollover applies promotion and relegation and builds both leagues for the new season", () => {
-  const state = finished();
-  const next = rolloverSeason(state);
-  const o = state.seasonOutcome!;
-  // HM-ALPHA3-M10: a club relegated into Division 1 may be placed in the other group to keep the groups even.
-  const division1 = ["se_division1_norra", "se_division1_sodra"];
-  for (const [club, competitionId] of Object.entries(o.nextMembership)) {
-    if (division1.includes(competitionId)) assert.ok(division1.includes(next.competitionMembership![club]!), `${club} is in Division 1`);
-    else assert.equal(next.competitionMembership![club], competitionId);
-  }
-  const groupSize = (g: string) => CLUBS.filter((c) => (next.competitionMembership![c.id] ?? c.competitionId) === g).length;
-  assert.ok(Math.abs(groupSize(division1[0]!) - groupSize(division1[1]!)) <= 1, "Division 1 groups stay even");
-  for (const c of [HANDBOLLSLIGAN, ALLSVENSKAN]) {
-    const clubs = new Set(next.fixtures.filter((f) => f.competitionId === c).flatMap((f) => [f.homeClubId, f.awayClubId]));
-    assert.equal(clubs.size, 14, `${c} still has 14 clubs`);
-  }
-  for (const id of o.promoted.filter((id) => o.nextMembership[id] === HANDBOLLSLIGAN)) assert.ok(next.fixtures.some((f) => f.competitionId === HANDBOLLSLIGAN && (f.homeClubId === id || f.awayClubId === id)), `${id} plays in HBL`);
-  assert.equal(next.seasonHistory!.at(-1)!.outcome?.champion, o.champion);
-  assert.equal(next.seasonOutcome!.phase, "REGULAR");
-  assert.equal(new Set(next.fixtures.map((f) => f.id)).size, next.fixtures.length);
+test("legacy postseason outcome cannot bypass the atomic readiness gate", () => {
+  const state = syntheticTransitionCareer();
+  state.seasonOutcome!.nextMembership = { [state.playerClubId]: HANDBOLLSLIGAN };
+  const result = attemptSeasonTransition(state,{fromSeasonId:state.seasonId});
+  assert.equal(result.status, "BLOCKED");
+  assert.equal(result.state, state);
+  assert.ok(result.blockers.some(b => b.code === "MISSING_STANDINGS"));
+  assert.ok(result.blockers.some(b => b.code === "NEXT_SEASON_PROFILE_REQUIRED"));
 });

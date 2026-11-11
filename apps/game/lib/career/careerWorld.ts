@@ -8,7 +8,7 @@
 // static mock squad (TUMBA_SQUAD) for clubs that still only have mock
 // data (i.e. IFK Tumba/Allsvenskan, unchanged by this milestone).
 import { CLUBS, TUMBA_CLUB_ID, TUMBA_SQUAD, getClub, getClubsByCompetition, type Club, type PlayerMock } from "../game-data";
-import { getCareerWorldCompetitionIds } from "./worldCompetitions";
+import { careerWorldCatalogClubs } from "./worldCompetitions";
 import type { CareerState } from "./types";
 
 // HM-WORLD-PLAYER-POOL-1.0: the 16 competitions the 100-player
@@ -38,7 +38,7 @@ export const WORLD_POOL_COMPETITION_IDS = [
  * source at all.
  */
 export function getExternalCandidateClubs(career: CareerState): Club[] {
-  const swedishClubs = getCareerWorldCompetitionIds(career).flatMap((id) => getClubsByCompetition(id));
+  const swedishClubs = careerWorldCatalogClubs(career);
   const worldPoolClubs = WORLD_POOL_COMPETITION_IDS.flatMap((id) => getClubsByCompetition(id));
   return [...swedishClubs, ...worldPoolClubs].filter((c) => c.id !== career.playerClubId);
 }

@@ -26,8 +26,8 @@
 // and any transfer-market wiring (TransferRevenue/TransferCosts are
 // left at 0 -- no transfer system exists yet). These are the documented
 // "next layer" this foundation is built to support.
-import { getClub, getClubsByCompetition, getCompetition } from "../game-data";
-import { getCareerWorldCompetitionIds } from "../career/worldCompetitions";
+import { getClub, getCompetition } from "../game-data";
+import { careerWorldCatalogClubs } from "../career/worldCompetitions";
 import { clubCompetitionTier } from "../career/competitionMembership";
 import type { CareerState } from "../career/types";
 import { ensureCareerGameplayRatings } from "../career/careerRatingNormalization";
@@ -136,7 +136,7 @@ export function ensureCareerClubEconomy(state: CareerState, clubId: string): Car
  * manager's own got none either.
  */
 export function ensureCareerAllClubEconomies(state: CareerState): CareerState {
-  const clubIds = getCareerWorldCompetitionIds(state).flatMap((competitionId) => getClubsByCompetition(competitionId)).map((c) => c.id);
+  const clubIds = careerWorldCatalogClubs(state).map((c) => c.id);
   let next = state;
   for (const clubId of clubIds) {
     next = ensureCareerClubEconomy(next, clubId);
