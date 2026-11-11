@@ -21,6 +21,7 @@ import { playerAgeAtDate } from "@/lib/development/developmentIntegration";
 import { useCareer } from "@/lib/career/CareerContext";
 import { getCareerClubSquad } from "@/lib/career/careerWorld";
 import { getLiveStandings } from "@/lib/career/standings";
+import { clubCompetitionId } from "@/lib/career/competitionMembership";
 import type { ClubIdentityProfile, CoachIdentityProfile, IdentityClaim } from "@/lib/identity";
 import { presentClaim } from "@/lib/identity/presentation";
 import { STAFF_ROLE_LABEL } from "@/lib/staff/labels";
@@ -108,7 +109,8 @@ export default function ClubProfilePage() {
   }
 
   const squad = getCareerClubSquad(career, club.id);
-  const table = career.competitionId === club.competitionId ? getLiveStandings(career) : [];
+  const competitionId = clubCompetitionId(career, club.id) ?? club.competitionId;
+  const table = career.competitionId === competitionId ? getLiveStandings(career) : [];
   const tableRow = table.find((r) => r.clubId === club.id);
   const tablePosition = tableRow ? table.indexOf(tableRow) + 1 : null;
 

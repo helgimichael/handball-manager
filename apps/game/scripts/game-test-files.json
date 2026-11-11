@@ -293,5 +293,6 @@
   "lib/competition/transition/cooperationEligibility.test.ts",
   "lib/career/promotionSquads.test.ts",
   "lib/career/promotionStockRollover.test.ts",
-  "lib/career/retirementSaveMigration.test.ts"
+  "lib/career/retirementSaveMigration.test.ts",
+  "components/game/clubMembershipPresentation.test.ts"
 ]

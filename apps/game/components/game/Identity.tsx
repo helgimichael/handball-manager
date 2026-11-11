@@ -1,5 +1,6 @@
 import { NationFlag, nationName } from '@/components/game/NationFlag';
 import Link from 'next/link';
+import { clubCompetitionId } from '@/lib/career/competitionMembership';
 import type { CSSProperties, ReactNode } from 'react';
 import type { FastMatchResult } from '@handball-manager/game-simulation';
 import { COMPETITIONS, NATIONS, getClub, positionLabel, type PlayerMock } from '@/lib/game-data';
@@ -256,7 +257,8 @@ export function PlayerHero({ player, career, children }: { player: PlayerMock; c
 export function ClubHero({ clubId, career, children }: { clubId: string; career: CareerState; children?: ReactNode }) {
   const club = getClub(clubId);
   if (!club) return null;
-  const table = club.competitionId === career.competitionId ? getLiveStandings(career) : [];
+  const competitionId = clubCompetitionId(career, club.id) ?? club.competitionId;
+  const table = competitionId === career.competitionId ? getLiveStandings(career) : [];
   const row = table.find((r) => r.clubId === clubId);
   return (
     <header className="game-club-hero xp-photo-hero" style={{ ...clubColorVars(club), ...ENVIRONMENTS["arena-club"].backdropStyle }}>
@@ -269,8 +271,8 @@ export function ClubHero({ clubId, career, children }: { clubId: string; career:
         </div>
         <h1>{club.name}</h1>
         <div className="game-person-facts">
-          <Link href={`/career/competitions/${club.competitionId}`}>
-            {COMPETITIONS.find((c) => c.id === club.competitionId)?.name ?? 'Tävling'}
+          <Link href={`/career/competitions/${competitionId}`}>
+            {COMPETITIONS.find((c) => c.id === competitionId)?.name ?? 'Tävling'}
           </Link>
           {club.city && <span>{club.city}</span>}
           {club.founded && <span>Grundad {club.founded}</span>}
