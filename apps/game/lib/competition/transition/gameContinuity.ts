@@ -48,14 +48,25 @@ export function continuityGeography(clubId:string):{district:District;band:numbe
 }
 
 function rosterCounts(state:CareerState){const counts=new Map<string,number>();for(const squad of Object.values(state.worldSquads))for(const p of squad)counts.set(p.id,(counts.get(p.id)??0)+1);return counts}
+/** Empty pool squads are valid registrations; playable simulated squads have a separate coverage check. */
+export function hasValidCompetitionRegistrations(state:CareerState,id:string,date=state.gameDate,counts=rosterCounts(state)):boolean {
+ return (state.worldSquads[id]??[]).every(p=>{
+  const contract=state.playerContracts[p.id];
+  return counts.get(p.id)===1&&p.clubId===id&&!!contract&&contract.contractEndDate>=date&&
+   (contract.clubId===id||Object.values(state.loans).some(l=>l.active&&l.playerId===p.id&&l.borrowingClubId===id&&l.parentClubId===contract.clubId));
+ });
+}
 export function hasCompetitionSquad(state:CareerState,id:string,counts=rosterCounts(state)):boolean {
  const squad=state.worldSquads[id];
- return !!squad&&squad.length>=7&&squad.some(p=>p.position==='MV')&&squad.every(p=>counts.get(p.id)===1&&p.clubId===id&&(state.playerContracts[p.id]&&state.playerContracts[p.id].contractEndDate>=state.gameDate&&(state.playerContracts[p.id].clubId===id||Object.values(state.loans).some(l=>l.active&&l.playerId===p.id&&l.borrowingClubId===id&&l.parentClubId===state.playerContracts[p.id].clubId))));
+ return !!squad&&squad.length>=7&&squad.some(p=>p.position==='MV')&&hasValidCompetitionRegistrations(state,id,state.gameDate,counts);
 }
+export function isDivision2PoolClub(state:CareerState,id:string):boolean { return districts.some(d=>districtCompetition(d)===clubCompetitionId(state,id)); }
+
 function eligibility(state:CareerState,clubId:string,tier:number,date:string,counts:Map<string,number>){
  const admin=state.swedishContinuity?.administrativeDecisions?.[clubId];
  if(admin?.seasonId===state.seasonId&&!admin.eligible&&admin.evidence.trim())return {eligible:false,reason:admin.evidence};
- if(!hasCompetitionSquad(state,clubId,counts))return {eligible:false,reason:'Missing or conflicting registered squad (seven players including a goalkeeper required).'};
+ if(isDivision2PoolClub(state,clubId)&&!hasValidCompetitionRegistrations(state,clubId,state.gameDate,counts))return {eligible:false,reason:'Conflicting pool registration or expired contract.'};
+ if(!isDivision2PoolClub(state,clubId)&&!hasCompetitionSquad(state,clubId,counts))return {eligible:false,reason:'Missing or conflicting registered squad (seven players including a goalkeeper required).'};
  const c=cooperationEligibility(state,clubId,tier,date);return {eligible:c.eligible,reason:c.reasons.join(' | ')||'GAME_CONTINUITY entry accepted in the simulated world; no official future licence claimed.'};
 }
 
@@ -92,9 +103,9 @@ export function prepareGameContinuity(state:CareerState,date=state.gameDate):{st
  const externalEntrants:ExternalEntrant[]=[];
  if(pool)for(const district of districts){
   const division=pool.districts[district],required=['v','s'].includes(district)?3:2;
-  // Only eligible, roster-backed sporting rankings supply the existing ports.
+  // Only eligible sporting rankings supply the existing ports.
   const order=division.order.filter(id=>eligibility(state,id,3,evaluationDate,counts).eligible);
-  if(order.length<required){blockers.push(issue('DIVISION2_POOL_INSUFFICIENT',district,`Division 2 ${district}: needs ${required} eligible ranked clubs with squads; has ${order.length}. No fictional teams or strength fallback.`));continue;}
+  if(order.length<required){blockers.push(issue('DIVISION2_POOL_INSUFFICIENT',district,`Division 2 ${district}: needs ${required} eligible ranked clubs; has ${order.length}. No fictional club identities.`));continue;}
   for(let rank=1;rank<=required;rank++)externalEntrants.push({slotId:`division2-${district}-${rank}`,clubId:order[rank-1]!,evidence:`GAME_CONTINUITY seeded pool performance ${state.seasonId}; ${division.contests.length} aggregate contests. Not an official league result.`});
  }
  const evidence={eligibility:eligibilityRows,externalEntrants};

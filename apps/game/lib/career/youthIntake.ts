@@ -497,7 +497,7 @@ function generateYouthNationality(seedKey: string): NationCode {
 // in this codebase already uses for that field).
 // ---------------------------------------------------------------------------
 
-function legacyAttributesFromCA(ca: number): PlayerMockAttributes {
+export function legacyAttributesFromCA(ca: number): PlayerMockAttributes {
   const v = clamp(Math.round(ca / 10), 1, 20);
   return {
     technical: { skott: v, passning: v, spelforstaelse: v, genombrott: v, mottagning: v, fint: v, spelUtanBoll: v },

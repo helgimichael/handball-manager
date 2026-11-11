@@ -48,7 +48,7 @@ test('three complete seeded seasons retain history and resolve four-tier movemen
    const blocked=preview(restricted);
    assert.ok(!blocked.directPromotions.some(c=>c.clubId===champion));
    assert.ok(blocked.directPromotions.some(c=>c.fromCompetitionId==='se_division1_norra'&&c.clubId!==champion),'verified upper-half successor takes the upward entry');
-   const expired=preview({...restricted,clubPartnerships:{[agreement.id]:{...agreement,endDate:'2027-03-01'}}});
+   const expired=preview({...restricted,clubPartnerships:{[agreement.id]:{...agreement,endDate:'2026-12-31'}}});
    assert.ok(expired.directPromotions.some(c=>c.clubId===champion),'validly ended agreement restores eligibility');
   }
   const oldResults=hash(s.results),oldFixtures=hash(s.fixtures),manager=s.playerClubId;

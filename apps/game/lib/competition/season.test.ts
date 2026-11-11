@@ -1,3 +1,4 @@
+import { cooperationEligibility } from './transition/cooperationEligibility';
 // HM-ALPHA3-M03: season engine -- verified formats, series, kval,
 // promotion/relegation, cup, awards, prize money and the season boundary.
 import { test } from "node:test";
@@ -43,9 +44,9 @@ test("a new career gets both Swedish leagues and Svenska cupen before kickoff", 
   const s = careerAt();
   const { state } = continueCareerRhythm(s);
   for (const c of [HANDBOLLSLIGAN, ALLSVENSKAN]) assert.equal(state.fixtures.filter((f) => f.type === "LEAGUE" && f.competitionId === c).length, 14 * 13, c);
-  const groups = Object.values(state.competitionTies ?? {}).filter((t) => t.competitionId === SVENSKA_CUPEN && t.stage === "CUP_GROUP");
-  assert.equal(groups.length, 8);
-  assert.equal(new Set(groups.flatMap((g) => g.clubIds ?? [])).size, 32);
+  const firstRound = Object.values(state.competitionTies ?? {}).filter((t) => t.competitionId === SVENSKA_CUPEN && t.key.startsWith("R32-"));
+  assert.equal(firstRound.length, 16);
+  assert.equal(new Set(firstRound.flatMap(t => [t.highClubId,t.lowClubId])).size, 32);
   assert.ok(state.seasonOutcome?.bothTiersSimulated);
 });
 
@@ -75,12 +76,14 @@ test("SM-slutspel follows the verified bracket: HBL 1-8, 1v8 4v5 2v7 3v6, best o
   assert.equal(state.seasonOutcome!.champion, ties.find((t) => t.stage === "F")!.winnerClubId);
 });
 
-test("unreviewed eligibility cannot schedule qualification or presume promotion", () => {
+test("default game continuity resolves eligible qualifiers while membership remains advisory", () => {
   const state = finished();
   const hbl = competitionTable(state, HANDBOLLSLIGAN).map(r => r.clubId);
-  assert.equal(Object.values(state.competitionTies!).filter(t => t.competitionId === KVAL_HBL).length,0);
+  const qualifiers=Object.values(state.competitionTies!).filter(t=>t.competitionId===KVAL_HBL);
+  assert.equal(qualifiers.length,3);
+  for(const tie of qualifiers)assert.ok(cooperationEligibility(state,tie.lowClubId,1,state.gameDate).eligible);
   assert.equal(state.seasonOutcome!.nextMembership[hbl[13]!],ALLSVENSKAN);
-  assert.deepEqual(state.seasonOutcome!.promoted,[]);
+  assert.ok(state.seasonOutcome!.promoted.length>0);
   assert.equal(state.competitionMembership,undefined,"postseason is advisory; gate owns membership");
 });
 
@@ -99,7 +102,7 @@ test("the season completes only after the postseason, with awards and prize mone
 test("legacy postseason outcome cannot bypass the atomic readiness gate", () => {
   const state = syntheticTransitionCareer();
   state.seasonOutcome!.nextMembership = { [state.playerClubId]: HANDBOLLSLIGAN };
-  const result = attemptSeasonTransition(state);
+  const result = attemptSeasonTransition(state,{fromSeasonId:state.seasonId});
   assert.equal(result.status, "BLOCKED");
   assert.equal(result.state, state);
   assert.ok(result.blockers.some(b => b.code === "MISSING_STANDINGS"));

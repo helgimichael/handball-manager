@@ -21,7 +21,7 @@
 import { unassessedAbilityRating } from "../validators";
 import { CA_MAX, CA_MIN, PA_MAX, PA_MIN, type AttackRole, type PlayerRatingClaim, type PlayerRatingProfile, type Position } from "../types";
 import { assignArchetypeForPosition } from "../gamePrior/archetypeAssignment";
-import { generateGamePriorCA, generateGamePriorPA } from "../gamePrior/populationModel";
+import { generateGamePriorCA, generateGamePriorPA, type PopulationTier } from "../gamePrior/populationModel";
 import { GAME_PRIOR_MODEL_VERSION } from "../gamePrior/types";
 import { generatePlayerRatingProfile } from "./generationEngine";
 import { GENERATION_MODEL_VERSION } from "./types";
@@ -66,10 +66,10 @@ function emptyEvidenceProfile(playerId: string, position: Position): PlayerRatin
  * Math.random -- so the same career/world/seed always produces the same
  * starting rating (Part 5).
  */
-export function generateFallbackGameplayRating(playerId: string, position: Position): GameplayPlayerRating {
+export function generateFallbackGameplayRating(playerId: string, position: Position, tier: PopulationTier = "STANDARD"): GameplayPlayerRating {
   let profile = emptyEvidenceProfile(playerId, position);
 
-  const ca = generateGamePriorCA(playerId, 0, GAME_PRIOR_MODEL_VERSION);
+  const ca = generateGamePriorCA(playerId, 0, GAME_PRIOR_MODEL_VERSION, tier);
   const archetype = assignArchetypeForPosition(playerId, position, GAME_PRIOR_MODEL_VERSION);
   const extraClaims: PlayerRatingClaim[] = [gamePriorRationaleClaim(playerId, archetype)];
   let attackRoleProficiencies = profile.attackRoleProficiencies;
@@ -82,7 +82,7 @@ export function generateFallbackGameplayRating(playerId: string, position: Posit
   profile = { ...profile, ca: { value: ca, confidence: "LOW", plausibleRange: { min: Math.max(1, ca - 25), max: Math.min(200, ca + 25) } }, attackRoleProficiencies, claims };
 
   // Part 8: PA is always CA-plus-a-small-non-negative-offset here (populationModel.ts's own invariant), so PA >= CA structurally, never regenerated independently later.
-  const pa = generateGamePriorPA(playerId, ca, GAME_PRIOR_MODEL_VERSION);
+  const pa = generateGamePriorPA(playerId, ca, GAME_PRIOR_MODEL_VERSION, tier);
   profile = { ...profile, pa: { value: pa, confidence: "LOW", plausibleRange: { min: Math.max(PA_MIN, pa - 20), max: Math.min(PA_MAX, pa + 20) } } };
 
   const generation = generatePlayerRatingProfile(profile);

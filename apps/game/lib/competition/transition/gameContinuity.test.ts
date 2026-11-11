@@ -12,9 +12,13 @@ import { canonicalCompetitionClubs } from './careerSnapshot';
 test('future game profiles preserve supported structures and label their unverified home draw/date continuity',()=>{
  for(const year of [2026,2027,2028]){const r=gameContinuityRules(`${year}/${String(year+1).slice(-2)}`,'fixed');assert.equal(r.provenance,'GAME_CONTINUITY');assert.deepEqual(r.leagues,official.leagues);assert.deepEqual(validatePlannerInput({seasonId:r.seasonId,rules:r,clubs:canonicalCompetitionClubs(),standings:[]}),[]);assert.equal(r.stages.find(s=>s.id==='hbl-11')!.gameWindows![0].startDate,`${year+1}-03-29`);assert.ok(r.stages.find(s=>s.id==='d1-n-semi-10')!.source.url.startsWith('game-continuity:'));}assert.equal(official.stages.find(s=>s.id==='d1-n-semi-10')!.homeOrder,null);
 });
-test('missing stock pool squads report an atomic blocker, never fictional entrants or a future-publication dependency',()=>{
- const s={...createNewCareerState('stock-pool','swe2-tumba'),gameDate:'2027-05-01',seasonComplete:true};const before=JSON.stringify(s),r=attemptSeasonTransition(s);assert.equal(r.status,'BLOCKED');assert.equal(r.state,s);assert.ok(r.blockers.some(b=>b.code==='DIVISION2_POOL_INSUFFICIENT'));assert.ok(!r.blockers.some(b=>b.code.includes('NEXT_SEASON_PROFILE')));assert.equal(JSON.stringify(s),before);
+test('stock pool ranks eligible identities without generating players before promotion',()=>{
+ const s=createNewCareerState('stock-pool','swe2-tumba'),before=JSON.stringify(s),prepared=prepareGameContinuity(s,'2027-05-01');
+ assert.equal(prepared.blockers.length,0,JSON.stringify(prepared.blockers));
+ assert.equal(prepared.request.evidence!.externalEntrants!.length,12);
+ assert.deepEqual(prepared.state.worldSquads,s.worldSquads);assert.equal(JSON.stringify(s),before);
 });
+
 test('pool performance is seeded, independent of ratings/reputation and idempotent across save/load',()=>{
  const s=continuityTestCareer();const a=prepareGameContinuity(s,'2027-03-19');assert.equal(a.blockers.length,0,JSON.stringify(a.blockers));assert.equal(a.request.evidence!.externalEntrants!.length,12);assert.deepEqual(prepareGameContinuity({...s,gameplayRatings:{}},'2027-03-19').request.evidence!.externalEntrants,a.request.evidence!.externalEntrants);assert.deepEqual(prepareGameContinuity(JSON.parse(JSON.stringify(a.state)),'2027-03-20').state.swedishContinuity,a.state.swedishContinuity);assert.notDeepEqual(prepareGameContinuity({...s,saveSeed:'another-world'},'2027-03-19').request.evidence!.externalEntrants,a.request.evidence!.externalEntrants);
 });

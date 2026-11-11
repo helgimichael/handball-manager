@@ -1,7 +1,7 @@
 import { enforceCareerCooperationEligibility } from './cooperationEligibility';
 import type { CareerFixture, CareerState } from '../../career/types';
 import type { SeasonTransitionRequest } from '../../career/seasonTransition';
-import { prepareGameContinuity } from './gameContinuity';
+import { prepareGameContinuity, isDivision2PoolClub } from './gameContinuity';
 import { getClub } from '../../game-data';
 import { addDays } from '../../career/dateUtils';
 import { KVAL_ALLSVENSKAN, KVAL_HBL } from '../rules';
@@ -54,7 +54,7 @@ export function progressCareerQualifications(state: CareerState, date: string, r
       continue;
     }
     if (q.status === 'BLOCKED' || !entryReady(stage) || q.participants.some(id => !id)) continue;
-    const missingSquads = q.participants.filter((clubId): clubId is string => !!clubId && getClub(clubId)?.dataSource === 'IDENTITY_ONLY' && !next.worldSquads[clubId]?.length);
+    const missingSquads = q.participants.filter((clubId): clubId is string => !!clubId && getClub(clubId)?.dataSource === 'IDENTITY_ONLY' && !next.worldSquads[clubId]?.length && !(rules.provenance === 'GAME_CONTINUITY' && isDivision2PoolClub(next,clubId)));
     if (missingSquads.length) { issue('QUALIFICATION_SQUAD_COVERAGE_REQUIRED',stage.id,`Verified team identity has no supplied squad: ${missingSquads.join(', ')}. Do not create players or simulate a placeholder opponent.`); continue; }
     if (next.fixtures.some(f => f.type === 'QUALIFIER' && !next.competitionTies?.[f.stage?.tieId ?? '']?.transition && [f.homeClubId,f.awayClubId].some(id => q.participants.includes(id)))) { issue('LEGACY_QUALIFICATION_REVIEW_REQUIRED',stage.id,'Existing qualification fixtures without planner provenance require review; preserve their history instead of creating a second series.'); continue; }
     if (stage.terminalDecider?.kind !== 'SEVEN_METRES_AFTER_TWO_OVERTIMES') { issue('TERMINAL_DECIDER_REQUIRED',stage.id,'Match simulation requires a verified supported terminal procedure.'); continue; }
@@ -75,7 +75,7 @@ export function progressCareerQualifications(state: CareerState, date: string, r
     const fixture: CareerFixture = { id:`${id}:g${game.game}`,competitionId,round:game.game,date:scheduled,homeClubId:game.homeClubId,awayClubId:game.awayClubId,type:'QUALIFIER',stage:{ tieId:id,game:game.game,mustDecide:stage.format !== 'TWO_LEG' || game.game === 2 } };
     if (next.fixtures.some(f => f.id === fixture.id) || next.results[fixture.id]) { issue('QUALIFICATION_FIXTURE_CONFLICT',fixture.id,'A saved fixture or result already uses this identity.'); continue; }
     next = { ...next,fixtures:[...next.fixtures,fixture],competitionTies:{ ...next.competitionTies,[id]:{ ...tie,fixtureIds:[...tie.fixtureIds,fixture.id] } },seasonComplete:false,
-      ...(next.seasonOutcome ? { seasonOutcome:{ ...next.seasonOutcome,phase:'POSTSEASON' } } : {}),
+      ...(next.seasonOutcome ? { seasonOutcome:{ ...next.seasonOutcome,phase:next.seasonOutcome.phase==='REGULAR'?'REGULAR':'POSTSEASON' } } : {}),
     };
   }
   return { state:next,proposal,blockers };

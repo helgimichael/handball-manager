@@ -442,6 +442,11 @@ export function progressCompetitions(state: CareerState, date: string, emit: Emi
       next = startPostseason(next, date, emit);
     }
   }
+  // Division 2 qualifiers can start once their own sources are complete, while
+  // published Allsvenskan rounds are still being played. The planner gates each entry.
+  if (next.seasonOutcome!.phase === "REGULAR") {
+    next = progressCareerQualifications(next,date).state;
+  }
   if (next.seasonOutcome!.phase === "COMPLETE" && next.seasonTransitionRequest) next = progressCareerQualifications(next,date).state;
   if (next.seasonOutcome!.phase === "POSTSEASON") {
     const qualification = progressCareerQualifications(next,date);

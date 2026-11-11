@@ -1,3 +1,4 @@
+import { generatePromotionSquads } from './promotionSquads';
 import { enforceCareerCooperationEligibility, cooperationEligibility } from '../competition/transition/cooperationEligibility';
 import type { CareerState } from './types';
 import { prepareGameContinuity } from '../competition/transition/gameContinuity';
@@ -117,7 +118,7 @@ export function attemptSeasonTransition(input: CareerState, request?: SeasonTran
       if (!COMPETITIONS.some((c) => c.id === league.competitionId) || league.confirmedNextClubIds.length !== definition.size) fail('INVALID_TARGET_SIZE', league.competitionId, 'Target competition must exist and have exactly its defined size.');
       for (const id of league.confirmedNextClubIds) {
         if (!canonical.has(id) || seen.has(id)) fail('INVALID_TARGET_CLUB', id, 'Each target member must be a unique canonical club.');
-        if (getClub(id)?.dataSource === 'IDENTITY_ONLY' && !input.worldSquads[id]?.length) fail('TARGET_SQUAD_COVERAGE_REQUIRED',id,'Identity-only club requires a supplied squad before entering an active league.');
+        if (getClub(id)?.dataSource === 'IDENTITY_ONLY' && !input.worldSquads[id]?.length && !(rules.provenance === 'GAME_CONTINUITY' && clubCompetitionId(input,id)?.startsWith('se_division2_') && rules.families.find(f=>f.id===definition.familyId)?.tier===3)) fail('TARGET_SQUAD_COVERAGE_REQUIRED',id,'Identity-only club requires a supplied squad before entering an active league.');
         const tier = rules.families.find(f => f.id === definition.familyId)!.tier;
         const cooperation = cooperationEligibility(input,id,tier,input.gameDate);
         if (!cooperation.eligible) fail('COOPERATION_TARGET_INELIGIBLE',id,cooperation.reasons.join(' | '));
@@ -135,7 +136,7 @@ export function attemptSeasonTransition(input: CareerState, request?: SeasonTran
     if (blockers.length) return blocked();
 
     // Construct a candidate; expose it only after final fixture validation succeeds.
-    const state = compactCareerHistory(recordSeasonQuietly(input), input.gameDate);
+    const state = compactCareerHistory(recordSeasonQuietly(generatePromotionSquads(input, membership, rules, nextProfile.kickoffDate)), input.gameDate);
     const claims = [...preview.proposal.directPromotions, ...preview.proposal.directRelegations, ...preview.proposal.qualificationMovements, ...preview.proposal.remaining];
     const outcome = state.seasonOutcome?.seasonId === state.seasonId ? {
       ...state.seasonOutcome, nextMembership: Object.fromEntries([...seen].sort().map((id) => [id, membership[id]])),
