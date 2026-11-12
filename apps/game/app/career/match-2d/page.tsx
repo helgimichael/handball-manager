@@ -6,6 +6,7 @@ import { ArchiveReplay } from '@/components/ProductionMatchView';
 import { getClub } from '@/lib/game-data';
 import { careerArchiveSummaries } from '@/lib/career/matchArchiveSummary';
 import { useMatchArchive } from '@/lib/save/useMatchArchive';
+import { matchDayHref } from '@/lib/career/fixtureRoutes';
 export default function MatchReplays() {
   const { career } = useCareer();
   const [selected, setSelected] = useState('');
@@ -13,7 +14,7 @@ export default function MatchReplays() {
   const ids = [...new Set([...(career.matchArchiveIds ?? []), ...Object.keys(summaries)])].sort((a, b) => (summaries[b]?.fixture.date ?? '').localeCompare(summaries[a]?.fixture.date ?? ''));
   const replay = useMatchArchive(selected);
   return <div className="hm-grid" style={{ gap: 12 }}><div className="hm-panel-body"><h2>Matchrepriser ? nyckel?gonblick</h2>
-    {career.productionMatch && <p><Link className="hm-btn hm-btn-primary" href={`/career/match-day/${career.productionMatch.fixture.id}`}>Forts?tt p?g?ende match</Link></p>}
+    {career.productionMatch && <p><Link className="hm-btn hm-btn-primary" href={matchDayHref(career.productionMatch.fixture.id)}>Forts?tt p?g?ende match</Link></p>}
     {ids.length ? <select aria-label="V?lj matchrepris" value={selected} onChange={e => setSelected(e.target.value)}><option value="">V?lj en match att visa</option>{ids.map(id => {
       const summary = summaries[id];
       return <option key={id} value={id}>{summary ? `${summary.fixture.date} ? ${getClub(summary.fixture.homeClubId)?.shortName} ${summary.result.homeGoals}?${summary.result.awayGoals} ${getClub(summary.fixture.awayClubId)?.shortName}` : `Matcharkiv ? ${id}`}</option>;

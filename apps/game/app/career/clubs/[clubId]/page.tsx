@@ -31,6 +31,7 @@ import { resolveClubVisibility } from "@/lib/knowledge/clubVisibility";
 import { KNOWLEDGE_TIER_LABEL_SV } from "@/lib/knowledge/types";
 import { getClubPartnerships, getPermanentBTeamParentClubId } from "@/lib/career/clubPartnerships";
 import { svOrdinal } from "@/lib/format/ordinal";
+import { fixtureHref, matchReportHref } from '@/lib/career/fixtureRoutes';
 
 const CLUB_IDENTITY_DOMAIN_LABELS: Record<keyof Omit<ClubIdentityProfile, "clubId" | "seasonReference">, string> = {
   structuralIdentity: "Struktur & styrning",
@@ -226,7 +227,7 @@ export default function ClubProfilePage() {
                       <td>{new Date(f.date).toLocaleDateString("sv-SE", { day: "2-digit", month: "2-digit" })}</td>
                       <td>{home ? "Hemma" : "Borta"}</td>
                       <td className="hm-td-strong">{opponent ? <ClubLink clubId={opponent.id}>{opponent.name}</ClubLink> : opponentId}</td>
-                      <td>{result ? <Link className="hm-result-link" href={`/career/match-report/${f.id}`}>{gf}–{ga}</Link> : <Link href={`/career/fixtures/${f.id}`}>Förhandsvisa →</Link>}</td>
+                      <td>{result ? <Link className="hm-result-link" href={matchReportHref(f.id)}>{gf}–{ga}</Link> : <Link href={fixtureHref(f.id)}>Förhandsvisa →</Link>}</td>
                     </tr>
                   );
                 })}

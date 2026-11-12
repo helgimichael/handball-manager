@@ -94,6 +94,47 @@ export function progressMedia(state: CareerState, date: string, dayEvents: Caree
 // Results
 // ---------------------------------------------------------------------------
 
+/**
+ * Alpha hotfix: the day a manager took over his current club in mid-career, or null for the club his career began
+ * with (a new career's first match can fall on its first day). Matches up to and including that day were his
+ * predecessor's -- the appointment is made after the day's games.
+ */
+function appointedMidCareerOn(state: CareerState): string | null {
+  const stints = state.managerCareer?.stints ?? [];
+  const current = stints.at(-1);
+  if (!current || current.to || current.clubId !== state.playerClubId || stints.length < 2) return null;
+  return current.from;
+}
+
+/**
+ * Alpha hotfix: while the manager is out of work nothing is reported about "his" club, but the media clock keeps
+ * time -- results are read up to yesterday, exactly as `results` would have -- so no backlog builds up for
+ * whichever club he joins next.
+ */
+export function keepMediaClock(state: CareerState, date: string): CareerState {
+  if (!state.media) return state;
+  const until = addDaysIso(date, -1);
+  const current = state.media.lastResultsDate;
+  return current && current >= until ? state : withMedia(state, (m) => ({ ...m, lastResultsDate: until }));
+}
+
+/**
+ * Alpha hotfix: a newly appointed manager answers for his club from his first day. The results clock is caught up
+ * to the appointment (saves that were already unemployed with a frozen clock included), and a season whose
+ * verdict was in before he arrived is not felt in the stands as his.
+ */
+export function settleMediaForAppointment(state: CareerState, date: string): CareerState {
+  if (!state.media) return state;
+  const caughtUp = addDaysIso(date, -1);
+  const current = state.media.lastResultsDate;
+  const mark = state.seasonOutcome ? `${state.seasonOutcome.seasonId}:${state.playerClubId}` : null;
+  return withMedia(state, (m) => ({
+    ...m,
+    lastResultsDate: current && current >= caughtUp ? current : caughtUp,
+    moodMarks: mark && !(m.moodMarks ?? []).includes(mark) ? [...(m.moodMarks ?? []), mark].slice(-20) : m.moodMarks,
+  }));
+}
+
 function results(state: CareerState, date: string, emit: Emit): CareerState {
   let next = state;
   const me = state.playerClubId;
@@ -102,9 +143,11 @@ function results(state: CareerState, date: string, emit: Emit): CareerState {
   const until = addDaysIso(date, -1);
   const todays = state.fixtures.filter((f) => f.date > from && f.date <= until && state.results[f.id]);
   next = withMedia(next, (m) => ({ ...m, lastResultsDate: until }));
+  const appointedOn = appointedMidCareerOn(state);
   for (const f of todays) {
     const r = state.results[f.id]!;
-    const own = f.homeClubId === me || f.awayClubId === me;
+    // Alpha hotfix: a match played before he took over is reported as any other result, never as his.
+    const own = (f.homeClubId === me || f.awayClubId === me) && !(appointedOn && f.date <= appointedOn);
     if (own) next = ownResult(next, f, date, emit);
     else if (f.type === "LEAGUE" && f.competitionId === state.competitionId) {
       const winner = matchWinnerClubId(r);

@@ -1,5 +1,6 @@
 import { SVENSKA_CUPEN } from "../competition/rules";
 import type { EventDestination } from "./careerEvents";
+import { matchDayHref, matchReportHref } from './fixtureRoutes';
 
 /**
  * Resolves a typed EventDestination (Spec S15) to a real Next.js route.
@@ -28,9 +29,9 @@ export function resolveDestinationHref(destination: EventDestination): string | 
     case "MATCH_PREVIEW":
       return "/career/match-preview";
     case "MATCH_DAY":
-      return `/career/match-day/${destination.fixtureId}`;
+      return matchDayHref(destination.fixtureId);
     case "MATCH_REPORT":
-      return `/career/match-report/${destination.fixtureId}`;
+      return matchReportHref(destination.fixtureId);
     case "SCOUTING":
       return "/career/scouting";
     case "SCOUT_REPORT":

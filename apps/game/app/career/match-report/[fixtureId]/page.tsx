@@ -24,17 +24,19 @@ import type { CareerState } from "@/lib/career/types";
 import type { PlayerMatchContribution, TeamMatchStats } from "@handball-manager/game-simulation";
 import { PlayerLink } from "@/components/entityLinks";
 import { svOrdinal } from "@/lib/format/ordinal";
+import { fixtureIdFromParam, matchDayHref } from '@/lib/career/fixtureRoutes';
 
 export default function MatchReportPage() {
   const router = useRouter();
   const params = useParams<{ fixtureId: string }>();
+  const fixtureId = fixtureIdFromParam(params.fixtureId);
   const { career, updateCareer } = useCareer();
-  const replay = useMatchArchive(params.fixtureId);
+  const replay = useMatchArchive(fixtureId);
   const archive = replay.archive;
-  const summary = careerArchiveSummaries(career)[params.fixtureId];
+  const summary = careerArchiveSummaries(career)[fixtureId];
 
-  const fixture = career.fixtures.find((f) => f.id === params.fixtureId) ?? summary?.fixture ?? archive?.fixture;
-  const result = career.results[params.fixtureId] ?? summary?.result ?? archive?.result;
+  const fixture = career.fixtures.find((f) => f.id === fixtureId) ?? summary?.fixture ?? archive?.fixture;
+  const result = career.results[fixtureId] ?? summary?.result ?? archive?.result;
 
   if (replay.loading) return <p role="status">Laddar matchrapporten…</p>;
   if (replay.error && (!fixture || !result)) return <div role="alert"><p>{replay.error}</p><button className="hm-btn" onClick={replay.retry}>Försök igen</button></div>;
@@ -70,7 +72,7 @@ export default function MatchReportPage() {
         <PostMatchPressBanner fixture={fixture} result={result} career={career} updateCareer={updateCareer} />
         <div className="mc-report-actions">
           <button type="button" className="hm-btn" onClick={() => router.push('/career/schedule')}>← Schema</button>
-          <button type="button" className="hm-btn" onClick={() => router.push(`/career/match-day/${fixture.id}`)}>Se matchrepris</button>
+          <button type="button" className="hm-btn" onClick={() => router.push(matchDayHref(fixture.id))}>Se matchrepris</button>
           {isCurrentLastMatch && <button type="button" className="hm-btn" onClick={() => router.push('/career/analysis/last-match')}>Öppna matchanalys</button>}
           <Link className="hm-btn" href={`/career/competitions/${encodeURIComponent(fixture.competitionId)}`}>
             {isCup ? 'Svenska Cupen →' : 'Tabell & liga →'}
@@ -123,7 +125,7 @@ export default function MatchReportPage() {
       {replay.error && <div role="alert"><p>{replay.error}</p><button className="hm-btn" onClick={replay.retry}>Försök igen</button></div>}
       <PageHeading eyebrow={fixture.date} title="Matchrapport" description="Slutsignalen har gått. Resultatet, spelarna och nästa steg i säsongen." />
       <MatchHero career={career} fixture={fixture} result={result} context="SLUTRESULTAT">
-        {career.matchArchiveIds?.includes(fixture.id) && <button className="hm-btn" onClick={() => router.push(`/career/match-day/${fixture.id}`)}>Se matchrepris</button>}
+        {career.matchArchiveIds?.includes(fixture.id) && <button className="hm-btn" onClick={() => router.push(matchDayHref(fixture.id))}>Se matchrepris</button>}
         <button className="hm-btn hm-btn-primary" onClick={() => router.push(`/career/competitions/${fixture.competitionId}`)}>Tabell & liga →</button>
       </MatchHero>
       <HeadToHeadStatsComparison home={home} away={away} homeStats={result.homeStats} awayStats={result.awayStats} />
