@@ -14,6 +14,7 @@ import { getNextPlayerFixture } from "@/lib/career/calendar";
 import { getSeasonPhase } from "@/lib/career/preseason";
 import { ClubLink } from "@/components/entityLinks";
 import type { CareerFixtureType } from "@/lib/career/types";
+import { fixtureHref, matchReportHref } from '@/lib/career/fixtureRoutes';
 
 const FIXTURE_TYPE_LABEL: Record<CareerFixtureType, string> = { LEAGUE: "Liga", CUP: "Cup", FRIENDLY: "Träningsmatch", PLAYOFF: "SM-slutspel", QUALIFIER: "Kval" };
 const FIXTURE_TYPE_TONE: Record<CareerFixtureType, string> = { LEAGUE: "neutral", CUP: "warning", FRIENDLY: "positive", PLAYOFF: "warning", QUALIFIER: "warning" };
@@ -86,7 +87,7 @@ export default function SchedulePage() {
                   key={f.id}
                   data-clickable={clickable}
                   data-highlight={isNext}
-                  onClick={clickable ? () => router.push(played ? `/career/match-report/${f.id}` : "/career/match-preview") : undefined}
+                  onClick={clickable ? () => router.push(played ? matchReportHref(f.id) : "/career/match-preview") : undefined}
                 >
                   <td>{f.type === "LEAGUE" ? f.round : "—"}</td>
                   <td>{new Date(f.date).toLocaleDateString("sv-SE", { weekday: "short", day: "2-digit", month: "2-digit" })}{f.kickoffTime ? ` ${f.kickoffTime}` : ""}</td>
@@ -106,12 +107,12 @@ export default function SchedulePage() {
                   </td>
                   <td>
                     {result ? (
-                      <Link className="hm-result-link" href={`/career/match-report/${f.id}`} onClick={e => e.stopPropagation()}>{gf}–{ga}</Link>
+                      <Link className="hm-result-link" href={matchReportHref(f.id)} onClick={e => e.stopPropagation()}>{gf}–{ga}</Link>
                     ) : (
                       <span className="hm-text-muted">—</span>
                     )}
                   </td>
-                  <td>{!played && <Link href={`/career/fixtures/${f.id}`} onClick={e => e.stopPropagation()}>Förhandsvisa →</Link>}{played && <Link href={`/career/match-report/${f.id}`} onClick={e => e.stopPropagation()}>Matchrapport →</Link>}</td>
+                  <td>{!played && <Link href={fixtureHref(f.id)} onClick={e => e.stopPropagation()}>Förhandsvisa →</Link>}{played && <Link href={matchReportHref(f.id)} onClick={e => e.stopPropagation()}>Matchrapport →</Link>}</td>
                 </tr>
               );
             })}

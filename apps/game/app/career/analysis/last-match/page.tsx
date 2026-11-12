@@ -12,6 +12,7 @@ import { PlayerCell, Scoreboard } from '@/components/game/Identity';
 import { ClubLink, PlayerLink } from '@/components/entityLinks';
 import { Panel } from '@/components/manager/Workspace';
 import type { MatchEventType } from '@handball-manager/game-simulation';
+import { matchReportHref } from '@/lib/career/fixtureRoutes';
 const FILTERS:{label:string;types:MatchEventType[]|null}[]=[{label:'Alla',types:null},{label:'Mål',types:['GOAL']},{label:'Räddningar',types:['SAVE']},{label:'Bollförluster',types:['TURNOVER']},{label:'2 min',types:['TWO_MIN']},{label:'7m',types:['SEVEN_M']}];
 
 export default function AnalysisLastMatchPage() {
@@ -26,7 +27,7 @@ export default function AnalysisLastMatchPage() {
   const ownClub=vm.isPlayerHome ? vm.homeClub : vm.awayClub;
   const opponent=vm.isPlayerHome ? vm.awayClub : vm.homeClub;
   return <div className="game-secondary-page">
-    <Scoreboard homeClubId={vm.homeClub.id} awayClubId={vm.awayClub.id} homeScore={vm.homeGoals!} awayScore={vm.awayGoals!} label={`Senaste matchen · ${vm.date}`}><Link className="hm-btn hm-btn-sm" href={`/career/match-report/${vm.fixtureId}`}>Matchrapport & repris →</Link></Scoreboard>
+    <Scoreboard homeClubId={vm.homeClub.id} awayClubId={vm.awayClub.id} homeScore={vm.homeGoals!} awayScore={vm.awayGoals!} label={`Senaste matchen · ${vm.date}`}><Link className="hm-btn hm-btn-sm" href={matchReportHref(vm.fixtureId ?? "")}>Matchrapport & repris →</Link></Scoreboard>
     <div className="game-secondary-split">
       <div className="game-secondary-main">
         <Panel title="Lagens matchfakta"><div className="hm-scroll-x"><table className="hm-table"><thead><tr><th>Mått</th><th className="hm-table-num"><ClubLink clubId={ownClub.id}>{ownClub.shortName}</ClubLink> · vårt lag</th><th className="hm-table-num"><ClubLink clubId={opponent.id}>{opponent.shortName}</ClubLink></th></tr></thead><tbody>{rows.map(([label,ours,theirs]) => <tr key={label}><th scope="row">{label}</th><td className="hm-table-num hm-td-strong">{ours}</td><td className="hm-table-num">{theirs}</td></tr>)}</tbody></table></div></Panel>

@@ -13,6 +13,7 @@ import { getClub } from '@/lib/game-data';
 import { getNextPlayerFixture } from '@/lib/career/calendar';
 import { Panel } from '@/components/manager/Workspace';
 import FormDots from '@/components/FormDots';
+import { matchReportHref } from '@/lib/career/fixtureRoutes';
 
 export default function AnalysisOpponentPage() {
   const { career } = useCareer();
@@ -24,7 +25,7 @@ export default function AnalysisOpponentPage() {
       <MatchHero career={career} fixture={next} compact context="Motståndaranalys"><Link className="hm-btn hm-btn-sm hm-btn-primary" href="/career/tactics">Öppna matchplan →</Link><Link className="hm-btn hm-btn-sm" href="/career/match-preview">Matchförberedelse →</Link></MatchHero>
       <OpponentScoutingPanel />
       <Panel title="Motståndarens senaste matcher" actions={<ClubLink clubId={vm.club.id}>Klubb & trupp →</ClubLink>}>
-        <div className="hm-scroll-x"><table className="hm-table"><thead><tr><th>Datum</th><th>Motstånd</th><th>H / B</th><th>Resultat</th><th>Mål framåt</th><th>Insläppta</th></tr></thead><tbody>{(vm.recentMatches ?? []).length ? [...vm.recentMatches!].reverse().map(row => <tr key={row.fixtureId}><td>{row.date}</td><td><ClubLink clubId={row.opponentClubId}>{getClub(row.opponentClubId)?.name ?? row.opponentClubId}</ClubLink></td><td>{row.isHome ? 'H' : 'B'}</td><td><Link className="hm-result-link" href={`/career/match-report/${row.fixtureId}`}>{row.goalsFor}–{row.goalsAgainst}</Link></td><td>{row.goalsFor}</td><td>{row.goalsAgainst}</td></tr>) : <tr><td colSpan={6}>Motståndaren har ingen spelad match den här säsongen ännu.</td></tr>}</tbody></table></div>
+        <div className="hm-scroll-x"><table className="hm-table"><thead><tr><th>Datum</th><th>Motstånd</th><th>H / B</th><th>Resultat</th><th>Mål framåt</th><th>Insläppta</th></tr></thead><tbody>{(vm.recentMatches ?? []).length ? [...vm.recentMatches!].reverse().map(row => <tr key={row.fixtureId}><td>{row.date}</td><td><ClubLink clubId={row.opponentClubId}>{getClub(row.opponentClubId)?.name ?? row.opponentClubId}</ClubLink></td><td>{row.isHome ? 'H' : 'B'}</td><td><Link className="hm-result-link" href={matchReportHref(row.fixtureId)}>{row.goalsFor}–{row.goalsAgainst}</Link></td><td>{row.goalsFor}</td><td>{row.goalsAgainst}</td></tr>) : <tr><td colSpan={6}>Motståndaren har ingen spelad match den här säsongen ännu.</td></tr>}</tbody></table></div>
       </Panel>
       <div className="game-analysis-facts">
         <Panel title="Anfall · senaste fem"><div className="hm-panel-body">{vm.attack ? <MetricRows rows={[['Mål / match',fmtNum(vm.attack.goalsPerMatch)],['Skott / match',fmtNum(vm.attack.shotsPerMatch)],['Skotteffektivitet',fmtPct(vm.attack.shootingPct)],['Bollförluster / match',fmtNum(vm.attack.turnoversPerMatch)],['7m-effektivitet',fmtPct(vm.attack.sevenMetreConversion)]]} /> : <MissingDataNote text={missingAnalysisLabel('NO_MATCHES_YET')} />}</div></Panel>

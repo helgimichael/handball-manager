@@ -91,7 +91,7 @@ import { ensureSeasonCalendar } from "../competition/seasonCalendar";
 import { progressTransferNegotiations } from "../transfers/negotiationIntegration";
 import { progressPlayerDynamics } from "../players/playerDynamicsTick";
 import { progressDelegation } from "../delegation/delegation";
-import { progressMedia } from "../media/worldTick";
+import { keepMediaClock, progressMedia } from "../media/worldTick";
 import { progressBoard } from "../board/board";
 import { closeManagerSeason, dismissManager, progressManagerCareer } from "../manager/managerCareer";
 
@@ -437,10 +437,13 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
 
   // --- HM-ALPHA3-M08: the living world reacts to the day (stories, press, rivals, discipline) ---
   // HM-M7D: press conferences and stories are about the manager's club -- none while he is out of work.
+  // Alpha hotfix: the media clock still keeps time, so no backlog of the next club's results builds up.
   if (!unemployed(next)) {
     const mediaEvents: CareerEvent[] = [];
     next = progressMedia({ ...next, gameDate: date }, date, [...events], (event) => mediaEvents.push(event));
     mediaEvents.forEach(emit);
+  } else {
+    next = keepMediaClock(next, date);
   }
 
   // --- 1. Date / Calendar (bookkeeping close-out) ---------------------------

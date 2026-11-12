@@ -22,6 +22,7 @@ import { releaseStaff } from "../staff/staffNegotiation";
 import { closeOpenBusiness } from "./departure";
 import { addDaysIso } from "../players/dynamicsState";
 import { ensureBoard } from "../board/board";
+import { settleMediaForAppointment } from "../media/worldTick";
 import { closeStint, eligibleClubs, ensureManagerCareer, leagueName, unplayedOwnFixtureDue } from "./managerCareer";
 
 export function clubChangeBlocker(state: CareerState, clubId: string): string | null {
@@ -100,6 +101,8 @@ export function acceptJobOffer(state: CareerState, offerId: string): CareerState
     },
   };
   next = ensureBoard(next, date, emit);
+  // Alpha hotfix: results and a season verdict from before the appointment are the predecessor's, not his.
+  next = settleMediaForAppointment(next, date);
   emit(buildClubEvent("MANAGER_CAREER", `appointed:${offer.clubId}:${date}`, date, "IMPORTANT", `Välkommen till ${name}`, `Du har skrivit på för ${offer.years} år (${leagueName(next.competitionId)}). Styrelsens mål väntar i styrelserummet och truppen är din från och med i dag.`, [{ route: "MANAGER" }, { route: "BOARDROOM" }]));
   return withEvents(next, events);
 }

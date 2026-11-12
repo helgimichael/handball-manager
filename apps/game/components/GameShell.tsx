@@ -20,6 +20,7 @@ import { computeLiveMatchView } from "@/lib/liveMatch/liveMatchView";
 import { formatMatchMinute } from "@/lib/liveMatch/commentary";
 import { progressionNotice, type ProgressionNotice } from './game/progressionPresentation';
 import { resolveContextualContinueAction } from '@/lib/career/contextualContinueAction';
+import { matchDayHref } from '@/lib/career/fixtureRoutes';
 
 const NAV_GROUP_LABELS: Record<string, string> = { home: 'Din säsong', squad: 'Laget', calendar: 'Match & kalender', players: 'Spelarvärlden', staff: 'Klubben', settings: 'Spelet' };
 
@@ -79,7 +80,7 @@ export default function GameShell({ children }: { children: ReactNode }) {
   // (Part I).
   const activeSession = career.activeMatchSession;
   const isLiveMatchActive = Boolean(career.productionMatch) || (activeSession !== null && activeSession.clock.phase !== "PRE_MATCH" && activeSession.clock.phase !== "FULL_TIME");
-  const liveMatchHref = career.productionMatch ? `/career/match-day/${career.productionMatch.fixture.id}` : activeSession ? `/career/match-day/${activeSession.fixtureId}` : null;
+  const liveMatchHref = career.productionMatch ? matchDayHref(career.productionMatch.fixture.id) : activeSession ? matchDayHref(activeSession.fixtureId) : null;
   const isOnLiveMatchRoute = liveMatchHref !== null && pathname === liveMatchHref;
   const contextualAction = resolveContextualContinueAction(
     career,

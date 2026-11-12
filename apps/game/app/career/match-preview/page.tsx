@@ -23,6 +23,7 @@ import { matchFitnessOf } from '@/lib/players/matchFitness';
 import { ConfirmDialog } from '@/components/game/ConfirmDialog';
 import { currentTeamRoles } from '@/lib/career/teamRoles';
 import type { Position } from '@/lib/matchPlan/types';
+import { matchDayHref } from '@/lib/career/fixtureRoutes';
 
 const PREVIEW_SLOTS: readonly Position[] = ['GK', 'V6', 'V9', 'M9', 'H9', 'H6', 'M6'];
 
@@ -76,14 +77,14 @@ export default function MatchPreviewPage() {
   function handlePlayMatch() {
     try {
       updateCareer(state => startProductionMatch(state, fixture!.id));
-      router.push(`/career/match-day/${fixture!.id}`);
+      router.push(matchDayHref(fixture!.id));
     } catch (cause) { setError(cause instanceof Error ? cause.message : 'Matchen kunde inte startas.'); }
   }
 
   function handleQuickResult() {
     try {
       updateCareer(state => startProductionMatch(state, fixture!.id, { quick: true }));
-      router.push(`/career/match-day/${fixture!.id}?finish=1`);
+      router.push(matchDayHref(fixture!.id, { finish: true }));
     } catch (cause) { setError(cause instanceof Error ? cause.message : 'Matchen kunde inte startas.'); }
   }
 

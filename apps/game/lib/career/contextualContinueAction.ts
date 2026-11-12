@@ -2,6 +2,7 @@ import type { CareerState } from './types';
 import { isSelectableForMatch } from './playerStatus';
 import { getClub, getCanonicalClubShortName } from '../game-data';
 import { openPressConferences } from '../media/press';
+import { matchDayHref, samePath } from './fixtureRoutes';
 
 export type ContinueActionKind =
   | 'ADVANCE_DAY'         // "Fortsätt »"
@@ -54,8 +55,8 @@ export function resolveContextualContinueAction(
   const isLiveMatchActive = Boolean(career.productionMatch) || (activeSession !== null && activeSession !== undefined && activeSession.clock.phase !== 'PRE_MATCH' && activeSession.clock.phase !== 'FULL_TIME');
   if (isLiveMatchActive) {
     const fixtureId = career.productionMatch?.fixture?.id ?? activeSession?.fixtureId;
-    const targetHref = fixtureId ? `/career/match-day/${fixtureId}` : '/career';
-    const isOnRoute = Boolean(pathname && targetHref && pathname === targetHref);
+    const targetHref = fixtureId ? matchDayHref(fixtureId) : '/career';
+    const isOnRoute = Boolean(pathname && targetHref && samePath(pathname, targetHref));
     return {
       kind: 'RESUME_MATCH',
       label: isOnRoute ? 'Match pågår' : 'Återgå till match',
