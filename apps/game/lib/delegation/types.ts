@@ -50,13 +50,15 @@ export interface DelegationLogEntry {
   staffName: string;
   action: string;
   reason: string;
-  /** "DONE" for a delegated action carried out, "PROPOSED" when it waits for approval, "SKIPPED" when a rule stopped it. */
-  result: "DONE" | "PROPOSED" | "SKIPPED" | "APPROVED" | "REJECTED" | "WITHDRAWN";
+  /** "DONE" for a delegated action carried out, "PROPOSED" when it waits for approval, "SKIPPED" when a rule stopped it.
+   *  HM-M6.0: "EXPIRED" when no decision was taken in time, "FAILED" when an approved proposal could not be carried out. */
+  result: "DONE" | "PROPOSED" | "SKIPPED" | "APPROVED" | "REJECTED" | "WITHDRAWN" | "EXPIRED" | "FAILED";
 }
 
 export interface DelegationState {
   settings: Partial<Record<ResponsibilityArea, DelegationSetting>>;
   proposals: Record<string, DelegationProposal>;
+  /** HM-M6.0: a bounded activity log (the newest entries per area), not the career's permanent record. */
   log: DelegationLogEntry[];
   lastRun?: string;
 }

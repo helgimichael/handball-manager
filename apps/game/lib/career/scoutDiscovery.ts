@@ -33,7 +33,8 @@ import { findStaffMember } from "../staff/staffCareerIntegration";
 import { clubNation } from "../staff/scoutPool";
 import { getCareerClubSquad, getExternalCandidateClubs } from "./careerWorld";
 import { getCareerPlayerRating } from "./careerRatingNormalization";
-import { getClub, getClubsByCompetition, getCompetition } from "../game-data";
+import { CLUBS, getClub, getCompetition } from "../game-data";
+import { clubCompetitionId } from "./competitionMembership";
 import { playerAgeAtDate } from "../development/developmentIntegration";
 import { seededOffset } from "../rating/generation/deterministicVariation";
 import {
@@ -112,14 +113,15 @@ function candidatePoolFor(state: CareerState, assignment: ScoutingAssignment, as
       }));
     }
     case "COMPETITION":
-      return getClubsByCompetition(assignment.targetCompetitionId).flatMap((club) =>
+      // HM-M6.0 (G-B2): the league as it is this season -- promoted and relegated clubs follow competitionMembership.
+      return CLUBS.filter((club) => club.id !== state.playerClubId && clubCompetitionId(state, club.id) === assignment.targetCompetitionId).flatMap((club) =>
         getCareerClubSquad(state, club.id).map((p) => ({
           playerId: p.id,
           clubId: club.id,
           position: p.position,
           ageYears: playerAgeAtDate(p.dateOfBirth, p.birthYear ?? undefined, asOfDate),
           nation: clubNation(club.id),
-          competitionId: club.competitionId,
+          competitionId: assignment.targetCompetitionId,
         })),
       );
     case "REGION":
@@ -189,6 +191,17 @@ function reasonsFor(assignment: ScoutingAssignment, candidate: CandidatePlayer):
  * discoveries (deterministic, seeded on assignment id + cycle index +
  * candidate id -- never Math.random()).
  */
+/**
+ * HM-M6.0 (G-B1): the country a broad assignment looks at -- a REGION's own
+ * nation, or the nation of a COMPETITION's league (previously read from the
+ * empty targetNation, so a foreign league was scouted as if it were home).
+ */
+export function assignmentNation(assignment: Pick<ScoutingAssignment, "assignmentType" | "targetNation" | "targetCompetitionId">): string | undefined {
+  if (assignment.assignmentType === "COMPETITION") return getCompetition(assignment.targetCompetitionId)?.nation;
+  if (assignment.assignmentType === "REGION") return assignment.targetNation || undefined;
+  return undefined;
+}
+
 export function runDiscoveryCycle(state: CareerState, assignment: ScoutingAssignment, date: string): { state: CareerState; discoveries: ScoutDiscovery[] } {
   const scout = findStaffMember(state, assignment.scoutStaffId);
   const ownNation = clubNation(state.playerClubId);
@@ -199,7 +212,8 @@ export function runDiscoveryCycle(state: CareerState, assignment: ScoutingAssign
     return { state, discoveries: [] };
   }
 
-  const geographyAttr = assignment.targetNation && assignment.targetNation !== ownNation ? "INTERNATIONAL_KNOWLEDGE" : "REGIONAL_KNOWLEDGE";
+  const nation = assignmentNation(assignment);
+  const geographyAttr = nation && nation !== ownNation ? "INTERNATIONAL_KNOWLEDGE" : "REGIONAL_KNOWLEDGE";
   const scopeKnowledge = currentScopeKnowledgePct(state, assignment, ownNation);
   const count = discoveryCountForCycle(scout, scopeKnowledge);
 

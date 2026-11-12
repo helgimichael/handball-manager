@@ -73,10 +73,49 @@ function withdrawProposals(state: CareerState, match: (p: DelegationProposal) =>
 
 const staffStillHere = (state: CareerState, staffId: string) => findStaffMember(state, staffId)?.clubId === state.playerClubId;
 
+/**
+ * HM-M6.0: the delegation log is a bounded *activity* log -- the newest
+ * LOG_KEEP_PER_AREA entries of each responsibility area, so a busy area
+ * (training, about two entries a week) never pushes the others' history
+ * out. The lasting record of what was decided lives with each domain
+ * (contracts, transfers, staff, training weeks); this log only explains
+ * who did what recently and why.
+ */
+export const LOG_KEEP_PER_AREA = 40;
+
+export function trimActivityLog(entries: readonly DelegationLogEntry[]): DelegationLogEntry[] {
+  const seen = new Map<string, number>();
+  const keep: boolean[] = new Array(entries.length).fill(false);
+  for (let i = entries.length - 1; i >= 0; i--) {
+    const n = seen.get(entries[i]!.area) ?? 0;
+    if (n < LOG_KEEP_PER_AREA) keep[i] = true;
+    seen.set(entries[i]!.area, n + 1);
+  }
+  return keep.every(Boolean) ? [...entries] : entries.filter((_, i) => keep[i]);
+}
+
 export function log(state: CareerState, entry: Omit<DelegationLogEntry, "staffName">): CareerState {
   const d = delegationOf(state);
   const staffName = findStaffMember(state, entry.staffId)?.displayName ?? "Staben";
-  return { ...state, delegation: { ...d, log: [...d.log, { ...entry, staffName }].slice(-120) } };
+  return { ...state, delegation: { ...d, log: trimActivityLog([...d.log, { ...entry, staffName }]) } };
+}
+
+/**
+ * HM-M6.0: a proposal id that has never been used in this career. The
+ * format is unchanged (`proposal:<area>:<date>:<n>`); the counter starts at
+ * the number of stored proposals and moves on past any id still held by a
+ * proposal or by a career event (an inbox report outlives its proposal, and
+ * a club change empties the proposals but not the event log). An id that
+ * was pruned at a rollover carries a date at least PROPOSAL_KEEP_DAYS old,
+ * and game dates only move forward, so it cannot come back either.
+ */
+export function nextProposalId(state: CareerState, area: ResponsibilityArea, date: string): string {
+  const proposals = delegationOf(state).proposals;
+  const prefix = `proposal:${area}:${date}:`;
+  const eventIds = new Set(state.careerEvents.filter((e) => e.date === date && e.id.startsWith(`DELEGATION_REPORT:${prefix}`)).map((e) => e.id));
+  let n = Object.keys(proposals).length;
+  while (proposals[`${prefix}${n}`] || eventIds.has(`DELEGATION_REPORT:${prefix}${n}`)) n++;
+  return `${prefix}${n}`;
 }
 
 const proposalTarget = (a: ProposalAction) => a.kind === "TRAINING_PLAN" ? `training:${a.plan.week.weekStart}` : `${a.kind}:${"playerId" in a ? a.playerId : "staffId" in a ? a.staffId : "position" in a ? a.position : ""}`;
@@ -92,7 +131,7 @@ export function propose(state: CareerState, date: string, emit: Emit, p: Omit<De
   // One pending proposal per area, action and target -- a changed wage or date is not a new proposal.
   // HM-ALPHA3-M10: nor one the manager just declined or that just failed (it was raised every Monday).
   if (p.action.kind !== "TRAINING_PLAN" && recentlyProposed(state, p.area, proposalTarget(p.action), date)) return state;
-  const id = `proposal:${p.area}:${date}:${Object.keys(d.proposals).length}`;
+  const id = nextProposalId(state, p.area, date);
   const proposal: DelegationProposal = { ...p, id, createdOn: date, expiresOn: p.action.kind === "TRAINING_PLAN" ? addDaysIso(p.action.plan.week.weekStart, 6) : addDaysIso(date, PROPOSAL_DAYS), status: "PENDING" };
   const name = findStaffMember(state, p.staffId)?.displayName ?? "Staben";
   emit(buildClubEvent("DELEGATION_REPORT", id, date, "IMPORTANT", `Förslag från ${name}: ${p.title}`, `${p.reason} ${p.consequence}`, [{ route: "DELEGATION" }]));
@@ -121,12 +160,16 @@ export function progressDelegation(state: CareerState, date: string, emit: Emit)
 
 function expireProposals(state: CareerState, date: string): CareerState {
   const d = delegationOf(state);
-  let changed = false;
+  const lapsed: DelegationProposal[] = [];
   const proposals = Object.fromEntries(Object.entries(d.proposals).map(([k, p]) => {
-    if (p.status === "PENDING" && p.expiresOn < date) { changed = true; return [k, { ...p, status: "EXPIRED" as const, decidedOn: date }]; }
+    if (p.status === "PENDING" && p.expiresOn < date) { lapsed.push(p); return [k, { ...p, status: "EXPIRED" as const, decidedOn: date }]; }
     return [k, p];
   }));
-  return changed ? { ...state, delegation: { ...d, proposals } } : state;
+  if (!lapsed.length) return state;
+  let next: CareerState = { ...state, delegation: { ...d, proposals } };
+  // HM-M6.0: a lapsed proposal is part of the activity log like any other decision.
+  for (const p of lapsed) next = log(next, { date, area: p.area, staffId: p.staffId, action: p.title, reason: "Inget beslut togs innan förslaget gick ut.", result: "EXPIRED" });
+  return next;
 }
 
 function scoutingAssignments(state: CareerState, date: string, emit: Emit, done: string[]): CareerState {
@@ -280,7 +323,9 @@ export function approveProposal(state: CareerState, proposalId: string): CareerS
     next = execute(next, p.action, p.staffId);
   } catch (e) {
     const d = delegationOf(state);
-    return { ...state, delegation: { ...d, proposals: { ...d.proposals, [p.id]: { ...p, status: "FAILED", decidedOn: state.gameDate, outcome: e instanceof Error ? e.message : "Det gick inte." } } } };
+    const outcome = e instanceof Error ? e.message : "Det gick inte.";
+    const failed: CareerState = { ...state, delegation: { ...d, proposals: { ...d.proposals, [p.id]: { ...p, status: "FAILED", decidedOn: state.gameDate, outcome } } } };
+    return log(failed, { date: state.gameDate, area: p.area, staffId: p.staffId, action: p.title, reason: `Godkänt av dig, men kunde inte genomföras: ${outcome}`, result: "FAILED" });
   }
   if (p.action.kind === "OPEN_NEGOTIATION") outcome = "Öppna förhandlingsrummet för att lägga bud.";
   const d = delegationOf(next);

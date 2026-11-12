@@ -219,9 +219,25 @@ export function setScoutingDelegate(state: CareerState, staffId: string | null):
  * One day: a delegated analyst picks up the next opponent; any request due
  * today becomes a report. Returns the fixtures whose reports were completed.
  */
-export function progressOpponentScouting(state: CareerState, date: string, nextFixture: CareerFixture | null): { state: CareerState; completed: OpponentScoutReport[] } {
+export function progressOpponentScouting(state: CareerState, date: string, nextFixture: CareerFixture | null): { state: CareerState; completed: OpponentScoutReport[]; delegateLeft?: string } {
   let next = state;
   const scouting = () => next.opponentScouting ?? emptyOpponentScouting();
+  // HM-M6.0 (G-D4, G-D6): work that can no longer be done is closed, not skipped forever.
+  // A request whose analyst left the club, or whose match is played or gone, is dropped;
+  // a delegate who left is cleared (reported once by the caller) instead of silently doing nothing.
+  let delegateLeft: string | undefined;
+  if (next.opponentScouting) {
+    const here = new Set(opponentScoutingCandidates(next).map((m) => m.id));
+    const s = scouting();
+    const live = Object.values(s.requests).filter((r) => here.has(r.staffId) && !next.results[r.fixtureId] && next.fixtures.some((f) => f.id === r.fixtureId));
+    const leaving = s.delegateStaffId && !here.has(s.delegateStaffId) ? s.delegateStaffId : undefined;
+    if (live.length < Object.keys(s.requests).length || leaving) {
+      delegateLeft = leaving;
+      const { delegateStaffId: _old, ...rest } = s;
+      void _old;
+      next = { ...next, opponentScouting: { ...(leaving ? rest : s), requests: Object.fromEntries(live.map((r) => [r.fixtureId, r])) } };
+    }
+  }
   const delegate = scouting().delegateStaffId;
   if (delegate && nextFixture && !scouting().requests[nextFixture.id] && !scouting().reports[nextFixture.id]) next = requestOpponentScouting(next, nextFixture.id, delegate);
   const completed: OpponentScoutReport[] = [];
@@ -240,7 +256,7 @@ export function progressOpponentScouting(state: CareerState, date: string, nextF
   // Played fixtures' reports are history; keep only the last few.
   const reports = Object.values(scouting().reports).sort((a, b) => b.createdOn.localeCompare(a.createdOn)).slice(0, 12);
   if (reports.length < Object.keys(scouting().reports).length) next = { ...next, opponentScouting: { ...scouting(), reports: Object.fromEntries(reports.map((r) => [r.fixtureId, r])) } };
-  return { state: next, completed };
+  return { state: next, completed, ...(delegateLeft ? { delegateLeft } : {}) };
 }
 
 export function opponentName(clubId: string): string {

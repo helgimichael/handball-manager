@@ -24,6 +24,10 @@ import { withEvents } from "./events";
 import type { CareerState } from "../career/types";
 import type { CareerEvent } from "../career/careerEvents";
 import { acceptJobOffer, clubChangeBlocker } from "./changeClub";
+import { closeOpenBusiness } from "./departure";
+import { getNextPlayerFixture } from "../career/calendar";
+import { opponentScoutingCandidates, requestOpponentScouting, setScoutingDelegate } from "../scouting/opponentScouting";
+import { setRoutinePressDelegation } from "../media/actions";
 import {
   adjustReputation, answerInterview, applyForJob, assessCandidate, clubConsiders, clubStature, clubWish, declineOffer, dismissManager,
   eligibleClubs, ensureManagerCareer, interviewVerdict, leagueLevel, managerCareerSummary, managerExperience, openOffers, openVacancies,
@@ -202,6 +206,36 @@ test("offers: stale, expired, declined and repeated acceptance are refused; acce
   // Contracts are not duplicated and every new-club player has one.
   assert.equal(Object.keys(next.playerContracts).length, Object.keys(s.playerContracts).length);
   for (const p of next.worldSquads[first.clubId] ?? []) assert.ok(next.playerContracts[p.id]);
+});
+
+test("M6.0 A7: a club change resets opponent analysis and routine press, and says so about press", () => {
+  const { emit } = collect();
+  let s = inSeason();
+  const fixture = getNextPlayerFixture(s)!;
+  const analyst = opponentScoutingCandidates(s)[0]!;
+  s = setRoutinePressDelegation(setScoutingDelegate(requestOpponentScouting(s, fixture.id, analyst.id), analyst.id), true);
+  assert.ok(s.opponentScouting!.delegateStaffId && Object.keys(s.opponentScouting!.requests).length === 1 && s.media!.delegatePress);
+  const reports = s.opponentScouting!.reports;
+  s = dismissManager(s, s.gameDate, "Test.", emit);
+  assert.equal(s.opponentScouting!.delegateStaffId, undefined, "the old club's analyst stays behind");
+  assert.deepEqual(s.opponentScouting!.requests, {});
+  assert.deepEqual(s.opponentScouting!.reports, reports, "finished reports are history");
+  assert.equal(s.media!.delegatePress, false);
+  assert.equal(s.delegation, undefined, "delegation is cleared as before");
+  const notices = s.careerEvents.filter((e) => e.id.startsWith("MANAGER_CAREER:press-delegation-reset:"));
+  assert.equal(notices.length, 1, "one clear notice about press");
+  assert.deepEqual(notices[0]!.destinations, [{ route: "MEDIA" }]);
+  assert.ok(s.inbox.some((m) => m.careerEventId === notices[0]!.id), "the notice reaches the inbox");
+  // At the new club he can turn it on again; a second departure without delegated press says nothing.
+  const next = acceptJobOffer(s, openOffers(s)[0]!.id);
+  assert.equal(next.media!.delegatePress, false);
+  assert.equal(next.careerEvents.filter((e) => e.id.startsWith("MANAGER_CAREER:press-delegation-reset:")).length, 1);
+  assert.equal(setRoutinePressDelegation(next, true).media!.delegatePress, true);
+  // Leaving directly from a job (the employed path of changeClub) closes the same business.
+  const direct = closeOpenBusiness(setRoutinePressDelegation(setScoutingDelegate(inSeason(), analyst.id), true), "2026-09-27");
+  assert.equal(direct.opponentScouting!.delegateStaffId, undefined);
+  assert.equal(direct.media!.delegatePress, false);
+  assert.ok(direct.careerEvents.some((e) => e.id === "MANAGER_CAREER:press-delegation-reset:2026-09-27"));
 });
 
 test("an unemployed manager is approached by clubs that consider him, and the season moves on", () => {

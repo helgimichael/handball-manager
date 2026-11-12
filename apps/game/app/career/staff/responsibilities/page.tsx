@@ -91,9 +91,10 @@ export default function ResponsibilitiesPage() {
       </section>
 
       <section className="dg-panel" aria-labelledby="log-title">
-        <header><span className="xp-eyebrow">Revision</span><h2 id="log-title">Vad staben har gjort</h2></header>
+        <header><span className="xp-eyebrow">Aktivitetslogg</span><h2 id="log-title">Vad staben har gjort</h2></header>
+        <p className="pd-note">Senaste aktiviteten per ansvarsområde (upp till 40 poster per område). Avtal, övergångar och anställningar finns kvar i sin egen historik.</p>
         {log.length === 0 ? <p className="pd-note">Inget delegerat arbete ännu.</p> : (
-          <ol className="dg-log">{log.map((l, i) => <li key={i} data-result={l.result}><time>{l.date}</time><b>{l.staffName}</b><span>{money.text(l.action)}</span><small>{money.text(l.reason)}</small><em>{l.result === "DONE" ? "Utfört" : l.result === "PROPOSED" ? "Föreslaget" : l.result === "APPROVED" ? "Godkänt" : l.result === "REJECTED" ? "Avslaget" : l.result === "WITHDRAWN" ? "Återkallat" : "Stoppat"}</em></li>)}</ol>
+          <ol className="dg-log">{log.map((l, i) => <li key={i} data-result={l.result}><time>{l.date}</time><b>{l.staffName}</b><span>{money.text(l.action)}</span><small>{money.text(l.reason)}</small><em>{l.result === "DONE" ? "Utfört" : l.result === "PROPOSED" ? "Föreslaget" : l.result === "APPROVED" ? "Godkänt" : l.result === "REJECTED" ? "Avslaget" : l.result === "WITHDRAWN" ? "Återkallat" : l.result === "EXPIRED" ? "Förföll" : l.result === "FAILED" ? "Misslyckades" : "Stoppat"}</em></li>)}</ol>
         )}
       </section>
     </div>
