@@ -149,7 +149,7 @@ export type PlayerMock = {
   /** HM-DATA-0.2: "REAL_WORLD" for imported Handbollsligan players, undefined/"MOCK" for authored fiction (e.g. TUMBA_SQUAD). Dev-facing distinction only. */
   dataSource?: "REAL_WORLD" | "MOCK";
   /** Persisted fictional identity provenance; never a researched player claim. */
-  generatedOrigin?: { kind: "DIVISION2_PROMOTION"; seasonId: string; modelVersion: string };
+  generatedOrigin?: { kind: "DIVISION2_PROMOTION" | "DIVISION2_QUALIFICATION"; seasonId: string; modelVersion: string };
   /** 1-200 hidden development scale -- see CA/PA note in players.ts. */
   currentAbility: number;
   potentialAbility: number;

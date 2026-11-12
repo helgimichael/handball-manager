@@ -86,6 +86,7 @@ import { applyPlacementDevelopmentStimulus, applyTrainingDayDevelopmentStimulus,
 import { progressDailyTransfers } from "../transfers/transferIntegration";
 import { progressClubFinances } from "../economy/financeTick";
 import { progressCompetitions } from "../competition/season";
+import { ensureQualificationOpponentSquads } from "./promotionSquads";
 import { progressStaff } from "../staff/staffLifecycle";
 import { ensureSeasonCalendar } from "../competition/seasonCalendar";
 import { progressTransferNegotiations } from "../transfers/negotiationIntegration";
@@ -425,6 +426,9 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
   const competitionEvents: CareerEvent[] = [];
   next = progressCompetitions(ensureSeasonCalendar(next), date, (event) => competitionEvents.push(event));
   competitionEvents.forEach(emit);
+  // Division 2 playable qualification: a pool club drawn against the manager's club gets its persistent squad
+  // the day the qualifier exists, before the matchday can open.
+  next = ensureQualificationOpponentSquads(next, date);
 
   // --- Season completion (only possible once the manager's own fixtures are also resolved -- see matchdayAction.ts) ---
   next = checkSeasonComplete(next);

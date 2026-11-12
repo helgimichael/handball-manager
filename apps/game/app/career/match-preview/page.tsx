@@ -13,7 +13,7 @@ import { getCareerSquad } from "@/lib/career/careerWorld";
 import { getNextPlayerFixture } from "@/lib/career/calendar";
 import { isSelectableForMatch, resolveStatusLabel } from "@/lib/career/playerStatus";
 import { PlayerLink } from "@/components/entityLinks";
-import { startProductionMatch } from '@/lib/career/productionMatch';
+import { tryStartProductionMatch } from '@/lib/career/productionMatch';
 import { validateCareerLineup } from '@/lib/career/spatialMatch/careerLineup';
 import { isManualLineupCareer, manualLineupIssues, resolveManualMatchPlan } from '@/lib/career/manualLineup';
 import { readinessSummary } from '@/lib/training/readinessSummary';
@@ -74,19 +74,19 @@ export default function MatchPreviewPage() {
     else if (kind === 'LIVE') handlePlayMatch(); else handleQuickResult();
   }
 
-  function handlePlayMatch() {
-    try {
-      updateCareer(state => startProductionMatch(state, fixture!.id));
-      router.push(matchDayHref(fixture!.id));
-    } catch (cause) { setError(cause instanceof Error ? cause.message : 'Matchen kunde inte startas.'); }
+  // Division 2 playable qualification: check the start first; a failure is shown here and changes nothing.
+  // The career updater applies the same start and keeps the career as it was if it cannot start.
+  function startMatch(options: { quick?: boolean }) {
+    const attempt = tryStartProductionMatch(career, fixture!.id, options);
+    if (!attempt.ok) { setError(attempt.error); return; }
+    setError(null);
+    updateCareer(state => { const started = tryStartProductionMatch(state, fixture!.id, options); return started.ok ? started.state : state; });
+    router.push(matchDayHref(fixture!.id, { finish: !!options.quick }));
   }
 
-  function handleQuickResult() {
-    try {
-      updateCareer(state => startProductionMatch(state, fixture!.id, { quick: true }));
-      router.push(matchDayHref(fixture!.id, { finish: true }));
-    } catch (cause) { setError(cause instanceof Error ? cause.message : 'Matchen kunde inte startas.'); }
-  }
+  function handlePlayMatch() { startMatch({}); }
+
+  function handleQuickResult() { startMatch({ quick: true }); }
 
   return (
     <div className="hm-grid" style={{ gap: 12 }}>
