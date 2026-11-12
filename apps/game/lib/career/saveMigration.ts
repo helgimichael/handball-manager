@@ -29,6 +29,7 @@ import { EUR_TO_SEK_REFERENCE_RATE } from "../economy/currency";
 import type { PlayerContract } from "../economy/types";
 import { seedPermanentBTeamPartnerships } from "./clubPartnerships";
 import { seedScoutPool } from "../staff/scoutPool";
+import { ensureQualificationOpponentSquads } from "./promotionSquads";
 
 // HM-GAME-0.4: InboxMessage.category was a set of Swedish string
 // literals before this milestone (Spec §33: "map existing categories
@@ -566,5 +567,8 @@ export function migrateCareerState(career: CareerState): CareerState {
   if (next.playerMatchFitness === undefined) next = { ...next, playerMatchFitness: emptyMatchFitnessLedger(LEGACY_MATCH_FITNESS) };
   // HM-PLAYTEST-01 4.4: an older save may still carry the club's previous head coach beside the manager.
   next = displaceIncumbentHeadCoach(next);
+  // Division 2 playable qualification: a save already drawn against a rosterless pool club in its own qualifier
+  // gets that opponent's persistent squad on load (idempotent; nothing changes once the club has a valid squad).
+  next = ensureQualificationOpponentSquads(next);
   return next;
 }

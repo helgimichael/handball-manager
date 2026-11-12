@@ -105,7 +105,10 @@ export function createProductionSession(state: CareerState, fixture: CareerFixtu
   for (const team of ['HOME', 'AWAY'] as const) {
     const side = team === 'HOME' ? input.home : input.away;
     const lineup = resolveCareerLineup(side.clubId, side.squad, side.plan);
-    if (!lineup) throw new Error(`${getClub(side.clubId)?.name ?? 'Laget'} behöver sex tillgängliga utespelare och en målvakt. Kontrollera matchtruppen.`);
+    if (!lineup) throw new Error(side.clubId === state.playerClubId
+      ? `${getClub(side.clubId)?.name ?? 'Laget'} behöver sex tillgängliga utespelare och en målvakt. Kontrollera matchtruppen.`
+      // Division 2 playable qualification: the opponent's squad is not something the manager can fix in Taktik.
+      : `${getClub(side.clubId)?.name ?? 'Motståndaren'} har ingen spelbar trupp just nu – det behövs sex tillgängliga utespelare och en målvakt. Matchen kan inte startas, och karriären har inte ändrats.`);
     const starters: Record<string, string> = { GK: lineup.goalkeeperId };
     for (const [role, id] of Object.entries(lineup.startersByRole)) starters[engineRoles[role]] = id;
     const selected = [...Object.values(starters), ...lineup.bench.map(p => p.playerId)];
@@ -189,6 +192,19 @@ export function startProductionMatch(state: CareerState, fixtureId?: string, opt
   // and takes the timeouts, as for a suspended manager -- otherwise the starting seven played all 60 minutes.
   if (options.quick) { const own = fixture.homeClubId === state.playerClubId ? 'HOME' : 'AWAY'; session.core.coaching[own].rotation = true; session.core.coaching[own].timeouts = true; }
   return { ...state, activeMatchSession: null, productionMatch: session };
+}
+
+/**
+ * Division 2 playable qualification: starting a match either returns the started career or a Swedish reason why it
+ * cannot start -- never a thrown error, and never a partly changed career. The match preview checks first and only
+ * then applies the same start, so a failed start cannot crash the page or leave a half-created session.
+ */
+export function tryStartProductionMatch(state: CareerState, fixtureId?: string, options: { quick?: boolean } = {}): { ok: true; state: CareerState } | { ok: false; error: string } {
+  try {
+    return { ok: true, state: startProductionMatch(state, fixtureId, options) };
+  } catch (cause) {
+    return { ok: false, error: cause instanceof Error && cause.message ? cause.message : 'Matchen kunde inte startas. Karriären har inte ändrats.' };
+  }
 }
 
 export function advanceProductionMatch(state: CareerState, ticks: number, stopAtHalf = true, observer?:ProductionMatchObserver, stopWhen?:(core:Readonly<CoreState>,events:readonly CoreEvent[])=>boolean): CareerState {
