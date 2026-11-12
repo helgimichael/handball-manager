@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HM Design Lab 2027</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="lab.css">
+</head>
+<body>
+<header class="lab-top">
+  <div class="lab-brand"><span class="lab-logo">HM</span><span><b>Design Lab</b><small>Experience 2027 · isolated prototype — not production</small></span></div>
+  <nav class="lab-views" id="views" aria-label="Lab views"></nav>
+  <div class="lab-ctl">
+    <label class="lab-field"><span>Identity</span><select id="identity" aria-label="Design identity"><option value="a">A · Tactical Clarity</option><option value="b">B · Arena Nights</option><option value="c">C · Paper &amp; Floodlight</option></select></label>
+    <div class="lab-seg" id="device" role="group" aria-label="Preview device"><button data-v="desktop">Desktop</button><button data-v="tablet">Tablet</button><button data-v="mobile">Mobile</button></div>
+    <div class="lab-seg" id="density" role="group" aria-label="Density"><button data-v="">Comfort</button><button data-v="compact">Compact</button></div>
+  </div>
+</header>
+<main id="app" class="lab-main"></main>
+<div id="lab-toast" class="lab-toast" role="status"></div>
+<script src="data/surfaces.js"></script>
+<script src="lab.js"></script>
+</body>
+</html>
