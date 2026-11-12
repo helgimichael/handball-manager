@@ -40,7 +40,18 @@ export function getNextEventDate(state: CareerState): string | null {
   return unplayed.reduce((earliest, f) => (f.date < earliest ? f.date : earliest), unplayed[0].date);
 }
 
+/**
+ * HM-M7D: the club whose fixtures wait for the manager. While he is out of work
+ * (managerCareer.seekingJob) there is none -- his former club (still
+ * `playerClubId` until he signs elsewhere) is run by an interim and its fixtures
+ * are simulated like every other CPU fixture, so the calendar keeps moving.
+ */
+function managedClub(state: CareerState): string | undefined {
+  return state.managerCareer?.seekingJob ? undefined : state.playerClubId;
+}
+
 export function getNextPlayerFixture(state: CareerState): CareerFixture | undefined {
+  if (!managedClub(state)) return undefined;
   return getUnplayedFixtures(state)
     .filter((f) => f.homeClubId === state.playerClubId || f.awayClubId === state.playerClubId)
     .sort((a, b) => (a.date < b.date ? -1 : 1))[0];
@@ -70,6 +81,7 @@ export function getLastPlayedPlayerFixture(state: CareerState): { fixture: Caree
 
 /** The manager club's own unplayed fixture on `date`, if any -- the MATCHDAY_READY trigger condition (Spec S11.2). */
 export function getPlayerFixtureOn(state: CareerState, date: string): CareerFixture | undefined {
+  if (!managedClub(state)) return undefined;
   return state.fixtures.find(
     (f) => f.date === date && !state.results[f.id] && (f.homeClubId === state.playerClubId || f.awayClubId === state.playerClubId),
   );
@@ -83,8 +95,9 @@ export function getPlayerFixtureOn(state: CareerState, date: string): CareerFixt
  * skipped.
  */
 export function simulateAiFixturesForDate(state: CareerState, date: string): { state: CareerState; results: FastMatchResult[] } {
+  const own = managedClub(state);
   const dueFixtures = state.fixtures.filter(
-    (f) => f.date === date && !state.results[f.id] && f.homeClubId !== state.playerClubId && f.awayClubId !== state.playerClubId,
+    (f) => f.date === date && !state.results[f.id] && f.homeClubId !== own && f.awayClubId !== own,
   );
   if (dueFixtures.length === 0) {
     return { state, results: [] };

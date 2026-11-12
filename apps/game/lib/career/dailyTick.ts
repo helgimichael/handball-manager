@@ -102,6 +102,14 @@ export interface DailyTickResult {
 }
 
 /**
+ * HM-M7D: while the manager is out of work the calendar keeps running, but his
+ * former club's day-to-day business is no longer his: only his own career news
+ * and league news reach him, and nothing other than the job market asks him to act.
+ */
+const UNEMPLOYED_EVENT_TYPES = new Set<CareerEvent["type"]>(["MANAGER_CAREER", "BOARD_UPDATE", "COMPETITION_UPDATE", "SEASON_MILESTONE", "CLUB_NEWS", "TRAINING_COMPLETED"]);
+const unemployed = (state: CareerState) => Boolean(state.managerCareer?.seekingJob);
+
+/**
  * Processes `date`. Callers (continueController.ts) are responsible for
  * only ever calling this with `date === processedThroughDate + 1 day` --
  * that invariant, plus this function's own id-based dedup gate, is what
@@ -115,6 +123,9 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
   function emit(candidate: CareerEvent): void {
     if (next.careerEvents.some((e) => e.id === candidate.id)) {
       return; // Idempotent: the same semantic event never duplicates (Spec S27).
+    }
+    if (unemployed(next) && (!UNEMPLOYED_EVENT_TYPES.has(candidate.type) || (candidate.requiresAction && candidate.type !== "MANAGER_CAREER"))) {
+      return; // HM-M7D: not his club's business any more.
     }
     next = { ...next, careerEvents: [...next.careerEvents, candidate] };
     events.push(candidate);
@@ -200,7 +211,7 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
   }
 
   // --- 4. Scouting / Analysis progress ------------------------------------
-  const upcomingFixture = getNextPlayerFixture(next);
+  const upcomingFixture = getNextPlayerFixture(next); // HM-M7D: none while out of work
   if (upcomingFixture) {
     const opponentClubId = upcomingFixture.homeClubId === next.playerClubId ? upcomingFixture.awayClubId : upcomingFixture.homeClubId;
     next = {
@@ -261,13 +272,16 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
   // own existing 1.0B ownership guard (CANCELLED_STALE), never executed
   // against a club that no longer owns them.
   // HM-ALPHA3-M05: morale, talks, promises, renewals, incoming bids and pre-contract moves (before the expiry sweep).
-  const dynamicsEvents: CareerEvent[] = [];
-  next = progressPlayerDynamics(next, date, (event) => dynamicsEvents.push(event));
-  dynamicsEvents.forEach(emit);
-  // HM-ALPHA3-M06: delegated staff work (weekly) and proposal expiry.
-  const delegationEvents: CareerEvent[] = [];
-  next = progressDelegation(next, date, (event) => delegationEvents.push(event));
-  delegationEvents.forEach(emit);
+  // HM-M7D: morale talks, bids for "his" players and delegated staff work need a manager -- paused while he is out of work.
+  if (!unemployed(next)) {
+    const dynamicsEvents: CareerEvent[] = [];
+    next = progressPlayerDynamics(next, date, (event) => dynamicsEvents.push(event));
+    dynamicsEvents.forEach(emit);
+    // HM-ALPHA3-M06: delegated staff work (weekly) and proposal expiry.
+    const delegationEvents: CareerEvent[] = [];
+    next = progressDelegation(next, date, (event) => delegationEvents.push(event));
+    delegationEvents.forEach(emit);
+  }
   const { state: afterContractExpiry, departures } = progressContractExpiry(next, date);
   next = afterContractExpiry;
   for (const departure of departures) {
@@ -422,9 +436,12 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
   }
 
   // --- HM-ALPHA3-M08: the living world reacts to the day (stories, press, rivals, discipline) ---
-  const mediaEvents: CareerEvent[] = [];
-  next = progressMedia({ ...next, gameDate: date }, date, [...events], (event) => mediaEvents.push(event));
-  mediaEvents.forEach(emit);
+  // HM-M7D: press conferences and stories are about the manager's club -- none while he is out of work.
+  if (!unemployed(next)) {
+    const mediaEvents: CareerEvent[] = [];
+    next = progressMedia({ ...next, gameDate: date }, date, [...events], (event) => mediaEvents.push(event));
+    mediaEvents.forEach(emit);
+  }
 
   // --- 1. Date / Calendar (bookkeeping close-out) ---------------------------
   next = { ...next, gameDate: date, processedThroughDate: date };

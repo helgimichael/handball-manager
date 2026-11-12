@@ -11,7 +11,6 @@ import { buildClubEvent, type CareerEvent } from "../career/careerEvents";
 import { clubCompetitionId } from "../career/competitionMembership";
 import { ensureCareerGameplayRatings } from "../career/careerRatingNormalization";
 import { getCareerClubSquad } from "../career/careerWorld";
-import { cancelScoutingAssignment } from "../career/scouting";
 import { ensureCareerPlayerSquadStatus } from "../career/squadStatus";
 import type { CareerState } from "../career/types";
 import { ensureCareerPlayerClubHistory } from "../economy/clubHistoryIntegration";
@@ -19,43 +18,20 @@ import { ensureCareerPlayerContracts } from "../economy/contractIntegration";
 import { getClub } from "../game-data";
 import { withEvents } from "./events";
 export { withEvents };
-import { releaseStaff, withdrawStaffNegotiation } from "../staff/staffNegotiation";
-import { isNegotiationOpen, withdrawTransferNegotiation } from "../transfers/negotiationIntegration";
+import { releaseStaff } from "../staff/staffNegotiation";
+import { closeOpenBusiness } from "./departure";
 import { addDaysIso } from "../players/dynamicsState";
 import { ensureBoard } from "../board/board";
-import { eligibleClubs, ensureManagerCareer } from "./managerCareer";
+import { closeStint, eligibleClubs, ensureManagerCareer, leagueName, unplayedOwnFixtureDue } from "./managerCareer";
 
 export function clubChangeBlocker(state: CareerState, clubId: string): string | null {
   if (state.productionMatch || state.activeMatchSession) return "Spela klart matchen först.";
-  if (clubId === state.playerClubId) return "Du arbetar redan i klubben.";
+  if (clubId === state.playerClubId && !state.managerCareer?.seekingJob) return "Du arbetar redan i klubben.";
+  if (clubId === state.playerClubId) return "Klubben går vidare utan dig.";
+  // HM-M7D: a match whose day has come is played by the manager whose club it is.
+  if (unplayedOwnFixtureDue(state)) return "Spela dagens match först.";
   if (!eligibleClubs(state).includes(clubId)) return "Klubben spelar inte i någon av de svenska serierna den här säsongen.";
   return null;
-}
-
-/** Closes the manager's own open business at the club he is leaving. */
-function closeOpenBusiness(state: CareerState, date: string): CareerState {
-  let next = state;
-  for (const n of Object.values(next.transferNegotiations ?? {})) {
-    if (!isNegotiationOpen(n)) continue;
-    const r = withdrawTransferNegotiation(next, n.id);
-    if (r.ok) next = r.state;
-  }
-  for (const n of Object.values(next.staffNegotiations ?? {})) if (n.stage === "CLUB" || n.stage === "TERMS") next = withdrawStaffNegotiation(next, n.id);
-  for (const a of Object.values(next.scoutingAssignments ?? {})) if (a.status === "IN_PROGRESS") next = cancelScoutingAssignment(next, a.id);
-  const renewalTalks = Object.fromEntries(Object.entries(next.renewalTalks ?? {}).map(([k, t]) => [k, t.status === "OPEN" ? { ...t, status: "WITHDRAWN" as const, closedOn: date, answerOn: undefined } : t]));
-  const incomingOffers = Object.fromEntries(Object.entries(next.incomingOffers ?? {}).map(([k, o]) => [k, ["OPEN", "COUNTERED", "ACCEPTED", "AWAITING_WINDOW"].includes(o.status) ? { ...o, status: "WITHDRAWN" as const } : o]));
-  // Plans for matches not yet played were made for the old squad.
-  const unplayed = (id: string) => !next.results[id];
-  const matchPlans = Object.fromEntries(Object.entries(next.matchPlans).filter(([id]) => !unplayed(id)));
-  const liveMatchPlans = Object.fromEntries(Object.entries(next.liveMatchPlans).filter(([id]) => !unplayed(id)));
-  const trainingWeeks = Object.fromEntries(Object.entries(next.trainingWeeks).filter(([, w]) => addDaysIso(w.weekStart, 6) < date));
-  // Anything waiting on the manager at the old club is no longer his to answer.
-  const careerEvents = next.careerEvents.map((e) => (e.requiresAction && !e.resolved ? { ...e, resolved: true } : e));
-  const inbox = next.inbox.map((m) => (m.actionRequired ? { ...m, actionRequired: false, resolved: true } : m));
-  // HM-ALPHA3-M08: open press conferences were about the old club; relationships, stories and discipline follow the manager.
-  const media = next.media ? { ...next.media, press: Object.fromEntries(Object.entries(next.media.press).map(([k, p]) => [k, p.status === "OPEN" ? { ...p, status: "EXPIRED" as const } : p])), pressure: {}, supporters: 0, boardMood: 0 } : undefined;
-  // HM-ALPHA3-M10: the old club's preferred lineup does not follow the manager -- the first seven at the new club is picked by hand.
-  return { ...next, renewalTalks, incomingOffers, matchPlans, liveMatchPlans, trainingWeeks, careerEvents, inbox, playerDynamics: undefined, delegation: undefined, preferredLineup: undefined, ...(media ? { media } : {}) };
 }
 
 /** Sets up the new club as the manager's club, exactly as a new career would for it. */
@@ -71,6 +47,12 @@ function takeOver(state: CareerState, clubId: string): CareerState {
   // A CPU club's recruitment plan was its own; the manager now decides.
   const { [clubId]: _plan, ...cpuRecruitmentPlans } = next.cpuRecruitmentPlans ?? {};
   return { ...next, playerStatuses, cpuRecruitmentPlans };
+}
+
+/** The career without the unemployment marker (removed, not set to undefined, so a save round-trip is exact). */
+function employedCareer<T extends { seekingJob?: unknown }>(c: T): T {
+  const { seekingJob: _seeking, ...rest } = c;
+  return rest as T;
 }
 
 /** Accepts a job offer: leaves the current club (if still employed) and takes over the new one. */
@@ -99,24 +81,25 @@ export function acceptJobOffer(state: CareerState, offerId: string): CareerState
 
   const offers = Object.fromEntries(Object.entries(c.offers).map(([k, o]) => [k, k === offerId ? { ...o, status: "ACCEPTED" as const } : o.status === "OPEN" ? { ...o, status: "DECLINED" as const } : o]));
   const applications = Object.fromEntries(Object.entries(c.applications).map(([k, a]) => [k, (a.status === "INTERVIEW" || a.status === "ANSWERED") ? { ...a, status: (a.clubId === offer.clubId ? "OFFERED" : "WITHDRAWN") as typeof a.status } : a]));
-  const stints = c.stints.map((st, i) => (i === c.stints.length - 1 && !st.to ? { ...st, to: date, leftReason: "NEW_JOB" as const } : st));
-  const vacancies = [...c.vacancies.filter((v) => v.clubId !== offer.clubId && v.clubId !== oldClubId), { clubId: oldClubId, openedOn: date, closesOn: addDaysIso(date, 14), reason: leaving ? `Tränaren lämnade för ${getClub(offer.clubId)?.shortName ?? offer.clubId}.` : "Klubben söker en ny tränare." }];
+  // HM-M7D: the stint closes once, with the part-season he leaves behind; an unemployed manager's old stint is already closed.
+  const stints = closeStint(s, c, date, "NEW_JOB").stints;
+  // The club he walks out of looks for a coach; the vacancy his earlier departure opened is not re-opened.
+  const vacancies = [...c.vacancies.filter((v) => v.clubId !== offer.clubId && (!leaving || v.clubId !== oldClubId)), ...(leaving ? [{ clubId: oldClubId, openedOn: date, closesOn: addDaysIso(date, 14), reason: `Tränaren lämnade för ${getClub(offer.clubId)?.shortName ?? offer.clubId}.` }] : [])];
   const name = getClub(offer.clubId)?.name ?? offer.clubId;
   next = {
     ...next,
     board: undefined,
     managerCareer: {
-      ...c,
+      ...employedCareer(c),
       offers,
       applications,
       vacancies,
-      seekingJob: undefined,
-      stints: [...stints, { clubId: offer.clubId, from: date, seasons: [] }],
+      stints: [...stints, { clubId: offer.clubId, from: date, seasons: [], competitionId: next.competitionId, reputationAtStart: c.reputation }],
       contract: { clubId: offer.clubId, wageEurPerMonth: offer.wageEurPerMonth, startDate: date, endDate: `${Number(next.seasonId.slice(0, 4)) + offer.years}-05-31` },
       milestones: [...c.milestones, ...(leaving ? [{ date, kind: "RESIGNED" as const, text: `Lämnade ${getClub(oldClubId)?.name ?? oldClubId} för ett nytt jobb.`, clubId: oldClubId }] : []), { date, kind: "APPOINTED" as const, text: `Ny huvudtränare i ${name}.`, clubId: offer.clubId }].slice(-60),
     },
   };
   next = ensureBoard(next, date, emit);
-  emit(buildClubEvent("MANAGER_CAREER", `appointed:${offer.clubId}:${date}`, date, "IMPORTANT", `Välkommen till ${name}`, `Du har skrivit på för ${offer.years} år. Styrelsens mål väntar i styrelserummet och truppen är din från och med i dag.`, [{ route: "MANAGER" }, { route: "BOARDROOM" }]));
+  emit(buildClubEvent("MANAGER_CAREER", `appointed:${offer.clubId}:${date}`, date, "IMPORTANT", `Välkommen till ${name}`, `Du har skrivit på för ${offer.years} år (${leagueName(next.competitionId)}). Styrelsens mål väntar i styrelserummet och truppen är din från och med i dag.`, [{ route: "MANAGER" }, { route: "BOARDROOM" }]));
   return withEvents(next, events);
 }

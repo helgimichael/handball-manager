@@ -72,7 +72,7 @@ export function weeklyManagement(state: CareerState) {
     .slice().sort((a,b)=>b.date.localeCompare(a.date)).slice(0,3);
   let progression=action.blockReason??action.tooltip??action.ariaLabel;
   if(action.kind==='ADVANCE_DAY')progression='Fortsätt överst bearbetar varje dag och stannar vid viktiga händelser. Inga dagar hoppas över.';
-  if(action.kind==='DECISION_BLOCKED'&&state.managerCareer?.seekingJob)progression='Välj en ny klubb på jobbmarknaden innan kalendern kan fortsätta.';
+  if(state.managerCareer?.seekingJob)progression='Du står utan klubb. Kalendern fortsätter och stannar när en klubb hör av sig – sök lediga jobb på jobbmarknaden.';
   return {from:state.gameDate,through,days:state.seasonComplete||state.managerCareer?.seekingJob?[]:days,action,progression,
     available:available.length,total:squad.length,tired:squad.filter(p=>squadEnergy(state,p)<75).length,
     discussions:discussions.length,decisions:decisions.sort((a,b)=>Number(b.required)-Number(a.required)||(a.due??'').localeCompare(b.due??'')),

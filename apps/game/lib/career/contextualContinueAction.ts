@@ -67,7 +67,8 @@ export function resolveContextualContinueAction(
     };
   }
 
-  if (career.managerCareer?.seekingJob) return {kind:'DECISION_BLOCKED',label:'Sök nytt jobb',sublabel:'JOBBMARKNADEN',ariaLabel:'Välj en ny klubb',disabled:false,targetHref:'/career/manager?tab=jobs'};
+  // HM-M7D: out of work the calendar keeps moving; Continue stops when a club calls.
+  if (career.managerCareer?.seekingJob && !career.seasonComplete) return {kind:'ADVANCE_DAY',label:'Fortsätt »',sublabel:'UTAN KLUBB',ariaLabel:'Fortsätt kalendern medan du söker jobb',tooltip:'Du står utan klubb. Kalendern fortsätter och stannar när en klubb hör av sig. Lediga jobb finns på jobbmarknaden.',disabled:false,targetHref:null};
 
   const boardDecision = career.careerEvents.find(e => e.type === 'BOARD_UPDATE' && e.requiresAction && !e.resolved);
   if (boardDecision) return {kind:'DECISION_BLOCKED',label:'Styrelsemöte',sublabel:'SVAR KRÄVS',ariaLabel:boardDecision.subject,blockReason:boardDecision.summary,disabled:false,targetHref:'/career/board'};

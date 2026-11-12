@@ -362,7 +362,8 @@ function worstFactor(factors: ConfidenceFactor[]): string {
 
 function addMeeting(state: CareerState, m: BoardMeeting, emit: Emit): CareerState {
   const b = state.board!;
-  emit(buildClubEvent("BOARD_UPDATE", m.id, m.date, m.kind === 'DISMISSAL' || (['WARNING','FINAL_WARNING'].includes(m.kind) && !b.recoveryPlans?.some(p => p.status === 'ACTIVE')) ? 'ACTION_REQUIRED' : 'IMPORTANT', m.title, m.summary, [{ route: "BOARDROOM" }]));
+  // HM-M7D: a dismissal is final news, not a decision -- it never blocks the calendar.
+  emit(buildClubEvent("BOARD_UPDATE", m.id, m.date, (['WARNING','FINAL_WARNING'].includes(m.kind) && !b.recoveryPlans?.some(p => p.status === 'ACTIVE')) ? 'ACTION_REQUIRED' : 'IMPORTANT', m.title, m.summary, [{ route: "BOARDROOM" }]));
   return { ...state, board: { ...b, ...(m.kind === 'DISMISSAL' ? {pressureStage:'DISMISSAL' as const} : {}), meetings: [...b.meetings, m].slice(-20) } };
 }
 
