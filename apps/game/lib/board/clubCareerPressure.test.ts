@@ -160,7 +160,8 @@ test('multi-month strong-club underperformance progresses through all stages, di
   assert.equal(s.managerCareer!.stints.at(-1)!.leftReason,'DISMISSED');
   assert.equal(s.managerCareer!.contract.endDate,s.gameDate);
   assert.equal(dismissManager(s,s.gameDate,'replay',()=>{}),s);
-  assert.equal(resolveContextualContinueAction(s).targetHref,'/career/manager?tab=jobs');
+  // HM-M7D: unemployed, Continue advances the calendar (it stops when a club calls).
+  assert.equal(resolveContextualContinueAction(s).kind,'ADVANCE_DAY');assert.equal(resolveContextualContinueAction(s).sublabel,'UTAN KLUBB');
   const own=s.fixtures.find(f=>f.homeClubId===s.playerClubId||f.awayClubId===s.playerClubId)!;
   const ready={...s,gameDate:own.date,careerEvents:[...s.careerEvents,buildMatchdayReadyEvent(own.id,own.date)]};
   assert.equal(startProductionMatch(ready,own.id),ready);

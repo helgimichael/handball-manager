@@ -3,6 +3,8 @@
 // club and season, milestones, and the job market: vacancies, applications
 // with interviews, approaches and offers. A sacked manager lands here and
 // picks the next club; the world carries on unchanged.
+// HM-M7D: resignation with its consequences shown first, career statistics,
+// per-season records, the reputation log and the whole Swedish pyramid.
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
@@ -15,7 +17,7 @@ import { useCareer } from "@/lib/career/CareerContext";
 import { getClub, COMPETITIONS } from "@/lib/game-data";
 import { clubCompetitionId } from "@/lib/career/competitionMembership";
 import { acceptJobOffer, clubChangeBlocker } from "@/lib/manager/changeClub";
-import { answerInterview, applyForJob, clubStature, declineOffer, managerCareerOf, openOffers, openVacancies, withdrawApplication } from "@/lib/manager/managerCareer";
+import { answerInterview, applyForJob, assessCandidate, clubStature, declineOffer, leagueName, managerCareerOf, managerCareerSummary, openOffers, openVacancies, resignationPreview, resignFromClub, withdrawApplication } from "@/lib/manager/managerCareer";
 import type { JobApplication } from "@/lib/board/types";
 import { useMoney } from "@/lib/settings/usePreferences";
 
@@ -41,6 +43,7 @@ function ManagerCareer() {
   const tab = params.get("tab") === "jobs" ? "jobs" : "profile";
   const { career, updateCareer } = useCareer();
   const [message, setMessage] = useState<string | null>(null);
+  const [confirmResign, setConfirmResign] = useState(false);
   const mc = managerCareerOf(career);
   const offers = openOffers(career);
   const vacancies = openVacancies(career);
@@ -48,11 +51,15 @@ function ManagerCareer() {
   const lastAppointment = [...mc.milestones].reverse().find((m) => m.kind === "APPOINTED");
   const freshStart = lastAppointment && lastAppointment.date >= addDays(career.gameDate, -10) && mc.stints.length > 1;
   const setTab = (t: string) => router.replace(t === "jobs" ? "/career/manager?tab=jobs" : "/career/manager");
+  const summary = managerCareerSummary(career);
+  const resignation = resignationPreview(career);
+  const leftLabel = (r?: string) => (r === "DISMISSED" ? "sparkad" : r === "NEW_JOB" ? "nytt jobb" : r === "CONTRACT_ENDED" ? "avtalet gick ut" : r === "RESIGNED" ? "avgick" : "slutade");
+  const formerClub = mc.seekingJob?.clubId ?? career.playerClubId;
 
   return (
     <div className="bd-page">
       {mc.seekingJob ? (
-        <MomentHero kind="DISMISSAL" backdrop={{ kind: "photo", style: BOARDROOM_BACKDROP }} tags={[mc.seekingJob.since]} stamp={mc.seekingJob.reason === "DISMISSED" ? "Sparkad" : "Avtalet slut"} headline={mc.seekingJob.reason === "DISMISSED" ? `${getClub(career.playerClubId)?.shortName ?? ""} har sparkat dig` : "Ditt avtal har gått ut"} lede={`${[...mc.milestones].reverse().find((m) => m.kind === "DISMISSED")?.text ?? "Styrelsen valde att gå vidare utan dig."} Världen fortsätter – välj ditt nästa jobb bland erbjudandena nedan.`} />
+        <MomentHero kind="DISMISSAL" backdrop={{ kind: "photo", style: BOARDROOM_BACKDROP }} tags={[mc.seekingJob.since]} stamp={mc.seekingJob.reason === "DISMISSED" ? "Sparkad" : mc.seekingJob.reason === "RESIGNED" ? "Avgått" : "Avtalet slut"} headline={mc.seekingJob.reason === "DISMISSED" ? `${getClub(formerClub)?.shortName ?? ""} har sparkat dig` : mc.seekingJob.reason === "RESIGNED" ? `Du har lämnat ${getClub(formerClub)?.shortName ?? ""}` : "Ditt avtal har gått ut"} lede={`${[...mc.milestones].reverse().find((m) => m.kind === mc.seekingJob!.reason)?.text ?? "Styrelsen valde att gå vidare utan dig."} Du står utan klubb sedan ${mc.seekingJob.since}. Kalendern fortsätter – sök lediga jobb eller vänta på att klubbar hör av sig.`} />
       ) : freshStart ? (
         <MomentHero kind="STAFF_APPOINTMENT" tone="success" backdrop={{ kind: "photo", style: BOARDROOM_BACKDROP }} tags={[false, "Ny klubb", lastAppointment!.date]} stamp="Påskrivet" headline={`Välkommen till ${clubName(career.playerClubId)}`} lede={`${lastAppointment!.text} Styrelsens mål väntar och truppen är din.`}>
           <div className="sc-hero-actions"><Link className="hm-btn hm-btn-primary" href="/career/board">Möt styrelsen →</Link> <Link className="hm-btn" href="/career/squad">Din nya trupp →</Link></div>
@@ -72,20 +79,49 @@ function ManagerCareer() {
           <section className="bd-panel" aria-labelledby="mp-profile">
             <header><span className="xp-eyebrow">Tränarprofilen</span><h2 id="mp-profile">{repLabel(mc.reputation)}</h2></header>
             <MeterBar label="Rykte" value={mc.reputation / 100} figure={`${mc.reputation} / 100`} tone={mc.reputation >= 55 ? "gold" : "ink"} />
-            <p className="pd-note">Ryktet växer med uppfyllda mål, titlar och uppflyttningar och sjunker med nedflyttning och avsked. Det avgör vilka klubbar som vill ha dig.</p>
+            <p className="pd-note">Ryktet växer med uppfyllda mål, placeringar över truppens förväntan, titlar och uppflyttningar, och sjunker med nedflyttning, avsked och avhopp mitt i säsongen. Det avgör tillsammans med din erfarenhet vilka klubbar som vill ha dig.</p>
             <dl className="bd-contract">
               <div><dt>Nuvarande klubb</dt><dd>{mc.seekingJob ? "Utan klubb" : clubName(career.playerClubId)}</dd></div>
               <div><dt>Lön</dt><dd>{money.format(mc.contract.wageEurPerMonth)} / mån</dd></div>
               <div><dt>Avtal till</dt><dd>{mc.contract.endDate}</dd></div>
-              <div><dt>Säsonger</dt><dd>{mc.stints.reduce((n, s) => n + s.seasons.length, 0)}</dd></div>
+              <div><dt>Säsonger</dt><dd>{summary.seasons}</dd></div>
             </dl>
           </section>
+          <section className="bd-panel" aria-labelledby="mp-stats">
+            <header><span className="xp-eyebrow">Karriärstatistik</span><h2 id="mp-stats">{summary.record.played} matcher som huvudtränare</h2></header>
+            <dl className="bd-contract">
+              <div><dt>Vinster–oavgjorda–förluster</dt><dd>{summary.record.won}–{summary.record.drawn}–{summary.record.lost}</dd></div>
+              <div><dt>Mål för–emot</dt><dd>{summary.record.goalsFor}–{summary.record.goalsAgainst}</dd></div>
+              <div><dt>Klubbar</dt><dd>{summary.clubs}</dd></div>
+              <div><dt>Högsta nivå</dt><dd>{summary.highestLevel === null ? "—" : summary.highestLevel === 1 ? "Handbollsligan" : summary.highestLevel === 2 ? "Allsvenskan" : "Division 1"}</dd></div>
+              <div><dt>SM-guld / cuptitlar</dt><dd>{summary.titles} / {summary.cups}</dd></div>
+              <div><dt>Upp- / nedflyttningar</dt><dd>{summary.promotions} / {summary.relegations}</dd></div>
+              <div><dt>Avsked / avhopp</dt><dd>{summary.dismissals} / {summary.resignations}</dd></div>
+              <div><dt>Dagar utan klubb</dt><dd>{summary.daysUnemployed}</dd></div>
+            </dl>
+            <h3 className="bd-subhead">Varför ryktet har rört sig</h3>
+            {(mc.reputationLog ?? []).length === 0 ? <p className="pd-note">Ryktet har inte ändrats ännu. Det bedöms när säsongen är slut och när du lämnar en klubb.</p> : (
+              <ol className="bd-meetings">{[...(mc.reputationLog ?? [])].reverse().slice(0, 10).map((r, i) => <li key={i} data-verdict={r.delta < 0 ? "DISMISSED" : "PLEASED"}><time>{r.date}</time><b>{r.delta > 0 ? "+" : ""}{r.delta} → {r.after}</b> {r.reason}</li>)}</ol>
+            )}
+          </section>
+          {!mc.seekingJob && (
+            <section className="bd-panel" aria-labelledby="mp-resign">
+              <header><span className="xp-eyebrow">Avgå</span><h2 id="mp-resign">Lämna {clubName(career.playerClubId)}</h2></header>
+              <p className="pd-note">Avtal till {resignation.contractEndDate}, {money.format(resignation.wageEurPerMonth)} i månaden. Så här blir det om du avgår:</p>
+              <ul className="pd-note">{resignation.consequences.map((c) => <li key={c}>{c}</li>)}</ul>
+              {confirmResign ? (
+                <DecisionCard tone="loss" title="Vill du verkligen avgå?" primary={{ label: "Ja, jag avgår", consequence: resignation.blocker ?? `Gäller från i dag, ${career.gameDate}.`, disabled: !resignation.allowed, onSelect: () => run(() => { updateCareer((s) => resignFromClub(s)); setConfirmResign(false); }, `Du har lämnat ${clubName(career.playerClubId)}.`) }} secondary={<button type="button" className="hm-btn" onClick={() => setConfirmResign(false)}>Stanna kvar</button>} />
+              ) : (
+                <div className="hm-actions"><button type="button" className="hm-btn" disabled={!resignation.allowed} title={resignation.blocker ?? undefined} onClick={() => setConfirmResign(true)}>Avgå som huvudtränare…</button>{resignation.blocker && <small className="pd-note">{resignation.blocker}</small>}</div>
+              )}
+            </section>
+          )}
           <section className="bd-panel" aria-labelledby="mp-history">
             <header><span className="xp-eyebrow">Historik</span><h2 id="mp-history">Klubbarna</h2></header>
             <ol className="bd-stints">{[...mc.stints].reverse().map((s) => (
               <li key={s.clubId + s.from}>
-                <div><Crest clubId={s.clubId} /><b>{clubName(s.clubId)}</b><small>{s.from} – {s.to ?? "i dag"}{s.leftReason ? ` · ${s.leftReason === "DISMISSED" ? "sparkad" : s.leftReason === "NEW_JOB" ? "nytt jobb" : s.leftReason === "CONTRACT_ENDED" ? "avtalet gick ut" : "slutade"}` : ""}</small></div>
-                {s.seasons.length > 0 && <table className="hm-table"><thead><tr><th>Säsong</th><th>Serie</th><th>Plac.</th><th>Målen</th><th>Meriter</th></tr></thead><tbody>{s.seasons.map((x) => <tr key={x.seasonId}><td>{x.seasonId}</td><td>{compName(x.competitionId)}</td><td>{x.position ?? "—"}</td><td>{x.objectivesScore === null ? "—" : `${Math.round(x.objectivesScore * 100)} %`}</td><td>{x.honours.join(", ") || "—"}</td></tr>)}</tbody></table>}
+                <div><Crest clubId={s.clubId} /><b>{clubName(s.clubId)}</b><small>{s.from} – {s.to ?? "i dag"}{s.leftReason ? ` · ${leftLabel(s.leftReason)}` : ""}{s.competitionId ? ` · tog över i ${leagueName(s.competitionId)}` : ""}{s.reputationAtStart !== undefined ? ` · rykte ${s.reputationAtStart}${s.reputationAtEnd !== undefined ? ` → ${s.reputationAtEnd}` : ""}` : ""}</small></div>
+                {s.seasons.length > 0 && <table className="hm-table"><thead><tr><th>Säsong</th><th>Serie</th><th>Plac.</th><th>V–O–F</th><th>Målen</th><th>Meriter</th></tr></thead><tbody>{s.seasons.map((x) => <tr key={x.seasonId}><td>{x.seasonId}{x.partial ? " (del)" : ""}</td><td>{compName(x.competitionId)}</td><td>{x.position ?? "—"}</td><td>{x.record ? `${x.record.won}–${x.record.drawn}–${x.record.lost}` : "—"}</td><td>{x.objectivesScore === null ? "—" : `${Math.round(x.objectivesScore * 100)} %`}</td><td>{x.honours.join(", ") || "—"}</td></tr>)}</tbody></table>}
               </li>
             ))}</ol>
             <h3 className="bd-subhead">Milstolpar</h3>
@@ -96,7 +132,7 @@ function ManagerCareer() {
         <div className="bd-jobs">
           <section className="bd-panel" aria-labelledby="mp-offers">
             <header><span className="xp-eyebrow">Erbjudanden</span><h2 id="mp-offers">Klubbar som vill ha dig</h2></header>
-            {offers.length === 0 ? <p className="pd-note">Inga erbjudanden just nu.{mc.seekingJob ? " Nya kommer inom kort." : " Klubbar hör av sig när de söker tränare och ditt rykte räcker."}</p> : (
+            {offers.length === 0 ? <p className="pd-note">Inga erbjudanden just nu.{mc.seekingJob ? " Klubbar med lediga tjänster tittar på dig varje vecka – fortsätt kalendern eller sök själv." : " Klubbar hör av sig när de söker tränare och ditt rykte och din erfarenhet räcker."}</p> : (
               <div className="bd-offers">{offers.map((o) => {
                 const blocker = clubChangeBlocker(career, o.clubId);
                 return (
@@ -116,11 +152,12 @@ function ManagerCareer() {
             {vacancies.length === 0 ? <p className="pd-note">Inga lediga tjänster. Klubbar som går sämre än väntat byter ofta tränare under vintern, och flera byter efter säsongen.</p> : (
               <ul className="bd-vacancies">{vacancies.map((v) => {
                 const applied = Object.values(mc.applications).find((a) => a.clubId === v.clubId && a.appliedOn >= v.openedOn);
-                const need = clubStature(career, v.clubId);
+                const a = assessCandidate(career, v.clubId);
+                const standing = a.reputation + a.experiencePoints;
                 return (
                   <li key={v.clubId}>
                     <Crest clubId={v.clubId} size={28} />
-                    <div><b>{clubName(v.clubId)}</b><small>{v.reason}</small><small>Ansök senast {v.closesOn} · {need <= mc.reputation ? "ditt rykte räcker" : need <= mc.reputation + 8 ? "ditt rykte är nära" : "jobbet är ett stort kliv"}</small></div>
+                    <div><b>{clubName(v.clubId)}</b><small>{leagueName(clubCompetitionId(career, v.clubId))} · {v.reason}</small><small>Ansök senast {v.closesOn} · {standing >= a.need ? "du är en stark kandidat" : standing >= a.need - 8 ? "du är nära vad de söker" : "jobbet är ett stort kliv"}{a.parts.length ? ` (${a.parts.map((p) => p.label).join(", ")})` : ""}</small></div>
                     {applied ? <span className="tc-pill">{applied.status === "INTERVIEW" ? "Intervju väntar" : applied.status === "ANSWERED" ? "Väntar på svar" : applied.status === "OFFERED" ? "Erbjuden" : applied.status === "REJECTED" ? "Nej" : "Återtagen"}</span>
                       : <button type="button" className="hm-btn hm-btn-sm" onClick={() => run(() => updateCareer((s) => applyForJob(s, v.clubId)), "Ansökan skickad. Intervjun väntar nedan.")}>Sök jobbet</button>}
                   </li>

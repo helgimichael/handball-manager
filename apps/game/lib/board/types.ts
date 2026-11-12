@@ -86,12 +86,47 @@ export interface ManagerContract {
   endDate: string;
 }
 
+/** M7D: the manager's own results in a span of matches (league, cup and playoff games he coached). */
+export interface ManagerRecord {
+  played: number;
+  won: number;
+  drawn: number;
+  lost: number;
+  goalsFor: number;
+  goalsAgainst: number;
+}
+
+export interface ManagerStintSeason {
+  seasonId: string;
+  competitionId: string;
+  position: number | null;
+  objectivesScore: number | null;
+  honours: string[];
+  /** M7D: matches coached that season (absent in saves recorded before M7D). */
+  record?: ManagerRecord;
+  /** M7D: the stint ended before the season did -- position is where the club stood on the day he left. */
+  partial?: boolean;
+}
+
 export interface ManagerStint {
   clubId: string;
   from: string;
   to?: string;
   leftReason?: "DISMISSED" | "RESIGNED" | "NEW_JOB" | "CONTRACT_ENDED";
-  seasons: { seasonId: string; competitionId: string; position: number | null; objectivesScore: number | null; honours: string[] }[];
+  /** M7D: the league the club played in when he took over (absent in older saves; derive from seasons). */
+  competitionId?: string;
+  reputationAtStart?: number;
+  reputationAtEnd?: number;
+  seasons: ManagerStintSeason[];
+}
+
+/** M7D: every reputation change is recorded with its reason -- reputation never moves without one. */
+export interface ReputationChange {
+  date: string;
+  delta: number;
+  after: number;
+  reason: string;
+  clubId?: string;
 }
 
 export interface Vacancy {
@@ -148,7 +183,13 @@ export interface ManagerCareerState {
   applications: Record<string, JobApplication>;
   offers: Record<string, JobOffer>;
   milestones: ManagerMilestone[];
-  /** Out of a job: Continue waits until the manager accepts a new club. */
-  seekingJob?: { since: string; reason: "DISMISSED" | "RESIGNED" | "CONTRACT_ENDED" };
+  /** Out of a job. M7D: the calendar keeps running (the old club is run by an interim) until he accepts a new club. */
+  seekingJob?: { since: string; reason: "DISMISSED" | "RESIGNED" | "CONTRACT_ENDED"; clubId?: string };
   lastMarketRun?: string;
+  /** M7D: explained reputation changes, newest last (capped). */
+  reputationLog?: ReputationChange[];
+  /** M7D: the season whose summer coaching changes have been opened (once per season, employed or not). */
+  summerVacanciesSeasonId?: string;
+  /** M7D: the last date clubs looked at an unemployed manager. */
+  lastUnemployedReview?: string;
 }

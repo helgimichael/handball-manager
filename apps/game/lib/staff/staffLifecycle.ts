@@ -90,7 +90,8 @@ export function progressStaff(state: CareerState, date: string, emit: Emit): Car
 function cpuStaffMarket(state: CareerState, date: string, emit: Emit): CareerState {
   let next = state;
   for (const clubId of Object.keys(next.staffRoster)) {
-    if (clubId === next.playerClubId) continue;
+    // HM-M7D: while the manager is out of work his former club is a CPU club and hires its own coach.
+    if (clubId === next.playerClubId && !next.managerCareer?.seekingJob) continue;
     // Expiring CPU contracts: most are renewed for two years, some are let go.
     for (const member of next.staffRoster[clubId] ?? []) {
       const e = next.staffEmployment[member.id];

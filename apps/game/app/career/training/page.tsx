@@ -1,5 +1,6 @@
 "use client";
 import { DAY_TYPE_LABEL, SESSION_TYPE_LABEL } from '@/lib/training/labels';
+import AssistantTrainingPanel from "@/components/manager/AssistantTrainingPanel";
 import TrainingFeedback from '@/components/manager/TrainingFeedback';
 import Link from "next/link";
 import { clubColorVars, MatchHero, PlayerCell } from "@/components/game/Identity";
@@ -146,6 +147,7 @@ function Training() {
         {nextMatch && <MatchHero career={career} fixture={nextMatch} context="Veckan byggs runt matchen" compact />}
       </div>
       <TrainingFeedback />
+      <AssistantTrainingPanel weekStart={weekStart} />
       <div className="hm-panel hm-training-planner">
         <div className="hm-panel-header" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, flexWrap: "wrap" }}>
           <span className="hm-panel-title">Veckoschema — {weekStart}</span>

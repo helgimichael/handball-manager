@@ -39,14 +39,16 @@ test("monthly confidence moves at most eight points toward an explained target",
   assert.ok(next.board!.factors.some((f) => f.label.includes("ekonomisk kris") && f.points < 0));
 });
 
-test("after two warnings a confidence below the line means dismissal, explained, with offers and a blocked Continue", () => {
+test("after two warnings a confidence below the line means dismissal, explained, with offers and a calendar that keeps running", () => {
   let s = ensureManagerCareer(ensureBoard(career(), "2026-09-15"));
   s = { ...s, board: { ...s.board!, confidence: 4, warnings: 2, pressureStage: "CRITICAL" }, clubFinances: { ...s.clubFinances, [SKOVDE]: { ...s.clubFinances![SKOVDE]!, status: "CRISIS" } } };
   const { events, emit } = collect();
   const next = progressBoard(s, "2026-10-01", emit, (x, reason) => dismissManager(x, "2026-10-01", reason, emit));
   assert.ok(next.board!.confidence < DISMISSAL_LINE);
   assert.equal(next.managerCareer!.seekingJob?.reason, "DISMISSED");
-  assert.ok(events.some((e) => e.requiresAction && e.type === "MANAGER_CAREER"), "Continue waits for a new club");
+  // HM-M7D: the dismissal is important news, but the calendar no longer freezes while he looks for a job.
+  assert.ok(events.some((e) => e.priority === "IMPORTANT" && e.type === "MANAGER_CAREER" && e.id.startsWith("MANAGER_CAREER:dismissed:")), "the dismissal stops Continue once as important news");
+  assert.ok(!events.some((e) => e.requiresAction), "nothing blocks Continue while unemployed");
   assert.ok(next.board!.meetings.some((m) => m.kind === "DISMISSAL" && m.summary.includes("varningar")));
   assert.ok(openOffers({ ...next, gameDate: "2026-10-01" }).length >= 2, "a sacked manager is never stranded");
   assert.equal(next.managerCareer!.stints.at(-1)!.leftReason, "DISMISSED");
