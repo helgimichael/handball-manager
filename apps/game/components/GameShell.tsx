@@ -12,6 +12,9 @@ import NavIcon, { type NavIconName } from "./NavIcon";
 import ContinueProcessingOverlay, { type ProcessingDay } from "./ContinueProcessingOverlay";
 import { useCareer } from "@/lib/career/CareerContext";
 import { getCareerClub } from "@/lib/career/careerWorld";
+import { activeClubVisualIdentity, clubIdentityStyle } from "@/lib/career/activeClubIdentity";
+import { ClubIdentityTags } from "./game/ClubIdentityTags";
+import type { CSSProperties } from "react";
 import { getNextEventDate } from "@/lib/career/calendar";
 import { addDays, formatGameDate } from "@/lib/career/dateUtils";
 import { CAREER_NAV_ITEMS, resolveActiveNavId } from "@/lib/career/navigation";
@@ -67,6 +70,10 @@ export default function GameShell({ children }: { children: ReactNode }) {
   const editorEnabled = useEditorEnabled();
   const nav = useNav(unread, editorEnabled);
   const club = getCareerClub(career);
+  // Club Identity C5: the whole experience follows the club the manager actually leads (clubless: orange).
+  const identity = activeClubVisualIdentity(career);
+  const { style: identityStyle, dataIdentity } = clubIdentityStyle(identity);
+  const clubless = identity.kind === "clubless";
   const competitionName = COMPETITIONS.find((c) => c.id === career.competitionId)?.name ?? "Ligan";
   const nextEventDate = getNextEventDate(career);
   const activeNavId = resolveActiveNavId(pathname);
@@ -164,16 +171,17 @@ export default function GameShell({ children }: { children: ReactNode }) {
   }, [processing, router, setNotice, setProcessing]);
 
   return (
-    <div className="hm-shell" data-game-state={career.productionMatch ? 'live' : career.seasonComplete ? 'season-complete' : career.fixtures.some(f => f.date===career.gameDate && !career.results[f.id] && (f.homeClubId===career.playerClubId || f.awayClubId===career.playerClubId)) ? 'matchday' : 'season'}>
+    <div className="hm-shell" data-club-identity={dataIdentity} style={identityStyle as CSSProperties} data-game-state={career.productionMatch ? 'live' : career.seasonComplete ? 'season-complete' : career.fixtures.some(f => f.date===career.gameDate && !career.results[f.id] && (f.homeClubId===career.playerClubId || f.awayClubId===career.playerClubId)) ? 'matchday' : 'season'}>
       <a href="#manager-content" className="hm-skip-link">Till innehållet</a>
       {navOpen && <div className="hm-nav-scrim" aria-hidden="true" onClick={() => setNavOpen(false)} />}
       <aside className="hm-sidebar" id="hm-sidebar" data-open={navOpen}>
         <Link href="/career" className="hm-wordmark"><span className="hm-monogram">HM</span><span>HANDBALL<br /><strong>MANAGER</strong></span></Link>
         <div className="hm-club-badge">
-          <ClubCrest shortName={club.shortName} primaryColor={club.primaryColor} clubId={club.id} size={64} />
+          {clubless ? <span className="hm-clubless-mark" aria-hidden="true">HM</span> : <ClubCrest shortName={club.shortName} primaryColor={club.primaryColor} clubId={club.id} size={64} />}
           <div>
-            <div className="hm-club-name">{club.name}</div>
-            <div className="hm-club-sub">{competitionName}</div>
+            <div className="hm-club-name">{clubless ? "Utan klubb" : club.name}</div>
+            <div className="hm-club-sub">{clubless ? `Tidigare ${club.shortName}` : competitionName}</div>
+            {!clubless && <ClubIdentityTags clubId={club.id} seasonId={career.seasonId} compact />}
           </div>
         </div>
         <div className="hm-nav-group">

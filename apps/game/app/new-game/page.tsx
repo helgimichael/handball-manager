@@ -13,6 +13,7 @@ import { setActiveSaveId } from "@/lib/save/saveRepository";
 import { createNewCareerSave } from '@/lib/career/careerInitialization';
 import ClubCrest, { CrestPlaceholderNote } from "@/components/ClubCrest";
 import { resolveClubIdentity } from "@/components/crests/clubIdentity";
+import { ClubIdentityTags } from "@/components/game/ClubIdentityTags";
 import CareerEntryFrame from "@/components/game/CareerEntryFrame";
 import { formatGameDate } from "@/lib/career/dateUtils";
 import { PRESEASON_START_OPTIONS, computeCareerStartDate, resolveLeagueKickoffDate, type PreseasonStartOption } from "@/lib/career/preseason";
@@ -207,6 +208,7 @@ export default function NewGamePage() {
                         <ClubCrest shortName={club.shortName} primaryColor={club.primaryColor} clubId={club.id} size={48} />
                         <span>
                           <strong className="career-choice-name">{club.name}</strong>
+                          <ClubIdentityTags clubId={club.id} compact />
                           <small>{COMPETITIONS.find(c => c.id === club.competitionId)?.name}</small>
                           {club.city && <small>{club.city}{club.venue ? ` · ${club.venue}` : ""}</small>}
                           {identity.heritageTag && <small className="hm-text-muted">{identity.heritageTag}</small>}

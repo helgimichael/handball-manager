@@ -1,6 +1,6 @@
 # HM Experience 2027 — Clubs with Missing or Ambiguous Shirt Colours
 
-> 97 of 202 clubs need further evidence or review (generated). Owner decisions 2026-11-14 are applied:
+> 99 of 204 clubs need further evidence or review (generated). Owner decisions 2026-11-14 are applied:
 - Unknown kits use the **default orange fallback** `#ff7a1a`. This is temporary, labelled as a fallback, and the status stays UNKNOWN.
 - Black/white shirts use **Ice Silver** `#d7e1ee` (decided, not a review item).
 - Uncertain kits derive from the best evidence and are flagged.
@@ -28,10 +28,12 @@ No colour has been invented to fill a gap. To resolve: add evidence to `club-ide
 | `se_club_hp_warta` | HP Warta | SE-3 Division 1 | PROBABLE | `#d7e1ee` | No home-match photo; white-home inferred from a club home-match poster while team photo and all match photos show black. |
 | `se_club_if_kristianstad` | IF Kristianstad | SE-3 Division 1 | PROBABLE | `#f06002` | Press photos only (no official IF team image), though one is a confirmed home match. |
 | `den1-grindsted` | Grindsted GIF | International / world pool | UNCERTAIN | `#4694ff` | No image of the men's A-team home shirt could be seen; text evidence only. |
-| `den1-skanderborg` | Skanderborg Aarhus | International / world pool | PROBABLE | `#d7e1ee` | Unclear whether white or navy should count as primary; home/away not confirmed by a match photo. |
+| `den1-skanderborg` | Skanderborg AGF Håndbold | International / world pool | PROBABLE | `#d7e1ee` | Unclear whether white or navy should count as primary; home/away not confirmed by a match photo. |
 | `den1-sonderjyske` | SønderjyskE Håndbold | International / world pool | UNCERTAIN | `#029feb` | No image of the men's A-team home shirt could be seen; text evidence only. |
 | `den1-tms` | TMS Ringsted | International / world pool | VERIFIED | `#18d9cf` | secondary: measured #1E1D23 inconsistent with documented "navy" → palette value kept |
-| `ger1-hamburg` | HSV Hamburg | International / world pool | PROBABLE | `#ff4161` | 2026/27 kit not seen; small image. |
+| `den1-kif-kolding` | KIF Kolding | International / world pool | NOT_RESEARCHED | `#ff7a1a` | status NOT_RESEARCHED |
+| `ger1-hamburg` | Handball Club Hamburg | International / world pool | PROBABLE | `#ff4161` | 2026/27 kit not seen; small image. |
+| `ger1-bietigheim` | SG BBM Bietigheim | International / world pool | NOT_RESEARCHED | `#ff7a1a` | status NOT_RESEARCHED |
 | `nor1-oif` | ØIF Arendal | International / world pool | PROBABLE | `#d7e1ee` | Only an away-game, out-of-focus photo; home kit not confirmed with an ØIF home image. |
 | `nor1-bodo` | Bodø HK | International / world pool | PROBABLE | `#668dfe` | Newest image is from 2024/25; no 2026/27 kit image found. |
 | `nor1-halden` | Halden Topphåndball | International / world pool | PROBABLE | `#d7e1ee` | Team photo only; home match kit not confirmed. |
@@ -39,21 +41,21 @@ No colour has been invented to fill a gap. To resolve: add evidence to `club-ide
 | `nor2-nordstrand` | Nordstrand IF | International / world pool | PROBABLE | `#d7e1ee` | Team photo only; no match photo. |
 | `nor2-sandnes` | Sandnes HK | International / world pool | UNCERTAIN | `#3c96fe` | Conflict: blue match shirt (homepage) vs black team photo 26/27; home kit undetermined. |
 | `nor2-vestli` | Vestli IL | International / world pool | UNCERTAIN | `#41e77c` | Text evidence only (no image seen); status capped at UNCERTAIN. |
-| `ger2-dessau` | SC DHfK Dessau | International / world pool | VERIFIED | `#4894ff` | Name/identity mismatch (SC DHfK Leipzig vs Dessau-Roßlauer HV 06) needs owner decision. |
-| `ger2-wilhelmshaven` | TV Bittenfeld | International / world pool | PROBABLE | `#d7e1ee` | Undated photo; identity mismatch (id wilhelmshaven vs TV Bittenfeld) needs owner decision. |
+| `ger2-dessau` | Dessau-Roßlauer HV 06 | International / world pool | VERIFIED | `#4894ff` | Name/identity mismatch (SC DHfK Leipzig vs Dessau-Roßlauer HV 06) needs owner decision. |
+| `ger2-wilhelmshaven` | TV Bittenfeld | International / world pool | RETIRED | `#ff7a1a` | retired tombstone: F05: duplicate identity of ger1-stuttgart (TV Bittenfeld is TVB Stuttgart's origin association); id text names Wilhelmshavener HV (3. Liga). Kept for saves and history only. Replacement club awaits owner decision D3. |
 | `den2-aarhus` | Aarhus Håndbold Herrer | International / world pool | PROBABLE | `#ff3780` | Headshot only; home/away status of the maroon shirt not confirmed by a match photo. |
 | `den2-fif` | FIF Håndbold | International / world pool | UNCERTAIN | `#d7e1ee` | No men's image; city mismatch (Fredensborg vs Frederiksberg). |
 | `den2-norddjurs` | Norddjurs Håndbold | International / world pool | PROBABLE | `#fe4845` | Player cards only; no match photo. |
 | `esp1-anaitasuna` | Bidasoa Irun | International / world pool | VERIFIED | `#ffd337` | ID/name mismatch (anaitasuna vs Bidasoa Irun) needs owner decision. |
 | `esp1-logrono` | Ademar León | International / world pool | VERIFIED | `#d7e1ee` | ID/name mismatch (logrono vs Ademar León) needs owner decision. |
-| `esp1-alicante` | Helvetia Anaitasuna | International / world pool | UNCERTAIN | `#41e77c` | Text evidence only (no image seen); status capped at UNCERTAIN. |
+| `esp1-alicante` | SCDR Anaitasuna | International / world pool | UNCERTAIN | `#41e77c` | Text evidence only (no image seen); status capped at UNCERTAIN. |
 | `esp2-cisne` | Cisne Balonmano | International / world pool | UNCERTAIN | `#d7e1ee` | Text evidence only (no image seen); status capped at UNCERTAIN. |
 | `esp2-cordoba` | BM Córdoba | International / world pool | UNKNOWN | `#ff7a1a` | No reliable evidence; needs manual source. |
 | `esp2-huesca` | BM Huesca | International / world pool | PROBABLE | `#fe493b` | Team photo only, season not stated. |
 | `esp2-teucro` | Teucro Pontevedra | International / world pool | UNCERTAIN | `#4694ff` | Text evidence only (no image seen); status capped at UNCERTAIN. |
-| `hun1-gyor` | Grundfos Tatabánya | International / world pool | VERIFIED | `#5193fd` | ID/name mismatch (gyor vs Tatabánya) needs owner decision. |
+| `hun1-gyor` | Tatabánya KC | International / world pool | VERIFIED | `#5193fd` | ID/name mismatch (gyor vs Tatabánya) needs owner decision. |
 | `hun2-cegled` | Ceglédi KKSE | International / world pool | UNCERTAIN | `#ffd32e` | Text evidence only (no image seen); status capped at UNCERTAIN. |
-| `hun2-eger` | Egri Spartacus | International / world pool | UNCERTAIN | `#ffd32e` | Text evidence only (no image seen); status capped at UNCERTAIN. |
+| `hun2-eger` | Eger-Eszterházy SzSE | International / world pool | UNCERTAIN | `#ffd32e` | Text evidence only (no image seen); status capped at UNCERTAIN. |
 | `hun2-komlo` | Komlói Bányász | International / world pool | UNCERTAIN | `#4694ff` | Text evidence only (no image seen); status capped at UNCERTAIN. |
 | `svn1-celje` | RK Celje | International / world pool | UNCERTAIN | `#eedb38` | Conflicting home kits (yellow-green vs off-white/gold; plus blue in EHF photo). |
 | `svn1-trimo` | RK Trimo Trebnje | International / world pool | UNCERTAIN | `#5791fd` | Home kit not seen; only an away-match photo. |

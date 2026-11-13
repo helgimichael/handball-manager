@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-13T16:33:10.083Z",
+ "generated": "2026-11-13T17:36:41.609Z",
  "method": "see HM-EXPERIENCE-2027-CLUB-KIT-AUDIT.md",
  "standardPalette": {
   "white": "#FFFFFF",
@@ -133,12 +133,20 @@
    "notes": "Club domains ahk.nu / alingsashk.se failed; club runs on alingsashk.myclub.se. No in-game home match photo of the men found; home evidence is the official home-match promo banner. Women's team photo on the same site shows a blue Kempa home shirt too. Do not use the white kit seen in the Skövde reports.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#c8102e",
-    "secondary": "#111318"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "Home colour from an official, colour-graded promo banner rather than a live match photo; hex approximate."
-   ]
+   ],
+   "canonicalId": "se_club_alingsas_hk",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_club_amo_hk",
@@ -231,10 +239,18 @@
    "notes": "Team photo shirts carry a one-off moustache (Movember) print; base colour royal blue is consistent with the regular-shirt promo. Shorts are dark navy, not black as Wikipedia states.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#0b6e4f",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "se_club_amo_hk",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_club_hammarby_if_hf",
@@ -337,10 +353,18 @@
    "notes": "Prior description said 'thin white pinstripes'; the zoom shows broad green/white stripes of similar width. Arena lighting is dim so the measured green is darker than the true brand green.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#0a7a3d",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "se_club_hammarby_if_hf",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_club_hf_karlskrona",
@@ -439,12 +463,20 @@
    "notes": "No live home match photo found; evidence is official kit launch plus men's team photo. Yellow/gold confirmed on the home shirt (resolves prior 'yellow only from club colours' doubt).",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#e2b13c",
-    "secondary": "#111318"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "No in-match home photo; based on official kit launch image and tinted team photo."
-   ]
+   ],
+   "canonicalId": "se_club_hf_karlskrona",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_club_hk_malmo",
@@ -555,10 +587,18 @@
    "notes": "Hero photo undated (staff wear 'SM-final' shirts, likely 2025/26 playoffs). Red is darkened by arena light.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#1e3a8a",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "se_club_hk_malmo",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_club_if_hallby_hk",
@@ -648,10 +688,18 @@
    "notes": "Club domain is hallbyhandboll.se (ifhallby.se failed).",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#111318",
-    "secondary": "#e2b13c"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "se_club_if_hallby_hk",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_club_ifk_kristianstad",
@@ -747,10 +795,18 @@
    "notes": "Shorts appear white (measured slightly blue-tinted).",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#1e3a8a",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "se_club_ifk_kristianstad",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_club_ifk_skovde_hk",
@@ -848,10 +904,18 @@
    "notes": "Change from prior: shirt is navy, not mid/royal blue. Club domain ifkskovdehandboll.com (ifkskovde.se is the football club).",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#1e3a8a",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "se_club_ifk_skovde_hk",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_club_ik_savehof",
@@ -955,10 +1019,18 @@
    "notes": "Sävehof also wore yellow away at Önnered (Mar 2026 report), so yellow is the standard shirt. Cookie banner had only an accept button; not clicked.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#111318",
-    "secondary": "#e2b13c"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "se_club_ik_savehof",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_club_lugi_hf",
@@ -1056,10 +1128,18 @@
    "notes": "Away kit white. Black secondary from shoulders/sleeves.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#111318",
-    "secondary": "#e2b13c"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "se_club_lugi_hf",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_club_ov_helsingborg",
@@ -1165,12 +1245,20 @@
    "notes": "Change from prior: trim is red, not white. No live match photo found; evidence is official studio promo photos (graded green background).",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#c8102e",
-    "secondary": "#111318"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "Studio promo photos only; no in-match home photo."
-   ]
+   ],
+   "canonicalId": "se_club_ov_helsingborg",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_club_skanela_if",
@@ -1265,12 +1353,20 @@
    "notes": "Club site is skanela.se (skanelaif.se failed). The news thumbnail for the 11 Nov away loss at Ystad also shows red-shirted Skånela players. Team photo undated but on the current squad page.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#0b6e4f",
-    "secondary": "#111318"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "Official squad photo, no dated home match photo."
-   ]
+   ],
+   "canonicalId": "se_club_skanela_if",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_club_ystads_if_hf",
@@ -1374,10 +1470,18 @@
    "notes": "White primary. Yellow club colour not seen on the shirt; blue is the only real accent. For a neon UI accent use blue.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#111318",
-    "secondary": "#e2b13c"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "se_club_ystads_if_hf",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_club_onnereds_hk",
@@ -1472,12 +1576,20 @@
    "notes": "Herr news and gallery pages are empty; no live match photo found. Shorts not visible, so the prior 'black shorts' is not confirmed. Promo is graded; green is a slightly teal green.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#0b6e4f",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "Home colour from official promo cutouts, not a live match photo; shorts unconfirmed."
-   ]
+   ],
+   "canonicalId": "se_club_onnereds_hk",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "swe2-aranas",
@@ -1591,10 +1703,18 @@
    "notes": "This reverses the prior PROBABLE white (from Wikipedia and youth data). In the 2026/27 season the men's home shirt is navy, shown in two official home-match photos plus the official squad photo. White with blue probably remains a club or alternative kit, and the homepage thumbnail suggests other teams use white, but the women's kit was not confirmed.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#1e3a8a",
-    "secondary": "#e2b13c"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "swe2-aranas",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "swe2-drott",
@@ -1685,10 +1805,18 @@
    "notes": "Consistent with the prior result. The red accent is now visually confirmed on the home shirt itself (collar, side panel, cuffs), not just as the textfärg. Away kit not observed this session.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#c8102e",
-    "secondary": "#111318"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "swe2-drott",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "swe2-guif",
@@ -1786,10 +1914,18 @@
    "notes": "Club match photo of the men's team plus the official 2026/27 home-shirt product agree on red with dark-red trim. The shorts are dark red/maroon in the match photo, not black as in sv-wiki. The match photo is not from 2026/27 (different sponsors).",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#c8102e",
-    "secondary": "#111318"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "se-eskilstuna-guif",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "swe2-h43lund",
@@ -1879,12 +2015,20 @@
    "notes": "h43.se does not resolve; the official site is h43lund.se. The Herrar A and Herrtruppen pages have no photos, the shop page is empty, and news posts are graphics only (e.g. the Svenska Cupen derby poster). No men's A-team match photo was found. Every visual source shows blue, so blue is consistent with the sv-wiki prior.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#1e3a8a",
-    "secondary": "#e2b13c"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "No men's A-team match or squad photo; colour from the club's blue-graded composite artwork only."
-   ]
+   ],
+   "canonicalId": "swe2-h43lund",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "swe2-huddinge",
@@ -1967,10 +2111,18 @@
    "notes": "Blue confirms the prior; measured royal-blue rather than navy. The derby news item had a graphic poster only.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#0b6e4f",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "swe2-huddinge",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "swe2-kroppskultur",
@@ -2060,10 +2212,18 @@
    "notes": "The official site is kroppskultur.com (the laget.se link is dead). The measured hue is teal-leaning (#1D7F77, hue ~175°). The studio photo on a white backdrop seems to have a cyan cast; the Kungälv squad photo, in the same style, shifts the same way. Shirt colour reads as green, and the club colour is #0D8548. The men's Bildgalleri is empty.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#111318",
-    "secondary": "#c8102e"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "swe2-kroppskultur",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "swe2-kungalv",
@@ -2149,10 +2309,18 @@
    "notes": "The official site is kungalvhk.se (khk.se is Karlskrona's hockey club). Green with black shorts confirms the prior. The studio photo has a slight cyan cast; a shadowed area measures #219770, a brighter area #3EBD99.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#c8102e",
-    "secondary": "#111318"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "swe2-kungalv",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "swe2-redbergslid",
@@ -2256,10 +2424,18 @@
    "notes": "The 2026/27 match photo is from an away game, but Ystad plays in red. RIK also wore white at Aranäs (Aranäs in navy). Together with the official squad photo, this confirms white as the first-choice shirt. Blue is now confirmed on the shirt itself.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#111318",
-    "secondary": "#e2b13c"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "swe2-redbergslid",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "swe2-torslanda",
@@ -2346,12 +2522,20 @@
    "notes": "No current club website was found (hktorslanda.se/.com and torslandahk.se do not resolve; the sportadmin subdomains redirect away). Youth teams register blue/blue at Partille Cup. White/blue at Aranäs shows the away or change kit only. The home shirt could be blue or red/blue, but nothing confirms either.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#0b6e4f",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "Home shirt never observed; only an away white/blue kit and the red/blue crest are documented."
-   ]
+   ],
+   "canonicalId": "swe2-torslanda",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "swe2-tumba",
@@ -2446,10 +2630,18 @@
    "notes": "The men's A-team page has the squad photo the prior lacked, which upgrades the result from PROBABLE. Men's match reports use graphic headers, not photos. The shirt is blue, not navy, and the crest is navier than the shirt.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#1e3a8a",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "swe2-tumba",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "swe2-tyreso",
@@ -2555,10 +2747,18 @@
    "notes": "This reverses the prior UNCERTAIN black, which came from a Lännasport shop listing only. The black Squadra 25 'Matchtröja Herr' is probably an away or alternative kit. Wikipedia's red/yellow was right.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#1e3a8a",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "swe2-tyreso",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "swe2-varberg",
@@ -2648,12 +2848,20 @@
    "notes": "The official site is hkvarberg.myclub.se. No 2026/27 men's photo was found: the press and squad pages are text, and match posters are graphics. Green confirms the prior (youth green/green), and the shade is dark green. The hex is from a small thumbnail and is teal-leaning.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#111318",
-    "secondary": "#c8102e"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "Only a January 2024 thumbnail of a men's player; no current-season men's image."
-   ]
+   ],
+   "canonicalId": "swe2-varberg",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "swe2-vasterasirsta",
@@ -2753,10 +2961,18 @@
    "notes": "This reverses the prior white ('vitsvart' came from a women's-team post). The men's 2026/27 first kit in the official squad photo and on the home-match promotion is black with white. Red appears only in small sponsor logos and the goalkeeper kit, so it is not a shirt accent. The women's kit was not checked.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#1e3a8a",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "swe2-vasterasirsta",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "swe2-ystad2",
@@ -2849,10 +3065,18 @@
    "notes": "Red/black confirms the prior; the black is on the sleeves and yoke rather than only the shorts.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#1e3a8a",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "swe2-ystad2",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_club_bodens_bk_hf",
@@ -2945,10 +3169,18 @@
    "notes": "This replaces the prior inference from the football section with handball-specific evidence. Bodens BK HF is the handball section of Bodens BK, separate from Boden Handboll IF. The photo was posted in Oct 2026, but the match it shows is not named, so the exact photo date is unknown. Measured hex is darker than the shirt looks because of indoor lighting.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#1e3a8a",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "se_club_bodens_bk_hf",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_club_enkopings_hf",
@@ -3045,10 +3277,18 @@
    "notes": "The 'Dam A' news thumbnails also show red shirts. The away kit is white with red shoulders and black shorts. The posters are studio media-day photos, not in-match photos, but they are official and labelled as men's home matches. The colour of the men's home shorts was not visible.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#c8102e",
-    "secondary": "#111318"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "se_club_enkopings_hf",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_club_hk_cliff",
@@ -3146,12 +3386,24 @@
    "notes": "The best evidence is a photo on an opponent's official site, not Cliff's own channels, from the 2025/26 season. hkcliff.se's 'Seniorlag Herrar' page covers HK Cliff Blå (division 4 opponents). The Division 1 team is confirmed by the Täby HBK vs HK Cliff match on 17 Oct 2026 and Lindesberg's fixture list, but I found no Cliff A-team page. A scoreboard photo (Skuru vs Cliff) shows Cliff's team colour bar in yellow. Measured hex reads amber because of the lighting; visually the shirt is yellow.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#0a7a3d",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "Evidence is an opponent's photo from 2025/26. No 2026/27 Cliff A-team home photo was found on Cliff channels."
-   ]
+   ],
+   "canonicalId": "se-hk-cliff",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "U_TEAM",
+   "relation": {
+    "kind": "U_TEAM_UNDER_PARTNER_LICENCE",
+    "parentClubId": "se_club_hammarby_if_hf",
+    "confidence": "FULL"
+   },
+   "parentClubId": "se_club_hammarby_if_hf",
+   "relationLabel": "Hammarby U · HK Cliffs licens",
+   "retiredKitResearch": null
   },
   {
    "id": "se_club_hk_eskil",
@@ -3244,10 +3496,18 @@
    "notes": "This confirms the prior from Wikipedia. Primary hex comes from the well-lit 2026 team photo.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#111318",
-    "secondary": "#e2b13c"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "se_club_hk_eskil",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_club_ik_bolton",
@@ -3347,12 +3607,20 @@
    "notes": "The club identity is clearly yellow and black, which matches the prior. The only 2026/27 image is an away match (black). The yellow kit appears in an older (2024) indoor photo. I found no Bolton home-match photo from 2025–26. The yellow measured amber because of warm light.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#1e3a8a",
-    "secondary": "#e2b13c"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "Yellow vs black first-choice home shirt unresolved; need a Bolton home-match photo from 2026/27."
-   ]
+   ],
+   "canonicalId": "se_club_ik_bolton",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_club_lif_lindesberg",
@@ -3457,10 +3725,18 @@
    "notes": "This confirms the prior. Measured orange runs from #C75A2E to #F27944 depending on light; #E1562A is a well-lit sample from the home arena.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#c8102e",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "se_club_lif_lindesberg",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_club_rp_if_linkoping",
@@ -3564,10 +3840,18 @@
    "notes": "The prior was UNKNOWN; this is new. The team-photo season is not labelled; the home-match collage is from 2025/26. Many sponsors appear on the shirt (Botrygg, Maxi).",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#0b6e4f",
-    "secondary": "#111318"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "se_club_rp_if_linkoping",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_club_rimbo_hk_roslagen",
@@ -3657,10 +3941,18 @@
    "notes": "This confirms the prior's layout (body with black sleeves). Pixel hue is about 175–178°, so the measured colour is teal or sea-green rather than pure green, though it reads as emerald green at a glance. Choose between 'green' and 'teal' for the neon. Second kit (yellow per Wikipedia) not seen. The pink shirt is a one-match special.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#111318",
-    "secondary": "#c8102e"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "se_club_rimbo_hk_roslagen",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_club_sannadals_sk",
@@ -3750,10 +4042,18 @@
    "notes": "This confirms the prior. Away kit seen at HK Eskil (Feb 2026) is white with maroon. Measured red is darker than it looks under hall lighting (#7F1D23–#A62C30).",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#1e3a8a",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "se_club_sannadals_sk",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_club_taby_hbk",
@@ -3843,12 +4143,20 @@
    "notes": "This confirms the prior (red/blue). No in-match photo was checked, but the official season squad photo is labelled 2026-2027. The shorts are dark navy rather than bright blue.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#0b6e4f",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "secondary: measured #2A2836 inconsistent with documented \"navy\" → palette value kept"
-   ]
+   ],
+   "canonicalId": "se_club_taby_hbk",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_club_uppsala_hk",
@@ -3931,12 +4239,20 @@
    "notes": "The prior had blue plus an orange second kit; orange was not seen. The shirt looks royal-blue, but measures darker (#0B1D45–#162C57) because the photo is underexposed. The Rimbo photo shows an opponent in a white hummel shirt with a blue crest that could be Uppsala HK's away kit (unconfirmed). The club gallery has only 2016–17 albums.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#c8102e",
-    "secondary": "#111318"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "Only a preseason tournament photo from Aug 2025. No home league-match image for 2026/27; measured hex is underexposed."
-   ]
+   ],
+   "canonicalId": "se_club_uppsala_hk",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_club_orebro_sk_hk_herr",
@@ -4039,12 +4355,20 @@
    "notes": "This confirms the prior (white/black). The shirt is monochrome, so the neon still needs a call (crest has red and green). 'Home' is inferred from the crowd. The date of the promo match photo is unknown.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#111318",
-    "secondary": "#e2b13c"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "The home match photo's date and opponent are unconfirmed. The shirt is monochrome, so a neon accent decision is needed."
-   ]
+   ],
+   "canonicalId": "se_club_orebro_sk_hk_herr",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_club_anderstorps_sk",
@@ -4144,10 +4468,18 @@
    "notes": "Prior (orange/black) confirmed. Damer A team photo (Google thumbnail) also orange.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#1e3a8a",
-    "secondary": "#e2b13c"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "se_club_anderstorps_sk",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_club_eslovs_hk",
@@ -4252,10 +4584,18 @@
    "notes": "Prior black confirmed. The hexagon print makes the shirt read dark grey/charcoal; any neon accent should come from crest green/yellow or ice-silver, not the shirt. No match photo found; club gallery empty; skd.se kit article text does not describe colours.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#c8102e",
-    "secondary": "#111318"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "se_club_eslovs_hk",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_club_hk_country",
@@ -4348,10 +4688,18 @@
    "notes": "Prior confirmed. White change kit not observed.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#0b6e4f",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "se_club_hk_country",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_club_hk_s_hof",
@@ -4458,12 +4806,24 @@
    "notes": "Evidence is of S-hof itself (not parent inheritance), but no home-match photo was found; yellow appears as the main kit (used vs green Kungälv and in club graphics), black as change kit. Kärra's report of S-hof-Kärra in Partille Arena (2026-11-05) had no photo of S-hof.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#111318",
-    "secondary": "#e2b13c"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "No home-match image; yellow vs black first choice inferred from away games and a club graphic."
-   ]
+   ],
+   "canonicalId": "se-hk-s-hof",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "SECOND_TEAM",
+   "relation": {
+    "kind": "SECOND_TEAM",
+    "parentClubId": "se_club_ik_savehof",
+    "confidence": "PROBABLE"
+   },
+   "parentClubId": "se_club_ik_savehof",
+   "relationLabel": "Sävehofs andralag",
+   "retiredKitResearch": null
   },
   {
    "id": "se_club_hk_onnerediterna",
@@ -4556,13 +4916,25 @@
    "notes": "No Herr 1 match photo found. Measured colour is teal-green (#1CA994, studio lighting); parent Önnereds HK green may differ in shade. Team photo is labelled P18, so this is the youth/U squad behind Önnerediterna, not a dedicated Herr 1 photo.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#0b6e4f",
-    "secondary": "#111318"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "Only a P18/U-squad team photo on the Önnerediterna page; no Herr 1 match image. Shade green vs teal to confirm.",
     "QA: best evidence shows the youth team, not the men's A-team → capped at UNCERTAIN (was PROBABLE)"
-   ]
+   ],
+   "canonicalId": "se-hk-onnerediterna",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "SECOND_TEAM",
+   "relation": {
+    "kind": "SECOND_TEAM_UNDER_PARTNER_ASSOCIATION",
+    "parentClubId": "se_club_onnereds_hk",
+    "confidence": "FULL"
+   },
+   "parentClubId": "se_club_onnereds_hk",
+   "relationLabel": "Önnereds andralag",
+   "retiredKitResearch": null
   },
   {
    "id": "se_club_hp_alingsas",
@@ -4664,12 +5036,24 @@
    "notes": "Evidence shows HP Alingsås itself, not parent inheritance. No official club image; 2024 article date may be a re-publish.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#c8102e",
-    "secondary": "#111318"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "Press photos only, one older (2023/24); no official current-season image."
-   ]
+   ],
+   "canonicalId": "se-hp-alingsas",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "SECOND_TEAM",
+   "relation": {
+    "kind": "SECOND_TEAM",
+    "parentClubId": "se_club_alingsas_hk",
+    "confidence": "FULL"
+   },
+   "parentClubId": "se_club_alingsas_hk",
+   "relationLabel": "Alingsåss andralag",
+   "retiredKitResearch": null
   },
   {
    "id": "se_club_hp_warta",
@@ -4788,12 +5172,20 @@
    "notes": "Black is clearly worn away and in the team photo; white appears in the club's home-match promotion and matches sv Wikipedia (white home). Prior conflict narrowed, but no photo of an actual home match found. White measured from a stylised poster (shaded).",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#1e3a8a",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "No home-match photo; white-home inferred from a club home-match poster while team photo and all match photos show black."
-   ]
+   ],
+   "canonicalId": "se_club_hp_warta",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_club_if_kristianstad",
@@ -4898,12 +5290,24 @@
    "notes": "Images are of IF Kristianstad itself; colour matches parent IFK orange. Orange measured in good light #F04F0B.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#111318",
-    "secondary": "#c8102e"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "Press photos only (no official IF team image), though one is a confirmed home match."
-   ]
+   ],
+   "canonicalId": "se-if-kristianstad",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "PARTNER_ASSOCIATION",
+   "relation": {
+    "kind": "PARTNER_ASSOCIATION_WITH_SHARED_PLAYERS",
+    "parentClubId": "se_club_ifk_kristianstad",
+    "confidence": "PARTIAL"
+   },
+   "parentClubId": "se_club_ifk_kristianstad",
+   "relationLabel": "Samarbetsklubb till Kristianstad",
+   "retiredKitResearch": null
   },
   {
    "id": "se_club_ik_lagan",
@@ -4996,10 +5400,18 @@
    "notes": "Prior blue/black confirmed.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#0b6e4f",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "se_club_ik_lagan",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_club_karra_hf",
@@ -5104,10 +5516,18 @@
    "notes": "Prior yellow/black confirmed; women's A-team also yellow.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#1e3a8a",
-    "secondary": "#e2b13c"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "se_club_karra_hf",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_club_vinslovs_hk",
@@ -5210,10 +5630,18 @@
    "notes": "Prior UNKNOWN; now verified yellow/red (the emoji hint was right).",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#c8102e",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "se_club_vinslovs_hk",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_club_ahus_handboll",
@@ -5306,10 +5734,18 @@
    "notes": "Prior UNKNOWN; now blue with red shorts (matches red/blue emoji hint). Team photo season not stated; Instagram 'Matchdag' previews also show blue.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#111318",
-    "secondary": "#e2b13c"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "se_club_ahus_handboll",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "den1-aalborg",
@@ -5397,10 +5833,18 @@
    "notes": "Shorts are red (prior said white). The portrait measures darker than the real red.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#c8102e",
-    "secondary": "#111318"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "den1-aalborg",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "den1-bjerringbro",
@@ -5489,10 +5933,18 @@
    "notes": "The accent changes from white (prior) to yellow, which gives a real colour accent.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#1e3a8a",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "den1-bjerringbro",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "den1-fredericia",
@@ -5575,10 +6027,18 @@
    "notes": "The club site fredericiahk.dk timed out. Photo is from 2025/26.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#111318",
-    "secondary": "#e2b13c"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "den1-fredericia",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "den1-gog",
@@ -5669,10 +6129,18 @@
    "notes": "Matches prior.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#0b6e4f",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "den1-gog",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "den1-grindsted",
@@ -5754,18 +6222,26 @@
    "notes": "text evidence only. Relegated after 2025/26. ggif.dk has a certificate error; no image found. Prior: Only Wikipedia evidence. Club reported relegated after 2025/26.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#c8102e",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "No image of the men's A-team home shirt could be seen; text evidence only."
-   ]
+   ],
+   "canonicalId": "dk-grindsted-gif",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "den1-hoj",
    "name": "HØJ Elite",
    "shortName": "HØJ",
-   "city": "Hjørring",
+   "city": "Ølstykke",
    "tier": "International / world pool",
    "competitionId": "den-1",
    "playable": false,
@@ -5853,10 +6329,18 @@
    "notes": "The women's team wears the same white/red design. The men now play in 1. Division Herrer (relegated); home venue is Ølstykke-hallerne (Zealand), so the batch city Hjørring looks wrong. Identity not changed.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#1b3a6b",
-    "secondary": "#e2b13c"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "dk-hoj-elite",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "den1-morsthy",
@@ -5939,10 +6423,18 @@
    "notes": "The away kit is white (seen in a Skjern home photo).",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#111318",
-    "secondary": "#c8102e"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "den1-morsthy",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "den1-nordsjaelland",
@@ -6032,10 +6524,18 @@
    "notes": "Changes from light-green (prior) to dark-green.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#1e3a8a",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "den1-nordsjaelland",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "den1-ribeesbjerg",
@@ -6118,16 +6618,24 @@
    "notes": "Prior said navy; the shirt looks mid/royal blue. Studio light mutes the measured hex.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#c8102e",
-    "secondary": "#111318"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "den1-ribeesbjerg",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "den1-skanderborg",
-   "name": "Skanderborg Aarhus",
+   "name": "Skanderborg AGF Håndbold",
    "shortName": "Skanderborg AGF",
-   "city": "Aarhus",
+   "city": "Skanderborg",
    "tier": "International / world pool",
    "competitionId": "den-1",
    "playable": false,
@@ -6210,12 +6718,20 @@
    "notes": "Prior said navy shirt. The current shirt is roughly half white, half navy, with white reading as the base. Only one portrait seen; no match photo. Official site is sa-h.dk.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#0b6e4f",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "Unclear whether white or navy should count as primary; home/away not confirmed by a match photo."
-   ]
+   ],
+   "canonicalId": "dk-skanderborg-agf",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "den1-skjern",
@@ -6298,16 +6814,24 @@
    "notes": "Matches prior.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#1e3a8a",
-    "secondary": "#e2b13c"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "den1-skjern",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "den1-sonderjyske",
    "name": "SønderjyskE Håndbold",
    "shortName": "SønderjyskE",
-   "city": "Aabenraa",
+   "city": "Sønderborg",
    "tier": "International / world pool",
    "competitionId": "den-1",
    "playable": false,
@@ -6390,12 +6914,20 @@
    "notes": "text evidence only. Club site not found (soenderjyske.dk is unrelated; the sonderjyske.dk handball path returns 404). Prior: Women's page shows the same kit. Only Wikipedia evidence; search budget ran out before shop check.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#c8102e",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "No image of the men's A-team home shirt could be seen; text evidence only."
-   ]
+   ],
+   "canonicalId": "dk-sonderjyske",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "den1-tms",
@@ -6480,12 +7012,20 @@
    "notes": "Prior said green; the shade is teal/jade (#3C948B).",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#111318",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "secondary: measured #1E1D23 inconsistent with documented \"navy\" → palette value kept"
-   ]
+   ],
+   "canonicalId": "den1-tms",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "den1-tth",
@@ -6568,10 +7108,86 @@
    "notes": "Official site is tthholstebro.dk. Monochrome white/black.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#1e3a8a",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "den1-tth",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
+  },
+  {
+   "id": "den1-kif-kolding",
+   "name": "KIF Kolding",
+   "shortName": "Kolding",
+   "city": "Kolding",
+   "tier": "International / world pool",
+   "competitionId": "den-1",
+   "playable": false,
+   "kit": {
+    "primary": {
+     "hex": null,
+     "name": null,
+     "hexSource": null
+    },
+    "secondary": {
+     "hex": null,
+     "name": null,
+     "hexSource": null
+    },
+    "trim": {
+     "hex": null,
+     "name": null,
+     "hexSource": null
+    },
+    "pattern": "unknown",
+    "description": null,
+    "season": null
+   },
+   "neon": "#ff7a1a",
+   "neonRule": "fallback-orange (unknown kit)",
+   "neonSourceHex": null,
+   "accentBasis": null,
+   "fallback": true,
+   "referenceAccent": null,
+   "contrast": {
+    "neonOnNight": 7.55,
+    "inkOnNeon": 7.35
+   },
+   "status": "NOT_RESEARCHED",
+   "confidence": null,
+   "crestDiffers": null,
+   "crest": null,
+   "evidenceBasis": "none",
+   "team": null,
+   "homeKit": null,
+   "photoDate": null,
+   "womenDiffer": null,
+   "phase": 1,
+   "phase2Attempt": null,
+   "sources": [],
+   "notes": null,
+   "override": null,
+   "gamePlaceholder": {
+    "primary": null,
+    "secondary": null
+   },
+   "reviewReasons": [
+    "status NOT_RESEARCHED"
+   ],
+   "canonicalId": "dk-kif-kolding",
+   "clubStatus": "active",
+   "addedInWorld": "cid-2026-27-v1",
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "ger1-bergischer",
@@ -6661,10 +7277,18 @@
    "notes": "Changes from royal-blue with a white band (old Wikipedia template) to navy. Official site is bhc06.de.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#111318",
-    "secondary": "#c8102e"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "ger1-bergischer",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "ger1-fuchse",
@@ -6752,10 +7376,18 @@
    "notes": "Supplier is now adidas (prior: PUMA 24/25). THW Kiel uses the same image as a match preview.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#c8102e",
-    "secondary": "#111318"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "ger1-fuchse",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "ger1-eisenach",
@@ -6838,10 +7470,18 @@
    "notes": "Matches prior.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#1e3a8a",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "ger1-eisenach",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "ger1-erlangen",
@@ -6927,10 +7567,18 @@
    "notes": "Black confirmed; red appears as the number colour.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#c8102e",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "ger1-erlangen",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "ger1-flensburg",
@@ -7032,10 +7680,18 @@
    "notes": "CHANGE: the prior VERIFIED red (\"chili pepper\", 25/26) is out of date. The 2026/27 home kit is navy.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#1e3a8a",
-    "secondary": "#c8102e"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "ger1-flensburg",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "ger1-goppingen",
@@ -7118,10 +7774,18 @@
    "notes": "Green body now confirmed (prior was uncertain).",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#111318",
-    "secondary": "#e2b13c"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "ger1-goppingen",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "ger1-gummersbach",
@@ -7211,15 +7875,23 @@
    "notes": "Matches prior blue.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#0b6e4f",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "ger1-gummersbach",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "ger1-hamburg",
-   "name": "HSV Hamburg",
-   "shortName": "HSV Hamburg",
+   "name": "Handball Club Hamburg",
+   "shortName": "HC Hamburg",
    "city": "Hamburg",
    "tier": "International / world pool",
    "competitionId": "ger-1",
@@ -7300,12 +7972,20 @@
    "notes": "The club now appears as \"Handball Club Hamburg\" (site hamburg-handball.de; HBL team list). Identity not changed. Only a small 2025/26 image was found.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#1e3a8a",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "2026/27 kit not seen; small image."
-   ]
+   ],
+   "canonicalId": "de-handball-club-hamburg",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "ger1-hannover",
@@ -7393,10 +8073,18 @@
    "notes": "Matches prior.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#111318",
-    "secondary": "#c8102e"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "ger1-hannover",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "ger1-kiel",
@@ -7484,10 +8172,18 @@
    "notes": "This photo is from an away game; white is the long-standing home colour and matches the 25/26 PUMA home listing.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#111318",
-    "secondary": "#c8102e"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "ger1-kiel",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "ger1-leipzig",
@@ -7577,10 +8273,18 @@
    "notes": "The club appears to play in the 2. HBL in 2026/27 (site lists Emsdetten, Coburg, Hüttenberg, Ferndorf). Identity not changed.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#0b6e4f",
-    "secondary": "#111318"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "de-sc-dhfk-leipzig",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "ger1-lemgo",
@@ -7670,10 +8374,18 @@
    "notes": "Matches prior blue; the pinstripes are a new detail.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#1e3a8a",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "ger1-lemgo",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "ger1-magdeburg",
@@ -7764,10 +8476,18 @@
    "notes": "Matches prior green/red.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#c8102e",
-    "secondary": "#111318"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "ger1-magdeburg",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "ger1-melsungen",
@@ -7850,10 +8570,18 @@
    "notes": "Another homepage photo labelled MT2 (second team) was excluded.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#c8102e",
-    "secondary": "#111318"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "ger1-melsungen",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "ger1-minden",
@@ -7936,10 +8664,18 @@
    "notes": "The club plays in the 2. HBL in 2026/27 (site title). Identity not changed. The green is darker than prior.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#0b6e4f",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "de-gwd-minden",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "ger1-rheinneckar",
@@ -8035,10 +8771,18 @@
    "notes": "Promo image, not a match photo; agrees with the prior press source.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#111318",
-    "secondary": "#1e3a8a"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "ger1-rheinneckar",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "ger1-stuttgart",
@@ -8121,10 +8865,18 @@
    "notes": "Blue body confirmed (prior was uncertain). Official site is tvbstuttgart.de.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#c8102e",
-    "secondary": "#111318"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "de-tvb-stuttgart",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "ger1-wetzlar",
@@ -8207,10 +8959,86 @@
    "notes": "Prior PROBABLE dark-green now confirmed visually. Article states Balingen is a promoted HBL side in 2026/27.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#1e3a8a",
-    "secondary": "#e2b13c"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "ger1-wetzlar",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
+  },
+  {
+   "id": "ger1-bietigheim",
+   "name": "SG BBM Bietigheim",
+   "shortName": "Bietigheim",
+   "city": "Bietigheim-Bissingen",
+   "tier": "International / world pool",
+   "competitionId": "ger-1",
+   "playable": false,
+   "kit": {
+    "primary": {
+     "hex": null,
+     "name": null,
+     "hexSource": null
+    },
+    "secondary": {
+     "hex": null,
+     "name": null,
+     "hexSource": null
+    },
+    "trim": {
+     "hex": null,
+     "name": null,
+     "hexSource": null
+    },
+    "pattern": "unknown",
+    "description": null,
+    "season": null
+   },
+   "neon": "#ff7a1a",
+   "neonRule": "fallback-orange (unknown kit)",
+   "neonSourceHex": null,
+   "accentBasis": null,
+   "fallback": true,
+   "referenceAccent": null,
+   "contrast": {
+    "neonOnNight": 7.55,
+    "inkOnNeon": 7.35
+   },
+   "status": "NOT_RESEARCHED",
+   "confidence": null,
+   "crestDiffers": null,
+   "crest": null,
+   "evidenceBasis": "none",
+   "team": null,
+   "homeKit": null,
+   "photoDate": null,
+   "womenDiffer": null,
+   "phase": 1,
+   "phase2Attempt": null,
+   "sources": [],
+   "notes": null,
+   "override": null,
+   "gamePlaceholder": {
+    "primary": null,
+    "secondary": null
+   },
+   "reviewReasons": [
+    "status NOT_RESEARCHED"
+   ],
+   "canonicalId": "de-sg-bbm-bietigheim",
+   "clubStatus": "active",
+   "addedInWorld": "cid-2026-27-v1",
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "nor1-elverum",
@@ -8305,10 +9133,18 @@
    "notes": "Away kit not seen. Goalkeepers light-blue. White primary previously inferred, now confirmed.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#1e3a8a",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "nor1-elverum",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "nor1-kolstad",
@@ -8398,10 +9234,18 @@
    "notes": "Prior had only club colours; red home shirt now visually confirmed.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#c8102e",
-    "secondary": "#111318"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "nor1-kolstad",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "nor1-oif",
@@ -8490,12 +9334,20 @@
    "notes": "Consistent with prior (Wikipedia black/red stripes). Only seen in an away match and out of focus; measured values are blurred.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#0b6e4f",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "Only an away-game, out-of-focus photo; home kit not confirmed with an ØIF home image."
-   ]
+   ],
+   "canonicalId": "nor1-oif",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "nor1-bodo",
@@ -8585,12 +9437,20 @@
    "notes": "Prior said navy/yellow club colours; shirt measured #253569 (between navy and royal) under hall lighting. Stats sources place Bodø in 1. divisjon, not top flight.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#1e3a8a",
-    "secondary": "#e2b13c"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "Newest image is from 2024/25; no 2026/27 kit image found."
-   ]
+   ],
+   "canonicalId": "nor1-bodo",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "nor1-halden",
@@ -8683,12 +9543,20 @@
    "notes": "Previously UNKNOWN. No match photo of outfield players found.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#c8102e",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "Team photo only; home match kit not confirmed."
-   ]
+   ],
+   "canonicalId": "nor1-halden",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "nor1-runar",
@@ -8788,12 +9656,20 @@
    "notes": "Conflict: home matches in white, team photo in black. Two home match photos favour white as first-choice home shirt. Prior black/white club colours.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#111318",
-    "secondary": "#c8102e"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "Team photo shows black kit; confirm whether black is the official home kit."
-   ]
+   ],
+   "canonicalId": "nor1-runar",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "nor2-nordstrand",
@@ -8887,12 +9763,20 @@
    "notes": "Matches prior (white/blue).",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#1e3a8a",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "Team photo only; no match photo."
-   ]
+   ],
+   "canonicalId": "nor2-nordstrand",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "nor2-fjellhammer",
@@ -8987,10 +9871,18 @@
    "notes": "Fjellhammer plays in Elkjøp-ligaen (top flight) 2026/27 although listed as nor-2. Exact match date of the home photo not stated (published Aug 2026).",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#0b6e4f",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "nor2-fjellhammer",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "nor2-sandnes",
@@ -9090,12 +9982,20 @@
    "notes": "Prior said black shirt. A topphandball photo for a Drammen away game at Sandnes showed a green team - probably a file photo of another club, ignored.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#c8102e",
-    "secondary": "#111318"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "Conflict: blue match shirt (homepage) vs black team photo 26/27; home kit undetermined."
-   ]
+   ],
+   "canonicalId": "nor2-sandnes",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "nor2-vestli",
@@ -9184,12 +10084,20 @@
    "notes": "Text evidence only - no men's A-team image seen in phase 2. Multi-sport club page; 2021 merger into Stovner SK excluded the handball section. Kit may be football-derived.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#111318",
-    "secondary": "#e2b13c"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "Text evidence only (no image seen); status capped at UNCERTAIN."
-   ]
+   ],
+   "canonicalId": "nor2-vestli",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "ger2-balingen",
@@ -9272,16 +10180,24 @@
    "notes": "Prior navy with white shoulders; current shirt is royal-blue with pattern. Balingen plays in the HBL (promoted) in 2026/27; id competition ger-2 is outdated. Official site hbw-balingen.de redirected to an unrelated domain and was not used. The HBL consent overlay offered only accept/options and was hidden locally, not accepted.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#1e3a8a",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "de-hbw-balingen",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "ger2-dessau",
-   "name": "SC DHfK Dessau",
+   "name": "Dessau-Roßlauer HV 06",
    "shortName": "Dessau",
-   "city": "Dessau",
+   "city": "Dessau-Roßlau",
    "tier": "International / world pool",
    "competitionId": "ger-2",
    "playable": false,
@@ -9361,12 +10277,20 @@
    "notes": "NAME MISMATCH: record name \"SC DHfK Dessau\" mixes SC DHfK Leipzig (also 2. HBL 2026/27) with Dessau-Roßlauer HV 06. Verified Dessau-Roßlauer HV 06 per city and prior colours; identity unchanged.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#0b6e4f",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "Name/identity mismatch (SC DHfK Leipzig vs Dessau-Roßlauer HV 06) needs owner decision."
-   ]
+   ],
+   "canonicalId": "de-dessau-rosslauer-hv",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "ger2-nordhorn",
@@ -9449,10 +10373,18 @@
    "notes": "Prior said white shoulders and red shorts; current kit has black sides and black shorts.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#c8102e",
-    "secondary": "#111318"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "ger2-nordhorn",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "ger2-wilhelmshaven",
@@ -9464,86 +10396,81 @@
    "playable": false,
    "kit": {
     "primary": {
-     "hex": "#FFFFFF",
-     "name": "white",
-     "hexSource": "standard-palette"
+     "hex": null,
+     "name": null,
+     "hexSource": null
     },
     "secondary": {
-     "hex": "#0D2561",
-     "name": "blue",
-     "hexSource": "measured-photo",
-     "paletteHex": "#0057B8",
-     "measured": "#0D2561",
-     "neonRef": "#2853b9"
+     "hex": null,
+     "name": null,
+     "hexSource": null
     },
     "trim": {
-     "hex": "#0057B8",
-     "name": "blue",
-     "hexSource": "standard-palette"
+     "hex": null,
+     "name": null,
+     "hexSource": null
     },
-    "pattern": "other",
-    "description": "White Hummel shirt with a large blue graphic pattern on the lower body and sides, blue shorts.",
+    "pattern": "unknown",
+    "description": null,
     "season": null
    },
-   "neon": "#d7e1ee",
-   "neonRule": "ice-silver (black/white shirt)",
-   "neonSourceHex": "#FFFFFF",
-   "accentBasis": "home-kit",
-   "fallback": false,
-   "referenceAccent": {
-    "hex": "#2853b9",
-    "basis": "home-kit"
-   },
+   "neon": "#ff7a1a",
+   "neonRule": "fallback-orange (unknown kit)",
+   "neonSourceHex": null,
+   "accentBasis": null,
+   "fallback": true,
+   "referenceAccent": null,
    "contrast": {
-    "neonOnNight": 14.92,
-    "inkOnNeon": 14.51
+    "neonOnNight": 7.55,
+    "inkOnNeon": 7.35
    },
-   "status": "PROBABLE",
-   "confidence": 0.62,
-   "crestDiffers": true,
-   "crest": {
-    "primary": {
-     "hex": "#0057B8",
-     "name": "blue",
-     "hexSource": "standard-palette"
-    },
-    "secondary": {
-     "hex": "#FFFFFF",
-     "name": "white",
-     "hexSource": "standard-palette"
-    },
-    "note": "Blue/white \"TV Bittenfeld 1898\" roundel."
-   },
-   "evidenceBasis": "visual",
-   "team": "men-A",
+   "status": "RETIRED",
+   "confidence": null,
+   "crestDiffers": null,
+   "crest": null,
+   "evidenceBasis": "none",
+   "team": null,
    "homeKit": null,
    "photoDate": null,
    "womenDiffer": null,
-   "phase": 2,
+   "phase": 1,
    "phase2Attempt": null,
-   "sources": [
-    {
-     "url": "https://www.tvbittenfeld.de/abteilung/handball/",
-     "type": "official-match-photo",
-     "evidence": "Handball department header: men's team celebrating in a sports hall in white/blue-patterned shirts and blue shorts; opponent in black. Undated; header has a dark overlay so the white could not be measured.",
-     "date": null,
-     "screenshot": "research/phase2/evidence/ger2-wilhelmshaven-1.jpg"
-    },
-    {
-     "url": "https://en.wikipedia.org/wiki/TVB_Stuttgart",
-     "type": "wikipedia",
-     "evidence": "TVB Stuttgart is the professional team of TV Bittenfeld (TVB 1898)"
-    }
-   ],
-   "notes": "ID/NAME MISMATCH: id \"wilhelmshaven\" but name TV Bittenfeld (Waiblingen). TV Bittenfeld is not in the 2. HBL 2026/27 list on opel-hbl.de; its former professional team is TVB 1898 Stuttgart (HBL). Wilhelmshavener HV is also not in that list. Identity unchanged.",
+   "sources": [],
+   "notes": null,
    "override": null,
    "gamePlaceholder": {
-    "primary": "#111318",
-    "secondary": "#c8102e"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
-    "Undated photo; identity mismatch (id wilhelmshaven vs TV Bittenfeld) needs owner decision."
-   ]
+    "retired tombstone: F05: duplicate identity of ger1-stuttgart (TV Bittenfeld is TVB Stuttgart's origin association); id text names Wilhelmshavener HV (3. Liga). Kept for saves and history only. Replacement club awaits owner decision D3."
+   ],
+   "canonicalId": "ger2-wilhelmshaven",
+   "clubStatus": "retired",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": {
+    "primary": "white",
+    "secondary": "blue",
+    "sources": [
+     {
+      "url": "https://www.tvbittenfeld.de/abteilung/handball/",
+      "type": "official-match-photo",
+      "evidence": "Handball department header: men's team celebrating in a sports hall in white/blue-patterned shirts and blue shorts; opponent in black. Undated; header has a dark overlay so the white could not be measured.",
+      "date": null,
+      "screenshot": "research/phase2/evidence/ger2-wilhelmshaven-1.jpg"
+     },
+     {
+      "url": "https://en.wikipedia.org/wiki/TVB_Stuttgart",
+      "type": "wikipedia",
+      "evidence": "TVB Stuttgart is the professional team of TV Bittenfeld (TVB 1898)"
+     }
+    ],
+    "note": "Research described TV Bittenfeld e.V. (a different entity); kept as a note only, never rendered."
+   }
   },
   {
    "id": "den2-aarhus",
@@ -9644,12 +10571,20 @@
    "notes": "Prior black/orange (historic Århus Håndbold) is superseded by the current club kit. Not a match photo.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#1e3a8a",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "Headshot only; home/away status of the maroon shirt not confirmed by a match photo."
-   ]
+   ],
+   "canonicalId": "dk-aarhus-handbold-2024",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "den2-vendsyssel",
@@ -9727,16 +10662,24 @@
    "notes": "Previously UNKNOWN.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#c8102e",
-    "secondary": "#111318"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "den2-vendsyssel",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "den2-fif",
    "name": "FIF Håndbold",
    "shortName": "FIF",
-   "city": "Fredensborg",
+   "city": "Frederiksberg",
    "tier": "International / world pool",
    "competitionId": "den-2",
    "playable": false,
@@ -9823,12 +10766,20 @@
    "notes": "MISMATCH: FIF Håndbold is Frederiksberg IF (Frederiksberghallerne, Copenhagen), not Fredensborg; men's first team now listed in 2. division. Identity unchanged.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#0b6e4f",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "No men's image; city mismatch (Fredensborg vs Frederiksberg)."
-   ]
+   ],
+   "canonicalId": "dk-fif",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "den2-norddjurs",
@@ -9924,12 +10875,20 @@
    "notes": "Previously UNKNOWN. Player cards, not a match photo.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#111318",
-    "secondary": "#e2b13c"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "Player cards only; no match photo."
-   ]
+   ],
+   "canonicalId": "den2-norddjurs",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "esp1-barca",
@@ -10020,10 +10979,18 @@
    "notes": "Matches prior.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#a50044",
-    "secondary": "#004d98"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "esp1-barca",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "esp1-anaitasuna",
@@ -10111,12 +11078,20 @@
    "notes": "ID MISMATCH: id esp1-anaitasuna but name Bidasoa Irun; verified Bidasoa Irun (by name). Identity unchanged.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#c8102e",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "ID/name mismatch (anaitasuna vs Bidasoa Irun) needs owner decision."
-   ]
+   ],
+   "canonicalId": "es-bidasoa-irun",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "esp1-logrono",
@@ -10212,12 +11187,20 @@
    "notes": "ID MISMATCH: id esp1-logrono but name Ademar León (Dicorpebal Logroño La Rioja is a separate ASOBAL club). Identity unchanged.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#0b6e4f",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "ID/name mismatch (logrono vs Ademar León) needs owner decision."
-   ]
+   ],
+   "canonicalId": "es-ademar-leon",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "esp1-granollers",
@@ -10311,14 +11294,22 @@
    "notes": "Photo from the opponent's official site, home match for Granollers. Matches prior.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#111318",
-    "secondary": "#e2b13c"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "esp1-granollers",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "esp1-alicante",
-   "name": "Helvetia Anaitasuna",
+   "name": "SCDR Anaitasuna",
    "shortName": "Anaitasuna",
    "city": "Pamplona",
    "tier": "International / world pool",
@@ -10410,12 +11401,20 @@
    "notes": "Text evidence only - no men's A-team image seen. ID MISMATCH: id esp1-alicante but name Helvetia Anaitasuna (Pamplona). Prior conflict en.wiki green/white hoops vs es.wiki white home.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#c8102e",
-    "secondary": "#111318"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "Text evidence only (no image seen); status capped at UNCERTAIN."
-   ]
+   ],
+   "canonicalId": "es-anaitasuna",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "esp1-cuenca",
@@ -10503,16 +11502,24 @@
    "notes": "Matches prior.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#1e3a8a",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "esp1-cuenca",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "esp2-cisne",
    "name": "Cisne Balonmano",
    "shortName": "Cisne",
-   "city": "Ourense",
+   "city": "Pontevedra",
    "tier": "International / world pool",
    "competitionId": "esp-2",
    "playable": false,
@@ -10588,12 +11595,20 @@
    "notes": "Text evidence only - no men's A-team image seen in phase 2. Club is from Pontevedra, not Ourense as in batch file. Single local source.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#111318",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "Text evidence only (no image seen); status capped at UNCERTAIN."
-   ]
+   ],
+   "canonicalId": "es-cisne",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "esp2-cordoba",
@@ -10668,12 +11683,20 @@
    "notes": "Text evidence only - no men's A-team image seen in phase 2. Searches only found Ángel Ximénez Puente Genil (Córdoba province) and football/basketball Córdoba clubs. No Wikipedia page for BM Córdoba / Club Balonmano Ciudad de Córdoba.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#c8102e",
-    "secondary": "#111318"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "No reliable evidence; needs manual source."
-   ]
+   ],
+   "canonicalId": "esp2-cordoba",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "esp2-huesca",
@@ -10761,12 +11784,20 @@
    "notes": "Not in ASOBAL 2026/27 list. Matches prior red with dark borders.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#1e3a8a",
-    "secondary": "#e2b13c"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "Team photo only, season not stated."
-   ]
+   ],
+   "canonicalId": "esp2-huesca",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "esp2-teucro",
@@ -10855,12 +11886,20 @@
    "notes": "Text evidence only - no men's A-team image seen in phase 2. Two Wikipedias agree; no official current text.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#0b6e4f",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "Text evidence only (no image seen); status capped at UNCERTAIN."
-   ]
+   ],
+   "canonicalId": "es-teucro",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "hun1-szeged",
@@ -10946,14 +11985,22 @@
    "notes": "Club name now \"OTP Bank - PICK Szeged\". Matches prior.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#c8102e",
-    "secondary": "#111318"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "hun1-szeged",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "hun1-veszprem",
-   "name": "Telekom Veszprém",
+   "name": "Veszprém KC",
    "shortName": "Veszprém",
    "city": "Veszprém",
    "tier": "International / world pool",
@@ -11037,10 +12084,18 @@
    "notes": "Club name now \"One Veszprém HC\"; record name \"Telekom Veszprém\" is outdated (identity unchanged).",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#1e3a8a",
-    "secondary": "#e2b13c"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "hu-veszprem",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "hun1-ferencvaros",
@@ -11138,10 +12193,18 @@
    "notes": "Prior \"green and white\" confirmed as hoops. Primary set to green for identity although white area is large.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#0b6e4f",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "hun1-ferencvaros",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "hun1-csurgo",
@@ -11229,14 +12292,22 @@
    "notes": "Prior said white shoulders and red shorts; current shorts black.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#111318",
-    "secondary": "#c8102e"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "hun1-csurgo",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "hun1-gyor",
-   "name": "Grundfos Tatabánya",
+   "name": "Tatabánya KC",
    "shortName": "Tatabánya",
    "city": "Tatabánya",
    "tier": "International / world pool",
@@ -11320,12 +12391,20 @@
    "notes": "ID MISMATCH: id hun1-gyor but name Grundfos Tatabánya; club now \"MOL Tatabánya KC\". Identity unchanged.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#1e3a8a",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "ID/name mismatch (gyor vs Tatabánya) needs owner decision."
-   ]
+   ],
+   "canonicalId": "hu-tatabanya",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "hun2-cegled",
@@ -11414,16 +12493,24 @@
    "notes": "Text evidence only - no men's A-team image seen in phase 2. Only club colour statements; home shirt itself not confirmed.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#c8102e",
-    "secondary": "#111318"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "Text evidence only (no image seen); status capped at UNCERTAIN."
-   ]
+   ],
+   "canonicalId": "hun2-cegled",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "hun2-eger",
-   "name": "Egri Spartacus",
+   "name": "Eger-Eszterházy SzSE",
    "shortName": "Eger",
    "city": "Eger",
    "tier": "International / world pool",
@@ -11501,12 +12588,20 @@
    "notes": "Text evidence only - no men's A-team image seen in phase 2. Assumes SBS-Eger is the same club entity as 'Egri Spartacus'; not confirmed.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#0b6e4f",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "Text evidence only (no image seen); status capped at UNCERTAIN."
-   ]
+   ],
+   "canonicalId": "hu-eger-eszterhazy",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "hun2-komlo",
@@ -11588,12 +12683,20 @@
    "notes": "Text evidence only - no men's A-team image seen in phase 2. Single Wikipedia source; football section of club also blue on en.wiki.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#111318",
-    "secondary": "#e2b13c"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "Text evidence only (no image seen); status capped at UNCERTAIN."
-   ]
+   ],
+   "canonicalId": "hu-komlo",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "svn1-celje",
@@ -11708,12 +12811,20 @@
    "notes": "Several kits seen at home: yellow/green (derby vs Gorenje, club promo, traditional yellow-blue) and off-white/gold (vs Riko). Yellow chosen as most likely first-choice.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#c8102e",
-    "secondary": "#111318"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "Conflicting home kits (yellow-green vs off-white/gold; plus blue in EHF photo)."
-   ]
+   ],
+   "canonicalId": "svn1-celje",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "svn1-slovan",
@@ -11801,10 +12912,18 @@
    "notes": "Name now \"RD LL Grosist Slovan\". Prior red/black confirmed; shade is darker red.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#1e3a8a",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "svn1-slovan",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "svn1-trimo",
@@ -11892,12 +13011,20 @@
    "notes": "Prior conflict sl.wiki white/black vs en.wiki dark blue. Only an away photo seen.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#0b6e4f",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "Home kit not seen; only an away-match photo."
-   ]
+   ],
+   "canonicalId": "svn1-trimo",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "svn1-gorenje",
@@ -11999,12 +13126,20 @@
    "notes": "Press photos only; newest home image from 2025/26.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#111318",
-    "secondary": "#c8102e"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "Press photos only; no 2026/27 home image."
-   ]
+   ],
+   "canonicalId": "svn1-gorenje",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "svn2-skofjaloka",
@@ -12086,12 +13221,20 @@
    "notes": "Text evidence only - no men's A-team image seen in phase 2. Original RD Loka went bankrupt 2011; successor RD Loka 2012 (later 'Urbanscape Loka'). Unclear the Wikipedia kit reflects the current club.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#1e3a8a",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "Text evidence only (no image seen); status capped at UNCERTAIN."
-   ]
+   ],
+   "canonicalId": "si-rd-loka",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "svn2-jeruzalem",
@@ -12174,12 +13317,20 @@
    "notes": "Prior blue shirt / navy shorts (text) kept as primary; only an away image seen.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#c8102e",
-    "secondary": "#111318"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "Only an away-kit photo seen; home kit unconfirmed."
-   ]
+   ],
+   "canonicalId": "si-jeruzalem-ormoz",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "isl1-valur",
@@ -12265,10 +13416,18 @@
    "notes": "Matches prior.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#c8102e",
-    "secondary": "#111318"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "isl1-valur",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "isl1-fh",
@@ -12357,10 +13516,18 @@
    "notes": "Prior white/black confirmed. Green accent comes from the SPAR sponsor, not the club.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#ffffff",
-    "secondary": "#111318"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "isl1-fh",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "isl1-haukar",
@@ -12450,10 +13617,18 @@
    "notes": "All-red kit confirmed (prior).",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#e2b13c",
-    "secondary": "#111318"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "isl1-haukar",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "isl1-akureyri",
@@ -12544,12 +13719,20 @@
    "notes": "Matches prior (yellow with blue).",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#0b6e4f",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "Small composite graphic; no full match photo."
-   ]
+   ],
+   "canonicalId": "isl1-akureyri",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "isl2-fram",
@@ -12641,12 +13824,20 @@
    "notes": "Fram men play Olísdeild karla (top flight) in 2026/27 though listed as isl-2. Prior text: blue/white.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#c8102e",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "Conflicting/insufficient imagery (black promo shirt vs prior blue)."
-   ]
+   ],
+   "canonicalId": "is-fram",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "isl2-throttur",
@@ -12735,12 +13926,20 @@
    "notes": "Text evidence only - no men's A-team image seen in phase 2. Red/white stripes; which colour dominates is unclear. Football infobox; handball not confirmed.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#111318",
-    "secondary": "#e2b13c"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "Text evidence only (no image seen); status capped at UNCERTAIN."
-   ]
+   ],
+   "canonicalId": "isl2-throttur",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "int-hard",
@@ -12828,10 +14027,18 @@
    "notes": "Matches prior red/white. Hex approximate (graded photo).",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#1e3a8a",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "int-hard",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "int-fivers",
@@ -12921,12 +14128,20 @@
    "notes": "Resolves the Wikipedia conflict in favour of en.wiki red/light-blue; the de.wiki black kit was not seen. The photo does not state home/away, but red is the club colour across the site.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#c8102e",
-    "secondary": "#111318"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "secondary: measured #9BA4B7 inconsistent with documented \"light-blue\" → palette value kept"
-   ]
+   ],
+   "canonicalId": "int-fivers",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "int-h71",
@@ -13007,12 +14222,20 @@
    "notes": "The women's team wears white shirts on the same site. The men's home kit is likely the dark kit (shown in the home-match promo), but the clear match photo is from an away game.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#0b6e4f",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "Only one clear match photo and it is away; home use inferred from a promo graphic. Measured hex is near-black."
-   ]
+   ],
+   "canonicalId": "int-h71",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "int-veszprem-academy",
@@ -13108,12 +14331,24 @@
    "notes": "text evidence only. This side is an U21 academy team (\"Veszprem Handball Academy U21\" in NB I/B tables), so it must not inherit One Veszprém red. veszpremkc.hu was blocked; veszpremhandball.hu is a parked domain. Prior: Colours are the parent club's; academy kit itself not documented.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#1e3a8a",
-    "secondary": "#e2b13c"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "No image of the men's A-team home shirt could be seen; text evidence only."
-   ]
+   ],
+   "canonicalId": "hu-veszprem-academy",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "ACADEMY",
+   "relation": {
+    "kind": "ACADEMY",
+    "parentClubId": "hun1-veszprem",
+    "confidence": "PROBABLE"
+   },
+   "parentClubId": "hun1-veszprem",
+   "relationLabel": "Veszpréms akademi",
+   "retiredKitResearch": null
   },
   {
    "id": "int-meran",
@@ -13196,10 +14431,18 @@
    "notes": "Body measures charcoal (#302F33), named black. Monochrome; the only accent is white.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#111318",
-    "secondary": "#c8102e"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "int-meran",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "int-cologno",
@@ -13288,10 +14531,18 @@
    "notes": "Identity: Pallamano Cologne (Brescia), not Köln; the site says Serie A Gold. Hexes are under a dark overlay: the real grey is lighter and the pink is fuchsia.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#c8102e",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "int-cologno",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "int-cassano",
@@ -13380,12 +14631,20 @@
    "notes": "The \"maglia amaranto\" lead from the blocked run comes from a 2023-12 article, not 2026/27. No official club site found (handballcassano.it does not resolve). Senior team now run by Handball Cassano Magnago SSD.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#0b6e4f",
-    "secondary": "#111318"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "Press photo only, from a final away from home; 2026/27 home shirt not seen. White vs amaranth body still to confirm."
-   ]
+   ],
+   "canonicalId": "int-cassano",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "int-camerano",
@@ -13474,12 +14733,20 @@
    "notes": "text evidence only. pallamanocamerano.it is now an unrelated gambling site; no club image found. Prior: Club colours (red-black) conflict with kit template (grey/black).",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#1e3a8a",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "No image of the men's A-team home shirt could be seen; text evidence only."
-   ]
+   ],
+   "canonicalId": "int-camerano",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "int-paese",
@@ -13554,12 +14821,20 @@
    "notes": "text evidence only. No club site or images found; Paese is not in the 2026-27 Serie A Gold list per search. Prior: No it.wikipedia article (Pallamano Paese missing). Search budget exhausted.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#c8102e",
-    "secondary": "#111318"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "No kit evidence found."
-   ]
+   ],
+   "canonicalId": "int-paese",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "int-fasano",
@@ -13637,12 +14912,20 @@
    "notes": "text evidence only. IDENTITY NOTE kept: \"Serra Fasano\" (Serie A Silver/Serie B) is a different club from Junior Fasano; the prior white/light-blue may belong to Junior Fasano. No image found. Prior: Only club colour statement; which colour is the shirt body is not known.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#0b6e4f",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "No image of the men's A-team home shirt could be seen; text evidence only."
-   ]
+   ],
+   "canonicalId": "int-fasano",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "int-bevo",
@@ -13740,10 +15023,18 @@
    "notes": "Matches prior.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#1e3a8a",
-    "secondary": "#e2b13c"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "int-bevo",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "int-volendam",
@@ -13834,10 +15125,18 @@
    "notes": "Official site is handbalvolendam.nl. Composite promo image; season not stated.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#c8102e",
-    "secondary": "#111318"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "int-volendam",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "int-aalsmeer",
@@ -13925,10 +15224,18 @@
    "notes": "The body reads near-black but measures dark navy (#1A2A39); prior said black. Gold trim confirmed visually.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#0b6e4f",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "int-aalsmeer",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "int-wisla-plock",
@@ -14014,10 +15321,18 @@
    "notes": "Official site is sprwislaplock.pl. The colour is a bright azure, between blue and sky-blue.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#c8102e",
-    "secondary": "#111318"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "int-wisla-plock",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "int-sporting",
@@ -14100,12 +15415,20 @@
    "notes": "The hoop pattern is now confirmed by an image (it was inferred). Official sporting.pt handball pages redirected to the home page.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#0b6e4f",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
    "reviewReasons": [
     "Press photo, not an official club source; 2026/27 not seen."
-   ]
+   ],
+   "canonicalId": "int-sporting",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "int-alduhail",
@@ -14188,10 +15511,18 @@
    "notes": "First handball-specific evidence; before this only the football kit was used as a proxy. Home/away not stated.",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#111318",
-    "secondary": "#e2b13c"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "int-alduhail",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "int-schaffhausen",
@@ -14279,10 +15610,18 @@
    "notes": "Studio light makes the orange read lighter (#F5905C).",
    "override": null,
    "gamePlaceholder": {
-    "primary": "#1e3a8a",
-    "secondary": "#ffffff"
+    "primary": null,
+    "secondary": null
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "int-schaffhausen",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1571761",
@@ -14368,7 +15707,15 @@
     "primary": "#6b7280",
     "secondary": "#ffffff"
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "se_div2_team_1571761",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1574316",
@@ -14456,7 +15803,15 @@
     "primary": "#6b7280",
     "secondary": "#ffffff"
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "se_div2_team_1574316",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1582047",
@@ -14547,7 +15902,15 @@
    },
    "reviewReasons": [
     "Men's photo is about 8 seasons old; current shirt not confirmed."
-   ]
+   ],
+   "canonicalId": "se_div2_team_1582047",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1583325",
@@ -14637,7 +16000,15 @@
    },
    "reviewReasons": [
     "Press photo only (back view); black shirt vs yellow/black crest, so the owner should decide the neon accent."
-   ]
+   ],
+   "canonicalId": "se_div2_team_1583325",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1583328",
@@ -14731,7 +16102,15 @@
    },
    "reviewReasons": [
     "No image of the men's shirt found."
-   ]
+   ],
+   "canonicalId": "se_div2_team_1583328",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1578618",
@@ -14819,7 +16198,15 @@
     "primary": "#6b7280",
     "secondary": "#ffffff"
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "se_div2_team_1578618",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1575294",
@@ -14931,7 +16318,15 @@
     "primary": "#6b7280",
     "secondary": "#ffffff"
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "se_div2_team_1575294",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1577066",
@@ -15028,7 +16423,15 @@
    },
    "reviewReasons": [
     "Only ~2018 photos with small figures; current kit and exact shades not confirmed."
-   ]
+   ],
+   "canonicalId": "se_div2_team_1577066",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1576032",
@@ -15112,7 +16515,15 @@
     "primary": "#6b7280",
     "secondary": "#ffffff"
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "se_div2_team_1576032",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1570960",
@@ -15202,7 +16613,15 @@
    },
    "reviewReasons": [
     "B/development team; the photo is the squad in a pre-season match, not a confirmed HK Tyrold league game."
-   ]
+   ],
+   "canonicalId": "se_div2_team_1570960",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1581926",
@@ -15288,7 +16707,15 @@
     "primary": "#6b7280",
     "secondary": "#ffffff"
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "se_div2_team_1581926",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1587488",
@@ -15386,7 +16813,15 @@
     "primary": "#6b7280",
     "secondary": "#ffffff"
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "se_div2_team_1587488",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1576098",
@@ -15469,7 +16904,15 @@
    },
    "reviewReasons": [
     "B-team; evidence is an edited match graphic, not a plain match photo; blue shade uncertain (navy vs royal)."
-   ]
+   ],
+   "canonicalId": "se_div2_team_1576098",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1587398",
@@ -15582,7 +17025,15 @@
    },
    "reviewReasons": [
     "Only an away photo (white); home shirt colour (green or white) unconfirmed."
-   ]
+   ],
+   "canonicalId": "se_div2_team_1587398",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1578302",
@@ -15668,7 +17119,15 @@
     "primary": "#6b7280",
     "secondary": "#ffffff"
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "se_div2_team_1578302",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1581054",
@@ -15754,7 +17213,15 @@
     "primary": "#6b7280",
     "secondary": "#ffffff"
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "se_div2_team_1581054",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1582988",
@@ -15844,7 +17311,19 @@
    },
    "reviewReasons": [
     "B/U team of IFK Tumba; photo is from 2025/26."
-   ]
+   ],
+   "canonicalId": "se-tumba-hk",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "SECOND_TEAM",
+   "relation": {
+    "kind": "SECOND_TEAM_UNDER_PARTNER_ASSOCIATION",
+    "parentClubId": "swe2-tumba",
+    "confidence": "FULL"
+   },
+   "parentClubId": "swe2-tumba",
+   "relationLabel": "IFK Tumbas andralag",
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1585773",
@@ -15935,7 +17414,15 @@
     "primary": "#6b7280",
     "secondary": "#ffffff"
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "se_div2_team_1585773",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1587217",
@@ -16046,7 +17533,15 @@
     "primary": "#6b7280",
     "secondary": "#ffffff"
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "se_div2_team_1587217",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1583225",
@@ -16136,7 +17631,15 @@
    },
    "reviewReasons": [
     "Undated team photo; home status not confirmed by a match photo."
-   ]
+   ],
+   "canonicalId": "se_div2_team_1583225",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1585081",
@@ -16232,7 +17735,15 @@
    },
    "reviewReasons": [
     "Team photo undated; home status not confirmed. Second team of RP IF Linköping."
-   ]
+   ],
+   "canonicalId": "se_div2_team_1585081",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1575788",
@@ -16328,7 +17839,19 @@
    },
    "reviewReasons": [
     "Team photo undated; shared Blå/junior page; no match photo."
-   ]
+   ],
+   "canonicalId": "se-hk-lif-bla",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "SECOND_TEAM",
+   "relation": {
+    "kind": "SECOND_TEAM_UNDER_PARTNER_ASSOCIATION",
+    "parentClubId": "se_club_lif_lindesberg",
+    "confidence": "FULL"
+   },
+   "parentClubId": "se_club_lif_lindesberg",
+   "relationLabel": "Lindesbergs andralag",
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1579109",
@@ -16429,7 +17952,15 @@
    },
    "reviewReasons": [
     "Shirt is white, not the prior's blue; undated team photo and no match photo to confirm the home kit."
-   ]
+   ],
+   "canonicalId": "se_div2_team_1579109",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1575015",
@@ -16530,7 +18061,15 @@
    },
    "reviewReasons": [
     "Photos are from 2024/25; no current-season match photo; black primary differs from the green crest."
-   ]
+   ],
+   "canonicalId": "se_div2_team_1575015",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1574743",
@@ -16629,7 +18168,15 @@
     "primary": "#6b7280",
     "secondary": "#ffffff"
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "se_div2_team_1574743",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1584203",
@@ -16724,7 +18271,15 @@
    },
    "reviewReasons": [
     "Team photo undated; the poster is a stylised graphic, not a plain match photo."
-   ]
+   ],
+   "canonicalId": "se_div2_team_1584203",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1584878",
@@ -16822,7 +18377,15 @@
     "primary": "#6b7280",
     "secondary": "#ffffff"
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "se_div2_team_1584878",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1578886",
@@ -16914,7 +18477,19 @@
    },
    "reviewReasons": [
     "No image of the development team found."
-   ]
+   ],
+   "canonicalId": "se-vasterasirsta-hk",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "SECOND_TEAM",
+   "relation": {
+    "kind": "SECOND_TEAM_UNDER_PARTNER_ASSOCIATION",
+    "parentClubId": "swe2-vasterasirsta",
+    "confidence": "FULL"
+   },
+   "parentClubId": "swe2-vasterasirsta",
+   "relationLabel": "V.Irstas andralag",
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1582839",
@@ -17012,7 +18587,15 @@
     "primary": "#6b7280",
     "secondary": "#ffffff"
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "se_div2_team_1582839",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1580934",
@@ -17106,7 +18689,15 @@
    },
    "reviewReasons": [
     "No visual evidence found."
-   ]
+   ],
+   "canonicalId": "se_div2_team_1580934",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1570589",
@@ -17193,7 +18784,15 @@
    },
    "reviewReasons": [
     "No visual evidence found."
-   ]
+   ],
+   "canonicalId": "se_div2_team_1570589",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1581244",
@@ -17283,7 +18882,15 @@
    },
    "reviewReasons": [
     "Old photo, not explicitly captioned as the development team; home status unconfirmed."
-   ]
+   ],
+   "canonicalId": "se_div2_team_1581244",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1575715",
@@ -17370,7 +18977,19 @@
    },
    "reviewReasons": [
     "No image of the development team found."
-   ]
+   ],
+   "canonicalId": "se-hk-varberg-09",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "SECOND_TEAM",
+   "relation": {
+    "kind": "SECOND_TEAM_UNDER_PARTNER_ASSOCIATION",
+    "parentClubId": "swe2-varberg",
+    "confidence": "MAJORITY"
+   },
+   "parentClubId": "swe2-varberg",
+   "relationLabel": "Varbergs andralag",
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1578882",
@@ -17460,7 +19079,15 @@
    },
    "reviewReasons": [
     "Single 2025/26 graphic; no current-season plain match photo; measured red is darker than the real shirt."
-   ]
+   ],
+   "canonicalId": "se_div2_team_1578882",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1574211",
@@ -17554,7 +19181,15 @@
    },
    "reviewReasons": [
     "No match photo; home kit not confirmed."
-   ]
+   ],
+   "canonicalId": "se_div2_team_1574211",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1586623",
@@ -17654,7 +19289,15 @@
    },
    "reviewReasons": [
     "Two kits (yellow and red) in use; home attribution inferred from a small opponent photo."
-   ]
+   ],
+   "canonicalId": "se_div2_team_1586623",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1579656",
@@ -17764,7 +19407,15 @@
    },
    "reviewReasons": [
     "Press photos (~3 yrs) only; home/away not explicitly confirmed for the red photo."
-   ]
+   ],
+   "canonicalId": "se_div2_team_1579656",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1578270",
@@ -17871,7 +19522,19 @@
    },
    "reviewReasons": [
     "Div 2 entry is the men's B-team; only A-team/club imagery (blue) found, so not inherited per the brief."
-   ]
+   ],
+   "canonicalId": "se-torslanda-hk",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": {
+    "kind": "YOUTH_LINK",
+    "parentClubId": "swe2-torslanda",
+    "confidence": "PARTIAL"
+   },
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1585949",
@@ -17971,7 +19634,15 @@
    },
    "reviewReasons": [
     "Press photo from 2025; home kit not explicitly confirmed."
-   ]
+   ],
+   "canonicalId": "se_div2_team_1585949",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1578815",
@@ -18071,7 +19742,15 @@
    },
    "reviewReasons": [
     "Pattern detail and exact home status not confirmed; dim lighting."
-   ]
+   ],
+   "canonicalId": "se_div2_team_1578815",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1578982",
@@ -18161,7 +19840,19 @@
    },
    "reviewReasons": [
     "Team identity inferred via logo; small team photo; photo date not stated."
-   ]
+   ],
+   "canonicalId": "se-helsingborgs-hk",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "SECOND_TEAM",
+   "relation": {
+    "kind": "SECOND_TEAM_UNDER_PARTNER_ASSOCIATION",
+    "parentClubId": "se_club_ov_helsingborg",
+    "confidence": "FULL"
+   },
+   "parentClubId": "se_club_ov_helsingborg",
+   "relationLabel": "OV Helsingborgs andralag",
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1582183",
@@ -18262,7 +19953,19 @@
    },
    "reviewReasons": [
     "Photo undated; home/away not stated."
-   ]
+   ],
+   "canonicalId": "se-hf-karlskrona-u",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "SECOND_TEAM",
+   "relation": {
+    "kind": "SAME_CLUB_SECOND_TEAM",
+    "parentClubId": "se_club_hf_karlskrona",
+    "confidence": "FULL"
+   },
+   "parentClubId": "se_club_hf_karlskrona",
+   "relationLabel": "Karlskronas andralag",
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1583015",
@@ -18352,7 +20055,19 @@
    },
    "reviewReasons": [
     "Squad photo shared by U and junior groups; photo undated."
-   ]
+   ],
+   "canonicalId": "se-hk-ystadpagarna",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "SECOND_TEAM",
+   "relation": {
+    "kind": "SECOND_TEAM_UNDER_PARTNER_ASSOCIATION",
+    "parentClubId": "swe2-ystad2",
+    "confidence": "FULL"
+   },
+   "parentClubId": "swe2-ystad2",
+   "relationLabel": "IFK Ystads andralag",
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1586014",
@@ -18450,7 +20165,15 @@
     "primary": "#6b7280",
     "secondary": "#ffffff"
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "se_div2_team_1586014",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1581343",
@@ -18540,7 +20263,15 @@
    "reviewReasons": [
     "No dated current match photo; home status not confirmed.",
     "primary: measured #172332 inconsistent with documented \"navy\" → palette value kept"
-   ]
+   ],
+   "canonicalId": "se_div2_team_1581343",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1580548",
@@ -18631,7 +20362,15 @@
     "primary": "#6b7280",
     "secondary": "#ffffff"
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "se_div2_team_1580548",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1583912",
@@ -18734,7 +20473,15 @@
    },
    "reviewReasons": [
     "Press photo; the club page has no colour match photos."
-   ]
+   ],
+   "canonicalId": "se_div2_team_1583912",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1585295",
@@ -18829,7 +20576,19 @@
    },
    "reviewReasons": [
     "Tiny portrait images; home not stated."
-   ]
+   ],
+   "canonicalId": "se-lugi-hf-u",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "U_TEAM",
+   "relation": {
+    "kind": "U_TEAM",
+    "parentClubId": "se_club_lugi_hf",
+    "confidence": "FULL"
+   },
+   "parentClubId": "se_club_lugi_hf",
+   "relationLabel": "Lugi U",
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1576008",
@@ -18923,7 +20682,19 @@
    },
    "reviewReasons": [
     "No image of the Lejon team; parent blue not inherited."
-   ]
+   ],
+   "canonicalId": "se-lunds-hs-lejon",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "SECOND_TEAM",
+   "relation": {
+    "kind": "SECOND_TEAM_UNDER_PARTNER_ASSOCIATION",
+    "parentClubId": "swe2-h43lund",
+    "confidence": "FULL"
+   },
+   "parentClubId": "swe2-h43lund",
+   "relationLabel": "H43s andralag",
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1571471",
@@ -19018,7 +20789,15 @@
    },
    "reviewReasons": [
     "Press photos only; venue of the red photo unknown."
-   ]
+   ],
+   "canonicalId": "se_div2_team_1571471",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1579219",
@@ -19112,7 +20891,19 @@
    },
    "reviewReasons": [
     "No image of the team."
-   ]
+   ],
+   "canonicalId": "se-malmo-hp",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "SECOND_TEAM",
+   "relation": {
+    "kind": "SECOND_TEAM_UNDER_PARTNER_ASSOCIATION",
+    "parentClubId": "se_club_hk_malmo",
+    "confidence": "FULL"
+   },
+   "parentClubId": "se_club_hk_malmo",
+   "relationLabel": "Malmös andralag",
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1586501",
@@ -19205,7 +20996,15 @@
     "primary": "#6b7280",
     "secondary": "#ffffff"
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "se_div2_team_1586501",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "FIRST_TEAM",
+   "relation": null,
+   "parentClubId": null,
+   "relationLabel": null,
+   "retiredKitResearch": null
   },
   {
    "id": "se_div2_team_1585596",
@@ -19297,7 +21096,19 @@
     "primary": "#6b7280",
     "secondary": "#ffffff"
    },
-   "reviewReasons": []
+   "reviewReasons": [],
+   "canonicalId": "se-ystads-if-u",
+   "clubStatus": "active",
+   "addedInWorld": null,
+   "teamType": "U_TEAM",
+   "relation": {
+    "kind": "U_TEAM",
+    "parentClubId": "se_club_ystads_if_hf",
+    "confidence": "FULL"
+   },
+   "parentClubId": "se_club_ystads_if_hf",
+   "relationLabel": "Ystad U",
+   "retiredKitResearch": null
   }
  ]
 }

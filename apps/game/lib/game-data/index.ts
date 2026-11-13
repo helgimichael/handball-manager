@@ -11,3 +11,4 @@ export * from "./transfers";
 export const GAME_CURRENT_DATE = "2026-08-19";
 export * from "./clubIdentityData";
 export * from "./clubIdentity";
+export * from "./clubVisualIdentity";

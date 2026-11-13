@@ -7,8 +7,6 @@
   "competitionId": "se_handbollsligan_herr",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#c8102e",
-  "placeholderSecondary": "#111318",
   "block": "SWE_1",
   "tier": "SE-1 Handbollsligan"
  },
@@ -20,8 +18,6 @@
   "competitionId": "se_handbollsligan_herr",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#0b6e4f",
-  "placeholderSecondary": "#ffffff",
   "block": "SWE_1",
   "tier": "SE-1 Handbollsligan"
  },
@@ -33,8 +29,6 @@
   "competitionId": "se_handbollsligan_herr",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#0a7a3d",
-  "placeholderSecondary": "#ffffff",
   "block": "SWE_1",
   "tier": "SE-1 Handbollsligan"
  },
@@ -46,8 +40,6 @@
   "competitionId": "se_handbollsligan_herr",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#e2b13c",
-  "placeholderSecondary": "#111318",
   "block": "SWE_1",
   "tier": "SE-1 Handbollsligan"
  },
@@ -59,8 +51,6 @@
   "competitionId": "se_handbollsligan_herr",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#1e3a8a",
-  "placeholderSecondary": "#ffffff",
   "block": "SWE_1",
   "tier": "SE-1 Handbollsligan"
  },
@@ -72,8 +62,6 @@
   "competitionId": "se_handbollsligan_herr",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#111318",
-  "placeholderSecondary": "#e2b13c",
   "block": "SWE_1",
   "tier": "SE-1 Handbollsligan"
  },
@@ -85,8 +73,6 @@
   "competitionId": "se_handbollsligan_herr",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#1e3a8a",
-  "placeholderSecondary": "#ffffff",
   "block": "SWE_1",
   "tier": "SE-1 Handbollsligan"
  },
@@ -98,8 +84,6 @@
   "competitionId": "se_handbollsligan_herr",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#1e3a8a",
-  "placeholderSecondary": "#ffffff",
   "block": "SWE_1",
   "tier": "SE-1 Handbollsligan"
  },
@@ -111,8 +95,6 @@
   "competitionId": "se_handbollsligan_herr",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#111318",
-  "placeholderSecondary": "#e2b13c",
   "block": "SWE_1",
   "tier": "SE-1 Handbollsligan"
  },
@@ -124,8 +106,6 @@
   "competitionId": "se_handbollsligan_herr",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#111318",
-  "placeholderSecondary": "#e2b13c",
   "block": "SWE_1",
   "tier": "SE-1 Handbollsligan"
  },
@@ -137,8 +117,6 @@
   "competitionId": "se_handbollsligan_herr",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#c8102e",
-  "placeholderSecondary": "#111318",
   "block": "SWE_1",
   "tier": "SE-1 Handbollsligan"
  },
@@ -150,8 +128,6 @@
   "competitionId": "se_handbollsligan_herr",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#0b6e4f",
-  "placeholderSecondary": "#111318",
   "block": "SWE_1",
   "tier": "SE-1 Handbollsligan"
  },
@@ -163,8 +139,6 @@
   "competitionId": "se_handbollsligan_herr",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#111318",
-  "placeholderSecondary": "#e2b13c",
   "block": "SWE_1",
   "tier": "SE-1 Handbollsligan"
  },
@@ -176,8 +150,6 @@
   "competitionId": "se_handbollsligan_herr",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#0b6e4f",
-  "placeholderSecondary": "#ffffff",
   "block": "SWE_1",
   "tier": "SE-1 Handbollsligan"
  },
@@ -189,8 +161,6 @@
   "competitionId": "swe-2",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#1e3a8a",
-  "placeholderSecondary": "#e2b13c",
   "block": "SWE_2",
   "tier": "SE-2 Allsvenskan"
  },
@@ -202,8 +172,6 @@
   "competitionId": "swe-2",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#c8102e",
-  "placeholderSecondary": "#111318",
   "block": "SWE_2",
   "tier": "SE-2 Allsvenskan"
  },
@@ -215,8 +183,6 @@
   "competitionId": "swe-2",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#c8102e",
-  "placeholderSecondary": "#111318",
   "block": "SWE_2",
   "tier": "SE-2 Allsvenskan"
  },
@@ -228,8 +194,6 @@
   "competitionId": "swe-2",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#1e3a8a",
-  "placeholderSecondary": "#e2b13c",
   "block": "SWE_2",
   "tier": "SE-2 Allsvenskan"
  },
@@ -241,8 +205,6 @@
   "competitionId": "swe-2",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#0b6e4f",
-  "placeholderSecondary": "#ffffff",
   "block": "SWE_2",
   "tier": "SE-2 Allsvenskan"
  },
@@ -254,8 +216,6 @@
   "competitionId": "swe-2",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#111318",
-  "placeholderSecondary": "#c8102e",
   "block": "SWE_2",
   "tier": "SE-2 Allsvenskan"
  },
@@ -267,8 +227,6 @@
   "competitionId": "swe-2",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#c8102e",
-  "placeholderSecondary": "#111318",
   "block": "SWE_2",
   "tier": "SE-2 Allsvenskan"
  },
@@ -280,8 +238,6 @@
   "competitionId": "swe-2",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#111318",
-  "placeholderSecondary": "#e2b13c",
   "block": "SWE_2",
   "tier": "SE-2 Allsvenskan"
  },
@@ -293,8 +249,6 @@
   "competitionId": "swe-2",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#0b6e4f",
-  "placeholderSecondary": "#ffffff",
   "block": "SWE_2",
   "tier": "SE-2 Allsvenskan"
  },
@@ -306,8 +260,6 @@
   "competitionId": "swe-2",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#1e3a8a",
-  "placeholderSecondary": "#ffffff",
   "block": "SWE_2",
   "tier": "SE-2 Allsvenskan"
  },
@@ -319,8 +271,6 @@
   "competitionId": "swe-2",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#1e3a8a",
-  "placeholderSecondary": "#ffffff",
   "block": "SWE_2",
   "tier": "SE-2 Allsvenskan"
  },
@@ -332,8 +282,6 @@
   "competitionId": "swe-2",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#111318",
-  "placeholderSecondary": "#c8102e",
   "block": "SWE_2",
   "tier": "SE-2 Allsvenskan"
  },
@@ -345,8 +293,6 @@
   "competitionId": "swe-2",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#1e3a8a",
-  "placeholderSecondary": "#ffffff",
   "block": "SWE_2",
   "tier": "SE-2 Allsvenskan"
  },
@@ -358,8 +304,6 @@
   "competitionId": "swe-2",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#1e3a8a",
-  "placeholderSecondary": "#ffffff",
   "block": "SWE_2",
   "tier": "SE-2 Allsvenskan"
  },
@@ -370,8 +314,6 @@
   "competitionId": "se_division1_norra",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#1e3a8a",
-  "placeholderSecondary": "#ffffff",
   "block": "SWE_DIV1_NORRA",
   "tier": "SE-3 Division 1"
  },
@@ -382,8 +324,6 @@
   "competitionId": "se_division1_norra",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#c8102e",
-  "placeholderSecondary": "#111318",
   "block": "SWE_DIV1_NORRA",
   "tier": "SE-3 Division 1"
  },
@@ -394,8 +334,6 @@
   "competitionId": "se_division1_norra",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#0a7a3d",
-  "placeholderSecondary": "#ffffff",
   "block": "SWE_DIV1_NORRA",
   "tier": "SE-3 Division 1"
  },
@@ -406,8 +344,6 @@
   "competitionId": "se_division1_norra",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#111318",
-  "placeholderSecondary": "#e2b13c",
   "block": "SWE_DIV1_NORRA",
   "tier": "SE-3 Division 1"
  },
@@ -418,8 +354,6 @@
   "competitionId": "se_division1_norra",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#1e3a8a",
-  "placeholderSecondary": "#e2b13c",
   "block": "SWE_DIV1_NORRA",
   "tier": "SE-3 Division 1"
  },
@@ -430,8 +364,6 @@
   "competitionId": "se_division1_norra",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#c8102e",
-  "placeholderSecondary": "#ffffff",
   "block": "SWE_DIV1_NORRA",
   "tier": "SE-3 Division 1"
  },
@@ -442,8 +374,6 @@
   "competitionId": "se_division1_norra",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#0b6e4f",
-  "placeholderSecondary": "#111318",
   "block": "SWE_DIV1_NORRA",
   "tier": "SE-3 Division 1"
  },
@@ -454,8 +384,6 @@
   "competitionId": "se_division1_norra",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#111318",
-  "placeholderSecondary": "#c8102e",
   "block": "SWE_DIV1_NORRA",
   "tier": "SE-3 Division 1"
  },
@@ -466,8 +394,6 @@
   "competitionId": "se_division1_norra",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#1e3a8a",
-  "placeholderSecondary": "#ffffff",
   "block": "SWE_DIV1_NORRA",
   "tier": "SE-3 Division 1"
  },
@@ -478,8 +404,6 @@
   "competitionId": "se_division1_norra",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#0b6e4f",
-  "placeholderSecondary": "#ffffff",
   "block": "SWE_DIV1_NORRA",
   "tier": "SE-3 Division 1"
  },
@@ -490,8 +414,6 @@
   "competitionId": "se_division1_norra",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#c8102e",
-  "placeholderSecondary": "#111318",
   "block": "SWE_DIV1_NORRA",
   "tier": "SE-3 Division 1"
  },
@@ -502,8 +424,6 @@
   "competitionId": "se_division1_norra",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#111318",
-  "placeholderSecondary": "#e2b13c",
   "block": "SWE_DIV1_NORRA",
   "tier": "SE-3 Division 1"
  },
@@ -514,8 +434,6 @@
   "competitionId": "se_division1_sodra",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#1e3a8a",
-  "placeholderSecondary": "#e2b13c",
   "block": "SWE_DIV1_SODRA",
   "tier": "SE-3 Division 1"
  },
@@ -526,8 +444,6 @@
   "competitionId": "se_division1_sodra",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#c8102e",
-  "placeholderSecondary": "#111318",
   "block": "SWE_DIV1_SODRA",
   "tier": "SE-3 Division 1"
  },
@@ -538,8 +454,6 @@
   "competitionId": "se_division1_sodra",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#0b6e4f",
-  "placeholderSecondary": "#ffffff",
   "block": "SWE_DIV1_SODRA",
   "tier": "SE-3 Division 1"
  },
@@ -550,8 +464,6 @@
   "competitionId": "se_division1_sodra",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#111318",
-  "placeholderSecondary": "#e2b13c",
   "block": "SWE_DIV1_SODRA",
   "tier": "SE-3 Division 1"
  },
@@ -562,8 +474,6 @@
   "competitionId": "se_division1_sodra",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#0b6e4f",
-  "placeholderSecondary": "#111318",
   "block": "SWE_DIV1_SODRA",
   "tier": "SE-3 Division 1"
  },
@@ -574,8 +484,6 @@
   "competitionId": "se_division1_sodra",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#c8102e",
-  "placeholderSecondary": "#111318",
   "block": "SWE_DIV1_SODRA",
   "tier": "SE-3 Division 1"
  },
@@ -586,8 +494,6 @@
   "competitionId": "se_division1_sodra",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#1e3a8a",
-  "placeholderSecondary": "#ffffff",
   "block": "SWE_DIV1_SODRA",
   "tier": "SE-3 Division 1"
  },
@@ -598,8 +504,6 @@
   "competitionId": "se_division1_sodra",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#111318",
-  "placeholderSecondary": "#c8102e",
   "block": "SWE_DIV1_SODRA",
   "tier": "SE-3 Division 1"
  },
@@ -610,8 +514,6 @@
   "competitionId": "se_division1_sodra",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#0b6e4f",
-  "placeholderSecondary": "#ffffff",
   "block": "SWE_DIV1_SODRA",
   "tier": "SE-3 Division 1"
  },
@@ -622,8 +524,6 @@
   "competitionId": "se_division1_sodra",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#1e3a8a",
-  "placeholderSecondary": "#e2b13c",
   "block": "SWE_DIV1_SODRA",
   "tier": "SE-3 Division 1"
  },
@@ -634,8 +534,6 @@
   "competitionId": "se_division1_sodra",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#c8102e",
-  "placeholderSecondary": "#ffffff",
   "block": "SWE_DIV1_SODRA",
   "tier": "SE-3 Division 1"
  },
@@ -646,8 +544,6 @@
   "competitionId": "se_division1_sodra",
   "playable": true,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#111318",
-  "placeholderSecondary": "#e2b13c",
   "block": "SWE_DIV1_SODRA",
   "tier": "SE-3 Division 1"
  },
@@ -659,8 +555,6 @@
   "competitionId": "den-1",
   "playable": false,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#c8102e",
-  "placeholderSecondary": "#111318",
   "block": "DEN_1",
   "tier": "International / world pool"
  },
@@ -672,8 +566,6 @@
   "competitionId": "den-1",
   "playable": false,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#1e3a8a",
-  "placeholderSecondary": "#ffffff",
   "block": "DEN_1",
   "tier": "International / world pool"
  },
@@ -684,8 +576,6 @@
   "city": "Fredericia",
   "competitionId": "den-1",
   "playable": false,
-  "placeholderPrimary": "#111318",
-  "placeholderSecondary": "#e2b13c",
   "block": "DEN_1",
   "tier": "International / world pool"
  },
@@ -696,8 +586,6 @@
   "city": "Gudme/Ørbæk",
   "competitionId": "den-1",
   "playable": false,
-  "placeholderPrimary": "#0b6e4f",
-  "placeholderSecondary": "#ffffff",
   "block": "DEN_1",
   "tier": "International / world pool"
  },
@@ -708,8 +596,6 @@
   "city": "Grindsted",
   "competitionId": "den-1",
   "playable": false,
-  "placeholderPrimary": "#c8102e",
-  "placeholderSecondary": "#ffffff",
   "block": "DEN_1",
   "tier": "International / world pool"
  },
@@ -717,11 +603,9 @@
   "id": "den1-hoj",
   "name": "HØJ Elite",
   "shortName": "HØJ",
-  "city": "Hjørring",
+  "city": "Ølstykke",
   "competitionId": "den-1",
   "playable": false,
-  "placeholderPrimary": "#1b3a6b",
-  "placeholderSecondary": "#e2b13c",
   "block": "DEN_1",
   "tier": "International / world pool"
  },
@@ -732,8 +616,6 @@
   "city": "Nykøbing Mors",
   "competitionId": "den-1",
   "playable": false,
-  "placeholderPrimary": "#111318",
-  "placeholderSecondary": "#c8102e",
   "block": "DEN_1",
   "tier": "International / world pool"
  },
@@ -744,8 +626,6 @@
   "city": "Helsingør",
   "competitionId": "den-1",
   "playable": false,
-  "placeholderPrimary": "#1e3a8a",
-  "placeholderSecondary": "#ffffff",
   "block": "DEN_1",
   "tier": "International / world pool"
  },
@@ -756,21 +636,17 @@
   "city": "Esbjerg",
   "competitionId": "den-1",
   "playable": false,
-  "placeholderPrimary": "#c8102e",
-  "placeholderSecondary": "#111318",
   "block": "DEN_1",
   "tier": "International / world pool"
  },
  {
   "id": "den1-skanderborg",
-  "name": "Skanderborg Aarhus",
+  "name": "Skanderborg AGF Håndbold",
   "shortName": "Skanderborg AGF",
-  "city": "Aarhus",
+  "city": "Skanderborg",
   "competitionId": "den-1",
   "playable": false,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#0b6e4f",
-  "placeholderSecondary": "#ffffff",
   "block": "DEN_1",
   "tier": "International / world pool"
  },
@@ -782,8 +658,6 @@
   "competitionId": "den-1",
   "playable": false,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#1e3a8a",
-  "placeholderSecondary": "#e2b13c",
   "block": "DEN_1",
   "tier": "International / world pool"
  },
@@ -791,11 +665,9 @@
   "id": "den1-sonderjyske",
   "name": "SønderjyskE Håndbold",
   "shortName": "SønderjyskE",
-  "city": "Aabenraa",
+  "city": "Sønderborg",
   "competitionId": "den-1",
   "playable": false,
-  "placeholderPrimary": "#c8102e",
-  "placeholderSecondary": "#ffffff",
   "block": "DEN_1",
   "tier": "International / world pool"
  },
@@ -807,8 +679,6 @@
   "competitionId": "den-1",
   "playable": false,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#111318",
-  "placeholderSecondary": "#ffffff",
   "block": "DEN_1",
   "tier": "International / world pool"
  },
@@ -819,8 +689,16 @@
   "city": "Holstebro",
   "competitionId": "den-1",
   "playable": false,
-  "placeholderPrimary": "#1e3a8a",
-  "placeholderSecondary": "#ffffff",
+  "block": "DEN_1",
+  "tier": "International / world pool"
+ },
+ {
+  "id": "den1-kif-kolding",
+  "name": "KIF Kolding",
+  "shortName": "Kolding",
+  "city": "Kolding",
+  "competitionId": "den-1",
+  "playable": false,
   "block": "DEN_1",
   "tier": "International / world pool"
  },
@@ -831,8 +709,6 @@
   "city": "Bergisches Land",
   "competitionId": "ger-1",
   "playable": false,
-  "placeholderPrimary": "#111318",
-  "placeholderSecondary": "#c8102e",
   "block": "GER_1",
   "tier": "International / world pool"
  },
@@ -844,8 +720,6 @@
   "competitionId": "ger-1",
   "playable": false,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#c8102e",
-  "placeholderSecondary": "#111318",
   "block": "GER_1",
   "tier": "International / world pool"
  },
@@ -856,8 +730,6 @@
   "city": "Eisenach",
   "competitionId": "ger-1",
   "playable": false,
-  "placeholderPrimary": "#1e3a8a",
-  "placeholderSecondary": "#ffffff",
   "block": "GER_1",
   "tier": "International / world pool"
  },
@@ -868,8 +740,6 @@
   "city": "Erlangen",
   "competitionId": "ger-1",
   "playable": false,
-  "placeholderPrimary": "#c8102e",
-  "placeholderSecondary": "#ffffff",
   "block": "GER_1",
   "tier": "International / world pool"
  },
@@ -880,8 +750,6 @@
   "city": "Flensburg",
   "competitionId": "ger-1",
   "playable": false,
-  "placeholderPrimary": "#1e3a8a",
-  "placeholderSecondary": "#c8102e",
   "block": "GER_1",
   "tier": "International / world pool"
  },
@@ -892,8 +760,6 @@
   "city": "Göppingen",
   "competitionId": "ger-1",
   "playable": false,
-  "placeholderPrimary": "#111318",
-  "placeholderSecondary": "#e2b13c",
   "block": "GER_1",
   "tier": "International / world pool"
  },
@@ -904,20 +770,16 @@
   "city": "Gummersbach",
   "competitionId": "ger-1",
   "playable": false,
-  "placeholderPrimary": "#0b6e4f",
-  "placeholderSecondary": "#ffffff",
   "block": "GER_1",
   "tier": "International / world pool"
  },
  {
   "id": "ger1-hamburg",
-  "name": "HSV Hamburg",
-  "shortName": "HSV Hamburg",
+  "name": "Handball Club Hamburg",
+  "shortName": "HC Hamburg",
   "city": "Hamburg",
   "competitionId": "ger-1",
   "playable": false,
-  "placeholderPrimary": "#1e3a8a",
-  "placeholderSecondary": "#ffffff",
   "block": "GER_1",
   "tier": "International / world pool"
  },
@@ -928,8 +790,6 @@
   "city": "Hannover",
   "competitionId": "ger-1",
   "playable": false,
-  "placeholderPrimary": "#111318",
-  "placeholderSecondary": "#c8102e",
   "block": "GER_1",
   "tier": "International / world pool"
  },
@@ -941,8 +801,6 @@
   "competitionId": "ger-1",
   "playable": false,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#111318",
-  "placeholderSecondary": "#c8102e",
   "block": "GER_1",
   "tier": "International / world pool"
  },
@@ -953,8 +811,6 @@
   "city": "Leipzig",
   "competitionId": "ger-1",
   "playable": false,
-  "placeholderPrimary": "#0b6e4f",
-  "placeholderSecondary": "#111318",
   "block": "GER_1",
   "tier": "International / world pool"
  },
@@ -965,8 +821,6 @@
   "city": "Lemgo",
   "competitionId": "ger-1",
   "playable": false,
-  "placeholderPrimary": "#1e3a8a",
-  "placeholderSecondary": "#ffffff",
   "block": "GER_1",
   "tier": "International / world pool"
  },
@@ -977,8 +831,6 @@
   "city": "Magdeburg",
   "competitionId": "ger-1",
   "playable": false,
-  "placeholderPrimary": "#c8102e",
-  "placeholderSecondary": "#111318",
   "block": "GER_1",
   "tier": "International / world pool"
  },
@@ -989,8 +841,6 @@
   "city": "Melsungen",
   "competitionId": "ger-1",
   "playable": false,
-  "placeholderPrimary": "#c8102e",
-  "placeholderSecondary": "#111318",
   "block": "GER_1",
   "tier": "International / world pool"
  },
@@ -1001,8 +851,6 @@
   "city": "Minden",
   "competitionId": "ger-1",
   "playable": false,
-  "placeholderPrimary": "#0b6e4f",
-  "placeholderSecondary": "#ffffff",
   "block": "GER_1",
   "tier": "International / world pool"
  },
@@ -1013,8 +861,6 @@
   "city": "Mannheim",
   "competitionId": "ger-1",
   "playable": false,
-  "placeholderPrimary": "#111318",
-  "placeholderSecondary": "#1e3a8a",
   "block": "GER_1",
   "tier": "International / world pool"
  },
@@ -1025,8 +871,6 @@
   "city": "Stuttgart",
   "competitionId": "ger-1",
   "playable": false,
-  "placeholderPrimary": "#c8102e",
-  "placeholderSecondary": "#111318",
   "block": "GER_1",
   "tier": "International / world pool"
  },
@@ -1038,8 +882,16 @@
   "competitionId": "ger-1",
   "playable": false,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#1e3a8a",
-  "placeholderSecondary": "#e2b13c",
+  "block": "GER_1",
+  "tier": "International / world pool"
+ },
+ {
+  "id": "ger1-bietigheim",
+  "name": "SG BBM Bietigheim",
+  "shortName": "Bietigheim",
+  "city": "Bietigheim-Bissingen",
+  "competitionId": "ger-1",
+  "playable": false,
   "block": "GER_1",
   "tier": "International / world pool"
  },
@@ -1051,8 +903,6 @@
   "competitionId": "nor-1",
   "playable": false,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#1e3a8a",
-  "placeholderSecondary": "#ffffff",
   "block": "REST",
   "tier": "International / world pool"
  },
@@ -1063,8 +913,6 @@
   "city": "Trondheim",
   "competitionId": "nor-1",
   "playable": false,
-  "placeholderPrimary": "#c8102e",
-  "placeholderSecondary": "#111318",
   "block": "REST",
   "tier": "International / world pool"
  },
@@ -1075,8 +923,6 @@
   "city": "Arendal",
   "competitionId": "nor-1",
   "playable": false,
-  "placeholderPrimary": "#0b6e4f",
-  "placeholderSecondary": "#ffffff",
   "block": "REST",
   "tier": "International / world pool"
  },
@@ -1087,8 +933,6 @@
   "city": "Bodø",
   "competitionId": "nor-1",
   "playable": false,
-  "placeholderPrimary": "#1e3a8a",
-  "placeholderSecondary": "#e2b13c",
   "block": "REST",
   "tier": "International / world pool"
  },
@@ -1099,8 +943,6 @@
   "city": "Halden",
   "competitionId": "nor-1",
   "playable": false,
-  "placeholderPrimary": "#c8102e",
-  "placeholderSecondary": "#ffffff",
   "block": "REST",
   "tier": "International / world pool"
  },
@@ -1111,8 +953,6 @@
   "city": "Sandefjord",
   "competitionId": "nor-1",
   "playable": false,
-  "placeholderPrimary": "#111318",
-  "placeholderSecondary": "#c8102e",
   "block": "REST",
   "tier": "International / world pool"
  },
@@ -1123,8 +963,6 @@
   "city": "Oslo",
   "competitionId": "nor-2",
   "playable": false,
-  "placeholderPrimary": "#1e3a8a",
-  "placeholderSecondary": "#ffffff",
   "block": "REST",
   "tier": "International / world pool"
  },
@@ -1135,8 +973,6 @@
   "city": "Lørenskog",
   "competitionId": "nor-2",
   "playable": false,
-  "placeholderPrimary": "#0b6e4f",
-  "placeholderSecondary": "#ffffff",
   "block": "REST",
   "tier": "International / world pool"
  },
@@ -1147,8 +983,6 @@
   "city": "Sandnes",
   "competitionId": "nor-2",
   "playable": false,
-  "placeholderPrimary": "#c8102e",
-  "placeholderSecondary": "#111318",
   "block": "REST",
   "tier": "International / world pool"
  },
@@ -1159,8 +993,6 @@
   "city": "Oslo",
   "competitionId": "nor-2",
   "playable": false,
-  "placeholderPrimary": "#111318",
-  "placeholderSecondary": "#e2b13c",
   "block": "REST",
   "tier": "International / world pool"
  },
@@ -1171,20 +1003,16 @@
   "city": "Balingen",
   "competitionId": "ger-2",
   "playable": false,
-  "placeholderPrimary": "#1e3a8a",
-  "placeholderSecondary": "#ffffff",
   "block": "REST",
   "tier": "International / world pool"
  },
  {
   "id": "ger2-dessau",
-  "name": "SC DHfK Dessau",
+  "name": "Dessau-Roßlauer HV 06",
   "shortName": "Dessau",
-  "city": "Dessau",
+  "city": "Dessau-Roßlau",
   "competitionId": "ger-2",
   "playable": false,
-  "placeholderPrimary": "#0b6e4f",
-  "placeholderSecondary": "#ffffff",
   "block": "REST",
   "tier": "International / world pool"
  },
@@ -1195,8 +1023,6 @@
   "city": "Nordhorn",
   "competitionId": "ger-2",
   "playable": false,
-  "placeholderPrimary": "#c8102e",
-  "placeholderSecondary": "#111318",
   "block": "REST",
   "tier": "International / world pool"
  },
@@ -1207,8 +1033,6 @@
   "city": "Waiblingen",
   "competitionId": "ger-2",
   "playable": false,
-  "placeholderPrimary": "#111318",
-  "placeholderSecondary": "#c8102e",
   "block": "REST",
   "tier": "International / world pool"
  },
@@ -1219,8 +1043,6 @@
   "city": "Aarhus",
   "competitionId": "den-2",
   "playable": false,
-  "placeholderPrimary": "#1e3a8a",
-  "placeholderSecondary": "#ffffff",
   "block": "REST",
   "tier": "International / world pool"
  },
@@ -1231,8 +1053,6 @@
   "city": "Hjørring",
   "competitionId": "den-2",
   "playable": false,
-  "placeholderPrimary": "#c8102e",
-  "placeholderSecondary": "#111318",
   "block": "REST",
   "tier": "International / world pool"
  },
@@ -1240,11 +1060,9 @@
   "id": "den2-fif",
   "name": "FIF Håndbold",
   "shortName": "FIF",
-  "city": "Fredensborg",
+  "city": "Frederiksberg",
   "competitionId": "den-2",
   "playable": false,
-  "placeholderPrimary": "#0b6e4f",
-  "placeholderSecondary": "#ffffff",
   "block": "REST",
   "tier": "International / world pool"
  },
@@ -1255,8 +1073,6 @@
   "city": "Grenaa",
   "competitionId": "den-2",
   "playable": false,
-  "placeholderPrimary": "#111318",
-  "placeholderSecondary": "#e2b13c",
   "block": "REST",
   "tier": "International / world pool"
  },
@@ -1268,8 +1084,6 @@
   "competitionId": "esp-1",
   "playable": false,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#a50044",
-  "placeholderSecondary": "#004d98",
   "block": "REST",
   "tier": "International / world pool"
  },
@@ -1280,8 +1094,6 @@
   "city": "Irun",
   "competitionId": "esp-1",
   "playable": false,
-  "placeholderPrimary": "#c8102e",
-  "placeholderSecondary": "#ffffff",
   "block": "REST",
   "tier": "International / world pool"
  },
@@ -1292,8 +1104,6 @@
   "city": "León",
   "competitionId": "esp-1",
   "playable": false,
-  "placeholderPrimary": "#0b6e4f",
-  "placeholderSecondary": "#ffffff",
   "block": "REST",
   "tier": "International / world pool"
  },
@@ -1305,20 +1115,16 @@
   "competitionId": "esp-1",
   "playable": false,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#111318",
-  "placeholderSecondary": "#e2b13c",
   "block": "REST",
   "tier": "International / world pool"
  },
  {
   "id": "esp1-alicante",
-  "name": "Helvetia Anaitasuna",
+  "name": "SCDR Anaitasuna",
   "shortName": "Anaitasuna",
   "city": "Pamplona",
   "competitionId": "esp-1",
   "playable": false,
-  "placeholderPrimary": "#c8102e",
-  "placeholderSecondary": "#111318",
   "block": "REST",
   "tier": "International / world pool"
  },
@@ -1330,8 +1136,6 @@
   "competitionId": "esp-1",
   "playable": false,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#1e3a8a",
-  "placeholderSecondary": "#ffffff",
   "block": "REST",
   "tier": "International / world pool"
  },
@@ -1339,11 +1143,9 @@
   "id": "esp2-cisne",
   "name": "Cisne Balonmano",
   "shortName": "Cisne",
-  "city": "Ourense",
+  "city": "Pontevedra",
   "competitionId": "esp-2",
   "playable": false,
-  "placeholderPrimary": "#111318",
-  "placeholderSecondary": "#ffffff",
   "block": "REST",
   "tier": "International / world pool"
  },
@@ -1354,8 +1156,6 @@
   "city": "Córdoba",
   "competitionId": "esp-2",
   "playable": false,
-  "placeholderPrimary": "#c8102e",
-  "placeholderSecondary": "#111318",
   "block": "REST",
   "tier": "International / world pool"
  },
@@ -1366,8 +1166,6 @@
   "city": "Huesca",
   "competitionId": "esp-2",
   "playable": false,
-  "placeholderPrimary": "#1e3a8a",
-  "placeholderSecondary": "#e2b13c",
   "block": "REST",
   "tier": "International / world pool"
  },
@@ -1378,8 +1176,6 @@
   "city": "Pontevedra",
   "competitionId": "esp-2",
   "playable": false,
-  "placeholderPrimary": "#0b6e4f",
-  "placeholderSecondary": "#ffffff",
   "block": "REST",
   "tier": "International / world pool"
  },
@@ -1390,21 +1186,17 @@
   "city": "Szeged",
   "competitionId": "hun-1",
   "playable": false,
-  "placeholderPrimary": "#c8102e",
-  "placeholderSecondary": "#111318",
   "block": "REST",
   "tier": "International / world pool"
  },
  {
   "id": "hun1-veszprem",
-  "name": "Telekom Veszprém",
+  "name": "Veszprém KC",
   "shortName": "Veszprém",
   "city": "Veszprém",
   "competitionId": "hun-1",
   "playable": false,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#1e3a8a",
-  "placeholderSecondary": "#e2b13c",
   "block": "REST",
   "tier": "International / world pool"
  },
@@ -1415,8 +1207,6 @@
   "city": "Budapest",
   "competitionId": "hun-1",
   "playable": false,
-  "placeholderPrimary": "#0b6e4f",
-  "placeholderSecondary": "#ffffff",
   "block": "REST",
   "tier": "International / world pool"
  },
@@ -1427,20 +1217,16 @@
   "city": "Csurgó",
   "competitionId": "hun-1",
   "playable": false,
-  "placeholderPrimary": "#111318",
-  "placeholderSecondary": "#c8102e",
   "block": "REST",
   "tier": "International / world pool"
  },
  {
   "id": "hun1-gyor",
-  "name": "Grundfos Tatabánya",
+  "name": "Tatabánya KC",
   "shortName": "Tatabánya",
   "city": "Tatabánya",
   "competitionId": "hun-1",
   "playable": false,
-  "placeholderPrimary": "#1e3a8a",
-  "placeholderSecondary": "#ffffff",
   "block": "REST",
   "tier": "International / world pool"
  },
@@ -1451,20 +1237,16 @@
   "city": "Cegléd",
   "competitionId": "hun-2",
   "playable": false,
-  "placeholderPrimary": "#c8102e",
-  "placeholderSecondary": "#111318",
   "block": "REST",
   "tier": "International / world pool"
  },
  {
   "id": "hun2-eger",
-  "name": "Egri Spartacus",
+  "name": "Eger-Eszterházy SzSE",
   "shortName": "Eger",
   "city": "Eger",
   "competitionId": "hun-2",
   "playable": false,
-  "placeholderPrimary": "#0b6e4f",
-  "placeholderSecondary": "#ffffff",
   "block": "REST",
   "tier": "International / world pool"
  },
@@ -1475,8 +1257,6 @@
   "city": "Komló",
   "competitionId": "hun-2",
   "playable": false,
-  "placeholderPrimary": "#111318",
-  "placeholderSecondary": "#e2b13c",
   "block": "REST",
   "tier": "International / world pool"
  },
@@ -1487,8 +1267,6 @@
   "city": "Celje",
   "competitionId": "svn-1",
   "playable": false,
-  "placeholderPrimary": "#c8102e",
-  "placeholderSecondary": "#111318",
   "block": "REST",
   "tier": "International / world pool"
  },
@@ -1499,8 +1277,6 @@
   "city": "Ljubljana",
   "competitionId": "svn-1",
   "playable": false,
-  "placeholderPrimary": "#1e3a8a",
-  "placeholderSecondary": "#ffffff",
   "block": "REST",
   "tier": "International / world pool"
  },
@@ -1511,8 +1287,6 @@
   "city": "Trebnje",
   "competitionId": "svn-1",
   "playable": false,
-  "placeholderPrimary": "#0b6e4f",
-  "placeholderSecondary": "#ffffff",
   "block": "REST",
   "tier": "International / world pool"
  },
@@ -1523,8 +1297,6 @@
   "city": "Velenje",
   "competitionId": "svn-1",
   "playable": false,
-  "placeholderPrimary": "#111318",
-  "placeholderSecondary": "#c8102e",
   "block": "REST",
   "tier": "International / world pool"
  },
@@ -1535,8 +1307,6 @@
   "city": "Škofja Loka",
   "competitionId": "svn-2",
   "playable": false,
-  "placeholderPrimary": "#1e3a8a",
-  "placeholderSecondary": "#ffffff",
   "block": "REST",
   "tier": "International / world pool"
  },
@@ -1547,8 +1317,6 @@
   "city": "Ormož",
   "competitionId": "svn-2",
   "playable": false,
-  "placeholderPrimary": "#c8102e",
-  "placeholderSecondary": "#111318",
   "block": "REST",
   "tier": "International / world pool"
  },
@@ -1560,8 +1328,6 @@
   "competitionId": "isl-1",
   "playable": false,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#c8102e",
-  "placeholderSecondary": "#111318",
   "block": "REST",
   "tier": "International / world pool"
  },
@@ -1572,8 +1338,6 @@
   "city": "Hafnarfjörður",
   "competitionId": "isl-1",
   "playable": false,
-  "placeholderPrimary": "#ffffff",
-  "placeholderSecondary": "#111318",
   "block": "REST",
   "tier": "International / world pool"
  },
@@ -1584,8 +1348,6 @@
   "city": "Hafnarfjörður",
   "competitionId": "isl-1",
   "playable": false,
-  "placeholderPrimary": "#e2b13c",
-  "placeholderSecondary": "#111318",
   "block": "REST",
   "tier": "International / world pool"
  },
@@ -1596,8 +1358,6 @@
   "city": "Akureyri",
   "competitionId": "isl-1",
   "playable": false,
-  "placeholderPrimary": "#0b6e4f",
-  "placeholderSecondary": "#ffffff",
   "block": "REST",
   "tier": "International / world pool"
  },
@@ -1608,8 +1368,6 @@
   "city": "Reykjavík",
   "competitionId": "isl-2",
   "playable": false,
-  "placeholderPrimary": "#c8102e",
-  "placeholderSecondary": "#ffffff",
   "block": "REST",
   "tier": "International / world pool"
  },
@@ -1620,8 +1378,6 @@
   "city": "Reykjavík",
   "competitionId": "isl-2",
   "playable": false,
-  "placeholderPrimary": "#111318",
-  "placeholderSecondary": "#e2b13c",
   "block": "REST",
   "tier": "International / world pool"
  },
@@ -1632,8 +1388,6 @@
   "competitionId": "int-aut-1",
   "playable": false,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#1e3a8a",
-  "placeholderSecondary": "#ffffff",
   "block": "WORLD_POOL_CLUBS",
   "tier": "International / world pool"
  },
@@ -1644,8 +1398,6 @@
   "competitionId": "int-aut-1",
   "playable": false,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#c8102e",
-  "placeholderSecondary": "#111318",
   "block": "WORLD_POOL_CLUBS",
   "tier": "International / world pool"
  },
@@ -1656,8 +1408,6 @@
   "competitionId": "int-fro-1",
   "playable": false,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#0b6e4f",
-  "placeholderSecondary": "#ffffff",
   "block": "WORLD_POOL_CLUBS",
   "tier": "International / world pool"
  },
@@ -1668,8 +1418,6 @@
   "competitionId": "int-hun-2b",
   "playable": false,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#1e3a8a",
-  "placeholderSecondary": "#e2b13c",
   "block": "WORLD_POOL_CLUBS",
   "tier": "International / world pool"
  },
@@ -1680,8 +1428,6 @@
   "competitionId": "int-ita-1",
   "playable": false,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#111318",
-  "placeholderSecondary": "#c8102e",
   "block": "WORLD_POOL_CLUBS",
   "tier": "International / world pool"
  },
@@ -1692,8 +1438,6 @@
   "competitionId": "int-ita-1",
   "playable": false,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#c8102e",
-  "placeholderSecondary": "#ffffff",
   "block": "WORLD_POOL_CLUBS",
   "tier": "International / world pool"
  },
@@ -1704,8 +1448,6 @@
   "competitionId": "int-ita-1",
   "playable": false,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#0b6e4f",
-  "placeholderSecondary": "#111318",
   "block": "WORLD_POOL_CLUBS",
   "tier": "International / world pool"
  },
@@ -1716,8 +1458,6 @@
   "competitionId": "int-ita-2",
   "playable": false,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#1e3a8a",
-  "placeholderSecondary": "#ffffff",
   "block": "WORLD_POOL_CLUBS",
   "tier": "International / world pool"
  },
@@ -1728,8 +1468,6 @@
   "competitionId": "int-ita-2",
   "playable": false,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#c8102e",
-  "placeholderSecondary": "#111318",
   "block": "WORLD_POOL_CLUBS",
   "tier": "International / world pool"
  },
@@ -1740,8 +1478,6 @@
   "competitionId": "int-ita-2",
   "playable": false,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#0b6e4f",
-  "placeholderSecondary": "#ffffff",
   "block": "WORLD_POOL_CLUBS",
   "tier": "International / world pool"
  },
@@ -1752,8 +1488,6 @@
   "competitionId": "int-ned-1",
   "playable": false,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#1e3a8a",
-  "placeholderSecondary": "#e2b13c",
   "block": "WORLD_POOL_CLUBS",
   "tier": "International / world pool"
  },
@@ -1764,8 +1498,6 @@
   "competitionId": "int-ned-1",
   "playable": false,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#c8102e",
-  "placeholderSecondary": "#111318",
   "block": "WORLD_POOL_CLUBS",
   "tier": "International / world pool"
  },
@@ -1776,8 +1508,6 @@
   "competitionId": "int-ned-1",
   "playable": false,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#0b6e4f",
-  "placeholderSecondary": "#ffffff",
   "block": "WORLD_POOL_CLUBS",
   "tier": "International / world pool"
  },
@@ -1788,8 +1518,6 @@
   "competitionId": "int-pol-1",
   "playable": false,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#c8102e",
-  "placeholderSecondary": "#111318",
   "block": "WORLD_POOL_CLUBS",
   "tier": "International / world pool"
  },
@@ -1800,8 +1528,6 @@
   "competitionId": "int-por-1",
   "playable": false,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#0b6e4f",
-  "placeholderSecondary": "#ffffff",
   "block": "WORLD_POOL_CLUBS",
   "tier": "International / world pool"
  },
@@ -1812,8 +1538,6 @@
   "competitionId": "int-qat-1",
   "playable": false,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#111318",
-  "placeholderSecondary": "#e2b13c",
   "block": "WORLD_POOL_CLUBS",
   "tier": "International / world pool"
  },
@@ -1824,8 +1548,6 @@
   "competitionId": "int-che-1",
   "playable": false,
   "dataSource": "REAL_WORLD",
-  "placeholderPrimary": "#1e3a8a",
-  "placeholderSecondary": "#ffffff",
   "block": "WORLD_POOL_CLUBS",
   "tier": "International / world pool"
  },

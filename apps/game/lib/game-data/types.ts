@@ -167,9 +167,11 @@ export type Club = ClubIdentityFields & {
    * pass, not something to invent.
    */
   academyQuality?: number;
-  /** Hex accent used for crest placeholder + club chrome. */
+  /** Club Identity C5: the club's own mark colours from the Club Identity Registry (crest colours when documented, else home kit), or a neutral placeholder. Never the neon accent, never a parent's colours. */
   primaryColor: string;
   secondaryColor: string;
+  /** Club Identity C5: "REGISTRY" when the colours are registry evidence, "PLACEHOLDER" for the neutral grey that claims nothing. */
+  colourSource?: "REGISTRY" | "PLACEHOLDER";
 };
 
 // HM-DATA-ALLSVENSKAN-1.1B Part 10: "PV" (Pivot) was audited and removed

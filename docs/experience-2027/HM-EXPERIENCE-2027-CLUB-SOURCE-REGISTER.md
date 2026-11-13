@@ -655,7 +655,7 @@ International / world pool · **VERIFIED** (confidence 0.8) · crest differs fro
 
 _Notes:_ Prior said navy; the shirt looks mid/royal blue. Studio light mutes the measured hex.
 
-### Skanderborg Aarhus — `den1-skanderborg`
+### Skanderborg AGF Håndbold — `den1-skanderborg`
 
 International / world pool · **PROBABLE** (confidence 0.7) · crest differs from shirt: yes · season 2026/27
 
@@ -700,6 +700,12 @@ International / world pool · **VERIFIED** (confidence 0.85) · crest differs fr
 2. [wikipedia] https://en.wikipedia.org/wiki/TTH_Holstebro — Kit template body1=FFFFFF, arms 000000, shorts1=000000; colours White/Black
 
 _Notes:_ Official site is tthholstebro.dk. Monochrome white/black.
+
+### KIF Kolding — `den1-kif-kolding`
+
+International / world pool · **NOT_RESEARCHED** · crest differs from shirt: unknown
+
+- no source found
 
 ### Bergischer HC — `ger1-bergischer`
 
@@ -770,7 +776,7 @@ International / world pool · **VERIFIED** (confidence 0.85) · crest differs fr
 
 _Notes:_ Matches prior blue.
 
-### HSV Hamburg — `ger1-hamburg`
+### Handball Club Hamburg — `ger1-hamburg`
 
 International / world pool · **PROBABLE** (confidence 0.7) · crest differs from shirt: unknown · season 2025/26
 
@@ -875,6 +881,12 @@ International / world pool · **VERIFIED** (confidence 0.93) · crest differs fr
 2. [wikipedia] https://en.wikipedia.org/wiki/HSG_Wetzlar — Kit template pattern_b1=_hsgwetzlar23h, arms 14544B, pattern_la1=_whiteborder; colours Green/White
 
 _Notes:_ Prior PROBABLE dark-green now confirmed visually. Article states Balingen is a promoted HBL side in 2026/27.
+
+### SG BBM Bietigheim — `ger1-bietigheim`
+
+International / world pool · **NOT_RESEARCHED** · crest differs from shirt: unknown
+
+- no source found
 
 ### Elverum Håndball — `nor1-elverum`
 
@@ -988,7 +1000,7 @@ International / world pool · **VERIFIED** (confidence 0.87) · crest differs fr
 
 _Notes:_ Prior navy with white shoulders; current shirt is royal-blue with pattern. Balingen plays in the HBL (promoted) in 2026/27; id competition ger-2 is outdated. Official site hbw-balingen.de redirected to an unrelated domain and was not used. The HBL consent overlay offered only accept/options and was hidden locally, not accepted.
 
-### SC DHfK Dessau — `ger2-dessau`
+### Dessau-Roßlauer HV 06 — `ger2-dessau`
 
 International / world pool · **VERIFIED** (confidence 0.87) · crest differs from shirt: no · season 2026/27
 
@@ -1008,12 +1020,9 @@ _Notes:_ Prior said white shoulders and red shorts; current kit has black sides 
 
 ### TV Bittenfeld — `ger2-wilhelmshaven`
 
-International / world pool · **PROBABLE** (confidence 0.62) · crest differs from shirt: yes
+International / world pool · **RETIRED** · crest differs from shirt: unknown
 
-1. [official-match-photo] https://www.tvbittenfeld.de/abteilung/handball/ — Handball department header: men's team celebrating in a sports hall in white/blue-patterned shirts and blue shorts; opponent in black. Undated; header has a dark overlay so the white could not be measured. · screenshot: [research/phase2/evidence/ger2-wilhelmshaven-1.jpg](../../design-lab/experience-2027/club-identity/research/phase2/evidence/ger2-wilhelmshaven-1.jpg)
-2. [wikipedia] https://en.wikipedia.org/wiki/TVB_Stuttgart — TVB Stuttgart is the professional team of TV Bittenfeld (TVB 1898)
-
-_Notes:_ ID/NAME MISMATCH: id "wilhelmshaven" but name TV Bittenfeld (Waiblingen). TV Bittenfeld is not in the 2. HBL 2026/27 list on opel-hbl.de; its former professional team is TVB 1898 Stuttgart (HBL). Wilhelmshavener HV is also not in that list. Identity unchanged.
+- no source found
 
 ### Aarhus Håndbold Herrer — `den2-aarhus`
 
@@ -1095,7 +1104,7 @@ International / world pool · **VERIFIED** (confidence 0.88) · crest differs fr
 
 _Notes:_ Photo from the opponent's official site, home match for Granollers. Matches prior.
 
-### Helvetia Anaitasuna — `esp1-alicante`
+### SCDR Anaitasuna — `esp1-alicante`
 
 International / world pool · **UNCERTAIN** (confidence 0.3) · crest differs from shirt: unknown
 
@@ -1162,7 +1171,7 @@ International / world pool · **VERIFIED** (confidence 0.9) · crest differs fro
 
 _Notes:_ Club name now "OTP Bank - PICK Szeged". Matches prior.
 
-### Telekom Veszprém — `hun1-veszprem`
+### Veszprém KC — `hun1-veszprem`
 
 International / world pool · **VERIFIED** (confidence 0.92) · crest differs from shirt: no · season 2026/27
 
@@ -1193,7 +1202,7 @@ International / world pool · **VERIFIED** (confidence 0.85) · crest differs fr
 
 _Notes:_ Prior said white shoulders and red shorts; current shorts black.
 
-### Grundfos Tatabánya — `hun1-gyor`
+### Tatabánya KC — `hun1-gyor`
 
 International / world pool · **VERIFIED** (confidence 0.87) · crest differs from shirt: yes · season 2026/27
 
@@ -1213,7 +1222,7 @@ International / world pool · **UNCERTAIN** (confidence 0.3) · crest differs fr
 
 _Notes:_ Text evidence only - no men's A-team image seen in phase 2. Only club colour statements; home shirt itself not confirmed.
 
-### Egri Spartacus — `hun2-eger`
+### Eger-Eszterházy SzSE — `hun2-eger`
 
 International / world pool · **UNCERTAIN** (confidence 0.3) · crest differs from shirt: unknown
 

@@ -305,5 +305,7 @@
   "lib/career/clubIdentityCareer.test.ts",
   "lib/game-data/clubIdentityCorrections.test.ts",
   "lib/career/clubWorldMembership.test.ts",
-  "lib/career/staticRelationPartnerships.test.ts"
+  "lib/career/staticRelationPartnerships.test.ts",
+  "lib/game-data/clubVisualIdentity.test.ts",
+  "lib/career/activeClubIdentity.test.ts"
 ]

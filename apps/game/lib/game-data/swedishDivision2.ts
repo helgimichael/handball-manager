@@ -18,6 +18,6 @@ export const SWEDISH_DIVISION_2_CLUBS: readonly Club[] = data.division2Registrat
     sourceRegistration:{provider:'PROFIXIO' as const,teamId:t.sourceTeamId,seasonId:d.seasonId,url:t.sourceUrl},
     // Club Identity S5: the Profixio id is a per-season team registration, never the club key; future imports match the SHF association id + team name.
     externalIds:{profixioTeam:{[d.seasonId]:t.sourceTeamId}},
-    // Neutral crest placeholders only, not claims about official club colours.
+    // Neutral placeholder; replaced from the Club Identity Registry when CLUBS is assembled (clubs.ts, Club Identity C5).
     primaryColor:'#6b7280',secondaryColor:'#ffffff',
   }] : []));

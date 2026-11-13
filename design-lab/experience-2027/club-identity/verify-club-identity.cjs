@@ -9,7 +9,7 @@ const { chromium } = require(process.env.PW_PATH || 'C:/DEV/PROJECTS/handball-ma
 const here = __dirname;
 const ROOT = path.resolve(here, '..', '..', '..');
 const DOCS = path.join(ROOT, 'docs', 'experience-2027');
-const BASE = 'http://127.0.0.1:3790/design-lab/experience-2027/';
+const BASE = process.env.LAB_BASE || 'http://127.0.0.1:3790/design-lab/experience-2027/';
 const reg = JSON.parse(fs.readFileSync(path.join(here, 'registry.json'), 'utf8'));
 const issues = [];
 const res = {};
@@ -32,19 +32,22 @@ if (gitDiff) issues.push('apps/packages changed: ' + gitDiff);
 let det = 0, contrastOk = 0;
 for (const c of reg.clubs) {
   const rf = (x) => x.neonRef || x.hex;
-  const kit = { primary: ['UNKNOWN', 'NOT_RESEARCHED'].includes(c.status) ? null : rf(c.kit.primary), secondary: rf(c.kit.secondary), trim: rf(c.kit.trim), status: c.status };
+  const kit = { primary: ['UNKNOWN', 'NOT_RESEARCHED', 'RETIRED'].includes(c.status) ? null : rf(c.kit.primary), secondary: rf(c.kit.secondary), trim: rf(c.kit.trim), status: c.status };
   const again = N.neonForKit(kit).neon;
   if (!c.override && again !== c.neon) issues.push(`${c.id}: neon not reproducible (${c.neon} vs ${again})`); else det++;
   const a = N.contrast(c.neon, N.BG), b = N.contrast(N.INK, c.neon);
   if (a < 4.5 || b < 4.5) issues.push(`${c.id}: contrast ${a.toFixed(2)}/${b.toFixed(2)}`); else contrastOk++;
   // Owner decisions 2026-11-14
-  if (['UNKNOWN', 'NOT_RESEARCHED'].includes(c.status) && (c.neon !== N.CLUBLESS || !c.fallback)) issues.push(`${c.id}: unknown kit must use the orange FALLBACK (got ${c.neon}, fallback=${c.fallback})`);
+  if (['UNKNOWN', 'NOT_RESEARCHED', 'RETIRED'].includes(c.status) && (c.neon !== N.CLUBLESS || !c.fallback)) issues.push(`${c.id}: unknown kit must use the orange FALLBACK (got ${c.neon}, fallback=${c.fallback})`);
   if (c.fallback && ['VERIFIED', 'PROBABLE'].includes(c.status)) issues.push(`${c.id}: fallback colour on a ${c.status} club`);
   if (c.fallback && c.status !== 'UNKNOWN' && c.kit.primary.hex) issues.push(`${c.id}: fallback despite a documented shirt colour`);
   if (c.kit.primary.hex && !['UNKNOWN', 'NOT_RESEARCHED'].includes(c.status) && !c.override && !N.isChromatic(c.kit.primary.neonRef || c.kit.primary.hex) && c.neon !== N.MONOCHROME) issues.push(`${c.id}: black/white shirt not on Ice Silver`);
   if (['VERIFIED', 'PROBABLE'].includes(c.status) && !c.sources.length) issues.push(`${c.id}: ${c.status} without sources`);
   if (c.kit.primary.hex && !c.sources.length && !c.override) issues.push(`${c.id}: colour without source`);
   if (c.reviewReasons.length === 0 && !['VERIFIED', 'PROBABLE'].includes(c.status)) issues.push(`${c.id}: ${c.status} not on review list`);
+  // Club Identity C5: identity joins and no inherited colours (L8, I10).
+  if (c.clubStatus === 'retired' && (c.status !== 'RETIRED' || c.kit.primary.hex)) issues.push(`${c.id}: retired tombstone must render without a kit`);
+  if (c.parentClubId) { const parent = reg.clubs.find((x) => x.id === c.parentClubId); if (!parent) issues.push(`${c.id}: parent ${c.parentClubId} not in registry`); else if (c.kit.primary.hex && parent.kit.primary.hex && c.sources.length === 0) issues.push(`${c.id}: affiliate colour without own evidence`); }
 }
 res.deterministic = det; res.contrastPass = contrastOk;
 // Phase 2: every Swedish club reviewed with Phase 2 evidence; every cited screenshot exists; no Swedish VERIFIED without an image.

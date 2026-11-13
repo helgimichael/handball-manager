@@ -176,7 +176,8 @@ body {
   padding: 14px 12px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-left: 3px solid var(--club-primary, var(--game-signal));
+  /* Club Identity C5: the active club's neon on the dark sidebar (clubless / unverified: orange). */
+  border-left: 3px solid var(--club-neon, var(--club-primary, var(--game-signal)));
   border-radius: 4px;
 }
 .hm-club-name {
@@ -218,6 +219,63 @@ body {
   background: linear-gradient(90deg, rgba(200, 67, 32, 0.22), rgba(38, 49, 72, 0.65));
   border-left: 3px solid var(--game-signal);
 }
+/* Club Identity C5: inside the career shell the active-item marker follows the club neon (dark surface, contrast-gated in the registry). */
+.hm-shell[data-club-identity] .hm-nav-item[data-active="true"] {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--club-neon) 22%, transparent), rgba(38, 49, 72, 0.65));
+  border-left-color: var(--club-neon);
+}
+.hm-clubless-mark {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  border: 2px dashed var(--club-neon, var(--game-signal));
+  color: var(--club-neon, var(--game-signal));
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+.hm-club-identity-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 6px;
+  margin-top: 4px;
+}
+.hm-club-relation,
+.hm-club-colour-fallback {
+  display: inline-block;
+  max-width: 100%;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.hm-club-relation {
+  border: 1px solid currentColor;
+  opacity: 0.85;
+}
+/* The fallback marker keeps the surrounding text colour (readable on paper and on the dark sidebar); the orange is the dashed frame and swatch. */
+.hm-club-colour-fallback {
+  border: 1px dashed #ff7a1a;
+  color: inherit;
+}
+.hm-club-colour-fallback::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 5px;
+  border-radius: 50%;
+  background: #ff7a1a;
+  vertical-align: 0;
+}
+.hm-club-identity-tags[data-compact] .hm-club-relation,
+.hm-club-identity-tags[data-compact] .hm-club-colour-fallback {
+  font-size: 10px;
+}
+.hm-sidebar .hm-club-relation { color: #c8d3e3; }
 .hm-nav-badge {
   background: var(--game-signal);
   color: #fff;

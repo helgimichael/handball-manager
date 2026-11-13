@@ -19,6 +19,7 @@ import ClubCrest from '@/components/ClubCrest';
 import FormDots from '@/components/FormDots';
 import { ENVIRONMENTS } from '@/components/clubhq/environments';
 import { svOrdinal } from "@/lib/format/ordinal";
+import { ClubIdentityTags } from './ClubIdentityTags';
 
 export function clubColorVars(club?: { primaryColor?: string; secondaryColor?: string } | null): CSSProperties {
   if (!club) return {};
@@ -270,6 +271,7 @@ export function ClubHero({ clubId, career, children }: { clubId: string; career:
           {clubId === career.playerClubId ? 'Din klubb' : 'Klubben i handbollsvärlden'} · {career.seasonId}
         </div>
         <h1>{club.name}</h1>
+        <ClubIdentityTags clubId={club.id} seasonId={career.seasonId} />
         <div className="game-person-facts">
           <Link href={`/career/competitions/${competitionId}`}>
             {COMPETITIONS.find((c) => c.id === competitionId)?.name ?? 'Tävling'}
