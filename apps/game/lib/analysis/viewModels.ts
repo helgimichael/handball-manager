@@ -9,6 +9,7 @@
 import type { PlayerMatchContribution, TeamMatchStats } from "@handball-manager/game-simulation";
 import { COMPETITIONS, getClub, type Club } from "../game-data";
 import { getCareerSquad } from "../career/careerWorld";
+import { clubCompetitionId } from "../career/competitionMembership";
 import { getLastPlayedPlayerFixture, getNextPlayerFixture } from "../career/calendar";
 import { getLiveStandings } from "../career/standings";
 import type { CareerState, ClubFormEntry, PlayerSeasonStats } from "../career/types";
@@ -165,7 +166,7 @@ export function buildOpponentViewModel(career: CareerState): OpponentViewModel {
   return {
     status: "OK",
     club,
-    competitionName: competitionName(club.competitionId),
+    competitionName: competitionName(clubCompetitionId(career, club.id) ?? club.competitionId),
     leaguePosition: leaguePosition(career, opponentId),
     nextFixture: ok({ date: nextFixture.date, isHome: !isHome }), // from the opponent's own home/away perspective
     form: metrics.form(recentRows),

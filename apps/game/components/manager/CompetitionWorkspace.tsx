@@ -3,7 +3,8 @@ import { Suspense } from 'react';
 import Link from 'next/link';
 import { useParams, useSearchParams, useRouter } from 'next/navigation';
 import { useCareer } from '@/lib/career/CareerContext';
-import { COMPETITIONS, getClubsByCompetition, getClub } from '@/lib/game-data';
+import { COMPETITIONS, getClub } from '@/lib/game-data';
+import { careerClubsInCompetition, clubCompetitionId } from '@/lib/career/competitionMembership';
 import { competitionTable, hasLeagueCalendar } from '@/lib/competition/tables';
 import { SVENSKA_CUPEN } from '@/lib/competition/rules';
 import { CupWorkspace } from './CupWorkspace';
@@ -35,7 +36,8 @@ function Competition() {
   const live = hasLeagueCalendar(career, id);
   const tab = query.get('tab') ?? 'table';
   const table = live ? competitionTable(career, id) : [];
-  const clubs = getClubsByCompetition(id);
+  // Club Identity C3: members in this career season (promotions and season-bound real-world leagues).
+  const clubs = careerClubsInCompetition(career, id);
   const fixtures = career.fixtures.filter(f => f.competitionId === id);
   const upcoming = fixtures.filter(f => !career.results[f.id]).sort((a,b) => a.date.localeCompare(b.date));
   const played = fixtures.filter(f => !!career.results[f.id]).sort((a,b) => b.date.localeCompare(a.date));
@@ -47,7 +49,7 @@ function Competition() {
   const players = new Map(managementPlayers(career).map(p => [p.id,p]));
   const leaders = Object.values(career.playerSeasonStats).filter(stat => {
     const player = players.get(stat.playerId);
-    return !!player && getClub(player.clubId)?.competitionId === id && stat.appearances > 0;
+    return !!player && clubCompetitionId(career, player.clubId) === id && stat.appearances > 0;
   }).sort((a,b) => b.goals - a.goals || b.appearances - a.appearances).slice(0,5);
   const href = `/career/competitions/${encodeURIComponent(id)}`;
 

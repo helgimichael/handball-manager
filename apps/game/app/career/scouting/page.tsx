@@ -12,6 +12,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { getClub, getCompetition, positionLabel, type HandballPosition } from "@/lib/game-data";
 import { playerAgeAtDate } from "@/lib/development/developmentIntegration";
 import { useCareer } from "@/lib/career/CareerContext";
+import { clubCompetitionId } from "@/lib/career/competitionMembership";
 import { getCareerClubSquad, getCareerPlayer, getExternalCandidateClubs } from "@/lib/career/careerWorld";
 import { getAllScoutingAssignments, computeAssignmentProgressPct, getClubScouts, type ScoutAssignmentType } from "@/lib/career/scouting";
 import { getAllScoutDiscoveries, scopeLabelSv, NATION_LABEL_SV } from "@/lib/career/scoutDiscovery";
@@ -55,13 +56,15 @@ export default function ScoutingPage() {
   const candidateCompetitions = useMemo(() => {
     const byId = new Map<string, { id: string; name: string }>();
     for (const club of candidateClubs) {
-      if (!byId.has(club.competitionId)) {
-        const competition = getCompetition(club.competitionId);
-        byId.set(club.competitionId, { id: club.competitionId, name: competition?.name ?? club.competitionId });
+      // Club Identity C3: the club's league in THIS career season, not the frozen legacy value.
+      const competitionId = clubCompetitionId(career, club.id) ?? club.competitionId;
+      if (!byId.has(competitionId)) {
+        const competition = getCompetition(competitionId);
+        byId.set(competitionId, { id: competitionId, name: competition?.name ?? competitionId });
       }
     }
     return Array.from(byId.values()).sort((a, b) => a.name.localeCompare(b.name));
-  }, [candidateClubs]);
+  }, [candidateClubs, career]);
   const candidateNations = useMemo(() => {
     const nations = new Set<string>();
     for (const club of candidateClubs) {

@@ -1,3 +1,4 @@
+import { assertClubWorldCompatible } from "./clubWorldCompatibility";
 import { GAME_CURRENT_DATE, getClub, getClubsByCompetition, type PlayerMock } from '../game-data';
 import { ALLSVENSKAN, HANDBOLLSLIGAN } from '../competition/rules';
 import { createSave, saveCareerState, type CareerSave } from '../save/saveRepository';
@@ -145,6 +146,8 @@ async function fetchAllClubsStaffIdentity(competitionId: string): Promise<Record
 
 export async function getOrCreateCareerState(save: CareerSave, persist = true): Promise<CareerState> {
   if (save.careerState) {
+    // Club Identity C3 (T7): refuse (write nothing) when the save comes from a club world this build cannot interpret.
+    assertClubWorldCompatible(save.careerState);
     let migrated = migrateCareerState(save.careerState);
     // HM-STAFF-CAREER-1.0: an existing save may predate this milestone's
     // whole-competition staff resolution (it only ever had its own

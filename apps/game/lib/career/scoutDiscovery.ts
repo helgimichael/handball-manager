@@ -91,7 +91,7 @@ function allExternalCandidates(state: CareerState, asOfDate: string): CandidateP
         position: p.position,
         ageYears: playerAgeAtDate(p.dateOfBirth, p.birthYear ?? undefined, asOfDate),
         nation: clubNation(club.id),
-        competitionId: club.competitionId,
+        competitionId: clubCompetitionId(state, club.id) ?? club.competitionId,
       });
     }
   }
@@ -109,7 +109,7 @@ function candidatePoolFor(state: CareerState, assignment: ScoutingAssignment, as
         position: p.position,
         ageYears: playerAgeAtDate(p.dateOfBirth, p.birthYear ?? undefined, asOfDate),
         nation: clubNation(assignment.targetClubId),
-        competitionId: club.competitionId,
+        competitionId: clubCompetitionId(state, club.id) ?? club.competitionId,
       }));
     }
     case "COMPETITION":

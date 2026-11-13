@@ -303,5 +303,6 @@
   "lib/career/division2Qualification.test.ts",
   "lib/game-data/clubIdentity.test.ts",
   "lib/career/clubIdentityCareer.test.ts",
-  "lib/game-data/clubIdentityCorrections.test.ts"
+  "lib/game-data/clubIdentityCorrections.test.ts",
+  "lib/career/clubWorldMembership.test.ts"
 ]

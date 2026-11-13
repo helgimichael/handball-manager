@@ -7,7 +7,7 @@ import type { CareerEvent } from './careerEvents';
 import { displaceIncumbentHeadCoach } from "../staff/headCoachDisplacement";
 import { emptyMatchFitnessLedger, LEGACY_MATCH_FITNESS, PRESEASON_MATCH_FITNESS } from "../players/matchFitness";
 import { generateDoubleRoundRobin } from "@handball-manager/game-simulation";
-import { GAME_CURRENT_DATE, TUMBA_SQUAD, getClub, getClubsByCompetition } from "../game-data";
+import { CLUB_WORLD_EPOCH, GAME_CURRENT_DATE, TUMBA_SQUAD, getClub, getClubsByCompetition } from "../game-data";
 import { getRealLeagueSchedule } from "../game-data/realLeagueSchedules";
 import type { PlayerMock } from "../game-data";
 import { addDays } from "./dateUtils";
@@ -142,6 +142,8 @@ export function createNewCareerState(
     seasonId: "2026/27",
     competitionId,
     playerClubId,
+    // Club Identity C3: new careers start in the corrected 2026/27 club world.
+    clubWorldBaseline: CLUB_WORLD_EPOCH,
     gameDate: careerStartDate,
     seasonComplete: false,
     saveSeed,

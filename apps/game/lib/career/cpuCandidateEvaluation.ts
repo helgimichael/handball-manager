@@ -5,6 +5,7 @@
 // (seededOffset jitter, never Math.random -- Part: "Ingen Math.random()...
 // same career seed + same state -> same beslut").
 import { getClub, positionLabel, type HandballPosition, type PlayerMock } from "../game-data";
+import { clubCompetitionId } from "./competitionMembership";
 import { getClubBudgets, getClubPlayerWageCostsEurAnnual } from "../economy/clubEconomyIntegration";
 import { getPlayerContract, getPlayerContractStatus, getPlayerMarketValueEur } from "../economy/contractIntegration";
 import { getPlayerTrainingCompensation } from "../economy/trainingCompensationIntegration";
@@ -241,7 +242,7 @@ export function rankCandidates(state: CareerState, buyerClubId: string, position
   }
 
   for (const club of candidateClubs) {
-    const isInternational = (WORLD_POOL_COMPETITION_IDS as readonly string[]).includes(club.competitionId);
+    const isInternational = (WORLD_POOL_COMPETITION_IDS as readonly string[]).includes(clubCompetitionId(state, club.id) ?? club.competitionId);
     // Part: reach -- no scout means international candidates are entirely
     // invisible (a hard gate, unchanged from 1.0); a club whose own level
     // sits more than 40 CA below the reference point is still excluded

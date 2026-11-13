@@ -4,6 +4,7 @@ import { useWorkspaceState } from '@/components/game/WorkspaceMemory';
 import Link from 'next/link';
 import { useCareer } from '@/lib/career/CareerContext';
 import { managementPlayers } from '@/lib/career/management';
+import { clubCompetitionId } from '@/lib/career/competitionMembership';
 import { getClub, COMPETITIONS } from '@/lib/game-data';
 import { playerAgeAtDate } from '@/lib/development/developmentIntegration';
 import { getPlayerContractStatus } from '@/lib/economy/contractIntegration';
@@ -34,8 +35,8 @@ export default function PlayerSearchPage() {
   const nations = useMemo(() => [...new Set(players.map(r => r.player.nationality))].sort(), [players]);
   const rows = useMemo(() => players.filter(r => {
     const p = r.player;
-    return `${p.firstName} ${p.lastName} ${getClub(p.clubId)?.name ?? ''}`.toLocaleLowerCase('sv').includes(query.toLocaleLowerCase('sv')) && (position === 'ALL' || p.position === position || p.secondaryPosition === position) && (league === 'ALL' || getClub(p.clubId)?.competitionId === league) && (nation === 'ALL' || p.nationality === nation) && (!maxAge || (r.age !== null && r.age <= Number(maxAge))) && (contract === 'ALL' || (contract === 'FREE_AGENT' ? !p.clubId : r.status === 'EXPIRING' || r.status === 'EXPIRING_SOON'));
-  }).sort((a, b) => applySortDirection(sort.direction, sort.key === 'name' ? a.player.lastName.localeCompare(b.player.lastName) : sort.key === 'contract' ? (a.contract?.contractEndDate ?? '').localeCompare(b.contract?.contractEndDate ?? '') : sort.key === 'age' ? (a.age ?? Infinity) - (b.age ?? Infinity) : a[sort.key] - b[sort.key])), [players, query, position, league, nation, maxAge, contract, sort]);
+    return `${p.firstName} ${p.lastName} ${getClub(p.clubId)?.name ?? ''}`.toLocaleLowerCase('sv').includes(query.toLocaleLowerCase('sv')) && (position === 'ALL' || p.position === position || p.secondaryPosition === position) && (league === 'ALL' || clubCompetitionId(career, p.clubId) === league) && (nation === 'ALL' || p.nationality === nation) && (!maxAge || (r.age !== null && r.age <= Number(maxAge))) && (contract === 'ALL' || (contract === 'FREE_AGENT' ? !p.clubId : r.status === 'EXPIRING' || r.status === 'EXPIRING_SOON'));
+  }).sort((a, b) => applySortDirection(sort.direction, sort.key === 'name' ? a.player.lastName.localeCompare(b.player.lastName) : sort.key === 'contract' ? (a.contract?.contractEndDate ?? '').localeCompare(b.contract?.contractEndDate ?? '') : sort.key === 'age' ? (a.age ?? Infinity) - (b.age ?? Infinity) : a[sort.key] - b[sort.key])), [players, query, position, league, nation, maxAge, contract, sort, career]);
   const lastPage = Math.max(0, Math.ceil(rows.length / 60) - 1);
   const currentPage = Math.min(page, lastPage);
   const selected = rows.find(r => r.player.id === selectedId) ?? rows[currentPage * 60];
