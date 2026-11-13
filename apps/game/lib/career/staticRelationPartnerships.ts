@@ -32,6 +32,26 @@ export function staticCooperationRelations(): StaticRelation[] {
   return CLUBS.flatMap((c) => (c.relations ?? []).filter((r) => COOPERATION_RELATION_KINDS.includes(r.relation)).map((r) => ({ ...r, childClubId: c.id })));
 }
 
+/**
+ * OWNER DECISION REQUIRED (Club Identity C4 blocker, see CLUB-IDENTITY-RELATIONSHIPS-REPORT.md §5).
+ *
+ * Seeding career agreements for the 11 Division 2 relations makes the production
+ * transition engine deadlock: when a parent is relegated into its cooperation
+ * team's tier (or the team is promoted while its parent drops into that tier), the
+ * unchanged cooperation rule refuses every later season transition
+ * (COOPERATION_TARGET_INELIGIBLE), and the GAME_CONTINUITY engine has no rule to move
+ * the team down. Resolving that is a Swedish competition-engine change outside this
+ * assignment's authority. Until it is approved, the relations stay static facts
+ * (labels, candidate exclusion, no renewal) and no career agreement is activated.
+ * Flip to true only together with engine support and the five-season soak.
+ */
+export const DIVISION2_RELATION_AGREEMENTS_ENABLED = false;
+
+/** The relations that become career agreements: none of the static set while the gate above is closed. */
+export function careerAgreementRelations(): StaticRelation[] {
+  return DIVISION2_RELATION_AGREEMENTS_ENABLED ? staticCooperationRelations() : [];
+}
+
 const PERMANENT_IDS = new Set(PERMANENT_B_TEAM_PAIRS.map((p) => `bteam-${p.clubAId}-${p.clubBId}`));
 
 export function staticRelationPartnershipId(r: Pick<StaticRelation, "parentClubId" | "childClubId">): string {
@@ -53,7 +73,7 @@ export type SeedMode = "CAREER_START" | "NEXT_SEASON";
  * `NEXT_SEASON` (every load, via migrateCareerState) uses the start of the
  * season after `state.seasonId`.
  */
-export function seedStaticRelationPartnerships(state: CareerState, mode: SeedMode, careerStartDate?: string, relations: readonly StaticRelation[] = staticCooperationRelations()): CareerState {
+export function seedStaticRelationPartnerships(state: CareerState, mode: SeedMode, careerStartDate?: string, relations: readonly StaticRelation[] = careerAgreementRelations()): CareerState {
   const existing = state.clubPartnerships ?? {};
   const floor = mode === "CAREER_START" ? (careerStartDate ?? state.gameDate) : nextSeasonStartDate(state.seasonId);
   const added: Record<string, ClubPartnership> = {};
@@ -79,7 +99,7 @@ export function seedStaticRelationPartnerships(state: CareerState, mode: SeedMod
  * daily tick expires it (progressPartnershipExpiry). Rows not seeded from a
  * static relation, and rows already ended, are never touched.
  */
-export function reconcileStaticRelationPartnerships(state: CareerState, relations: readonly StaticRelation[] = staticCooperationRelations()): CareerState {
+export function reconcileStaticRelationPartnerships(state: CareerState, relations: readonly StaticRelation[] = careerAgreementRelations()): CareerState {
   const rows = state.clubPartnerships ?? {};
   let next: Record<string, ClubPartnership> | undefined;
   for (const r of relations) {

@@ -7,7 +7,7 @@ import { CLUBS, getClub, clubRelationForSeason, clubRelationLabel, clubTeamType,
 import { createNewCareerState } from "./newCareer";
 import { migrateCareerState } from "./saveMigration";
 import { PERMANENT_B_TEAM_PAIRS, isClubExclusivelyPartnered, renewPartnership, progressPartnershipExpiry, terminatePartnership, type ClubPartnership } from "./clubPartnerships";
-import { reconcileStaticRelationPartnerships, seedStaticRelationPartnerships, staticCooperationRelations, staticRelationPartnershipId, STATIC_RELATION_EVIDENCE_PREFIX, type StaticRelation } from "./staticRelationPartnerships";
+import { DIVISION2_RELATION_AGREEMENTS_ENABLED, reconcileStaticRelationPartnerships, seedStaticRelationPartnerships, staticCooperationRelations, staticRelationPartnershipId, STATIC_RELATION_EVIDENCE_PREFIX, type StaticRelation } from "./staticRelationPartnerships";
 import { cooperationEligibility } from "../competition/transition/cooperationEligibility";
 import type { CareerState } from "./types";
 
@@ -18,14 +18,25 @@ const DIV2_LINKS: Record<string, string> = {
   se_div2_team_1583015: "swe2-ystad2", se_div2_team_1576008: "swe2-h43lund",
 };
 const asSaved = <T,>(v: T): T => JSON.parse(JSON.stringify(v));
-const newCareer = (): CareerState => migrateCareerState(createNewCareerState("club-identity-c4", TUMBA_CLUB_ID));
-/** A v8 career as it was saved before C4: marker absent, only the five permanent rows. */
+const ALL = staticCooperationRelations();
+const created = (): CareerState => migrateCareerState(createNewCareerState("club-identity-c4", TUMBA_CLUB_ID));
+/** The seeding mechanism, exercised explicitly with every static relation (production activation is gated, see the gate test). */
+const newCareer = (): CareerState => { const s = created(); return seedStaticRelationPartnerships(s, "CAREER_START", s.gameDate, ALL); };
+/** A v8 career as it was saved before C4 (marker absent, five permanent rows), loaded and seeded for the next season. */
 function legacyCareer(): CareerState {
-  const s = asSaved(newCareer());
+  const s = asSaved(created());
   delete s.clubWorldBaseline;
-  s.clubPartnerships = Object.fromEntries(Object.entries(s.clubPartnerships).filter(([, p]) => PERMANENT_B_TEAM_PAIRS.some((x) => x.clubAId === p.clubAId && x.clubBId === p.clubBId)));
-  return migrateCareerState(s);
+  return seedStaticRelationPartnerships(migrateCareerState(s), "NEXT_SEASON", undefined, ALL);
 }
+
+test("gate (owner decision): no Division 2 career agreement is activated in production careers; behaviour equals the pre-C4 world", () => {
+  assert.equal(DIVISION2_RELATION_AGREEMENTS_ENABLED, false);
+  const s = created();
+  assert.equal(Object.keys(s.clubPartnerships).length, 5, "new careers hold exactly the five canonical rows");
+  const legacy = asSaved(s); delete legacy.clubWorldBaseline;
+  assert.equal(Object.keys(migrateCareerState(legacy).clubPartnerships).length, 5, "loading never adds rows while gated");
+  for (const p of Object.values(s.clubPartnerships)) assert.equal(p.competitionRestriction, undefined);
+});
 
 test("L9 guard: the cooperation rule source is byte-identical to the pre-Club-Identity baseline", () => {
   const src = readFileSync(new URL("../competition/transition/cooperationEligibility.ts", import.meta.url), "utf8").replace(/\r\n/g, "\n");
@@ -50,6 +61,10 @@ test("static relations: 16 cooperation teams (5 existing + 11 Division 2), disti
   assert.equal(clubRelationLabel("se_club_hk_cliff"), "Hammarby U · HK Cliffs licens");
   // D8 IF Kristianstad: partial partner association, the existing B-team row is kept.
   assert.equal(clubRelationForSeason("se_club_if_kristianstad")?.relationConfidence, "PARTIAL");
+  assert.equal(clubRelationLabel("se_club_if_kristianstad"), "Samarbetsklubb till IFK Kristianstad");
+  assert.equal(clubRelationLabel("se_club_hp_alingsas"), "Alingsås andralag");
+  assert.equal(clubRelationLabel("se_div2_team_1576008"), "H43:s andralag");
+  assert.equal(clubRelationLabel("se_div2_team_1585295"), "Lugi U");
   assert.equal(clubTeamType("se_club_if_kristianstad"), "PARTNER_ASSOCIATION");
   assert.equal(clubRelationForSeason("se_div2_team_1575715")?.relationConfidence, "MAJORITY", "HK Varberg 09");
   assert.equal(clubRelationForSeason("se_div2_team_1582183")?.relation, "SAME_CLUB_SECOND_TEAM", "HF Karlskrona U");
@@ -64,7 +79,7 @@ test("static relations: 16 cooperation teams (5 existing + 11 Division 2), disti
   for (const c of CLUBS) for (const r of c.relations ?? []) { assert.ok(getClub(r.parentClubId), `${c.id} parent resolves`); assert.notEqual(r.parentClubId, c.id); assert.ok(r.evidence.length > 10); }
 });
 
-test("new career: the 11 relations are agreements from career start; the five permanent rows are untouched", () => {
+test("mechanism, new career: the 11 relations become agreements from career start; the five permanent rows are untouched", () => {
   const s = newCareer();
   for (const [child, parent] of Object.entries(DIV2_LINKS)) {
     const row = s.clubPartnerships[`bteam-${parent}-${child}`]!;
@@ -77,7 +92,7 @@ test("new career: the 11 relations are agreements from career start; the five pe
   assert.equal(Object.keys(s.clubPartnerships).length, 16);
 });
 
-test("D9 legacy career: rows appear on load but take effect at the NEXT season start; idempotent; save/load preserves them", () => {
+test("mechanism, D9 legacy career: rows take effect at the NEXT season start; idempotent; save/load preserves them", () => {
   const before = legacyCareer();
   const lifBla = before.clubPartnerships["bteam-se_club_lif_lindesberg-se_div2_team_1575788"]!;
   assert.equal(lifBla.startDate, "2027-07-01");
@@ -89,10 +104,10 @@ test("D9 legacy career: rows appear on load but take effect at the NEXT season s
   // Tumba HK below Allsvenskan parent IFK Tumba: may reach Division 1 but never the parent's tier.
   assert.equal(cooperationEligibility(next, "se_div2_team_1582988", 3, "2028-05-30").eligible, true);
   assert.equal(cooperationEligibility(next, "se_div2_team_1582988", 2, "2028-05-30").eligible, false);
-  const again = migrateCareerState(asSaved(before));
-  assert.deepEqual(asSaved(again.clubPartnerships), asSaved(before.clubPartnerships), "load twice = load once");
+  const again = seedStaticRelationPartnerships(migrateCareerState(asSaved(before)), "NEXT_SEASON", undefined, ALL);
+  assert.deepEqual(asSaved(again.clubPartnerships), asSaved(before.clubPartnerships), "load + seed twice = once");
   // A later rollover/load never moves an existing row's start.
-  const reloadedLater = migrateCareerState(asSaved({ ...before, seasonId: "2029/30" }));
+  const reloadedLater = seedStaticRelationPartnerships(migrateCareerState(asSaved({ ...before, seasonId: "2029/30" })), "NEXT_SEASON", undefined, ALL);
   assert.equal(reloadedLater.clubPartnerships[lifBla.id]!.startDate, "2027-07-01");
 });
 
@@ -103,6 +118,8 @@ test("linked teams are never development-partnership candidates; an existing dev
   const withDev = { ...s, clubPartnerships: { ...s.clubPartnerships, [dev.id]: dev } };
   assert.equal(renewPartnership(withDev, dev.id, 12), withDev, "no renewal with a newly linked team");
   assert.equal(migrateCareerState(asSaved(withDev)).clubPartnerships[dev.id]!.endDate, "2027-08-01", "nothing is rewritten");
+  // Exclusion and no-renewal come from the STATIC relations, so they hold even while career agreements are gated.
+  assert.equal(isClubExclusivelyPartnered(created(), "se_div2_team_1575788"), true);
   const expired = progressPartnershipExpiry(withDev, "2027-08-01").state.clubPartnerships[dev.id]!;
   assert.equal(expired.status, "EXPIRED", "runs to its end date through the existing path");
   // Independent Division 1 clubs remain renewable partners.
