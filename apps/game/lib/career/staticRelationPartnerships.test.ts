@@ -26,17 +26,9 @@ const newCareer = (): CareerState => { const s = created(); return seedStaticRel
 function legacyCareer(): CareerState {
   const s = asSaved(created());
   delete s.clubWorldBaseline;
+  s.clubPartnerships = Object.fromEntries(Object.entries(s.clubPartnerships).filter(([, p]) => !p.competitionRestriction));
   return seedStaticRelationPartnerships(migrateCareerState(s), "NEXT_SEASON", undefined, ALL);
 }
-
-test("gate (owner decision): no Division 2 career agreement is activated in production careers; behaviour equals the pre-C4 world", () => {
-  assert.equal(DIVISION2_RELATION_AGREEMENTS_ENABLED, false);
-  const s = created();
-  assert.equal(Object.keys(s.clubPartnerships).length, 5, "new careers hold exactly the five canonical rows");
-  const legacy = asSaved(s); delete legacy.clubWorldBaseline;
-  assert.equal(Object.keys(migrateCareerState(legacy).clubPartnerships).length, 5, "loading never adds rows while gated");
-  for (const p of Object.values(s.clubPartnerships)) assert.equal(p.competitionRestriction, undefined);
-});
 
 test("L9 guard: the cooperation rule source is byte-identical to the pre-Club-Identity baseline", () => {
   const src = readFileSync(new URL("../competition/transition/cooperationEligibility.ts", import.meta.url), "utf8").replace(/\r\n/g, "\n");
@@ -77,6 +69,17 @@ test("static relations: 16 cooperation teams (5 existing + 11 Division 2), disti
   // Independent clubs, and no automatic merge: ids and squads stay separate.
   assert.equal(clubTeamType(TUMBA_CLUB_ID), "FIRST_TEAM");
   for (const c of CLUBS) for (const r of c.relations ?? []) { assert.ok(getClub(r.parentClubId), `${c.id} parent resolves`); assert.notEqual(r.parentClubId, c.id); assert.ok(r.evidence.length > 10); }
+});
+
+test("owner decision: Division 2 agreements are active in production careers (new: from career start; loaded v8: from the next season)", () => {
+  assert.equal(DIVISION2_RELATION_AGREEMENTS_ENABLED, true);
+  const s = created();
+  assert.equal(Object.keys(s.clubPartnerships).length, 16, "five canonical rows + 11 Division 2 agreements");
+  const legacy = asSaved(s); delete legacy.clubWorldBaseline;
+  legacy.clubPartnerships = Object.fromEntries(Object.entries(legacy.clubPartnerships).filter(([, p]) => !p.competitionRestriction));
+  const loaded = migrateCareerState(legacy);
+  assert.equal(Object.keys(loaded.clubPartnerships).length, 16);
+  assert.ok(Object.values(loaded.clubPartnerships).filter((p) => p.competitionRestriction).every((p) => p.startDate === "2027-07-01"));
 });
 
 test("mechanism, new career: the 11 relations become agreements from career start; the five permanent rows are untouched", () => {

@@ -57,6 +57,8 @@ export type Competition = {
   sourceNote: string;
   /** Club Identity S6: this competition id models the same real league as `canonicalCompetitionId`. Metadata only: stored ids are never rewritten. */
   canonicalCompetitionId?: string;
+  /** Club Identity C4: a boundary that exists only so a B-team can give way to its A-team (Division 3). Never simulated, never offered in New Game. */
+  outsideCareerWorld?: boolean;
 };
 
 /** Club Identity C1: a season label "YYYY/YY" (e.g. "2026/27"). Lexicographic order equals chronological order. */

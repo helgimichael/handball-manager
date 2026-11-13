@@ -29,6 +29,19 @@ import { acceptJobOffer } from "../manager/changeClub";
 import { ensureBoard } from "../board/board";
 import { activeClubVisualIdentity } from "./activeClubIdentity";
 import type { CareerState } from "./types";
+import { restrictingParents, DIVISION_3_ID } from "../competition/transition/parentPriority";
+import { SWEDISH_2026_RULES as official } from "../competition/transition/sweden2026";
+import { competitionClubIds } from "../competition/tables";
+
+let bTeamChecks = 0;
+let parentPriorityMoves = 0;
+/** Sporting tier now: modeled leagues by family, Division 2 districts 4, Division 3 5. */
+function tierNow(s: CareerState, clubId: string): number {
+  const c = clubCompetitionId(s, clubId);
+  if (c === DIVISION_3_ID) return 5;
+  const league = official.leagues.find((l) => l.id === c);
+  return league ? official.families.find((f) => f.id === league.familyId)!.tier : 4;
+}
 
 const SEASONS = Number(process.env.HM_CLUB_IDENTITY_SOAK_SEASONS ?? 5);
 const hash = (v: unknown) => createHash("sha256").update(JSON.stringify(v) ?? "null").digest("hex");
@@ -72,8 +85,17 @@ function checkInvariants(s: CareerState, label: string, history: string[]) {
   assert.deepEqual((s.seasonHistory ?? []).map(hash), history, `${label}: season history unchanged`);
   // I5: Swedish leagues are career-owned: every Swedish club's league = the career's own membership or its starting league.
   for (const c of CLUBS.filter((x) => isSwedishClub(x.id))) assert.equal(clubCompetitionId(s, c.id), s.competitionMembership?.[c.id] ?? c.competitionId);
-  // I7: the five canonical rows unchanged; no extra rows while Division 2 agreements are gated.
-  assert.equal(Object.values(s.clubPartnerships).filter((p) => p.type === "AFFILIATED_B_TEAM").length, PERMANENT_B_TEAM_PAIRS.length);
+  // I7: the five canonical rows unchanged; the 11 Division 2 agreements present.
+  assert.equal(Object.values(s.clubPartnerships).filter((p) => p.type === "AFFILIATED_B_TEAM").length, PERMANENT_B_TEAM_PAIRS.length + 11);
+  // Owner rule: no B-team plays in the same tier as, or above, its A-team.
+  const nextStart = `${Number(s.seasonId.slice(0, 4))}-07-01`;
+  for (const p of Object.values(s.clubPartnerships)) {
+    if (!restrictingParents(s.clubPartnerships, p.clubBId, nextStart).includes(p.clubAId)) continue;
+    assert.ok(tierNow(s, p.clubBId) > tierNow(s, p.clubAId), `${label}: ${p.clubBId} (tier ${tierNow(s, p.clubBId)}) must be below ${p.clubAId} (tier ${tierNow(s, p.clubAId)})`);
+    bTeamChecks++;
+  }
+  // League sizes.
+  for (const l of official.leagues) assert.equal(competitionClubIds(s, l.id).length, l.size, `${label}: ${l.id} size`);
   for (const p of PERMANENT_B_TEAM_PAIRS) { const row = s.clubPartnerships[`bteam-${p.clubAId}-${p.clubBId}`]!; assert.equal(row.permanent, true); assert.equal(row.endDate, null); }
   // Foreign recruitment pools follow the season.
   for (const l of [...FOREIGN_LEAGUES, ...WORLD_POOL_COMPETITION_IDS]) for (const c of careerClubsInCompetition(s, l)) assert.ok(!isSwedishClub(c.id));
@@ -98,10 +120,10 @@ function soak(kind: "NEW" | "LEGACY") {
   if (kind === "NEW") {
     assert.equal(clubCompetitionId(s, "ger1-leipzig"), "ger-2");
     assert.equal(clubCompetitionId(s, "ger1-bietigheim"), "ger-1");
-    assert.equal(s.clubPartnerships["bteam-se_club_lif_lindesberg-se_div2_team_1575788"], undefined, "Division 2 career agreements are gated (owner decision)");
+    assert.ok(s.clubPartnerships["bteam-se_club_lif_lindesberg-se_div2_team_1575788"]!.startDate <= s.gameDate, "Division 2 agreements active from career start");
   } else {
     for (const l of FOREIGN_LEAGUES) assert.deepEqual(careerClubsInCompetition(s, l).map((c) => c.id), getClubsByCompetition(l).map((c) => c.id), `legacy ${l} = v8`);
-    assert.equal(s.clubPartnerships["bteam-se_club_lif_lindesberg-se_div2_team_1575788"], undefined, "Division 2 career agreements are gated (owner decision)");
+    assert.equal(s.clubPartnerships["bteam-se_club_lif_lindesberg-se_div2_team_1575788"]!.startDate, "2027-07-01", "legacy: from the next season");
   }
   const identity0 = activeClubVisualIdentity(s);
   assert.equal(identity0.clubId, s.playerClubId);
@@ -122,6 +144,7 @@ function soak(kind: "NEW" | "LEGACY") {
       capChecks++;
     }
     const archived = next.seasonHistory!.at(-1)!;
+    parentPriorityMoves += archived.outcome?.parentPriority?.length ?? 0;
     assert.equal(archived.seasonId, from);
     assert.equal(hash(archived.results), results, "results archived unchanged");
     assert.equal(hash(archived.fixtures), fixtures, "fixtures archived unchanged");
@@ -176,6 +199,11 @@ function soak(kind: "NEW" | "LEGACY") {
 test(`Scenario A+C+D+F: a NEW career survives ${SEASONS} seasons with identity, leagues, relations and history intact`, (t) => {
   const { log } = soak("NEW");
   t.diagnostic(JSON.stringify(log));
+  t.diagnostic(`parent-priority moves so far: ${parentPriorityMoves}; B-team checks: ${bTeamChecks}`);
+});
+
+test("A-team priority was exercised and verified across both soaks", () => {
+  assert.ok(bTeamChecks > 0, "B-team placements checked");
 });
 
 test(`Scenario B+C+D+F: a LEGACY v8 career keeps its world, switches at its first rollover and survives ${SEASONS} seasons`, (t) => {

@@ -33,19 +33,12 @@ export function staticCooperationRelations(): StaticRelation[] {
 }
 
 /**
- * OWNER DECISION REQUIRED (Club Identity C4 blocker, see CLUB-IDENTITY-RELATIONSHIPS-REPORT.md §5).
- *
- * Seeding career agreements for the 11 Division 2 relations makes the production
- * transition engine deadlock: when a parent is relegated into its cooperation
- * team's tier (or the team is promoted while its parent drops into that tier), the
- * unchanged cooperation rule refuses every later season transition
- * (COOPERATION_TARGET_INELIGIBLE), and the GAME_CONTINUITY engine has no rule to move
- * the team down. Resolving that is a Swedish competition-engine change outside this
- * assignment's authority. Until it is approved, the relations stay static facts
- * (labels, candidate exclusion, no renewal) and no career agreement is activated.
- * Flip to true only together with engine support and the five-season soak.
+ * Club Identity C4 (owner decision "the A-team always has priority, the B-team must
+ * adapt"): the 11 Division 2 relations are active career agreements. The deadlock the
+ * first C4 attempt found (a B-team promoted into, or left in, its parent's tier) is
+ * resolved in the season transition by competition/transition/parentPriority.ts.
  */
-export const DIVISION2_RELATION_AGREEMENTS_ENABLED = false;
+export const DIVISION2_RELATION_AGREEMENTS_ENABLED = true;
 
 /** The relations that become career agreements: none of the static set while the gate above is closed. */
 export function careerAgreementRelations(): StaticRelation[] {

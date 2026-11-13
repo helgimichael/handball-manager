@@ -308,5 +308,7 @@
   "lib/career/staticRelationPartnerships.test.ts",
   "lib/game-data/clubVisualIdentity.test.ts",
   "lib/career/activeClubIdentity.test.ts",
-  "lib/career/clubIdentitySoak.test.ts"
+  "lib/career/clubIdentitySoak.test.ts",
+  "lib/competition/transition/parentPriority.test.ts",
+  "lib/career/parentPrioritySeason.test.ts"
 ]

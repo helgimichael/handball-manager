@@ -14,6 +14,16 @@ import type { Competition } from "./types";
 export const COMPETITIONS: readonly Competition[] = [
   ...SWEDISH_DIVISION_2_COMPETITIONS,
   {
+    // Club Identity C4 ("the A-team always has priority"): when an A-team arrives in Division 2, its
+    // B-team gives way to Division 3. Division 3 is not simulated; it is a boundary, not a league.
+    id: "se_division3",
+    nation: "SWE",
+    tier: 2,
+    name: "Division 3",
+    outsideCareerWorld: true,
+    sourceNote: "Not simulated. Boundary below Division 2 used only for a B-team displaced by its A-team (Club Identity C4).",
+  },
+  {
     // HM-DATA-0.2: aligned to the real-world database's own competitionId
     // (data/real-world/sweden/2026-27/handbollsligan/*/roster-*.json),
     // rather than the earlier placeholder "swe-1".
