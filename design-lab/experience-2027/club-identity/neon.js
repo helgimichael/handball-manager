@@ -79,6 +79,19 @@
     return { neon: MONOCHROME, rule: 'monochrome (no documented accent)', source: kit.primary };
   }
 
-  const api = { neonForKit, neonFromHex, contrast, hexToOklch, isChromatic, BG, INK, MONOCHROME, PENDING, CLUBLESS };
+  /** Reference colour for neon generation when a colour was measured from a photo: the documented (palette) colour,
+   *  rotated toward the measured hue by at most `maxDeg`. Photos carry white-balance/grading shifts, so the measured hue
+   *  may nuance a club's neon but can never move it out of its documented colour family. */
+  function nudgedReference(paletteHex, measuredHex, maxDeg = 10) {
+    if (!paletteHex || !measuredHex) return paletteHex || measuredHex;
+    const [L, C, h] = hexToOklch(paletteHex);
+    const [, mC, mh] = hexToOklch(measuredHex);
+    if (C < 0.045 || mC < 0.035) return paletteHex; // achromatic: hue is meaningless
+    let d = mh - h; if (d > 180) d -= 360; if (d < -180) d += 360;
+    const rgb = oklchToRgb(L, C, (h + clamp(d, -maxDeg, maxDeg) + 360) % 360);
+    return rgbToHex(rgb);
+  }
+
+  const api = { neonForKit, neonFromHex, nudgedReference, contrast, hexToOklch, isChromatic, BG, INK, MONOCHROME, PENDING, CLUBLESS };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.HMNeon = api;
 })(typeof window !== 'undefined' ? window : globalThis);

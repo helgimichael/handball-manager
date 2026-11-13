@@ -47,7 +47,7 @@
     if (opts.adapt) p.set('adapt', '1');
     if (st.density) p.set('density', st.density);
     if (opts.shell === false) p.set('shell', '0');
-    return 'frame.html?v=20261113h#' + p.toString();
+    return 'frame.html?v=20261114b#' + p.toString();
   }
   // URL for a surface/alternative according to a presentation mode (see `pres` above).
   function presUrl(s, alt, pres) {
@@ -233,28 +233,31 @@
       return frameUrl(sid, s.recommendation, 'b', { club, adapt: hasAdapt(s, s.recommendation) });
     };
     const q = (st.clubQ || '').toLowerCase();
-    const list = REGC.filter((r) => (!st.clubTier || r.tier === st.clubTier) && (!st.clubStatus || r.status === st.clubStatus) && (!q || r.name.toLowerCase().includes(q) || r.id.includes(q)));
+    const list = REGC.filter((r) => (!st.clubTier || (st.clubTier === 'SE' ? r.tier.startsWith('SE') : r.tier === st.clubTier)) && (!st.clubStatus || r.status === st.clubStatus) && (!q || r.name.toLowerCase().includes(q) || r.id.includes(q)));
     const counts = REGC.reduce((m, r) => ((m[r.status] = (m[r.status] || 0) + 1), m), {});
     const distinct = distinctClubs(6);
     const leftW = 300, bigW = Math.max(320, appW - leftW - 110);
     const sortedHue = [...REGC].sort((a, b) => a.neon.localeCompare(b.neon));
     return `<div class="page-l"><h1>Club Identity System</h1><p class="lede-l">Every club's neon comes from the <b>dominant colour of its first-choice home shirt</b>, from the Club Identity Registry (${REGC.length} clubs, all tiers). Only CSS custom properties change when you change club (<code>--club-neon</code> → accent, glow, active states, highlights; <code>--club-primary</code> → match-day cells, score bug). The dark Arena foundation is identical for every club. Status: ${Object.entries(counts).map(([k2, v]) => `${statusTag({ status: k2 })} ${v}`).join(' ')}</p>
       <div class="ci-wrap">
-        <aside class="ci-list"><input id="clubq" placeholder="Search ${REGC.length} clubs…" value="${esc(st.clubQ || '')}" aria-label="Search clubs"><div class="chips">${['', ...Object.keys(TIER_SHORT)].map((t) => `<button class="${(st.clubTier || '') === t ? 'on' : ''}" data-ctier="${esc(t)}">${t ? TIER_SHORT[t] : 'All'}</button>`).join('')}</div><div class="chips">${['', 'VERIFIED', 'PROBABLE', 'UNCERTAIN', 'UNKNOWN'].map((t) => `<button class="${(st.clubStatus || '') === t ? 'on' : ''}" data-cstatus="${t}">${t || 'Any status'}</button>`).join('')}</div>
+        <aside class="ci-list"><input id="clubq" placeholder="Search ${REGC.length} clubs…" value="${esc(st.clubQ || '')}" aria-label="Search clubs"><div class="chips">${['', 'SE', ...Object.keys(TIER_SHORT)].map((t) => `<button class="${(st.clubTier || '') === t ? 'on' : ''}" data-ctier="${esc(t)}">${t === 'SE' ? 'Sweden' : t ? TIER_SHORT[t] : 'All'}</button>`).join('')}</div><div class="chips">${['', 'VERIFIED', 'PROBABLE', 'UNCERTAIN', 'UNKNOWN'].map((t) => `<button class="${(st.clubStatus || '') === t ? 'on' : ''}" data-cstatus="${t}">${t || 'Any status'}</button>`).join('')}</div>
           <div class="ci-items">${list.map((r) => `<button class="ci-it ${r.id === pick.id ? 'on' : ''}" data-cpick="${r.id}"><i style="background:${r.p || 'transparent'};${r.p ? '' : 'border:1px dashed var(--l-muted)'}"></i><i style="background:${r.neon};box-shadow:0 0 8px ${r.neon}"></i><span class="nm">${esc(r.name)}</span><span class="tag ${STATUS_CLS[r.status]}">${r.status[0]}</span></button>`).join('') || '<p class="hint">No clubs match.</p>'}</div></aside>
         <section class="ci-main">
+          <table class="tbl-l ci-stat"><thead><tr><th>Tier</th><th>Clubs</th><th>Verified</th><th>Probable</th><th>Uncertain</th><th>Unknown</th></tr></thead><tbody>${Object.keys(TIER_SHORT).map((t) => { const l = REGC.filter((r) => r.tier === t); const c = (k2) => l.filter((r) => r.status === k2).length; return `<tr class="clk" data-ctier="${esc(t)}"><td><b>${esc(t)}</b></td><td>${l.length}</td><td>${c('VERIFIED')}</td><td>${c('PROBABLE')}</td><td>${c('UNCERTAIN')}</td><td>${c('UNKNOWN')}</td></tr>`; }).join('')}</tbody></table>
           <div class="ci-card" style="--n:${pick.neon}">
-            <div class="ci-shirt">${shirtSvg(pick, 120)}<span class="hint">Home shirt</span></div>
+            <div class="ci-shirt">${shirtSvg(pick, 120)}<span class="hint">Home shirt${pick.pm ? ' · measured' : ''}</span><span class="ci-crest" title="Crest keeps its own colours"><i style="background:${pick.cp || pick.ph || '#3a4250'}"></i><i style="background:${pick.cs || pick.phs || '#c9d1dc'}"></i><small>Crest ${pick.cp ? '(documented)' : '(game data)'}</small></span></div>
             <div class="ci-arrow">→</div>
             <div class="ci-neon"><i style="background:${pick.neon}"></i><code>${pick.neon}</code><span class="hint">Arena neon</span></div>
             <div class="ci-meta"><div class="hint">${esc(pick.tier)} · <code>${pick.id}</code></div><h2 style="margin:2px 0 6px">${esc(pick.name)}</h2>
-              <dl class="kv"><dt>Home shirt</dt><dd>${esc(pick.desc || '—')}</dd><dt>Primary</dt><dd>${pick.pn ? `${esc(pick.pn)} <code>${pick.p}</code>` : '—'}</dd><dt>Secondary</dt><dd>${pick.sn ? `${esc(pick.sn)} <code>${pick.s}</code>` : '—'}</dd><dt>Trim</dt><dd>${pick.tn ? `${esc(pick.tn)} <code>${pick.t}</code>` : '—'}</dd><dt>Neon rule</dt><dd>${esc(pick.rule)}</dd><dt>Status</dt><dd>${statusTag(pick)} ${pick.conf != null ? `confidence ${pick.conf}` : ''} ${pick.season ? `· ${esc(pick.season)}` : ''}</dd><dt>Source</dt><dd>${pick.src ? `<a href="${esc(pick.src)}" target="_blank" rel="noopener">${esc(pick.srcType || 'source')}</a> ${pick.nsrc > 1 ? `+${pick.nsrc - 1} more` : ''}` : 'none found'}</dd><dt>Game today</dt><dd><i class="sw-i" style="background:${pick.ph || '#6b7280'}"></i> <code>${pick.ph || '—'}</code> unverified crest placeholder in the game data (not used)</dd></dl>
+              <dl class="kv"><dt>Home shirt</dt><dd>${esc(pick.desc || '—')}</dd><dt>Primary</dt><dd>${pick.pn ? `${esc(pick.pn)} <code>${pick.p}</code>` : '—'}</dd><dt>Secondary</dt><dd>${pick.sn ? `${esc(pick.sn)} <code>${pick.s}</code>` : '—'}</dd><dt>Trim</dt><dd>${pick.tn ? `${esc(pick.tn)} <code>${pick.t}</code>` : '—'}</dd><dt>Neon rule</dt><dd>${esc(pick.rule)}</dd><dt>Status</dt><dd>${statusTag(pick)} ${pick.conf != null ? `confidence ${pick.conf}` : ''} ${pick.season ? `· ${esc(pick.season)}` : ''}</dd><dt>Source</dt><dd>${pick.src ? `<a href="${esc(pick.src)}" target="_blank" rel="noopener">${esc(pick.srcType || 'source')}</a> ${pick.nsrc > 1 ? `+${pick.nsrc - 1} more` : ''}` : 'none found'}</dd><dt>Evidence</dt><dd>${pick.ev === 'visual' ? 'image seen' : pick.ev === 'text' ? 'text only' : 'none'}${pick.team ? ` · team ${esc(pick.team)}` : ''}${pick.date ? ` · ${esc(pick.date)}` : ''}${pick.wd === true ? ' · women\'s kit differs' : ''}</dd><dt>Game today</dt><dd><i class="sw-i" style="background:${pick.ph || '#6b7280'}"></i> <code>${pick.ph || '—'}</code> unverified crest placeholder in the game data (not used)</dd></dl>
+              ${pick.shot ? `<a class="ci-shot" href="club-identity/${esc(pick.shot)}" target="_blank" rel="noopener"><img src="club-identity/${esc(pick.shot)}" alt="Evidence screenshot for ${esc(pick.name)}" loading="lazy"></a>` : ''}
               ${pick.review && pick.review.length ? `<div class="warnbox">Review: ${esc(pick.review.join('; '))}</div>` : ''}
-              <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px"><button class="btn-l pri" data-cactive="${pick.id}">${st.club === pick.id ? '✓ Active club in lab' : 'Make active club in lab'}</button><button class="btn-l" data-cactive="none">Clubless manager</button></div></div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px"><button class="btn-l pri" data-cactive="${pick.id}">${st.club === pick.id ? '✓ Active club in lab' : 'Make active club in lab'}</button><button class="btn-l" data-cactive="none">Clubless manager</button><button class="btn-l" data-ccmp="${pick.id}">${(st.clubCompare || []).includes(pick.id) ? '✓ In comparison' : '+ Compare'}</button></div></div>
           </div>
           <h2>${esc(pick.name)} across the game</h2><div class="chips" style="margin-bottom:10px">${CLUB_SCREENS.map(([key, , l]) => `<button class="${key === k ? 'on' : ''}" data-cscreen="${key}">${l}</button>`).join('')}</div>
           ${s ? `<p class="hint">${sid} · retained recommendation ${s.recommendation} · ${esc(altOf(s, s.recommendation).name)} ${arenaChip(s)}</p>` : ''}
           <div class="ci-pair"><div>${preview(url(pick.id), 'desktop', bigW * 0.72, 'Desktop')}</div><div>${preview(url(pick.id), 'mobile', bigW * 0.22, 'Mobile')}</div></div>
+          ${(st.clubCompare || []).length ? `<h2>Comparison (${st.clubCompare.length}/4)</h2><p class="hint">Same screen, chosen clubs. <a href="#" data-ccmpclear="1">Clear</a></p><div class="ci-cmp">${st.clubCompare.map((id) => REGBY.get(id)).filter(Boolean).map((r) => `<div><button class="ci-mini" data-cpick="${r.id}">${shirtSvg(r, 34)}<span><b>${esc(r.name)}</b><small>${esc(r.pn || '?')} → <code>${r.neon}</code> · ${r.status}</small></span></button>${preview(url(r.id), 'desktop', (bigW - 30 * (st.clubCompare.length - 1)) / Math.max(2, st.clubCompare.length), '')}</div>`).join('')}</div>` : ''}
           <h2>Club change</h2><p class="hint">The same screen before and after changing club, and as a clubless manager. Only the identity tokens change.</p>
           <div class="grid3">${[[st.club && st.club !== pick.id ? st.club : 'swe2-tumba', 'Before'], [pick.id, 'After: ' + pick.name], ['none', 'Clubless (neon orange)']].map(([c, l]) => `<div>${preview(url(c), 'desktop', (bigW - 40) / 3, l)}</div>`).join('')}</div>
           <h2>Six genuinely different home shirts</h2><p class="hint">Auto-selected verified or probable clubs with the most distinct neons (Swedish clubs first).</p>
@@ -356,7 +359,7 @@
     }
   }
   document.addEventListener('click', (e) => {
-    const t = e.target.closest('button, a, [data-surface]'); if (!t) return;
+    const t = e.target.closest('button, a, [data-surface], [data-ctier]'); if (!t) return;
     const d = t.dataset;
     if (d.view) return set({ view: d.view });
     if (d.go) return set({ view: d.go });
@@ -366,6 +369,8 @@
     if (d.pres) return set({ pres: d.pres });
     if (d.cscreen) return set({ clubScreen: d.cscreen });
     if (d.cpick) return set({ clubPick: d.cpick });
+    if (d.ccmp) { const l = (st.clubCompare || []).filter((x) => x !== d.ccmp); if (l.length === (st.clubCompare || []).length) l.push(d.ccmp); return set({ clubCompare: l.slice(-4) }); }
+    if (d.ccmpclear) { e.preventDefault(); return set({ clubCompare: [] }); }
     if (d.ctier !== undefined) return set({ clubTier: d.ctier });
     if (d.cstatus !== undefined) return set({ clubStatus: d.cstatus });
     if (d.cactive) { toast(d.cactive === 'none' ? 'Clubless manager' : 'Active club: ' + (REGBY.get(d.cactive) || {}).name); return set({ club: d.cactive }); }

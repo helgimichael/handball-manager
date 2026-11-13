@@ -270,7 +270,8 @@
   let SWAP = null; // text swap plan for the current career club
   function snapshot() { if (!PRISTINE.done) { H.clubs.forEach((c) => (PRISTINE[c.id] = Object.fromEntries(VISUAL.map((k) => [k, c[k]])))); PRISTINE.done = true; } }
   function restore() { H.clubs.forEach((c) => Object.assign(c, PRISTINE[c.id])); H.me = H.club('tum'); H.activeClub = H.me; SWAP = null; }
-  const kitCrest = (r) => { const s = sampleOf(r.id); if (s) return { c1: PRISTINE[s.id].c1, c2: PRISTINE[s.id].c2 }; const ok = r.p && ['VERIFIED', 'PROBABLE', 'UNCERTAIN'].includes(r.status); if (!ok) return { c1: '#3a4250', c2: '#c9d1dc' }; const tr = [r.s, r.t].filter(Boolean).find((h) => h.toUpperCase() !== r.p.toUpperCase()) || (r.p.toUpperCase() === '#FFFFFF' ? '#111111' : '#FFFFFF'); return { c1: r.p, c2: tr }; };
+  // Crest colours: documented crest → game crest → neutral. Never the neon, never the shirt (owner rule).
+  const kitCrest = (r) => { const s = sampleOf(r.id); if (s) return { c1: PRISTINE[s.id].c1, c2: PRISTINE[s.id].c2 }; if (r.cp) return { c1: r.cp, c2: r.cs || (r.cp.toUpperCase() === '#FFFFFF' ? '#111111' : '#FFFFFF') }; if (r.ph) return { c1: r.ph, c2: r.phs || '#FFFFFF' }; return { c1: '#3a4250', c2: '#c9d1dc' }; };
   /** Apply a club identity: 'none' (clubless), a sample id ('tum', 'ham', …) or ANY registry club id (202 clubs). */
   function applyClub(id) {
     snapshot(); restore();
@@ -293,7 +294,8 @@
         SWAP = { one: [[pt.name, r.name], ['Tumba Sporthall', 'hemmaarenan'], [pt.short, r.short]], bug: abbrOf(r.short || r.name) };
       }
       H.activeClub = { short: s ? s.short : r.short, name: r.name };
-      active = { id: r.id, name: r.name, c1: crestCols.c1, c2: crestCols.c2, neon: r.neon, status: r.status };
+      // --club-primary follows the home SHIRT (match-day cells, score bug); crests keep crest colours.
+      active = { id: r.id, name: r.name, c1: r.p && ['VERIFIED', 'PROBABLE', 'UNCERTAIN'].includes(r.status) ? r.p : '#1a2233', c2: r.s || crestCols.c2, neon: r.neon, status: r.status };
     }
     root.dataset.club = active.id;
     root.style.setProperty('--club-neon', active.neon);

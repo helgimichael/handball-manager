@@ -155,7 +155,7 @@ The full table is in `HM-EXPERIENCE-2027-CLUB-KIT-AUDIT.md`. Every source is in 
 
    The source says these are placeholders, and this audit is the evidence to replace them. **The game data was not changed.**
 2. **Thirteen white/black-shirt clubs take their accent from a club or away colour,** not a confirmed home-shirt detail. Examples are HF Karlskrona (yellow), HK Drott (red) and VästeråsIrsta HF (red). The colour is documented, not invented, but you should decide whether these count as the club's identity.
-3. **Game database identity mismatches** were found during research. They are recorded here only, and nothing was changed:
+3. **Game database identity mismatches** (⚠ superseded by Phase 2: see `HM-EXPERIENCE-2027-CLUB-DATABASE-IDENTITY-FINDINGS.md`. Two claims below were wrong: Århus Håndbold is **not** defunct, because a new Aarhus Håndbold founded in 2024 fields a men's team in the Danish 1st Division; and HK Cliff, while an independent club, has all its Division 1 players registered with Hammarby, so the B-team relation does hold.) were found during research. They are recorded here only, and nothing was changed:
    - `esp1-anaitasuna` is named Bidasoa, `esp1-logrono` Ademar, `esp1-alicante` Anaitasuna and `hun1-gyor` Tatabánya: the IDs don't match the clubs.
    - The entry named "SC DHfK Dessau" doesn't exist as a club; the research used Dessau-Roßlauer HV.
    - The entry named TV Bittenfeld has an ID that says "wilhelmshaven".

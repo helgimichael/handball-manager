@@ -244,3 +244,24 @@ Principle: **every club's neon comes from the dominant colour of its actual firs
   - Recommendation-preservation checks: 0 issues (231 surfaces, 551 alternatives unchanged).
   - Game data unchanged.
 - **Screenshots:** `boards-clubs/README.md`.
+
+---
+
+## Part 7: Club Identity Verification, Phase 2 (2026-11-14)
+
+Full report: `HM-EXPERIENCE-2027-CLUB-IDENTITY-PHASE2-REPORT.md`.
+
+- **All 202 clubs:**
+
+  | Status | Before | After |
+  |---|---:|---:|
+  | Verified | 9 | **118** |
+  | Probable | 98 | **50** |
+  | Uncertain | 57 | **25** |
+  | Unknown | 38 | **9** |
+
+- **Sweden (105 clubs):** 59 verified, 34 probable, 5 uncertain, 7 unknown. Handbollsligan is 14/14 verified.
+- Shirt colours were checked against **official images** in a browser and measured from 295 archived screenshots.
+- Neon comes from the documented hue, nudged at most ±10° toward the measured hue. Crests keep their own colours, and B/U teams don't inherit parent colours.
+- **Club database identity findings:** 33 findings in five categories, with proposed corrections. The production data is unchanged.
+- **Verification:** club identity checks and recommendation-preservation checks both report 0 issues.

@@ -1,0 +1,398 @@
+[
+ {
+  "id": "se_div2_team_1579656",
+  "name": "Stenungsunds HK",
+  "shortName": "Stenungsunds HK",
+  "city": null,
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_v",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28052/teams/1579656",
+  "worldPool": false,
+  "prior": {
+   "status": "UNCERTAIN",
+   "primary": "red",
+   "secondary": null,
+   "trim": null,
+   "description": "Partille Cup youth entries list Red / Red.",
+   "sources": [
+    "https://results.partillecup.com/2024/teams/52869023",
+    "https://results.partillecup.com/2017/teams/12026689"
+   ],
+   "notes": "Consistent across 2017 and 2024 youth entries; no official or men's senior source.",
+   "review": [
+    "Youth-tournament registrations only."
+   ]
+  }
+ },
+ {
+  "id": "se_div2_team_1578270",
+  "name": "Torslanda HK",
+  "shortName": "Torslanda HK",
+  "city": null,
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_v",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28052/teams/1578270",
+  "worldPool": false,
+  "prior": {
+   "status": "UNCERTAIN",
+   "primary": "blue",
+   "secondary": "white",
+   "trim": null,
+   "description": "Youth entries list Blue / White / Blue (likely shirt/shorts/socks); Partille article describes blue and white shirts.",
+   "sources": [
+    "https://results.partillecup.com/sv/2023/teams/42131168",
+    "https://partillecup.com/en/post/torslanda-hks-two-teams-in-the-g21-category-met-in-the-final"
+   ],
+   "notes": "Consistent blue/white across 2014-2023 youth entries; no men's senior or official kit source.",
+   "review": [
+    "Youth-tournament evidence only."
+   ]
+  }
+ },
+ {
+  "id": "se_div2_team_1585949",
+  "name": "Vårgårda IK HK",
+  "shortName": "Vårgårda IK HK",
+  "city": null,
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_v",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28052/teams/1585949",
+  "worldPool": false,
+  "prior": {
+   "status": "UNKNOWN",
+   "primary": null,
+   "secondary": null,
+   "trim": null,
+   "description": null,
+   "sources": [],
+   "notes": "No Vårgårda IK handball kit evidence; municipal flag colours are not club evidence.",
+   "review": [
+    "No usable kit evidence found in Swedish/English web searches."
+   ]
+  }
+ },
+ {
+  "id": "se_div2_team_1578815",
+  "name": "Örgryte IS Handboll",
+  "shortName": "Örgryte IS Handboll",
+  "city": null,
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_v",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28052/teams/1578815",
+  "worldPool": false,
+  "prior": {
+   "status": "UNKNOWN",
+   "primary": null,
+   "secondary": null,
+   "trim": null,
+   "description": null,
+   "sources": [],
+   "notes": "Only Örgryte IS football kit evidence found (red/navy); not applied to the handball section per brief.",
+   "review": [
+    "No usable kit evidence found in Swedish/English web searches."
+   ]
+  }
+ },
+ {
+  "id": "se_div2_team_1578982",
+  "name": "Helsingborgs HK",
+  "shortName": "Helsingborgs HK",
+  "city": null,
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_s",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28096/teams/1578982",
+  "worldPool": false,
+  "prior": {
+   "status": "UNKNOWN",
+   "primary": null,
+   "secondary": null,
+   "trim": null,
+   "description": null,
+   "sources": [],
+   "notes": "No separate \"Helsingborgs HK\" found; OV Helsingborg HK exists but relation unconfirmed and its kit colours not found in text.",
+   "review": [
+    "No usable kit evidence found in Swedish/English web searches."
+   ]
+  }
+ },
+ {
+  "id": "se_div2_team_1582183",
+  "name": "HF Karlskrona U",
+  "shortName": "HF Karlskrona U",
+  "city": null,
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_s",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28096/teams/1582183",
+  "worldPool": false,
+  "prior": {
+   "status": "UNCERTAIN",
+   "primary": "black",
+   "secondary": "yellow",
+   "trim": null,
+   "description": "Parent HF Karlskrona per sv.wikipedia: all-black home kit; away yellow shirt; infobox text colour yellow.",
+   "sources": [
+    "https://sv.wikipedia.org/wiki/HF_Karlskrona"
+   ],
+   "notes": "Parent-club kit only; no evidence the U team wears it. Yellow is the away/infobox accent, not a documented home-shirt trim.",
+   "review": [
+    "U team; parent kit from Wikipedia only; black primary, yellow accent is away/infobox not home trim.",
+    "white/black home shirt: neon accent is documented as a club, away or dated colour — not confirmed as a home-shirt detail (owner decision)"
+   ]
+  }
+ },
+ {
+  "id": "se_div2_team_1583015",
+  "name": "HK Ystadpågarna",
+  "shortName": "HK Ystadpågarna",
+  "city": null,
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_s",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28096/teams/1583015",
+  "worldPool": false,
+  "prior": {
+   "status": "UNKNOWN",
+   "primary": null,
+   "secondary": null,
+   "trim": null,
+   "description": null,
+   "sources": [],
+   "notes": "No \"HK Ystadpågarna\" source found.",
+   "review": [
+    "No usable kit evidence found in Swedish/English web searches."
+   ]
+  }
+ },
+ {
+  "id": "se_div2_team_1586014",
+  "name": "IFK Malmö HF",
+  "shortName": "IFK Malmö HF",
+  "city": null,
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_s",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28096/teams/1586014",
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "yellow",
+   "secondary": "black",
+   "trim": null,
+   "description": "Yellow shirt, black shorts per sv.wikipedia kit template; en.wikipedia colours yellow/white.",
+   "sources": [
+    "https://sv.wikipedia.org/wiki/IFK_Malm%C3%B6_Handboll",
+    "https://en.wikipedia.org/wiki/IFK_Malm%C3%B6_Handboll"
+   ],
+   "notes": "Two Wikipedia sources agree on yellow; season undated; no shop/official source found. #FDE910 is the infobox theme colour.",
+   "review": []
+  }
+ },
+ {
+  "id": "se_div2_team_1581343",
+  "name": "IK Sund",
+  "shortName": "IK Sund",
+  "city": null,
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_s",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28096/teams/1581343",
+  "worldPool": false,
+  "prior": {
+   "status": "UNKNOWN",
+   "primary": null,
+   "secondary": null,
+   "trim": null,
+   "description": null,
+   "sources": [],
+   "notes": "IK Sund appears in Partille Cup listings but no shirt colour surfaced.",
+   "review": [
+    "No usable kit evidence found in Swedish/English web searches."
+   ]
+  }
+ },
+ {
+  "id": "se_div2_team_1580548",
+  "name": "KFUM Kalmar HK",
+  "shortName": "KFUM Kalmar HK",
+  "city": null,
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_s",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28096/teams/1580548",
+  "worldPool": false,
+  "prior": {
+   "status": "UNKNOWN",
+   "primary": null,
+   "secondary": null,
+   "trim": null,
+   "description": null,
+   "sources": [],
+   "notes": "KFUM Kalmar HK exists (company register) but no kit colour found; Kalmar FF football results not used.",
+   "review": [
+    "No usable kit evidence found in Swedish/English web searches."
+   ]
+  }
+ },
+ {
+  "id": "se_div2_team_1583912",
+  "name": "Kävlinge HK",
+  "shortName": "Kävlinge HK",
+  "city": null,
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_s",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28096/teams/1583912",
+  "worldPool": false,
+  "prior": {
+   "status": "UNCERTAIN",
+   "primary": "orange",
+   "secondary": null,
+   "trim": null,
+   "description": "Partille Cup youth entries list Orange / Orange.",
+   "sources": [
+    "https://results.partillecup.com/2022/teams/33796334",
+    "https://results.partillecup.com/2017/teams/12025419"
+   ],
+   "notes": "Consistent 2017 and 2022 youth entries; no men's senior or official source.",
+   "review": [
+    "Youth-tournament registrations only."
+   ]
+  }
+ },
+ {
+  "id": "se_div2_team_1585295",
+  "name": "LUGI HF U",
+  "shortName": "LUGI HF U",
+  "city": null,
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_s",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28096/teams/1585295",
+  "worldPool": false,
+  "prior": {
+   "status": "UNCERTAIN",
+   "primary": "wine",
+   "secondary": "black",
+   "trim": null,
+   "description": "Parent LUGI per sv.wikipedia: wine-red shirt (#71002E), black shorts; away white.",
+   "sources": [
+    "https://sv.wikipedia.org/wiki/Lugi_Handboll"
+   ],
+   "notes": "Parent-club kit only; no evidence the U team wears it (club also has development team HK Farmen).",
+   "review": [
+    "U team; parent kit only, Wikipedia-sourced."
+   ]
+  }
+ },
+ {
+  "id": "se_div2_team_1576008",
+  "name": "Lunds HS Lejon",
+  "shortName": "Lunds HS Lejon",
+  "city": null,
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_s",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28096/teams/1576008",
+  "worldPool": false,
+  "prior": {
+   "status": "UNKNOWN",
+   "primary": null,
+   "secondary": null,
+   "trim": null,
+   "description": null,
+   "sources": [],
+   "notes": "Only a registry entry \"HS-Lejonen\" in Lund (shared address with H43 Lund) found; link unconfirmed, no kit evidence.",
+   "review": [
+    "No usable kit evidence found in Swedish/English web searches."
+   ]
+  }
+ },
+ {
+  "id": "se_div2_team_1571471",
+  "name": "Lödde Vikings HK",
+  "shortName": "Lödde Vikings HK",
+  "city": null,
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_s",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28096/teams/1571471",
+  "worldPool": false,
+  "prior": {
+   "status": "UNCERTAIN",
+   "primary": "red",
+   "secondary": "black",
+   "trim": null,
+   "description": "Partille Cup 2024 youth entry lists Red / Red / Black.",
+   "sources": [
+    "https://results.partillecup.com/2024/teams/52870310"
+   ],
+   "notes": "Single youth registration; no official or men's senior source.",
+   "review": [
+    "Youth-tournament registration only."
+   ]
+  }
+ },
+ {
+  "id": "se_div2_team_1579219",
+  "name": "Malmö HP",
+  "shortName": "Malmö HP",
+  "city": null,
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_s",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28096/teams/1579219",
+  "worldPool": false,
+  "prior": {
+   "status": "UNKNOWN",
+   "primary": null,
+   "secondary": null,
+   "trim": null,
+   "description": null,
+   "sources": [],
+   "notes": "Malmö HP historically merged into HK Malmö (2007); current Div 2 entity and kit unconfirmed.",
+   "review": [
+    "No usable kit evidence found in Swedish/English web searches."
+   ]
+  }
+ },
+ {
+  "id": "se_div2_team_1586501",
+  "name": "Växjö HF",
+  "shortName": "Växjö HF",
+  "city": null,
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_s",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28096/teams/1586501",
+  "worldPool": false,
+  "prior": {
+   "status": "UNCERTAIN",
+   "primary": null,
+   "secondary": null,
+   "trim": null,
+   "description": null,
+   "sources": [
+    "https://sv.wikipedia.org/wiki/V%C3%A4xj%C3%B6_HF"
+   ],
+   "notes": "Wikipedia confirms club is in Division 2 and gives a yellow theme colour, but no shirt colour; not recorded as primary.",
+   "review": [
+    "Only an infobox theme colour (yellow); home shirt colour undocumented."
+   ]
+  }
+ },
+ {
+  "id": "se_div2_team_1585596",
+  "name": "Ystads IF HF U",
+  "shortName": "Ystads IF HF U",
+  "city": null,
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_s",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28096/teams/1585596",
+  "worldPool": false,
+  "prior": {
+   "status": "UNCERTAIN",
+   "primary": "white",
+   "secondary": "blue",
+   "trim": null,
+   "description": "Parent Ystads IF HF per sv.wikipedia: white shirt, blue shorts, white socks; away all blue.",
+   "sources": [
+    "https://sv.wikipedia.org/wiki/Ystads_IF_HF"
+   ],
+   "notes": "Parent-club kit only; Wikipedia mentions development team Ystads IF U but not its kit. Blue accent from shorts/away kit.",
+   "review": [
+    "U team; parent kit from Wikipedia only; white primary.",
+    "white/black home shirt: neon accent is documented as a club, away or dated colour — not confirmed as a home-shirt detail (owner decision)"
+   ]
+  }
+ }
+]

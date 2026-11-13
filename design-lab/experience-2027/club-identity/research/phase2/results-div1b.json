@@ -1,0 +1,262 @@
+[
+  {
+    "id": "se_club_anderstorps_sk", "name": "Anderstorps SK",
+    "status": "VERIFIED", "confidence": 0.9,
+    "primary": "orange", "primaryMeasured": "#EE8F25",
+    "secondary": "black", "secondaryMeasured": "#322726",
+    "accent": "black", "accentMeasured": null,
+    "pattern": "other",
+    "crest": { "primary": "orange", "secondary": "white", "note": "'SK 72 HANDBOLL' house-shaped mark in orange/white (also a black variant); matches shirt colour." },
+    "description": "Orange shirt with a darker orange/black tonal graphic pattern and black trim, black shorts. Goalkeepers in light blue. Black change kit seen away at Vinslöv (Nov 2026).",
+    "team": "men-A", "homeKit": true, "season": "2026/27", "photoDate": null,
+    "evidence": [
+      { "url": "https://www.ask-handboll.com/askhandboll-herrara/truppen", "type": "official-team-photo", "date": null,
+        "screenshot": "evidence/se_club_anderstorps_sk-1.jpg", "observation": "Official Herrar A squad page photo: outfield players in orange patterned shirts, black shorts; staff in black." },
+      { "url": "https://www.google.com/search?q=%22S-hof%22+herrar+handboll+2026&udm=2 (Instagram post 'Vinst mot S-Hof 31-26 ... Fredagskväll i sporthallen. Ett ASK...')", "type": "official-social", "date": null,
+        "screenshot": "evidence/se_club_anderstorps_sk-2.jpg", "observation": "Club Instagram (via Google preview, not opened) home match in Anderstorp sporthall vs HK S-hof: ASK in orange shirts, black shorts." },
+      { "url": "https://static.bonniernews.se/ba/515f1f8f-637a-4098-b7f6-67a3100c6c29.jpeg", "type": "press-photo", "date": "2026-11",
+        "screenshot": "evidence/se_club_vinslovs_hk-3.jpg", "observation": "Kristianstadsbladet: Anderstorp player #25 in black away kit at Vinslöv." }
+    ],
+    "womenDiffer": false,
+    "notes": "Prior (orange/black) confirmed. Damer A team photo (Google thumbnail) also orange.",
+    "reviewReason": null
+  },
+  {
+    "id": "se_club_eslovs_hk", "name": "Eslövs HK",
+    "status": "VERIFIED", "confidence": 0.85,
+    "primary": "black", "primaryMeasured": "#121315",
+    "secondary": "grey", "secondaryMeasured": "#666872",
+    "accent": "white", "accentMeasured": null,
+    "pattern": "other",
+    "crest": { "primary": "black", "secondary": "green", "note": "2025 'EHK' wordmark in black with a green/yellow handball; shirt carries no yellow/green except the small crest." },
+    "description": "Black/charcoal shirt with a grey hexagon (honeycomb) pattern, white numbers and Puma logos, black shorts. Goalkeepers in yellow.",
+    "team": "men-A", "homeKit": true, "season": "2026/27", "photoDate": null,
+    "evidence": [
+      { "url": "https://www.eslovshk.se/start/?ID=560565", "type": "official-team-photo", "date": null,
+        "screenshot": "evidence/se_club_eslovs_hk-3.jpg", "observation": "Official Herr page with team photo captioned 'Eslövs HK Herr A Säsongen 2026-2027'." },
+      { "url": "https://cdn.sportadmin.se/461/4dc36172f63bbcf5589149ba418cf818739e053d37629a1e86601f6e4801518b_L.webp", "type": "official-team-photo", "date": null,
+        "screenshot": "evidence/se_club_eslovs_hk-1.jpg", "observation": "Full-size 2026-27 team photo: black shirts with grey hexagon pattern, black shorts; average of the patterned fabric measures ~#666872, black base/shorts ~#121315." },
+      { "url": "https://cdn.sportadmin.se/461/3bec975d0e6682b0715f1a4439ef5139d109e50505c16a8b2ef4b3c0d45c4db8_L.jpg", "type": "official-team-photo", "date": null,
+        "screenshot": "evidence/se_club_eslovs_hk-2.jpg", "observation": "Club logo (black EHK + green/yellow ball) - crest only." }
+    ],
+    "womenDiffer": null,
+    "notes": "Prior black confirmed. The hexagon print makes the shirt read dark grey/charcoal; any neon accent should come from crest green/yellow or ice-silver, not the shirt. No match photo found; club gallery empty; skd.se kit article text does not describe colours.",
+    "reviewReason": null
+  },
+  {
+    "id": "se_club_hk_country", "name": "HK Country",
+    "status": "VERIFIED", "confidence": 0.92,
+    "primary": "red", "primaryMeasured": "#920100",
+    "secondary": "black", "secondaryMeasured": "#050507",
+    "accent": "black", "accentMeasured": null,
+    "pattern": "stripes",
+    "crest": { "primary": "red", "secondary": "black", "note": "Shield with red/black vertical stripes, 'HK COUNTRY STÖPEN' - same as shirt." },
+    "description": "Red and black vertical stripes shirt, black shorts.",
+    "team": "men-A", "homeKit": true, "season": "2025/26-2026/27", "photoDate": "2026-03-07",
+    "evidence": [
+      { "url": "https://www.viktorljungstrom.se/bild/412694", "type": "press-photo", "date": "2026-03-07",
+        "screenshot": "evidence/se_club_hk_country-1.jpg", "observation": "HK Country-KFUM Trollhättan 40-22 (home): player #6 in red/black vertical stripes, black shorts. Red measured in a dim area (#920100); reads as clear red." },
+      { "url": "https://www.svenskalag.se/hkc-herr (image 'Lucas Kärra.jpg')", "type": "official-match-photo", "date": null,
+        "screenshot": "evidence/se_club_hk_country-2.jpg", "observation": "Official club photo after away game at Kärra (Lillekärrshallen): whole squad in red/black striped shirts, black shorts." }
+    ],
+    "womenDiffer": null,
+    "notes": "Prior confirmed. White change kit not observed.",
+    "reviewReason": null
+  },
+  {
+    "id": "se_club_hk_s_hof", "name": "HK S-hof",
+    "status": "PROBABLE", "confidence": 0.6,
+    "primary": "yellow", "primaryMeasured": "#FCFA19",
+    "secondary": "black", "secondaryMeasured": "#151617",
+    "accent": "black", "accentMeasured": null,
+    "pattern": "solid",
+    "crest": { "primary": "yellow", "secondary": "black", "note": "Uses IK Sävehof crest (yellow/black shield in green wreath)." },
+    "description": "Yellow shirt with black trim seen in matches; an all-black kit was also worn (away at Anderstorp).",
+    "team": "men-B", "homeKit": false, "season": "2025/26-2026/27", "photoDate": "2025-10-24",
+    "evidence": [
+      { "url": "https://www.kungalvsposten.se/sport/kungalvs-hk-poanglost-i-derbyt.db3d638f-f405-4e65-a8ff-a5454a5f407c", "type": "press-photo", "date": "2025-10-24",
+        "screenshot": "evidence/se_club_hk_s_hof-1.jpg", "observation": "Kungälvs-Posten (og image): S-hof players in yellow shirts with black trim vs Kungälv (green) - away match in Kungälv." },
+      { "url": "Instagram (Anderstorps SK) via Google image preview 'Vinst mot S-Hof 31-26'", "type": "official-social", "date": null,
+        "screenshot": "evidence/se_club_hk_s_hof-2.jpg", "observation": "S-hof in black shirts away at Anderstorp (orange home side)." },
+      { "url": "Instagram (Sävehof) via Google image preview 'Div 1 Herr! Det blev förlust för S-H... #gulsvartmagi'", "type": "official-social", "date": "2026",
+        "screenshot": "evidence/se_club_hk_s_hof-3.jpg", "observation": "Sävehof result graphic for S-hof men (37-30 at Lillekärrshallen) using a portrait of an S-hof player in a yellow shirt (left tile in screenshot)." },
+      { "url": "https://savehof.se/?s=S-hof", "type": "text", "date": null, "screenshot": null, "observation": "Text only; no kit info." }
+    ],
+    "womenDiffer": null,
+    "notes": "Evidence is of S-hof itself (not parent inheritance), but no home-match photo was found; yellow appears as the main kit (used vs green Kungälv and in club graphics), black as change kit. Kärra's report of S-hof-Kärra in Partille Arena (2026-11-05) had no photo of S-hof.",
+    "reviewReason": "No home-match image; yellow vs black first choice inferred from away games and a club graphic."
+  },
+  {
+    "id": "se_club_hk_onnerediterna", "name": "HK Önnerediterna",
+    "status": "PROBABLE", "confidence": 0.65,
+    "primary": "green", "primaryMeasured": "#1CA994",
+    "secondary": "black", "secondaryMeasured": "#28222D",
+    "accent": "white", "accentMeasured": null,
+    "pattern": "solid",
+    "crest": { "primary": "green", "secondary": "white", "note": "Önnereds HK crest (green/white shield, gold wreath)." },
+    "description": "Bright green (teal-leaning) shirt with white logos, black shorts. Goalkeepers/staff in black.",
+    "team": "youth", "homeKit": true, "season": "2026/27", "photoDate": null,
+    "evidence": [
+      { "url": "https://images.svenskalag.se/2d710d5f-bd6e-4984-8428-259881d907ce/P%2018.jpg?1", "type": "official-team-photo", "date": null,
+        "screenshot": "evidence/se_club_hk_onnerediterna-1.jpg", "observation": "Team photo 'Önnereds HK P 18 Säsongen 2026-2027' posted on the 'U-lag Herr / HK Önnerediterna' svenskalag page (the same squad plays P19 and Herr 1 södra per that page). Green shirts, black shorts." },
+      { "url": "https://www.svenskalag.se/onneredshk-u-lagherr-hkonnerediterna", "type": "text", "date": "2026-11", "screenshot": null,
+        "observation": "Team page lists both Herr 1 södra (as HK Önnerediterna) and P19 fixtures for the same group." }
+    ],
+    "womenDiffer": null,
+    "notes": "No Herr 1 match photo found. Measured colour is teal-green (#1CA994, studio lighting); parent Önnereds HK green may differ in shade. Team photo is labelled P18, so this is the youth/U squad behind Önnerediterna, not a dedicated Herr 1 photo.",
+    "reviewReason": "Only a P18/U-squad team photo on the Önnerediterna page; no Herr 1 match image. Shade green vs teal to confirm."
+  },
+  {
+    "id": "se_club_hp_alingsas", "name": "HP Alingsås",
+    "status": "PROBABLE", "confidence": 0.7,
+    "primary": "royal-blue", "primaryMeasured": "#3A35AF",
+    "secondary": "white", "secondaryMeasured": null,
+    "accent": "white", "accentMeasured": null,
+    "pattern": "solid",
+    "crest": { "primary": "blue", "secondary": "white", "note": "Uses Alingsås HK 'AHk' crest (blue/white); press graphics show this crest for HP Alingsås." },
+    "description": "Royal blue Kempa shirt with white collar/shoulder detail, blue shorts with white trim.",
+    "team": "men-B", "homeKit": true, "season": "2023/24-2025/26", "photoDate": null,
+    "evidence": [
+      { "url": "https://www.alingsastidning.se/sport/handboll/hp-rasade-ihop-ska-avgora-redan-i-den-forsta-halvleken.78cf03c3-3ef0-4c19-ac43-c5cbf8aa75a3", "type": "press-photo", "date": "2024-06-12",
+        "screenshot": "evidence/se_club_hp_alingsas-2.jpg", "observation": "Alingsås Tidning: HP (Kempa, 'Alingsås' text) in royal-blue shirts and blue shorts vs Särö (white) in a blue-seated arena; match-up reported as HP leading 25-21; likely home." },
+      { "url": "https://www.alingsastidning.se/sport/handboll/unga-och-kaxiga-hp-alingsas-flyger-fram-vunnit-fyra-av-fyra.0c2cba68-e339-44d0-aebc-c11e7ec2750a", "type": "press-photo", "date": "2025-10-21",
+        "screenshot": "evidence/se_club_hp_alingsas-1.jpg", "observation": "Article on HP Alingsås: players in royal-blue Kempa shirts with white shoulders (could be warm-up)." },
+      { "url": "https://www.viktorljungstrom.se/album/2328", "type": "press-photo", "date": "2022-10-22", "screenshot": null,
+        "observation": "HK Country-HP Alingsås: HP wore white with blue shorts away (old)." }
+    ],
+    "womenDiffer": null,
+    "notes": "Evidence shows HP Alingsås itself, not parent inheritance. No official club image; 2024 article date may be a re-publish.",
+    "reviewReason": "Press photos only, one older (2023/24); no official current-season image."
+  },
+  {
+    "id": "se_club_hp_warta", "name": "HP Warta",
+    "status": "PROBABLE", "confidence": 0.6,
+    "primary": "white", "primaryMeasured": "#BCB1B6",
+    "secondary": "black", "secondaryMeasured": "#1C1A1A",
+    "accent": "black", "accentMeasured": null,
+    "pattern": "other",
+    "crest": { "primary": "black", "secondary": "white", "note": "HWP lion crest black/white with red 'HP WARTA' and blue 'GÖTEBORG' lettering." },
+    "description": "Home: white shirt with black chest band carrying '=W=' and black shoulder stripes. Alternate: same design in black (black shirt, white details, black shorts).",
+    "team": "men-A", "homeKit": true, "season": "2025/26-2026/27", "photoDate": "2026-11",
+    "evidence": [
+      { "url": "https://images.svenskalag.se/192bc207-d278-4067-a190-aa4b78f1fb06/c4cbd788-d89a-4293-8213-e8d3e2c1155a.jpg?1", "type": "official-social", "date": "2026-11",
+        "screenshot": "evidence/se_club_hp_warta-3.jpg", "observation": "Official home-match poster (HP Warta vs Anderstorps SK, 15 Nov, Lundbyskolans sporthall) uses a player in the white kit." },
+      { "url": "https://cdn06.svenskalag.se/teamphotos/57015/831d1e45-fcc9-4972-9153-5d71fe6e71fe.jpg?1", "type": "official-team-photo", "date": null,
+        "screenshot": "evidence/se_club_hp_warta-1.jpg", "observation": "Official squad photo: players in black shirts and shorts (GKs red, staff white)." },
+      { "url": "https://images.svenskalag.se/179389e8-27cb-49c8-b829-e1941a586599/Vinsl%C3%B6v%20herr.jpg?1", "type": "official-match-photo", "date": null,
+        "screenshot": "evidence/se_club_hp_warta-2.jpg", "observation": "Away win at Vinslöv: squad in black kit." },
+      { "url": "https://www.kristianstadsbladet.se/sport/if-kristianstad-vande-och-tog-viktiga-poang-forbannad/", "type": "press-photo", "date": "2026-01-25",
+        "screenshot": "evidence/se_club_if_kristianstad-2.jpg", "observation": "Away at IF Kristianstad: Warta players in black." },
+      { "url": "Instagram @hpwartaofficiell via Google preview (Kval till Div1, March 2026)", "type": "official-social", "date": "2026-03-26",
+        "screenshot": "evidence/se_club_hp_warta-4.jpg", "observation": "Stylised poster with both black (#72) and white (=W=) shirts; not decisive." }
+    ],
+    "womenDiffer": null,
+    "notes": "Black is clearly worn away and in the team photo; white appears in the club's home-match promotion and matches sv Wikipedia (white home). Prior conflict narrowed, but no photo of an actual home match found. White measured from a stylised poster (shaded).",
+    "reviewReason": "No home-match photo; white-home inferred from a club home-match poster while team photo and all match photos show black."
+  },
+  {
+    "id": "se_club_if_kristianstad", "name": "IF Kristianstad",
+    "status": "PROBABLE", "confidence": 0.8,
+    "primary": "orange", "primaryMeasured": "#F04F0B",
+    "secondary": "white", "secondaryMeasured": "#C6C0D3",
+    "accent": "blue", "accentMeasured": null,
+    "pattern": "solid",
+    "crest": { "primary": "blue", "secondary": "white", "note": "IFK Kristianstad crest blue/white; differs from orange shirt." },
+    "description": "Orange shirt (IFK-style sponsors Sparbanken Skåne, Maxi, One), white shorts. Goalkeeper in red.",
+    "team": "men-B", "homeKit": true, "season": "2025/26", "photoDate": "2026-01-25",
+    "evidence": [
+      { "url": "https://www.kristianstadsbladet.se/sport/if-kristianstad-vande-och-tog-viktiga-poang-forbannad/", "type": "press-photo", "date": "2026-01-25",
+        "screenshot": "evidence/se_club_if_kristianstad-2.jpg", "observation": "Kristianstadsbladet: IF Kristianstad home vs HP Warta (played at Tollarps Sporthall as home venue) - IF players in orange shirts, white shorts; Warta in black." },
+      { "url": "https://www.kristianstadsbladet.se/sport/broderna-i-hett-derby-framfor-storpublik-fick-igang-honom/", "type": "press-photo", "date": "2025-11-23",
+        "screenshot": "evidence/se_club_if_kristianstad-1.jpg", "observation": "Derby IF Kristianstad vs Åhus: IF #3 in orange shirt, white shorts." },
+      { "url": "https://ifkkristianstad.web.sportadmin.se/start/?ID=64870", "type": "text", "date": null, "screenshot": null, "observation": "Official IF Kristianstad team page: no team photo." }
+    ],
+    "womenDiffer": null,
+    "notes": "Images are of IF Kristianstad itself; colour matches parent IFK orange. Orange measured in good light #F04F0B.",
+    "reviewReason": "Press photos only (no official IF team image), though one is a confirmed home match."
+  },
+  {
+    "id": "se_club_ik_lagan", "name": "IK Lågan",
+    "status": "VERIFIED", "confidence": 0.88,
+    "primary": "blue", "primaryMeasured": "#3664B5",
+    "secondary": "black", "secondaryMeasured": "#332F3B",
+    "accent": "white", "accentMeasured": null,
+    "pattern": "other",
+    "crest": { "primary": "blue", "secondary": "red", "note": "Blue shield with red border and orange/yellow flames; red/orange not on shirt." },
+    "description": "Blue shirt with subtle tonal hexagon print and white logos, black shorts. Goalkeepers in black/red. White away kit seen in a 'Borta' poster.",
+    "team": "men-A", "homeKit": true, "season": "2026/27", "photoDate": null,
+    "evidence": [
+      { "url": "https://cdn.sportadmin.se/420/51559b8a32bdbef129e52dd2013df7ac6a764191d5481f6323b4cebceecfd9e9_L.jpg", "type": "official-team-photo", "date": null,
+        "screenshot": "evidence/se_club_ik_lagan-1.jpg", "observation": "Team photo on the official 'IK Lågan Hörby — Herrar A' page: blue shirts, black shorts." },
+      { "url": "https://www.google.com/search?q=IK+L%C3%A5gan+handboll+herr&udm=2", "type": "press-photo", "date": null,
+        "screenshot": "evidence/se_club_ik_lagan-2.jpg", "observation": "Search overview: Skånska Dagbladet match photos with Lågan in blue/black; club 'Borta match' poster with white shirts (away)." }
+    ],
+    "womenDiffer": null,
+    "notes": "Prior blue/black confirmed.",
+    "reviewReason": null
+  },
+  {
+    "id": "se_club_karra_hf", "name": "Kärra HF",
+    "status": "VERIFIED", "confidence": 0.93,
+    "primary": "yellow", "primaryMeasured": "#EFEF7F",
+    "secondary": "black", "secondaryMeasured": "#312622",
+    "accent": "black", "accentMeasured": null,
+    "pattern": "sleeves",
+    "crest": { "primary": "yellow", "secondary": "black", "note": "Yellow/black 'KÄRRA HF' shield - same as shirt." },
+    "description": "Yellow shirt with black textured (scale-pattern) sleeves/shoulders, black shorts.",
+    "team": "men-A", "homeKit": true, "season": "2025/26", "photoDate": "2026-03-14",
+    "evidence": [
+      { "url": "https://www.karrahf.se/news/8015420/Herrarna-tog-kvalplatsen", "type": "official-match-photo", "date": "2026-03-14",
+        "screenshot": "evidence/se_club_karra_hf-1.jpg", "observation": "Official report Kärra HF - HP Warta 39-29 (home): player in yellow shirt with black patterned sleeves." },
+      { "url": "https://az729104.cdn.laget.se/11642603.jpg", "type": "official-team-photo", "date": null,
+        "screenshot": "evidence/se_club_karra_hf-3.jpg", "observation": "'Kärra HF Herr Säsongen 2025-2026' team photo: yellow shirts with black sleeves, black shorts." },
+      { "url": "https://www.karrahf.se/news/8188003/2-poang-med-hem-fran-Partille", "type": "official-match-photo", "date": "2026-11-05",
+        "screenshot": "evidence/se_club_karra_hf-2.jpg", "observation": "2026/27 report graphic: same yellow/black kit (darkened graphic, not used for measurement)." }
+    ],
+    "womenDiffer": false,
+    "notes": "Prior yellow/black confirmed; women's A-team also yellow.",
+    "reviewReason": null
+  },
+  {
+    "id": "se_club_vinslovs_hk", "name": "Vinslövs HK",
+    "status": "VERIFIED", "confidence": 0.93,
+    "primary": "yellow", "primaryMeasured": "#F5C85F",
+    "secondary": "red", "secondaryMeasured": "#D73D3F",
+    "accent": "red", "accentMeasured": "#E9362E",
+    "pattern": "sleeves",
+    "crest": { "primary": "red", "secondary": "yellow", "note": "Red/yellow VHK shield; matches kit." },
+    "description": "Golden-yellow shirt with red shoulders/sleeves and collar, red shorts.",
+    "team": "men-A", "homeKit": true, "season": "2026/27", "photoDate": "2026-11",
+    "evidence": [
+      { "url": "https://vinslovshk.web.sportadmin.se/?SID=1270", "type": "official-team-photo", "date": null,
+        "screenshot": "evidence/se_club_vinslovs_hk-2.jpg", "observation": "Official A-lag Herrar page; photo captioned 'Vinslövs HK 2026-2027'." },
+      { "url": "https://cdn.sportadmin.se/335/a740bdd244b75ca1fadacc15f51a2cb041e929ab9bf6559c3b176336ce7f7c49_L.jpg", "type": "official-team-photo", "date": null,
+        "screenshot": "evidence/se_club_vinslovs_hk-1.jpg", "observation": "Full-size 2026-27 team photo: yellow shirts with red trim, red shorts." },
+      { "url": "https://www.kristianstadsbladet.se/sport/holmstrom-gigant-i-annu-ett-derby-maler-ner-dem/", "type": "press-photo", "date": "2026-11",
+        "screenshot": "evidence/se_club_vinslovs_hk-3.jpg", "observation": "Home match vs Anderstorp: Vinslöv in yellow with red sleeves, red shorts." }
+    ],
+    "womenDiffer": null,
+    "notes": "Prior UNKNOWN; now verified yellow/red (the emoji hint was right).",
+    "reviewReason": null
+  },
+  {
+    "id": "se_club_ahus_handboll", "name": "Åhus Handboll",
+    "status": "VERIFIED", "confidence": 0.85,
+    "primary": "royal-blue", "primaryMeasured": "#192882",
+    "secondary": "red", "secondaryMeasured": "#C30B0A",
+    "accent": "white", "accentMeasured": null,
+    "pattern": "solid",
+    "crest": { "primary": "blue", "secondary": "red", "note": "'Å.H.U.S. HANDBOLL' wordmark with red and blue arcs." },
+    "description": "Royal blue shirt (Åhus Beach / Maxi sponsor) with white logos, red shorts. Goalkeepers in green.",
+    "team": "men-A", "homeKit": true, "season": "2025/26", "photoDate": "2025-11-23",
+    "evidence": [
+      { "url": "https://www.ahushandboll.com/grupp/?ID=111117", "type": "official-team-photo", "date": null,
+        "screenshot": "evidence/se_club_ahus_handboll-2.jpg", "observation": "Official 'Truppen — A-lag Herrar' photo: royal-blue shirts, mostly red shorts; dim lighting (#192882)." },
+      { "url": "https://www.kristianstadsbladet.se/sport/broderna-i-hett-derby-framfor-storpublik-fick-igang-honom/", "type": "press-photo", "date": "2025-11-23",
+        "screenshot": "evidence/se_club_ahus_handboll-1.jpg", "observation": "Derby vs IF Kristianstad: Åhus #18 in blue shirt, red shorts (#C30B0A)." }
+    ],
+    "womenDiffer": null,
+    "notes": "Prior UNKNOWN; now blue with red shorts (matches red/blue emoji hint). Team photo season not stated; Instagram 'Matchdag' previews also show blue.",
+    "reviewReason": null
+  }
+]

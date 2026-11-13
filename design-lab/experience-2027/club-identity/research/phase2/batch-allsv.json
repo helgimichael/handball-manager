@@ -1,0 +1,348 @@
+[
+ {
+  "id": "swe2-aranas",
+  "name": "HK Aranäs",
+  "shortName": "Aranäs",
+  "city": "Kungsbacka",
+  "tier": "SE-2 Allsvenskan",
+  "competitionId": "swe-2",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "white",
+   "secondary": "navy",
+   "trim": "yellow",
+   "description": "White shirt with blue side panels, white shorts; blue away. Club colours navy and yellow.",
+   "sources": [
+    "https://en.wikipedia.org/w/index.php?title=HK_Aranäs&action=raw",
+    "https://results.partillecup.com/2023/teams/42128323",
+    "https://team.intersport.se/hk-aranas"
+   ],
+   "notes": "Home vs away for white/blue not officially confirmed; yellow is club colour2 only.",
+   "review": [
+    "white/black home shirt: neon accent is documented as a club, away or dated colour — not confirmed as a home-shirt detail (owner decision)",
+    "White primary; home designation and accent from Wikipedia/youth data only."
+   ]
+  }
+ },
+ {
+  "id": "swe2-drott",
+  "name": "HK Drott Halmstad",
+  "shortName": "Drott",
+  "city": "Halmstad",
+  "tier": "SE-2 Allsvenskan",
+  "competitionId": "swe-2",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "VERIFIED",
+   "primary": "white",
+   "secondary": "red",
+   "trim": "red",
+   "description": "White shirt ('den vita tröjan'), white shorts; red away. Red text/accent colour.",
+   "sources": [
+    "https://www.hkdrott.se/hkdrott/nyheter/2541287/arets-laguppstallning-herrar",
+    "https://sv.wikipedia.org/w/index.php?title=HK_Drott_Halmstad&action=raw"
+   ],
+   "notes": "White home shirt confirmed by official 2026/27 men's squad article; colours unchanged. Red accent still from Wikipedia textfärg/away kit only. Club shop hkdrott.shop.kents.se could not be fetched (TLS error).",
+   "review": [
+    "white/black home shirt: neon accent is documented as a club, away or dated colour — not confirmed as a home-shirt detail (owner decision)"
+   ]
+  }
+ },
+ {
+  "id": "swe2-guif",
+  "name": "Eskilstuna Guif IF",
+  "shortName": "Guif",
+  "city": "Eskilstuna",
+  "tier": "SE-2 Allsvenskan",
+  "competitionId": "swe-2",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "VERIFIED",
+   "primary": "red",
+   "secondary": "dark-red",
+   "trim": "dark-red",
+   "description": "Red hummel shirt with dark red (maroon) collar, cuffs and side panels - official 2026/27 home shirt.",
+   "sources": [
+    "https://shop.guif.nu/product/2026-2027-match-hemma",
+    "https://sv.wikipedia.org/w/index.php?title=Eskilstuna_Guif&action=raw",
+    "https://en.wikipedia.org/w/index.php?title=Eskilstuna_Guif&action=raw",
+    "https://shop.guif.nu/product/2026-2027-match-hemma"
+   ],
+   "notes": "Shorts colour 'b' in en template ambiguous (black/blue); sv says black. Visual check 2026-11-13: Official club shop product \"2026/2027 Match - Hemma\": product image shows a red shirt with dark-red collar, cuffs and side panels.",
+   "review": []
+  }
+ },
+ {
+  "id": "swe2-h43lund",
+  "name": "H43 Lund HF",
+  "shortName": "H43",
+  "city": "Lund",
+  "tier": "SE-2 Allsvenskan",
+  "competitionId": "swe-2",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "blue",
+   "secondary": "white",
+   "trim": null,
+   "description": "Blue shirt, blue shorts; white away.",
+   "sources": [
+    "https://sv.wikipedia.org/w/index.php?title=H43_Lund&action=raw"
+   ],
+   "notes": "Single source; club site not reached.",
+   "review": [
+    "Only one Wikipedia source."
+   ]
+  }
+ },
+ {
+  "id": "swe2-huddinge",
+  "name": "Huddinge HK",
+  "shortName": "Huddinge",
+  "city": "Huddinge",
+  "tier": "SE-2 Allsvenskan",
+  "competitionId": "swe-2",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "blue",
+   "secondary": "white",
+   "trim": null,
+   "description": "Blue shirt, blue shorts; white away.",
+   "sources": [
+    "https://sv.wikipedia.org/w/index.php?title=Huddinge_HK&action=raw"
+   ],
+   "notes": "Single source; no official confirmation.",
+   "review": [
+    "Only one Wikipedia source."
+   ]
+  }
+ },
+ {
+  "id": "swe2-kroppskultur",
+  "name": "GF Kroppskultur",
+  "shortName": "Kropps",
+  "city": "Uddevalla",
+  "tier": "SE-2 Allsvenskan",
+  "competitionId": "swe-2",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "green",
+   "secondary": "white",
+   "trim": null,
+   "description": "Green shirt, green shorts; white away.",
+   "sources": [
+    "https://sv.wikipedia.org/w/index.php?title=GF_Kroppskultur&action=raw"
+   ],
+   "notes": "Single source. Hex identical to OV Helsingborg's sv-wiki value (possibly template copy).",
+   "review": [
+    "Only one Wikipedia source."
+   ]
+  }
+ },
+ {
+  "id": "swe2-kungalv",
+  "name": "Kungälvs HK",
+  "shortName": "Kungälv",
+  "city": "Kungälv",
+  "tier": "SE-2 Allsvenskan",
+  "competitionId": "swe-2",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "green",
+   "secondary": "black",
+   "trim": null,
+   "description": "Green shirt and black shorts at home; white shirt away.",
+   "sources": [
+    "https://sv.wikipedia.org/w/index.php?title=Kungälvs_HK&action=raw"
+   ],
+   "notes": "Explicit prose statement; club site not reached.",
+   "review": []
+  }
+ },
+ {
+  "id": "swe2-redbergslid",
+  "name": "Redbergslids IK",
+  "shortName": "Redbergslid",
+  "city": "Göteborg",
+  "tier": "SE-2 Allsvenskan",
+  "competitionId": "swe-2",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "white",
+   "secondary": "blue",
+   "trim": "blue",
+   "description": "White shirt with blue detailing, white shorts; navy-blue away. Nickname 'De vita eleganterna'.",
+   "sources": [
+    "https://en.wikipedia.org/w/index.php?title=Redbergslids_IK&action=raw",
+    "https://team.intersport.se/redbergslids-ik"
+   ],
+   "notes": "Blue accent from Wikipedia home pattern and club training wear; home-kit data last labelled 2015-19.",
+   "review": [
+    "white/black home shirt: neon accent is documented as a club, away or dated colour — not confirmed as a home-shirt detail (owner decision)"
+   ]
+  }
+ },
+ {
+  "id": "swe2-torslanda",
+  "name": "HK Torslanda Elit",
+  "shortName": "Torslanda",
+  "city": "Göteborg",
+  "tier": "SE-2 Allsvenskan",
+  "competitionId": "swe-2",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "UNCERTAIN",
+   "primary": "blue",
+   "secondary": null,
+   "trim": null,
+   "description": "Youth teams registered in blue/blue at Partille Cup; no senior kit evidence.",
+   "sources": [
+    "https://results.partillecup.com/2024/teams/52865848"
+   ],
+   "notes": "Only youth tournament registrations; no Wikipedia page, club site domain not resolved. Not evidence of senior men's home shirt.",
+   "review": [
+    "Only youth tournament data; senior men's home shirt unverified."
+   ]
+  }
+ },
+ {
+  "id": "swe2-tumba",
+  "name": "IFK Tumba HK",
+  "shortName": "IFK Tumba",
+  "city": "Tumba",
+  "tier": "SE-2 Allsvenskan",
+  "competitionId": "swe-2",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "blue",
+   "secondary": "white",
+   "trim": null,
+   "description": "Blue (royal/dark blue, not navy) match shirts with white details on official club photos.",
+   "sources": [
+    "https://www.svenskalag.se/tumbahandboll/bildgalleri",
+    "https://sv.wikipedia.org/w/index.php?title=IFK_Tumba_Handboll&action=raw"
+   ],
+   "notes": "Single source. Visual check 2026-11-13: Official club photo gallery (USM Finalspelet 2025, P18 steg 4 2025): club teams in blue shirts with white details. Men's senior team not pictured, so not upgraded to VERIFIED; resolves the navy-vs-blue question in favour of blue.",
+   "review": [
+    "Official club photos show blue (not navy) club shirts, but the men's senior home shirt itself is not pictured — confirm with a men's match photo or shop listing."
+   ]
+  }
+ },
+ {
+  "id": "swe2-tyreso",
+  "name": "Tyresö Handboll",
+  "shortName": "Tyresö",
+  "city": "Tyresö",
+  "tier": "SE-2 Allsvenskan",
+  "competitionId": "swe-2",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "UNCERTAIN",
+   "primary": "black",
+   "secondary": null,
+   "trim": null,
+   "description": "Club shop sells a black Squadra 25 'Matchtröja Herr'; home/away not stated.",
+   "sources": [
+    "https://www.lannasport.se/sv/p284058/tyreso-handboll-squadra-25-matchtroja-herr",
+    "https://www.lannasport.se/sv/tyreso-handboll",
+    "https://en.wikipedia.org/w/index.php?title=Tyresö_HF&action=raw"
+   ],
+   "notes": "Club shop (linked from tyresohandboll.se) lists only a black match shirt. Wikipedia red/yellow is for women's Tyresö HF, possibly a different entity/older. Red/yellow may be accent but undocumented on the shirt.",
+   "review": [
+    "Black match shirt not confirmed as home; no documented accent; red/yellow conflict.",
+    "monochrome shirt without documented accent colour → ice-silver neon"
+   ]
+  }
+ },
+ {
+  "id": "swe2-varberg",
+  "name": "HK Varberg",
+  "shortName": "Varberg",
+  "city": "Varberg",
+  "tier": "SE-2 Allsvenskan",
+  "competitionId": "swe-2",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "UNCERTAIN",
+   "primary": "green",
+   "secondary": null,
+   "trim": null,
+   "description": "Only a youth team registered in green/green at Partille Cup 2024.",
+   "sources": [
+    "https://results.partillecup.com/2024/teams/52869748"
+   ],
+   "notes": "Wikipedia kit fields blank; club shop lists hummel training jerseys without colours.",
+   "review": [
+    "Only youth tournament data; senior men's home shirt unverified."
+   ]
+  }
+ },
+ {
+  "id": "swe2-vasterasirsta",
+  "name": "VästeråsIrsta HF",
+  "shortName": "V.Irsta",
+  "city": "Västerås",
+  "tier": "SE-2 Allsvenskan",
+  "competitionId": "swe-2",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "white",
+   "secondary": "black",
+   "trim": "red",
+   "description": "White shirt, black shorts ('vitsvart'); red away shirt.",
+   "sources": [
+    "https://www.vasterasirsta.se",
+    "https://sv.wikipedia.org/w/index.php?title=VästeråsIrsta_HF&action=raw",
+    "https://team.intersport.se/vasterasirsta-hf"
+   ],
+   "notes": "'Vitsvart' quote is from a women's-team post (same club). Red accent from away kit and training wear.",
+   "review": [
+    "white/black home shirt: neon accent is documented as a club, away or dated colour — not confirmed as a home-shirt detail (owner decision)"
+   ]
+  }
+ },
+ {
+  "id": "swe2-ystad2",
+  "name": "IFK Ystad HK",
+  "shortName": "IFK Ystad",
+  "city": "Ystad",
+  "tier": "SE-2 Allsvenskan",
+  "competitionId": "swe-2",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "red",
+   "secondary": "black",
+   "trim": null,
+   "description": "Red shirt, black shorts and socks; white away.",
+   "sources": [
+    "https://sv.wikipedia.org/w/index.php?title=IFK_Ystad_HK&action=raw"
+   ],
+   "notes": "Single source. Club webshop (Action och Trend, Craft) lists no match shirt colour.",
+   "review": [
+    "Only one Wikipedia source."
+   ]
+  }
+ }
+]

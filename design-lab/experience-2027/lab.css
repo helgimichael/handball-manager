@@ -170,3 +170,11 @@ a { color: var(--l-acc); }
 @media (max-width: 1000px) { .ci-wrap { grid-template-columns: 1fr; } .ci-list { position: static; max-height: 360px; } .ci-card { grid-template-columns: auto auto auto; } .ci-meta { grid-column: 1 / -1; } }
 .ci-card .btn-l { color: var(--l-ink); }
 .ci-card .btn-l.pri { color: #fff; }
+.ci-crest { display: flex; align-items: center; gap: 3px; margin-top: 4px; }
+.ci-crest i { width: 14px; height: 14px; border-radius: 3px; border: 1px solid rgba(255,255,255,.25); display: inline-block; }
+.ci-crest small { color: #93a0b3; margin-left: 4px; font-size: 10.5px; }
+.ci-shot { display: block; margin-top: 10px; max-width: 360px; }
+.ci-shot img { width: 100%; border-radius: 8px; border: 1px solid #262d3a; }
+.ci-stat { margin-bottom: 14px; }
+.ci-cmp { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 18px; }
+.ci-stat th { position: static; }

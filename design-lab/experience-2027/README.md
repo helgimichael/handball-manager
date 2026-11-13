@@ -53,6 +53,12 @@ Every club's neon originates from its **first-choice home shirt** (`docs/experie
 - `frame.html?club=<any game club id>` applies that club's identity; `club=none` gives the clubless state.
 - The lab's top-bar club selector lists every club. The Club identity view has search, tier and status filters, the kit card (shirt → neon), the screens, a club-change sequence and all 202 neons.
 
+### Phase 2 (visual verification)
+
+- `club-identity/research/phase2/`: briefs, batch files, `results-*.json` (image-based evidence per club) and `evidence/` screenshots.
+- `club-identity/sample_colour.py`: measures a shirt colour from an evidence screenshot. Run it with `python -P`.
+- Phase 2 records supersede earlier evidence. The neon is built from the documented hue, nudged at most ±10° toward the measured hue. Crests keep their own colours.
+
 ## Views
 
 | View | What it does |
