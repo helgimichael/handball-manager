@@ -310,5 +310,6 @@
   "lib/career/activeClubIdentity.test.ts",
   "lib/career/clubIdentitySoak.test.ts",
   "lib/competition/transition/parentPriority.test.ts",
-  "lib/career/parentPrioritySeason.test.ts"
+  "lib/career/parentPrioritySeason.test.ts",
+  "lib/ui/arenaTheme.test.ts"
 ]

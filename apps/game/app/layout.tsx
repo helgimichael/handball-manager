@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="sv">
+    <html lang="sv" data-theme="arena">
       <body>
         <PreferencesHydrator />
         <AlphaAccessGate>
