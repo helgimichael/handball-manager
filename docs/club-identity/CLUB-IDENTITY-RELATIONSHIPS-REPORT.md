@@ -1,6 +1,6 @@
 # Club Identity — Club Relationships (C4)
 
-**Phase:** C4. **Decisions implemented:** D7 (HK Cliff), D8-A (IF Kristianstad), D9-A + A1 (11 Division 2 relations), L9 (cooperation rule unchanged).
+**Phase:** C4. **Status: PARTIAL — one genuine blocker (§5).** Decisions implemented: D7 (HK Cliff), D8-A (IF Kristianstad), D9-A1 (no renewal), D9 static relations, L9 (cooperation rule unchanged). **Not activated:** career agreements (and therefore the SHF promotion cap) for the 11 new Division 2 relations — activating them deadlocks careers in the production transition engine (§5); an owner decision is required.
 
 ## 1. Two layers, never interchangeable
 
@@ -27,23 +27,25 @@ Resolvers (`game-data/clubIdentity.ts`): `clubRelationForSeason`, `parentClubOf`
 | HP Alingsås | Alingsås HK | SECOND_TEAM | FULL | existing permanent row |
 | IF Kristianstad | IFK Kristianstad | PARTNER_ASSOCIATION_WITH_SHARED_PLAYERS | **PARTIAL** | existing permanent row (D8-A, no retype, no v9) |
 | HK Önnerediterna | Önnereds HK | SECOND_TEAM_UNDER_PARTNER_ASSOCIATION | FULL | existing permanent row |
-| LUGI HF U | Lugi HF | U_TEAM | FULL | **new** seeded row |
-| HF Karlskrona U | HF Karlskrona | SAME_CLUB_SECOND_TEAM | FULL | new |
-| Ystads IF HF U | Ystads IF HF | U_TEAM | FULL | new |
-| Tumba HK | IFK Tumba HK | SECOND_TEAM_UNDER_PARTNER_ASSOCIATION | FULL | new (`TUMBA_CLUB_ID` unchanged) |
-| VästeråsIrsta HK | VästeråsIrsta HF | idem | FULL | new |
-| HK Varberg 09 | HK Varberg | idem | **MAJORITY** | new |
-| Helsingborgs HK | OV Helsingborg | idem | FULL | new |
-| Malmö HP | HK Malmö | idem | FULL | new |
-| HK Lif Blå | LIF Lindesberg | idem | FULL | new |
-| HK Ystadpågarna | IFK Ystad HK | idem | FULL | new |
-| Lunds HS Lejon | H43 Lund HF | idem | FULL | new (S2, the 11th) |
+| LUGI HF U | Lugi HF | U_TEAM | FULL | static relation; career row **gated** (§5) |
+| HF Karlskrona U | HF Karlskrona | SAME_CLUB_SECOND_TEAM | FULL | static relation; career row gated |
+| Ystads IF HF U | Ystads IF HF | U_TEAM | FULL | static relation; career row gated |
+| Tumba HK | IFK Tumba HK | SECOND_TEAM_UNDER_PARTNER_ASSOCIATION | FULL | static relation; career row gated (`TUMBA_CLUB_ID` unchanged) |
+| VästeråsIrsta HK | VästeråsIrsta HF | idem | FULL | static relation; career row gated |
+| HK Varberg 09 | HK Varberg | idem | **MAJORITY** | static relation; career row gated |
+| Helsingborgs HK | OV Helsingborg | idem | FULL | static relation; career row gated |
+| Malmö HP | HK Malmö | idem | FULL | static relation; career row gated |
+| HK Lif Blå | LIF Lindesberg | idem | FULL | static relation; career row gated |
+| HK Ystadpågarna | IFK Ystad HK | idem | FULL | static relation; career row gated |
+| Lunds HS Lejon | H43 Lund HF | idem | FULL | static relation; career row gated (S2, the 11th) |
 | Torslanda HK | HK Torslanda Elit | YOUTH_LINK | PARTIAL | none (not a B team, F29) |
 | Veszprém Handball Academy | Veszprém KC | ACADEMY | PROBABLE | none (foreign) |
 
 Every relation carries its evidence (Profixio registration counts and URLs). No squads or identities are merged.
 
 ## 3. Career behaviour
+
+> The table describes the implemented mechanism. In production builds `DIVISION2_RELATION_AGREEMENTS_ENABLED = false` (`career/staticRelationPartnerships.ts`): the seeder and reconciler run on every new career and every load but activate **no** rows for the 11 Division 2 relations, so careers behave exactly as before C4 for promotion and relegation. Candidate exclusion and no-renewal read the static relations and **are** active.
 
 | Event | New career | Existing (legacy) career |
 |---|---|---|
@@ -65,10 +67,33 @@ Every relation carries its evidence (Profixio registration counts and URLs). No 
 ## 4. Tests
 
 - `lib/career/staticRelationPartnerships.test.ts` (7 tests): L9 byte guard; 16 relations, kinds, confidences, D7/D8 specifics, non-cooperation links, parents resolve; new-career rows from start; legacy rows from next season with the cap applying only from 2027/28 (HK Lif Blå, Tumba HK), idempotence and save/load; candidate exclusion and D9-A1 run-out; termination via `validTo` (cap until season close, EXPIRED row kept, no effect later, canonical rows never ended); SHF late termination on a seeded row.
-- `lib/career/clubPartnerships.test.ts`: two expectations updated from "exactly five rows in total" to "exactly the five canonical rows, unchanged, plus exactly 11 evidence-tagged relation rows" (new career: from start; migrated save: from 2027-07-01). No assertion was weakened.
-- Targeted run (127 tests: partnerships, cooperation, continuity incl. three seeded seasons, promotion stock, Division 2 qualification, placements, world competitions, save migration): 127/127 pass (`C:\DEV\QA\logs\club-identity\c4-targeted.log`, after the two expectation updates).
+- `lib/career/staticRelationPartnerships.test.ts` also asserts the gate: production careers hold exactly the five canonical rows, new and loaded.
+- `lib/career/clubPartnerships.test.ts`: unchanged from the pre-C4 version (its "exactly five rows" expectations hold again because of the gate).
+- Targeted run before the gate (127 tests: partnerships, cooperation, continuity incl. three seeded seasons, promotion stock, Division 2 qualification, placements, world competitions, save migration): 127/127 pass (`C:\DEV\QA\logs\club-identity\c4-targeted.log`, after the two expectation updates).
 - Five-season behaviour with real transitions: C6.
 
-## 5. Rollback
+## 5. Blocker: activating the 11 Division 2 agreements deadlocks careers
+
+**Finding (C6 five-season soak, reproduced deterministically).** With the 11 agreements active:
+
+1. *Promotion route* (seed `club-identity-soak-new`, 2026/27 → 2027/28): Lunds HS Lejon is promoted Division 2 → Division 1 (eligible: parent H43 Lund is in Allsvenskan, cap = tier 3) **in the same transition** in which H43 Lund is relegated Allsvenskan → Division 1. Both now play Division 1. At the next rollover the unchanged rule (`highest = max(3, parentTier + 1)` = 4) refuses Lejon in Division 1: `COOPERATION_TARGET_INELIGIBLE`, status BLOCKED — and every later attempt is refused the same way. The career cannot start another season.
+2. *Remain route* (same seed, 2029/30): LUGI HF U, legitimately promoted earlier, stays in Division 1 while Lugi HF is relegated into Division 1 → same permanent block.
+
+**Why it cannot be fixed inside this assignment.** The rule itself is locked (L9) and correct. What is missing is a *transition-engine* behaviour: moving a cooperation team down when its parent arrives in its tier (SHF "always below its parent"). Two engine extensions were prototyped and **reverted**:
+- re-planning with projected parent tiers (fixes route 1), and
+- an evidenced `ADMINISTRATIVE_RELEGATION` ranking decision (fixes route 2).
+
+They resolved the soak's blocks but broke the existing production test `gameContinuity.seasons.test.ts` (`QUALIFICATION_TIE_CONFLICT`): Division 1 qualification series are scheduled mid-season from the planner's entrants, and a projection that depends on the parent's final placement changes those entrants afterwards. Making that consistent is a redesign of the Swedish qualification/transition engine — explicitly out of scope ("preserve existing Swedish competition rules", "do not change unrelated gameplay systems").
+
+**Pre-existing exposure (not introduced here).** The same deadlock is reachable today for the five canonical B teams (e.g. HK Cliff in Division 1 if Hammarby is relegated twice). It is rare because those parents are Handbollsligan clubs; the 11 Division 2 relations would make it frequent.
+
+**Consequence of the gate.** Division 2 second/U teams can still be promoted above the real SHF cap in careers (observed in the soak: VästeråsIrsta HK climbed to Handbollsligan). This is the pre-C4 behaviour, unchanged.
+
+**Owner decision required (OD-1).** Choose one:
+- **A (recommended):** approve a scoped engine milestone — "cooperation-aware transitions": projected parent tiers in qualification seeding *before* series are scheduled, plus administrative relegation of a cooperation team whose parent arrives in its tier — then flip `DIVISION2_RELATION_AGREEMENTS_ENABLED`. The seeder, termination path, tests and evidence are ready.
+- B: keep the gate closed (static relations, labels, candidate exclusion, no renewal only).
+- C: activate only relations whose parents are in Division 1 (cap 4 keeps the team in Division 2) — still deadlock-prone if that parent is later promoted and relegated again; not recommended.
+
+## 6. Rollback
 
 Revert the C4 commit. Extra `AFFILIATED_B_TEAM` rows already written to saves remain valid in the older build (same type, same cap) — the documented MS §8 outcome.

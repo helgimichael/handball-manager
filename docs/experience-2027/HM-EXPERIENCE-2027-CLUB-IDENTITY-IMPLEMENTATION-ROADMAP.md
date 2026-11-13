@@ -1,5 +1,20 @@
 # HM Experience 2027: Club Identity, Implementation Roadmap
 
+> **Implementation status — 2026-11-13, branch `feat/club-identity-implementation` (local, not pushed).**
+> The master assignment numbered its phases C0–C6; they map onto this roadmap as follows. Full detail: `docs/club-identity/CLUB-IDENTITY-COMPLETE-IMPLEMENTATION-REPORT.md`.
+>
+> | Assignment phase | Roadmap phases | Status |
+> |---|---|---|
+> | C0 Preparation and identity mapping | C0 | PASS (synthetic careers; no tester exports/consent — D11 fallback) |
+> | C1 Canonical identity | C1 + C3 (name resolution) | PASS |
+> | C2 Database corrections | C2 + C5 (new clubs, tombstone) | PASS; Norway (T6), Danish 2nd promotee, D3/D6 replacements deferred |
+> | C3 Season-bound membership | C4 | PASS (no v9) |
+> | C4 Relationships | C6 | **PARTIAL** — static relations, labels, candidate exclusion, no renewal done; career agreements for the 11 Division 2 teams gated: they deadlock the transition engine (owner decision OD-1) |
+> | C5 Visual integration | C7 | **PARTIAL** — one colour source, active-club identity, markers, labels in production; Arena Nights production re-skin remains the separate redesign milestone |
+> | C6 Historical validation | C8 | PASS (two five-season soaks, I5 byte-identity vs baseline); real Alpha save rollover still required before production |
+>
+> **Next milestone (recommended):** "cooperation-aware transitions" in the Swedish competition engine (projected parent tiers in qualification seeding before series are scheduled + administrative relegation when a parent arrives in its cooperation team's tier), then flip `DIVISION2_RELATION_AGREEMENTS_ENABLED`. The seeder, termination path and tests are ready.
+
 **Status:** This is a plan. Nothing in it has been implemented. No production code, game data, saves, Alpha data or careers were changed.
 **Date:** 2026-11-14. Branch `design/hm-experience-2027`, base `29777aa`.
 
