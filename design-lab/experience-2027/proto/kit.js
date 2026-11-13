@@ -153,6 +153,8 @@
     today: ['Översikt', 'Inkorg', 'Nyheter', 'Kalender'], team: ['Trupp', 'Taktik', 'Träning', 'Medicinskt', 'Kontrakt'], club: ['Klubbhuset', 'Personal', 'Ekonomi', 'Styrelsen', 'Historik'],
     recruit: ['Scouting', 'Spelarsök', 'Bevakning', 'Transfers'], comp: ['Ligan', 'Cupen', 'Matcher', 'Statistik'], career: ['Manager', 'Rykte', 'Jobb', 'Milstolpar'],
   };
+  // Marks a temporary fallback identity so it is never mistaken for verified club colours.
+  const idMark = () => (H.activeClub && H.activeClub.kind === 'fallback' ? '<span class="idfb" title="Tröjfärgen är inte verifierad – tillfällig standardfärg (orange). Status: UNKNOWN.">Klubbfärg ej verifierad</span>' : '');
   // `theme` = visual language (tokens); `opts.nav` = navigation structure (a: hub rail + palette, b: top hub bar, c: Week Spine + rail + Peek).
   function shell(theme, hub, content, opts = {}) {
     const nav = opts.nav || theme;
@@ -164,14 +166,14 @@
       return `<div class="app shell-a"><aside class="rail"><div class="brand">${crest(H.me, 26)}<b>Handball Manager</b></div>${HUBS.map(([k, l, ic]) => `<a href="#" class="hub ${k === hub ? 'on' : ''}" data-hub="${k}">${icon(ic)}<span class="lbl">${l}</span>${k === 'today' ? `<span class="pin">${unread}</span>` : ''}</a>`).join('')}<div class="club">${avatar(H.manager, 28)}<span class="t"><b>${H.manager.name}</b><br><span class="muted">${H.me.short} · ${H.season}</span></span></div></aside><div class="main"><header class="topbar"><span class="crumb">${HUBS.find((h) => h[0] === hub)?.[1] || ''} / <b>${esc(opts.title || sub || '')}</b></span><span class="search" data-act="palette">${icon('search', 16)}<span class="grow">Sök eller kör kommando</span><span class="kbd">Ctrl K</span></span><button class="btn primary continue-a" data-act="continue">${icon('play', 14)} Fortsätt <small>· 2 att göra</small></button></header>${SUB[hub] && opts.tabs !== false ? `<div class="subtabs subtabs-d"><nav class="tabs">${SUB[hub].map((s) => `<a href="#" class="${s === sub ? 'on' : ''}">${s}</a>`).join('')}</nav></div>` : ''}<main class="page">${content}</main></div>${mbar}${palette}</div>`;
     }
     if (nav === 'b') {
-      return `<div class="app shell-b"><header class="hubbar"><span class="club">${crest(H.me, 30)}<b>${H.me.short}</b></span>${HUBS.map(([k, l]) => `<a href="#" class="hub ${k === hub ? 'on' : ''}" data-hub="${k}">${l}</a>`).join('')}<button class="cont-b" data-act="continue">${icon('play', 16)}<span>Fortsätt<small>Matchdag om 2 dagar</small></span></button><span class="only-m" style="margin-left:auto">${icon('bell', 20)}</span></header><main class="page">${content}</main>${mbar}${palette}</div>`;
+      return `<div class="app shell-b"><header class="hubbar"><span class="club">${crest(H.me, 30)}<b>${H.me.short}</b>${idMark()}</span>${HUBS.map(([k, l]) => `<a href="#" class="hub ${k === hub ? 'on' : ''}" data-hub="${k}">${l}</a>`).join('')}<button class="cont-b" data-act="continue">${icon('play', 16)}<span>Fortsätt<small>Matchdag om 2 dagar</small></span></button><span class="only-m" style="margin-left:auto">${icon('bell', 20)}</span></header><main class="page">${content}</main>${mbar}${palette}</div>`;
     }
     // C
     const clubless = H.me && H.me.id === 'none';
     const week = clubless ? [{ d: 'Mån 11', e: 'Ledig', past: true }, { d: 'Tis 12', e: 'Läs jobbannonser', today: true }, { d: 'Ons 13', e: 'Intervju: Alingsås', kind: 'match' }, { d: 'Tor 14', e: 'Bevaka Tumba – Kristianstad' }, { d: 'Fre 15', e: 'Ansökan OV stänger' }, { d: 'Lör 16', e: 'Ledig' }, { d: 'Sön 17', e: 'Svar från Alingsås?' }] : H.week;
     const ahead = clubless ? '<span><b>20 nov</b> Aranäs styrelsemöte</span><span><b>1 dec</b> Transferfönster stänger</span>' : '<span><b>20 nov</b> Cupen · OV Helsingborg</span><span><b>1 dec</b> Transferfönster stänger</span>';
     const spine = `<div class="spine" role="navigation" aria-label="Veckans tidslinje">${week.map((d) => `<div class="day ${d.today ? 'today' : ''} ${d.kind === 'match' ? 'match' : ''} ${d.past ? 'past' : ''}" tabindex="0"><div class="d">${d.d}${d.today ? ' · idag' : ''}</div><div class="e">${d.e}</div></div>`).join('')}<div class="ahead"><span class="kicker">Framåt</span>${ahead}</div></div>`;
-    return `<div class="app shell-c"><header class="masthead"><span class="wm">${crest(H.me, 24)} ${H.me.short} <small>${H.date}</small></span><span class="search" data-act="palette">${icon('search', 15)}<span class="grow">Sök…</span><span class="kbd" style="color:#c9cfd8;border-color:#56627a">Ctrl K</span></span><button class="cont-c" data-act="continue">${icon('play', 16)}<span>Fortsätt<small>Till onsdag</small></span></button></header>${spine}<div class="body"><nav class="rail" aria-label="Huvudnavigering">${HUBS.map(([k, l, ic]) => `<a href="#" class="hub ${k === hub ? 'on' : ''}" data-hub="${k}">${icon(ic, 20)}<span>${l}</span></a>`).join('')}</nav><main class="page">${content}</main></div>${mbar}${palette}</div>`;
+    return `<div class="app shell-c"><header class="masthead"><span class="wm">${crest(H.me, 24)} ${H.me.short}${idMark()} <small>${H.date}</small></span><span class="search" data-act="palette">${icon('search', 15)}<span class="grow">Sök…</span><span class="kbd" style="color:#c9cfd8;border-color:#56627a">Ctrl K</span></span><button class="cont-c" data-act="continue">${icon('play', 16)}<span>Fortsätt<small>Till onsdag</small></span></button></header>${spine}<div class="body"><nav class="rail" aria-label="Huvudnavigering">${HUBS.map(([k, l, ic]) => `<a href="#" class="hub ${k === hub ? 'on' : ''}" data-hub="${k}">${icon(ic, 20)}<span>${l}</span></a>`).join('')}</nav><main class="page">${content}</main></div>${mbar}${palette}</div>`;
   }
 
   /* ---------------- interactions (all real, no inert buttons) ---------------- */
@@ -293,11 +295,14 @@
         Object.assign(tum, { c1: crestCols.c1, c2: crestCols.c2, abbr: abbrOf(r.name) });
         SWAP = { one: [[pt.name, r.name], ['Tumba Sporthall', 'hemmaarenan'], [pt.short, r.short]], bug: abbrOf(r.short || r.name) };
       }
-      H.activeClub = { short: s ? s.short : r.short, name: r.name };
+      // Identity kind (owner decisions 2026-11-14): 'club' = colour from the verified/documented shirt, 'ice' = Ice Silver
+      // for black/white shirts, 'fallback' = default orange for an UNKNOWN kit (temporary, not verified club data).
+      H.activeClub = { short: s ? s.short : r.short, name: r.name, kind: r.fb ? 'fallback' : String(r.rule || '').startsWith('ice') ? 'ice' : 'club', status: r.status };
       // --club-primary follows the home SHIRT (match-day cells, score bug); crests keep crest colours.
       active = { id: r.id, name: r.name, c1: r.p && ['VERIFIED', 'PROBABLE', 'UNCERTAIN'].includes(r.status) ? r.p : '#1a2233', c2: r.s || crestCols.c2, neon: r.neon, status: r.status };
     }
     root.dataset.club = active.id;
+    root.dataset.identity = (H.activeClub && H.activeClub.kind) || (active.id === 'none' ? 'clubless' : 'club');
     root.style.setProperty('--club-neon', active.neon);
     root.style.setProperty('--club-primary', active.c1);
     root.style.setProperty('--club-secondary', active.c2);

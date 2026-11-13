@@ -178,3 +178,10 @@ a { color: var(--l-acc); }
 .ci-stat { margin-bottom: 14px; }
 .ci-cmp { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 18px; }
 .ci-stat th { position: static; }
+/* Owner decisions 2026-11-14: identity kinds */
+.tag.kind-club { background: rgba(22,163,74,.14); color: var(--l-ok); }
+.tag.kind-ice { background: #d7e1ee; color: #1f2937; }
+.tag.kind-fb { background: rgba(255,122,26,.16); color: #c2410c; border: 1px dashed #ff7a1a; }
+.sw-fb { background-image: repeating-linear-gradient(135deg, rgba(0,0,0,.28) 0 3px, transparent 3px 7px) !important; }
+.fbtxt { color: #ff7a1a; font-weight: 700; }
+.ci-neon .tag { margin-top: 4px; }

@@ -3,6 +3,24 @@
 > Owner principle (2026-11-13): **every club's neon identity originates from the dominant colour of its actual first-choice home shirt.**
 > Isolated design deliverable on `design/hm-experience-2027`. No game data, gameplay, Alpha, club IDs or career data were changed. Arena Nights remains the global identity. The 231 surface recommendations and 551 alternatives are untouched; `verify-amendment.cjs` re-checks this.
 
+## 0. Owner decisions (2026-11-14) — these supersede earlier rules in this document
+
+| # | Decision | Rule in the registry and lab |
+|---|---|---|
+| G10 | **Black/white shirts → ICE SILVER** | Predominantly black, white or grey home shirts use Ice Silver `#d7e1ee` (`neonRule: ice-silver (black/white shirt)`). The crest colour is never used automatically. A documented trim is kept as `referenceAccent` (metadata only, with its basis: home-kit detail or club/away colour). |
+| G11 | **Unknown shirt colour → DEFAULT ORANGE (fallback)** | `neon: #ff7a1a`, `fallback: true`, `neonRule: fallback-orange (unknown kit)`. The verification status stays **UNKNOWN**. It is never presented as club data: the game shell shows "Klubbfärg ej verifierad" (club colour not verified), and the lab shows a hatched swatch and a FALLBACK tag. Clubless managers keep orange. |
+| G12 | **Incorrect identities → CORRECT** | Proposal only: see `HM-EXPERIENCE-2027-CLUB-IDENTITY-CORRECTION-PLAN.md`. Registry IDs stay the game's current IDs until a controlled production migration. |
+
+Current application across all 202 clubs:
+
+| Kind | Clubs |
+|---|---:|
+| Shirt colour (primary) | 147 |
+| Ice Silver | 45 (32 keep a reference accent) |
+| Orange fallback | 10 (9 UNKNOWN, plus 1 with no documented primary) |
+
+Phase 1's "secondary/trim neon for monochrome shirts" and "pending steel" rules no longer apply. Sections 4–9 below are kept as history.
+
 ## 1. Deliverables
 
 | # | Deliverable | Where |
@@ -71,8 +89,8 @@ node design-lab/experience-2027/club-identity/capture-club-boards.cjs
 1. **Source colour:**
    - The chromatic home-shirt colour.
    - For white, black or grey shirts: the documented secondary colour, then the trim.
-   - No documented accent: **ice silver** `#d7e1ee` (no hue is invented).
-   - Unknown or not-researched kit: **pending steel** `#9fb0c6`, flagged for review.
+   - No documented accent: **ice silver** `#d7e1ee` (no hue is invented). *(Superseded by G10: all black/white shirts now use Ice Silver.)*
+   - Unknown or not-researched kit: **pending steel** `#9fb0c6`, flagged for review. *(Superseded by G11: unknown kits now use the default orange fallback, marked as a fallback.)*
    - Clubless manager: **neon orange** `#ff7a1a`.
 2. **Hue preserved:** conversion happens in OKLCH, a perceptual colour space; the shirt's hue angle is kept.
 3. **Consistent intensity:** fixed lightness and chroma targets per hue family. Yellows stay light so they don't turn olive, reds and blues are saturated rather than pastel, and chroma is reduced only as far as needed to stay inside sRGB.

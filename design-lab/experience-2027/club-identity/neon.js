@@ -68,15 +68,19 @@
     return rgbToHex(rgb);
   }
 
-  /** kit: { primary, secondary, trim (hex or null), status } → { neon, rule, source } */
+  /** kit: { primary, secondary, trim (hex or null), status } → { neon, rule, source, fallback, referenceAccent }
+   *  Owner decisions 2026-11-14:
+   *   - Black/white (achromatic) home shirts → ICE SILVER. A documented chromatic trim/secondary is kept only as
+   *     reference metadata (`referenceAccent`); it is never the selected accent, and the crest colour is never used.
+   *   - UNKNOWN kits (or not researched) → DEFAULT ORANGE as a TEMPORARY FALLBACK (`fallback: true`); the club's
+   *     verification status stays UNKNOWN. Clubless managers also use orange. */
   function neonForKit(kit) {
-    if (!kit) return { neon: PENDING, rule: 'pending', source: null };
-    if (kit.override) return { neon: kit.override, rule: 'manual-override', source: kit.override };
-    if (kit.status === 'UNKNOWN' || !kit.primary) return { neon: PENDING, rule: 'pending', source: null };
-    if (isChromatic(kit.primary)) return { neon: neonFromHex(kit.primary), rule: 'primary', source: kit.primary };
-    if (isChromatic(kit.secondary)) return { neon: neonFromHex(kit.secondary), rule: 'secondary (monochrome shirt)', source: kit.secondary };
-    if (isChromatic(kit.trim)) return { neon: neonFromHex(kit.trim), rule: 'trim (monochrome shirt)', source: kit.trim };
-    return { neon: MONOCHROME, rule: 'monochrome (no documented accent)', source: kit.primary };
+    if (!kit) return { neon: CLUBLESS, rule: 'fallback-orange (unknown kit)', source: null, fallback: true };
+    if (kit.override) return { neon: kit.override, rule: 'manual-override', source: kit.override, fallback: false };
+    if (kit.status === 'UNKNOWN' || kit.status === 'NOT_RESEARCHED' || !kit.primary) return { neon: CLUBLESS, rule: 'fallback-orange (unknown kit)', source: null, fallback: true };
+    if (isChromatic(kit.primary)) return { neon: neonFromHex(kit.primary), rule: 'primary', source: kit.primary, fallback: false };
+    const ref = isChromatic(kit.secondary) ? kit.secondary : isChromatic(kit.trim) ? kit.trim : null;
+    return { neon: MONOCHROME, rule: 'ice-silver (black/white shirt)', source: kit.primary, fallback: false, referenceAccent: ref };
   }
 
   /** Reference colour for neon generation when a colour was measured from a photo: the documented (palette) colour,

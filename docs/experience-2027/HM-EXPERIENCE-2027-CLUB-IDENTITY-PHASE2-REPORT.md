@@ -102,7 +102,8 @@ The review list (`HM-EXPERIENCE-2027-CLUB-KIT-REVIEW-LIST.md`, 107 clubs with at
   - Torslanda HK B-team.
   - HK Önnerediterna: youth image only (QA cap).
   - Skogås HK: away photo only.
-- **Monochrome shirts** without a documented accent get the ice-silver neon: 13 clubs, including VästeråsIrsta HF and Eslövs HK (black with a grey print). They need an owner decision if a coloured accent is wanted.
+- **Black/white shirts:** decided 2026-11-14 (G10). All 45 such clubs use **Ice Silver**; documented trims are kept as reference metadata.
+- **Unknown kits:** decided 2026-11-14 (G11). They use the **default orange fallback**, clearly marked and with the status kept UNKNOWN (10 clubs).
 - **International:** 9 clubs were not visually checked for time reasons (Cisne, Córdoba, Teucro, Cegléd, Eger, Škofja Loka, Þróttur, Vestli, Komló). They are capped at UNCERTAIN or UNKNOWN.
 
 ## 5. Club database identity findings

@@ -265,3 +265,22 @@ Full report: `HM-EXPERIENCE-2027-CLUB-IDENTITY-PHASE2-REPORT.md`.
 - Neon comes from the documented hue, nudged at most ±10° toward the measured hue. Crests keep their own colours, and B/U teams don't inherit parent colours.
 - **Club database identity findings:** 33 findings in five categories, with proposed corrections. The production data is unchanged.
 - **Verification:** club identity checks and recommendation-preservation checks both report 0 issues.
+
+---
+
+## Part 8: Club Identity owner decisions and data correction plan (2026-11-14)
+
+Owner decisions G10–G12 are recorded in `HM-EXPERIENCE-2027-OWNER-DECISIONS.md` and applied in the registry and the lab:
+- **G10, black/white shirts → Ice Silver:** 45 clubs. A documented trim is kept as reference metadata only, and crest colours are never used.
+- **G11, unknown shirt colour → default orange fallback:** 10 clubs. The status stays UNKNOWN, and the fallback is visibly marked: "Klubbfärg ej verifierad" (club colour not verified) in the game shell, and a hatched swatch with a FALLBACK tag in the lab. Clubless managers keep orange.
+- **G12, correct incorrect identities:** `HM-EXPERIENCE-2027-CLUB-IDENTITY-CORRECTION-PLAN.md` covers 33 findings plus 6 extra items:
+  - 32 of 33 IDs can be retained; `ger2-wilhelmshaven` would become a tombstone and is never deleted or reused.
+  - No merges are proposed.
+  - 9 season-gated league moves are proposed (save schema v8 → v9).
+  - 11 relationship rows would be added.
+
+  This is a proposal only: no production data, saves or careers were changed.
+
+Verification:
+- Club identity checks: 0 issues across 660 renders, including all fallback clubs. They check the new rules: fallback only for unknown kits, never on verified or probable clubs, and the marker shown exactly when it applies; Ice Silver on every black/white shirt.
+- Recommendation preservation: 0 issues (231 recommendations, 551 alternatives).

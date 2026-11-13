@@ -93,6 +93,38 @@ These constrain every surface. Recommended order: G1 → G2 → G3/G4 → G5–G
 **Decision:** **A** (owner, 2026-11-13) — Dynamic neon accent derived from the active club; clubless manager = neon orange default.  
 **Comments:** 
 
+### G10 · Black/white home shirts: accent
+
+- [x] A — Ice Silver (trim kept as reference metadata)
+- [ ] B — Documented trim/secondary colour
+- [ ] C — Crest colour
+
+**Claude's recommendation:** B — Claude recommended the documented trim where it is on the home shirt; owner chose Ice Silver for consistency and to avoid crest/away colours.
+
+**Decision:** **A** (owner, 2026-11-14) — ICE SILVER for predominantly black or white home shirts. The crest colour is never used automatically; a documented shirt trim is kept as reference metadata only.  
+**Comments:** 
+
+### G11 · Unknown shirt colours: fallback
+
+- [x] A — Default Arena orange, marked as fallback (status stays UNKNOWN)
+- [ ] B — Neutral steel placeholder
+- [ ] C — Crest/game colour
+
+**Claude's recommendation:** B — Claude used a neutral steel placeholder; owner chose the default orange so unknown clubs still feel like Arena Nights, clearly marked as a fallback.
+
+**Decision:** **A** (owner, 2026-11-14) — DEFAULT ORANGE as a temporary visual fallback for clubs whose shirt colour is UNKNOWN. Not verified club data: the UNKNOWN status is preserved and the UI marks it as a fallback. Clubless managers also keep orange.  
+**Comments:** 
+
+### G12 · Incorrect club identities in the database
+
+- [x] A — Correct the identities (canonical correction plan, controlled migration later)
+- [ ] B — Change display names only
+
+**Claude's recommendation:** A — Keeps stable ids where safe and corrects the underlying identity; requires a migration strategy for careers/saves (see correction plan).
+
+**Decision:** **A** (owner, 2026-11-14) — CORRECT incorrectly identified clubs (not just display names). Proposal only: see HM-EXPERIENCE-2027-CLUB-IDENTITY-CORRECTION-PLAN.md; no production data or careers migrated.  
+**Comments:** 
+
 ### G8 · Typography pairing
 
 - [ ] A — Inter + JetBrains Mono

@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-13T13:45:51.206Z",
+ "generated": "2026-11-13T16:33:10.083Z",
  "method": "see HM-EXPERIENCE-2027-CLUB-KIT-AUDIT.md",
  "standardPalette": {
   "white": "#FFFFFF",
@@ -68,6 +68,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#1850b4",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.49,
     "inkOnNeon": 6.32
@@ -176,6 +178,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#0052b3",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.48,
     "inkOnNeon": 6.3
@@ -270,6 +274,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#008548",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 12.16,
     "inkOnNeon": 11.83
@@ -373,13 +379,18 @@
     "description": "Black shirt with thin gold vertical pinstripes, gold collar trim and gold numbers (2026/27 retro 'Stadens Lag' match shirt).",
     "season": "2026/27"
    },
-   "neon": "#e6ad0e",
-   "neonRule": "secondary (monochrome shirt)",
-   "neonSourceHex": "#c89a2e",
+   "neon": "#d7e1ee",
+   "neonRule": "ice-silver (black/white shirt)",
+   "neonSourceHex": "#111111",
    "accentBasis": "club-or-away-colour",
+   "fallback": false,
+   "referenceAccent": {
+    "hex": "#c89a2e",
+    "basis": "club-or-away-colour"
+   },
    "contrast": {
-    "neonOnNight": 9.71,
-    "inkOnNeon": 9.45
+    "neonOnNight": 14.92,
+    "inkOnNeon": 14.51
    },
    "status": "VERIFIED",
    "confidence": 0.85,
@@ -432,7 +443,6 @@
     "secondary": "#111318"
    },
    "reviewReasons": [
-    "white/black home shirt: neon accent is documented as a club, away or dated colour — not confirmed as a home-shirt detail (owner decision)",
     "No in-match home photo; based on official kit launch image and tinted team photo."
    ]
   },
@@ -473,13 +483,18 @@
     "description": "Black shirt with red shoulders/side panels and red trim, black shorts.",
     "season": null
    },
-   "neon": "#fe464e",
-   "neonRule": "secondary (monochrome shirt)",
-   "neonSourceHex": "#c8112a",
+   "neon": "#d7e1ee",
+   "neonRule": "ice-silver (black/white shirt)",
+   "neonSourceHex": "#111111",
    "accentBasis": "home-kit",
+   "fallback": false,
+   "referenceAccent": {
+    "hex": "#c8112a",
+    "basis": "home-kit"
+   },
    "contrast": {
-    "neonOnNight": 5.82,
-    "inkOnNeon": 5.66
+    "neonOnNight": 14.92,
+    "inkOnNeon": 14.51
    },
    "status": "VERIFIED",
    "confidence": 0.85,
@@ -580,6 +595,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#254eb4",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.42,
     "inkOnNeon": 6.24
@@ -674,6 +691,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#f9772c",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.05,
     "inkOnNeon": 5.88
@@ -771,6 +790,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#1c264b",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.36,
     "inkOnNeon": 6.19
@@ -873,6 +894,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#f0d818",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 13.88,
     "inkOnNeon": 13.5
@@ -975,6 +998,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#722f35",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 5.8,
     "inkOnNeon": 5.64
@@ -1077,6 +1102,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#165d37",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 12.13,
     "inkOnNeon": 11.8
@@ -1180,6 +1207,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#c81224",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 5.83,
     "inkOnNeon": 5.67
@@ -1280,13 +1309,18 @@
     "description": "White shirt with grey/light-blue shoulder pattern and blue sponsor print, dark royal-blue shorts (adidas).",
     "season": "2026/27"
    },
-   "neon": "#618ffe",
-   "neonRule": "secondary (monochrome shirt)",
-   "neonSourceHex": "#284db4",
+   "neon": "#d7e1ee",
+   "neonRule": "ice-silver (black/white shirt)",
+   "neonSourceHex": "#FFFFFF",
    "accentBasis": "club-or-away-colour",
+   "fallback": false,
+   "referenceAccent": {
+    "hex": "#284db4",
+    "basis": "club-or-away-colour"
+   },
    "contrast": {
-    "neonOnNight": 6.45,
-    "inkOnNeon": 6.27
+    "neonOnNight": 14.92,
+    "inkOnNeon": 14.51
    },
    "status": "VERIFIED",
    "confidence": 0.9,
@@ -1343,9 +1377,7 @@
     "primary": "#111318",
     "secondary": "#e2b13c"
    },
-   "reviewReasons": [
-    "white/black home shirt: neon accent is documented as a club, away or dated colour — not confirmed as a home-shirt detail (owner decision)"
-   ]
+   "reviewReasons": []
   },
   {
    "id": "se_club_onnereds_hk",
@@ -1382,6 +1414,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#008650",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 12.19,
     "inkOnNeon": 11.86
@@ -1480,6 +1514,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#13284b",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.46,
     "inkOnNeon": 6.29
@@ -1591,13 +1627,18 @@
     "description": "White Craft shirt; the collar has a black inner and a red outer ring, with a red side panel and a red/white stripe on the sleeve cuff.",
     "season": "2026/27"
    },
-   "neon": "#fe4651",
-   "neonRule": "secondary (monochrome shirt)",
-   "neonSourceHex": "#C8102E",
+   "neon": "#d7e1ee",
+   "neonRule": "ice-silver (black/white shirt)",
+   "neonSourceHex": "#FFFFFF",
    "accentBasis": "club-or-away-colour",
+   "fallback": false,
+   "referenceAccent": {
+    "hex": "#C8102E",
+    "basis": "club-or-away-colour"
+   },
    "contrast": {
-    "neonOnNight": 5.83,
-    "inkOnNeon": 5.67
+    "neonOnNight": 14.92,
+    "inkOnNeon": 14.51
    },
    "status": "VERIFIED",
    "confidence": 0.9,
@@ -1647,9 +1688,7 @@
     "primary": "#c8102e",
     "secondary": "#111318"
    },
-   "reviewReasons": [
-    "white/black home shirt: neon accent is documented as a club, away or dated colour — not confirmed as a home-shirt detail (owner decision)"
-   ]
+   "reviewReasons": []
   },
   {
    "id": "swe2-guif",
@@ -1689,6 +1728,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#c81611",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 5.85,
     "inkOnNeon": 5.69
@@ -1785,6 +1826,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#204fb4",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.43,
     "inkOnNeon": 6.26
@@ -1878,6 +1921,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#304cb4",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.4,
     "inkOnNeon": 6.23
@@ -1962,6 +2007,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#008650",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 12.19,
     "inkOnNeon": 11.86
@@ -2056,6 +2103,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#008650",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 12.19,
     "inkOnNeon": 11.86
@@ -2142,13 +2191,18 @@
     "description": "White hummel shirt with royal-blue collar, cuffs and chevrons; white shorts with blue trim.",
     "season": "2025/26 (squad photo); 2026/27 (match photo)"
    },
-   "neon": "#5093fd",
-   "neonRule": "secondary (monochrome shirt)",
-   "neonSourceHex": "#0d51b3",
+   "neon": "#d7e1ee",
+   "neonRule": "ice-silver (black/white shirt)",
+   "neonSourceHex": "#FFFFFF",
    "accentBasis": "club-or-away-colour",
+   "fallback": false,
+   "referenceAccent": {
+    "hex": "#0d51b3",
+    "basis": "club-or-away-colour"
+   },
    "contrast": {
-    "neonOnNight": 6.51,
-    "inkOnNeon": 6.33
+    "neonOnNight": 14.92,
+    "inkOnNeon": 14.51
    },
    "status": "VERIFIED",
    "confidence": 0.9,
@@ -2205,9 +2259,7 @@
     "primary": "#111318",
     "secondary": "#e2b13c"
    },
-   "reviewReasons": [
-    "white/black home shirt: neon accent is documented as a club, away or dated colour — not confirmed as a home-shirt detail (owner decision)"
-   ]
+   "reviewReasons": []
   },
   {
    "id": "swe2-torslanda",
@@ -2237,13 +2289,15 @@
     "description": "Men's A-team seen only in an away game: white shirt with royal-blue collar/trim and blue shorts. Home shirt not seen.",
     "season": "2026/27"
    },
-   "neon": "#9fb0c6",
-   "neonRule": "pending",
+   "neon": "#ff7a1a",
+   "neonRule": "fallback-orange (unknown kit)",
    "neonSourceHex": null,
    "accentBasis": null,
+   "fallback": true,
+   "referenceAccent": null,
    "contrast": {
-    "neonOnNight": 8.91,
-    "inkOnNeon": 8.68
+    "neonOnNight": 7.55,
+    "inkOnNeon": 7.35
    },
    "status": "UNCERTAIN",
    "confidence": 0.35,
@@ -2334,6 +2388,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#0059b7",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.49,
     "inkOnNeon": 6.31
@@ -2436,6 +2492,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#c8141f",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 5.84,
     "inkOnNeon": 5.68
@@ -2537,6 +2595,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#005e45",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 12.08,
     "inkOnNeon": 11.75
@@ -2627,9 +2687,11 @@
     "season": "2026/27"
    },
    "neon": "#d7e1ee",
-   "neonRule": "monochrome (no documented accent)",
+   "neonRule": "ice-silver (black/white shirt)",
    "neonSourceHex": "#111111",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 14.92,
     "inkOnNeon": 14.51
@@ -2694,9 +2756,7 @@
     "primary": "#1e3a8a",
     "secondary": "#ffffff"
    },
-   "reviewReasons": [
-    "monochrome shirt without documented accent colour → ice-silver neon"
-   ]
+   "reviewReasons": []
   },
   {
    "id": "swe2-ystad2",
@@ -2736,6 +2796,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#c81227",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 5.83,
     "inkOnNeon": 5.68
@@ -2830,6 +2892,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#008650",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 12.19,
     "inkOnNeon": 11.86
@@ -2921,6 +2985,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#c81320",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 5.84,
     "inkOnNeon": 5.69
@@ -3022,6 +3088,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#ffc808",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 13.71,
     "inkOnNeon": 13.34
@@ -3123,6 +3191,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#008548",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 12.16,
     "inkOnNeon": 11.83
@@ -3217,6 +3287,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#ffc808",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 13.71,
     "inkOnNeon": 13.34
@@ -3320,6 +3392,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#fa7536",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 5.99,
     "inkOnNeon": 5.83
@@ -3425,13 +3499,18 @@
     "description": "White Kempa shirt with a red graphic pattern on the shoulders and upper chest, red sponsor print (Botrygg), red shorts, white socks.",
     "season": "2025/26"
    },
-   "neon": "#fe4841",
-   "neonRule": "secondary (monochrome shirt)",
-   "neonSourceHex": "#c8141b",
+   "neon": "#d7e1ee",
+   "neonRule": "ice-silver (black/white shirt)",
+   "neonSourceHex": "#FFFFFF",
    "accentBasis": "home-kit",
+   "fallback": false,
+   "referenceAccent": {
+    "hex": "#c8141b",
+    "basis": "home-kit"
+   },
    "contrast": {
-    "neonOnNight": 5.83,
-    "inkOnNeon": 5.68
+    "neonOnNight": 14.92,
+    "inkOnNeon": 14.51
    },
    "status": "VERIFIED",
    "confidence": 0.88,
@@ -3525,6 +3604,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#067d79",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 11.15,
     "inkOnNeon": 10.85
@@ -3616,6 +3697,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#c81129",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 5.84,
     "inkOnNeon": 5.68
@@ -3709,6 +3792,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#c81322",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 5.82,
     "inkOnNeon": 5.67
@@ -3800,6 +3885,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#1d4fb4",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.48,
     "inkOnNeon": 6.31
@@ -3886,9 +3973,11 @@
     "season": "2026/27"
    },
    "neon": "#d7e1ee",
-   "neonRule": "monochrome (no documented accent)",
+   "neonRule": "ice-silver (black/white shirt)",
    "neonSourceHex": "#FFFFFF",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 14.92,
     "inkOnNeon": 14.51
@@ -3954,7 +4043,6 @@
     "secondary": "#e2b13c"
    },
    "reviewReasons": [
-    "monochrome shirt without documented accent colour → ice-silver neon",
     "The home match photo's date and opponent are unconfirmed. The shirt is monochrome, so a neon accent decision is needed."
    ]
   },
@@ -3996,6 +4084,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#ee8300",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 9.47,
     "inkOnNeon": 9.22
@@ -4094,9 +4184,11 @@
     "season": "2026/27"
    },
    "neon": "#d7e1ee",
-   "neonRule": "monochrome (no documented accent)",
+   "neonRule": "ice-silver (black/white shirt)",
    "neonSourceHex": "#111111",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 14.92,
     "inkOnNeon": 14.51
@@ -4163,9 +4255,7 @@
     "primary": "#c8102e",
     "secondary": "#111318"
    },
-   "reviewReasons": [
-    "monochrome shirt without documented accent colour → ice-silver neon"
-   ]
+   "reviewReasons": []
   },
   {
    "id": "se_club_hk_country",
@@ -4205,6 +4295,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#c8170e",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 5.84,
     "inkOnNeon": 5.69
@@ -4299,6 +4391,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#edd91d",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 13.88,
     "inkOnNeon": 13.51
@@ -4409,6 +4503,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#008650",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 12.19,
     "inkOnNeon": 11.86
@@ -4503,6 +4599,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#3c49b4",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.36,
     "inkOnNeon": 6.19
@@ -4608,9 +4706,11 @@
     "season": "2025/26-2026/27"
    },
    "neon": "#d7e1ee",
-   "neonRule": "monochrome (no documented accent)",
+   "neonRule": "ice-silver (black/white shirt)",
    "neonSourceHex": "#FFFFFF",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 14.92,
     "inkOnNeon": 14.51
@@ -4692,7 +4792,6 @@
     "secondary": "#ffffff"
    },
    "reviewReasons": [
-    "monochrome shirt without documented accent colour → ice-silver neon",
     "No home-match photo; white-home inferred from a club home-match poster while team photo and all match photos show black."
    ]
   },
@@ -4734,6 +4833,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#fa7536",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 5.99,
     "inkOnNeon": 5.83
@@ -4842,6 +4943,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#1b55b9",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.48,
     "inkOnNeon": 6.31
@@ -4936,6 +5039,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#edd91d",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 13.88,
     "inkOnNeon": 13.51
@@ -5045,6 +5150,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#ffcb00",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 13.68,
     "inkOnNeon": 13.31
@@ -5146,6 +5253,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#324bb4",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.38,
     "inkOnNeon": 6.21
@@ -5237,6 +5346,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#c81320",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 5.84,
     "inkOnNeon": 5.69
@@ -5325,13 +5436,18 @@
     "description": "Black adidas shirt with yellow shoulder stripes and white sponsor lettering (Grundfos, Jyske Bank).",
     "season": "2026/27"
    },
-   "neon": "#eddb38",
-   "neonRule": "secondary (monochrome shirt)",
-   "neonSourceHex": "#edd91d",
+   "neon": "#d7e1ee",
+   "neonRule": "ice-silver (black/white shirt)",
+   "neonSourceHex": "#111111",
    "accentBasis": "home-kit",
+   "fallback": false,
+   "referenceAccent": {
+    "hex": "#edd91d",
+    "basis": "home-kit"
+   },
    "contrast": {
-    "neonOnNight": 13.88,
-    "inkOnNeon": 13.51
+    "neonOnNight": 14.92,
+    "inkOnNeon": 14.51
    },
    "status": "VERIFIED",
    "confidence": 0.85,
@@ -5413,6 +5529,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#c70d3e",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 5.8,
     "inkOnNeon": 5.64
@@ -5500,6 +5618,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#ffc905",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 13.68,
     "inkOnNeon": 13.31
@@ -5586,6 +5706,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#0057B8",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.51,
     "inkOnNeon": 6.34
@@ -5673,13 +5795,18 @@
     "description": "White body with red shoulders/sleeves and DSV sponsor, black shorts; GKs blue.",
     "season": "2026/27"
    },
-   "neon": "#fe493d",
-   "neonRule": "secondary (monochrome shirt)",
-   "neonSourceHex": "#c81615",
+   "neon": "#d7e1ee",
+   "neonRule": "ice-silver (black/white shirt)",
+   "neonSourceHex": "#FFFFFF",
    "accentBasis": "home-kit",
+   "fallback": false,
+   "referenceAccent": {
+    "hex": "#c81615",
+    "basis": "home-kit"
+   },
    "contrast": {
-    "neonOnNight": 5.85,
-    "inkOnNeon": 5.69
+    "neonOnNight": 14.92,
+    "inkOnNeon": 14.51
    },
    "status": "VERIFIED",
    "confidence": 0.9,
@@ -5766,6 +5893,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#0d56b8",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.49,
     "inkOnNeon": 6.32
@@ -5850,6 +5979,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#005e45",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 12.08,
     "inkOnNeon": 11.75
@@ -5941,6 +6072,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#1d54b9",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.44,
     "inkOnNeon": 6.27
@@ -6024,13 +6157,18 @@
     "description": "White Puma shirt with a large navy halftone V/chevron panel across the front and navy shoulder trim.",
     "season": "2026/27"
    },
-   "neon": "#668efe",
-   "neonRule": "secondary (monochrome shirt)",
-   "neonSourceHex": "#1a274b",
+   "neon": "#d7e1ee",
+   "neonRule": "ice-silver (black/white shirt)",
+   "neonSourceHex": "#FFFFFF",
    "accentBasis": "home-kit",
+   "fallback": false,
+   "referenceAccent": {
+    "hex": "#1a274b",
+    "basis": "home-kit"
+   },
    "contrast": {
-    "neonOnNight": 6.44,
-    "inkOnNeon": 6.27
+    "neonOnNight": 14.92,
+    "inkOnNeon": 14.51
    },
    "status": "PROBABLE",
    "confidence": 0.7,
@@ -6114,6 +6252,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#008650",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 12.19,
     "inkOnNeon": 11.86
@@ -6195,6 +6335,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#4FA3DC",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.72,
     "inkOnNeon": 6.54
@@ -6292,6 +6434,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#097d77",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 11.13,
     "inkOnNeon": 10.84
@@ -6375,9 +6519,11 @@
     "season": "2026/27"
    },
    "neon": "#d7e1ee",
-   "neonRule": "monochrome (no documented accent)",
+   "neonRule": "ice-silver (black/white shirt)",
    "neonSourceHex": "#FFFFFF",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 14.92,
     "inkOnNeon": 14.51
@@ -6425,9 +6571,7 @@
     "primary": "#1e3a8a",
     "secondary": "#ffffff"
    },
-   "reviewReasons": [
-    "monochrome shirt without documented accent colour → ice-silver neon"
-   ]
+   "reviewReasons": []
   },
   {
    "id": "ger1-bergischer",
@@ -6464,6 +6608,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#082a4a",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.57,
     "inkOnNeon": 6.39
@@ -6555,6 +6701,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#138439",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 12.11,
     "inkOnNeon": 11.78
@@ -6644,6 +6792,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#0d51b3",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.51,
     "inkOnNeon": 6.33
@@ -6724,13 +6874,18 @@
     "description": "Black adidas shirt with white three-stripe shoulders and red numbers.",
     "season": "2026/27"
    },
-   "neon": "#fe4651",
-   "neonRule": "trim (monochrome shirt)",
-   "neonSourceHex": "#C8102E",
+   "neon": "#d7e1ee",
+   "neonRule": "ice-silver (black/white shirt)",
+   "neonSourceHex": "#111111",
    "accentBasis": "home-kit",
+   "fallback": false,
+   "referenceAccent": {
+    "hex": "#C8102E",
+    "basis": "home-kit"
+   },
    "contrast": {
-    "neonOnNight": 5.83,
-    "inkOnNeon": 5.67
+    "neonOnNight": 14.92,
+    "inkOnNeon": 14.51
    },
    "status": "VERIFIED",
    "confidence": 0.9,
@@ -6812,6 +6967,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#18274b",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.45,
     "inkOnNeon": 6.27
@@ -6915,6 +7072,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#005e45",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 12.08,
     "inkOnNeon": 11.75
@@ -6999,6 +7158,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#0059b7",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.49,
     "inkOnNeon": 6.31
@@ -7093,6 +7254,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#c70d3e",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 5.8,
     "inkOnNeon": 5.64
@@ -7179,6 +7342,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#05843c",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 12.16,
     "inkOnNeon": 11.83
@@ -7265,9 +7430,11 @@
     "season": "2026/27"
    },
    "neon": "#d7e1ee",
-   "neonRule": "monochrome (no documented accent)",
+   "neonRule": "ice-silver (black/white shirt)",
    "neonSourceHex": "#FFFFFF",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 14.92,
     "inkOnNeon": 14.51
@@ -7320,9 +7487,7 @@
     "primary": "#111318",
     "secondary": "#c8102e"
    },
-   "reviewReasons": [
-    "monochrome shirt without documented accent colour → ice-silver neon"
-   ]
+   "reviewReasons": []
   },
   {
    "id": "ger1-leipzig",
@@ -7359,6 +7524,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#005e45",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 12.08,
     "inkOnNeon": 11.75
@@ -7450,6 +7617,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#244eb4",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.47,
     "inkOnNeon": 6.3
@@ -7544,6 +7713,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#008544",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 12.19,
     "inkOnNeon": 11.87
@@ -7633,6 +7804,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#c60c4a",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 5.78,
     "inkOnNeon": 5.63
@@ -7717,6 +7890,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#005e45",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 12.08,
     "inkOnNeon": 11.75
@@ -7804,6 +7979,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#f5d60f",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 13.84,
     "inkOnNeon": 13.47
@@ -7898,6 +8075,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#364ab4",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.36,
     "inkOnNeon": 6.19
@@ -7982,6 +8161,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#008650",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 12.19,
     "inkOnNeon": 11.86
@@ -8063,9 +8244,11 @@
     "season": "2026/27"
    },
    "neon": "#d7e1ee",
-   "neonRule": "monochrome (no documented accent)",
+   "neonRule": "ice-silver (black/white shirt)",
    "neonSourceHex": "#FFFFFF",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 14.92,
     "inkOnNeon": 14.51
@@ -8125,9 +8308,7 @@
     "primary": "#1e3a8a",
     "secondary": "#ffffff"
    },
-   "reviewReasons": [
-    "monochrome shirt without documented accent colour → ice-silver neon"
-   ]
+   "reviewReasons": []
   },
   {
    "id": "nor1-kolstad",
@@ -8164,6 +8345,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#c81707",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 5.86,
     "inkOnNeon": 5.7
@@ -8254,13 +8437,18 @@
     "description": "Black shirt with red vertical stripes (seen away, blurred background player).",
     "season": "2026/27"
    },
-   "neon": "#fe4746",
-   "neonRule": "secondary (monochrome shirt)",
-   "neonSourceHex": "#c81321",
+   "neon": "#d7e1ee",
+   "neonRule": "ice-silver (black/white shirt)",
+   "neonSourceHex": "#111111",
    "accentBasis": "club-or-away-colour",
+   "fallback": false,
+   "referenceAccent": {
+    "hex": "#c81321",
+    "basis": "club-or-away-colour"
+   },
    "contrast": {
-    "neonOnNight": 5.82,
-    "inkOnNeon": 5.67
+    "neonOnNight": 14.92,
+    "inkOnNeon": 14.51
    },
    "status": "PROBABLE",
    "confidence": 0.75,
@@ -8306,7 +8494,6 @@
     "secondary": "#ffffff"
    },
    "reviewReasons": [
-    "white/black home shirt: neon accent is documented as a club, away or dated colour — not confirmed as a home-shirt detail (owner decision)",
     "Only an away-game, out-of-focus photo; home kit not confirmed with an ØIF home image."
    ]
   },
@@ -8345,6 +8532,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#3251b9",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.39,
     "inkOnNeon": 6.22
@@ -8434,13 +8623,18 @@
     "description": "Black Craft shirt with orange crest and red/orange sponsor patches, black shorts.",
     "season": "2026/27"
    },
-   "neon": "#e07102",
-   "neonRule": "secondary (monochrome shirt)",
-   "neonSourceHex": "#F57C00",
+   "neon": "#d7e1ee",
+   "neonRule": "ice-silver (black/white shirt)",
+   "neonSourceHex": "#111111",
    "accentBasis": "home-kit",
+   "fallback": false,
+   "referenceAccent": {
+    "hex": "#F57C00",
+    "basis": "home-kit"
+   },
    "contrast": {
-    "neonOnNight": 6.13,
-    "inkOnNeon": 5.97
+    "neonOnNight": 14.92,
+    "inkOnNeon": 14.51
    },
    "status": "PROBABLE",
    "confidence": 0.78,
@@ -8531,9 +8725,11 @@
     "season": "2026/27"
    },
    "neon": "#d7e1ee",
-   "neonRule": "monochrome (no documented accent)",
+   "neonRule": "ice-silver (black/white shirt)",
    "neonSourceHex": "#FFFFFF",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 14.92,
     "inkOnNeon": 14.51
@@ -8596,7 +8792,6 @@
     "secondary": "#c8102e"
    },
    "reviewReasons": [
-    "monochrome shirt without documented accent colour → ice-silver neon",
     "Team photo shows black kit; confirm whether black is the official home kit."
    ]
   },
@@ -8634,13 +8829,18 @@
     "description": "White Puma shirt with blue/light-blue trim, blue shorts.",
     "season": "2026/27"
    },
-   "neon": "#4494fe",
-   "neonRule": "secondary (monochrome shirt)",
-   "neonSourceHex": "#0059b7",
+   "neon": "#d7e1ee",
+   "neonRule": "ice-silver (black/white shirt)",
+   "neonSourceHex": "#FFFFFF",
    "accentBasis": "home-kit",
+   "fallback": false,
+   "referenceAccent": {
+    "hex": "#0059b7",
+    "basis": "home-kit"
+   },
    "contrast": {
-    "neonOnNight": 6.49,
-    "inkOnNeon": 6.31
+    "neonOnNight": 14.92,
+    "inkOnNeon": 14.51
    },
    "status": "PROBABLE",
    "confidence": 0.8,
@@ -8729,6 +8929,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#005e45",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 12.08,
     "inkOnNeon": 11.75
@@ -8828,6 +9030,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#005db4",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.56,
     "inkOnNeon": 6.38
@@ -8925,6 +9129,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#00843D",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 12.15,
     "inkOnNeon": 11.82
@@ -9020,6 +9226,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#284db4",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.45,
     "inkOnNeon": 6.27
@@ -9107,6 +9315,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#0657b8",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.53,
     "inkOnNeon": 6.35
@@ -9193,6 +9403,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#c81320",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 5.84,
     "inkOnNeon": 5.69
@@ -9273,13 +9485,18 @@
     "description": "White Hummel shirt with a large blue graphic pattern on the lower body and sides, blue shorts.",
     "season": null
    },
-   "neon": "#5d90fe",
-   "neonRule": "secondary (monochrome shirt)",
-   "neonSourceHex": "#2853b9",
+   "neon": "#d7e1ee",
+   "neonRule": "ice-silver (black/white shirt)",
+   "neonSourceHex": "#FFFFFF",
    "accentBasis": "home-kit",
+   "fallback": false,
+   "referenceAccent": {
+    "hex": "#2853b9",
+    "basis": "home-kit"
+   },
    "contrast": {
-    "neonOnNight": 6.46,
-    "inkOnNeon": 6.29
+    "neonOnNight": 14.92,
+    "inkOnNeon": 14.51
    },
    "status": "PROBABLE",
    "confidence": 0.62,
@@ -9369,6 +9586,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#6c2339",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 5.73,
     "inkOnNeon": 5.58
@@ -9467,6 +9686,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#008650",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 12.19,
     "inkOnNeon": 11.86
@@ -9542,13 +9763,18 @@
     "description": "Club imagery shows white shirts with navy details, but only on women players.",
     "season": "2026/27"
    },
-   "neon": "#6d8bfe",
-   "neonRule": "secondary (monochrome shirt)",
-   "neonSourceHex": "#1c264b",
+   "neon": "#d7e1ee",
+   "neonRule": "ice-silver (black/white shirt)",
+   "neonSourceHex": "#FFFFFF",
    "accentBasis": "home-kit",
+   "fallback": false,
+   "referenceAccent": {
+    "hex": "#1c264b",
+    "basis": "home-kit"
+   },
    "contrast": {
-    "neonOnNight": 6.36,
-    "inkOnNeon": 6.19
+    "neonOnNight": 14.92,
+    "inkOnNeon": 14.51
    },
    "status": "UNCERTAIN",
    "confidence": 0.4,
@@ -9645,6 +9871,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#c81320",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 5.84,
     "inkOnNeon": 5.69
@@ -9741,6 +9969,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#2a52b9",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.42,
     "inkOnNeon": 6.25
@@ -9830,6 +10060,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#ffcf00",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 13.72,
     "inkOnNeon": 13.36
@@ -9917,13 +10149,18 @@
     "description": "White shirt with orange collar, cuffs and side trim and a faint graphic, white shorts.",
     "season": "2026/27"
    },
-   "neon": "#e07102",
-   "neonRule": "secondary (monochrome shirt)",
-   "neonSourceHex": "#F57C00",
+   "neon": "#d7e1ee",
+   "neonRule": "ice-silver (black/white shirt)",
+   "neonSourceHex": "#FFFFFF",
    "accentBasis": "home-kit",
+   "fallback": false,
+   "referenceAccent": {
+    "hex": "#F57C00",
+    "basis": "home-kit"
+   },
    "contrast": {
-    "neonOnNight": 6.13,
-    "inkOnNeon": 5.97
+    "neonOnNight": 14.92,
+    "inkOnNeon": 14.51
    },
    "status": "VERIFIED",
    "confidence": 0.85,
@@ -10016,13 +10253,18 @@
     "description": "White shirt with blue sleeve trim and blue graphic details, blue shorts.",
     "season": "2026/27"
    },
-   "neon": "#668dfe",
-   "neonRule": "secondary (monochrome shirt)",
-   "neonSourceHex": "#3251b9",
+   "neon": "#d7e1ee",
+   "neonRule": "ice-silver (black/white shirt)",
+   "neonSourceHex": "#FFFFFF",
    "accentBasis": "home-kit",
+   "fallback": false,
+   "referenceAccent": {
+    "hex": "#3251b9",
+    "basis": "home-kit"
+   },
    "contrast": {
-    "neonOnNight": 6.39,
-    "inkOnNeon": 6.22
+    "neonOnNight": 14.92,
+    "inkOnNeon": 14.51
    },
    "status": "VERIFIED",
    "confidence": 0.88,
@@ -10106,6 +10348,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#00843D",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 12.15,
     "inkOnNeon": 11.82
@@ -10208,6 +10452,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#008650",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 12.19,
     "inkOnNeon": 11.86
@@ -10291,9 +10537,11 @@
     "season": null
    },
    "neon": "#d7e1ee",
-   "neonRule": "monochrome (no documented accent)",
+   "neonRule": "ice-silver (black/white shirt)",
    "neonSourceHex": "#FFFFFF",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 14.92,
     "inkOnNeon": 14.51
@@ -10344,8 +10592,7 @@
     "secondary": "#ffffff"
    },
    "reviewReasons": [
-    "Text evidence only (no image seen); status capped at UNCERTAIN.",
-    "monochrome shirt without documented accent colour → ice-silver neon"
+    "Text evidence only (no image seen); status capped at UNCERTAIN."
    ]
   },
   {
@@ -10376,13 +10623,15 @@
     "description": "Could not identify a current senior men's 'BM Córdoba' club or its kit.",
     "season": null
    },
-   "neon": "#9fb0c6",
-   "neonRule": "pending",
+   "neon": "#ff7a1a",
+   "neonRule": "fallback-orange (unknown kit)",
    "neonSourceHex": null,
    "accentBasis": null,
+   "fallback": true,
+   "referenceAccent": null,
    "contrast": {
-    "neonOnNight": 8.91,
-    "inkOnNeon": 8.68
+    "neonOnNight": 7.55,
+    "inkOnNeon": 7.35
    },
    "status": "UNKNOWN",
    "confidence": 0,
@@ -10461,6 +10710,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#c81612",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 5.85,
     "inkOnNeon": 5.69
@@ -10549,6 +10800,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#0057B8",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.51,
     "inkOnNeon": 6.34
@@ -10647,6 +10900,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#005db4",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.56,
     "inkOnNeon": 6.38
@@ -10731,6 +10986,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#c81320",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 5.84,
     "inkOnNeon": 5.69
@@ -10823,6 +11080,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#008441",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 12.12,
     "inkOnNeon": 11.79
@@ -10919,6 +11178,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#c8141b",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 5.83,
     "inkOnNeon": 5.68
@@ -11008,6 +11269,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#0f51b4",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.51,
     "inkOnNeon": 6.34
@@ -11096,6 +11359,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#FFD100",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 13.71,
     "inkOnNeon": 13.34
@@ -11188,6 +11453,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#FFD100",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 13.71,
     "inkOnNeon": 13.34
@@ -11273,6 +11540,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#0057B8",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.51,
     "inkOnNeon": 6.34
@@ -11367,6 +11636,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#eed91b",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 13.91,
     "inkOnNeon": 13.54
@@ -11479,6 +11750,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#9b1c25",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 5.82,
     "inkOnNeon": 5.66
@@ -11568,6 +11841,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#15284b",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.45,
     "inkOnNeon": 6.28
@@ -11659,6 +11934,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#ffd100",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 13.71,
     "inkOnNeon": 13.34
@@ -11761,6 +12038,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#00843D",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 12.15,
     "inkOnNeon": 11.82
@@ -11849,6 +12128,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#0057B8",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.51,
     "inkOnNeon": 6.34
@@ -11938,6 +12219,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#c8170f",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 5.84,
     "inkOnNeon": 5.69
@@ -12021,13 +12304,18 @@
     "description": "White Puma shirt with green/red SPAR sponsor, black shorts.",
     "season": "2026/27"
    },
-   "neon": "#41e77c",
-   "neonRule": "trim (monochrome shirt)",
-   "neonSourceHex": "#00843D",
+   "neon": "#d7e1ee",
+   "neonRule": "ice-silver (black/white shirt)",
+   "neonSourceHex": "#FFFFFF",
    "accentBasis": "home-kit",
+   "fallback": false,
+   "referenceAccent": {
+    "hex": "#00843D",
+    "basis": "home-kit"
+   },
    "contrast": {
-    "neonOnNight": 12.15,
-    "inkOnNeon": 11.82
+    "neonOnNight": 14.92,
+    "inkOnNeon": 14.51
    },
    "status": "VERIFIED",
    "confidence": 0.85,
@@ -12109,6 +12397,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#c81320",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 5.84,
     "inkOnNeon": 5.69
@@ -12203,6 +12493,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#f3d713",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 13.87,
     "inkOnNeon": 13.5
@@ -12291,6 +12583,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#0057B8",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.51,
     "inkOnNeon": 6.34
@@ -12386,6 +12680,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#C8102E",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 5.83,
     "inkOnNeon": 5.67
@@ -12481,6 +12777,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#c81128",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 5.84,
     "inkOnNeon": 5.68
@@ -12572,6 +12870,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#c81030",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 5.83,
     "inkOnNeon": 5.68
@@ -12659,13 +12959,18 @@
     "description": "Black/very dark shirt with dark-red/maroon graphic pattern, black shorts.",
     "season": "2026/27"
    },
-   "neon": "#fe3e71",
-   "neonRule": "secondary (monochrome shirt)",
-   "neonSourceHex": "#6D2333",
+   "neon": "#d7e1ee",
+   "neonRule": "ice-silver (black/white shirt)",
+   "neonSourceHex": "#111111",
    "accentBasis": "club-or-away-colour",
+   "fallback": false,
+   "referenceAccent": {
+    "hex": "#6D2333",
+    "basis": "club-or-away-colour"
+   },
    "contrast": {
-    "neonOnNight": 5.76,
-    "inkOnNeon": 5.61
+    "neonOnNight": 14.92,
+    "inkOnNeon": 14.51
    },
    "status": "PROBABLE",
    "confidence": 0.7,
@@ -12706,7 +13011,6 @@
     "secondary": "#ffffff"
    },
    "reviewReasons": [
-    "white/black home shirt: neon accent is documented as a club, away or dated colour — not confirmed as a home-shirt detail (owner decision)",
     "Only one clear match photo and it is away; home use inferred from a promo graphic. Measured hex is near-black."
    ]
   },
@@ -12742,6 +13046,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#C8102E",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 5.83,
     "inkOnNeon": 5.67
@@ -12841,9 +13147,11 @@
     "season": "2026/27"
    },
    "neon": "#d7e1ee",
-   "neonRule": "monochrome (no documented accent)",
+   "neonRule": "ice-silver (black/white shirt)",
    "neonSourceHex": "#111111",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 14.92,
     "inkOnNeon": 14.51
@@ -12891,9 +13199,7 @@
     "primary": "#111318",
     "secondary": "#c8102e"
    },
-   "reviewReasons": [
-    "monochrome shirt without documented accent colour → ice-silver neon"
-   ]
+   "reviewReasons": []
   },
   {
    "id": "int-cologno",
@@ -12929,13 +13235,18 @@
     "description": "Grey shirt body with fuchsia/pink upper chest and shoulders, black shorts.",
     "season": null
    },
-   "neon": "#fe3a7a",
-   "neonRule": "secondary (monochrome shirt)",
-   "neonSourceHex": "#e90066",
+   "neon": "#d7e1ee",
+   "neonRule": "ice-silver (black/white shirt)",
+   "neonSourceHex": "#8A8D91",
    "accentBasis": "home-kit",
+   "fallback": false,
+   "referenceAccent": {
+    "hex": "#e90066",
+    "basis": "home-kit"
+   },
    "contrast": {
-    "neonOnNight": 5.72,
-    "inkOnNeon": 5.57
+    "neonOnNight": 14.92,
+    "inkOnNeon": 14.51
    },
    "status": "VERIFIED",
    "confidence": 0.8,
@@ -13016,13 +13327,18 @@
     "description": "White shirt with amaranth (maroon) sleeves and sponsor logos, amaranth shorts.",
     "season": "2025/26"
    },
-   "neon": "#ff3a78",
-   "neonRule": "secondary (monochrome shirt)",
-   "neonSourceHex": "#6d2336",
+   "neon": "#d7e1ee",
+   "neonRule": "ice-silver (black/white shirt)",
+   "neonSourceHex": "#FFFFFF",
    "accentBasis": "home-kit",
+   "fallback": false,
+   "referenceAccent": {
+    "hex": "#6d2336",
+    "basis": "home-kit"
+   },
    "contrast": {
-    "neonOnNight": 5.75,
-    "inkOnNeon": 5.6
+    "neonOnNight": 14.92,
+    "inkOnNeon": 14.51
    },
    "status": "PROBABLE",
    "confidence": 0.65,
@@ -13100,9 +13416,11 @@
     "season": null
    },
    "neon": "#d7e1ee",
-   "neonRule": "monochrome (no documented accent)",
+   "neonRule": "ice-silver (black/white shirt)",
    "neonSourceHex": "#8A8D91",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 14.92,
     "inkOnNeon": 14.51
@@ -13160,8 +13478,7 @@
     "secondary": "#ffffff"
    },
    "reviewReasons": [
-    "No image of the men's A-team home shirt could be seen; text evidence only.",
-    "monochrome shirt without documented accent colour → ice-silver neon"
+    "No image of the men's A-team home shirt could be seen; text evidence only."
    ]
   },
   {
@@ -13192,13 +13509,15 @@
     "description": "No evidence found.",
     "season": null
    },
-   "neon": "#9fb0c6",
-   "neonRule": "pending",
+   "neon": "#ff7a1a",
+   "neonRule": "fallback-orange (unknown kit)",
    "neonSourceHex": null,
    "accentBasis": null,
+   "fallback": true,
+   "referenceAccent": null,
    "contrast": {
-    "neonOnNight": 8.91,
-    "inkOnNeon": 8.68
+    "neonOnNight": 7.55,
+    "inkOnNeon": 7.35
    },
    "status": "UNKNOWN",
    "confidence": 0,
@@ -13270,13 +13589,18 @@
     "description": "Club colours white and light blue (Junior Fasano); shirt not documented.",
     "season": null
    },
-   "neon": "#01a1e1",
-   "neonRule": "secondary (monochrome shirt)",
-   "neonSourceHex": "#5BB5E8",
+   "neon": "#d7e1ee",
+   "neonRule": "ice-silver (black/white shirt)",
+   "neonSourceHex": "#FFFFFF",
    "accentBasis": "club-or-away-colour",
+   "fallback": false,
+   "referenceAccent": {
+    "hex": "#5BB5E8",
+    "basis": "club-or-away-colour"
+   },
    "contrast": {
-    "neonOnNight": 6.74,
-    "inkOnNeon": 6.56
+    "neonOnNight": 14.92,
+    "inkOnNeon": 14.51
    },
    "status": "UNCERTAIN",
    "confidence": 0.2,
@@ -13317,8 +13641,7 @@
     "secondary": "#ffffff"
    },
    "reviewReasons": [
-    "No image of the men's A-team home shirt could be seen; text evidence only.",
-    "white/black home shirt: neon accent is documented as a club, away or dated colour — not confirmed as a home-shirt detail (owner decision)"
+    "No image of the men's A-team home shirt could be seen; text evidence only."
    ]
   },
   {
@@ -13359,6 +13682,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#ffcf00",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 13.72,
     "inkOnNeon": 13.36
@@ -13458,6 +13783,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#fa7536",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 5.99,
     "inkOnNeon": 5.83
@@ -13547,6 +13874,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#082a4a",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.57,
     "inkOnNeon": 6.39
@@ -13639,6 +13968,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#005db4",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.56,
     "inkOnNeon": 6.38
@@ -13723,6 +14054,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#00864c",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 12.13,
     "inkOnNeon": 11.8
@@ -13809,6 +14142,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#c8151a",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 5.83,
     "inkOnNeon": 5.68
@@ -13893,6 +14228,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#f97729",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.04,
     "inkOnNeon": 5.88
@@ -13979,9 +14316,11 @@
     "season": "2025/26"
    },
    "neon": "#d7e1ee",
-   "neonRule": "monochrome (no documented accent)",
+   "neonRule": "ice-silver (black/white shirt)",
    "neonSourceHex": "#111111",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 14.92,
     "inkOnNeon": 14.51
@@ -14029,9 +14368,7 @@
     "primary": "#6b7280",
     "secondary": "#ffffff"
    },
-   "reviewReasons": [
-    "monochrome shirt without documented accent colour → ice-silver neon"
-   ]
+   "reviewReasons": []
   },
   {
    "id": "se_div2_team_1574316",
@@ -14068,6 +14405,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#008650",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 12.19,
     "inkOnNeon": 11.86
@@ -14157,6 +14496,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#c81805",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 5.86,
     "inkOnNeon": 5.7
@@ -14240,9 +14581,11 @@
     "season": "2026/27"
    },
    "neon": "#d7e1ee",
-   "neonRule": "monochrome (no documented accent)",
+   "neonRule": "ice-silver (black/white shirt)",
    "neonSourceHex": "#111111",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 14.92,
     "inkOnNeon": 14.51
@@ -14293,7 +14636,6 @@
     "secondary": "#ffffff"
    },
    "reviewReasons": [
-    "monochrome shirt without documented accent colour → ice-silver neon",
     "Press photo only (back view); black shirt vs yellow/black crest, so the owner should decide the neon accent."
    ]
   },
@@ -14325,13 +14667,15 @@
     "description": null,
     "season": null
    },
-   "neon": "#9fb0c6",
-   "neonRule": "pending",
+   "neon": "#ff7a1a",
+   "neonRule": "fallback-orange (unknown kit)",
    "neonSourceHex": null,
    "accentBasis": null,
+   "fallback": true,
+   "referenceAccent": null,
    "contrast": {
-    "neonOnNight": 8.91,
-    "inkOnNeon": 8.68
+    "neonOnNight": 7.55,
+    "inkOnNeon": 7.35
    },
    "status": "UNKNOWN",
    "confidence": 0,
@@ -14424,6 +14768,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#294db4",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.46,
     "inkOnNeon": 6.28
@@ -14512,13 +14858,18 @@
     "description": "Black shirt with yellow collar, yellow names and numbers, black shorts with yellow stripes.",
     "season": "2026/27"
    },
-   "neon": "#fdd42f",
-   "neonRule": "secondary (monochrome shirt)",
-   "neonSourceHex": "#fed201",
+   "neon": "#d7e1ee",
+   "neonRule": "ice-silver (black/white shirt)",
+   "neonSourceHex": "#111111",
    "accentBasis": "home-kit",
+   "fallback": false,
+   "referenceAccent": {
+    "hex": "#fed201",
+    "basis": "home-kit"
+   },
    "contrast": {
-    "neonOnNight": 13.73,
-    "inkOnNeon": 13.36
+    "neonOnNight": 14.92,
+    "inkOnNeon": 14.51
    },
    "status": "VERIFIED",
    "confidence": 0.85,
@@ -14614,6 +14965,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#5BB5E8",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.74,
     "inkOnNeon": 6.56
@@ -14715,6 +15068,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#c81518",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 5.83,
     "inkOnNeon": 5.67
@@ -14794,6 +15149,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#9b1e19",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 5.85,
     "inkOnNeon": 5.69
@@ -14882,6 +15239,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#722f37",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 5.78,
     "inkOnNeon": 5.63
@@ -14969,6 +15328,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#c81519",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 5.83,
     "inkOnNeon": 5.68
@@ -15062,6 +15423,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#1c264b",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.36,
     "inkOnNeon": 6.19
@@ -15142,13 +15505,18 @@
     "description": "Seen away in a white shirt with green numbers and black shorts; home kit not seen (prior youth registrations say green).",
     "season": "2026/27"
    },
-   "neon": "#1ae890",
-   "neonRule": "secondary (monochrome shirt)",
-   "neonSourceHex": "#008650",
+   "neon": "#d7e1ee",
+   "neonRule": "ice-silver (black/white shirt)",
+   "neonSourceHex": "#FFFFFF",
    "accentBasis": "club-or-away-colour",
+   "fallback": false,
+   "referenceAccent": {
+    "hex": "#008650",
+    "basis": "club-or-away-colour"
+   },
    "contrast": {
-    "neonOnNight": 12.19,
-    "inkOnNeon": 11.86
+    "neonOnNight": 14.92,
+    "inkOnNeon": 14.51
    },
    "status": "UNCERTAIN",
    "confidence": 0.4,
@@ -15213,8 +15581,7 @@
     "secondary": "#ffffff"
    },
    "reviewReasons": [
-    "Only an away photo (white); home shirt colour (green or white) unconfirmed.",
-    "white/black home shirt: neon accent is documented as a club, away or dated colour — not confirmed as a home-shirt detail (owner decision)"
+    "Only an away photo (white); home shirt colour (green or white) unconfirmed."
    ]
   },
   {
@@ -15252,6 +15619,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#008650",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 12.19,
     "inkOnNeon": 11.86
@@ -15336,6 +15705,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#1456b9",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.51,
     "inkOnNeon": 6.33
@@ -15420,6 +15791,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#0058b8",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.51,
     "inkOnNeon": 6.33
@@ -15508,6 +15881,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#c8141c",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 5.84,
     "inkOnNeon": 5.68
@@ -15596,13 +15971,18 @@
     "description": "White shirt with red sleeves/shoulders and side panels, red shorts.",
     "season": "2026/27"
    },
-   "neon": "#fe483f",
-   "neonRule": "secondary (monochrome shirt)",
-   "neonSourceHex": "#c81518",
+   "neon": "#d7e1ee",
+   "neonRule": "ice-silver (black/white shirt)",
+   "neonSourceHex": "#FFFFFF",
    "accentBasis": "home-kit",
+   "fallback": false,
+   "referenceAccent": {
+    "hex": "#c81518",
+    "basis": "home-kit"
+   },
    "contrast": {
-    "neonOnNight": 5.83,
-    "inkOnNeon": 5.67
+    "neonOnNight": 14.92,
+    "inkOnNeon": 14.51
    },
    "status": "VERIFIED",
    "confidence": 0.9,
@@ -15703,6 +16083,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#1b8336",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 12.15,
     "inkOnNeon": 11.82
@@ -15790,13 +16172,18 @@
     "description": "White shirt with red shoulders/sleeves, red shorts.",
     "season": null
    },
-   "neon": "#fe4749",
-   "neonRule": "secondary (monochrome shirt)",
-   "neonSourceHex": "#c81225",
+   "neon": "#d7e1ee",
+   "neonRule": "ice-silver (black/white shirt)",
+   "neonSourceHex": "#FFFFFF",
    "accentBasis": "home-kit",
+   "fallback": false,
+   "referenceAccent": {
+    "hex": "#c81225",
+    "basis": "home-kit"
+   },
    "contrast": {
-    "neonOnNight": 5.83,
-    "inkOnNeon": 5.67
+    "neonOnNight": 14.92,
+    "inkOnNeon": 14.51
    },
    "status": "PROBABLE",
    "confidence": 0.8,
@@ -15885,6 +16272,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#f18000",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 9.49,
     "inkOnNeon": 9.24
@@ -15975,13 +16364,18 @@
     "description": "White shirt with blue sponsor print, blue shorts.",
     "season": null
    },
-   "neon": "#4894ff",
-   "neonRule": "secondary (monochrome shirt)",
-   "neonSourceHex": "#0657b8",
+   "neon": "#d7e1ee",
+   "neonRule": "ice-silver (black/white shirt)",
+   "neonSourceHex": "#FFFFFF",
    "accentBasis": "home-kit",
+   "fallback": false,
+   "referenceAccent": {
+    "hex": "#0657b8",
+    "basis": "home-kit"
+   },
    "contrast": {
-    "neonOnNight": 6.53,
-    "inkOnNeon": 6.35
+    "neonOnNight": 14.92,
+    "inkOnNeon": 14.51
    },
    "status": "PROBABLE",
    "confidence": 0.7,
@@ -16071,13 +16465,18 @@
     "description": "Black shirt with green shoulder/raglan trim, black shorts.",
     "season": "2024/25"
    },
-   "neon": "#1ae890",
-   "neonRule": "secondary (monochrome shirt)",
-   "neonSourceHex": "#008650",
+   "neon": "#d7e1ee",
+   "neonRule": "ice-silver (black/white shirt)",
+   "neonSourceHex": "#111111",
    "accentBasis": "home-kit",
+   "fallback": false,
+   "referenceAccent": {
+    "hex": "#008650",
+    "basis": "home-kit"
+   },
    "contrast": {
-    "neonOnNight": 12.19,
-    "inkOnNeon": 11.86
+    "neonOnNight": 14.92,
+    "inkOnNeon": 14.51
    },
    "status": "PROBABLE",
    "confidence": 0.75,
@@ -16167,13 +16566,18 @@
     "description": "White shirt with green raglan sleeves/shoulders, green shorts.",
     "season": "2026/27"
    },
-   "neon": "#1ae890",
-   "neonRule": "secondary (monochrome shirt)",
-   "neonSourceHex": "#008650",
+   "neon": "#d7e1ee",
+   "neonRule": "ice-silver (black/white shirt)",
+   "neonSourceHex": "#FFFFFF",
    "accentBasis": "home-kit",
+   "fallback": false,
+   "referenceAccent": {
+    "hex": "#008650",
+    "basis": "home-kit"
+   },
    "contrast": {
-    "neonOnNight": 12.19,
-    "inkOnNeon": 11.86
+    "neonOnNight": 14.92,
+    "inkOnNeon": 14.51
    },
    "status": "VERIFIED",
    "confidence": 0.9,
@@ -16262,6 +16666,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#008650",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 12.19,
     "inkOnNeon": 11.86
@@ -16358,6 +16764,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#1950b4",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.44,
     "inkOnNeon": 6.27
@@ -16444,13 +16852,15 @@
     "description": null,
     "season": null
    },
-   "neon": "#9fb0c6",
-   "neonRule": "pending",
+   "neon": "#ff7a1a",
+   "neonRule": "fallback-orange (unknown kit)",
    "neonSourceHex": null,
    "accentBasis": null,
+   "fallback": true,
+   "referenceAccent": null,
    "contrast": {
-    "neonOnNight": 8.91,
-    "inkOnNeon": 8.68
+    "neonOnNight": 7.55,
+    "inkOnNeon": 7.35
    },
    "status": "UNKNOWN",
    "confidence": 0,
@@ -16541,6 +16951,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#c80e35",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 5.79,
     "inkOnNeon": 5.63
@@ -16630,13 +17042,15 @@
     "description": null,
     "season": null
    },
-   "neon": "#9fb0c6",
-   "neonRule": "pending",
+   "neon": "#ff7a1a",
+   "neonRule": "fallback-orange (unknown kit)",
    "neonSourceHex": null,
    "accentBasis": null,
+   "fallback": true,
+   "referenceAccent": null,
    "contrast": {
-    "neonOnNight": 8.91,
-    "inkOnNeon": 8.68
+    "neonOnNight": 7.55,
+    "inkOnNeon": 7.35
    },
    "status": "UNKNOWN",
    "confidence": 0,
@@ -16722,13 +17136,15 @@
     "description": null,
     "season": null
    },
-   "neon": "#9fb0c6",
-   "neonRule": "pending",
+   "neon": "#ff7a1a",
+   "neonRule": "fallback-orange (unknown kit)",
    "neonSourceHex": null,
    "accentBasis": null,
+   "fallback": true,
+   "referenceAccent": null,
    "contrast": {
-    "neonOnNight": 8.91,
-    "inkOnNeon": 8.68
+    "neonOnNight": 7.55,
+    "inkOnNeon": 7.35
    },
    "status": "UNKNOWN",
    "confidence": 0,
@@ -16814,6 +17230,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#224fb4",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.45,
     "inkOnNeon": 6.28
@@ -16895,13 +17313,15 @@
     "description": null,
     "season": null
    },
-   "neon": "#9fb0c6",
-   "neonRule": "pending",
+   "neon": "#ff7a1a",
+   "neonRule": "fallback-orange (unknown kit)",
    "neonSourceHex": null,
    "accentBasis": null,
+   "fallback": true,
+   "referenceAccent": null,
    "contrast": {
-    "neonOnNight": 8.91,
-    "inkOnNeon": 8.68
+    "neonOnNight": 7.55,
+    "inkOnNeon": 7.35
    },
    "status": "UNKNOWN",
    "confidence": 0,
@@ -16987,6 +17407,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#c8102e",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 5.83,
     "inkOnNeon": 5.67
@@ -17074,13 +17496,18 @@
     "description": "White shirt with blue collar and sleeve cuffs plus sponsor logos; black shorts in the photos.",
     "season": "2026/27"
    },
-   "neon": "#5891fe",
-   "neonRule": "secondary (monochrome shirt)",
-   "neonSourceHex": "#2154b9",
+   "neon": "#d7e1ee",
+   "neonRule": "ice-silver (black/white shirt)",
+   "neonSourceHex": "#FFFFFF",
    "accentBasis": "home-kit",
+   "fallback": false,
+   "referenceAccent": {
+    "hex": "#2154b9",
+    "basis": "home-kit"
+   },
    "contrast": {
-    "neonOnNight": 6.47,
-    "inkOnNeon": 6.3
+    "neonOnNight": 14.92,
+    "inkOnNeon": 14.51
    },
    "status": "PROBABLE",
    "confidence": 0.65,
@@ -17167,6 +17594,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#ffc808",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 13.71,
     "inkOnNeon": 13.34
@@ -17265,6 +17694,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#c8141b",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 5.83,
     "inkOnNeon": 5.68
@@ -17370,6 +17801,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#3251b9",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.39,
     "inkOnNeon": 6.22
@@ -17478,6 +17911,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#c81800",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 5.84,
     "inkOnNeon": 5.68
@@ -17576,6 +18011,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#c80e35",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 5.79,
     "inkOnNeon": 5.63
@@ -17671,6 +18108,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#008650",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 12.19,
     "inkOnNeon": 11.86
@@ -17758,13 +18197,18 @@
     "description": "Black shirt with yellow numbers, black shorts (Herr U celebrating).",
     "season": "2026/27"
    },
-   "neon": "#fed24c",
-   "neonRule": "secondary (monochrome shirt)",
-   "neonSourceHex": "#ffcc00",
+   "neon": "#d7e1ee",
+   "neonRule": "ice-silver (black/white shirt)",
+   "neonSourceHex": "#111111",
    "accentBasis": "home-kit",
+   "fallback": false,
+   "referenceAccent": {
+    "hex": "#ffcc00",
+    "basis": "home-kit"
+   },
    "contrast": {
-    "neonOnNight": 13.64,
-    "inkOnNeon": 13.28
+    "neonOnNight": 14.92,
+    "inkOnNeon": 14.51
    },
    "status": "PROBABLE",
    "confidence": 0.7,
@@ -17855,6 +18299,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#c8141b",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 5.83,
     "inkOnNeon": 5.68
@@ -17943,6 +18389,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#ffd100",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 13.71,
     "inkOnNeon": 13.34
@@ -18038,6 +18486,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#14284B",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 6.48,
     "inkOnNeon": 6.31
@@ -18130,6 +18580,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#c80d3a",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 5.8,
     "inkOnNeon": 5.65
@@ -18219,6 +18671,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#f18000",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 9.49,
     "inkOnNeon": 9.24
@@ -18317,6 +18771,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#722f38",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 5.79,
     "inkOnNeon": 5.64
@@ -18403,13 +18859,15 @@
     "description": null,
     "season": null
    },
-   "neon": "#9fb0c6",
-   "neonRule": "pending",
+   "neon": "#ff7a1a",
+   "neonRule": "fallback-orange (unknown kit)",
    "neonSourceHex": null,
    "accentBasis": null,
+   "fallback": true,
+   "referenceAccent": null,
    "contrast": {
-    "neonOnNight": 8.91,
-    "inkOnNeon": 8.68
+    "neonOnNight": 7.55,
+    "inkOnNeon": 7.35
    },
    "status": "UNKNOWN",
    "confidence": 0,
@@ -18502,6 +18960,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#c81611",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 5.85,
     "inkOnNeon": 5.69
@@ -18588,13 +19048,15 @@
     "description": null,
     "season": null
    },
-   "neon": "#9fb0c6",
-   "neonRule": "pending",
+   "neon": "#ff7a1a",
+   "neonRule": "fallback-orange (unknown kit)",
    "neonSourceHex": null,
    "accentBasis": null,
+   "fallback": true,
+   "referenceAccent": null,
    "contrast": {
-    "neonOnNight": 8.91,
-    "inkOnNeon": 8.68
+    "neonOnNight": 7.55,
+    "inkOnNeon": 7.35
    },
    "status": "UNKNOWN",
    "confidence": 0,
@@ -18687,6 +19149,8 @@
    "neonRule": "primary",
    "neonSourceHex": "#f0d817",
    "accentBasis": null,
+   "fallback": false,
+   "referenceAccent": null,
    "contrast": {
     "neonOnNight": 13.88,
     "inkOnNeon": 13.5
@@ -18777,13 +19241,18 @@
     "description": "White shirt, royal-blue shorts; GKs light blue.",
     "season": "2026/27"
    },
-   "neon": "#5f8ffe",
-   "neonRule": "secondary (monochrome shirt)",
-   "neonSourceHex": "#2a52b9",
+   "neon": "#d7e1ee",
+   "neonRule": "ice-silver (black/white shirt)",
+   "neonSourceHex": "#FFFFFF",
    "accentBasis": "home-kit",
+   "fallback": false,
+   "referenceAccent": {
+    "hex": "#2a52b9",
+    "basis": "home-kit"
+   },
    "contrast": {
-    "neonOnNight": 6.42,
-    "inkOnNeon": 6.25
+    "neonOnNight": 14.92,
+    "inkOnNeon": 14.51
    },
    "status": "VERIFIED",
    "confidence": 0.88,

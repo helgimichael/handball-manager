@@ -106,3 +106,7 @@
 /* ---------- ANL-01 Editorial Match Report → "Match Feature" ---------- */
 .ad-analysis .rep-c { padding-left: 0; }
 .ad-analysis .rep-c > .kicker { color: var(--accent); }
+
+/* Owner decision 2026-11-14: fallback identity is visibly marked (never presented as verified club data) */
+.idfb { display: inline-flex; align-items: center; margin-left: 8px; padding: 2px 7px; border-radius: 999px; border: 1px dashed currentColor; color: var(--accent); font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: .04em; text-transform: none; font-style: normal; white-space: nowrap; }
+@media (max-width: 720px) { .idfb { font-size: 9px; padding: 1px 5px; margin-left: 5px; } }

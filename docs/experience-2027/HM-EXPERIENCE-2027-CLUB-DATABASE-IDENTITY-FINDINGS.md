@@ -1,5 +1,7 @@
 # HM Experience 2027 — Club Database Identity Findings
 
+> **Owner decision 2026-11-14 (G12): CORRECT.** Incorrectly identified clubs are to be corrected, not just renamed. This document's recommendation to "keep IDs and change display data only" is superseded by the canonical correction proposal in **`HM-EXPERIENCE-2027-CLUB-IDENTITY-CORRECTION-PLAN.md`**. That plan covers all 33 findings plus 6 additional items, and for each states the evidence, whether the ID can be retained, the career/save impact and the migration strategy. Nothing has been migrated; production data and careers are unchanged.
+
 **Status:** Research only. No game data was changed.
 **Date:** 2026-11-13
 **Scope:** `apps/game/lib/game-data/clubs.ts` (including block comments), `apps/game/lib/competition/transition/sweden2026Data.json` (Division 2 registrations), `design-lab/experience-2027/club-identity/clubs-extracted.json` (202 clubs), and the earlier kit-research notes in `design-lab/experience-2027/club-identity/research/results-*.json`.

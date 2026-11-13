@@ -33,6 +33,9 @@ const PROTO = {
 const OWNER = {
   G1: { choice: 'B', date: '2026-11-13', note: 'Arena Nights is the visual design language (not a layout template), combined with a dynamic Club Identity System. All per-surface recommendations are retained.' },
   G9: { choice: 'A', date: '2026-11-13', note: 'Dynamic neon accent derived from the active club; clubless manager = neon orange default.' },
+  G10: { choice: 'A', date: '2026-11-14', note: 'ICE SILVER for predominantly black or white home shirts. The crest colour is never used automatically; a documented shirt trim is kept as reference metadata only.' },
+  G11: { choice: 'A', date: '2026-11-14', note: 'DEFAULT ORANGE as a temporary visual fallback for clubs whose shirt colour is UNKNOWN. Not verified club data: the UNKNOWN status is preserved and the UI marks it as a fallback. Clubless managers also keep orange.' },
+  G12: { choice: 'A', date: '2026-11-14', note: 'CORRECT incorrectly identified clubs (not just display names). Proposal only: see HM-EXPERIENCE-2027-CLUB-IDENTITY-CORRECTION-PLAN.md; no production data or careers migrated.' },
 };
 const arenaManual = new Map(readJson(path.join(docs, 'proposals', 'arena-adaptations.json')).map((a) => [a.id, a]));
 function arenaFor(s, rec) {
@@ -52,6 +55,9 @@ const GLOBAL = [
   { id: 'G6', title: 'Density modes', options: ['A — Single density', 'B — Comfortable + Compact toggle'], rec: 'B', why: 'Power users want FM-level density; newcomers need breathing room. Implemented as tokens (--pad, --row, --fs).' },
   { id: 'G7', title: 'Mobile role', options: ['A — Full parity, responsive', 'B — Companion: Today, inbox, decisions, match', 'C — Full parity but mobile-first layouts for daily loop'], rec: 'C', why: 'Desktop remains primary; the daily loop (Today, inbox, decisions, matchday) gets purpose-built mobile layouts, deep editors adapt to single column.' },
   { id: 'G9', title: 'Club Identity System (accent)', options: ['A — Dynamic club neon accent (club derives accent; clubless = neon orange)', 'B — Fixed brand accent'], rec: 'A', why: 'Owner decision: the active club determines the Arena Nights accent; changing club updates identity without changing the design system.' },
+  { id: 'G10', title: 'Black/white home shirts: accent', options: ['A — Ice Silver (trim kept as reference metadata)', 'B — Documented trim/secondary colour', 'C — Crest colour'], rec: 'B', why: 'Claude recommended the documented trim where it is on the home shirt; owner chose Ice Silver for consistency and to avoid crest/away colours.' },
+  { id: 'G11', title: 'Unknown shirt colours: fallback', options: ['A — Default Arena orange, marked as fallback (status stays UNKNOWN)', 'B — Neutral steel placeholder', 'C — Crest/game colour'], rec: 'B', why: 'Claude used a neutral steel placeholder; owner chose the default orange so unknown clubs still feel like Arena Nights, clearly marked as a fallback.' },
+  { id: 'G12', title: 'Incorrect club identities in the database', options: ['A — Correct the identities (canonical correction plan, controlled migration later)', 'B — Change display names only'], rec: 'A', why: 'Keeps stable ids where safe and corrects the underlying identity; requires a migration strategy for careers/saves (see correction plan).' },
   { id: 'G8', title: 'Typography pairing', options: ['A — Inter + JetBrains Mono', 'B — Barlow Condensed + Barlow', 'C — Saira Condensed + IBM Plex Sans/Mono + Source Serif 4'], rec: 'C', why: 'Follows G1. All are open-licence web fonts — replaces Windows-only Bahnschrift/Segoe which degrade on Mac/mobile.' },
 ];
 
