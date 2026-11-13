@@ -122,7 +122,7 @@ These constrain every surface. Recommended order: G1 → G2 → G3/G4 → G5–G
 
 **Claude's recommendation:** A — Keeps stable ids where safe and corrects the underlying identity; requires a migration strategy for careers/saves (see correction plan).
 
-**Decision:** **A** (owner, 2026-11-14) — CORRECT incorrectly identified clubs (not just display names). Proposal only: see HM-EXPERIENCE-2027-CLUB-IDENTITY-CORRECTION-PLAN.md; no production data or careers migrated.  
+**Decision:** **A** (owner, 2026-11-14) — CORRECT incorrectly identified clubs (not just display names). Proposal only: see HM-EXPERIENCE-2027-CLUB-IDENTITY-CORRECTION-PLAN.md; no production data or careers migrated. Final decision review 2026-11-14: HM-EXPERIENCE-2027-CLUB-IDENTITY-FINAL-DECISIONS.md, -MIGRATION-STRATEGY.md and -IMPLEMENTATION-ROADMAP.md (mandatory open decisions D1, D5, D7, D8, D9, D11; no save schema change under the recommended options).  
 **Comments:** 
 
 ### G8 · Typography pairing

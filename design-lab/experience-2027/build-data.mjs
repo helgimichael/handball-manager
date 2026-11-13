@@ -35,7 +35,7 @@ const OWNER = {
   G9: { choice: 'A', date: '2026-11-13', note: 'Dynamic neon accent derived from the active club; clubless manager = neon orange default.' },
   G10: { choice: 'A', date: '2026-11-14', note: 'ICE SILVER for predominantly black or white home shirts. The crest colour is never used automatically; a documented shirt trim is kept as reference metadata only.' },
   G11: { choice: 'A', date: '2026-11-14', note: 'DEFAULT ORANGE as a temporary visual fallback for clubs whose shirt colour is UNKNOWN. Not verified club data: the UNKNOWN status is preserved and the UI marks it as a fallback. Clubless managers also keep orange.' },
-  G12: { choice: 'A', date: '2026-11-14', note: 'CORRECT incorrectly identified clubs (not just display names). Proposal only: see HM-EXPERIENCE-2027-CLUB-IDENTITY-CORRECTION-PLAN.md; no production data or careers migrated.' },
+  G12: { choice: 'A', date: '2026-11-14', note: 'CORRECT incorrectly identified clubs (not just display names). Proposal only: see HM-EXPERIENCE-2027-CLUB-IDENTITY-CORRECTION-PLAN.md; no production data or careers migrated. Final decision review 2026-11-14: HM-EXPERIENCE-2027-CLUB-IDENTITY-FINAL-DECISIONS.md, -MIGRATION-STRATEGY.md and -IMPLEMENTATION-ROADMAP.md (mandatory open decisions D1, D5, D7, D8, D9, D11; no save schema change under the recommended options).' },
 };
 const arenaManual = new Map(readJson(path.join(docs, 'proposals', 'arena-adaptations.json')).map((a) => [a.id, a]));
 function arenaFor(s, rec) {

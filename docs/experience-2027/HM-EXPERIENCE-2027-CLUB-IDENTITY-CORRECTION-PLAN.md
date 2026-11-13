@@ -6,6 +6,15 @@
 **Inputs:** `HM-EXPERIENCE-2027-CLUB-DATABASE-IDENTITY-FINDINGS.md` (F01–F33), `apps/game/lib/game-data/clubs.ts`, `swedishDivision2.ts`, `competition/transition/sweden2026Data.json`, `canonicalClubNames.ts`, `clubVenues.ts`, `competitions.ts`, the career and save code under `apps/game/lib`, and `design-lab/experience-2027/club-identity/registry.json`.
 **Re-checked on the web for this plan (2026-11-14):** Lunds HS Lejon on Profixio, the HSV Hamburg rename, the Eger tier, the Danish 2025/26 relegation and promotion, the Norwegian top flight, the Slovenian Liga NLB, Fram's tier and the Eskilstuna Guif name. The results are listed under each issue. Evidence for the other findings is carried over from the findings document and its sources.
 
+> **Final decision review, 2026-11-14.** This plan is now read together with three companion documents:
+> - `HM-EXPERIENCE-2027-CLUB-IDENTITY-FINAL-DECISIONS.md` (D1–D11, locked L1–L10, technical T1–T8);
+> - `HM-EXPERIENCE-2027-CLUB-IDENTITY-MIGRATION-STRATEGY.md` (MS);
+> - `HM-EXPERIENCE-2027-CLUB-IDENTITY-IMPLEMENTATION-ROADMAP.md` (phases C0–C8).
+>
+> One conclusion here is **superseded**: season-gated league moves (strategy **S**) no longer need save schema v9. The static `competitionId` is frozen as the legacy baseline, real seasons go into an append-only `competitionHistory`, and an optional career marker `clubWorldBaseline` (absent = legacy save) drives a season-aware resolver. Existing careers keep their in-progress season and switch at their next rollover; nothing in a save is rewritten (MS §3).
+>
+> Under the recommended decisions no correction requires v9. v9 is needed only for the not-recommended F23 retype (D8-B), a re-key or a merge. Superseded passages below are marked *[superseded: see MS]*; the evidence and per-issue analysis are unchanged.
+
 **Guiding rules**
 
 1. A club id is a storage key, not a label. It is never reused for a different real club.
@@ -88,7 +97,7 @@ None of the 33 is primarily an external-id error. External ids are a secondary c
 **IDs retained vs migration needed:**
 - **32 of 33** findings keep every existing storage id.
 - **1** (F05 `ger2-wilhelmshaven`) retires an id as a tombstone. It is never deleted and never reused.
-- **Save migrations required:** a *season-gated competition move* for 9 findings (F03, F14, F15, F17, F18, F19, F20, F21, and S6); *additive relationship rows* for F27, F28 and S2 (11 Division 2 ids); *one retype* if the owner downgrades IF Kristianstad (F23).
+- **Save migrations required** *[superseded: see MS §5. All of these are now class A or B and need no schema change and no rewrite. Only the F23 retype (D8-B) would be class C / v9.]*: a *season-gated competition move* for 9 findings (F03, F14, F15, F17, F18, F19, F20, F21, and S6); *additive relationship rows* for F27, F28 and S2 (11 Division 2 ids); *one retype* if the owner downgrades IF Kristianstad (F23).
 - **Physical re-keying** (a new id plus rewriting keys inside saves) is **not** recommended for any finding. F01–F04 are corrected by giving each storage key a correct canonical identity and alias, not by renaming keys inside saves.
 
 ---
@@ -196,12 +205,12 @@ None of the 33 is primarily an external-id error. External ids are a secondary c
 | Code | Meaning | Save schema bump? |
 |---|---|---|
 | **D** | Data-only correction of display fields under the same id | No |
-| **S** | Season-gated league move: `competitionHistory` entries with `validFrom` season; applied to new careers immediately and to existing careers only through the season-transition path (written into `competitionMembership` at rollover, which already wins over static data) | Yes (v9: adds the per-season resolver; existing in-progress season untouched) |
+| **S** | Season-gated league move: `competitionHistory` entries with a `validFrom` season. Applied to new careers immediately and to existing careers from their next rollover, through the season-aware resolver and the frozen legacy baseline (MS §3). *[superseded: the earlier write-into-`competitionMembership` mechanism would freeze foreign entries forever, because the Swedish transition only copies them]* | **No** (additive marker `clubWorldBaseline`; absence = legacy) |
 | **A** | Alias: storage key retained, `canonicalId` / `aliases` / `legacyIdNote` added; registry keyed by canonical id with legacy key mapping | No (metadata only) |
 | **R** | Retire as tombstone (never deleted, never reused) | No |
 | **N** | New club under a new id (additive; needs per-club backfill rather than a single sentinel) | No for new careers; optional additive backfill |
-| **P+** | Add a permanent relationship row via an idempotent seeder (same pattern as `seedPermanentBTeamPartnerships`) | No (additive, idempotent) |
-| **P~** | Retype or remove an existing permanent row (the seeder only adds rows) | Yes |
+| **P+** | Add a permanent relationship row through a separate idempotent seeder. In existing careers `startDate` = next season start, so the in-progress season is unaffected. `PERMANENT_B_TEAM_PAIRS` stays unchanged (MS §6) | No (additive, idempotent) |
+| **P~** | Retype or remove an existing permanent row (the seeder only adds rows). Not recommended (D8-A keeps the row with metadata) | Yes, only if chosen |
 | **K** | Kit, crest or registry correction only | No |
 
 ---
@@ -578,6 +587,15 @@ type Club = {
 
 ## 5. Phased rollout for a controlled production implementation
 
+> *[superseded: see `HM-EXPERIENCE-2027-CLUB-IDENTITY-IMPLEMENTATION-ROADMAP.md`, phases C0–C8.]* The phases below are kept for traceability:
+> - Phase 0 → C0;
+> - Phase 1 → C1–C3;
+> - Phase 2 → C4, **without** v9 or a `competitionMembership` rewrite;
+> - Phase 3 → C5;
+> - Phase 4 → C6, where the F23 retype becomes optional C6b;
+> - Phase 5 → C7;
+> - new C8 (multi-season validation).
+
 **Phase 0: Inventory (no production change).**
 - Build a read-only script, `scripts/club-id-usage-audit.ts`, that loads exported saves and counts every club id per field listed in 2.1. Embedded ids are counted by prefix pattern.
 - Ask Alpha testers for their exported JSON (the feedback export, `ALPHA.md`) and commit anonymised copies as fixtures: `apps/game/lib/save/__fixtures__/alpha-*.json`. Manager names are personal data, so replace them before committing.
@@ -620,6 +638,25 @@ type Club = {
 ---
 
 ## 6. Decisions still needed from the owner
+
+> **Reviewed 2026-11-14.** Every item below is analysed, with options, a recommendation, effects on new careers and existing saves, and the schema impact, in `HM-EXPERIENCE-2027-CLUB-IDENTITY-FINAL-DECISIONS.md`.
+
+| Original item | Review id | Status | Recommendation |
+|---|---|---|---|
+| 1 | D1 | **Mandatory** | Keep storage keys; add canonical metadata |
+| 2 | D2 | Later | Do not add the missing clubs now |
+| 3 | D3 | Later (by C5) | Tombstone plus one confirmed 2. BL club |
+| 4 | D4 | Later | Neutral names; sponsor names as aliases |
+| 5 | D5 | **Mandatory** | 2026/27 reality: new careers now, existing careers from their next rollover; a career's own Swedish simulation is never overwritten |
+| 6 | D6 | Later (by C5) | Teucro `approximate`; Córdoba tombstone plus replacement |
+| 7 | D7 | **Mandatory** | Name "HK Cliff", relation label "Hammarby U", stays selectable |
+| 8 | D8 | **Mandatory** | Keep the B-team row with `PARTIAL` metadata (no v9) |
+| 9 | D9 | **Mandatory** | 11 relations; career rows from the next season; existing development partnerships run out |
+| 10 | D10 | Confirmation only | Already answered by G11 and the no-inheritance rule |
+| 11 | D11 | **Mandatory** | Anonymised Alpha fixtures, with consent |
+| 12 | T6 | Technical (research) | Close in C0 before the matching data lands |
+
+The original wording is kept below for traceability.
 
 1. **F01–F04 identity form:** confirm "keep the club players see, correct its canonical identity, never rename the storage key" (recommended). The alternative is a physical re-key in a schema migration, which is high risk and not recommended.
 2. **Missing real clubs:** add BM Logroño La Rioja, Horneo Eón Alicante and Győri ETO-UNI FKC as new ids, or leave them out?

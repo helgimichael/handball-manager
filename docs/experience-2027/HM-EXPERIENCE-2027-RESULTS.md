@@ -276,7 +276,7 @@ Owner decisions G10–G12 are recorded in `HM-EXPERIENCE-2027-OWNER-DECISIONS.md
 - **G12, correct incorrect identities:** `HM-EXPERIENCE-2027-CLUB-IDENTITY-CORRECTION-PLAN.md` covers 33 findings plus 6 extra items:
   - 32 of 33 IDs can be retained; `ger2-wilhelmshaven` would become a tombstone and is never deleted or reused.
   - No merges are proposed.
-  - 9 season-gated league moves are proposed (save schema v8 → v9).
+  - 9 season-gated league moves are proposed. The schema bump was later found unnecessary (see Part 9).
   - 11 relationship rows would be added.
 
   This is a proposal only: no production data, saves or careers were changed.
@@ -284,3 +284,29 @@ Owner decisions G10–G12 are recorded in `HM-EXPERIENCE-2027-OWNER-DECISIONS.md
 Verification:
 - Club identity checks: 0 issues across 660 renders, including all fallback clubs. They check the new rules: fallback only for unknown kits, never on verified or probable clubs, and the marker shown exactly when it applies; Ice Silver on every black/white shirt.
 - Recommendation preservation: 0 issues (231 recommendations, 551 alternatives).
+
+---
+
+## Part 9: Club Identity final decision review and migration strategy (2026-11-14)
+
+Three new documents complete the decision basis:
+- `HM-EXPERIENCE-2027-CLUB-IDENTITY-FINAL-DECISIONS.md`: all 12 open items analysed, each with options, a recommendation, effects on new careers and existing saves, and schema impact.
+- `HM-EXPERIENCE-2027-CLUB-IDENTITY-MIGRATION-STRATEGY.md`: the canonical identity model, the A/B/C classification, season-bound leagues, relations and rollback.
+- `HM-EXPERIENCE-2027-CLUB-IDENTITY-IMPLEMENTATION-ROADMAP.md`: phases C0–C8 and the 12-area test strategy.
+
+The correction plan was updated to match.
+
+**Decisions:**
+- **Mandatory owner decisions:** D1, D5, D7, D8, D9, D11.
+- **Can wait:** D2, D3, D4, D6.
+- **Confirmation only:** D10.
+- **Locked:** L1–L10 (Arena Nights, Dynamic Club Identity, the registry, Ice Silver, orange fallback, G12, 231/551, crests and no inheritance, the SHF cooperation rule, the id rules).
+
+**Key finding.** No recommended correction needs save schema v9:
+- The static `competitionId` is frozen as the legacy baseline.
+- Real seasons go into an append-only `competitionHistory`.
+- An optional career marker, `clubWorldBaseline` (absent = legacy save), drives a season-aware resolver. Existing careers keep the season in progress and switch at their next rollover.
+- New relation rows start at the next season start.
+- v9 would be needed only for the not-recommended IF Kristianstad retype, a re-key or a merge.
+
+This is planning only: no production code, data, saves or careers were changed.
