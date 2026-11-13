@@ -62,7 +62,7 @@ Revert the C3 commit. An older build reads the frozen `competitionId`, ignores `
 
 | Run | Tests | Pass | Fail | Log |
 |---|---|---|---|---|
-| Baseline `76513bd` (untouched worktree) | 2934 | 2922 | 12 | `C:\DEV\QA\logs\club-identityaseline-suite.log` |
+| Baseline `76513bd` (untouched worktree) | 2934 | 2922 | 12 | `C:\DEV\QA\logs\club-identity\baseline-suite.log` |
 | After C3 (C1–C3 applied) | 2958 | 2946 | 12 | `C:\DEV\QA\logs\club-identity\c3-suite.log` |
 
 The 12 failures are **identical** to the baseline set (`baseline-failures.txt` vs `c3-failures.txt`: 0 new, 0 fixed). Both runs exclude `lib/career/cpuQualityUpgrade.test.ts` (known >90 min) and use a 15-minute per-test timeout; no test timed out.

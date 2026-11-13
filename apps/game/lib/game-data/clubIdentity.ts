@@ -140,3 +140,36 @@ export function realWorldCompetitionForSeason(club: Club, seasonId: SeasonLabel)
   if (seasonId > last.validFrom) return last.competitionId; // carried forward
   return seasonId < known[0]!.validFrom ? (club.addedInWorld ? undefined : club.competitionId) : club.competitionId;
 }
+
+/** Club Identity C4: relation kinds that are a cooperation in SHF terms (second teams, U teams, partner associations). ACADEMY (foreign) and YOUTH_LINK (informational) never are. */
+export const COOPERATION_RELATION_KINDS: readonly ClubRelationKind[] = [
+  "SECOND_TEAM", "SAME_CLUB_SECOND_TEAM", "SECOND_TEAM_UNDER_PARTNER_ASSOCIATION", "U_TEAM", "U_TEAM_UNDER_PARTNER_LICENCE", "PARTNER_ASSOCIATION_WITH_SHARED_PLAYERS",
+];
+
+/** True when `clubId` is (or, per the static data, will be) a cooperation team of another club in `seasonId` (any season when omitted). */
+export function hasStaticCooperationRelation(clubId: string, seasonId?: SeasonLabel): boolean {
+  return (getClub(clubId)?.relations ?? []).some((r) => COOPERATION_RELATION_KINDS.includes(r.relation) && (!r.validTo || !seasonId || r.validTo >= seasonId));
+}
+
+/**
+ * Club Identity C4 (D7): the relation shown as TEXT next to a club's own name
+ * (never as a colour, never instead of the name). Undefined for independent
+ * clubs and informational links.
+ */
+export function clubRelationLabel(clubId: string, seasonId?: SeasonLabel): string | undefined {
+  const r = clubRelationForSeason(clubId, seasonId);
+  if (!r || r.relation === "YOUTH_LINK") return undefined;
+  const parent = getClub(r.parentClubId);
+  if (!parent) return undefined;
+  const p = parent.shortName;
+  switch (r.relation) {
+    case "U_TEAM_UNDER_PARTNER_LICENCE": {
+      const licence = getClub(clubId)?.licenceHolderAssociation?.name;
+      return licence ? `${p} U · ${licence}s licens` : `${p} U`;
+    }
+    case "U_TEAM": return `${p} U`;
+    case "SAME_CLUB_SECOND_TEAM": case "SECOND_TEAM": case "SECOND_TEAM_UNDER_PARTNER_ASSOCIATION": return `${p}s andralag`;
+    case "PARTNER_ASSOCIATION_WITH_SHARED_PLAYERS": return `Samarbetsklubb till ${p}`;
+    case "ACADEMY": return `${p}s akademi`;
+  }
+}

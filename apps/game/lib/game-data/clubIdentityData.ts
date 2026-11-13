@@ -79,7 +79,7 @@ export const CLUB_IDENTITY_METADATA: Readonly<Record<string, ClubIdentityOverlay
     aliases: ["SBS-Eger", "QHB-Eger", "Egri Spartacus"],
   },
   "hun2-komlo": { canonicalId: "hu-komlo", aliases: ["Carbonex-Komló"], competitionHistory: moved("hun-2", "hun-1", SRC.nb1) }, // F20
-  "int-veszprem-academy": { canonicalId: "hu-veszprem-academy" }, // relation in C4 data below
+  "int-veszprem-academy": { relations: [{ parentClubId: "hun1-veszprem", relation: "ACADEMY", relationConfidence: "PROBABLE", validFrom: CLUB_WORLD_START_SEASON, evidence: "F16: Veszprém Handball Academy is the academy team of Veszprém (international player pool source workbook)." }], canonicalId: "hu-veszprem-academy" }, // relation in C4 data below
 
   // ---------------------------------------------------------------- Germany
   "ger2-wilhelmshaven": { // F05: tombstone, never deleted, never reused
@@ -142,30 +142,30 @@ export const CLUB_IDENTITY_METADATA: Readonly<Record<string, ClubIdentityOverlay
 
   // ---------------------------------------------------------------- Sweden
   "swe2-guif": { canonicalId: "se-eskilstuna-guif", aliases: ["Eskilstuna Guif", "IF Guif", "Guif"] }, // S3
-  "se_club_hk_cliff": { // F22 (D7): selectable; relation lives in `relations` (C4)
+  "se_club_hk_cliff": { relations: [{ parentClubId: "se_club_hammarby_if_hf", relation: "U_TEAM_UNDER_PARTNER_LICENCE", relationConfidence: "FULL", validFrom: CLUB_WORLD_START_SEASON, evidence: "F22/D7: 19/19 players registered with Hammarby IF HF (SHF 25963); Division 1 licence held by HK Cliff (SHF 26051). https://www.profixio.com/app/lx/competition/leagueid28142/teams/1578872?t=players" }], // F22 (D7): selectable; relation lives in `relations` (C4)
     canonicalId: "se-hk-cliff",
     licenceHolderAssociation: { name: "HK Cliff", shfClubId: "26051" },
     externalIds: { shfClubId: "26051", profixioTeam: { "2026/27": "1578872" } },
   },
   "se_club_hammarby_if_hf": { externalIds: { shfClubId: "25963" } },
-  "se_club_if_kristianstad": { canonicalId: "se-if-kristianstad", externalIds: { shfClubId: "25971", profixioTeam: { "2026/27": "1575285" } } }, // F23
+  "se_club_if_kristianstad": { relations: [{ parentClubId: "se_club_ifk_kristianstad", relation: "PARTNER_ASSOCIATION_WITH_SHARED_PLAYERS", relationConfidence: "PARTIAL", validFrom: CLUB_WORLD_START_SEASON, evidence: "F23/D8-A: separate association (SHF 25971); only 3 players registered with IFK Kristianstad (SHF 25964). The existing permanent B-team row is kept. https://www.profixio.com/app/lx/competition/leagueid28142/teams/1575285?t=players" }], canonicalId: "se-if-kristianstad", externalIds: { shfClubId: "25971", profixioTeam: { "2026/27": "1575285" } } }, // F23
   "se_club_ifk_kristianstad": { externalIds: { shfClubId: "25964" } },
-  "se_club_hp_alingsas": { canonicalId: "se-hp-alingsas", externalIds: { profixioTeam: { "2026/27": "1572549" } } }, // F24
-  "se_club_hk_onnerediterna": { canonicalId: "se-hk-onnerediterna", licenceHolderAssociation: { name: "HK Önnerediterna", shfClubId: "26228" }, externalIds: { shfClubId: "26228", profixioTeam: { "2026/27": "1575759" } } }, // F25
+  "se_club_hp_alingsas": { relations: [{ parentClubId: "se_club_alingsas_hk", relation: "SECOND_TEAM", relationConfidence: "FULL", validFrom: CLUB_WORLD_START_SEASON, evidence: "F24: players registered with Alingsås HK. https://www.profixio.com/app/lx/competition/leagueid28142/teams/1572549?t=players" }], canonicalId: "se-hp-alingsas", externalIds: { profixioTeam: { "2026/27": "1572549" } } }, // F24
+  "se_club_hk_onnerediterna": { relations: [{ parentClubId: "se_club_onnereds_hk", relation: "SECOND_TEAM_UNDER_PARTNER_ASSOCIATION", relationConfidence: "FULL", validFrom: CLUB_WORLD_START_SEASON, evidence: "F25: all players registered with Önnereds HK (SHF 26047); team under association 26228. https://www.profixio.com/app/lx/competition/leagueid28142/teams/1575759?t=players" }], canonicalId: "se-hk-onnerediterna", licenceHolderAssociation: { name: "HK Önnerediterna", shfClubId: "26228" }, externalIds: { shfClubId: "26228", profixioTeam: { "2026/27": "1575759" } } }, // F25
   "se_club_onnereds_hk": { externalIds: { shfClubId: "26047" } },
-  "se_club_hk_s_hof": { canonicalId: "se-hk-s-hof", identityNote: "F26: B team of IK Sävehof is PROBABLE (roster source is IK Sävehof's P18 page); not verified on Profixio." },
+  "se_club_hk_s_hof": { relations: [{ parentClubId: "se_club_ik_savehof", relation: "SECOND_TEAM", relationConfidence: "PROBABLE", validFrom: CLUB_WORLD_START_SEASON, evidence: "F26: roster source is IK Sävehof's P18 page (not verified on Profixio). https://www.iksungdom.se/iksavehof-p18/truppen" }], canonicalId: "se-hk-s-hof", identityNote: "F26: B team of IK Sävehof is PROBABLE (roster source is IK Sävehof's P18 page); not verified on Profixio." },
   "se_club_hf_karlskrona": { externalIds: { shfClubId: "26363" } },
   // S5: SHF association ids of the Division 2 registrations (Profixio team ids are derived per season from sourceRegistration, swedishDivision2.ts).
-  "se_div2_team_1585295": { canonicalId: "se-lugi-hf-u", externalIds: { shfClubId: "26102" } },
-  "se_div2_team_1582183": { canonicalId: "se-hf-karlskrona-u", externalIds: { shfClubId: "26363" } },
-  "se_div2_team_1585596": { canonicalId: "se-ystads-if-u", externalIds: { shfClubId: "26429" } },
-  "se_div2_team_1582988": { canonicalId: "se-tumba-hk", externalIds: { shfClubId: "26146" } },
-  "se_div2_team_1578886": { canonicalId: "se-vasterasirsta-hk", externalIds: { shfClubId: "26317" } },
-  "se_div2_team_1575715": { canonicalId: "se-hk-varberg-09", externalIds: { shfClubId: "26185" } },
-  "se_div2_team_1578982": { canonicalId: "se-helsingborgs-hk", externalIds: { shfClubId: "26450" } },
-  "se_div2_team_1579219": { canonicalId: "se-malmo-hp", externalIds: { shfClubId: "26298" } },
-  "se_div2_team_1575788": { canonicalId: "se-hk-lif-bla", externalIds: { shfClubId: "26101" } },
-  "se_div2_team_1583015": { canonicalId: "se-hk-ystadpagarna", externalIds: { shfClubId: "26411" } },
-  "se_div2_team_1576008": { canonicalId: "se-lunds-hs-lejon", aliases: ["H43 Lejonen"], externalIds: { shfClubId: "26090" } },
-  "se_div2_team_1578270": { canonicalId: "se-torslanda-hk", externalIds: { shfClubId: "26041" } },
+  "se_div2_team_1585295": { relations: [{ parentClubId: "se_club_lugi_hf", relation: "U_TEAM", relationConfidence: "FULL", validFrom: CLUB_WORLD_START_SEASON, evidence: "F27: association 26102; 18/18 registered with Lugi HF. https://www.profixio.com/app/leagueid28096/teams/1585295" }], canonicalId: "se-lugi-hf-u", externalIds: { shfClubId: "26102" } },
+  "se_div2_team_1582183": { relations: [{ parentClubId: "se_club_hf_karlskrona", relation: "SAME_CLUB_SECOND_TEAM", relationConfidence: "FULL", validFrom: CLUB_WORLD_START_SEASON, evidence: "F27: club 26363 = HF Karlskrona; 20/21 registered. https://www.profixio.com/app/leagueid28096/teams/1582183" }], canonicalId: "se-hf-karlskrona-u", externalIds: { shfClubId: "26363" } },
+  "se_div2_team_1585596": { relations: [{ parentClubId: "se_club_ystads_if_hf", relation: "U_TEAM", relationConfidence: "FULL", validFrom: CLUB_WORLD_START_SEASON, evidence: "F27: association 26429; 25/25 registered with Ystads IF HF. https://www.profixio.com/app/leagueid28096/teams/1585596" }], canonicalId: "se-ystads-if-u", externalIds: { shfClubId: "26429" } },
+  "se_div2_team_1582988": { relations: [{ parentClubId: "swe2-tumba", relation: "SECOND_TEAM_UNDER_PARTNER_ASSOCIATION", relationConfidence: "FULL", validFrom: CLUB_WORLD_START_SEASON, evidence: "F28: association 26146; all registered with IFK Tumba HK. Profixio team 1582988 (Herr Div 2 Öst)." }], canonicalId: "se-tumba-hk", externalIds: { shfClubId: "26146" } },
+  "se_div2_team_1578886": { relations: [{ parentClubId: "swe2-vasterasirsta", relation: "SECOND_TEAM_UNDER_PARTNER_ASSOCIATION", relationConfidence: "FULL", validFrom: CLUB_WORLD_START_SEASON, evidence: "F28: association 26317; registered with VästeråsIrsta HF. Profixio team 1578886." }], canonicalId: "se-vasterasirsta-hk", externalIds: { shfClubId: "26317" } },
+  "se_div2_team_1575715": { relations: [{ parentClubId: "swe2-varberg", relation: "SECOND_TEAM_UNDER_PARTNER_ASSOCIATION", relationConfidence: "MAJORITY", validFrom: CLUB_WORLD_START_SEASON, evidence: "F28: association 26185; 12/15 registered with HK Varberg. Profixio team 1575715." }], canonicalId: "se-hk-varberg-09", externalIds: { shfClubId: "26185" } },
+  "se_div2_team_1578982": { relations: [{ parentClubId: "se_club_ov_helsingborg", relation: "SECOND_TEAM_UNDER_PARTNER_ASSOCIATION", relationConfidence: "FULL", validFrom: CLUB_WORLD_START_SEASON, evidence: "F28: association 26450; 21/23 registered with OV Helsingborg HK. Profixio team 1578982." }], canonicalId: "se-helsingborgs-hk", externalIds: { shfClubId: "26450" } },
+  "se_div2_team_1579219": { relations: [{ parentClubId: "se_club_hk_malmo", relation: "SECOND_TEAM_UNDER_PARTNER_ASSOCIATION", relationConfidence: "FULL", validFrom: CLUB_WORLD_START_SEASON, evidence: "F28: association 26298; 29/29 registered with HK Malmö. Profixio team 1579219." }], canonicalId: "se-malmo-hp", externalIds: { shfClubId: "26298" } },
+  "se_div2_team_1575788": { relations: [{ parentClubId: "se_club_lif_lindesberg", relation: "SECOND_TEAM_UNDER_PARTNER_ASSOCIATION", relationConfidence: "FULL", validFrom: CLUB_WORLD_START_SEASON, evidence: "F28: association 26101; 18/18 registered with LIF Lindesberg. Profixio team 1575788." }], canonicalId: "se-hk-lif-bla", externalIds: { shfClubId: "26101" } },
+  "se_div2_team_1583015": { relations: [{ parentClubId: "swe2-ystad2", relation: "SECOND_TEAM_UNDER_PARTNER_ASSOCIATION", relationConfidence: "FULL", validFrom: CLUB_WORLD_START_SEASON, evidence: "F28: association 26411; 22/22 registered with IFK Ystad HK. Profixio team 1583015." }], canonicalId: "se-hk-ystadpagarna", externalIds: { shfClubId: "26411" } },
+  "se_div2_team_1576008": { relations: [{ parentClubId: "swe2-h43lund", relation: "SECOND_TEAM_UNDER_PARTNER_ASSOCIATION", relationConfidence: "FULL", validFrom: CLUB_WORLD_START_SEASON, evidence: "S2: association 26090; 19/19 registered with H43 Lund HF ('H43 Lejonen'). https://www.profixio.com/app/leagueid28096/teams/1576008" }], canonicalId: "se-lunds-hs-lejon", aliases: ["H43 Lejonen"], externalIds: { shfClubId: "26090" } },
+  "se_div2_team_1578270": { relations: [{ parentClubId: "swe2-torslanda", relation: "YOUTH_LINK", relationConfidence: "PARTIAL", validFrom: CLUB_WORLD_START_SEASON, evidence: "F29: separate club (26041); six players (born 2005-2008) registered with HK Torslanda Elit. Informational only: not a B team. https://www.profixio.com/app/leagueid28052/teams/1578270" }], canonicalId: "se-torslanda-hk", externalIds: { shfClubId: "26041" } },
 };
