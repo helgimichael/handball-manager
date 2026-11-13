@@ -151,6 +151,13 @@ export function hasStaticCooperationRelation(clubId: string, seasonId?: SeasonLa
   return (getClub(clubId)?.relations ?? []).some((r) => COOPERATION_RELATION_KINDS.includes(r.relation) && (!r.validTo || !seasonId || r.validTo >= seasonId));
 }
 
+/** Swedish genitive: "Sävehof" -> "Sävehofs", "Alingsås" -> "Alingsås", "H43" -> "H43:s". */
+export function swedishGenitive(name: string): string {
+  if (/[sxz]$/i.test(name)) return name;
+  if (/[0-9A-ZÅÄÖ]$/.test(name)) return `${name}:s`;
+  return `${name}s`;
+}
+
 /**
  * Club Identity C4 (D7): the relation shown as TEXT next to a club's own name
  * (never as a colour, never instead of the name). Undefined for independent
@@ -165,11 +172,12 @@ export function clubRelationLabel(clubId: string, seasonId?: SeasonLabel): strin
   switch (r.relation) {
     case "U_TEAM_UNDER_PARTNER_LICENCE": {
       const licence = getClub(clubId)?.licenceHolderAssociation?.name;
-      return licence ? `${p} U · ${licence}s licens` : `${p} U`;
+      return licence ? `${p} U · ${swedishGenitive(licence)} licens` : `${p} U`;
     }
     case "U_TEAM": return `${p} U`;
-    case "SAME_CLUB_SECOND_TEAM": case "SECOND_TEAM": case "SECOND_TEAM_UNDER_PARTNER_ASSOCIATION": return `${p}s andralag`;
-    case "PARTNER_ASSOCIATION_WITH_SHARED_PLAYERS": return `Samarbetsklubb till ${p}`;
-    case "ACADEMY": return `${p}s akademi`;
+    case "SAME_CLUB_SECOND_TEAM": case "SECOND_TEAM": case "SECOND_TEAM_UNDER_PARTNER_ASSOCIATION": return `${swedishGenitive(p)} andralag`;
+    // The full parent name: "Kristianstad" alone would not tell IF and IFK Kristianstad apart.
+    case "PARTNER_ASSOCIATION_WITH_SHARED_PLAYERS": return `Samarbetsklubb till ${parent.name}`;
+    case "ACADEMY": return `${swedishGenitive(p)} akademi`;
   }
 }

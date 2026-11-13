@@ -216,7 +216,7 @@ export default function GameShell({ children }: { children: ReactNode }) {
           <span aria-hidden="true">{navOpen ? "✕" : "☰"}</span>
         </button>
         <div className="hm-header-title">
-          <div className="hm-header-title-text">{club.name} <span className="hm-text-muted"> / {career.seasonId}</span></div>
+          <div className="hm-header-title-text">{clubless ? "Utan klubb" : club.name} <span className="hm-text-muted"> / {career.seasonId}</span></div>
           <div className="hm-header-sub">
             {liveMatchBanner ?? (
               <>
