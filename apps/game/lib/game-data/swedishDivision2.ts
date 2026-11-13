@@ -16,6 +16,8 @@ export const SWEDISH_DIVISION_2_CLUBS: readonly Club[] = data.division2Registrat
     id:t.canonicalClubId, competitionId:`se_division2_${d.district}`, name:t.name, shortName:t.name,
     playable:false, dataSource:'IDENTITY_ONLY' as const,
     sourceRegistration:{provider:'PROFIXIO' as const,teamId:t.sourceTeamId,seasonId:d.seasonId,url:t.sourceUrl},
+    // Club Identity S5: the Profixio id is a per-season team registration, never the club key; future imports match the SHF association id + team name.
+    externalIds:{profixioTeam:{[d.seasonId]:t.sourceTeamId}},
     // Neutral crest placeholders only, not claims about official club colours.
     primaryColor:'#6b7280',secondaryColor:'#ffffff',
   }] : []));

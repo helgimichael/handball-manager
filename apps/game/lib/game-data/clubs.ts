@@ -150,25 +150,30 @@ const SWE_DIV1_SODRA: Club[] = [
   club({ id: "se_club_ahus_handboll", competitionId: "se_division1_sodra", dataSource: "REAL_WORLD", playable: true, name: "Åhus Handboll", shortName: "Åhus", primaryColor: "#111318", secondaryColor: "#e2b13c" }),
 ];
 
-// --- Denmark, tier 1: Håndboldligaen --- verified full 14-club list (en.wikipedia.org).
+// --- Denmark, tier 1: Håndboldligaen --- the 14-club 2025/26 list (en.wikipedia.org) = the frozen
+// legacy baseline. 2026/27 changes live in competitionHistory (Club Identity C2/C3).
 const DEN_1: Club[] = [
   club({ id: "den1-aalborg", competitionId: "den-1", dataSource: "REAL_WORLD", name: "Aalborg Håndbold", shortName: "Aalborg", city: "Aalborg", primaryColor: "#c8102e", secondaryColor: "#111318" }),
   club({ id: "den1-bjerringbro", competitionId: "den-1", dataSource: "REAL_WORLD", name: "Bjerringbro-Silkeborg", shortName: "BSH", city: "Silkeborg", primaryColor: "#1e3a8a", secondaryColor: "#ffffff" }),
   club({ id: "den1-fredericia", competitionId: "den-1", name: "Fredericia HK", shortName: "Fredericia", city: "Fredericia", primaryColor: "#111318", secondaryColor: "#e2b13c" }),
   club({ id: "den1-gog", competitionId: "den-1", name: "GOG Håndbold", shortName: "GOG", city: "Gudme/Ørbæk", primaryColor: "#0b6e4f", secondaryColor: "#ffffff" }),
   club({ id: "den1-grindsted", competitionId: "den-1", name: "Grindsted GIF", shortName: "Grindsted", city: "Grindsted", primaryColor: "#c8102e", secondaryColor: "#ffffff" }),
-  club({ id: "den1-hoj", competitionId: "den-1", name: "HØJ Elite", shortName: "HØJ", city: "Hjørring", primaryColor: "#1b3a6b", secondaryColor: "#e2b13c" }),
+  club({ id: "den1-hoj", competitionId: "den-1", name: "HØJ Elite", shortName: "HØJ", city: "Ølstykke", primaryColor: "#1b3a6b", secondaryColor: "#e2b13c" }),
   club({ id: "den1-morsthy", competitionId: "den-1", name: "Mors-Thy Håndbold", shortName: "Mors-Thy", city: "Nykøbing Mors", primaryColor: "#111318", secondaryColor: "#c8102e" }),
   club({ id: "den1-nordsjaelland", competitionId: "den-1", name: "Nordsjælland Håndbold", shortName: "Nordsjælland", city: "Helsingør", primaryColor: "#1e3a8a", secondaryColor: "#ffffff" }),
   club({ id: "den1-ribeesbjerg", competitionId: "den-1", name: "Ribe-Esbjerg HH", shortName: "Ribe-Esbjerg", city: "Esbjerg", primaryColor: "#c8102e", secondaryColor: "#111318" }),
-  club({ id: "den1-skanderborg", competitionId: "den-1", dataSource: "REAL_WORLD", name: "Skanderborg Aarhus", shortName: "Skanderborg AGF", city: "Aarhus", primaryColor: "#0b6e4f", secondaryColor: "#ffffff" }),
+  club({ id: "den1-skanderborg", competitionId: "den-1", dataSource: "REAL_WORLD", name: "Skanderborg AGF Håndbold", shortName: "Skanderborg AGF", city: "Skanderborg", primaryColor: "#0b6e4f", secondaryColor: "#ffffff" }),
   club({ id: "den1-skjern", competitionId: "den-1", dataSource: "REAL_WORLD", name: "Skjern Håndbold", shortName: "Skjern", city: "Skjern", primaryColor: "#1e3a8a", secondaryColor: "#e2b13c" }),
-  club({ id: "den1-sonderjyske", competitionId: "den-1", name: "SønderjyskE Håndbold", shortName: "SønderjyskE", city: "Aabenraa", primaryColor: "#c8102e", secondaryColor: "#ffffff" }),
+  club({ id: "den1-sonderjyske", competitionId: "den-1", name: "SønderjyskE Håndbold", shortName: "SønderjyskE", city: "Sønderborg", primaryColor: "#c8102e", secondaryColor: "#ffffff" }),
   club({ id: "den1-tms", competitionId: "den-1", dataSource: "REAL_WORLD", name: "TMS Ringsted", shortName: "TMS Ringsted", city: "Ringsted", primaryColor: "#111318", secondaryColor: "#ffffff" }),
   club({ id: "den1-tth", competitionId: "den-1", name: "TTH Holstebro", shortName: "TTH Holstebro", city: "Holstebro", primaryColor: "#1e3a8a", secondaryColor: "#ffffff" }),
+  // Club Identity C2 (F15): new in the 2026/27 world (addedInWorld); absent from every legacy career until its next season.
+  club({ id: "den1-kif-kolding", competitionId: "den-1", name: "KIF Kolding", shortName: "Kolding", city: "Kolding", primaryColor: "#6b7280", secondaryColor: "#ffffff" }),
 ];
 
-// --- Germany, tier 1: Handball-Bundesliga --- verified full 18-club list (en.wikipedia.org).
+// --- Germany, tier 1: Handball-Bundesliga --- the 18-club 2025/26 list (en.wikipedia.org) = the frozen
+// legacy baseline. 2026/27 changes (Leipzig/Minden down, Balingen/Bietigheim up) live in
+// competitionHistory (clubIdentityData.ts), never in competitionId (Club Identity C2/C3).
 const GER_1: Club[] = [
   club({ id: "ger1-bergischer", competitionId: "ger-1", name: "Bergischer HC", shortName: "Bergischer HC", city: "Bergisches Land", primaryColor: "#111318", secondaryColor: "#c8102e" }),
   club({ id: "ger1-fuchse", competitionId: "ger-1", dataSource: "REAL_WORLD", name: "Füchse Berlin", shortName: "Füchse Berlin", city: "Berlin", primaryColor: "#c8102e", secondaryColor: "#111318" }),
@@ -177,7 +182,7 @@ const GER_1: Club[] = [
   club({ id: "ger1-flensburg", competitionId: "ger-1", name: "SG Flensburg-Handewitt", shortName: "Flensburg", city: "Flensburg", primaryColor: "#1e3a8a", secondaryColor: "#c8102e" }),
   club({ id: "ger1-goppingen", competitionId: "ger-1", name: "Frisch Auf Göppingen", shortName: "Göppingen", city: "Göppingen", primaryColor: "#111318", secondaryColor: "#e2b13c" }),
   club({ id: "ger1-gummersbach", competitionId: "ger-1", name: "VfL Gummersbach", shortName: "Gummersbach", city: "Gummersbach", primaryColor: "#0b6e4f", secondaryColor: "#ffffff" }),
-  club({ id: "ger1-hamburg", competitionId: "ger-1", name: "HSV Hamburg", shortName: "HSV Hamburg", city: "Hamburg", primaryColor: "#1e3a8a", secondaryColor: "#ffffff" }),
+  club({ id: "ger1-hamburg", competitionId: "ger-1", name: "Handball Club Hamburg", shortName: "HC Hamburg", city: "Hamburg", primaryColor: "#1e3a8a", secondaryColor: "#ffffff" }),
   club({ id: "ger1-hannover", competitionId: "ger-1", name: "TSV Hannover-Burgdorf", shortName: "Hannover-Burgdorf", city: "Hannover", primaryColor: "#111318", secondaryColor: "#c8102e" }),
   club({ id: "ger1-kiel", competitionId: "ger-1", dataSource: "REAL_WORLD", name: "THW Kiel", shortName: "THW Kiel", city: "Kiel", primaryColor: "#111318", secondaryColor: "#c8102e" }),
   club({ id: "ger1-leipzig", competitionId: "ger-1", name: "SC DHfK Leipzig", shortName: "Leipzig", city: "Leipzig", primaryColor: "#0b6e4f", secondaryColor: "#111318" }),
@@ -188,6 +193,8 @@ const GER_1: Club[] = [
   club({ id: "ger1-rheinneckar", competitionId: "ger-1", name: "Rhein-Neckar Löwen", shortName: "Rhein-Neckar", city: "Mannheim", primaryColor: "#111318", secondaryColor: "#1e3a8a" }),
   club({ id: "ger1-stuttgart", competitionId: "ger-1", name: "TVB Stuttgart", shortName: "Stuttgart", city: "Stuttgart", primaryColor: "#c8102e", secondaryColor: "#111318" }),
   club({ id: "ger1-wetzlar", competitionId: "ger-1", dataSource: "REAL_WORLD", name: "HSG Wetzlar", shortName: "Wetzlar", city: "Wetzlar", primaryColor: "#1e3a8a", secondaryColor: "#e2b13c" }),
+  // Club Identity C2 (F14): new in the 2026/27 world (addedInWorld); absent from every legacy career until its next season.
+  club({ id: "ger1-bietigheim", competitionId: "ger-1", name: "SG BBM Bietigheim", shortName: "Bietigheim", city: "Bietigheim-Bissingen", primaryColor: "#6b7280", secondaryColor: "#ffffff" }),
 ];
 
 /**
@@ -215,35 +222,35 @@ const REST: Club[] = [
   club({ id: "nor2-vestli", competitionId: "nor-2", name: "Vestli IL", shortName: "Vestli", city: "Oslo", primaryColor: "#111318", secondaryColor: "#e2b13c" }),
   // Germany t2
   club({ id: "ger2-balingen", competitionId: "ger-2", name: "HBW Balingen-Weilstetten", shortName: "Balingen", city: "Balingen", primaryColor: "#1e3a8a", secondaryColor: "#ffffff" }),
-  club({ id: "ger2-dessau", competitionId: "ger-2", name: "SC DHfK Dessau", shortName: "Dessau", city: "Dessau", primaryColor: "#0b6e4f", secondaryColor: "#ffffff" }),
+  club({ id: "ger2-dessau", competitionId: "ger-2", name: "Dessau-Roßlauer HV 06", shortName: "Dessau", city: "Dessau-Roßlau", primaryColor: "#0b6e4f", secondaryColor: "#ffffff" }),
   club({ id: "ger2-nordhorn", competitionId: "ger-2", name: "HSG Nordhorn-Lingen", shortName: "Nordhorn", city: "Nordhorn", primaryColor: "#c8102e", secondaryColor: "#111318" }),
   club({ id: "ger2-wilhelmshaven", competitionId: "ger-2", name: "TV Bittenfeld", shortName: "Bittenfeld", city: "Waiblingen", primaryColor: "#111318", secondaryColor: "#c8102e" }),
   // Denmark t2
   club({ id: "den2-aarhus", competitionId: "den-2", name: "Aarhus Håndbold Herrer", shortName: "Aarhus", city: "Aarhus", primaryColor: "#1e3a8a", secondaryColor: "#ffffff" }),
   club({ id: "den2-vendsyssel", competitionId: "den-2", name: "Elitesport Vendsyssel", shortName: "Vendsyssel", city: "Hjørring", primaryColor: "#c8102e", secondaryColor: "#111318" }),
-  club({ id: "den2-fif", competitionId: "den-2", name: "FIF Håndbold", shortName: "FIF", city: "Fredensborg", primaryColor: "#0b6e4f", secondaryColor: "#ffffff" }),
+  club({ id: "den2-fif", competitionId: "den-2", name: "FIF Håndbold", shortName: "FIF", city: "Frederiksberg", primaryColor: "#0b6e4f", secondaryColor: "#ffffff" }),
   club({ id: "den2-norddjurs", competitionId: "den-2", name: "Norddjurs Håndbold", shortName: "Norddjurs", city: "Grenaa", primaryColor: "#111318", secondaryColor: "#e2b13c" }),
   // Spain t1
   club({ id: "esp1-barca", competitionId: "esp-1", dataSource: "REAL_WORLD", name: "FC Barcelona", shortName: "Barcelona", city: "Barcelona", primaryColor: "#a50044", secondaryColor: "#004d98" }),
   club({ id: "esp1-anaitasuna", competitionId: "esp-1", name: "Bidasoa Irun", shortName: "Bidasoa", city: "Irun", primaryColor: "#c8102e", secondaryColor: "#ffffff" }),
   club({ id: "esp1-logrono", competitionId: "esp-1", name: "Ademar León", shortName: "Ademar León", city: "León", primaryColor: "#0b6e4f", secondaryColor: "#ffffff" }),
   club({ id: "esp1-granollers", competitionId: "esp-1", dataSource: "REAL_WORLD", name: "Fraikin BM Granollers", shortName: "Granollers", city: "Granollers", primaryColor: "#111318", secondaryColor: "#e2b13c" }),
-  club({ id: "esp1-alicante", competitionId: "esp-1", name: "Helvetia Anaitasuna", shortName: "Anaitasuna", city: "Pamplona", primaryColor: "#c8102e", secondaryColor: "#111318" }),
+  club({ id: "esp1-alicante", competitionId: "esp-1", name: "SCDR Anaitasuna", shortName: "Anaitasuna", city: "Pamplona", primaryColor: "#c8102e", secondaryColor: "#111318" }),
   club({ id: "esp1-cuenca", competitionId: "esp-1", dataSource: "REAL_WORLD", name: "Cuenca Balonmano", shortName: "Cuenca", city: "Cuenca", primaryColor: "#1e3a8a", secondaryColor: "#ffffff" }),
   // Spain t2
-  club({ id: "esp2-cisne", competitionId: "esp-2", name: "Cisne Balonmano", shortName: "Cisne", city: "Ourense", primaryColor: "#111318", secondaryColor: "#ffffff" }),
+  club({ id: "esp2-cisne", competitionId: "esp-2", name: "Cisne Balonmano", shortName: "Cisne", city: "Pontevedra", primaryColor: "#111318", secondaryColor: "#ffffff" }),
   club({ id: "esp2-cordoba", competitionId: "esp-2", name: "BM Córdoba", shortName: "Córdoba", city: "Córdoba", primaryColor: "#c8102e", secondaryColor: "#111318" }),
   club({ id: "esp2-huesca", competitionId: "esp-2", name: "BM Huesca", shortName: "Huesca", city: "Huesca", primaryColor: "#1e3a8a", secondaryColor: "#e2b13c" }),
   club({ id: "esp2-teucro", competitionId: "esp-2", name: "Teucro Pontevedra", shortName: "Teucro", city: "Pontevedra", primaryColor: "#0b6e4f", secondaryColor: "#ffffff" }),
   // Hungary t1
   club({ id: "hun1-szeged", competitionId: "hun-1", name: "Pick Szeged", shortName: "Szeged", city: "Szeged", primaryColor: "#c8102e", secondaryColor: "#111318" }),
-  club({ id: "hun1-veszprem", competitionId: "hun-1", dataSource: "REAL_WORLD", name: "Telekom Veszprém", shortName: "Veszprém", city: "Veszprém", primaryColor: "#1e3a8a", secondaryColor: "#e2b13c" }),
+  club({ id: "hun1-veszprem", competitionId: "hun-1", dataSource: "REAL_WORLD", name: "Veszprém KC", shortName: "Veszprém", city: "Veszprém", primaryColor: "#1e3a8a", secondaryColor: "#e2b13c" }),
   club({ id: "hun1-ferencvaros", competitionId: "hun-1", name: "Ferencváros", shortName: "Ferencváros", city: "Budapest", primaryColor: "#0b6e4f", secondaryColor: "#ffffff" }),
   club({ id: "hun1-csurgo", competitionId: "hun-1", name: "Csurgói KK", shortName: "Csurgó", city: "Csurgó", primaryColor: "#111318", secondaryColor: "#c8102e" }),
-  club({ id: "hun1-gyor", competitionId: "hun-1", name: "Grundfos Tatabánya", shortName: "Tatabánya", city: "Tatabánya", primaryColor: "#1e3a8a", secondaryColor: "#ffffff" }),
-  // Hungary t2
+  club({ id: "hun1-gyor", competitionId: "hun-1", name: "Tatabánya KC", shortName: "Tatabánya", city: "Tatabánya", primaryColor: "#1e3a8a", secondaryColor: "#ffffff" }),
+  // Hungary t2 (NB I/B -- see competitions.ts hun-2 / int-hun-2b, S6)
   club({ id: "hun2-cegled", competitionId: "hun-2", name: "Ceglédi KKSE", shortName: "Cegléd", city: "Cegléd", primaryColor: "#c8102e", secondaryColor: "#111318" }),
-  club({ id: "hun2-eger", competitionId: "hun-2", name: "Egri Spartacus", shortName: "Eger", city: "Eger", primaryColor: "#0b6e4f", secondaryColor: "#ffffff" }),
+  club({ id: "hun2-eger", competitionId: "hun-2", name: "Eger-Eszterházy SzSE", shortName: "Eger", city: "Eger", primaryColor: "#0b6e4f", secondaryColor: "#ffffff" }),
   club({ id: "hun2-komlo", competitionId: "hun-2", name: "Komlói Bányász", shortName: "Komló", city: "Komló", primaryColor: "#111318", secondaryColor: "#e2b13c" }),
   // Slovenia t1
   club({ id: "svn1-celje", competitionId: "svn-1", name: "RK Celje", shortName: "Celje", city: "Celje", primaryColor: "#c8102e", secondaryColor: "#111318" }),
@@ -275,7 +282,7 @@ const WORLD_POOL_CLUBS: Club[] = [
   club({ id: "int-fivers", competitionId: "int-aut-1", dataSource: "REAL_WORLD", name: "Fivers Margareten", shortName: "Fivers", primaryColor: "#c8102e", secondaryColor: "#111318" }),
   // Faroe Islands
   club({ id: "int-h71", competitionId: "int-fro-1", dataSource: "REAL_WORLD", name: "H71", shortName: "H71", primaryColor: "#0b6e4f", secondaryColor: "#ffffff" }),
-  // Hungary (NB I/B, distinct from the existing hun-2/NB II clubs)
+  // Hungary NB I/B. hun-2 models the same real league (S6); int-hun-2b is canonical (competitions.ts).
   club({ id: "int-veszprem-academy", competitionId: "int-hun-2b", dataSource: "REAL_WORLD", name: "Veszprém Handball Academy", shortName: "Veszprém Akadémia", primaryColor: "#1e3a8a", secondaryColor: "#e2b13c" }),
   // Italy -- Serie A Gold
   club({ id: "int-meran", competitionId: "int-ita-1", dataSource: "REAL_WORLD", name: "Black Devils Meran Alperia", shortName: "Meran", primaryColor: "#111318", secondaryColor: "#c8102e" }),
@@ -305,7 +312,12 @@ const WORLD_POOL_CLUBS: Club[] = [
 // clubs are only ever appended at the end of their block, never inserted.
 function withIdentity(c: Club): Club {
   const meta = CLUB_IDENTITY_METADATA[c.id];
-  return meta ? { ...c, ...meta } : c;
+  if (!meta) return c;
+  // externalIds merge field by field: generated registrations (Division 2 Profixio ids) + curated SHF ids.
+  const externalIds = c.externalIds || meta.externalIds
+    ? { ...c.externalIds, ...meta.externalIds, profixioTeam: { ...c.externalIds?.profixioTeam, ...meta.externalIds?.profixioTeam } }
+    : undefined;
+  return { ...c, ...meta, ...(externalIds ? { externalIds } : {}) };
 }
 
 export const CLUBS: readonly Club[] = [...SWE_1, ...SWE_2, ...SWE_DIV1_NORRA, ...SWE_DIV1_SODRA, ...SWEDISH_DIVISION_2_CLUBS, ...DEN_1, ...GER_1, ...REST, ...WORLD_POOL_CLUBS].map(withIdentity);

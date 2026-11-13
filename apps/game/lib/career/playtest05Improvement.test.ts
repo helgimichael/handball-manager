@@ -385,13 +385,14 @@ test("Pillar 6: Timeout contextual instructions provide effect, tradeoff, and du
 test("Pillar 7: Canonical club name and acronym resolution", () => {
   // Full names
   assert.equal(getCanonicalClubName("swe2-tumba"), "IFK Tumba HK");
-  assert.equal(getCanonicalClubName("swe2-guif"), "HK Guif");
+  // Club Identity S3: "HK Guif" had no source; the club is Eskilstuna Guif (record name, one source).
+  assert.equal(getCanonicalClubName("swe2-guif"), "Eskilstuna Guif IF");
   assert.equal(getCanonicalClubName("se_club_ik_savehof"), "IK Sävehof");
   assert.equal(getCanonicalClubName("se_club_ov_helsingborg"), "OV Helsingborg");
 
   // Short names
   assert.equal(getCanonicalClubShortName("swe2-tumba"), "IFK Tumba");
-  assert.equal(getCanonicalClubShortName("swe2-guif"), "HK Guif");
+  assert.equal(getCanonicalClubShortName("swe2-guif"), "Eskilstuna Guif");
   assert.equal(getCanonicalClubShortName("se_club_ik_savehof"), "IK Sävehof");
   assert.equal(getCanonicalClubShortName("se_club_ov_helsingborg"), "OV Helsingborg");
 

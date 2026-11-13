@@ -302,5 +302,6 @@
   "lib/career/fixtureRoutes.test.ts",
   "lib/career/division2Qualification.test.ts",
   "lib/game-data/clubIdentity.test.ts",
-  "lib/career/clubIdentityCareer.test.ts"
+  "lib/career/clubIdentityCareer.test.ts",
+  "lib/game-data/clubIdentityCorrections.test.ts"
 ]

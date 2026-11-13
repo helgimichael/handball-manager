@@ -55,6 +55,8 @@ export type Competition = {
   officialName?: string;
   /** Free-text note on source confidence -- see World Data verification. */
   sourceNote: string;
+  /** Club Identity S6: this competition id models the same real league as `canonicalCompetitionId`. Metadata only: stored ids are never rewritten. */
+  canonicalCompetitionId?: string;
 };
 
 /** Club Identity C1: a season label "YYYY/YY" (e.g. "2026/27"). Lexicographic order equals chronological order. */
