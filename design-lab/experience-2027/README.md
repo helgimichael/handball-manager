@@ -16,6 +16,31 @@ Then open http://127.0.0.1:3790/design-lab/experience-2027/index.html. A `hm-exp
 `C:/DEV/PROJECTS/handball-manager/.claude/launch.json` for the Claude desktop preview. Fonts load from Google Fonts; with no network the
 prototypes fall back to system fonts.
 
+## Amendment 2026-11-13 — Arena Nights + Club Identity System
+
+Owner decision: identity **B — Arena Nights** with a **dynamic club neon accent**; **all surface recommendations retained** (see `docs/experience-2027/HM-EXPERIENCE-2027-ARENA-NIGHTS-AMENDMENT.md`).
+
+- Top bar: **Club** (IFK Tumba · Hammarby · Utan klubb) and **Nav** (recommended Week Spine + rail / identity's original shell).
+- New view **Club identity**; new journey **★ Owner direction**; Compare mode **Original vs Arena-adapted**; Surfaces presentation switch **Arena / Arena tokens only / Original identity**; filter **Arena-adapted**.
+- New `frame.html` params: `club` (`tum`|`ham`|`none`|any club id), `nav` (`a`|`b`|`c` shell structure, independent of `theme`), `adapt=1` (Arena adaptation of the recommended alternative where one exists).
+- New files:
+  - `proto/screens-arena.js`: adapted variants and the clubless screen.
+  - `proto/arena.css`: the Arena adaptation layer, plus the Week Spine shell in Arena.
+  - `docs/experience-2027/proposals/arena-adaptations.json`: conflict and adaptation records.
+- Re-verify (repo root, server running):
+
+```bash
+node design-lab/experience-2027/verify-amendment.cjs
+```
+
+- Boards:
+
+```bash
+node design-lab/experience-2027/capture-arena-boards.cjs
+```
+
+- Assets are loaded with a `?v=` query for cache-busting. Bump it in `index.html` and `frame.html` after editing lab files.
+
 ## Views
 
 | View | What it does |

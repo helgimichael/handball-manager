@@ -119,11 +119,15 @@
   --faint: #6c7890;
   --line: rgba(255, 255, 255, 0.1);
   --line-strong: rgba(255, 255, 255, 0.2);
-  --accent: #ff4d2e;
-  --accent-ink: #ffffff;
-  --accent-soft: rgba(255, 77, 46, 0.16);
-  --club: #ff4d2e;
-  --club-2: #ffc531;
+  /* Club Identity System: --club-neon is set per active club (K.applyClub); default = clubless orange */
+  --club-neon: #ff7a1a;
+  --accent: var(--club-neon);
+  --accent-ink: #061018;
+  --accent-soft: color-mix(in srgb, var(--club-neon) 16%, transparent);
+  --accent-line: color-mix(in srgb, var(--club-neon) 55%, transparent);
+  --glow: 0 0 22px color-mix(in srgb, var(--club-neon) 42%, transparent);
+  --club: var(--club-primary, #14284b);
+  --club-2: color-mix(in srgb, var(--club-neon) 62%, #ffffff);
   --pos: #2bd98a;
   --neg: #ff5a6a;
   --warn: #ffb020;
@@ -150,7 +154,7 @@
   --shadow-lg: 0 30px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08);
   --card-border: 1px solid rgba(255, 255, 255, 0.09);
   --card-bg: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.025));
-  --hero-bg: radial-gradient(120% 140% at 80% 0%, rgba(255,77,46,0.35) 0%, rgba(7,11,18,0) 55%), linear-gradient(180deg, #101a2e 0%, #070b12 100%);
+  --hero-bg: radial-gradient(120% 140% at 80% 0%, color-mix(in srgb, var(--club-neon) 30%, transparent) 0%, rgba(7,11,18,0) 55%), linear-gradient(180deg, #101a2e 0%, #070b12 100%);
   --hero-ink: #ffffff;
   --nav-bg: rgba(7, 11, 18, 0.85);
   --nav-ink: #c9d2e0;
@@ -159,11 +163,11 @@
   --chip-bg: rgba(255, 255, 255, 0.08);
 
   --attr-1: rgba(255,255,255,0.08);
-  --attr-2: #6b3b3a;
-  --attr-3: #b04a32;
-  --attr-4: #ff6a3d;
-  --attr-5: #ffc531;
-  --data-1: #ff4d2e;
+  --attr-2: color-mix(in srgb, var(--club-neon) 22%, #111a2b);
+  --attr-3: color-mix(in srgb, var(--club-neon) 45%, #111a2b);
+  --attr-4: color-mix(in srgb, var(--club-neon) 78%, #111a2b);
+  --attr-5: var(--club-neon);
+  --data-1: var(--club-neon);
   --data-2: #2bd98a;
   --data-3: #ffc531;
   --data-4: #4fb3ff;

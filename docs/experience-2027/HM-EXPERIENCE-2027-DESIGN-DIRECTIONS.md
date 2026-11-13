@@ -1,5 +1,7 @@
 # HM Experience 2027 — Design Directions
 
+> **Amendment 2026-11-13 — owner decision:** the chosen identity is **B — Arena Nights**, with a **dynamic Club Identity System**: a neon accent derived from the active club (Tumba neon blue, Hammarby neon green, clubless neon orange) replaces B's fixed orange. Arena Nights is the visual language, **not** a layout template: every surface keeps its own recommended alternative, and the recommended navigation (Week Spine + hub rail) is kept. This document is unchanged below and remains the reference for all three identities. See `HM-EXPERIENCE-2027-ARENA-NIGHTS-AMENDMENT.md`.
+
 > Status: **proposal for owner review**. Nothing here is implemented in the production app.
 > Live, switchable versions of all three identities are in the Design Lab
 > (`design-lab/experience-2027/index.html` → *Identities* and *Journeys*).

@@ -4,7 +4,7 @@
   const env = (id) => ENV + 'env-' + id + '-960.webp';
 
   const clubs = [
-    { id: 'tum', name: 'IFK Tumba HK', short: 'Tumba', abbr: 'IT', c1: '#14284b', c2: '#f08a24', arena: 'Tumba Sporthall', cap: 1800 },
+    { id: 'tum', name: 'IFK Tumba HK', short: 'Tumba', abbr: 'IT', c1: '#14284b', c2: '#cfe3ff', arena: 'Tumba Sporthall', cap: 1800 },
     { id: 'sav', name: 'IK Sävehof', short: 'Sävehof', abbr: 'IKS', c1: '#111111', c2: '#f2c200' },
     { id: 'kri', name: 'IFK Kristianstad', short: 'Kristianstad', abbr: 'IFK', c1: '#0d3c8c', c2: '#ffffff' },
     { id: 'yst', name: 'Ystads IF HF', short: 'Ystads IF', abbr: 'YIF', c1: '#c4161c', c2: '#ffffff' },

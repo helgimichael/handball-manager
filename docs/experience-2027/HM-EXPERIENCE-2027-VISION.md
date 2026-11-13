@@ -1,5 +1,7 @@
 # HM Experience 2027 — Vision
 
+> **Amendment 2026-11-13 — owner decision:** the visual identity is **B — Arena Nights + Club Identity System** (G1 = B, G9). §5's identity recommendation (C) is kept below as history, but the product identity is now "Arena Nights, with every surface's recommendation retained". The principles, IA, journey, connections, design-system structure and ideas in this document all still apply; only the visual temperament changes. Paper-specific presentations are adapted (21 surfaces), so the editorial *voice* (generated stories, the front-page structure) survives in broadcast form. See `HM-EXPERIENCE-2027-ARENA-NIGHTS-AMENDMENT.md` and `HM-EXPERIENCE-2027-ARENA-ADAPTATION-REGISTER.md`.
+
 > Track: Experience & Presentation (separate from the paused gameplay roadmap; M6.1–M6.6 untouched).
 > Status: proposal for owner review. Nothing in the production app, match engine, save schema or Alpha careers was changed.
 > Companion material: Design Lab (`design-lab/experience-2027/`), DESIGN-DIRECTIONS, SURFACE-INVENTORY, SURFACE-PROPOSALS,

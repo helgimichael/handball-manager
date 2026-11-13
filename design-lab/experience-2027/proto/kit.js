@@ -153,19 +153,24 @@
     today: ['Översikt', 'Inkorg', 'Nyheter', 'Kalender'], team: ['Trupp', 'Taktik', 'Träning', 'Medicinskt', 'Kontrakt'], club: ['Klubbhuset', 'Personal', 'Ekonomi', 'Styrelsen', 'Historik'],
     recruit: ['Scouting', 'Spelarsök', 'Bevakning', 'Transfers'], comp: ['Ligan', 'Cupen', 'Matcher', 'Statistik'], career: ['Manager', 'Rykte', 'Jobb', 'Milstolpar'],
   };
+  // `theme` = visual language (tokens); `opts.nav` = navigation structure (a: hub rail + palette, b: top hub bar, c: Week Spine + rail + Peek).
   function shell(theme, hub, content, opts = {}) {
+    const nav = opts.nav || theme;
     const unread = 3;
     const sub = opts.sub ?? SUB[hub]?.[0];
-    const mbar = `<nav class="mbar" aria-label="Mobilnavigering">${[['today', 'Idag'], ['team', 'Laget'], theme === 'b' ? ['__fab', 'Fortsätt'] : ['comp', 'Match'], ['recruit', 'Marknad'], ['club', 'Klubb']].map(([k, l]) => k === '__fab' ? `<a href="#" class="fab" data-act="continue">${icon('play', 20)}<span>${l}</span></a>` : `<a href="#" class="${k === hub ? 'on' : ''}" data-hub="${k}">${icon(HUBS.find((h) => h[0] === k)?.[2] || k, 21)}<span>${l}</span></a>`).join('')}</nav>`;
+    const mbar = `<nav class="mbar" aria-label="Mobilnavigering">${[['today', 'Idag'], ['team', 'Laget'], nav === 'b' ? ['__fab', 'Fortsätt'] : ['comp', 'Match'], ['recruit', 'Marknad'], ['club', 'Klubb']].map(([k, l]) => k === '__fab' ? `<a href="#" class="fab" data-act="continue">${icon('play', 20)}<span>${l}</span></a>` : `<a href="#" class="${k === hub ? 'on' : ''}" data-hub="${k}">${icon(HUBS.find((h) => h[0] === k)?.[2] || k, 21)}<span>${l}</span></a>`).join('')}</nav>`;
     const palette = `<div class="palette" role="dialog" aria-label="Kommandopalett"><input placeholder="Sök spelare, klubb, match eller kommando…" aria-label="Sök"/><div class="opts"></div></div><div class="toast" role="status"></div><div class="scrim"></div><aside class="drawer" aria-label="Snabbvy"></aside>`;
-    if (theme === 'a') {
+    if (nav === 'a') {
       return `<div class="app shell-a"><aside class="rail"><div class="brand">${crest(H.me, 26)}<b>Handball Manager</b></div>${HUBS.map(([k, l, ic]) => `<a href="#" class="hub ${k === hub ? 'on' : ''}" data-hub="${k}">${icon(ic)}<span class="lbl">${l}</span>${k === 'today' ? `<span class="pin">${unread}</span>` : ''}</a>`).join('')}<div class="club">${avatar(H.manager, 28)}<span class="t"><b>${H.manager.name}</b><br><span class="muted">${H.me.short} · ${H.season}</span></span></div></aside><div class="main"><header class="topbar"><span class="crumb">${HUBS.find((h) => h[0] === hub)?.[1] || ''} / <b>${esc(opts.title || sub || '')}</b></span><span class="search" data-act="palette">${icon('search', 16)}<span class="grow">Sök eller kör kommando</span><span class="kbd">Ctrl K</span></span><button class="btn primary continue-a" data-act="continue">${icon('play', 14)} Fortsätt <small>· 2 att göra</small></button></header>${SUB[hub] && opts.tabs !== false ? `<div class="subtabs subtabs-d"><nav class="tabs">${SUB[hub].map((s) => `<a href="#" class="${s === sub ? 'on' : ''}">${s}</a>`).join('')}</nav></div>` : ''}<main class="page">${content}</main></div>${mbar}${palette}</div>`;
     }
-    if (theme === 'b') {
+    if (nav === 'b') {
       return `<div class="app shell-b"><header class="hubbar"><span class="club">${crest(H.me, 30)}<b>${H.me.short}</b></span>${HUBS.map(([k, l]) => `<a href="#" class="hub ${k === hub ? 'on' : ''}" data-hub="${k}">${l}</a>`).join('')}<button class="cont-b" data-act="continue">${icon('play', 16)}<span>Fortsätt<small>Matchdag om 2 dagar</small></span></button><span class="only-m" style="margin-left:auto">${icon('bell', 20)}</span></header><main class="page">${content}</main>${mbar}${palette}</div>`;
     }
     // C
-    const spine = `<div class="spine" role="navigation" aria-label="Veckans tidslinje">${H.week.map((d) => `<div class="day ${d.today ? 'today' : ''} ${d.kind === 'match' ? 'match' : ''} ${d.past ? 'past' : ''}" tabindex="0"><div class="d">${d.d}${d.today ? ' · idag' : ''}</div><div class="e">${d.e}</div></div>`).join('')}<div class="ahead"><span class="kicker">Framåt</span><span><b>20 nov</b> Cupen · OV Helsingborg</span><span><b>1 dec</b> Transferfönster stänger</span></div></div>`;
+    const clubless = H.me && H.me.id === 'none';
+    const week = clubless ? [{ d: 'Mån 11', e: 'Ledig', past: true }, { d: 'Tis 12', e: 'Läs jobbannonser', today: true }, { d: 'Ons 13', e: 'Intervju: Alingsås', kind: 'match' }, { d: 'Tor 14', e: 'Bevaka Tumba – Kristianstad' }, { d: 'Fre 15', e: 'Ansökan OV stänger' }, { d: 'Lör 16', e: 'Ledig' }, { d: 'Sön 17', e: 'Svar från Alingsås?' }] : H.week;
+    const ahead = clubless ? '<span><b>20 nov</b> Aranäs styrelsemöte</span><span><b>1 dec</b> Transferfönster stänger</span>' : '<span><b>20 nov</b> Cupen · OV Helsingborg</span><span><b>1 dec</b> Transferfönster stänger</span>';
+    const spine = `<div class="spine" role="navigation" aria-label="Veckans tidslinje">${week.map((d) => `<div class="day ${d.today ? 'today' : ''} ${d.kind === 'match' ? 'match' : ''} ${d.past ? 'past' : ''}" tabindex="0"><div class="d">${d.d}${d.today ? ' · idag' : ''}</div><div class="e">${d.e}</div></div>`).join('')}<div class="ahead"><span class="kicker">Framåt</span>${ahead}</div></div>`;
     return `<div class="app shell-c"><header class="masthead"><span class="wm">${crest(H.me, 24)} ${H.me.short} <small>${H.date}</small></span><span class="search" data-act="palette">${icon('search', 15)}<span class="grow">Sök…</span><span class="kbd" style="color:#c9cfd8;border-color:#56627a">Ctrl K</span></span><button class="cont-c" data-act="continue">${icon('play', 16)}<span>Fortsätt<small>Till onsdag</small></span></button></header>${spine}<div class="body"><nav class="rail" aria-label="Huvudnavigering">${HUBS.map(([k, l, ic]) => `<a href="#" class="hub ${k === hub ? 'on' : ''}" data-hub="${k}">${icon(ic, 20)}<span>${l}</span></a>`).join('')}</nav><main class="page">${content}</main></div>${mbar}${palette}</div>`;
   }
 
@@ -192,7 +197,7 @@
     pal.classList.add('open'); const inp = pal.querySelector('input'); inp.value = ''; renderOpts(''); inp.focus();
   }
   const CMD = () => [
-    ...H.players.map((p) => ({ t: p.name, s: H.POS[p.pos] + ' · Tumba', k: 'player', id: p.id, i: avatar(p, 22) })),
+    ...H.players.map((p) => ({ t: p.name, s: H.POS[p.pos] + ' · ' + (H.activeClub && H.activeClub.short || H.me.short), k: 'player', id: p.id, i: avatar(p, 22) })),
     ...H.targets.map((p) => ({ t: p.name, s: H.POS[p.pos] + ' · ' + p.club.short + ' · bevakad', k: 'player', id: p.id, i: avatar(p, 22) })),
     ...H.clubs.map((c) => ({ t: c.name, s: 'Klubb', k: 'club', i: crest(c, 18) })),
     { t: 'Erbjud kontrakt…', s: 'Kommando', k: 'cmd', i: icon('hand', 18) }, { t: 'Välj startsju', s: 'Kommando · nästa match', k: 'cmd', i: icon('tactics', 18) }, { t: 'Gå till tabellen', s: 'Kommando', k: 'cmd', i: icon('comp', 18) },
@@ -244,5 +249,60 @@
     document.addEventListener('input', (e) => { if (e.target.matches('.palette input')) renderOpts(e.target.value); });
   }
 
-  window.K = { esc, money, icon, crest, avatar, bust, attrCls, spark, bar, ring, radar, form, lineChart, momentum, court, lineup, pchip, cchip, schip, stars, status, shell, wire, toast, shade, HUBS };
+  /* ---------------- CLUB IDENTITY SYSTEM (owner decision 2026-11-13) ----------------
+     The active club determines the Arena Nights accent. Only CSS custom properties change;
+     the design system (components, layouts, tokens contract) stays identical. */
+  const hexToHsl = (hex) => {
+    const n = parseInt(hex.replace('#', ''), 16); const r = (n >> 16) / 255, g = ((n >> 8) & 255) / 255, b = (n & 255) / 255;
+    const mx = Math.max(r, g, b), mn = Math.min(r, g, b), l = (mx + mn) / 2; let h = 0, s = 0;
+    if (mx !== mn) { const d = mx - mn; s = l > 0.5 ? d / (2 - mx - mn) : d / (mx + mn); h = mx === r ? (g - b) / d + (g < b ? 6 : 0) : mx === g ? (b - r) / d + 2 : (r - g) / d + 4; h *= 60; }
+    return [h, s, l];
+  };
+  const hslToHex = (h, s, l) => { const k = (n) => (n + h / 30) % 12, a = s * Math.min(l, 1 - l); const f = (n) => Math.round(255 * (l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1))))); return '#' + [f(0), f(8), f(4)].map((v) => v.toString(16).padStart(2, '0')).join(''); };
+  const NEON_DEFAULT = '#ff7a1a'; // clubless manager
+  const NEON_OVERRIDE = { tum: '#2e9bff', ham: '#1ff28a' }; // owner examples: Tumba neon blue, Hammarby neon green
+  // Derive a neon from club colours: primary hue if saturated, else secondary, else default orange. Fixed S/L keep every club equally "loud".
+  function neonFor(club) {
+    if (!club || club.id === 'none') return NEON_DEFAULT;
+    if (NEON_OVERRIDE[club.id]) return NEON_OVERRIDE[club.id];
+    for (const c of [club.c1, club.c2]) { if (!c) continue; const [h, s, l] = hexToHsl(c); if (s > 0.25 && l > 0.08 && l < 0.92) return hslToHex(h, 1, h > 40 && h < 75 ? 0.52 : 0.6); }
+    return NEON_DEFAULT;
+  }
+  const PRISTINE = {};
+  const VISUAL = ['name', 'short', 'abbr', 'c1', 'c2', 'arena', 'cap'];
+  const NO_CLUB = { id: 'none', name: 'Utan klubb', short: 'Fri agent', abbr: 'HM', c1: '#1a2233', c2: NEON_DEFAULT };
+  function snapshot() { if (!PRISTINE.done) { H.clubs.forEach((c) => (PRISTINE[c.id] = Object.fromEntries(VISUAL.map((k) => [k, c[k]])))); PRISTINE.done = true; } }
+  function restore() { H.clubs.forEach((c) => Object.assign(c, PRISTINE[c.id])); H.me = H.club('tum'); H.activeClub = H.me; }
+  // Apply a club identity. 'tum' = sample career club; 'ham' = Hammarby career (Tumba becomes an opponent); 'none' = clubless manager.
+  function applyClub(id) {
+    snapshot(); restore();
+    const root = document.documentElement;
+    let active = H.me;
+    if (id === 'ham') {
+      // Only visual fields swap on the objects; names are swapped once, in text (swapCareerText).
+      const t = H.club('tum'), h = H.club('ham'); const pt = PRISTINE.tum, ph = PRISTINE.ham;
+      Object.assign(t, { c1: ph.c1, c2: ph.c2, abbr: ph.abbr }); Object.assign(h, { c1: pt.c1, c2: pt.c2, abbr: pt.abbr });
+      H.activeClub = { short: 'Hammarby', name: 'Hammarby IF HF' };
+      active = { id: 'ham', name: 'Hammarby IF HF', c1: ph.c1, c2: ph.c2 };
+    } else if (id === 'none') {
+      H.me = NO_CLUB; H.activeClub = NO_CLUB; active = NO_CLUB;
+    }
+    const neon = neonFor(active);
+    root.dataset.club = active.id;
+    root.style.setProperty('--club-neon', neon);
+    root.style.setProperty('--club-primary', active.c1);
+    root.style.setProperty('--club-secondary', active.c2);
+    return { id: active.id, neon, name: active.name };
+  }
+  // Placeholder-safe name swap for prototype copy (sample content is written for the Tumba career).
+  function swapCareerText(html, id) {
+    if (id !== 'ham') return html;
+    const pairs = [['IFK Tumba HK', 'Hammarby IF HF'], ['Tumba Sporthall', 'Eriksdalshallen'], ['Tumba', 'Hammarby'], [' TUM</span>', ' HIF</span>']];
+    let out = html;
+    pairs.forEach(([a, b], i) => { out = out.split(a).join('\u0001' + i + 'a\u0002').split(b).join('\u0001' + i + 'b\u0002'); });
+    pairs.forEach(([a, b], i) => { out = out.split('\u0001' + i + 'a\u0002').join(b).split('\u0001' + i + 'b\u0002').join(a); });
+    return out;
+  }
+
+  window.K = { esc, money, icon, crest, avatar, bust, attrCls, spark, bar, ring, radar, form, lineChart, momentum, court, lineup, pchip, cchip, schip, stars, status, shell, wire, toast, shade, HUBS, applyClub, neonFor, swapCareerText, NO_CLUB };
 })();

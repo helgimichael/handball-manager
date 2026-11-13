@@ -250,6 +250,8 @@
 
 **Priority:** P2 · **Dependencies:** Env flag for alpha gate, ENT-02 backdrop asset
 
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
+
 #### A — Ticket at the turnstile
 
 | | |
@@ -291,6 +293,8 @@
 **Recommendation:** C — Most sessions start here with an existing career, so the title screen should be about *your* club's current story, not a generic menu. Journal Cover makes Continue the hero with real state (week, next fixture, last result) while degrading gracefully to a new-player welcome; Arena Title is the stronger pick if the owner chooses identity B.
 
 **Priority:** P0 · **Dependencies:** G1 base identity, Save summary metadata (club, season, next fixture, last result), ENT-04, Club colour tokens (--club/--club-2)
+
+**Arena Nights (owner identity, 2026-11-13):** adapt → *Season Cover* — Keep the cover structure exactly (masthead, generated lead headline + standfirst, one Fortsätt CTA, arena photo with crest stamp, three briefs, back issues = other careers). Masthead becomes a broadcast title strap with a club-neon underline; headline set in Barlow Condensed italic; photo full-bleed with dark gradient; crest stamp glows in the club neon; back issues become glass cards, the active one glowing instead of an offset paper shadow. _Conflict:_ The recommended Journal Cover is built on a printed-magazine metaphor: paper cover, nameplate masthead with double rule, framed photo and back-issue stack styled as paper with offset shadows. Arena Nights has no paper layer.
 
 #### A — Career Library
 
@@ -354,6 +358,8 @@
 
 **Priority:** P0 · **Dependencies:** ENT-03d, ENT-03e, ENT-03f, ENT-12, Club preseason context (predicted, expectation, strengthVsLeague, economyLabel), G1 base identity
 
+**Arena Nights (owner identity, 2026-11-13):** adapt → *Club first, contract last — living club card* — Keep the three beats (Klubb · Manager · Kontrakt) and the growing context column, rendered as a living glass club card. When a club is picked, the whole wizard switches to that club's neon accent: the Club Identity System is shown at the moment of choice. Byline becomes a manager tag; mandate becomes a board-goal strip. _Conflict:_ The right-hand context column is a 'growing club journal page' (paper page with byline).
+
 #### A — Single-screen Setup Console
 
 | | |
@@ -416,6 +422,8 @@
 
 **Priority:** P1 · **Dependencies:** ENT-03 restructure, ENT-03b
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — 'Världen' advanced drawer
 
 | | |
@@ -457,6 +465,8 @@
 **Recommendation:** A — A pyramid makes the Swedish system (Handbollsligan over Allsvenskan, with kval between) legible and doubles as a teaching moment, while staying inside the advanced drawer.
 
 **Priority:** P1 · **Dependencies:** ENT-03a drawer, Competition tier metadata
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — League pyramid
 
@@ -501,6 +511,8 @@
 
 **Priority:** P1 · **Dependencies:** ENT-03a drawer
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Fold into drawer footer
 
 | | |
@@ -542,6 +554,8 @@
 **Recommendation:** C — This is how the player identifies with their club. The ambition-led Club Wall puts club colour and identity first, shows the real differentiators on every tile, and frames the choice as a challenge type (Överleva / Utmana / Vinna) — the 'scenario with three goals' pattern built purely from existing preseason context.
 
 **Priority:** P0 · **Dependencies:** Club preseason context (predicted, clubsInLeague, expectation, strengthVsLeague, economyLabel), Club colours (primaryColor + secondary), ENT-03 restructure, ClubCrest component
+
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
 
 #### A — Comparison table + spotlight
 
@@ -604,6 +618,8 @@
 
 **Priority:** P1 · **Dependencies:** ENT-03 restructure, Monogram/avatar component (G4 portrait strategy)
 
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
+
 #### A — Plain form, live pass
 
 | | |
@@ -664,6 +680,8 @@
 **Recommendation:** B — The start of a career should be a moment. The signing ceremony uses the existing DEAL_SIGNED backdrop, keeps the preseason choice as a clear decision with dates, and makes STARTA a signature rather than a submit.
 
 **Priority:** P1 · **Dependencies:** DEAL_SIGNED environment image, ENT-03e pass, ENT-12
+
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
 
 #### A — Mandate summary
 
@@ -727,6 +745,8 @@
 
 **Priority:** P1 · **Dependencies:** ENT-02 choice, Save-summary snapshot, ENT-04a, ENT-04b
 
+**Arena Nights (owner identity, 2026-11-13):** adapt → *Season Cover (load list)* — Same as ENT-02: back issues become glass career cards with crest, season, position; the current career glows in its own club neon, each card previews its own club accent. _Conflict:_ Shares the Journal Cover concept with ENT-02 (back issues as paper issues).
+
 #### A — Career Library
 
 | | |
@@ -786,6 +806,8 @@
 
 **Priority:** P2 · **Dependencies:** ENT-04, Export save function (exists in ENT-08b)
 
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
+
 #### A — Consequence dialog with export
 
 | | |
@@ -829,6 +851,8 @@
 
 **Priority:** P2 · **Dependencies:** ENT-04 layout choice, ENT-03
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Skeleton saves + invitation
 
 | | |
@@ -871,6 +895,8 @@
 **Recommendation:** A — One settings component used in and out of career removes the divergence and is the natural home for density, text size and reduced motion — accessibility settings that matter more than currency.
 
 **Priority:** P2 · **Dependencies:** SYS-01, Density modes (G6), Reduced-motion token
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Unified settings panel
 
@@ -933,6 +959,8 @@
 
 **Priority:** P1 · **Dependencies:** Host shell config flag
 
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
+
 #### A — Corner escape hatch
 
 | | |
@@ -974,6 +1002,8 @@
 **Recommendation:** C — The hub model (6 hubs + in-hub tabs) is non-negotiable across all directions; the Week Spine + hub rail variant adds what a manager game lacks most — a visible game clock — and pairs with the Peek drawer to stop page-hopping. If C is not chosen, A's rail is the safe default.
 
 **Priority:** P0 · **Dependencies:** G2 navigation model, Hub IA mapping of 27 routes → 6 hubs, ENT-08, ENT-10, WLD-05 calendar data, Peek drawer component, Command palette (ENT-08a)
+
+**Arena Nights (owner identity, 2026-11-13):** token → *Week Spine + hub rail in Arena Nights* — Rail and Week Spine on dark glass; today's day cell lit in club neon; match days in club primary with a neon top edge; active hub with neon inset bar. _Conflict:_ No conflict, but note: choosing Arena Nights as identity does NOT switch the navigation to Arena's original top hub bar. The recommended navigation model (6-hub rail + Week Spine + Peek + Ctrl-K) is preserved and restyled.
 
 #### A — Hub rail + tabs
 
@@ -1037,6 +1067,8 @@
 
 **Priority:** P0 · **Dependencies:** ENT-07 hub IA, ENT-10 mobile Continue, Focus-trap utility
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Bottom tabs + docked Continue
 
 | | |
@@ -1098,6 +1130,8 @@
 **Recommendation:** C — The top bar should hold exactly three things of weight: where you are in time, how to find anything, and the heartbeat. The 'Matchday clock' gives the game date real presence with a countdown to the next match and pairs with the Week Spine; file management moves to an overflow menu.
 
 **Priority:** P0 · **Dependencies:** ENT-08a palette, ENT-08b overflow, ENT-10, ENT-13, G2 navigation model
+
+**Arena Nights (owner identity, 2026-11-13):** token → *Masthead top bar in Arena Nights* — Continue rendered as the neon primary with glow and dark ink label; search on glass. _Conflict:_ No conflict; recommended top bar (masthead + search + labelled Continue) is kept rather than Arena's original hub bar.
 
 #### A — Command bar
 
@@ -1161,6 +1195,8 @@
 
 **Priority:** P1 · **Dependencies:** ENT-08, Search index over players/clubs/competitions/routes
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Command palette (⌘K)
 
 | | |
@@ -1205,6 +1241,8 @@
 
 **Priority:** P1 · **Dependencies:** ENT-08, ENT-05/SYS-01 Data section
 
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
+
 #### A — Autosave indicator + overflow
 
 | | |
@@ -1247,6 +1285,8 @@
 **Recommendation:** A — With hubs and tabs the breadcrumb only has value when it reflects real depth (hub › tab › entity). Folding it into the page header removes a row and the naming drift (Hem/Kontoret/MANAGERNS KONTOR).
 
 **Priority:** P1 · **Dependencies:** ENT-07 hub IA, Route → hub/tab map
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Real breadcrumb in page header
 
@@ -1291,6 +1331,8 @@
 **Recommendation:** C — The notice answers 'why did time stop and what do I do now?' — the heartbeat's second half. Anchoring it to the Week Spine/clock as a typed event card keeps it in the same place every time, gives each stop reason its own visual identity, and lets it be resolved inline when possible.
 
 **Priority:** P0 · **Dependencies:** ENT-10, ENT-10a, Stop-reason type taxonomy (match, board, press, transfer, injury, deadline), WLD-01 inline actions
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Next-action card
 
@@ -1354,6 +1396,8 @@
 
 **Priority:** P0 · **Dependencies:** ContinueActionKind (ADVANCE_DAY, PREPARE_MATCH, START_MATCH, RESUME_MATCH, PRESS_CONFERENCE, DECISION_BLOCKED, SEASON_COMPLETE), ENT-10a, ENT-09a, WLD-05 calendar data, ENT-07a mobile dock
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Stateful heartbeat button
 
 | | |
@@ -1415,6 +1459,8 @@
 **Recommendation:** C — Time passing is the game's signature rhythm. Calendar-flip in paper mode for ordinary days, escalating to a Floodlight build-up only when the stop is a match, keeps the moment short for routine presses and big when it matters; it lands on the Spine so ENT-09a is the natural continuation.
 
 **Priority:** P0 · **Dependencies:** ENT-10, ENT-09a, Club colour tokens, Event-type imagery set, Reduced-motion policy (G5)
+
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
 
 #### A — Day ticker strip
 
@@ -1478,6 +1524,8 @@
 
 **Priority:** P2 · **Dependencies:** ENT-08b overflow menu, ENT-06
 
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
+
 #### A — Help menu + context capture
 
 | | |
@@ -1519,6 +1567,8 @@
 **Recommendation:** C — Loading is the bridge between choosing a club and arriving at it. A club-themed handover that shows real club facts and rotating handball tips uses the wait productively; it must stay honest about progress and keep a clear failure path.
 
 **Priority:** P1 · **Dependencies:** ENT-03f, ENT-02, Club colour tokens, Glossary tips (In-game glossary)
+
+**Arena Nights (owner identity, 2026-11-13):** adapt → *First-day handover (Arena)* — Keep the two-column handover (crest + headline + facts appearing one by one | rotating handball tip card) and the explicit 'Gå in på kontoret' button (no auto-jump after 3 s). Rendered on the arena-night background with the new club's neon, facts ticking in with a neon check. Differs from Alternative B 'Arena arrival' by keeping C's calm handover and tips. _Conflict:_ Recommended 'First-day handover' is a paper page ('Första dagen på jobbet').
 
 #### A — Progress checklist
 
@@ -1580,6 +1630,8 @@
 
 **Priority:** P1 · **Dependencies:** ENT-08, ENT-10 RESUME_MATCH
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Live score pill
 
 | | |
@@ -1624,6 +1676,8 @@
 **Recommendation:** C — Today's Paper is the only concept that both ranks (lead story + numbered decisions) and de-duplicates (weekly plan becomes the Week Spine, news becomes briefs, board appears once). Its lead story switches with the Continue state, so matchday, board review, transfer deadline and season end each get their own front page without new data. A's queue is embedded as the decision column, so power users lose nothing.
 
 **Priority:** P0 · **Dependencies:** G1 base identity, G2 navigation model (hub rail + Week Spine + Peek), Continue state machine (label mutates: Fortsätt → Förbered match → Till matchen), Week Spine component (DSH-01i / WLD-05), WLD-01 inline resolution (decision column reuses inbox actions), Dual meter component (Förtroende + Rykte), Event chain presentation (careerEventId → message → decision → consequence)
+
+**Arena Nights (owner identity, 2026-11-13):** adapt → *Matchweek Front Page* — Same front-page structure: masthead with the two ears (Förtroende · styrelsen | Rykte · manager, each with delta and reason) → lead story chosen from game state (8/12) + numbered 'Att avgöra' column (4/12) → match box, ladder ±2, around-the-league briefs. Arena treatment: broadcast strap masthead with neon ring meters, lead story as full-bleed hero with headline on the image, decisions with neon numerals, match box styled as a score bug. _Conflict:_ Today's Paper is a newspaper front page: nameplate with ears, serif lead headline, rules and columns on paper.
 
 #### A — Decision Briefing
 
@@ -1687,6 +1741,8 @@
 
 **Priority:** P0 · **Dependencies:** DSH-01 recommendation, Dual meter component, Season phase label from the season state machine
 
+**Arena Nights (owner identity, 2026-11-13):** adapt → *Broadcast Masthead* — Title strap with the issue line; ears become neon ring meters (board confidence left, manager reputation right) with last delta and reason. Club-colour rule becomes a club-neon underline. _Conflict:_ Newspaper nameplate ('KLUBBJOURNALEN') with paper ears and club-colour rule.
+
 #### A — Status Bar
 
 | | |
@@ -1748,6 +1804,8 @@
 **Recommendation:** C — The match box answers 'how ready are we and what is at stake' in one block: opponent form, our absentees and the ladder slice. It stays compact enough to sit beside the lead story.
 
 **Priority:** P0 · **Dependencies:** DSH-01e availability data, Peek drawer (opponent), Competition marks
+
+**Arena Nights (owner identity, 2026-11-13):** adapt → *Match Box (score-bug styling)* — Same content order (headline + countdown, readiness line, opponent form, ladder ±2, opponent in Peek) in a glass card with a score-bug crest row. _Conflict:_ An editorial boxed 'Matchrutan' with serif headline.
 
 #### A — Fixture Card + Ladder Slice
 
@@ -1811,6 +1869,8 @@
 
 **Priority:** P1 · **Dependencies:** G5 motion budget, Floodlight moment shell, MGR-01 biography (season card write-back), Human-readable blocker copy for transition codes
 
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
+
 #### A — Season Hand-off Checklist
 
 | | |
@@ -1872,6 +1932,8 @@
 
 **Priority:** P1 · **Dependencies:** MGR-01b job market, MGR-01c dismissal moment, Season phase state machine
 
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
+
 #### A — Tone-tiered Notices
 
 | | |
@@ -1914,6 +1976,8 @@
 **Recommendation:** B — Handball availability is positional — losing both left backs matters more than losing three wings. A court coverage diagram is native to the sport and answers that instantly.
 
 **Priority:** P0 · **Dependencies:** Squad positional depth data (already in CLB-02 depth tiles), Peek drawer (player)
+
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
 
 #### A — Availability Ring
 
@@ -1976,6 +2040,8 @@
 
 **Priority:** P1 · **Dependencies:** DSH-01 decision column, WLD-01 inline actions
 
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
+
 #### A — Deadline Cards
 
 | | |
@@ -2020,6 +2086,8 @@
 
 **Priority:** P2 · **Dependencies:** DSH-01b match box
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Result Tiles
 
 | | |
@@ -2062,6 +2130,8 @@
 **Recommendation:** A — Short ranked briefs keep the world visible on the front page while the inbox remains the place to act.
 
 **Priority:** P1 · **Dependencies:** WLD-01 priority model
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Ranked Briefs
 
@@ -2106,6 +2176,8 @@
 **Recommendation:** C — The week is the game's heartbeat; it should be one persistent component (Week Spine) shared with the calendar and Continue, not a wall of text on one page.
 
 **Priority:** P0 · **Dependencies:** Week Spine component, WLD-05 calendar, Continue state machine, Training day types (MATCH, MATCH_PREPARATION, TACTICAL, TRAINING, RECOVERY, REST, TRAVEL)
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — 7-Day Planner Strip
 
@@ -2169,6 +2241,8 @@
 
 **Priority:** P1 · **Dependencies:** Dual meter component, CLB-05
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Dual Meter + Objectives
 
 | | |
@@ -2213,6 +2287,8 @@
 
 **Priority:** P2 · **Dependencies:** DSH-01b ladder slice
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Ladder Slice + Round List
 
 | | |
@@ -2256,6 +2332,8 @@
 **Recommendation:** C — The clubhouse's real value is identity and visible progression (local → pro → elite facility tiers), not a second navigation system. Folding it into the Klubben hub as an illustrated header that upgrades with the club keeps the atmosphere and kills the duplication.
 
 **Priority:** P1 · **Dependencies:** CLB-02 recommendation (Club Journal), G3 imagery policy, Existing klubbhuset-local/pro/elite assets, Peek drawer
+
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
 
 #### A — Department Status Board
 
@@ -2319,6 +2397,8 @@
 
 **Priority:** P2 · **Dependencies:** Peek drawer, Illustration assets per tier
 
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
+
 #### A — Illustrated Map + Peek
 
 | | |
@@ -2362,6 +2442,8 @@
 
 **Priority:** P3 · **Dependencies:** CLB-01 recommendation
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Retire the Gallery
 
 | | |
@@ -2404,6 +2486,8 @@
 **Recommendation:** C — Identity, supporters and honours are the club's story; an almanac page inside the journal shows them as history, while national windows belong on the calendar.
 
 **Priority:** P2 · **Dependencies:** CLB-02 Club Journal, WLD-05 (national windows as calendar pins)
+
+**Arena Nights (owner identity, 2026-11-13):** adapt → *Club Archive panel* — Keep timeline + facts sidebar; honours as gold-glow markers on a neon timeline; supporters' mood with causes as chips; national windows still move to the calendar as pins. _Conflict:_ 'Almanac section of the Club Journal' (printed almanac styling).
 
 #### A — Fact Sheet
 
@@ -2464,6 +2548,8 @@
 **Recommendation:** C — The Club Journal becomes the single Klubben hub landing: identity and history first, departments and board/economy as summaries that link out. It absorbs Klubbhuset (as header art) and replaces the finance spreadsheet with three KPIs, resolving all three overlaps.
 
 **Priority:** P1 · **Dependencies:** G2 navigation model (Klubben hub), CLB-01 merge, CLB-06 KPIs, Dual meter component, Season history data for the history strip
+
+**Arena Nights (owner identity, 2026-11-13):** adapt → *Club Channel* — Same front-page order (header with identity facts → history strip of positions/honours → department briefs, board mood, economy KPIs, people). Arena treatment: neon club stripe (primary → neon), radial club glow behind the header, gold-glow honours, quote with neon edge. _Conflict:_ Club Journal is the club's paper front page (rules, serif quote, double-rule head).
 
 #### A — Executive Office
 
@@ -2527,6 +2613,8 @@
 
 **Priority:** P2 · **Dependencies:** URL-persisted filters, MGR-02 season books
 
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
+
 #### A — URL Tabs + Tables
 
 | | |
@@ -2569,6 +2657,8 @@
 **Recommendation:** A — Three KPIs and a revenue-mix bar give the club page what it needs and push depth to Finance.
 
 **Priority:** P1 · **Dependencies:** CLB-06 KPI definitions
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — KPI Trio + Revenue Mix
 
@@ -2613,6 +2703,8 @@
 **Recommendation:** C — Partnerships are a few weighty decisions per season; partner dossier cards plus a guided agreement flow with consequence preview fit that rhythm and fix the one-click termination.
 
 **Priority:** P2 · **Dependencies:** Decision card component with consequence preview, Confirm dialog for irreversible actions, Crests for Division 1 clubs
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Clean Admin
 
@@ -2674,6 +2766,8 @@
 
 **Priority:** P2 · **Dependencies:** Confirm dialog, Consequence preview component
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Three-step Drawer
 
 | | |
@@ -2718,6 +2812,8 @@
 
 **Priority:** P3 · **Dependencies:** Player minutes data, Scroll wrappers
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Placement List
 
 | | |
@@ -2760,6 +2856,8 @@
 **Recommendation:** C — Other clubs are opened constantly from tables, fixtures and news; a Peek-first profile answers most lookups without leaving context, and the full page reads as an opponent portrait where knowledge tier visibly fogs what you don't know.
 
 **Priority:** P1 · **Dependencies:** Peek drawer, Knowledge tier presentation (fog), CLB-02a timeline, Head-to-head from fixtures
+
+**Arena Nights (owner identity, 2026-11-13):** adapt → *Peek-first Scout Card* — Peek drawer unchanged. Full page keeps headline sentence + identity + philosophy + squad/fixtures; headline in condensed display; prose split into short statements; unknown claims as blurred glass lines (fog of war). _Conflict:_ 'Öppna hela' opens an editorial portrait (headline sentence, prose identity, quotes).
 
 #### A — Opponent Dossier Tabs
 
@@ -2822,6 +2920,8 @@
 
 **Priority:** P2 · **Dependencies:** Knowledge tier, Copy templates per claim
 
+**Arena Nights (owner identity, 2026-11-13):** token — Structure unchanged; Arena Nights tokens and the club accent restyle it. No paper-specific dependency found.
+
 #### A — Identity Wheel
 
 | | |
@@ -2865,6 +2965,8 @@
 **Recommendation:** C — The board is a relationship over time. A minutes-led page shows verdict → reasons → required action → outcome chronologically, which is exactly the event→decision→consequence chain; A's factor waterfall and objective meters are embedded in its header so clarity is not lost.
 
 **Priority:** P1 · **Dependencies:** Dual meter component, Decision card with consequence preview, Event chain presentation, CLB-05a/b, Board pressure stages (STABLE→CONCERN→WARNING→CRITICAL→DISMISSAL)
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Confidence Cockpit
 
@@ -2928,6 +3030,8 @@
 
 **Priority:** P2 · **Dependencies:** Floodlight moment shell, G5 motion budget
 
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
+
 #### A — Stamp Band
 
 | | |
@@ -2970,6 +3074,8 @@
 **Recommendation:** B — A warning or contract offer is a meeting; when it blocks time it should be the meeting, with the consequence of each answer previewed.
 
 **Priority:** P1 · **Dependencies:** Continue state machine (blocked reason opens this), Consequence preview, WLD-01 inline resolution
+
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
 
 #### A — Pinned Decision Bar
 
@@ -3014,6 +3120,8 @@
 **Recommendation:** A — Finance is consulted often and briefly; players want 'can I afford it and what is going wrong'. A cockpit with three KPIs, actionable warnings and the budget decision on top, with accounting collapsed into Detaljer, beats atmosphere here — and its warnings plug into the event chain.
 
 **Priority:** P1 · **Dependencies:** CLB-06 tab restructure (Översikt · Budget · Detaljer), Actionable warning links (sell/loan/renegotiate), Contracts page merge for wages
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Finance Cockpit
 
@@ -3076,6 +3184,8 @@
 
 **Priority:** P1 · **Dependencies:** Action link mapping per warning type
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Chart + Action Cards
 
 | | |
@@ -3119,6 +3229,8 @@
 
 **Priority:** P2 · **Dependencies:** —
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Bars + Arena Fill Strip
 
 | | |
@@ -3160,6 +3272,8 @@
 **Recommendation:** A — Sliders with live consequence preview and board-frame markers make the 15% rule visible; the same component can appear in the season-start board meeting.
 
 **Priority:** P1 · **Dependencies:** Consequence preview, CLB-05 season-start meeting
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Reallocation Sliders
 
@@ -3205,6 +3319,8 @@
 
 **Priority:** P3 · **Dependencies:** —
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Month Accordion
 
 | | |
@@ -3246,6 +3362,8 @@
 **Recommendation:** A — Wages belong with contracts in Laget; Finance keeps only the commitment curve.
 
 **Priority:** P2 · **Dependencies:** Contracts page (part B)
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Merge into Kontrakt
 
@@ -3289,6 +3407,8 @@
 **Recommendation:** B — A fan chart with plain-language assumptions communicates uncertainty without a wide table.
 
 **Priority:** P3 · **Dependencies:** —
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — What-if Sliders
 
@@ -3334,6 +3454,8 @@
 **Recommendation:** A — The squad list is the most-used workspace; a matrix with saved views and player chips removes the 19-column scroll, makes readiness scannable and adds the missing bulk actions. Ship the Depth Chart (C) as the SQD-01f panel on top of it rather than as the whole page.
 
 **Priority:** P0 · **Dependencies:** G2 navigation model (Laget hub tabs), Player chip component (energy/MF/morale/form micro-visuals), Peek drawer, SQD-01f depth chart, Saved views persistence
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Squad Matrix
 
@@ -3397,6 +3519,8 @@
 
 **Priority:** P0 · **Dependencies:** SQD-01 Squad Matrix, Player chip component
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Curated summary + expandable rows
 
 | | |
@@ -3458,6 +3582,8 @@
 
 **Priority:** P1 · **Dependencies:** SQD-01 Squad Matrix
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Position-aware stat tables
 
 | | |
@@ -3499,6 +3625,8 @@
 **Recommendation:** A — A readiness heat-strip with visible risk bands and reason chips makes the workload story legible and touch-accessible; the same strip is reused on training (TRN-01c).
 
 **Priority:** P0 · **Dependencies:** Readiness heat-strip component (shared with TRN-01c, MDY-01), readinessSummary data
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Readiness heat-strip
 
@@ -3544,6 +3672,8 @@
 
 **Priority:** P2 · **Dependencies:** SQD-01 saved views, Peek drawer, SQD-02n renewal component
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Remove and deep-link
 
 | | |
@@ -3588,6 +3718,8 @@
 
 **Priority:** P1 · **Dependencies:** SQD-01 Squad Matrix, TRN-02h roles editor
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Floating selection tray
 
 | | |
@@ -3630,6 +3762,8 @@
 **Recommendation:** B — The mini court makes coverage spatial and doubles as the position filter, removing the duplicated chip row.
 
 **Priority:** P1 · **Dependencies:** Court component (shared with TRN-02), Secondary position data
+
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
 
 #### A — Clickable position counters
 
@@ -3674,6 +3808,8 @@
 
 **Priority:** P3 · **Dependencies:** SQD-01
 
+**Arena Nights (owner identity, 2026-11-13):** token — Structure unchanged; Arena Nights tokens and the club accent restyle it. No paper-specific dependency found.
+
 #### A — Reset-first empty state
 
 | | |
@@ -3715,6 +3851,8 @@
 **Recommendation:** C — The profile is opened from every surface, so a Peek drawer for quick looks plus a full editorial page cuts navigation churn; the Feature Profile treats own and knowledge-gated players with the same layout (ranges tighten as knowledge grows). Embed the Dossier attribute matrix (A) inside its Egenskaper section.
 
 **Priority:** P0 · **Dependencies:** Peek drawer, URL-addressable tabs (?tab=), Attribute matrix component (SQD-02j), Range bar component (SQD-02l), Person timeline data join
+
+**Arena Nights (owner identity, 2026-11-13):** adapt → *Athlete Feature* — Same two-column profile: words-first strengths/weaknesses, attribute groups with potential bars, development, season ledger, Peek variant. Portrait framed in a club-neon radial glow; header with neon underline; headline in condensed display. _Conflict:_ Feature Profile is an editorial magazine profile (serif headline, double-rule header, framed paper portrait).
 
 #### A — Dossier
 
@@ -3778,6 +3916,8 @@
 
 **Priority:** P0 · **Dependencies:** SQD-02, SQD-02j
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Key-ratings summary
 
 | | |
@@ -3840,6 +3980,8 @@
 
 **Priority:** P1 · **Dependencies:** SQD-02, ANL-01
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Trend chart + match log
 
 | | |
@@ -3881,6 +4023,8 @@
 **Recommendation:** A — Merging attributes and development into one workspace removes the duplicate tab and gives attributes their history.
 
 **Priority:** P1 · **Dependencies:** SQD-02j, SQD-02d
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Attributes & development workspace
 
@@ -3925,6 +4069,8 @@
 
 **Priority:** P1 · **Dependencies:** SQD-02c workspace, TRN-01d, Individual focus write path
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Development curve + focus
 
 | | |
@@ -3967,6 +4113,8 @@
 **Recommendation:** A — One deal sheet with budget impact answers "can I afford to keep him?" in one place.
 
 **Priority:** P1 · **Dependencies:** SQD-02n, Club wage budget data
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Deal sheet
 
@@ -4011,6 +4159,8 @@
 
 **Priority:** P2 · **Dependencies:** SQD-02b
 
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
+
 #### A — Career ribbon
 
 | | |
@@ -4052,6 +4202,8 @@
 **Recommendation:** A — A sticky compact identity bar with one contextual primary CTA makes the next action obvious on every scroll position.
 
 **Priority:** P0 · **Dependencies:** SQD-02, Peek drawer header (shared)
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Sticky identity bar + primary CTA
 
@@ -4114,6 +4266,8 @@
 
 **Priority:** P1 · **Dependencies:** Condition gauge component, SQD-01c, MDY-01
 
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
+
 #### A — Condition gauge set
 
 | | |
@@ -4156,6 +4310,8 @@
 **Recommendation:** A — A mood hub with causes and a separated danger zone makes morale actionable and protects irreversible actions.
 
 **Priority:** P1 · **Dependencies:** Decision card component, Confirm dialog
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Mood hub with causes
 
@@ -4200,6 +4356,8 @@
 **Recommendation:** A — A tokenised heat matrix with deltas and compare overlay serves power users and maps cleanly to every identity.
 
 **Priority:** P0 · **Dependencies:** Tier colour tokens, Development events, SQD-04 compare
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Heat matrix
 
@@ -4262,6 +4420,8 @@
 
 **Priority:** P1 · **Dependencies:** Court component
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Suitability court
 
 | | |
@@ -4303,6 +4463,8 @@
 **Recommendation:** A — Range bars that visibly tighten make scouting meaningful and are honest about uncertainty.
 
 **Priority:** P1 · **Dependencies:** Range bar component, REC-01 scouting
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Tightening range bars
 
@@ -4348,6 +4510,8 @@
 
 **Priority:** P2 · **Dependencies:** Scout report history
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Report timeline
 
 | | |
@@ -4392,6 +4556,8 @@
 
 **Priority:** P1 · **Dependencies:** Wage budget data, REC-04 negotiation components
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Offer with consequence preview
 
 | | |
@@ -4435,6 +4601,8 @@
 
 **Priority:** P2 · **Dependencies:** Unified card tokens, REC-03
 
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
+
 #### A — Unified status card
 
 | | |
@@ -4477,6 +4645,8 @@
 
 **Priority:** P2 · **Dependencies:** /career/medical (part A)
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Rehab timeline
 
 | | |
@@ -4518,6 +4688,8 @@
 **Recommendation:** A — Skeletons and a useful not-found state are low-cost polish.
 
 **Priority:** P3 · **Dependencies:** Skeleton component, ⌘K palette
+
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
 
 #### A — Skeleton + recover
 
@@ -4562,6 +4734,8 @@
 **Recommendation:** A — Three market tables should become one; a workbench with knowledge-gated ability bands and saved searches gives the market its missing quality signal.
 
 **Priority:** P1 · **Dependencies:** REC-02 / REC-03 merge (Rekrytering hub), Range bar component, Virtualised table, Peek drawer
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Market Workbench
 
@@ -4625,6 +4799,8 @@
 
 **Priority:** P2 · **Dependencies:** Peek drawer, SQD-02l
 
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
+
 #### A — Aside with mini report
 
 | | |
@@ -4667,6 +4843,8 @@
 **Recommendation:** A — A searchable picker and delta bars fix the real problems; the radar duel can be a toggle inside.
 
 **Priority:** P2 · **Dependencies:** Searchable entity picker (⌘K index), SQD-02j matrix
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Head-to-head with delta bars
 
@@ -4726,6 +4904,8 @@
 **Recommendation:** B — A contract timeline against season boundaries with a payroll bar shows timing and money together, which a table alone cannot.
 
 **Priority:** P1 · **Dependencies:** Payroll/budget data, SQD-02n, Drawer
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Contract table + payroll bar
 
@@ -4788,6 +4968,8 @@
 
 **Priority:** P2 · **Dependencies:** Drawer
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Side drawer
 
 | | |
@@ -4831,6 +5013,8 @@
 **Recommendation:** A — One matrix that merges organisation, suitability (1–20 resolution), cost and delegation mode answers "who does what, how well, at what cost" and absorbs the delegation page's matrix.
 
 **Priority:** P1 · **Dependencies:** STF-04 delegation data, Range/score bar component, Staff cost vs board limit
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Org & Responsibility Matrix
 
@@ -4894,6 +5078,8 @@
 
 **Priority:** P2 · **Dependencies:** G2 navigation model
 
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
+
 #### A — Hub secondary tabs
 
 | | |
@@ -4938,6 +5124,8 @@
 
 **Priority:** P2 · **Dependencies:** STF-01
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Health-coloured tree
 
 | | |
@@ -4979,6 +5167,8 @@
 **Recommendation:** A — Keep a compact list as an alternate view for sorting, but with values instead of attribute names.
 
 **Priority:** P3 · **Dependencies:** STF-01
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Compact list view toggle
 
@@ -5023,6 +5213,8 @@
 
 **Priority:** P2 · **Dependencies:** TRN-01
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Mini week grid
 
 | | |
@@ -5064,6 +5256,8 @@
 **Recommendation:** A — A staff dossier mirroring the player Dossier gives fit at full resolution and a delta versus the current holder — the real hiring question.
 
 **Priority:** P2 · **Dependencies:** Range bar component, Shared negotiation stepper (REC-04), Peek drawer
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Staff Dossier
 
@@ -5127,6 +5321,8 @@
 
 **Priority:** P2 · **Dependencies:** Range bar component
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Range bars with holder delta
 
 | | |
@@ -5170,6 +5366,8 @@
 
 **Priority:** P2 · **Dependencies:** REC-04 negotiation stepper, Confirm dialog
 
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
+
 #### A — Shared stepper + consequence preview
 
 | | |
@@ -5212,6 +5410,8 @@
 **Recommendation:** B — Hiring starts from a vacancy; leading with vacancy cards and a single filtered market removes the duplicated tables.
 
 **Priority:** P2 · **Dependencies:** STF-03c board, STF-03d removal, Peek drawer
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — One staff market
 
@@ -5274,6 +5474,8 @@
 
 **Priority:** P2 · **Dependencies:** STF-03
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Vacancy cards with impact
 
 | | |
@@ -5315,6 +5517,8 @@
 **Recommendation:** A — A negotiation board shared with player transfers shows what is waiting on whom.
 
 **Priority:** P2 · **Dependencies:** REC-03 negotiation list
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Negotiation board
 
@@ -5360,6 +5564,8 @@
 
 **Priority:** P2 · **Dependencies:** Range bar component
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Board as sole market
 
 | | |
@@ -5402,6 +5608,8 @@
 
 **Priority:** P3 · **Dependencies:** STF-03c
 
+**Arena Nights (owner identity, 2026-11-13):** internal — Internal/dev tool: minimal Arena Nights tokens, hidden from players. Recommendation unchanged.
+
 #### A — Remove
 
 | | |
@@ -5443,6 +5651,8 @@
 **Recommendation:** B — Delegation is best set where its consequences are felt; contextual toggles plus one proposals queue reduce trips, and the central page becomes a calm overview.
 
 **Priority:** P2 · **Dependencies:** Delegation toggle component, WLD-01 inbox proposals, STF-01 matrix
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Delegation matrix
 
@@ -5508,6 +5718,8 @@
 
 **Priority:** P0 · **Dependencies:** TRN-01b block planner, TRN-01a proposal data, Readiness projection (derived from intensity/duration multipliers), Readiness heat-strip (SQD-01c)
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Weekly Planner Grid
 
 | | |
@@ -5570,6 +5782,8 @@
 
 **Priority:** P0 · **Dependencies:** TRN-01b
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Diff overlay on grid
 
 | | |
@@ -5613,6 +5827,8 @@
 **Recommendation:** A — Block-based direct manipulation with tap-to-place works with touch and keyboard and shows load immediately.
 
 **Priority:** P0 · **Dependencies:** Session block component, Load calculation
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Block planner
 
@@ -5675,6 +5891,8 @@
 
 **Priority:** P0 · **Dependencies:** SQD-01c heat-strip, Load semantics decision
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Shared readiness strip + inline settings
 
 | | |
@@ -5717,6 +5935,8 @@
 **Recommendation:** A — A leaderboard with Swedish attribute labels and deltas fixes the bug-like issues and shows focus effect.
 
 **Priority:** P1 · **Dependencies:** attributeVocabulary labels
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Development leaderboard
 
@@ -5761,6 +5981,8 @@
 
 **Priority:** P1 · **Dependencies:** TRN-01b
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Outcome on executed day
 
 | | |
@@ -5803,6 +6025,8 @@
 
 **Priority:** P3 · **Dependencies:** Skeleton component
 
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
+
 #### A — Skeleton grid
 
 | | |
@@ -5844,6 +6068,8 @@
 **Recommendation:** A — The board is the heart of match preparation; a single phase × manpower switcher, tap-to-place on a touch court and a readiness header fix every listed weakness. Offer the guided plan (C) as a "Guidad" mode for first runs and phones rather than as the default.
 
 **Priority:** P0 · **Dependencies:** Touch court component (tap-to-place, keyboard), Player chip with overlays, Plan readiness header, MDY-01 match preview, Opponent analysis data (ANL), Remove dead components/matchPlan
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Tactics Board
 
@@ -5907,6 +6133,8 @@
 
 **Priority:** P0 · **Dependencies:** TRN-02 readiness header
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Inline warning + auto-fix preview
 
 | | |
@@ -5949,6 +6177,8 @@
 **Recommendation:** A — One phase × manpower matrix replaces three overlapping controls and shows completion.
 
 **Priority:** P0 · **Dependencies:** TRN-02 switcher
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Phase × manpower switcher
 
@@ -6010,6 +6240,8 @@
 
 **Priority:** P1 · **Dependencies:** TRN-02b
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Matrix cells with completion
 
 | | |
@@ -6051,6 +6283,8 @@
 **Recommendation:** A — Pairing lines on the court make exchanges spatial and visible in context.
 
 **Priority:** P1 · **Dependencies:** TRN-02 court
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Pairing lines on court
 
@@ -6094,6 +6328,8 @@
 
 **Priority:** P1 · **Dependencies:** Player chip overlays
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Segmented control + legend
 
 | | |
@@ -6136,6 +6372,8 @@
 **Recommendation:** A — Keeping explicit segmented controls but adding one trade-off line per option (reusing TimeoutOverlay copy) gives understanding without hiding precision.
 
 **Priority:** P0 · **Dependencies:** TimeoutOverlay copy, Opponent data (optional)
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Choices with trade-off lines
 
@@ -6198,6 +6436,8 @@
 
 **Priority:** P1 · **Dependencies:** Shot facts aggregation
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Ordered takers with stats
 
 | | |
@@ -6240,6 +6480,8 @@
 
 **Priority:** P2 · **Dependencies:** SQD-01e tray
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Single roles editor
 
 | | |
@@ -6281,6 +6523,8 @@
 **Recommendation:** A — A persistent bench strip with a 16-slot counter keeps squad selection next to the court and validates it immediately.
 
 **Priority:** P0 · **Dependencies:** TRN-02 readiness header, Player chip
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Bench strip + counter
 
@@ -6344,6 +6588,8 @@
 
 **Priority:** P1 · **Dependencies:** G2 navigation model, Knowledge range bar (star range that tightens with Kännedom), Peek drawer, Unified "Kortlista" naming across REC/SQD, REC-02 pipeline states, Rename page to "Scouting" (move Motståndaranalys to ANL-03)
 
+**Arena Nights (owner identity, 2026-11-13):** adapt → *Scout Desk* — Keep pipeline strip, report feed and ranked Kortlista. Report cards with scout tag (not byline), confidence ring, verdict with glow; selected shortlist row lit in club neon. _Conflict:_ 'Editorial scouting desk': reports as articles with bylines.
+
 #### A — Search Workbench
 
 | | |
@@ -6406,6 +6652,8 @@
 
 **Priority:** P2 · **Dependencies:** REC-01 recommendation
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Compact header strip
 
 | | |
@@ -6449,6 +6697,8 @@
 
 **Priority:** P2 · **Dependencies:** Staff star/scale decision (x/20 vs stars)
 
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
+
 #### A — Scout capacity cards
 
 | | |
@@ -6491,6 +6741,8 @@
 **Recommendation:** B — Assignment should be an action on a player, not a separate search; a one-step sheet reached from any player mention removes a whole table.
 
 **Priority:** P1 · **Dependencies:** Peek drawer, Player action menu
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Inline in Search Workbench
 
@@ -6536,6 +6788,8 @@
 
 **Priority:** P2 · **Dependencies:** Competition/nation list, REC-01 layout
 
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
+
 #### A — Sentence builder
 
 | | |
@@ -6577,6 +6831,8 @@
 **Recommendation:** A — A single pipeline component (also used by REC-02) is the structural fix; the timeline view is a strong optional lens.
 
 **Priority:** P1 · **Dependencies:** REC-02 pipeline states, Week Spine component
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Single pipeline list
 
@@ -6620,6 +6876,8 @@
 
 **Priority:** P1 · **Dependencies:** Shared market table component
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Ranked discoveries table
 
 | | |
@@ -6662,6 +6920,8 @@
 **Recommendation:** C — This is where the inconsistent shortlist naming and the three market tables converge. Making REC-02 the one pipeline board ("Kortlista" end to end, Förhandling lane fed by REC-04) gives the flow a spine; market browsing stays in REC-03.
 
 **Priority:** P0 · **Dependencies:** Unified "Kortlista" naming, Shared market table component, Peek drawer, URL state for stage (?stage=), REC-04 negotiation states
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Pipeline table with stage tabs
 
@@ -6724,6 +6984,8 @@
 
 **Priority:** P1 · **Dependencies:** Peek drawer
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Recruitment Peek drawer
 
 | | |
@@ -6766,6 +7028,8 @@
 **Recommendation:** A — The market needs to be the fastest, most trustworthy table in the game and the single shared market component (retiring the parallel ones). Splitting Köp / Sälj / Affärer as modes removes the sell board from the top, and the deal panel keeps negotiation one click away. The pipeline itself lives in REC-02.
 
 **Priority:** P0 · **Dependencies:** Shared market table component (also SQD-03, REC-01f, REC-02), Budget waterfall component, Peek/deal drawer, Unified "Kortlista" naming, URL state for mode and tab
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Market Table + Deal Panel
 
@@ -6829,6 +7093,8 @@
 
 **Priority:** P1 · **Dependencies:** REC-03 modes
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Sälj mode
 
 | | |
@@ -6871,6 +7137,8 @@
 **Recommendation:** A — A single table with tabs as saved views is the efficient choice; tabs and filters must persist in the URL.
 
 **Priority:** P0 · **Dependencies:** Shared market table component, URL state
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Saved views over one table
 
@@ -6932,6 +7200,8 @@
 
 **Priority:** P0 · **Dependencies:** Peek drawer
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Deal drawer
 
 | | |
@@ -6975,6 +7245,8 @@
 
 **Priority:** P1 · **Dependencies:** Court component, REC-03 modes
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Affärer mode
 
 | | |
@@ -7017,6 +7289,8 @@
 **Recommendation:** A — Negotiation is a numbers decision under uncertainty. The Term Sheet puts our offer, their counter and our knowledge-gated value range on the same axis, keeps the round history visible, and adds an inline "advance to answer" so the user never leaves the room. C's editorial ledger is a good secondary lens for history.
 
 **Priority:** P0 · **Dependencies:** Range slider with band component, Shared negotiation pattern (renewals SQD-05, staff STF-02b), Continue/advance-day service callable inline, Budget waterfall component
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Term Sheet
 
@@ -7080,6 +7354,8 @@
 
 **Priority:** P1 · **Dependencies:** REC-04 layout
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Two choice cards
 
 | | |
@@ -7122,6 +7398,8 @@
 **Recommendation:** A — A slider over the value-range band with the counter marker is the clearest way to place a bid.
 
 **Priority:** P0 · **Dependencies:** Range slider with band component
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Range-band slider
 
@@ -7184,6 +7462,8 @@
 
 **Priority:** P0 · **Dependencies:** Squad role tiers, Budget waterfall component
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Package builder with total cost
 
 | | |
@@ -7244,6 +7524,8 @@
 
 **Priority:** P0 · **Dependencies:** Continue/advance service
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Waiting card with advance
 
 | | |
@@ -7287,6 +7569,8 @@
 
 **Priority:** P2 · **Dependencies:** Floodlight moment component
 
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
+
 #### A — Signing moment
 
 | | |
@@ -7328,6 +7612,8 @@
 **Recommendation:** A — The sell decision hinges on squad impact; showing depth before/after next to the money makes it concrete.
 
 **Priority:** P1 · **Dependencies:** Court/depth chart component, Term sheet component (REC-04)
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Sell decision sheet
 
@@ -7390,6 +7676,8 @@
 
 **Priority:** P3 · **Dependencies:** Floodlight moment component
 
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
+
 #### A — Farewell card
 
 | | |
@@ -7433,6 +7721,8 @@
 **Recommendation:** A — The table is the heart of the season and must be fast, exact and honest about what each position means (SM-slutspel, kval, nedflyttning). League Centre adds zone lines, position arrows and a points-gap chart on top of the existing data, gives /competitions a real overview of all competitions, and unifies league and cup under one shell.
 
 **Priority:** P0 · **Dependencies:** G2 navigation model, Competition rules → zone lines (SM-slutspel / kval / nedflyttning) from the season transition planner, Per-round standings derived from results, Shared stats component with CMP-04, CMP-01g cup shell
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — League Centre
 
@@ -7496,6 +7786,8 @@
 
 **Priority:** P0 · **Dependencies:** Competition rules for zones
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Annotated standings
 
 | | |
@@ -7555,6 +7847,8 @@
 
 **Priority:** P2 · **Dependencies:** Fixture row component
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Round-grouped fixtures
 
 | | |
@@ -7596,6 +7890,8 @@
 **Recommendation:** A — Results by round, each linking to the report.
 
 **Priority:** P2 · **Dependencies:** Fixture row component
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Results by round
 
@@ -7639,6 +7935,8 @@
 
 **Priority:** P2 · **Dependencies:** CMP-04 component
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Shared stats component
 
 | | |
@@ -7680,6 +7978,8 @@
 **Recommendation:** A — A crest grid with Peek is more useful for browsing (especially non-simulated leagues used for recruitment).
 
 **Priority:** P3 · **Dependencies:** Peek drawer
+
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
 
 #### A — Crest grid with Peek
 
@@ -7723,6 +8023,8 @@
 
 **Priority:** P3 · **Dependencies:** Season archive
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Roll of honour
 
 | | |
@@ -7764,6 +8066,8 @@
 **Recommendation:** A — Cup format is group stage then knockout; a stage-aware path view (groups → bracket) inside the same League Centre shell fixes both the visual gap and the layout inconsistency.
 
 **Priority:** P1 · **Dependencies:** CMP-01 shell, Cup format data (groups + knockout rounds)
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Stage path + bracket
 
@@ -7824,6 +8128,8 @@
 
 **Priority:** P3 · **Dependencies:** REC-01d
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Scouting-destination state
 
 | | |
@@ -7865,6 +8171,8 @@
 **Recommendation:** A — A compact head-to-head match card serves neutral fixtures; the user's own next fixture should redirect to MDY-01.
 
 **Priority:** P2 · **Dependencies:** Redirect own next fixture to MDY-01, Head-to-head derivation from results
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Head-to-head card
 
@@ -7926,6 +8234,8 @@
 
 **Priority:** P3 · **Dependencies:** Routing
 
+**Arena Nights (owner identity, 2026-11-13):** internal — Internal/dev tool: minimal Arena Nights tokens, hidden from players. Recommendation unchanged.
+
 #### A — Server redirect
 
 | | |
@@ -7967,6 +8277,8 @@
 **Recommendation:** A — Position leaderboards and two honest scatter plots (shots vs efficiency, saves vs faced) add insight without inventing metrics.
 
 **Priority:** P2 · **Dependencies:** Shared stats component with CMP-01d, Competition switcher
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Leaderboards by position
 
@@ -8030,6 +8342,8 @@
 
 **Priority:** P0 · **Dependencies:** Court lineup component (shared with TRN-02), Readiness summary (lib/training/readinessSummary), Enum → Swedish label mapping, Continue heartbeat ("Till matchen"), MDY-02 walk-out
 
+**Arena Nights (owner identity, 2026-11-13):** adapt → *Three-step ritual (intensity escalation)* — Same three skippable steps (Truppen, Motståndaren, Planen). Steps sit on calm, desaturated dark glass; completing step 3 raises intensity: club neon floods the stage, the arena photo fades in and the walk-out starts. The signature transition becomes an intensity escalation instead of a light-mode switch. _Conflict:_ A 'paper-mode stepper' that flips to Floodlight for kick-off. In Arena Nights everything is already dark, so the paper→floodlight contrast disappears.
+
 #### A — Pre-match checklist board
 
 | | |
@@ -8092,6 +8406,8 @@
 
 **Priority:** P2 · **Dependencies:** MDY-01 layout
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Stakes header
 
 | | |
@@ -8135,6 +8451,8 @@
 
 **Priority:** P1 · **Dependencies:** MDY-01 checklist
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Fix-it dialog
 
 | | |
@@ -8176,6 +8494,8 @@
 **Recommendation:** A — Move into the checklist so context comes first and blocking is visible where it matters.
 
 **Priority:** P1 · **Dependencies:** MDY-01 checklist
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Checklist tile state
 
@@ -8219,6 +8539,8 @@
 
 **Priority:** P1 · **Dependencies:** ANL-03 component
 
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
+
 #### A — Threat cards
 
 | | |
@@ -8260,6 +8582,8 @@
 **Recommendation:** A — The starting seven should be drawn on the court with readiness visible; this is the single most handball-native improvement in preparation.
 
 **Priority:** P0 · **Dependencies:** Court lineup component, Enum label mapping
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Court lineup with readiness rings
 
@@ -8321,6 +8645,8 @@
 
 **Priority:** P3 · **Dependencies:** Season review route
 
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
+
 #### A — State with next step
 
 | | |
@@ -8362,6 +8688,8 @@
 **Recommendation:** C — Floodlight Sequence treats the match as phases (avkast → live → timeout → halvtid → slutsignal) with one unified Bench Dock for every decision, which removes the three-way split of controls. It promotes the court to a first-class view, gives half-time its own briefing and ends by handing a single story to the report instead of repeating it.
 
 **Priority:** P0 · **Dependencies:** Unified Bench Dock component (tactics, timeout, subs, 7 mot 6), Court view (promote MDY-02l), Score-flow/momentum chart, Floodlight mode tokens, ANL-01 post-match story
+
+**Arena Nights (owner identity, 2026-11-13):** adapt → *Matchday Sequence* — Identical phases (walk-out → live with Bench Dock → timeout huddle → half-time → slutsignal) and the same score bug/Bench Dock. Phase intensity is expressed with neon: calm preparation, glowing live cards, neon score separator. _Conflict:_ Floodlight Sequence depends on the paper→Floodlight mode switch for its emotional payoff (it already fits B visually).
 
 #### A — Bench Tablet
 
@@ -8425,6 +8753,8 @@
 
 **Priority:** P0 · **Dependencies:** Score bug component
 
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
+
 #### A — Score bug with pips
 
 | | |
@@ -8485,6 +8815,8 @@
 **Recommendation:** A — A single transport control with one primary state button reduces the equal-weight problem.
 
 **Priority:** P0 · **Dependencies:** MDY-02 layout
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Transport control
 
@@ -8547,6 +8879,8 @@
 
 **Priority:** P0 · **Dependencies:** Court view, ANL-01
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Live-first overview
 
 | | |
@@ -8606,6 +8940,8 @@
 
 **Priority:** P2 · **Dependencies:** Timeline component
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Timeline scrubber
 
 | | |
@@ -8647,6 +8983,8 @@
 **Recommendation:** A — Energy bars and population state make the table a substitution tool.
 
 **Priority:** P2 · **Dependencies:** Energy bar component
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Energy-forward table
 
@@ -8690,6 +9028,8 @@
 
 **Priority:** P1 · **Dependencies:** Shot map component
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Shot map + goal-mouth
 
 | | |
@@ -8731,6 +9071,8 @@
 **Recommendation:** A — The Bench Dock is the single home for all in-match decisions; TimeoutOverlay becomes a mode of it, not a duplicate.
 
 **Priority:** P0 · **Dependencies:** Bench Dock component, Energy bar component
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Bench Dock
 
@@ -8793,6 +9135,8 @@
 
 **Priority:** P1 · **Dependencies:** Bench Dock component
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Timeout huddle phase
 
 | | |
@@ -8852,6 +9196,8 @@
 **Recommendation:** A — A dedicated briefing with first-half numbers vs plan, energy and the dock is the main inventory opportunity.
 
 **Priority:** P0 · **Dependencies:** Bench Dock component, Half split (lib/analysis/halfSplit)
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Half-time briefing
 
@@ -8913,6 +9259,8 @@
 
 **Priority:** P0 · **Dependencies:** ANL-01 post-match story
 
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
+
 #### A — Final-whistle card
 
 | | |
@@ -8973,6 +9321,8 @@
 
 **Priority:** P3 · **Dependencies:** Bench Dock component
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Assistant dock
 
 | | |
@@ -9015,6 +9365,8 @@
 **Recommendation:** A — Promote it to a first-class "Plan" view tab, Swedish label, with trails.
 
 **Priority:** P1 · **Dependencies:** Frame buffer, Court component
+
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
 
 #### A — "Plan" view tab
 
@@ -9059,6 +9411,8 @@
 
 **Priority:** P2 · **Dependencies:** Score bug component
 
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
+
 #### A — Simulation progress
 
 | | |
@@ -9101,6 +9455,8 @@
 
 **Priority:** P3 · **Dependencies:** Routing
 
+**Arena Nights (owner identity, 2026-11-13):** internal — Internal/dev tool: minimal Arena Nights tokens, hidden from players. Recommendation unchanged.
+
 #### A — Direct redirect
 
 | | |
@@ -9142,6 +9498,8 @@
 **Recommendation:** C — Fold replays into the report as a "Repris" tab (and history), fix encoding; a standalone page is not needed.
 
 **Priority:** P2 · **Dependencies:** ANL-01 tabs, Encoding fix
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Replay library
 
@@ -9203,6 +9561,8 @@
 **Recommendation:** C — An editorial report that reads top-down as one post-match story — score → turning points → player ratings → workload consequences → what to change — removes the duplicated match-center rendering and the circular "Se matchrepris". It absorbs ANL-05 for any match, keeps the stats sheet as a tab for depth, and works for both archive and legacy data.
 
 **Priority:** P0 · **Dependencies:** MDY-02j final-whistle handoff, Score-flow/momentum chart, Shot map component (MDY-02f), Timeline scrubber (MDY-02d), Training action from workload table (TRN-01c), Empty/legacy data fallbacks per section
+
+**Arena Nights (owner identity, 2026-11-13):** adapt → *Match Feature* — Same report order (headline + kicker → quote → what decided it / what it means → next step analysis → training → box score, ratings, shot map). Headline in condensed display, neon quote edge, next-step card glowing. _Conflict:_ Editorial Match Report is the club journal's match page (serif headline, journal styling).
 
 #### A — Stats Sheet
 
@@ -9266,6 +9626,8 @@
 
 **Priority:** P0 · **Dependencies:** ANL-01 tabs
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Depth tabs behind summary
 
 | | |
@@ -9325,6 +9687,8 @@
 
 **Priority:** P1 · **Dependencies:** Score-flow chart
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Momentum hero
 
 | | |
@@ -9367,6 +9731,8 @@
 **Recommendation:** A — Close the loop: rest/reduce actions inline.
 
 **Priority:** P1 · **Dependencies:** Training load setting (TRN-01c)
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Workload with actions
 
@@ -9411,6 +9777,8 @@
 
 **Priority:** P2 · **Dependencies:** ANL-01 layout
 
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
+
 #### A — Unified layout, degraded sections
 
 | | |
@@ -9452,6 +9820,8 @@
 **Recommendation:** A — Always offer back links.
 
 **Priority:** P3 · **Dependencies:** Empty state component
+
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
 
 #### A — Empty state with routes
 
@@ -9495,6 +9865,8 @@
 
 **Priority:** P2 · **Dependencies:** Action bar rule: one primary
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Secondary press box
 
 | | |
@@ -9537,6 +9909,8 @@
 **Recommendation:** A — A trend dashboard with "what changed" cards is the real value; next-match and last-match entries become links rather than duplicate heroes.
 
 **Priority:** P1 · **Dependencies:** lib/analysis metrics & Evidence states, Trend chart component, IA decision: analysis inside Tävling or Laget hub
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Trend dashboard
 
@@ -9599,6 +9973,8 @@
 
 **Priority:** P2 · **Dependencies:** ANL-05 merge
 
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
+
 #### A — Three tabs + match picker
 
 | | |
@@ -9640,6 +10016,8 @@
 **Recommendation:** A — A mirror of us vs them per metric is the missing comparison and the cleanest way to show matchups.
 
 **Priority:** P1 · **Dependencies:** Mirror chart component, Threat cards shared with MDY-01d
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Mirror comparison
 
@@ -9702,6 +10080,8 @@
 
 **Priority:** P2 · **Dependencies:** Trend chart component, Window-aware player aggregates
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Trends + window-aware tables
 
 | | |
@@ -9760,6 +10140,8 @@
 **Recommendation:** C — Merge into the report (ANL-01 C) so any match gets the same story + depth; its unique parts (halves split, scoring runs) become report sections.
 
 **Priority:** P1 · **Dependencies:** ANL-01 C
+
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
 
 #### A — Keep as stats deep dive with picker
 
@@ -9821,6 +10203,8 @@
 **Recommendation:** C — The career is the long game; a biography organised in chapters (one per club stint) with an annotated reputation line turns the existing reputationLog, milestones and stints into a story the player wants to extend. The job market becomes 'Nästa kapitel', so dismissal and new jobs read as turning points, not admin.
 
 **Priority:** P1 · **Dependencies:** Event chain presentation (reputationLog reasons + milestones), MGR-02 merge into Karriär hub, DSH-01c season card write-back, G4 portrait strategy (manager monogram/avatar), Dual meter component
+
+**Arena Nights (owner identity, 2026-11-13):** adapt → *Career Chapters* — Keep chapters, the single career reputation line with annotated causes, 'Nästa kapitel' job market and the quiet resign footer. Chapters as neon timeline nodes, trophies with gold glow, headline in condensed display. _Conflict:_ Manager Biography relies on serif biography typesetting and a printed-chapter feel.
 
 #### A — Career Ledger
 
@@ -9884,6 +10268,8 @@
 
 **Priority:** P1 · **Dependencies:** MGR-01 C
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Stats Ledger
 
 | | |
@@ -9926,6 +10312,8 @@
 **Recommendation:** C — Applications already move through stages; a pipeline makes that progress visible and keeps offers, interviews and deadlines in one place, with each club card showing fit (stature vs reputation) using existing data.
 
 **Priority:** P1 · **Dependencies:** Candidacy assessment (exists), Club cards with crest/colours, Interview as inline conversation
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Job Board Table
 
@@ -9989,6 +10377,8 @@
 
 **Priority:** P1 · **Dependencies:** Floodlight moment shell, MGR-01 biography chapter close, DSH-01d state front page
 
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
+
 #### A — Dismissal Moment
 
 | | |
@@ -10031,6 +10421,8 @@
 **Recommendation:** C — Each finished season becomes a 'Säsongsbok' — a cover with final position, honours, top scorer and the season's defining match — opening into the tables. It sits in the Karriär hub next to the biography, so history is the visible payoff of progression. Fix the mojibake regardless.
 
 **Priority:** P2 · **Dependencies:** MGR-01 Karriär hub, DSH-01c season card, Encoding fix in history/page.tsx L44
+
+**Arena Nights (owner identity, 2026-11-13):** adapt → *Season Shelf (cards)* — Keep shelf → open structure: a horizontal row of tall season cards (spine strip with year, position, honour star) that opens into a cover panel (4/12) + tabs (8/12). Cards use club neon of the club managed that season, so history shows your career's colours. _Conflict:_ A skeuomorphic shelf of season books (spines, covers).
 
 #### A — Season Archive
 
@@ -10092,6 +10484,8 @@
 
 **Priority:** P3 · **Dependencies:** —
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Season Timeline
 
 | | |
@@ -10133,6 +10527,8 @@
 **Recommendation:** B — The season hub should answer 'what is my path to something this season?' first. 'Path to Gold' puts your route — league position → SM-slutspel seed or kval → cup run — at the top as a projected path, with all tables one tab away. It turns the Swedish structure into stakes the player feels every week.
 
 **Priority:** P1 · **Dependencies:** Season state machine / phases, Projected bracket (derived from current table), Competition marks, Tävling hub IA (merge with CMP competition page and Svenska Cupen item), MGR-03a/b
+
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
 
 #### A — Competition Centre
 
@@ -10196,6 +10592,8 @@
 
 **Priority:** P2 · **Dependencies:** Projection from current table
 
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
+
 #### A — Ghost Bracket
 
 | | |
@@ -10239,6 +10637,8 @@
 
 **Priority:** P2 · **Dependencies:** Floodlight moment shell, MGR-02 season books
 
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
+
 #### A — Gala Sequence
 
 | | |
@@ -10280,6 +10680,8 @@
 **Recommendation:** B — A component gallery belongs in the Design Lab, not in a player-reachable route; if kept, it must be dev-flagged.
 
 **Priority:** P3 · **Dependencies:** Design Lab component gallery
+
+**Arena Nights (owner identity, 2026-11-13):** internal — Internal/dev tool: minimal Arena Nights tokens, hidden from players. Recommendation unchanged.
 
 #### A — Dev-flagged Gallery
 
@@ -10324,6 +10726,8 @@
 **Recommendation:** C — The Correspondence Desk combines the two things the genre proved: a pinned 'Att göra' tray with inline resolution (task queue) and consolidated threads per entity. Its reader shows the chain — news → event → your decision → consequence → career log — so the inbox becomes the place where the story is visible, not just where tasks queue. A's triage speed is available via density mode.
 
 **Priority:** P0 · **Dependencies:** careerEventId linking (exists), Inline actions reusing existing mutations (contracts, board, press, scouting), Thread grouping by entity (presentation), Peek drawer, Sender role emblems (roles, not invented names)
+
+**Arena Nights (owner identity, 2026-11-13):** adapt → *Message Desk* — Keep the desk structure: pinned 'Att göra' tray, threads grouped by entity, reader with chain rail. Letters become glass message cards (no rotation); the top item has a neon edge and glow; headlines in condensed display. _Conflict:_ Correspondence Desk uses a paper-desk metaphor: rotated letters, paper stack, serif headlines.
 
 #### A — Task Inbox
 
@@ -10387,6 +10791,8 @@
 
 **Priority:** P0 · **Dependencies:** —
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Segment + Chips
 
 | | |
@@ -10430,6 +10836,8 @@
 **Recommendation:** C — The reader is where consequences should be visible; a chain rail linking earlier events and the eventual outcome makes every message part of the career story.
 
 **Priority:** P0 · **Dependencies:** careerEventId, Inline action components, Consequence log (reputationLog, board factors, press consequences)
+
+**Arena Nights (owner identity, 2026-11-13):** adapt → *Thread Reader with Chain Rail (Arena)* — Message body in Barlow 15/1.55 for readability; chain rail as neon-linked nodes; 'Följd' becomes a glowing outcome badge + 'Sparat i karriärloggen'. _Conflict:_ Letter-style body with serif headline; 'Följd' stamp as an ink stamp.
 
 #### A — Action-first Reader
 
@@ -10493,6 +10901,8 @@
 
 **Priority:** P1 · **Dependencies:** Outlet masthead styles, WLD-01 thread linking, Dated, categorised news, Image policy (G3) for match/arena photos
 
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
+
 #### A — News Desk
 
 | | |
@@ -10555,6 +10965,8 @@
 
 **Priority:** P1 · **Dependencies:** Image policy
 
+**Arena Nights (owner identity, 2026-11-13):** adapt → *Image Lead + Dated List (Arena)* — Lead headline in condensed display over the photo's dark gradient; dated list and outlet chips unchanged. _Conflict:_ Lead story with serif headline.
+
 #### A — Image Lead + Dated List
 
 | | |
@@ -10599,6 +11011,8 @@
 
 **Priority:** P1 · **Dependencies:** WLD-01 tray, WLD-03 consequences
 
+**Arena Nights (owner identity, 2026-11-13):** token — Structure unchanged; Arena Nights tokens and the club accent restyle it. No paper-specific dependency found.
+
 #### A — Press Calendar
 
 | | |
@@ -10642,6 +11056,8 @@
 
 **Priority:** P2 · **Dependencies:** —
 
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
+
 #### A — Rivalry Cards
 
 | | |
@@ -10684,6 +11100,8 @@
 
 **Priority:** P3 · **Dependencies:** Squad status chips (part B)
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Move to Player Status
 
 | | |
@@ -10725,6 +11143,8 @@
 **Recommendation:** A — A favour meter with what it means in coverage tone gives the number a purpose.
 
 **Priority:** P3 · **Dependencies:** —
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Media Favour Meters
 
@@ -10769,6 +11189,8 @@
 **Recommendation:** C — Press conferences are frequent, so ceremony must stay low (FM26 lesson), but they are also where the manager's voice creates consequences. The live transcript keeps all questions on one page, answers with one click per question, shows each quote landing and previews which groups react — then becomes the article. B is reserved as an optional 'big match' presentation.
 
 **Priority:** P1 · **Dependencies:** Press consequence targets (exist), WLD-04 article from transcript, WLD-01 tray, MGR-01 reputation log
+
+**Arena Nights (owner identity, 2026-11-13):** adapt → *Live Transcript (broadcast captions)* — Transcript as broadcast captions with journalist/outlet tags; tone chips and 'Vem reagerar' meter rail unchanged; closing article becomes a recap card with the same 'Följder' box. _Conflict:_ Quotes 'typeset into the transcript' and closing as an article.
 
 #### A — Rapid Answer Sheet
 
@@ -10832,6 +11254,8 @@
 
 **Priority:** P2 · **Dependencies:** Outlet masthead styles, WLD-02 Newsstand
 
+**Arena Nights (owner identity, 2026-11-13):** native — Recommended alternative already fits Arena Nights; rendered as designed with the club accent.
+
 #### A — Clean Reader
 
 | | |
@@ -10892,6 +11316,8 @@
 **Recommendation:** C — A Week Spine calendar shares one component with the dashboard and the global shell, merges Schema (as the list view) and removes the per-week fixture tables. Month, week and agenda views cover planning, today and phones.
 
 **Priority:** P0 · **Dependencies:** Week Spine component, WLD-06 merge (list view), Continue state machine, Training week link (?week=)
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Planner Grid
 
@@ -10955,6 +11381,8 @@
 
 **Priority:** P1 · **Dependencies:** WLD-05 Week Spine Calendar, WLD-06a preseason board
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Fixture Table with Crests
 
 | | |
@@ -11015,6 +11443,8 @@
 
 **Priority:** P2 · **Dependencies:** WLD-05 calendar, Season phase (pre-season only)
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Preseason Board on Calendar
 
 | | |
@@ -11059,6 +11489,8 @@
 
 **Priority:** P3 · **Dependencies:** WLD-05 list view
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — URL Segmented Control
 
 | | |
@@ -11102,6 +11534,8 @@
 **Recommendation:** C — Medical is ultimately about availability for the next match. A return-to-play timeline aligned with the fixture list answers 'who can I pick on Saturday?' directly and makes the physio the face of the system.
 
 **Priority:** P2 · **Dependencies:** Fixture list, Physio staff entity, ENT-07 hub mapping (Laget › Medicinskt), MED-01a
+
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
 
 #### A — Availability board
 
@@ -11165,6 +11599,8 @@
 
 **Priority:** P2 · **Dependencies:** MED-01
 
+**Arena Nights (owner identity, 2026-11-13):** token — Arena workbench: structure, density and interactions unchanged; dense data on solid dark surfaces (no blur), tabular figures, club neon only for selection, focus and own-club rows.
+
 #### A — Rehab cards with phase stepper
 
 | | |
@@ -11208,6 +11644,8 @@
 **Recommendation:** A — One settings component in and out of career; keep the excellent live preview using the club's own figures, and add density/text size/motion.
 
 **Priority:** P2 · **Dependencies:** ENT-05, Density modes (G6)
+
+**Arena Nights (owner identity, 2026-11-13):** internal — Internal/dev tool: minimal Arena Nights tokens, hidden from players. Recommendation unchanged.
 
 #### A — Unified settings (shared with ENT-05)
 
@@ -11269,6 +11707,8 @@
 
 **Priority:** P3 · **Dependencies:** Editor/lab env gate (HM_EDITOR_ENABLED pattern)
 
+**Arena Nights (owner identity, 2026-11-13):** internal — Internal/dev tool: minimal Arena Nights tokens, hidden from players. Recommendation unchanged.
+
 #### A — Dev console home
 
 | | |
@@ -11310,6 +11750,8 @@
 **Recommendation:** A — Internal tool: keep it functional and clearly separated from the player product; the priority is gating and dev-only styling, not redesign.
 
 **Priority:** P3 · **Dependencies:** Editor/lab env gate (HM_EDITOR_ENABLED pattern)
+
+**Arena Nights (owner identity, 2026-11-13):** internal — Internal/dev tool: minimal Arena Nights tokens, hidden from players. Recommendation unchanged.
 
 #### A — Keep spreadsheet, add dev affordances
 
@@ -11353,6 +11795,8 @@
 
 **Priority:** P3 · **Dependencies:** Editor/lab env gate (HM_EDITOR_ENABLED pattern)
 
+**Arena Nights (owner identity, 2026-11-13):** internal — Internal/dev tool: minimal Arena Nights tokens, hidden from players. Recommendation unchanged.
+
 #### A — Diff-first detail
 
 | | |
@@ -11394,6 +11838,8 @@
 **Recommendation:** A — Internal tool: keep it functional and clearly separated from the player product; the priority is gating and dev-only styling, not redesign.
 
 **Priority:** P3 · **Dependencies:** Editor/lab env gate (HM_EDITOR_ENABLED pattern)
+
+**Arena Nights (owner identity, 2026-11-13):** internal — Internal/dev tool: minimal Arena Nights tokens, hidden from players. Recommendation unchanged.
 
 #### A — Review queue
 
@@ -11437,6 +11883,8 @@
 
 **Priority:** P3 · **Dependencies:** Editor/lab env gate (HM_EDITOR_ENABLED pattern)
 
+**Arena Nights (owner identity, 2026-11-13):** internal — Internal/dev tool: minimal Arena Nights tokens, hidden from players. Recommendation unchanged.
+
 #### A — Sectioned with sticky summary
 
 | | |
@@ -11478,6 +11926,8 @@
 **Recommendation:** A — Internal tool: keep it functional and clearly separated from the player product; the priority is gating and dev-only styling, not redesign.
 
 **Priority:** P3 · **Dependencies:** Editor/lab env gate (HM_EDITOR_ENABLED pattern)
+
+**Arena Nights (owner identity, 2026-11-13):** internal — Internal/dev tool: minimal Arena Nights tokens, hidden from players. Recommendation unchanged.
 
 #### A — Canvas + inspector
 
@@ -11521,6 +11971,8 @@
 
 **Priority:** P2 · **Dependencies:** Editor/lab env gate (HM_EDITOR_ENABLED pattern)
 
+**Arena Nights (owner identity, 2026-11-13):** internal — Internal/dev tool: minimal Arena Nights tokens, hidden from players. Recommendation unchanged.
+
 #### A — Gate under dev console
 
 | | |
@@ -11562,6 +12014,8 @@
 **Recommendation:** A — Internal tool: keep it functional and clearly separated from the player product; the priority is gating and dev-only styling, not redesign.
 
 **Priority:** P3 · **Dependencies:** Editor/lab env gate (HM_EDITOR_ENABLED pattern)
+
+**Arena Nights (owner identity, 2026-11-13):** internal — Internal/dev tool: minimal Arena Nights tokens, hidden from players. Recommendation unchanged.
 
 #### A — Dev shell lab
 
@@ -11605,6 +12059,8 @@
 
 **Priority:** P3 · **Dependencies:** Editor/lab env gate (HM_EDITOR_ENABLED pattern)
 
+**Arena Nights (owner identity, 2026-11-13):** internal — Internal/dev tool: minimal Arena Nights tokens, hidden from players. Recommendation unchanged.
+
 #### A — Timeline-first lab
 
 | | |
@@ -11646,6 +12102,8 @@
 **Recommendation:** A — Internal tool: keep it functional and clearly separated from the player product; the priority is gating and dev-only styling, not redesign.
 
 **Priority:** P2 · **Dependencies:** Editor/lab env gate (HM_EDITOR_ENABLED pattern)
+
+**Arena Nights (owner identity, 2026-11-13):** internal — Internal/dev tool: minimal Arena Nights tokens, hidden from players. Recommendation unchanged.
 
 #### A — Gated QA harness with control panel
 
@@ -11689,6 +12147,8 @@
 
 **Priority:** P2 · **Dependencies:** Editor/lab env gate (HM_EDITOR_ENABLED pattern)
 
+**Arena Nights (owner identity, 2026-11-13):** internal — Internal/dev tool: minimal Arena Nights tokens, hidden from players. Recommendation unchanged.
+
 #### A — Move under dev gate
 
 | | |
@@ -11730,6 +12190,8 @@
 **Recommendation:** A — Internal tool: keep it functional and clearly separated from the player product; the priority is gating and dev-only styling, not redesign.
 
 **Priority:** P3 · **Dependencies:** Editor/lab env gate (HM_EDITOR_ENABLED pattern)
+
+**Arena Nights (owner identity, 2026-11-13):** internal — Internal/dev tool: minimal Arena Nights tokens, hidden from players. Recommendation unchanged.
 
 #### A — DEV ribbon toggle
 

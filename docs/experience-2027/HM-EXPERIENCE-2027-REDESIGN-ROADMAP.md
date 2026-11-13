@@ -1,5 +1,7 @@
 # HM Experience 2027 — Redesign Roadmap
 
+> **Amendment 2026-11-13:** Phase 1 now builds the **Arena Nights** token set with the **Club Identity System** (`--club-neon` → accent/glow/active states; dark ink on neon). The surface phases are unchanged because the recommendations are retained. The 21 adapted surfaces use their Arena adaptations (see the register). The C-specific paper/Floodlight mode work in Phases 3 and 5 is replaced by the intensity-escalation pattern.
+
 > Proposal. Implementation starts only after owner approval of the global decisions (G1–G8) and the P0 surface decisions in
 > `HM-EXPERIENCE-2027-OWNER-DECISIONS.md`. This track is **presentation only**. It does not touch the match engine, player attributes,
 > competition rules, economy, career logic or save schemas, and it does not unpause M6.1–M6.6.

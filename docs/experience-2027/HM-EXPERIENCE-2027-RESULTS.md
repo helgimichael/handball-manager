@@ -1,5 +1,7 @@
 # HM Experience 2027 — Results & Owner Presentation
 
+> **Amendment 2026-11-13:** the owner chose **Arena Nights + dynamic Club Identity System** and retained all surface recommendations. The result is summarised in Part 5 at the end of this file.
+
 > Branch `design/hm-experience-2027` in worktree `C:\DEV\WORKTREES\handball-manager\experience-2027`, based on
 > `feat/m6-0-state-hygiene` (ca0e85b, which contains `main` 9302bb1). Not pushed, not merged, not deployed.
 > Production code, match engine, save schemas, gameplay systems and Alpha careers were not touched. The only change outside the
@@ -190,3 +192,31 @@ See VISION §13. In short:
    - 6 Blender-rendered environment plates.
    - A procedural portrait style board.
    - Owner approval before any paid generation.
+
+---
+
+## Part 5 — Amendment 2026-11-13: Arena Nights + Club Identity System
+
+**Owner decision:** identity **B — Arena Nights**, with a **dynamic club neon accent** (Tumba neon blue, Hammarby neon green, clubless neon orange). **All surface recommendations are retained.** Full write-up: `HM-EXPERIENCE-2027-ARENA-NIGHTS-AMENDMENT.md`.
+
+What was done:
+- **Club Identity System** as prototype tokens: `--club-neon` drives accent, glow, active states, highlights, the attribute ramp and data series 1, with dark ink on neon fills. `K.applyClub()` handles Tumba, Hammarby, clubless and derived neons for every other club. Measured AA contrast holds for all of them.
+- **Recommendations retained:** the original proposal files are untouched. The verification script compares the lab data with them: all 231 recommendations and 551 alternatives are identical.
+- **Navigation:** the recommended Week Spine + hub rail (ENT-07/08) is kept and restyled in Arena; Arena's original top hub bar is still available in the lab for comparison.
+- **Conflicts:** 21 recommended alternatives depended on Paper & Floodlight presentation. Each has a documented conflict, an Arena adaptation and a "preserved" list. 9 are interactive hi-fi adaptations (with original vs adapted comparison in the lab); 12 are concept boards with written adaptations. The remaining 210: 49 native, 144 token-level, 17 internal.
+- **Design Lab:**
+  - Club selector and navigation switch.
+  - Arena section on every surface; presentation switch (Arena / Arena tokens / Original).
+  - Original-vs-adapted compare mode.
+  - New Club identity view and Owner-direction journey.
+  - G1/G9 shown as owner decisions.
+- **Verification** (`verify-amendment.cjs`; report: `HM-EXPERIENCE-2027-AMENDMENT-VERIFICATION.md`):
+  - Data, lab UI and render checks for all 231 surfaces.
+  - 162 club-accent renders across desktop, tablet and mobile.
+  - **0 issues.**
+- **Evidence:** 64 new boards in `boards-arena/`. Generated docs (OWNER-DECISIONS, SURFACE-PROPOSALS) now carry the Arena status per surface, and a new ARENA-ADAPTATION-REGISTER lists them all.
+
+Recommended next steps (updated):
+1. Review *Club identity* and the *★ Owner direction* journey in the lab.
+2. Review the 21 adaptations (Surfaces → filter "Arena-adapted" → Compare: original vs adapted) and accept or reject each.
+3. Phase 1 then builds the Arena token set with the Club Identity System as the first production design-system step.
