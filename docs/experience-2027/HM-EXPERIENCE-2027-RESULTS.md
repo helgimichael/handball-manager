@@ -220,3 +220,27 @@ Recommended next steps (updated):
 1. Review *Club identity* and the *★ Owner direction* journey in the lab.
 2. Review the 21 adaptations (Surfaces → filter "Arena-adapted" → Compare: original vs adapted) and accept or reject each.
 3. Phase 1 then builds the Arena token set with the Club Identity System as the first production design-system step.
+
+---
+
+## Part 6 — Club kit colour audit and Club Identity Registry (2026-11-13)
+
+Principle: **every club's neon comes from the dominant colour of its actual first-choice home shirt.** Full write-up: `HM-EXPERIENCE-2027-CLUB-IDENTITY-REGISTRY.md`.
+
+- **Coverage:**
+  - All 202 clubs in the game database: Handbollsligan 14, Allsvenskan 14, Division 1 24, Division 2 53, international and world pool 97.
+  - 9 verified, 98 probable, 57 uncertain, 38 unknown.
+  - Nothing invented: unknown kits use a neutral "pending" neon, and monochrome shirts without a documented accent use ice silver.
+- **Registry:**
+  - One data-driven source keyed by the game's real club IDs, covering kit colours, neon, rule, status, sources, accent basis, overrides and review reasons.
+  - The prototypes read only from it; all hard-coded club colours were removed.
+- **Neon generator:** OKLCH conversion that keeps the hue, with consistent intensity, an AA contrast gate, and deterministic output.
+- **Design Lab:** club selector with all 202 clubs, and a rebuilt Club identity view (kit card, seven-plus screens, club change, clubless, a six-club comparison, all neons).
+- **Evidence:**
+  - Visual checks of official imagery confirm Kristianstad (orange, not its blue crest), Sävehof (yellow), Hammarby (green), Malmö (black/red) and Guif (red), and show Tumba is blue rather than navy.
+  - 82 of 103 checkable game placeholder colours are a different colour family from the real shirt.
+- **Verification:**
+  - Club identity checks: 0 issues, including 588 renders.
+  - Recommendation-preservation checks: 0 issues (231 surfaces, 551 alternatives unchanged).
+  - Game data unchanged.
+- **Screenshots:** `boards-clubs/README.md`.

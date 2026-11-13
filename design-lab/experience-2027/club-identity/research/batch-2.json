@@ -1,0 +1,170 @@
+[
+ {
+  "id": "se_club_bodens_bk_hf",
+  "name": "Bodens BK HF",
+  "shortName": "Boden",
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_norra"
+ },
+ {
+  "id": "se_club_enkopings_hf",
+  "name": "Enköpings HF",
+  "shortName": "Enköping",
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_norra"
+ },
+ {
+  "id": "se_club_hk_cliff",
+  "name": "HK Cliff",
+  "shortName": "Cliff",
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_norra"
+ },
+ {
+  "id": "se_club_hk_eskil",
+  "name": "HK Eskil",
+  "shortName": "Eskil",
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_norra"
+ },
+ {
+  "id": "se_club_ik_bolton",
+  "name": "IK Bolton",
+  "shortName": "Bolton",
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_norra"
+ },
+ {
+  "id": "se_club_lif_lindesberg",
+  "name": "LIF Lindesberg",
+  "shortName": "Lindesberg",
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_norra"
+ },
+ {
+  "id": "se_club_rp_if_linkoping",
+  "name": "RP IF Linköping",
+  "shortName": "RP Linköping",
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_norra"
+ },
+ {
+  "id": "se_club_rimbo_hk_roslagen",
+  "name": "Rimbo HK Roslagen",
+  "shortName": "Rimbo",
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_norra"
+ },
+ {
+  "id": "se_club_sannadals_sk",
+  "name": "Sannadals SK",
+  "shortName": "Sannadal",
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_norra"
+ },
+ {
+  "id": "se_club_taby_hbk",
+  "name": "Täby HBK",
+  "shortName": "Täby",
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_norra"
+ },
+ {
+  "id": "se_club_uppsala_hk",
+  "name": "Uppsala HK",
+  "shortName": "Uppsala",
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_norra"
+ },
+ {
+  "id": "se_club_orebro_sk_hk_herr",
+  "name": "Örebro SK HK herr",
+  "shortName": "Örebro SK",
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_norra"
+ },
+ {
+  "id": "se_club_anderstorps_sk",
+  "name": "Anderstorps SK",
+  "shortName": "Anderstorp",
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_sodra"
+ },
+ {
+  "id": "se_club_eslovs_hk",
+  "name": "Eslövs HK",
+  "shortName": "Eslöv",
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_sodra"
+ },
+ {
+  "id": "se_club_hk_country",
+  "name": "HK Country",
+  "shortName": "Country",
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_sodra"
+ },
+ {
+  "id": "se_club_hk_s_hof",
+  "name": "HK S-hof",
+  "shortName": "S-hof",
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_sodra"
+ },
+ {
+  "id": "se_club_hk_onnerediterna",
+  "name": "HK Önnerediterna",
+  "shortName": "Önnerediterna",
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_sodra"
+ },
+ {
+  "id": "se_club_hp_alingsas",
+  "name": "HP Alingsås",
+  "shortName": "HP Alingsås",
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_sodra"
+ },
+ {
+  "id": "se_club_hp_warta",
+  "name": "HP Warta",
+  "shortName": "Warta",
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_sodra"
+ },
+ {
+  "id": "se_club_if_kristianstad",
+  "name": "IF Kristianstad",
+  "shortName": "IF Kristianstad",
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_sodra"
+ },
+ {
+  "id": "se_club_ik_lagan",
+  "name": "IK Lågan",
+  "shortName": "Lågan",
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_sodra"
+ },
+ {
+  "id": "se_club_karra_hf",
+  "name": "Kärra HF",
+  "shortName": "Kärra",
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_sodra"
+ },
+ {
+  "id": "se_club_vinslovs_hk",
+  "name": "Vinslövs HK",
+  "shortName": "Vinslöv",
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_sodra"
+ },
+ {
+  "id": "se_club_ahus_handboll",
+  "name": "Åhus Handboll",
+  "shortName": "Åhus",
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_sodra"
+ }
+]

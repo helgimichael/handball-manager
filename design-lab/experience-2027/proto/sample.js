@@ -19,6 +19,19 @@
     { id: 'ovh', name: 'OV Helsingborg', short: 'OV Helsingborg', abbr: 'OVH', c1: '#d40f14', c2: '#0c2340' },
     { id: 'ara', name: 'HK Aranäs', short: 'Aranäs', abbr: 'ARA', c1: '#1a5fa8', c2: '#ffffff' },
   ];
+  // Sample club ids → game registry ids (Club Identity Registry; the game's real club ids are preserved there).
+  const REG = { tum: 'swe2-tumba', sav: 'se_club_ik_savehof', kri: 'se_club_ifk_kristianstad', yst: 'se_club_ystads_if_hf', mal: 'se_club_hk_malmo', ali: 'se_club_alingsas_hk', lug: 'se_club_lugi_hf', sko: 'se_club_ifk_skovde_hk', red: 'swe2-redbergslid', ham: 'se_club_hammarby_if_hf', guif: 'swe2-guif', ifky: 'swe2-ystad2', ovh: 'se_club_ov_helsingborg', ara: 'swe2-aranas' };
+  // Crest colours come ONLY from the registry's home-shirt colours (single source). Clubs whose kit is not
+  // verified keep a neutral placeholder crest so no colour is invented.
+  const R = (window.HM_CLUB_REGISTRY && window.HM_CLUB_REGISTRY.clubs) || [];
+  const NEUTRAL = { c1: '#3a4250', c2: '#c9d1dc' };
+  const hasKit = (r) => r && r.p && ['VERIFIED', 'PROBABLE', 'UNCERTAIN'].includes(r.status);
+  const trimFor = (r) => { const cands = [r.s, r.t].filter(Boolean).filter((h) => h.toUpperCase() !== r.p.toUpperCase()); return cands[0] || (r.p.toUpperCase() === '#FFFFFF' ? '#111111' : '#FFFFFF'); };
+  clubs.forEach((c) => {
+    c.regId = REG[c.id];
+    const r = R.find((x) => x.id === c.regId);
+    if (hasKit(r)) Object.assign(c, { c1: r.p, c2: trimFor(r), kitStatus: r.status }); else Object.assign(c, NEUTRAL, { kitStatus: r ? r.status : 'NOT_RESEARCHED' });
+  });
   const club = (id) => clubs.find((c) => c.id === id);
 
   // standings: [clubId, P, W, D, L, GF, GA, form]

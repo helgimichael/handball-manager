@@ -142,3 +142,31 @@ a { color: var(--l-acc); }
 .tag.ar-internal { background: var(--l-bg); color: var(--l-muted); }
 .amend { display: flex; justify-content: space-between; gap: 16px; align-items: center; flex-wrap: wrap; padding: 16px; margin-bottom: 18px; border-radius: 12px; background: linear-gradient(120deg, color-mix(in srgb, var(--l-club) 14%, var(--l-panel)), var(--l-panel) 60%); border: 1px solid color-mix(in srgb, var(--l-club) 45%, var(--l-line)); }
 .lab-logo { background: linear-gradient(135deg, var(--l-club), #070b12); box-shadow: 0 0 14px color-mix(in srgb, var(--l-club) 45%, transparent); }
+
+/* ---------- Club Identity Registry view ---------- */
+.ci-wrap { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 18px; margin-top: 14px; align-items: start; }
+.ci-list { position: sticky; top: calc(var(--top, 54px) + 8px); background: var(--l-panel); border: 1px solid var(--l-line); border-radius: 12px; padding: 10px; display: flex; flex-direction: column; gap: 8px; max-height: calc(100vh - var(--top, 54px) - 24px); }
+.ci-list input { width: 100%; padding: 7px 10px; border-radius: 7px; border: 1px solid var(--l-line); background: var(--l-bg); }
+.ci-items { overflow: auto; flex: 1; }
+.ci-it { display: grid; grid-template-columns: 16px 16px 1fr auto; gap: 8px; align-items: center; width: 100%; border: 0; background: none; padding: 6px 4px; border-bottom: 1px solid var(--l-line); text-align: left; }
+.ci-it i { width: 16px; height: 16px; border-radius: 4px; display: block; }
+.ci-it .nm { font-size: 12.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ci-it.on, .ci-it:hover { background: var(--l-acc-soft); }
+.ci-main { min-width: 0; }
+.ci-card { display: grid; grid-template-columns: auto auto auto minmax(0, 1fr); gap: 18px; align-items: center; padding: 18px; border-radius: 14px; background: radial-gradient(60% 120% at 20% 50%, color-mix(in srgb, var(--n) 16%, transparent), transparent 70%), #0b1120; color: #e8ecf2; border: 1px solid color-mix(in srgb, var(--n) 40%, #262d3a); }
+.ci-card .hint { color: #93a0b3; }
+.ci-card .kv dt { color: #93a0b3; }
+.ci-card a { color: var(--n); }
+.ci-shirt, .ci-neon { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.ci-neon i { width: 96px; height: 96px; border-radius: 22px; display: block; box-shadow: 0 0 30px var(--n), inset 0 0 0 1px rgba(255,255,255,.2); }
+.ci-arrow { font-size: 28px; color: var(--n); }
+.ci-pair { display: flex; gap: 18px; align-items: flex-start; flex-wrap: wrap; margin-top: 22px; }
+.ci-mini { display: flex; gap: 8px; align-items: center; border: 0; background: none; text-align: left; margin-bottom: 26px; }
+.ci-mini small { display: block; color: var(--l-muted); }
+.ci-strip { display: flex; flex-wrap: wrap; gap: 3px; }
+.ci-strip button { width: 18px; height: 28px; border: 0; border-radius: 3px; }
+.ci-strip button.on { outline: 2px solid var(--l-ink); outline-offset: 2px; }
+.sw-i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: middle; }
+@media (max-width: 1000px) { .ci-wrap { grid-template-columns: 1fr; } .ci-list { position: static; max-height: 360px; } .ci-card { grid-template-columns: auto auto auto; } .ci-meta { grid-column: 1 / -1; } }
+.ci-card .btn-l { color: var(--l-ink); }
+.ci-card .btn-l.pri { color: #fff; }

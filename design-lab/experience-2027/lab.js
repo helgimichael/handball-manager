@@ -5,7 +5,11 @@
   const byId = new Map(SURF.map((s) => [s.id, s]));
   const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const IDN = { a: 'A · Tactical Clarity', b: 'B · Arena Nights', c: 'C · Paper & Floodlight' };
-  const CLUBS = { tum: ['IFK Tumba', '#2e9bff'], ham: ['Hammarby', '#1ff28a'], none: ['Utan klubb', '#ff7a1a'] };
+  // Club Identity Registry (generated from club-identity/registry.json): the ONLY source of club colours.
+  const REG = window.HM_CLUB_REGISTRY || { clubs: [], clubless: '#ff7a1a' };
+  const REGC = REG.clubs; const REGBY = new Map(REGC.map((r) => [r.id, r]));
+  const SAMPLE_REG = { tum: 'swe2-tumba', ham: 'se_club_hammarby_if_hf' }; // legacy lab values
+  const clubNeon = (id) => (id === 'none' ? REG.clubless : (REGBY.get(SAMPLE_REG[id] || id) || {}).neon || REG.pending);
   const OWNER = D.owner || {};
   const DEV = { desktop: [1440, 900], tablet: [1024, 1180], mobile: [390, 844] };
   const KEY = 'hm-exp27-lab-v1';
@@ -14,10 +18,12 @@
   /* ---------------- state (localStorage is a per-viewer convenience; export is the durable record) ---------------- */
   // pres: 'arena' = recommended presentation under the owner identity (Arena Nights; adapted where a conflict exists)
   //       'native' = the alternative in the identity it was designed for (original) · 'tokens' = original structure in Arena tokens, no adaptation layer
-  const def = { view: 'overview', identity: 'b', club: 'tum', nav: 'rec', pres: 'arena', device: 'desktop', density: '', surface: 'DSH-01', alt: null, filter: 'all', q: '', notes: {}, global: {}, globalNotes: {}, journey: 'owner', step: 0, flow: 0, flowStep: 0, cmpMode: 'arena', clubScreen: 'dashboard' };
+  const def = { view: 'overview', identity: 'b', club: 'swe2-tumba', nav: 'rec', pres: 'arena', device: 'desktop', density: '', surface: 'DSH-01', alt: null, filter: 'all', q: '', notes: {}, global: {}, globalNotes: {}, journey: 'owner', step: 0, flow: 0, flowStep: 0, cmpMode: 'arena', clubScreen: 'dashboard' };
   let st = Object.assign({}, def);
   try { const raw = localStorage.getItem(KEY); if (raw) st = Object.assign({}, def, JSON.parse(raw)); } catch (e) { /* storage unavailable */ }
   // Amendment 2026-11-13: move existing viewers onto the owner identity once (their notes and choices are kept).
+  if (SAMPLE_REG[st.club]) st.club = SAMPLE_REG[st.club];
+  if (!st.clubPick) st.clubPick = 'swe2-tumba';
   if (!st.amend20261113) Object.assign(st, { amend20261113: true, identity: 'b', club: st.club || 'tum', nav: 'rec', pres: 'arena', journey: 'owner', cmpMode: 'arena' });
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) { /* ignore */ } };
   const set = (patch, rerender = true) => { Object.assign(st, patch); save(); if (rerender) render(); };
@@ -41,7 +47,7 @@
     if (opts.adapt) p.set('adapt', '1');
     if (st.density) p.set('density', st.density);
     if (opts.shell === false) p.set('shell', '0');
-    return 'frame.html?v=20261113d#' + p.toString();
+    return 'frame.html?v=20261113h#' + p.toString();
   }
   // URL for a surface/alternative according to a presentation mode (see `pres` above).
   function presUrl(s, alt, pres) {
@@ -70,7 +76,8 @@
     document.getElementById('identity').value = st.identity;
     const cs = document.getElementById('club'); if (cs) cs.value = st.club;
     document.querySelectorAll('#navmode button').forEach((b) => b.classList.toggle('on', b.dataset.v === st.nav));
-    document.documentElement.style.setProperty('--l-club', CLUBS[st.club] ? CLUBS[st.club][1] : '#ff7a1a');
+    document.documentElement.style.setProperty('--l-club', clubNeon(st.club));
+    const cs2 = document.getElementById('club'); if (cs2 && !cs2.dataset.filled) { cs2.innerHTML = '<option value="none">Utan klubb · clubless (neon orange)</option>' + Object.keys(TIER_SHORT).map((t) => `<optgroup label="${t}">${REGC.filter((r) => r.tier === t).map((r) => `<option value="${r.id}">${esc(r.name)}${r.status === 'VERIFIED' || r.status === 'PROBABLE' ? '' : ' (' + r.status.toLowerCase() + ')'}</option>`).join('')}</optgroup>`).join(''); cs2.dataset.filled = '1'; } if (cs2) cs2.value = SAMPLE_REG[st.club] || st.club;
     const hd = document.querySelector('.lab-top'); if (hd) document.documentElement.style.setProperty('--top', hd.offsetHeight + 'px');
     document.querySelectorAll('#device button').forEach((b) => b.classList.toggle('on', b.dataset.v === st.device));
     document.querySelectorAll('#density button').forEach((b) => b.classList.toggle('on', b.dataset.v === st.density));
@@ -178,7 +185,7 @@
   /* ---------------- IDENTITIES ---------------- */
   const IDENT = [
     { k: 'a', name: 'Tactical Clarity', sub: 'Modern Manager', bg: 'linear-gradient(135deg,#2257f5,#0e1726)', sw: ['#f5f6f8', '#ffffff', '#0e1726', '#2257f5', '#12a150', '#e5484d'], type: 'Inter · JetBrains Mono', nav: '6-hub rail + Ctrl-K palette + hover cards', motion: 'Functional, 120–180 ms', img: 'Minimal — crests, monograms, data as image' },
-    { k: 'b', name: 'Arena Nights', sub: 'OWNER DECISION 2026-11-13 · + Club Identity System', bg: 'linear-gradient(135deg,var(--l-club),#070b12 70%)', sw: ['#070b12', '#111a2b', '#f4f6fa', '#2e9bff', '#1ff28a', '#ff7a1a'], type: 'Barlow Condensed · Barlow', nav: 'Original concept: top hub bar. Owner direction keeps the recommended Week Spine + hub rail (ENT-07/08), restyled', motion: 'Expressive, camera-like 300–450 ms; intensity escalation on matchday', img: 'Maximal — portraits & environments' },
+    { k: 'b', name: 'Arena Nights', sub: 'OWNER DECISION 2026-11-13 · + Club Identity System', bg: 'linear-gradient(135deg,var(--l-club),#070b12 70%)', sw: ['#070b12', '#111a2b', '#f4f6fa', ...['swe2-tumba', 'se_club_hammarby_if_hf', 'se_club_ik_savehof'].map((id) => clubNeon(id)), REG.clubless], type: 'Barlow Condensed · Barlow', nav: 'Original concept: top hub bar. Owner direction keeps the recommended Week Spine + hub rail (ENT-07/08), restyled', motion: 'Expressive, camera-like 300–450 ms; intensity escalation on matchday', img: 'Maximal — portraits & environments' },
     { k: 'c', name: 'Paper & Floodlight', sub: "Claude's original recommendation", bg: 'linear-gradient(135deg,#c84320,#0f1b2d 70%)', sw: ['#f3f1ea', '#fbfaf6', '#131b26', '#c84320', '#c99218', '#0b1220'], type: 'Saira Condensed · IBM Plex · Source Serif 4', nav: 'Week Spine + hub rail + Peek drawer', motion: 'Calm on paper, expressive in floodlight', img: 'Curated — hubs, stories, moments' },
   ];
   function vIdentities() {
@@ -191,23 +198,70 @@
       <div class="grid3" style="margin-top:22px">${['a', 'b', 'c'].map((t) => `<div>${preview(frameUrl(scr, t.toUpperCase(), t, { nav: t }), st.device, w, IDN[t])}</div>`).join('')}</div></div>`;
   }
 
-  /* ---------------- CLUB IDENTITY (owner decision 2026-11-13) ---------------- */
-  const CLUB_SCREENS = [['dashboard', 'DSH-01', 'Dashboard'], ['entry', 'ENT-02', 'Entry'], ['player', 'SQD-02', 'Player'], ['squad', 'SQD-01', 'Squad'], ['training', 'TRN-01', 'Training'], ['scouting', 'REC-01', 'Scouting'], ['transfers', 'REC-03', 'Transfers'], ['competition', 'CMP-01', 'Competition'], ['matchday', 'MDY-02', 'Matchday'], ['analysis', 'ANL-01', 'Report'], ['inbox', 'WLD-01', 'Inbox'], ['manager', 'MGR-01', 'Career'], ['clubless', null, 'Clubless job market'], ['system', null, 'Components']];
+  /* ---------------- CLUB IDENTITY (registry-driven: every club's neon comes from its home shirt) ---------------- */
+  const CLUB_SCREENS = [['dashboard', 'DSH-01', 'Dashboard + navigation'], ['player', 'SQD-02', 'Player profile'], ['squad', 'SQD-01', 'Squad'], ['scouting', 'REC-01', 'Scouting'], ['matchday', 'MDY-02', 'Matchday'], ['analysis', 'ANL-01', 'Analysis'], ['entry', 'ENT-02', 'Entry'], ['training', 'TRN-01', 'Training'], ['transfers', 'REC-03', 'Transfers'], ['competition', 'CMP-01', 'Competition'], ['inbox', 'WLD-01', 'Inbox'], ['manager', 'MGR-01', 'Career'], ['clubless', null, 'Clubless job market'], ['system', null, 'Components']];
+  const TIER_SHORT = { 'SE-1 Handbollsligan': 'HBL', 'SE-2 Allsvenskan': 'ALLSV', 'SE-3 Division 1': 'DIV 1', 'SE-4 Division 2': 'DIV 2', 'International / world pool': 'INTL' };
+  const STATUS_CLS = { VERIFIED: 'ar-native', PROBABLE: 'ar-token', UNCERTAIN: 'ar-adapt', UNKNOWN: 'p0', NOT_RESEARCHED: 'p0' };
+  const shirtSvg = (r, size = 120) => {
+    const p = r.p || '#2a3140', s = r.s || r.t || (p.toUpperCase() === '#FFFFFF' ? '#111111' : '#ffffff'), t = r.t || s;
+    const pat = r.pattern || 'solid';
+    const id = 'sh' + r.id.replace(/[^a-z0-9]/gi, '');
+    const fill = pat === 'stripes' ? `url(#${id})` : pat === 'hoops' ? `url(#${id}h)` : p;
+    const half = pat === 'halves' ? `<path d="M50 14 L50 100 L82 100 L82 40 L96 46 L100 28 L74 12 L60 14 Q55 20 50 20Z" fill="${s}"/>` : '';
+    const sleeves = pat === 'sleeves' ? s : p;
+    return `<svg viewBox="0 0 100 104" width="${size}" height="${size * 1.04}" aria-label="Home shirt ${esc(r.pn || 'unknown')}"><defs><pattern id="${id}" width="14" height="10" patternUnits="userSpaceOnUse"><rect width="14" height="10" fill="${p}"/><rect width="6" height="10" fill="${s}"/></pattern><pattern id="${id}h" width="10" height="14" patternUnits="userSpaceOnUse"><rect width="10" height="14" fill="${p}"/><rect width="10" height="6" fill="${s}"/></pattern></defs><path d="M26 12 L4 28 L10 46 L18 42 L18 100 L82 100 L82 42 L90 46 L96 28 L74 12 L60 14 Q50 24 40 14Z" fill="${fill}" stroke="rgba(0,0,0,.25)"/>${half}<path d="M4 28 L10 46 L18 42 L18 30Z M96 28 L90 46 L82 42 L82 30Z" fill="${sleeves}" opacity=".95"/><path d="M40 14 Q50 24 60 14" fill="none" stroke="${t}" stroke-width="4"/>${r.p ? '' : '<text x="50" y="66" text-anchor="middle" font-size="22" fill="#9fb0c6" font-family="Inter">?</text>'}</svg>`;
+  };
+  const statusTag = (r) => `<span class="tag ${STATUS_CLS[r.status] || 'p0'}">${r.status}</span>`;
+  // Most distinct verified/probable clubs (greedy max hue distance), for side-by-side demos.
+  function distinctClubs(n) {
+    const hue = (hex) => { const v = parseInt(hex.slice(1), 16); const r = (v >> 16) / 255, g = ((v >> 8) & 255) / 255, b = (v & 255) / 255; const mx = Math.max(r, g, b), mn = Math.min(r, g, b); if (mx === mn) return -1; const d = mx - mn; let h = mx === r ? (g - b) / d + (g < b ? 6 : 0) : mx === g ? (b - r) / d + 2 : (r - g) / d + 4; return h * 60; };
+    const pool = REGC.filter((r) => ['VERIFIED', 'PROBABLE'].includes(r.status) && r.rule !== 'pending' && r.basis !== 'club-or-away-colour' && !r.rule.startsWith('monochrome'));
+    const prefer = (r) => (r.status === 'VERIFIED' ? 0 : 2) + (r.tier.startsWith('SE') ? 0 : 1);
+    pool.sort((a, b) => prefer(a) - prefer(b));
+    const out = [];
+    for (const r of pool) { if (out.length >= n) break; const h = hue(r.neon); const near = out.some((o) => { const ho = hue(o.neon); return h < 0 || ho < 0 ? h === ho : Math.min(Math.abs(h - ho), 360 - Math.abs(h - ho)) < 28; }); if (!near) out.push(r); }
+    return out;
+  }
   function vClubId() {
-    const w = Math.max(300, (document.getElementById('app').clientWidth - 90) / 3);
-    const [k, sid, label] = CLUB_SCREENS.find((x) => x[0] === st.clubScreen) || CLUB_SCREENS[0];
+    const appW = document.getElementById('app').clientWidth;
+    const pick = REGBY.get(st.clubPick) || REGBY.get('swe2-tumba') || REGC[0];
+    const [k, sid] = CLUB_SCREENS.find((x) => x[0] === st.clubScreen) || CLUB_SCREENS[0];
     const s = sid && byId.get(sid);
-    const url = (club) => {
-      if (k === 'clubless') return frameUrl('clubless', 'B', 'b', { club });
+    const url = (club, dev) => {
+      if (k === 'clubless') return frameUrl('clubless', 'B', 'b', { club: 'none' });
       if (k === 'system') return frameUrl('system', 'A', 'b', { club, shell: false });
       return frameUrl(sid, s.recommendation, 'b', { club, adapt: hasAdapt(s, s.recommendation) });
     };
-    return `<div class="page-l"><h1>Club Identity System</h1><p class="lede-l">The active club determines the Arena Nights accent. Only CSS custom properties change — <code>--club-neon</code> → <code>--accent</code>, <code>--accent-soft</code>, <code>--accent-line</code>, <code>--glow</code>, <code>--club-2</code>, the attribute ramp and <code>--data-1</code>; <code>--club-primary</code> drives match-day cells and score bugs. The dark Arena foundation, components and layouts are identical for every club. Each screen below shows its <b>retained recommendation</b> (adapted where needed).</p>
-      <div class="cards" style="margin-top:14px">${Object.entries(CLUBS).map(([id, [n, hex]]) => `<div class="card-l" style="border-top:3px solid ${hex}"><h3>${n}</h3><div style="display:flex;gap:10px;align-items:center"><i style="width:34px;height:34px;border-radius:8px;background:${hex};box-shadow:0 0 18px ${hex}"></i><code>--club-neon: ${hex}</code></div><div class="hint" style="margin-top:6px">${id === 'none' ? 'Default for a manager without a club.' : id === 'tum' ? 'Owner example: neon blue.' : 'Owner example: neon green.'} Other clubs derive their neon from club colours (hue kept, saturation/lightness fixed).</div></div>`).join('')}</div>
-      <h2>Same screen · three clubs</h2><div class="chips" style="margin-bottom:10px">${CLUB_SCREENS.map(([key, , l]) => `<button class="${key === k ? 'on' : ''}" data-cscreen="${key}">${l}</button>`).join('')}</div>
-      ${s ? `<p class="hint">${sid} · recommended ${s.recommendation} · ${esc(altOf(s, s.recommendation).name)} ${arenaChip(s)}</p>` : ''}
-      <div class="grid3" style="margin-top:22px">${Object.keys(CLUBS).map((c) => `<div>${preview(url(c), st.device, w, CLUBS[c][0])}</div>`).join('')}</div>
-      <p class="hint" style="margin-top:12px">Clubless: the shell shows the manager as "Fri agent" with the default orange; the dedicated <b>Clubless job market</b> screen shows the coherent clubless state (MGR-01c). Other clubless previews reuse the sample career's content.</p></div>`;
+    const q = (st.clubQ || '').toLowerCase();
+    const list = REGC.filter((r) => (!st.clubTier || r.tier === st.clubTier) && (!st.clubStatus || r.status === st.clubStatus) && (!q || r.name.toLowerCase().includes(q) || r.id.includes(q)));
+    const counts = REGC.reduce((m, r) => ((m[r.status] = (m[r.status] || 0) + 1), m), {});
+    const distinct = distinctClubs(6);
+    const leftW = 300, bigW = Math.max(320, appW - leftW - 110);
+    const sortedHue = [...REGC].sort((a, b) => a.neon.localeCompare(b.neon));
+    return `<div class="page-l"><h1>Club Identity System</h1><p class="lede-l">Every club's neon comes from the <b>dominant colour of its first-choice home shirt</b>, from the Club Identity Registry (${REGC.length} clubs, all tiers). Only CSS custom properties change when you change club (<code>--club-neon</code> → accent, glow, active states, highlights; <code>--club-primary</code> → match-day cells, score bug). The dark Arena foundation is identical for every club. Status: ${Object.entries(counts).map(([k2, v]) => `${statusTag({ status: k2 })} ${v}`).join(' ')}</p>
+      <div class="ci-wrap">
+        <aside class="ci-list"><input id="clubq" placeholder="Search ${REGC.length} clubs…" value="${esc(st.clubQ || '')}" aria-label="Search clubs"><div class="chips">${['', ...Object.keys(TIER_SHORT)].map((t) => `<button class="${(st.clubTier || '') === t ? 'on' : ''}" data-ctier="${esc(t)}">${t ? TIER_SHORT[t] : 'All'}</button>`).join('')}</div><div class="chips">${['', 'VERIFIED', 'PROBABLE', 'UNCERTAIN', 'UNKNOWN'].map((t) => `<button class="${(st.clubStatus || '') === t ? 'on' : ''}" data-cstatus="${t}">${t || 'Any status'}</button>`).join('')}</div>
+          <div class="ci-items">${list.map((r) => `<button class="ci-it ${r.id === pick.id ? 'on' : ''}" data-cpick="${r.id}"><i style="background:${r.p || 'transparent'};${r.p ? '' : 'border:1px dashed var(--l-muted)'}"></i><i style="background:${r.neon};box-shadow:0 0 8px ${r.neon}"></i><span class="nm">${esc(r.name)}</span><span class="tag ${STATUS_CLS[r.status]}">${r.status[0]}</span></button>`).join('') || '<p class="hint">No clubs match.</p>'}</div></aside>
+        <section class="ci-main">
+          <div class="ci-card" style="--n:${pick.neon}">
+            <div class="ci-shirt">${shirtSvg(pick, 120)}<span class="hint">Home shirt</span></div>
+            <div class="ci-arrow">→</div>
+            <div class="ci-neon"><i style="background:${pick.neon}"></i><code>${pick.neon}</code><span class="hint">Arena neon</span></div>
+            <div class="ci-meta"><div class="hint">${esc(pick.tier)} · <code>${pick.id}</code></div><h2 style="margin:2px 0 6px">${esc(pick.name)}</h2>
+              <dl class="kv"><dt>Home shirt</dt><dd>${esc(pick.desc || '—')}</dd><dt>Primary</dt><dd>${pick.pn ? `${esc(pick.pn)} <code>${pick.p}</code>` : '—'}</dd><dt>Secondary</dt><dd>${pick.sn ? `${esc(pick.sn)} <code>${pick.s}</code>` : '—'}</dd><dt>Trim</dt><dd>${pick.tn ? `${esc(pick.tn)} <code>${pick.t}</code>` : '—'}</dd><dt>Neon rule</dt><dd>${esc(pick.rule)}</dd><dt>Status</dt><dd>${statusTag(pick)} ${pick.conf != null ? `confidence ${pick.conf}` : ''} ${pick.season ? `· ${esc(pick.season)}` : ''}</dd><dt>Source</dt><dd>${pick.src ? `<a href="${esc(pick.src)}" target="_blank" rel="noopener">${esc(pick.srcType || 'source')}</a> ${pick.nsrc > 1 ? `+${pick.nsrc - 1} more` : ''}` : 'none found'}</dd><dt>Game today</dt><dd><i class="sw-i" style="background:${pick.ph || '#6b7280'}"></i> <code>${pick.ph || '—'}</code> unverified crest placeholder in the game data (not used)</dd></dl>
+              ${pick.review && pick.review.length ? `<div class="warnbox">Review: ${esc(pick.review.join('; '))}</div>` : ''}
+              <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px"><button class="btn-l pri" data-cactive="${pick.id}">${st.club === pick.id ? '✓ Active club in lab' : 'Make active club in lab'}</button><button class="btn-l" data-cactive="none">Clubless manager</button></div></div>
+          </div>
+          <h2>${esc(pick.name)} across the game</h2><div class="chips" style="margin-bottom:10px">${CLUB_SCREENS.map(([key, , l]) => `<button class="${key === k ? 'on' : ''}" data-cscreen="${key}">${l}</button>`).join('')}</div>
+          ${s ? `<p class="hint">${sid} · retained recommendation ${s.recommendation} · ${esc(altOf(s, s.recommendation).name)} ${arenaChip(s)}</p>` : ''}
+          <div class="ci-pair"><div>${preview(url(pick.id), 'desktop', bigW * 0.72, 'Desktop')}</div><div>${preview(url(pick.id), 'mobile', bigW * 0.22, 'Mobile')}</div></div>
+          <h2>Club change</h2><p class="hint">The same screen before and after changing club, and as a clubless manager. Only the identity tokens change.</p>
+          <div class="grid3">${[[st.club && st.club !== pick.id ? st.club : 'swe2-tumba', 'Before'], [pick.id, 'After: ' + pick.name], ['none', 'Clubless (neon orange)']].map(([c, l]) => `<div>${preview(url(c), 'desktop', (bigW - 40) / 3, l)}</div>`).join('')}</div>
+          <h2>Six genuinely different home shirts</h2><p class="hint">Auto-selected verified or probable clubs with the most distinct neons (Swedish clubs first).</p>
+          <div class="grid3">${distinct.map((r) => `<div><button class="ci-mini" data-cpick="${r.id}">${shirtSvg(r, 34)}<span><b>${esc(r.name)}</b><small>${esc(r.pn || '')} → <code>${r.neon}</code></small></span></button>${preview(url(r.id), 'desktop', (bigW - 40) / 3, '')}</div>`).join('')}</div>
+          <h2>All ${REGC.length} neons</h2><p class="hint">Every club at the same intensity. Steel = kit not yet verified; ice silver = monochrome shirt with no documented accent. Click to inspect.</p>
+          <div class="ci-strip">${sortedHue.map((r) => `<button title="${esc(r.name)} · ${r.status} · ${r.neon}" data-cpick="${r.id}" style="background:${r.neon}" class="${r.id === pick.id ? 'on' : ''}"></button>`).join('')}</div>
+        </section></div></div>`;
   }
 
   /* ---------------- JOURNEYS & FLOWS ---------------- */
@@ -311,6 +365,10 @@
     if (d.alt) return set({ alt: d.alt });
     if (d.pres) return set({ pres: d.pres });
     if (d.cscreen) return set({ clubScreen: d.cscreen });
+    if (d.cpick) return set({ clubPick: d.cpick });
+    if (d.ctier !== undefined) return set({ clubTier: d.ctier });
+    if (d.cstatus !== undefined) return set({ clubStatus: d.cstatus });
+    if (d.cactive) { toast(d.cactive === 'none' ? 'Clubless manager' : 'Active club: ' + (REGBY.get(d.cactive) || {}).name); return set({ club: d.cactive }); }
     if (d.cmparena) return set({ view: 'compare', cmpMode: 'arena', alt: null });
     if (d.filtergo) return set({ view: 'surfaces', filter: d.filtergo });
     if (d.jgo) return set({ view: 'journeys', journey: d.jgo, step: 0 });
@@ -343,6 +401,7 @@
   });
   document.addEventListener('input', (e) => {
     const t = e.target;
+    if (t.id === 'clubq') { st.clubQ = t.value; save(); const pos = t.selectionStart; render(); const q2 = document.getElementById('clubq'); q2.focus(); q2.setSelectionRange(pos, pos); return; }
     if (t.id === 'q') { st.q = t.value; save(); const pos = t.selectionStart; render(); const q = document.getElementById('q'); q.focus(); q.setSelectionRange(pos, pos); return; }
     if (t.dataset.k) { const id = t.closest('[data-note]').dataset.note; note(id)[t.dataset.k] = t.value; save(); const s = document.getElementById('saved'); if (s) s.textContent = 'saved'; }
     if (t.dataset.gnote) { st.globalNotes[t.dataset.gnote] = t.value; save(); }

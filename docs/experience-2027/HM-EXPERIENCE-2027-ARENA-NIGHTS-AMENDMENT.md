@@ -61,6 +61,8 @@ Every adaptation keeps the original's information hierarchy, interactions, navig
 
 ## 3. Club Identity System (prototype design system)
 
+> **Update (club kit audit, 2026-11-13):** the derivation below is superseded by the **Club Identity Registry**. Every club's neon now comes from its researched home-shirt colour through `club-identity/neon.js` (OKLCH); the hard-coded Tumba/Hammarby overrides were removed. Tumba is now `#4694ff` (blue shirt) and Hammarby `#41e77c` (green shirt, verified). See `HM-EXPERIENCE-2027-CLUB-IDENTITY-REGISTRY.md`. The token contract in this section is unchanged.
+
 **Principle:** the club changes only CSS custom properties. Components, layouts and the token contract are identical for every club.
 
 | Token | Definition (Arena Nights, `proto/themes.css`) |

@@ -1,0 +1,433 @@
+[
+  {
+    "id": "swe2-aranas",
+    "name": "HK Aranäs",
+    "primary": "white",
+    "primaryHex": null,
+    "secondary": "navy",
+    "secondaryHex": "#15317E",
+    "trim": "yellow",
+    "trimHex": "#FFFF00",
+    "pattern": "other",
+    "description": "White shirt with blue side panels, white shorts; blue away. Club colours navy and yellow.",
+    "season": "unspecified (Wikipedia infobox)",
+    "crestDiffers": false,
+    "status": "PROBABLE",
+    "confidence": 0.5,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/w/index.php?title=HK_Aranäs&action=raw",
+        "type": "wikipedia",
+        "evidence": "colour1 #15317E, colour2 #FFFF00; body1 FFFFFF with _bluesides; body2 0000FF"
+      },
+      {
+        "url": "https://results.partillecup.com/2023/teams/42128323",
+        "type": "other",
+        "evidence": "Partille Cup 2023 'HK Aranäs White' youth team: Shirt Color White / Blue"
+      },
+      {
+        "url": "https://team.intersport.se/hk-aranas",
+        "type": "official-shop",
+        "evidence": "Club training wear in puma-navy, puma-white, blue-horizon (no match shirt listed)"
+      }
+    ],
+    "notes": "Home vs away for white/blue not officially confirmed; yellow is club colour2 only.",
+    "reviewReason": "White primary; home designation and accent from Wikipedia/youth data only.",
+    "verifyAttempt": "Searched 'HK Aranäs matchtröja hemma'; opened hkaranas.se (no kit text) and team.intersport.se/hk-aranas club shop (Puma training wear only, no match shirt).",
+    "imageUrls": []
+  },
+  {
+    "id": "swe2-drott",
+    "name": "HK Drott Halmstad",
+    "primary": "white",
+    "primaryHex": null,
+    "secondary": "red",
+    "secondaryHex": null,
+    "trim": "red",
+    "trimHex": null,
+    "pattern": "solid",
+    "description": "White shirt ('den vita tröjan'), white shorts; red away. Red text/accent colour.",
+    "season": "2026/27 (club news 27 Jul, men's squad for säsongen 26/27)",
+    "crestDiffers": false,
+    "status": "VERIFIED",
+    "confidence": 0.85,
+    "sources": [
+      {
+        "url": "https://www.hkdrott.se/hkdrott/nyheter/2541287/arets-laguppstallning-herrar",
+        "type": "official-club",
+        "evidence": "'Årets laguppställning herrar' for säsongen 26/27: players ready to take the next step 'i den vita tröjan!'"
+      },
+      {
+        "url": "https://sv.wikipedia.org/w/index.php?title=HK_Drott_Halmstad&action=raw",
+        "type": "wikipedia",
+        "evidence": "färg white, textfärg red; body1 FFFFFF, shorts1 FFFFFF; body2 FF0000"
+      }
+    ],
+    "notes": "White home shirt confirmed by official 2026/27 men's squad article; colours unchanged. Red accent still from Wikipedia textfärg/away kit only. Club shop hkdrott.shop.kents.se could not be fetched (TLS error).",
+    "reviewReason": null,
+    "imageUrls": [
+      "https://images.svenskalag.se/1e68f1d1-00eb-470c-b9bb-12233e8e043b/Laguppst%C3%A4llning%20herr%2026-27.jpg?1"
+    ]
+  },
+  {
+    "id": "swe2-guif",
+    "name": "Eskilstuna Guif IF",
+    "primary": "red",
+    "primaryHex": null,
+    "secondary": "black",
+    "secondaryHex": null,
+    "trim": null,
+    "trimHex": null,
+    "pattern": "solid",
+    "description": "Red shirt (hummel), black shorts; white away with red.",
+    "season": "2020- (Wikipedia); official 2026/27 home shirt exists but colour not stated",
+    "crestDiffers": false,
+    "status": "PROBABLE",
+    "confidence": 0.65,
+    "sources": [
+      {
+        "url": "https://sv.wikipedia.org/w/index.php?title=Eskilstuna_Guif&action=raw",
+        "type": "wikipedia",
+        "evidence": "färg #FF0000; body1 FF0000, shorts1 000000"
+      },
+      {
+        "url": "https://en.wikipedia.org/w/index.php?title=Eskilstuna_Guif&action=raw",
+        "type": "wikipedia",
+        "evidence": "pattern_b1 _hummelauthentic20r, shorts _hummelauthentic20b; away _hummelauthentic20wr"
+      },
+      {
+        "url": "https://shop.guif.nu/product/2026-2027-match-hemma",
+        "type": "official-shop",
+        "evidence": "'officiella hemmamatchtröja för säsongen 2026/2027' – no colour stated"
+      }
+    ],
+    "notes": "Shorts colour 'b' in en template ambiguous (black/blue); sv says black.",
+    "reviewReason": null,
+    "verifyAttempt": "Opened shop.guif.nu and product '2026/2027 Match - Hemma' (official 2026/27 home shirt; text says only 'Bär Guif-färgerna', no colour named; image alt text is just the product name). Away product '2026/2027 Match - Borta' also has no colour text.",
+    "imageUrls": [
+      "https://images.sumup.com/img_2E1YBXZ19B994RG376RBPZ8W6X/image.png"
+    ]
+  },
+  {
+    "id": "swe2-h43lund",
+    "name": "H43 Lund HF",
+    "primary": "blue",
+    "primaryHex": null,
+    "secondary": "white",
+    "secondaryHex": null,
+    "trim": null,
+    "trimHex": null,
+    "pattern": "solid",
+    "description": "Blue shirt, blue shorts; white away.",
+    "season": "unspecified (Wikipedia infobox)",
+    "crestDiffers": false,
+    "status": "PROBABLE",
+    "confidence": 0.5,
+    "sources": [
+      {
+        "url": "https://sv.wikipedia.org/w/index.php?title=H43_Lund&action=raw",
+        "type": "wikipedia",
+        "evidence": "färg #0000EE; Hemmadräkt body1 0000EE, shorts1 0000EE; Bortadräkt body2 FFFFFF"
+      }
+    ],
+    "notes": "Single source; club site not reached.",
+    "reviewReason": "Only one Wikipedia source.",
+    "verifyAttempt": "Searched 'H43 Lund matchtröja hemma blå'; opened h43lund.se (men in Herrallsvenskan 2026/27 per season-pass link), /klader-och-shop/ and /supportershop/ (placeholder pages, no products).",
+    "imageUrls": []
+  },
+  {
+    "id": "swe2-huddinge",
+    "name": "Huddinge HK",
+    "primary": "blue",
+    "primaryHex": null,
+    "secondary": "white",
+    "secondaryHex": null,
+    "trim": null,
+    "trimHex": null,
+    "pattern": "solid",
+    "description": "Blue shirt, blue shorts; white away.",
+    "season": "unspecified (Wikipedia infobox)",
+    "crestDiffers": false,
+    "status": "PROBABLE",
+    "confidence": 0.5,
+    "sources": [
+      {
+        "url": "https://sv.wikipedia.org/w/index.php?title=Huddinge_HK&action=raw",
+        "type": "wikipedia",
+        "evidence": "body1=0000FF, shorts1=0000FF; body2=FFFFFF"
+      }
+    ],
+    "notes": "Single source; no official confirmation.",
+    "reviewReason": "Only one Wikipedia source.",
+    "verifyAttempt": "Searched club shop; opened svenskalag.se/huddingehk and butik.huddingehk.se (only supporter item 'Förra säsongens Blå Hjärtat-tee' and a hoodie; no match shirt). Blue supporter tee is consistent with blue but not shirt evidence.",
+    "imageUrls": []
+  },
+  {
+    "id": "swe2-kroppskultur",
+    "name": "GF Kroppskultur",
+    "primary": "green",
+    "primaryHex": "#0D8548",
+    "secondary": "white",
+    "secondaryHex": null,
+    "trim": null,
+    "trimHex": null,
+    "pattern": "solid",
+    "description": "Green shirt, green shorts; white away.",
+    "season": "unspecified (Wikipedia infobox)",
+    "crestDiffers": false,
+    "status": "PROBABLE",
+    "confidence": 0.5,
+    "sources": [
+      {
+        "url": "https://sv.wikipedia.org/w/index.php?title=GF_Kroppskultur&action=raw",
+        "type": "wikipedia",
+        "evidence": "färg #0D8548, textfärg white; body1 0D8548, shorts1 0D8548; body2 FFFFFF"
+      }
+    ],
+    "notes": "Single source. Hex identical to OV Helsingborg's sv-wiki value (possibly template copy).",
+    "reviewReason": "Only one Wikipedia source.",
+    "verifyAttempt": "Searched; opened kroppskultur.com (Uddevalla) and club shop team.intersport.se/gf-kroppskultur: hummel training wear in 'evergreen'/'evergreen-white' (colour from URL slugs), no match shirt. Consistent with green but darker than wiki hex; not home-shirt evidence.",
+    "imageUrls": []
+  },
+  {
+    "id": "swe2-kungalv",
+    "name": "Kungälvs HK",
+    "primary": "green",
+    "primaryHex": "#008A4F",
+    "secondary": "black",
+    "secondaryHex": null,
+    "trim": null,
+    "trimHex": null,
+    "pattern": "solid",
+    "description": "Green shirt and black shorts at home; white shirt away.",
+    "season": "unspecified (Wikipedia text)",
+    "crestDiffers": false,
+    "status": "PROBABLE",
+    "confidence": 0.65,
+    "sources": [
+      {
+        "url": "https://sv.wikipedia.org/w/index.php?title=Kungälvs_HK&action=raw",
+        "type": "wikipedia",
+        "evidence": "'Matchdräkten är grön tröja och svarta shorts hemma, vit tröja borta.' färg #008A4F"
+      }
+    ],
+    "notes": "Explicit prose statement; club site not reached.",
+    "reviewReason": null,
+    "verifyAttempt": "Searched 'Kungälvs HK matchtröja hemma grön' and 'Kungälvs HK klubbshop'/official site; kungalvshk.se/.com do not resolve, svenskalag.se/kungalvshk 404. No official kit source found.",
+    "imageUrls": []
+  },
+  {
+    "id": "swe2-redbergslid",
+    "name": "Redbergslids IK",
+    "primary": "white",
+    "primaryHex": null,
+    "secondary": "blue",
+    "secondaryHex": "#08298A",
+    "trim": "blue",
+    "trimHex": null,
+    "pattern": "solid",
+    "description": "White shirt with blue detailing, white shorts; navy-blue away. Nickname 'De vita eleganterna'.",
+    "season": "2015-19 home kit (Wikipedia); away 2019-",
+    "crestDiffers": false,
+    "status": "PROBABLE",
+    "confidence": 0.7,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/w/index.php?title=Redbergslids_IK&action=raw",
+        "type": "wikipedia",
+        "evidence": "body1 FFFFFF, shorts1 FFFFFF; home pattern _bluebow; away body 08298A; nickname 'De vita eleganterna'"
+      },
+      {
+        "url": "https://team.intersport.se/redbergslids-ik",
+        "type": "official-shop",
+        "evidence": "Club training shirts in black-white and true-blue-white (no match shirt listed)"
+      }
+    ],
+    "notes": "Blue accent from Wikipedia home pattern and club training wear; home-kit data last labelled 2015-19.",
+    "reviewReason": null,
+    "verifyAttempt": "Opened redbergslid.se and club shop team.intersport.se/redbergslids-ik: hummel training wear in black-white and true-blue-white only; no match shirt listed.",
+    "imageUrls": []
+  },
+  {
+    "id": "swe2-torslanda",
+    "name": "HK Torslanda Elit",
+    "primary": "blue",
+    "primaryHex": null,
+    "secondary": null,
+    "secondaryHex": null,
+    "trim": null,
+    "trimHex": null,
+    "pattern": "unknown",
+    "description": "Youth teams registered in blue/blue at Partille Cup; no senior kit evidence.",
+    "season": "2018/2024 youth registrations only",
+    "crestDiffers": false,
+    "status": "UNCERTAIN",
+    "confidence": 0.3,
+    "sources": [
+      {
+        "url": "https://results.partillecup.com/2024/teams/52865848",
+        "type": "other",
+        "evidence": "Torslanda HK girls' team, Shirt Color Blue / Blue (Partille Cup 2024, per search snippet)"
+      }
+    ],
+    "notes": "Only youth tournament registrations; no Wikipedia page, club site domain not resolved. Not evidence of senior men's home shirt.",
+    "reviewReason": "Only youth tournament data; senior men's home shirt unverified.",
+    "verifyAttempt": "Searched 'HK Torslanda handboll herr allsvenskan matchtröja' (only results/Partille Cup youth pages); torslandahk.se does not resolve. No official kit source found.",
+    "imageUrls": []
+  },
+  {
+    "id": "swe2-tumba",
+    "name": "IFK Tumba HK",
+    "primary": "blue",
+    "primaryHex": null,
+    "secondary": "white",
+    "secondaryHex": null,
+    "trim": null,
+    "trimHex": null,
+    "pattern": "solid",
+    "description": "Blue shirt, blue shorts; white away.",
+    "season": "unspecified (Wikipedia infobox)",
+    "crestDiffers": false,
+    "status": "PROBABLE",
+    "confidence": 0.5,
+    "sources": [
+      {
+        "url": "https://sv.wikipedia.org/w/index.php?title=IFK_Tumba_Handboll&action=raw",
+        "type": "wikipedia",
+        "evidence": "färg #0000FF; body1 0000FF, shorts1 0000FF; body2 FFFFFF"
+      }
+    ],
+    "notes": "Single source.",
+    "reviewReason": "Only one Wikipedia source.",
+    "verifyAttempt": "Opened svenskalag.se/tumbahandboll (hummel 'Klädpartner') and club shop enenda.se/club/ifk-tumba-handboll: hummel CORE 2.0 jerseys in Navy Blue/Vit and Black/Vit (training range, not labelled match). Navy training wear is mild hint that 'blue' may be navy; no match shirt.",
+    "imageUrls": []
+  },
+  {
+    "id": "swe2-tyreso",
+    "name": "Tyresö Handboll",
+    "primary": "black",
+    "primaryHex": null,
+    "secondary": null,
+    "secondaryHex": null,
+    "trim": null,
+    "trimHex": null,
+    "pattern": "solid",
+    "description": "Club shop sells a black Squadra 25 'Matchtröja Herr'; home/away not stated.",
+    "season": "2025/26 (Squadra 25 model)",
+    "crestDiffers": false,
+    "status": "UNCERTAIN",
+    "confidence": 0.45,
+    "sources": [
+      {
+        "url": "https://www.lannasport.se/sv/p284058/tyreso-handboll-squadra-25-matchtroja-herr",
+        "type": "official-shop",
+        "evidence": "Tyresö Handboll Squadra 25 Matchtröja Herr, Färg: Black"
+      },
+      {
+        "url": "https://www.lannasport.se/sv/tyreso-handboll",
+        "type": "official-shop",
+        "evidence": "Team Base tops offered in Svart, Röd, Gul"
+      },
+      {
+        "url": "https://en.wikipedia.org/w/index.php?title=Tyresö_HF&action=raw",
+        "type": "wikipedia",
+        "evidence": "Tyresö HF (women's club): colour1 Red, colour2 Yellow; body1 FF0000"
+      }
+    ],
+    "notes": "Club shop (linked from tyresohandboll.se) lists only a black match shirt. Wikipedia red/yellow is for women's Tyresö HF, possibly a different entity/older. Red/yellow may be accent but undocumented on the shirt.",
+    "reviewReason": "Black match shirt not confirmed as home; no documented accent; red/yellow conflict.",
+    "verifyAttempt": "Re-opened lannasport.se/sv/tyreso-handboll: Squadra 25 Matchtröja Herr/Dam/Jr listed with placeholder images and no home/away label; Team Base tops in Svart, Röd, Gul. No new evidence.",
+    "imageUrls": []
+  },
+  {
+    "id": "swe2-varberg",
+    "name": "HK Varberg",
+    "primary": "green",
+    "primaryHex": null,
+    "secondary": null,
+    "secondaryHex": null,
+    "trim": null,
+    "trimHex": null,
+    "pattern": "unknown",
+    "description": "Only a youth team registered in green/green at Partille Cup 2024.",
+    "season": "2024 youth registration only",
+    "crestDiffers": false,
+    "status": "UNCERTAIN",
+    "confidence": 0.3,
+    "sources": [
+      {
+        "url": "https://results.partillecup.com/2024/teams/52869748",
+        "type": "other",
+        "evidence": "HK Varberg Boys 14: Shirt Color Green / Green / Green (per search snippet)"
+      }
+    ],
+    "notes": "Wikipedia kit fields blank; club shop lists hummel training jerseys without colours.",
+    "reviewReason": "Only youth tournament data; senior men's home shirt unverified.",
+    "verifyAttempt": "Opened hkvarberg.myclub.se and club shop varberg.teamsportia.se/klubbshop/hk-varberg/ (hummel training range, no colours stated, no match shirt).",
+    "imageUrls": []
+  },
+  {
+    "id": "swe2-vasterasirsta",
+    "name": "VästeråsIrsta HF",
+    "primary": "white",
+    "primaryHex": null,
+    "secondary": "black",
+    "secondaryHex": null,
+    "trim": "red",
+    "trimHex": null,
+    "pattern": "solid",
+    "description": "White shirt, black shorts ('vitsvart'); red away shirt.",
+    "season": "2025/26 (club site); kit data unspecified",
+    "crestDiffers": false,
+    "status": "PROBABLE",
+    "confidence": 0.7,
+    "sources": [
+      {
+        "url": "https://www.vasterasirsta.se",
+        "type": "official-club",
+        "evidence": "Fans asked to 'Klä dig i vitsvart' (white-black)"
+      },
+      {
+        "url": "https://sv.wikipedia.org/w/index.php?title=VästeråsIrsta_HF&action=raw",
+        "type": "wikipedia",
+        "evidence": "Hemmadräkt body1 FFFFFF, shorts1 000000; Bortadräkt body2 FF0000"
+      },
+      {
+        "url": "https://team.intersport.se/vasterasirsta-hf",
+        "type": "official-shop",
+        "evidence": "Kempa Emotion 27 training shirts in röd/vit and svart/vit"
+      }
+    ],
+    "notes": "'Vitsvart' quote is from a women's-team post (same club). Red accent from away kit and training wear.",
+    "reviewReason": null,
+    "verifyAttempt": "Re-opened vasterasirsta.se (only 'Klä dig i vitsvart' fan text) and team.intersport.se/vasterasirsta-hf (Kempa training wear red-white/black-white, no match shirt).",
+    "imageUrls": []
+  },
+  {
+    "id": "swe2-ystad2",
+    "name": "IFK Ystad HK",
+    "primary": "red",
+    "primaryHex": "#B20000",
+    "secondary": "black",
+    "secondaryHex": null,
+    "trim": null,
+    "trimHex": null,
+    "pattern": "solid",
+    "description": "Red shirt, black shorts and socks; white away.",
+    "season": "unspecified (Wikipedia infobox)",
+    "crestDiffers": false,
+    "status": "PROBABLE",
+    "confidence": 0.5,
+    "sources": [
+      {
+        "url": "https://sv.wikipedia.org/w/index.php?title=IFK_Ystad_HK&action=raw",
+        "type": "wikipedia",
+        "evidence": "body1 B20000, shorts1 000000; body2 FFFFFF"
+      }
+    ],
+    "notes": "Single source. Club webshop (Action och Trend, Craft) lists no match shirt colour.",
+    "reviewReason": "Only one Wikipedia source.",
+    "verifyAttempt": "Opened ifkystad.se: no kit text, but official site signs off 'HEJA DI RÖE!' (nickname 'the red ones'), consistent with red. Merch link diroemerch.se does not resolve.",
+    "imageUrls": []
+  }
+]

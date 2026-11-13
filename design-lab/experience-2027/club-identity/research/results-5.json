@@ -1,0 +1,1291 @@
+[
+  {
+    "id": "den1-aalborg",
+    "name": "Aalborg Håndbold",
+    "primary": "red",
+    "primaryHex": "#FF0000",
+    "secondary": "white",
+    "secondaryHex": "#FFFFFF",
+    "trim": null,
+    "trimHex": null,
+    "pattern": "solid",
+    "description": "Red shirt, white shorts.",
+    "season": "2025/26 (club news) / Wikipedia template undated",
+    "crestDiffers": null,
+    "status": "PROBABLE",
+    "confidence": 0.8,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/wiki/Aalborg_H%C3%A5ndbold",
+        "type": "wikipedia",
+        "evidence": "Kit template body1=FF0000, shorts1=FFFFFF; colours red/white"
+      },
+      {
+        "url": "https://aalborghaandbold.dk/category/nyhed/",
+        "type": "official-club",
+        "evidence": "Club news describes a new signing joining \"in the red jersey\" (search-result paraphrase)."
+      }
+    ],
+    "notes": "Hex values are Wikipedia template defaults, not brand hex. No shop listing found.",
+    "reviewReason": null
+  },
+  {
+    "id": "den1-bjerringbro",
+    "name": "Bjerringbro-Silkeborg",
+    "primary": "black",
+    "primaryHex": "#000000",
+    "secondary": "white",
+    "secondaryHex": "#FFFFFF",
+    "trim": null,
+    "trimHex": null,
+    "pattern": "solid",
+    "description": "Black shirt with thin white side panels, black shorts.",
+    "season": "unspecified (Wikipedia kit template, revision current Nov 2026)",
+    "crestDiffers": null,
+    "status": "PROBABLE",
+    "confidence": 0.6,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/wiki/Bjerringbro-Silkeborg_H%C3%A5ndbold",
+        "type": "wikipedia",
+        "evidence": "Kit template body1=000000, pattern_b1=_thinwhitesides, shorts1=000000; colours black/white"
+      }
+    ],
+    "notes": "Only Wikipedia evidence; no current shop listing found. Accent is white only.",
+    "reviewReason": "Black primary; only documented accent is white (no colour accent)."
+  },
+  {
+    "id": "den1-fredericia",
+    "name": "Fredericia HK",
+    "primary": "red",
+    "primaryHex": "#D3020D",
+    "secondary": "black",
+    "secondaryHex": "#000000",
+    "trim": null,
+    "trimHex": null,
+    "pattern": "solid",
+    "description": "Red shirt, black shorts.",
+    "season": "unspecified (Wikipedia kit template, revision current Nov 2026)",
+    "crestDiffers": null,
+    "status": "PROBABLE",
+    "confidence": 0.6,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/wiki/Fredericia_HK",
+        "type": "wikipedia",
+        "evidence": "Kit template body1=D3020D, shorts1=000000; colours red/black"
+      }
+    ],
+    "notes": "Only Wikipedia evidence; searches returned FC Fredericia (football) instead.",
+    "reviewReason": null
+  },
+  {
+    "id": "den1-gog",
+    "name": "GOG Håndbold",
+    "primary": "yellow",
+    "primaryHex": "#FFFF00",
+    "secondary": "red",
+    "secondaryHex": "#FF0000",
+    "trim": null,
+    "trimHex": null,
+    "pattern": "other",
+    "description": "Yellow shirt with red details, red shorts.",
+    "season": "2025/26",
+    "crestDiffers": null,
+    "status": "PROBABLE",
+    "confidence": 0.85,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/wiki/GOG_H%C3%A5ndbold",
+        "type": "wikipedia",
+        "evidence": "Kit template body1=FFFF00 (custom GOG home pattern), shorts1=FF0000; colours yellow/red"
+      },
+      {
+        "url": "https://gog.dk/wp-content/uploads/2026/04/GOG-magasin.pdf",
+        "type": "official-club",
+        "evidence": "April 2026 club magazine refers to the yellow GOG shirt (search-result paraphrase)."
+      }
+    ],
+    "notes": "Hex values are template defaults.",
+    "reviewReason": null
+  },
+  {
+    "id": "den1-grindsted",
+    "name": "Grindsted GIF",
+    "primary": "blue",
+    "primaryHex": "#0000CD",
+    "secondary": "black",
+    "secondaryHex": "#000000",
+    "trim": null,
+    "trimHex": null,
+    "pattern": "solid",
+    "description": "Blue shirt, black shorts.",
+    "season": "unspecified (Wikipedia kit template, revision current Nov 2026)",
+    "crestDiffers": null,
+    "status": "PROBABLE",
+    "confidence": 0.55,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/wiki/Grindsted_GIF_H%C3%A5ndbold",
+        "type": "wikipedia",
+        "evidence": "Kit template body1=0000CD, shorts1=000000; colours blue/black"
+      }
+    ],
+    "notes": "Only Wikipedia evidence. Club reported relegated after 2025/26.",
+    "reviewReason": null
+  },
+  {
+    "id": "den1-hoj",
+    "name": "HØJ Elite",
+    "primary": "white",
+    "primaryHex": "#FFFFFF",
+    "secondary": "red",
+    "secondaryHex": "#FF0000",
+    "trim": null,
+    "trimHex": null,
+    "pattern": "sleeves",
+    "description": "White body with red sleeves, black shorts.",
+    "season": "unspecified (Wikipedia kit template, revision current Nov 2026)",
+    "crestDiffers": null,
+    "status": "PROBABLE",
+    "confidence": 0.5,
+    "sources": [
+      {
+        "url": "https://da.wikipedia.org/wiki/H%C3%98J_Elite",
+        "type": "wikipedia",
+        "evidence": "dragt_1 krop=ffffff, arms=FF0000, shorts=000000; women's kit fields identical"
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/H%C3%98J_Elite",
+        "type": "wikipedia",
+        "evidence": "English page (women's) shows same kit: body1=ffffff, arms FF0000; colours red/white"
+      }
+    ],
+    "notes": "Danish Wikipedia says club has men's and women's elite teams; men promoted to Herrehåndboldligaen and relegated after 2025/26. Club city in batch (Hjørring) not verified.",
+    "reviewReason": "Wikipedia only; white primary with red sleeves as accent."
+  },
+  {
+    "id": "den1-morsthy",
+    "name": "Mors-Thy Håndbold",
+    "primary": "blue",
+    "primaryHex": "#0000FF",
+    "secondary": "black",
+    "secondaryHex": "#000000",
+    "trim": null,
+    "trimHex": null,
+    "pattern": "solid",
+    "description": "Blue shirt, black shorts.",
+    "season": "unspecified (Wikipedia kit template, revision current Nov 2026)",
+    "crestDiffers": null,
+    "status": "PROBABLE",
+    "confidence": 0.55,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/wiki/Mors-Thy_H%C3%A5ndbold",
+        "type": "wikipedia",
+        "evidence": "Kit template body1=0000FF, shorts1=000000; colours blue/white"
+      }
+    ],
+    "notes": "Only Wikipedia evidence.",
+    "reviewReason": null
+  },
+  {
+    "id": "den1-nordsjaelland",
+    "name": "Nordsjælland Håndbold",
+    "primary": "light-green",
+    "primaryHex": "#66FF33",
+    "secondary": "black",
+    "secondaryHex": "#000000",
+    "trim": null,
+    "trimHex": null,
+    "pattern": "solid",
+    "description": "Bright green shirt, black shorts.",
+    "season": "unspecified (Wikipedia kit template, revision current Nov 2026)",
+    "crestDiffers": null,
+    "status": "PROBABLE",
+    "confidence": 0.55,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/wiki/Nordsj%C3%A6lland_H%C3%A5ndbold",
+        "type": "wikipedia",
+        "evidence": "Kit template body1=66FF33, shorts1=000000; colours green/black"
+      }
+    ],
+    "notes": "Only Wikipedia evidence.",
+    "reviewReason": null
+  },
+  {
+    "id": "den1-ribeesbjerg",
+    "name": "Ribe-Esbjerg HH",
+    "primary": "navy",
+    "primaryHex": "#000080",
+    "secondary": "black",
+    "secondaryHex": "#000000",
+    "trim": null,
+    "trimHex": null,
+    "pattern": "solid",
+    "description": "Navy/blue shirt, black shorts.",
+    "season": "unspecified (Wikipedia kit template, revision current Nov 2026)",
+    "crestDiffers": null,
+    "status": "PROBABLE",
+    "confidence": 0.55,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/wiki/Ribe-Esbjerg_HH",
+        "type": "wikipedia",
+        "evidence": "Kit template body1=000080, shorts1=000000; colours blue/black"
+      }
+    ],
+    "notes": "Only Wikipedia evidence.",
+    "reviewReason": null
+  },
+  {
+    "id": "den1-skanderborg",
+    "name": "Skanderborg Aarhus",
+    "primary": "navy",
+    "primaryHex": "#1E2952",
+    "secondary": "white",
+    "secondaryHex": "#F4F5FA",
+    "trim": null,
+    "trimHex": null,
+    "pattern": "solid",
+    "description": "Navy shirt and shorts.",
+    "season": "unspecified (Wikipedia kit template, revision current Nov 2026)",
+    "crestDiffers": null,
+    "status": "PROBABLE",
+    "confidence": 0.5,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/wiki/Skanderborg_AGF_H%C3%A5ndbold",
+        "type": "wikipedia",
+        "evidence": "Kit template body1=1E2952, shorts1=1E2952; colour1=1E2952, colour2=F4F5FA"
+      }
+    ],
+    "notes": "Merged club (Skanderborg + Aarhus/AGF). Pre-merger Skanderborg Håndbold page shows green 008000 / black, so kit identity changed with the merger.",
+    "reviewReason": "Wikipedia only; merged club, earlier green identity conflicts."
+  },
+  {
+    "id": "den1-skjern",
+    "name": "Skjern Håndbold",
+    "primary": "green",
+    "primaryHex": "#387C44",
+    "secondary": "white",
+    "secondaryHex": "#FFFFFF",
+    "trim": "white",
+    "trimHex": null,
+    "pattern": "solid",
+    "description": "Green shirt with white collar, black shorts.",
+    "season": "unspecified (Wikipedia kit template, revision current Nov 2026)",
+    "crestDiffers": null,
+    "status": "PROBABLE",
+    "confidence": 0.6,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/wiki/Skjern_H%C3%A5ndbold",
+        "type": "wikipedia",
+        "evidence": "Kit template body1=387C44, pattern_b1=_with_white_collar, shorts1=000000"
+      }
+    ],
+    "notes": "Only Wikipedia evidence.",
+    "reviewReason": null
+  },
+  {
+    "id": "den1-sonderjyske",
+    "name": "SønderjyskE Håndbold",
+    "primary": "sky-blue",
+    "primaryHex": "#87CEEB",
+    "secondary": "white",
+    "secondaryHex": "#FFFFFF",
+    "trim": "white",
+    "trimHex": null,
+    "pattern": "solid",
+    "description": "Light/sky-blue shirt with white collar, light-blue shorts.",
+    "season": "unspecified (Wikipedia kit template, revision current Nov 2026)",
+    "crestDiffers": null,
+    "status": "PROBABLE",
+    "confidence": 0.55,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/wiki/S%C3%B8nderjyskE_Herreh%C3%A5ndbold",
+        "type": "wikipedia",
+        "evidence": "Kit template body1=87CEEB, pattern_b1=_collarwhite, shorts1=87CEEB"
+      }
+    ],
+    "notes": "Women's page shows the same kit. Only Wikipedia evidence; search budget ran out before shop check.",
+    "reviewReason": null
+  },
+  {
+    "id": "den1-tms",
+    "name": "TMS Ringsted",
+    "primary": "green",
+    "primaryHex": "#008000",
+    "secondary": "black",
+    "secondaryHex": "#000000",
+    "trim": null,
+    "trimHex": null,
+    "pattern": "solid",
+    "description": "Green shirt, black shorts.",
+    "season": "unspecified (Wikipedia kit template, revision current Nov 2026)",
+    "crestDiffers": null,
+    "status": "PROBABLE",
+    "confidence": 0.55,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/wiki/TMS_Ringsted",
+        "type": "wikipedia",
+        "evidence": "Kit template body1=008000, shorts1=000000; colours green/black"
+      }
+    ],
+    "notes": "Only Wikipedia evidence.",
+    "reviewReason": null
+  },
+  {
+    "id": "den1-tth",
+    "name": "TTH Holstebro",
+    "primary": "white",
+    "primaryHex": "#FFFFFF",
+    "secondary": "black",
+    "secondaryHex": "#000000",
+    "trim": null,
+    "trimHex": null,
+    "pattern": "sleeves",
+    "description": "White body with black sleeves, black shorts.",
+    "season": "unspecified (Wikipedia kit template, revision current Nov 2026)",
+    "crestDiffers": null,
+    "status": "PROBABLE",
+    "confidence": 0.55,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/wiki/TTH_Holstebro",
+        "type": "wikipedia",
+        "evidence": "Kit template body1=FFFFFF, arms 000000, shorts1=000000; colours White/Black"
+      }
+    ],
+    "notes": "Only Wikipedia evidence.",
+    "reviewReason": "White primary; only documented accent is black (no colour accent)."
+  },
+  {
+    "id": "ger1-bergischer",
+    "name": "Bergischer HC",
+    "primary": "royal-blue",
+    "primaryHex": "#4169E1",
+    "secondary": "white",
+    "secondaryHex": "#FFFFFF",
+    "trim": null,
+    "trimHex": null,
+    "pattern": "other",
+    "description": "Royal-blue shirt with white horizontal band.",
+    "season": "unspecified (Wikipedia kit template, revision current Nov 2026)",
+    "crestDiffers": null,
+    "status": "PROBABLE",
+    "confidence": 0.55,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/wiki/Bergischer_HC",
+        "type": "wikipedia",
+        "evidence": "Kit template body1=4169E1, pattern_b1=_whitehorizontal; colours Blue/White"
+      }
+    ],
+    "notes": "Only Wikipedia evidence.",
+    "reviewReason": null
+  },
+  {
+    "id": "ger1-fuchse",
+    "name": "Füchse Berlin",
+    "primary": "green",
+    "primaryHex": "#339966",
+    "secondary": "light-green",
+    "secondaryHex": null,
+    "trim": null,
+    "trimHex": null,
+    "pattern": "solid",
+    "description": "Green shirt (\"Power Green\" with \"Fresh Mint\" accents per PUMA 24/25 product name), green shorts.",
+    "season": "2024/25",
+    "crestDiffers": null,
+    "status": "PROBABLE",
+    "confidence": 0.8,
+    "sources": [
+      {
+        "url": "https://www.decathlon.de/p/mp/fuchse-berlin-24-25-heimtrikot-herren-puma-power-green-fresh-mint/7af7b1ca-22ac-413a-ab34-6ec9b5796fc0/c9",
+        "type": "other",
+        "evidence": "Retail listing URL: \"Füchse Berlin 24/25 Heimtrikot Herren PUMA Power Green Fresh Mint\"; Farbe GRÜN"
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/F%C3%BCchse_Berlin",
+        "type": "wikipedia",
+        "evidence": "Kit template body1=339966, shorts1=339966"
+      }
+    ],
+    "notes": "No 2025/26 colour statement found; 24/25 retail listing plus Wikipedia agree on green. Secondary inferred from product colour name \"Fresh Mint\".",
+    "reviewReason": null
+  },
+  {
+    "id": "ger1-eisenach",
+    "name": "ThSV Eisenach",
+    "primary": "blue",
+    "primaryHex": "#0060AD",
+    "secondary": "white",
+    "secondaryHex": "#FFFFFF",
+    "trim": null,
+    "trimHex": null,
+    "pattern": "other",
+    "description": "Blue shirt with white shoulders, blue shorts.",
+    "season": "unspecified (Wikipedia kit template, revision current Nov 2026)",
+    "crestDiffers": null,
+    "status": "PROBABLE",
+    "confidence": 0.55,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/wiki/ThSV_Eisenach",
+        "type": "wikipedia",
+        "evidence": "Kit template body1=0060ad, pattern_b1=_whiteshoulders; colour1=#0060ad, colour2=White"
+      }
+    ],
+    "notes": "Only Wikipedia evidence.",
+    "reviewReason": null
+  },
+  {
+    "id": "ger1-erlangen",
+    "name": "HC Erlangen",
+    "primary": "black",
+    "primaryHex": "#000000",
+    "secondary": "red",
+    "secondaryHex": null,
+    "trim": null,
+    "trimHex": null,
+    "pattern": "other",
+    "description": "Black shirt (Erima-style patterned body), club colours black/red.",
+    "season": "unspecified (Wikipedia kit template, revision current Nov 2026)",
+    "crestDiffers": null,
+    "status": "UNCERTAIN",
+    "confidence": 0.45,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/wiki/HC_Erlangen",
+        "type": "wikipedia",
+        "evidence": "Kit template pattern_b1=_estro19black, arms 000000; colours Black/Red"
+      }
+    ],
+    "notes": "Body colour only implied by pattern file name; red is a club colour, not confirmed as shirt trim.",
+    "reviewReason": "Black primary inferred from template pattern name; red accent is club colour only."
+  },
+  {
+    "id": "ger1-flensburg",
+    "name": "SG Flensburg-Handewitt",
+    "primary": "red",
+    "primaryHex": null,
+    "secondary": "navy",
+    "secondaryHex": null,
+    "trim": "navy",
+    "trimHex": null,
+    "pattern": "other",
+    "description": "Deep red (\"chili pepper\") shirt with navy detailing on collar, cuffs and side panels; flame graphic.",
+    "season": "2025/26",
+    "crestDiffers": null,
+    "status": "VERIFIED",
+    "confidence": 0.85,
+    "sources": [
+      {
+        "url": "https://www.hummel.net/sgfh-25-26-home-jersey-s-s-chili-pepper/233577-3782.html",
+        "type": "manufacturer",
+        "evidence": "hummel \"SGFH 25/26 HOME JERSEY S/S\" colour chili pepper; deep red base with navy detailing (search snippet)"
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/SG_Flensburg-Handewitt",
+        "type": "wikipedia",
+        "evidence": "Kit template body1=151550 (navy) with red collar; colours Navy/Red"
+      }
+    ],
+    "notes": "Conflict: Wikipedia template shows navy shirt (older kit). Manufacturer 25/26 listing says red base with navy; hummel page itself returned HTTP 429, evidence from search snippet and URL slug.",
+    "reviewReason": null
+  },
+  {
+    "id": "ger1-goppingen",
+    "name": "Frisch Auf Göppingen",
+    "primary": "green",
+    "primaryHex": "#009D54",
+    "secondary": "white",
+    "secondaryHex": "#FFFFFF",
+    "trim": null,
+    "trimHex": null,
+    "pattern": "unknown",
+    "description": "Club colours green/white; shirt body uses a hummel pattern whose colour is not stated.",
+    "season": "unspecified (Wikipedia kit template, revision current Nov 2026)",
+    "crestDiffers": null,
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/wiki/Frisch_Auf_G%C3%B6ppingen",
+        "type": "wikipedia",
+        "evidence": "Kit template pattern_b1=_hummelcoreXKabw, body1 blank; colour1=#009D54, colour2=#FFFFFF"
+      }
+    ],
+    "notes": "Club programme mentions \"Heimtrikot 2025/26\" but no colour. Green is club colour, shirt colour not textually confirmed.",
+    "reviewReason": "Shirt colour not stated; only club colours known."
+  },
+  {
+    "id": "ger1-gummersbach",
+    "name": "VfL Gummersbach",
+    "primary": "blue",
+    "primaryHex": "#174EA0",
+    "secondary": "white",
+    "secondaryHex": "#FFFFFF",
+    "trim": null,
+    "trimHex": null,
+    "pattern": "solid",
+    "description": "Blue shirt and shorts.",
+    "season": "unspecified (Wikipedia kit template, revision current Nov 2026)",
+    "crestDiffers": null,
+    "status": "PROBABLE",
+    "confidence": 0.6,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/wiki/VfL_Gummersbach",
+        "type": "wikipedia",
+        "evidence": "Kit template body1=174EA0, shorts1=174EA0; colour1=174EA0, colour2=White"
+      }
+    ],
+    "notes": "Club hall magazine 2025/26 mentions new PUMA partnership; no colour statement found.",
+    "reviewReason": null
+  },
+  {
+    "id": "ger1-hamburg",
+    "name": "HSV Hamburg",
+    "primary": "red",
+    "primaryHex": "#FF0000",
+    "secondary": "navy",
+    "secondaryHex": "#000066",
+    "trim": null,
+    "trimHex": null,
+    "pattern": "other",
+    "description": "PUMA Liga 21/22 template with red arms; club colours red/dark blue.",
+    "season": "2021/22 (Wikipedia)",
+    "crestDiffers": null,
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/wiki/Handball_Sport_Verein_Hamburg",
+        "type": "wikipedia",
+        "evidence": "Kit template pattern_b1=_pumaliga2122r, arms FF0000; colour1=#FF0000, colour2=#000066"
+      }
+    ],
+    "notes": "Evidence is old (2021/22) and body colour only implied by pattern name. Search results dominated by football HSV.",
+    "reviewReason": "Old (2021/22) Wikipedia-only evidence."
+  },
+  {
+    "id": "ger1-hannover",
+    "name": "TSV Hannover-Burgdorf",
+    "primary": "green",
+    "primaryHex": null,
+    "secondary": "white",
+    "secondaryHex": null,
+    "trim": "white",
+    "trimHex": null,
+    "pattern": "solid",
+    "description": "Rich green shirt with white accents on shoulders and sides, white shorts.",
+    "season": "2026/27",
+    "crestDiffers": null,
+    "status": "PROBABLE",
+    "confidence": 0.85,
+    "sources": [
+      {
+        "url": "https://www.leinetal24.de/sport/handball/tsv-hanover-burgdorf-stellt-mit-politischen-gaesten-und-sponsoren-im-rahmen-der-finals-ihr-heimtrikot-vo-94415680.html",
+        "type": "match-report",
+        "evidence": "\"Das Trikot präsentiert sich in einem satten Grünton\"; white accents on shoulders and sides; stays true to traditional colours"
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/TSV_Hannover-Burgdorf",
+        "type": "wikipedia",
+        "evidence": "Kit template body1=004500, arms A1A1A1; colours green/grey"
+      }
+    ],
+    "notes": "News report of official 2026/27 home shirt launch.",
+    "reviewReason": null
+  },
+  {
+    "id": "ger1-kiel",
+    "name": "THW Kiel",
+    "primary": "white",
+    "primaryHex": null,
+    "secondary": "black",
+    "secondaryHex": null,
+    "trim": "black",
+    "trimHex": null,
+    "pattern": "other",
+    "description": "White shirt with black details/stripe graphic (PUMA White-PUMA Black).",
+    "season": "2025/26",
+    "crestDiffers": null,
+    "status": "VERIFIED",
+    "confidence": 0.95,
+    "sources": [
+      {
+        "url": "https://eu.puma.com/no/en/pd/thw-kiel-25-26-home-jersey-men/786978",
+        "type": "manufacturer",
+        "evidence": "\"THW Kiel 25/26 Home Jersey Men\", colour \"PUMA White-PUMA Black\""
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/THW_Kiel",
+        "type": "wikipedia",
+        "evidence": "Kit template pattern_b1=_THW_Kiel_2526_home_01; colours white/black"
+      }
+    ],
+    "notes": "Retailer describes black-and-white stripe motif.",
+    "reviewReason": "White primary; only documented accent is black (no colour accent)."
+  },
+  {
+    "id": "ger1-leipzig",
+    "name": "SC DHfK Leipzig",
+    "primary": "green",
+    "primaryHex": "#007C0A",
+    "secondary": "white",
+    "secondaryHex": "#FFFFFF",
+    "trim": null,
+    "trimHex": null,
+    "pattern": "solid",
+    "description": "Green shirt and shorts.",
+    "season": "unspecified (Wikipedia kit template, revision current Nov 2026)",
+    "crestDiffers": null,
+    "status": "PROBABLE",
+    "confidence": 0.6,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/wiki/SC_DHfK_Leipzig_Handball",
+        "type": "wikipedia",
+        "evidence": "Kit template body1=007C0A, shorts1=007C0A; colour1=#004411, colour2=#FFFFFF"
+      }
+    ],
+    "notes": "Only Wikipedia evidence. Club colour hex #004411 is darker than kit hex.",
+    "reviewReason": null
+  },
+  {
+    "id": "ger1-lemgo",
+    "name": "TBV Lemgo",
+    "primary": "blue",
+    "primaryHex": "#2E2EFE",
+    "secondary": "white",
+    "secondaryHex": "#FFFFFF",
+    "trim": null,
+    "trimHex": null,
+    "pattern": "other",
+    "description": "Blue shirt with white shoulders, blue shorts.",
+    "season": "unspecified (Wikipedia kit template, revision current Nov 2026)",
+    "crestDiffers": null,
+    "status": "PROBABLE",
+    "confidence": 0.6,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/wiki/TBV_Lemgo",
+        "type": "wikipedia",
+        "evidence": "Kit template body1=2E2EFE, pattern_b1=_whiteshoulders; colour1=#0873FD, colour2=#FFFFFF"
+      }
+    ],
+    "notes": "Only Wikipedia evidence; club colour hex #0873FD differs from kit hex.",
+    "reviewReason": null
+  },
+  {
+    "id": "ger1-magdeburg",
+    "name": "SC Magdeburg",
+    "primary": "green",
+    "primaryHex": "#008C62",
+    "secondary": "red",
+    "secondaryHex": "#FF0000",
+    "trim": "red",
+    "trimHex": null,
+    "pattern": "other",
+    "description": "Green shirt with red accents on shoulders and sides.",
+    "season": "2025/26",
+    "crestDiffers": null,
+    "status": "PROBABLE",
+    "confidence": 0.85,
+    "sources": [
+      {
+        "url": "https://www.volksstimme.de/sport/sc-magdeburg/neue-trikots-sc-magdeburg-ist-wieder-grun-rot-4089452",
+        "type": "match-report",
+        "evidence": "Home games switch \"von schwarzen zu grünen Trikots\"; \"Schulter- und Seitenpartien haben rote Farbakzente\" (28.07.2025)"
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/SC_Magdeburg",
+        "type": "wikipedia",
+        "evidence": "Kit template body1=008C62, red shoulders; colours #008C62/#FF0000"
+      }
+    ],
+    "notes": "Previous two seasons the home shirt was black.",
+    "reviewReason": null
+  },
+  {
+    "id": "ger1-melsungen",
+    "name": "MT Melsungen",
+    "primary": "red",
+    "primaryHex": "#FF0000",
+    "secondary": "white",
+    "secondaryHex": "#FFFFFF",
+    "trim": null,
+    "trimHex": null,
+    "pattern": "other",
+    "description": "Red shirt with white side arcs, red shorts.",
+    "season": "unspecified (Wikipedia kit template, revision current Nov 2026)",
+    "crestDiffers": null,
+    "status": "PROBABLE",
+    "confidence": 0.6,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/wiki/MT_Melsungen",
+        "type": "wikipedia",
+        "evidence": "Kit template body1=ff0000, pattern_b1=_white_sides_arc; colours Red/White"
+      }
+    ],
+    "notes": "Only Wikipedia evidence.",
+    "reviewReason": null
+  },
+  {
+    "id": "ger1-minden",
+    "name": "GWD Minden",
+    "primary": "green",
+    "primaryHex": "#008040",
+    "secondary": "white",
+    "secondaryHex": "#FFFFFF",
+    "trim": null,
+    "trimHex": null,
+    "pattern": "solid",
+    "description": "Green shirt with thin white sides, green shorts.",
+    "season": "unspecified (Wikipedia kit template, revision current Nov 2026)",
+    "crestDiffers": null,
+    "status": "PROBABLE",
+    "confidence": 0.55,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/wiki/GWD_Minden",
+        "type": "wikipedia",
+        "evidence": "Kit template body1=008040, pattern_b1=_thinwhitesides; colours Green/White"
+      }
+    ],
+    "notes": "Only Wikipedia evidence.",
+    "reviewReason": null
+  },
+  {
+    "id": "ger1-rheinneckar",
+    "name": "Rhein-Neckar Löwen",
+    "primary": "yellow",
+    "primaryHex": "#FFED00",
+    "secondary": "navy",
+    "secondaryHex": "#002038",
+    "trim": "blue",
+    "trimHex": null,
+    "pattern": "other",
+    "description": "Yellow shirt with blue details, dark-blue shorts.",
+    "season": "2024/25 and 2026/27 (news)",
+    "crestDiffers": null,
+    "status": "PROBABLE",
+    "confidence": 0.85,
+    "sources": [
+      {
+        "url": "https://www.wochenblatt-reporter.de/kronau/imagepost/das-sind-sie-die-neuen-trikots-der-rhein-neckar-loewen_i12052",
+        "type": "match-report",
+        "evidence": "Home kit stays yellow; away remains blue (2026/27, search snippet)"
+      },
+      {
+        "url": "https://erima.de/corporate/uploads/2c8c877c73f69fce47ee87ae6f902626.pdf",
+        "type": "manufacturer",
+        "evidence": "ERIMA 2024/25: home shirt in club colour yellow with blue details (search snippet)"
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/Rhein-Neckar_L%C3%B6wen",
+        "type": "wikipedia",
+        "evidence": "Kit template body1=FFED00, shorts1=002038; colours yellow/darkblue"
+      }
+    ],
+    "notes": "2025/26 specifically not found, but seasons either side agree.",
+    "reviewReason": null
+  },
+  {
+    "id": "ger1-stuttgart",
+    "name": "TVB Stuttgart",
+    "primary": "blue",
+    "primaryHex": "#2B65EC",
+    "secondary": "white",
+    "secondaryHex": "#FFFFFF",
+    "trim": null,
+    "trimHex": null,
+    "pattern": "other",
+    "description": "Template shows blue body with white shoulders; club colours listed white/blue.",
+    "season": "unspecified (Wikipedia kit template, revision current Nov 2026)",
+    "crestDiffers": null,
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/wiki/TVB_Stuttgart",
+        "type": "wikipedia",
+        "evidence": "Kit template body1=2B65EC, pattern_b1=_whiteshoulders; colour1=white, colour2=blue"
+      }
+    ],
+    "notes": "2026/27 shirt designed by studiokurbos (regional \"Maultaschen\" theme) but colours not stated in found text.",
+    "reviewReason": "Template body blue but colour1 listed as white; conflicting."
+  },
+  {
+    "id": "ger1-wetzlar",
+    "name": "HSG Wetzlar",
+    "primary": "dark-green",
+    "primaryHex": "#14544B",
+    "secondary": "white",
+    "secondaryHex": "#FFFFFF",
+    "trim": null,
+    "trimHex": null,
+    "pattern": "other",
+    "description": "Green shirt (custom 2023 home pattern) with white details.",
+    "season": "2023/24 (Wikipedia pattern)",
+    "crestDiffers": null,
+    "status": "PROBABLE",
+    "confidence": 0.5,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/wiki/HSG_Wetzlar",
+        "type": "wikipedia",
+        "evidence": "Kit template pattern_b1=_hsgwetzlar23h, arms 14544B, pattern_la1=_whiteborder; colours Green/White"
+      }
+    ],
+    "notes": "Body colour implied by arms/pattern; evidence from 2023 kit.",
+    "reviewReason": null
+  },
+  {
+    "id": "nor1-elverum",
+    "name": "Elverum Håndball",
+    "primary": "white",
+    "primaryHex": null,
+    "secondary": "black",
+    "secondaryHex": null,
+    "trim": "black",
+    "trimHex": null,
+    "pattern": "other",
+    "description": "White shirt with black shoulders, black shorts (away kit all black).",
+    "season": "unspecified (Wikipedia kit template, revision current Nov 2026)",
+    "crestDiffers": null,
+    "status": "UNCERTAIN",
+    "confidence": 0.45,
+    "sources": [
+      {
+        "url": "https://no.wikipedia.org/wiki/Elverum_H%C3%A5ndball",
+        "type": "wikipedia",
+        "evidence": "Kit 1: kropp1 blank (default white), mønster _blackshoulders, shorts1=000000; kit 2 all 000000"
+      },
+      {
+        "url": "https://ipfs.aleph.im/ipfs/QmXoypizjW3WknFiJnKLwHCnL72vedxjQkDDP1mXWo6uco/wiki/Elverum_Handball.html",
+        "type": "wikipedia",
+        "evidence": "Old Wikipedia copy: Club Colours Black/White"
+      }
+    ],
+    "notes": "White body inferred from blank template field.",
+    "reviewReason": "White primary inferred; no colour accent documented."
+  },
+  {
+    "id": "nor1-kolstad",
+    "name": "Kolstad Håndball",
+    "primary": "red",
+    "primaryHex": null,
+    "secondary": "white",
+    "secondaryHex": null,
+    "trim": null,
+    "trimHex": null,
+    "pattern": "unknown",
+    "description": "Only club colours (red/white) documented; shirt colour not stated.",
+    "season": null,
+    "crestDiffers": null,
+    "status": "UNCERTAIN",
+    "confidence": 0.3,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/wiki/Kolstad_H%C3%A5ndball",
+        "type": "wikipedia",
+        "evidence": "colour1=red, colour2=white; kit fields blank"
+      }
+    ],
+    "notes": "No kit or shop evidence found.",
+    "reviewReason": "Club colours only; home shirt not documented."
+  },
+  {
+    "id": "nor1-oif",
+    "name": "ØIF Arendal",
+    "primary": "black",
+    "primaryHex": "#000000",
+    "secondary": "red",
+    "secondaryHex": null,
+    "trim": null,
+    "trimHex": null,
+    "pattern": "stripes",
+    "description": "Black shirt with red stripes and red shoulders, black shorts.",
+    "season": "unspecified (Wikipedia kit template, revision current Nov 2026)",
+    "crestDiffers": null,
+    "status": "PROBABLE",
+    "confidence": 0.55,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/wiki/%C3%98IF_Arendal",
+        "type": "wikipedia",
+        "evidence": "Kit template body1=000000, pattern_b1=_red_stripes, pattern_la1=_redshoulders; colours red/black"
+      }
+    ],
+    "notes": "Only Wikipedia evidence. Red accent documented.",
+    "reviewReason": null
+  },
+  {
+    "id": "nor1-bodo",
+    "name": "Bodø HK",
+    "primary": "navy",
+    "primaryHex": "#15317E",
+    "secondary": "yellow",
+    "secondaryHex": null,
+    "trim": null,
+    "trimHex": null,
+    "pattern": "unknown",
+    "description": "Only club colours (dark blue/yellow) documented.",
+    "season": null,
+    "crestDiffers": null,
+    "status": "UNCERTAIN",
+    "confidence": 0.3,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/wiki/Bod%C3%B8_HK",
+        "type": "wikipedia",
+        "evidence": "colour1=#15317E, colour2=yellow; no kit fields"
+      }
+    ],
+    "notes": "No kit evidence.",
+    "reviewReason": "Club colours only; home shirt not documented."
+  },
+  {
+    "id": "nor1-halden",
+    "name": "Halden Topphåndball",
+    "primary": null,
+    "primaryHex": null,
+    "secondary": null,
+    "secondaryHex": null,
+    "trim": null,
+    "trimHex": null,
+    "pattern": "unknown",
+    "description": null,
+    "season": null,
+    "crestDiffers": null,
+    "status": "UNKNOWN",
+    "confidence": 0,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/wiki/Halden_Topph%C3%A5ndball",
+        "type": "wikipedia",
+        "evidence": "Kit and colour fields all blank"
+      }
+    ],
+    "notes": "No colour evidence on English or Norwegian Wikipedia; search found nothing.",
+    "reviewReason": "No evidence found."
+  },
+  {
+    "id": "nor1-runar",
+    "name": "Runar Håndball",
+    "primary": "black",
+    "primaryHex": null,
+    "secondary": "white",
+    "secondaryHex": null,
+    "trim": null,
+    "trimHex": null,
+    "pattern": "unknown",
+    "description": "Only club colours (black/white) documented.",
+    "season": null,
+    "crestDiffers": null,
+    "status": "UNCERTAIN",
+    "confidence": 0.3,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/wiki/Runar_Sandefjord_(handball)",
+        "type": "wikipedia",
+        "evidence": "colour1=black, colour2=white; kit fields blank"
+      }
+    ],
+    "notes": "Order of colours on the shirt unknown.",
+    "reviewReason": "Club colours only; black/white with no colour accent."
+  },
+  {
+    "id": "nor2-nordstrand",
+    "name": "Nordstrand IF",
+    "primary": "white",
+    "primaryHex": "#FFFFFF",
+    "secondary": "blue",
+    "secondaryHex": "#0000FF",
+    "trim": null,
+    "trimHex": null,
+    "pattern": "sleeves",
+    "description": "White shirt (blue sleeves per Wikipedia), blue shorts.",
+    "season": "undated club handbook",
+    "crestDiffers": null,
+    "status": "PROBABLE",
+    "confidence": 0.65,
+    "sources": [
+      {
+        "url": "https://nordstrand-if.no/file/laglederhandbok-nordstrand-handball-pr-201015.pdf",
+        "type": "official-club",
+        "evidence": "Handball kit: \"Hvit trøye / blå shorts\" (search snippet)"
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/Nordstrand_IF",
+        "type": "wikipedia",
+        "evidence": "Kit template body1=FFFFFF, arms 0000FF, shorts1=0000FF"
+      }
+    ],
+    "notes": "Club sportsplan 2026 uses \"Den blå-hvite tråden\". Blue accent documented.",
+    "reviewReason": null
+  },
+  {
+    "id": "nor2-fjellhammer",
+    "name": "Fjellhammer IL",
+    "primary": "green",
+    "primaryHex": null,
+    "secondary": "yellow",
+    "secondaryHex": null,
+    "trim": null,
+    "trimHex": null,
+    "pattern": "solid",
+    "description": "Green shirt and shorts; yellow listed as second club colour.",
+    "season": "unspecified (Wikipedia kit template, revision current Nov 2026)",
+    "crestDiffers": null,
+    "status": "PROBABLE",
+    "confidence": 0.55,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/wiki/Fjellhammer_IL",
+        "type": "wikipedia",
+        "evidence": "Kit template body1=Green, shorts1=Green; colour1=Green"
+      },
+      {
+        "url": "https://globalsportsarchive.com/team/handball/fjellhammer-il/47836/",
+        "type": "other",
+        "evidence": "Club Colors: Green / Yellow"
+      }
+    ],
+    "notes": "Partille Cup 2018 youth entry also lists shirt green. Yellow only from aggregator.",
+    "reviewReason": null
+  },
+  {
+    "id": "nor2-sandnes",
+    "name": "Sandnes HK",
+    "primary": "black",
+    "primaryHex": "#000000",
+    "secondary": "white",
+    "secondaryHex": "#FFFFFF",
+    "trim": null,
+    "trimHex": null,
+    "pattern": "solid",
+    "description": "Black shirt and shorts.",
+    "season": "unspecified (Wikipedia kit template, revision current Nov 2026)",
+    "crestDiffers": null,
+    "status": "PROBABLE",
+    "confidence": 0.5,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/wiki/Sandnes_H%C3%A5ndballklubb",
+        "type": "wikipedia",
+        "evidence": "Kit template body1=000000, shorts1=000000; colour1=#000000, colour2=#FFFFFF"
+      }
+    ],
+    "notes": "Only Wikipedia evidence.",
+    "reviewReason": "Black primary; only documented accent is white."
+  },
+  {
+    "id": "nor2-vestli",
+    "name": "Vestli IL",
+    "primary": "green",
+    "primaryHex": "#2E8B57",
+    "secondary": "white",
+    "secondaryHex": "#FFFFFF",
+    "trim": null,
+    "trimHex": null,
+    "pattern": "solid",
+    "description": "Green shirt, white shorts.",
+    "season": "unspecified (Wikipedia kit template, revision current Nov 2026)",
+    "crestDiffers": null,
+    "status": "PROBABLE",
+    "confidence": 0.5,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/wiki/Vestli_IL",
+        "type": "wikipedia",
+        "evidence": "Kit template body1=2E8B57, shorts1=FFFFFF; \"The club colors were green and white.\""
+      }
+    ],
+    "notes": "Multi-sport club page; 2021 merger into Stovner SK excluded the handball section. Kit may be football-derived.",
+    "reviewReason": null
+  },
+  {
+    "id": "ger2-balingen",
+    "name": "HBW Balingen-Weilstetten",
+    "primary": "navy",
+    "primaryHex": "#061944",
+    "secondary": "red",
+    "secondaryHex": "#FF0000",
+    "trim": null,
+    "trimHex": null,
+    "pattern": "other",
+    "description": "Navy shirt with white shoulders, navy shorts; red second club colour.",
+    "season": "unspecified (Wikipedia kit template, revision current Nov 2026)",
+    "crestDiffers": null,
+    "status": "PROBABLE",
+    "confidence": 0.55,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/wiki/HBW_Balingen-Weilstetten",
+        "type": "wikipedia",
+        "evidence": "Kit template body1=061944, pattern_la1=_whiteshoulders; colour1=#061944, colour2=#FF0000"
+      }
+    ],
+    "notes": "Only Wikipedia evidence.",
+    "reviewReason": null
+  },
+  {
+    "id": "ger2-dessau",
+    "name": "SC DHfK Dessau",
+    "primary": "blue",
+    "primaryHex": "#005AA7",
+    "secondary": "white",
+    "secondaryHex": "#FFFFFF",
+    "trim": null,
+    "trimHex": null,
+    "pattern": "solid",
+    "description": "Blue shirt, white shorts.",
+    "season": "unspecified (Wikipedia kit template, revision current Nov 2026)",
+    "crestDiffers": null,
+    "status": "PROBABLE",
+    "confidence": 0.5,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/wiki/Dessau-Ro%C3%9Flauer_HV",
+        "type": "wikipedia",
+        "evidence": "Kit template body1=005AA7, shorts1=FFFFFF; colour1=#005AA7, colour2=white"
+      }
+    ],
+    "notes": "Batch name \"SC DHfK Dessau\" does not match a real club; evidence is for Dessau-Roßlauer HV (2. Bundesliga, Dessau).",
+    "reviewReason": "Club identity mismatch (batch name vs Dessau-Roßlauer HV)."
+  },
+  {
+    "id": "ger2-nordhorn",
+    "name": "HSG Nordhorn-Lingen",
+    "primary": "red",
+    "primaryHex": "#DD1111",
+    "secondary": "white",
+    "secondaryHex": "#FFFFFF",
+    "trim": null,
+    "trimHex": null,
+    "pattern": "other",
+    "description": "Red shirt with white shoulders, red shorts.",
+    "season": "unspecified (Wikipedia kit template, revision current Nov 2026)",
+    "crestDiffers": null,
+    "status": "PROBABLE",
+    "confidence": 0.55,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/wiki/HSG_Nordhorn-Lingen",
+        "type": "wikipedia",
+        "evidence": "Kit template body1=DD1111, pattern_b1=_whiteshoulders; colours red/white"
+      }
+    ],
+    "notes": "Only Wikipedia evidence.",
+    "reviewReason": null
+  },
+  {
+    "id": "ger2-wilhelmshaven",
+    "name": "TV Bittenfeld",
+    "primary": null,
+    "primaryHex": null,
+    "secondary": null,
+    "secondaryHex": null,
+    "trim": null,
+    "trimHex": null,
+    "pattern": "unknown",
+    "description": null,
+    "season": null,
+    "crestDiffers": null,
+    "status": "UNKNOWN",
+    "confidence": 0,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/wiki/TVB_Stuttgart",
+        "type": "wikipedia",
+        "evidence": "TVB Stuttgart is the professional team of TV Bittenfeld (TVB 1898)"
+      }
+    ],
+    "notes": "ID says Wilhelmshaven but name is TV Bittenfeld (Waiblingen), which is the parent of TVB Stuttgart (ger1-stuttgart). No separate Bittenfeld kit evidence.",
+    "reviewReason": "Identity conflict (id vs name; duplicate of TVB Stuttgart); no kit evidence."
+  },
+  {
+    "id": "den2-aarhus",
+    "name": "Aarhus Håndbold Herrer",
+    "primary": "black",
+    "primaryHex": "#000000",
+    "secondary": "orange",
+    "secondaryHex": "#FF6600",
+    "trim": null,
+    "trimHex": null,
+    "pattern": "solid",
+    "description": "Historic Århus Håndbold kit: black shirt and shorts, orange socks.",
+    "season": "pre-2021 (club dissolved)",
+    "crestDiffers": null,
+    "status": "UNCERTAIN",
+    "confidence": 0.3,
+    "sources": [
+      {
+        "url": "https://da.wikipedia.org/wiki/%C3%85rhus_H%C3%A5ndbold",
+        "type": "wikipedia",
+        "evidence": "dragt_1 krop=000000, shorts=000000, strømper=ff6600; dissolved 2021, merged with Skanderborg"
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/Aarhus_H%C3%A5ndbold",
+        "type": "wikipedia",
+        "evidence": "colour1=orange, colour2=black"
+      }
+    ],
+    "notes": "Århus Håndbold went bankrupt in 2021 and merged into Skanderborg Aarhus (den1-skanderborg). No current men's entity found.",
+    "reviewReason": "Club defunct/merged; evidence is historic only."
+  },
+  {
+    "id": "den2-vendsyssel",
+    "name": "Elitesport Vendsyssel",
+    "primary": null,
+    "primaryHex": null,
+    "secondary": null,
+    "secondaryHex": null,
+    "trim": null,
+    "trimHex": null,
+    "pattern": "unknown",
+    "description": null,
+    "season": null,
+    "crestDiffers": null,
+    "status": "UNKNOWN",
+    "confidence": 0,
+    "sources": [],
+    "notes": "No Wikipedia page (en/da) and no search evidence found. Search budget exhausted.",
+    "reviewReason": "No evidence found."
+  },
+  {
+    "id": "den2-fif",
+    "name": "FIF Håndbold",
+    "primary": null,
+    "primaryHex": null,
+    "secondary": null,
+    "secondaryHex": null,
+    "trim": null,
+    "trimHex": null,
+    "pattern": "unknown",
+    "description": null,
+    "season": null,
+    "crestDiffers": null,
+    "status": "UNKNOWN",
+    "confidence": 0,
+    "sources": [
+      {
+        "url": "https://da.wikipedia.org/wiki/Frederiksberg_Idr%C3%A6ts-Forening",
+        "type": "wikipedia",
+        "evidence": "FIF resolves to Frederiksberg Idræts-Forening; no kit or colour fields"
+      }
+    ],
+    "notes": "Batch city Fredensborg may be wrong: FIF Håndbold is usually Frederiksberg IF (Copenhagen). No kit evidence.",
+    "reviewReason": "No evidence; possible identity/city mismatch."
+  }
+]

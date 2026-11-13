@@ -41,6 +41,18 @@ node design-lab/experience-2027/capture-arena-boards.cjs
 
 - Assets are loaded with a `?v=` query for cache-busting. Bump it in `index.html` and `frame.html` after editing lab files.
 
+## Club Identity Registry (club kit audit, 2026-11-13)
+
+Every club's neon originates from its **first-choice home shirt** (`docs/experience-2027/HM-EXPERIENCE-2027-CLUB-IDENTITY-REGISTRY.md`).
+
+- `club-identity/extract-clubs.mjs`: read-only extraction of all 202 game clubs.
+- `research/`: kit evidence per club; `visual-checks.json` holds browser checks of official imagery; `overrides.json` holds owner overrides only.
+- `neon.js`: the kit → neon rule, shared by the build and the lab.
+- `build-registry.mjs` writes `registry.json`, `../data/club-registry.js` and the audit, source and review documents.
+- `verify-club-identity.cjs` checks the registry; `capture-club-boards.cjs` produces the screenshots.
+- `frame.html?club=<any game club id>` applies that club's identity; `club=none` gives the clubless state.
+- The lab's top-bar club selector lists every club. The Club identity view has search, tier and status filters, the kit card (shirt → neon), the screens, a club-change sequence and all 202 neons.
+
 ## Views
 
 | View | What it does |

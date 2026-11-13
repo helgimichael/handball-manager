@@ -1,0 +1,640 @@
+[
+ {
+  "id": "se_div2_team_1571761",
+  "name": "Gimonäs Umeå IF",
+  "primary": "black",
+  "primaryHex": null,
+  "secondary": "white",
+  "secondaryHex": null,
+  "trim": null,
+  "trimHex": null,
+  "pattern": "unknown",
+  "description": "Black shirt with white (per Partille Cup youth-team registration: Black / White / Black).",
+  "season": "2023 (youth tournament)",
+  "crestDiffers": false,
+  "status": "UNCERTAIN",
+  "confidence": 0.35,
+  "sources": [
+   {
+    "url": "https://results.partillecup.com/2023/teams/42130134",
+    "type": "other",
+    "evidence": "Partille Cup 2023 team listing (Girls 16): Shirt Color Black / White / Black"
+   }
+  ],
+  "notes": "Only evidence is a youth team tournament registration; not men's senior team, not current season. Black primary; white is the only documented accent.",
+  "reviewReason": "Single youth-tournament source; black primary with white accent only"
+ },
+ {
+  "id": "se_div2_team_1574316",
+  "name": "Härnösands HF",
+  "primary": null,
+  "primaryHex": null,
+  "secondary": null,
+  "secondaryHex": null,
+  "trim": null,
+  "trimHex": null,
+  "pattern": "unknown",
+  "description": null,
+  "season": null,
+  "crestDiffers": false,
+  "status": "UNKNOWN",
+  "confidence": 0,
+  "sources": [],
+  "notes": "Searches found no kit info. A Partille Cup 2017 entry exists for \"Härnösands HK\" (different name) with no colour shown.",
+  "reviewReason": "No usable kit-colour evidence found; needs owner/club lookup"
+ },
+ {
+  "id": "se_div2_team_1582047",
+  "name": "Kiruna HK",
+  "primary": "red",
+  "primaryHex": null,
+  "secondary": "white",
+  "secondaryHex": null,
+  "trim": null,
+  "trimHex": null,
+  "pattern": "unknown",
+  "description": "Red shirt with white (per Partille Cup youth-team registration: Red / White).",
+  "season": "2023 (youth tournament)",
+  "crestDiffers": false,
+  "status": "UNCERTAIN",
+  "confidence": 0.35,
+  "sources": [
+   {
+    "url": "https://results.partillecup.com/2023/teams/42138355",
+    "type": "other",
+    "evidence": "Partille Cup 2023 Kiruna HK (Girls 15): Shirt Color Red / White"
+   }
+  ],
+  "notes": "Only a youth tournament registration; Kiruna IF (ice hockey, separate club) also red/white, not used as evidence.",
+  "reviewReason": "Single youth-tournament source, not men's senior team"
+ },
+ {
+  "id": "se_div2_team_1583325",
+  "name": "Norrfjärdens IF",
+  "primary": null,
+  "primaryHex": null,
+  "secondary": null,
+  "secondaryHex": null,
+  "trim": null,
+  "trimHex": null,
+  "pattern": "unknown",
+  "description": null,
+  "season": null,
+  "crestDiffers": false,
+  "status": "UNKNOWN",
+  "confidence": 0,
+  "sources": [],
+  "notes": "No handball kit evidence found in Swedish or English searches.",
+  "reviewReason": "No usable kit-colour evidence found; needs owner/club lookup"
+ },
+ {
+  "id": "se_div2_team_1583328",
+  "name": "Sikeå SK",
+  "primary": null,
+  "primaryHex": null,
+  "secondary": null,
+  "secondaryHex": null,
+  "trim": null,
+  "trimHex": null,
+  "pattern": "unknown",
+  "description": null,
+  "season": null,
+  "crestDiffers": false,
+  "status": "UNKNOWN",
+  "confidence": 0,
+  "sources": [],
+  "notes": "No handball kit evidence found.",
+  "reviewReason": "No usable kit-colour evidence found; needs owner/club lookup"
+ },
+ {
+  "id": "se_div2_team_1578618",
+  "name": "Sundsvall HK",
+  "primary": null,
+  "primaryHex": null,
+  "secondary": null,
+  "secondaryHex": null,
+  "trim": null,
+  "trimHex": null,
+  "pattern": "unknown",
+  "description": null,
+  "season": null,
+  "crestDiffers": false,
+  "status": "UNKNOWN",
+  "confidence": 0,
+  "sources": [],
+  "notes": "No handball kit evidence found; results were about GIF Sundsvall (football) and Sundsvall Hockey, not used.",
+  "reviewReason": "No usable kit-colour evidence found; needs owner/club lookup"
+ },
+ {
+  "id": "se_div2_team_1575294",
+  "name": "AIK",
+  "primary": "black",
+  "primaryHex": null,
+  "secondary": "yellow",
+  "secondaryHex": null,
+  "trim": null,
+  "trimHex": null,
+  "pattern": "unknown",
+  "description": "Probably black shirt (AIK black/yellow club colours); handball-section evidence conflicts.",
+  "season": "2018 (Partille) / undated wiki",
+  "crestDiffers": false,
+  "status": "UNCERTAIN",
+  "confidence": 0.45,
+  "sources": [
+   {
+    "url": "https://en.wikipedia.org/wiki/AIK_Handboll",
+    "type": "wikipedia",
+    "evidence": "Infobox colours: black and yellow; kit table \"2018-\" adidas, black shorts/socks"
+   },
+   {
+    "url": "https://results.partillecup.com/2018,sv/club/15829175",
+    "type": "other",
+    "evidence": "Partille Cup 2018 AIK Handboll listing: shirt colours Black / White / Black"
+   },
+   {
+    "url": "https://sv.wikipedia.org/wiki/AIK_Handboll",
+    "type": "wikipedia",
+    "evidence": "Swedish infobox body1=FFFF00 (yellow) with pattern _aik1617h, shorts white (conflicts)"
+   }
+  ],
+  "notes": "Handball section checked separately from football (football home kit black with yellow, not used as handball evidence). sv-wiki template (2016/17) suggests yellow body; en-wiki and Partille suggest black. Yellow is the club colour but not documented on the current handball shirt.",
+  "reviewReason": "Conflicting handball kit sources (black vs yellow); no current-season source"
+ },
+ {
+  "id": "se_div2_team_1577066",
+  "name": "Djurgårdens HF",
+  "primary": "light-blue",
+  "primaryHex": "#3389C2",
+  "secondary": "navy",
+  "secondaryHex": "#000080",
+  "trim": null,
+  "trimHex": null,
+  "pattern": "stripes",
+  "description": "Blue shirt with navy vertical stripes (traditional Djurgården blue stripes), navy shorts.",
+  "season": "undated wiki kit; tradition documented 2004/05",
+  "crestDiffers": false,
+  "status": "PROBABLE",
+  "confidence": 0.55,
+  "sources": [
+   {
+    "url": "https://sv.wikipedia.org/wiki/Djurgårdens_IF_HF",
+    "type": "wikipedia",
+    "evidence": "Infobox kit 1: body 3389C2, pattern _navystripes, shorts 000080"
+   },
+   {
+    "url": "https://difhistoria.se/wp-content/uploads/Matchprogram-Handboll-Herr-2004-2005.pdf",
+    "type": "official-club",
+    "evidence": "2004/05 handball programme: planned return to the blue-striped match shirt; colours dark blue and light blue"
+   }
+  ],
+  "notes": "Handball section shirt (not football). Evidence is old/undated; current Division 2 shirt not confirmed. Hex values from the wiki kit template.",
+  "reviewReason": null
+ },
+ {
+  "id": "se_div2_team_1576032",
+  "name": "HF SIF",
+  "primary": null,
+  "primaryHex": null,
+  "secondary": null,
+  "secondaryHex": null,
+  "trim": null,
+  "trimHex": null,
+  "pattern": "unknown",
+  "description": null,
+  "season": null,
+  "crestDiffers": false,
+  "status": "UNKNOWN",
+  "confidence": 0,
+  "sources": [],
+  "notes": "Could not establish club identity/town from searches. No kit evidence.",
+  "reviewReason": "No usable kit-colour evidence found; needs owner/club lookup"
+ },
+ {
+  "id": "se_div2_team_1570960",
+  "name": "HK Tyrold",
+  "primary": null,
+  "primaryHex": null,
+  "secondary": null,
+  "secondaryHex": null,
+  "trim": null,
+  "trimHex": null,
+  "pattern": "unknown",
+  "description": null,
+  "season": null,
+  "crestDiffers": false,
+  "status": "UNKNOWN",
+  "confidence": 0,
+  "sources": [],
+  "notes": "Club plays at Tyresöhallen (profixio protocol 2025). Tyresö Handboll youth Partille 2018 listing (Red / Yellow / Red) is a different club name and was not used.",
+  "reviewReason": "No usable kit-colour evidence found; needs owner/club lookup"
+ },
+ {
+  "id": "se_div2_team_1581926",
+  "name": "Kungsängens SK",
+  "primary": "wine",
+  "primaryHex": null,
+  "secondary": "black",
+  "secondaryHex": null,
+  "trim": null,
+  "trimHex": null,
+  "pattern": "unknown",
+  "description": "Wine-red shirt (per Partille Cup youth-team registration: Winered / Winered / Black).",
+  "season": "2024 (youth tournament)",
+  "crestDiffers": false,
+  "status": "UNCERTAIN",
+  "confidence": 0.35,
+  "sources": [
+   {
+    "url": "https://results.partillecup.com/2024/teams/52864759",
+    "type": "other",
+    "evidence": "Partille Cup 2024 Kungsängens SK (Girls 15): Shirt Color Winered / Winered / Black"
+   }
+  ],
+  "notes": "Only youth tournament evidence.",
+  "reviewReason": "Single youth-tournament source, not men's senior team"
+ },
+ {
+  "id": "se_div2_team_1587488",
+  "name": "Lidingö SK",
+  "primary": null,
+  "primaryHex": null,
+  "secondary": null,
+  "secondaryHex": null,
+  "trim": null,
+  "trimHex": null,
+  "pattern": "unknown",
+  "description": null,
+  "season": null,
+  "crestDiffers": false,
+  "status": "UNKNOWN",
+  "confidence": 0,
+  "sources": [],
+  "notes": "Lidingö SK has a handball section (Gångsätrahallen) but no kit colour evidence found. IFK Lidingö (blue/white) is a different club and was not used.",
+  "reviewReason": "No usable kit-colour evidence found; needs owner/club lookup"
+ },
+ {
+  "id": "se_div2_team_1576098",
+  "name": "SK Kvarnberga",
+  "primary": null,
+  "primaryHex": null,
+  "secondary": null,
+  "secondaryHex": null,
+  "trim": null,
+  "trimHex": null,
+  "pattern": "unknown",
+  "description": null,
+  "season": null,
+  "crestDiffers": false,
+  "status": "UNKNOWN",
+  "confidence": 0,
+  "sources": [],
+  "notes": "Sportklubben Kvarnberga registered in Huddinge; no kit evidence found.",
+  "reviewReason": "No usable kit-colour evidence found; needs owner/club lookup"
+ },
+ {
+  "id": "se_div2_team_1587398",
+  "name": "Skogås HK",
+  "primary": "green",
+  "primaryHex": null,
+  "secondary": "white",
+  "secondaryHex": null,
+  "trim": null,
+  "trimHex": null,
+  "pattern": "unknown",
+  "description": "Green shirt with white (Partille Cup registrations: Green / White / Green 2022, Green / White / Black 2017).",
+  "season": "2022 (youth tournament)",
+  "crestDiffers": false,
+  "status": "PROBABLE",
+  "confidence": 0.5,
+  "sources": [
+   {
+    "url": "https://results.partillecup.com/2022/teams/33799985",
+    "type": "other",
+    "evidence": "Partille Cup 2022 Skogås HK: Shirt Color Green / White / Green"
+   },
+   {
+    "url": "https://results.partillecup.com/2017/teams/12032900",
+    "type": "other",
+    "evidence": "Partille Cup 2017 Skogås HK: Shirt Color Green / White / Black"
+   }
+  ],
+  "notes": "Two consistent youth-team registrations; men's senior shirt not directly confirmed.",
+  "reviewReason": null
+ },
+ {
+  "id": "se_div2_team_1578302",
+  "name": "Skuru IK",
+  "primary": "green",
+  "primaryHex": "#008000",
+  "secondary": "white",
+  "secondaryHex": null,
+  "trim": null,
+  "trimHex": null,
+  "pattern": "solid",
+  "description": "Green shirt and green shorts.",
+  "season": "undated (wiki)",
+  "crestDiffers": false,
+  "status": "PROBABLE",
+  "confidence": 0.6,
+  "sources": [
+   {
+    "url": "https://en.wikipedia.org/wiki/Skuru_IK_(women%27s_handball)",
+    "type": "wikipedia",
+    "evidence": "\"They play in green shirts and green shorts.\" body1=008000, colour2 White"
+   }
+  ],
+  "notes": "Evidence from the club's women's handball article (same club, Skuru IK handball); men's team assumed same club kit but not directly confirmed. White from infobox colour2.",
+  "reviewReason": null
+ },
+ {
+  "id": "se_div2_team_1581054",
+  "name": "Spånga HK",
+  "primary": "blue",
+  "primaryHex": null,
+  "secondary": "white",
+  "secondaryHex": null,
+  "trim": null,
+  "trimHex": null,
+  "pattern": "unknown",
+  "description": "Blue shirt with white (per Partille Cup youth-team registration: Blue / White / Blue).",
+  "season": "2017 (youth tournament)",
+  "crestDiffers": false,
+  "status": "UNCERTAIN",
+  "confidence": 0.3,
+  "sources": [
+   {
+    "url": "https://results.partillecup.com/2017/teams/12033048",
+    "type": "other",
+    "evidence": "Partille Cup 2017 Spånga HK: Shirt Color Blue / White / Blue"
+   }
+  ],
+  "notes": "Old youth-team evidence only.",
+  "reviewReason": "Single old youth-tournament source"
+ },
+ {
+  "id": "se_div2_team_1582988",
+  "name": "Tumba HK",
+  "primary": null,
+  "primaryHex": null,
+  "secondary": null,
+  "secondaryHex": null,
+  "trim": null,
+  "trimHex": null,
+  "pattern": "unknown",
+  "description": null,
+  "season": null,
+  "crestDiffers": false,
+  "status": "UNKNOWN",
+  "confidence": 0,
+  "sources": [],
+  "notes": "No evidence for \"Tumba HK\". IFK Tumba Handboll (blue, Partille 2014) may or may not be the same entity; not used.",
+  "reviewReason": "No usable kit-colour evidence found; needs owner/club lookup"
+ },
+ {
+  "id": "se_div2_team_1585773",
+  "name": "Årsta AIK HF",
+  "primary": "red",
+  "primaryHex": null,
+  "secondary": "white",
+  "secondaryHex": null,
+  "trim": null,
+  "trimHex": null,
+  "pattern": "unknown",
+  "description": "Red shirt (Partille Cup youth registrations: Red / White / Black 2023, Red / Red 2018).",
+  "season": "2023 (youth tournament)",
+  "crestDiffers": false,
+  "status": "UNCERTAIN",
+  "confidence": 0.35,
+  "sources": [
+   {
+    "url": "https://results.partillecup.com/2023/teams/42134957",
+    "type": "other",
+    "evidence": "Partille Cup 2023 Årsta AIK (Boys 15, likely team 2): Shirt Color Red / White / Black"
+   },
+   {
+    "url": "https://results.partillecup.com/2018/teams/16695289",
+    "type": "other",
+    "evidence": "Partille Cup 2018 Årsta AIK (Girls 14): Red / Red"
+   }
+  ],
+  "notes": "Youth evidence only; unrelated to AIK (Solna).",
+  "reviewReason": "Youth-tournament sources only"
+ },
+ {
+  "id": "se_div2_team_1587217",
+  "name": "Borlänge HK",
+  "primary": "red",
+  "primaryHex": null,
+  "secondary": "white",
+  "secondaryHex": null,
+  "trim": null,
+  "trimHex": null,
+  "pattern": "unknown",
+  "description": "Red and white club; home shirt colour conflicts between sources (red vs white).",
+  "season": "2018– (wiki)",
+  "crestDiffers": false,
+  "status": "UNCERTAIN",
+  "confidence": 0.35,
+  "sources": [
+   {
+    "url": "https://en.wikipedia.org/wiki/Borlänge_HK",
+    "type": "wikipedia",
+    "evidence": "Infobox colour1 red, colour2 white; 2018– hummel kit (pattern only)"
+   },
+   {
+    "url": "https://sv.wikipedia.org/wiki/Borlänge_HK",
+    "type": "wikipedia",
+    "evidence": "Kit 1 body FFFFFF, shorts FF0000; kit 2 all red"
+   }
+  ],
+  "notes": "en-wiki implies red primary, sv-wiki shows white home shirt with red shorts. Owner should decide.",
+  "reviewReason": "Conflicting wiki kit data (red vs white home shirt)"
+ },
+ {
+  "id": "se_div2_team_1583225",
+  "name": "Eksjö BK",
+  "primary": null,
+  "primaryHex": null,
+  "secondary": null,
+  "secondaryHex": null,
+  "trim": null,
+  "trimHex": null,
+  "pattern": "unknown",
+  "description": null,
+  "season": null,
+  "crestDiffers": false,
+  "status": "UNKNOWN",
+  "confidence": 0,
+  "sources": [],
+  "notes": "No handball kit evidence found.",
+  "reviewReason": "No usable kit-colour evidence found; needs owner/club lookup"
+ },
+ {
+  "id": "se_div2_team_1585081",
+  "name": "HK Erping",
+  "primary": null,
+  "primaryHex": null,
+  "secondary": null,
+  "secondaryHex": null,
+  "trim": null,
+  "trimHex": null,
+  "pattern": "unknown",
+  "description": null,
+  "season": null,
+  "crestDiffers": false,
+  "status": "UNKNOWN",
+  "confidence": 0,
+  "sources": [],
+  "notes": "Profixio shows team \"Herr 2\" playing home games at Linköpings Sporthall; full club identity and kit not found.",
+  "reviewReason": "No usable kit-colour evidence found; needs owner/club lookup"
+ },
+ {
+  "id": "se_div2_team_1575788",
+  "name": "HK Lif Blå",
+  "primary": null,
+  "primaryHex": null,
+  "secondary": null,
+  "secondaryHex": null,
+  "trim": null,
+  "trimHex": null,
+  "pattern": "unknown",
+  "description": "Second team of LIF Lindesberg; own shirt not documented.",
+  "season": null,
+  "crestDiffers": false,
+  "status": "UNCERTAIN",
+  "confidence": 0.2,
+  "sources": [
+   {
+    "url": "https://www.profixio.com/app/leagueid28151/teams/1575788",
+    "type": "other",
+    "evidence": "Players listed \"Skriven i: LIF Lindesberg\"; home venue Lindesberg Arena"
+   },
+   {
+    "url": "https://en.wikipedia.org/wiki/LIF_Lindesberg",
+    "type": "wikipedia",
+    "evidence": "Parent club kit 2020–: body FF8000 (orange), shorts 0000FF (blue)"
+   }
+  ],
+  "notes": "B/second team of LIF Lindesberg. Parent kit is orange with blue (wiki). No evidence this team plays in the parent kit, so colours left null; \"Blå\" in the name is a team designation, not kit evidence.",
+  "reviewReason": "B-team; parent LIF Lindesberg is orange/blue but no evidence team wears parent kit"
+ },
+ {
+  "id": "se_div2_team_1579109",
+  "name": "IFK Nyköping",
+  "primary": "blue",
+  "primaryHex": null,
+  "secondary": "white",
+  "secondaryHex": null,
+  "trim": null,
+  "trimHex": null,
+  "pattern": "unknown",
+  "description": "Blue shirt with white (per Partille Cup youth-team registration: Blue / White).",
+  "season": "2023 (youth tournament)",
+  "crestDiffers": false,
+  "status": "UNCERTAIN",
+  "confidence": 0.35,
+  "sources": [
+   {
+    "url": "https://results.partillecup.com/2023/teams/42130091",
+    "type": "other",
+    "evidence": "Partille Cup 2023 IFK Nyköping (Boys 14): Shirt Color Blue / White"
+   }
+  ],
+  "notes": "Youth evidence only.",
+  "reviewReason": "Single youth-tournament source"
+ },
+ {
+  "id": "se_div2_team_1575015",
+  "name": "Ludvika HF Herr",
+  "primary": "green",
+  "primaryHex": null,
+  "secondary": null,
+  "secondaryHex": null,
+  "trim": null,
+  "trimHex": null,
+  "pattern": "unknown",
+  "description": "Green shirt (per Partille Cup youth-team registration: Green / Green).",
+  "season": "2018 (youth tournament)",
+  "crestDiffers": false,
+  "status": "UNCERTAIN",
+  "confidence": 0.3,
+  "sources": [
+   {
+    "url": "https://results.partillecup.com/2018/teams/16695605",
+    "type": "other",
+    "evidence": "Partille Cup 2018 Ludvika HF (Boys 16): Shirt Color Green / Green"
+   }
+  ],
+  "notes": "Old youth evidence only; no secondary documented.",
+  "reviewReason": "Single old youth-tournament source; no accent documented"
+ },
+ {
+  "id": "se_div2_team_1574743",
+  "name": "Mantorps IF HF",
+  "primary": "green",
+  "primaryHex": null,
+  "secondary": "white",
+  "secondaryHex": null,
+  "trim": null,
+  "trimHex": null,
+  "pattern": "unknown",
+  "description": "Green shirt with white (per Partille Cup youth-team registration: Green / White).",
+  "season": "2023 (youth tournament)",
+  "crestDiffers": false,
+  "status": "UNCERTAIN",
+  "confidence": 0.35,
+  "sources": [
+   {
+    "url": "https://results.partillecup.com/2023/teams/42133514",
+    "type": "other",
+    "evidence": "Partille Cup 2023 Mantorps IF/HF (Boys 12): Shirt Color Green / White"
+   }
+  ],
+  "notes": "Youth evidence only.",
+  "reviewReason": "Single youth-tournament source"
+ },
+ {
+  "id": "se_div2_team_1584203",
+  "name": "Norrköpings HK",
+  "primary": "white",
+  "primaryHex": null,
+  "secondary": "green",
+  "secondaryHex": null,
+  "trim": null,
+  "trimHex": null,
+  "pattern": "unknown",
+  "description": "White shirt with green (per Partille Cup youth-team registration: White / Green / Green).",
+  "season": "2023 (youth tournament)",
+  "crestDiffers": false,
+  "status": "UNCERTAIN",
+  "confidence": 0.3,
+  "sources": [
+   {
+    "url": "https://results.partillecup.com/2023/teams/42134514",
+    "type": "other",
+    "evidence": "Partille Cup 2023 Norrköpings HK (Boys 16): Shirt Color White / Green / Green"
+   }
+  ],
+  "notes": "Youth evidence only; Partille field order not explicitly labelled. White primary, green documented as accent.",
+  "reviewReason": "Single youth-tournament source; white primary"
+ },
+ {
+  "id": "se_div2_team_1584878",
+  "name": "Vetlanda HF",
+  "primary": null,
+  "primaryHex": null,
+  "secondary": null,
+  "secondaryHex": null,
+  "trim": null,
+  "trimHex": null,
+  "pattern": "unknown",
+  "description": null,
+  "season": null,
+  "crestDiffers": false,
+  "status": "UNKNOWN",
+  "confidence": 0,
+  "sources": [],
+  "notes": "No handball kit evidence found. Vetlanda BK (bandy, yellow) is a different club; not used.",
+  "reviewReason": "No usable kit-colour evidence found; needs owner/club lookup"
+ }
+]

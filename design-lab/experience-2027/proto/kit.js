@@ -249,60 +249,73 @@
     document.addEventListener('input', (e) => { if (e.target.matches('.palette input')) renderOpts(e.target.value); });
   }
 
-  /* ---------------- CLUB IDENTITY SYSTEM (owner decision 2026-11-13) ----------------
-     The active club determines the Arena Nights accent. Only CSS custom properties change;
-     the design system (components, layouts, tokens contract) stays identical. */
-  const hexToHsl = (hex) => {
-    const n = parseInt(hex.replace('#', ''), 16); const r = (n >> 16) / 255, g = ((n >> 8) & 255) / 255, b = (n & 255) / 255;
-    const mx = Math.max(r, g, b), mn = Math.min(r, g, b), l = (mx + mn) / 2; let h = 0, s = 0;
-    if (mx !== mn) { const d = mx - mn; s = l > 0.5 ? d / (2 - mx - mn) : d / (mx + mn); h = mx === r ? (g - b) / d + (g < b ? 6 : 0) : mx === g ? (b - r) / d + 2 : (r - g) / d + 4; h *= 60; }
-    return [h, s, l];
-  };
-  const hslToHex = (h, s, l) => { const k = (n) => (n + h / 30) % 12, a = s * Math.min(l, 1 - l); const f = (n) => Math.round(255 * (l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1))))); return '#' + [f(0), f(8), f(4)].map((v) => v.toString(16).padStart(2, '0')).join(''); };
-  const NEON_DEFAULT = '#ff7a1a'; // clubless manager
-  const NEON_OVERRIDE = { tum: '#2e9bff', ham: '#1ff28a' }; // owner examples: Tumba neon blue, Hammarby neon green
-  // Derive a neon from club colours: primary hue if saturated, else secondary, else default orange. Fixed S/L keep every club equally "loud".
-  function neonFor(club) {
-    if (!club || club.id === 'none') return NEON_DEFAULT;
-    if (NEON_OVERRIDE[club.id]) return NEON_OVERRIDE[club.id];
-    for (const c of [club.c1, club.c2]) { if (!c) continue; const [h, s, l] = hexToHsl(c); if (s > 0.25 && l > 0.08 && l < 0.92) return hslToHex(h, 1, h > 40 && h < 75 ? 0.52 : 0.6); }
-    return NEON_DEFAULT;
+  /* ---------------- CLUB IDENTITY SYSTEM (registry-driven) ----------------
+     Single source: window.HM_CLUB_REGISTRY (generated from club-identity/registry.json — home-shirt colours + neon).
+     The active club changes ONLY CSS custom properties; components, layouts and the token contract are identical. */
+  const REGDATA = window.HM_CLUB_REGISTRY || { clubs: [], clubless: '#ff7a1a', pending: '#9fb0c6' };
+  const REGBY = new Map(REGDATA.clubs.map((r) => [r.id, r]));
+  const NEON_CLUBLESS = REGDATA.clubless;
+  const STOP = new Set(['HK', 'IF', 'IK', 'HF', 'SK', 'BK', 'HB', 'HC', 'AIK', 'IFK', 'GIF', 'Handboll', 'Handbollsklubb', 'Håndbold', 'Håndball', 'Elite', 'Herr', 'herr', 'U', 'TV', 'SG', 'SC', 'TSV', 'VfL', 'HSG', 'THW', 'TBV', 'GWD', 'MT', 'TTH', 'GOG', 'HØJ', 'TMS', 'ØIF']);
+  const abbrOf = (name) => { const w = String(name).split(/[\s-]+/).filter(Boolean); const core = w.filter((x) => !STOP.has(x)); const pick = (core.length ? core : w); return (pick.length === 1 ? pick[0].slice(0, 3) : pick.map((x) => x[0]).join('').slice(0, 3)).toUpperCase(); };
+  const sampleOf = (regId) => H.clubs.find((c) => c.regId === regId);
+  function registryFor(id) { if (!id || id === 'none') return null; const s = H.club(id); return REGBY.get(s ? s.regId : id) || null; }
+  function neonFor(clubOrId) {
+    if (!clubOrId || clubOrId === 'none' || clubOrId.id === 'none') return NEON_CLUBLESS;
+    const r = typeof clubOrId === 'string' ? registryFor(clubOrId) : REGBY.get(clubOrId.regId || clubOrId.id);
+    return r ? r.neon : REGDATA.pending;
   }
   const PRISTINE = {};
   const VISUAL = ['name', 'short', 'abbr', 'c1', 'c2', 'arena', 'cap'];
-  const NO_CLUB = { id: 'none', name: 'Utan klubb', short: 'Fri agent', abbr: 'HM', c1: '#1a2233', c2: NEON_DEFAULT };
+  const NO_CLUB = { id: 'none', name: 'Utan klubb', short: 'Fri agent', abbr: 'HM', c1: '#1a2233', c2: NEON_CLUBLESS };
+  let SWAP = null; // text swap plan for the current career club
   function snapshot() { if (!PRISTINE.done) { H.clubs.forEach((c) => (PRISTINE[c.id] = Object.fromEntries(VISUAL.map((k) => [k, c[k]])))); PRISTINE.done = true; } }
-  function restore() { H.clubs.forEach((c) => Object.assign(c, PRISTINE[c.id])); H.me = H.club('tum'); H.activeClub = H.me; }
-  // Apply a club identity. 'tum' = sample career club; 'ham' = Hammarby career (Tumba becomes an opponent); 'none' = clubless manager.
+  function restore() { H.clubs.forEach((c) => Object.assign(c, PRISTINE[c.id])); H.me = H.club('tum'); H.activeClub = H.me; SWAP = null; }
+  const kitCrest = (r) => { const s = sampleOf(r.id); if (s) return { c1: PRISTINE[s.id].c1, c2: PRISTINE[s.id].c2 }; const ok = r.p && ['VERIFIED', 'PROBABLE', 'UNCERTAIN'].includes(r.status); if (!ok) return { c1: '#3a4250', c2: '#c9d1dc' }; const tr = [r.s, r.t].filter(Boolean).find((h) => h.toUpperCase() !== r.p.toUpperCase()) || (r.p.toUpperCase() === '#FFFFFF' ? '#111111' : '#FFFFFF'); return { c1: r.p, c2: tr }; };
+  /** Apply a club identity: 'none' (clubless), a sample id ('tum', 'ham', …) or ANY registry club id (202 clubs). */
   function applyClub(id) {
     snapshot(); restore();
     const root = document.documentElement;
-    let active = H.me;
-    if (id === 'ham') {
-      // Only visual fields swap on the objects; names are swapped once, in text (swapCareerText).
-      const t = H.club('tum'), h = H.club('ham'); const pt = PRISTINE.tum, ph = PRISTINE.ham;
-      Object.assign(t, { c1: ph.c1, c2: ph.c2, abbr: ph.abbr }); Object.assign(h, { c1: pt.c1, c2: pt.c2, abbr: pt.abbr });
-      H.activeClub = { short: 'Hammarby', name: 'Hammarby IF HF' };
-      active = { id: 'ham', name: 'Hammarby IF HF', c1: ph.c1, c2: ph.c2 };
-    } else if (id === 'none') {
-      H.me = NO_CLUB; H.activeClub = NO_CLUB; active = NO_CLUB;
+    let active;
+    if (id === 'none') { H.me = NO_CLUB; H.activeClub = NO_CLUB; active = { id: 'none', name: NO_CLUB.name, c1: NO_CLUB.c1, c2: NO_CLUB.c2, neon: NEON_CLUBLESS }; }
+    else {
+      const r = registryFor(id) || REGBY.get(H.club('tum').regId);
+      const tum = H.club('tum'), pt = PRISTINE.tum;
+      const s = sampleOf(r.id);
+      const crestCols = kitCrest(r);
+      if (s && s.id !== 'tum') {
+        // The chosen club exists in the sample league: it becomes the career club and Tumba becomes an opponent.
+        const ps = PRISTINE[s.id];
+        Object.assign(tum, { c1: ps.c1, c2: ps.c2, abbr: ps.abbr }); Object.assign(s, { c1: pt.c1, c2: pt.c2, abbr: pt.abbr });
+        SWAP = { two: [[pt.name, ps.name], [pt.short, ps.short]], arena: null, bug: ps.short.slice(0, 3).toUpperCase() };
+      } else if (!s) {
+        // A club outside the sample league: it replaces Tumba in the sample career (prototype content only).
+        Object.assign(tum, { c1: crestCols.c1, c2: crestCols.c2, abbr: abbrOf(r.name) });
+        SWAP = { one: [[pt.name, r.name], ['Tumba Sporthall', 'hemmaarenan'], [pt.short, r.short]], bug: abbrOf(r.short || r.name) };
+      }
+      H.activeClub = { short: s ? s.short : r.short, name: r.name };
+      active = { id: r.id, name: r.name, c1: crestCols.c1, c2: crestCols.c2, neon: r.neon, status: r.status };
     }
-    const neon = neonFor(active);
     root.dataset.club = active.id;
-    root.style.setProperty('--club-neon', neon);
+    root.style.setProperty('--club-neon', active.neon);
     root.style.setProperty('--club-primary', active.c1);
     root.style.setProperty('--club-secondary', active.c2);
-    return { id: active.id, neon, name: active.name };
+    return active;
   }
+  const mark = (i, k) => '\u0001' + i + k + '\u0002';
   // Placeholder-safe name swap for prototype copy (sample content is written for the Tumba career).
-  function swapCareerText(html, id) {
-    if (id !== 'ham') return html;
-    const pairs = [['IFK Tumba HK', 'Hammarby IF HF'], ['Tumba Sporthall', 'Eriksdalshallen'], ['Tumba', 'Hammarby'], [' TUM</span>', ' HIF</span>']];
+  function swapCareerText(html) {
+    if (!SWAP) return html;
     let out = html;
-    pairs.forEach(([a, b], i) => { out = out.split(a).join('\u0001' + i + 'a\u0002').split(b).join('\u0001' + i + 'b\u0002'); });
-    pairs.forEach(([a, b], i) => { out = out.split('\u0001' + i + 'a\u0002').join(b).split('\u0001' + i + 'b\u0002').join(a); });
+    const bugPair = [' TUM</span>', ' ' + SWAP.bug + '</span>'];
+    if (SWAP.two) {
+      const pairs = [...SWAP.two, bugPair];
+      pairs.forEach(([a, b], i) => { out = out.split(a).join(mark(i, 'a')).split(b).join(mark(i, 'b')); });
+      pairs.forEach(([a, b], i) => { out = out.split(mark(i, 'a')).join(b).split(mark(i, 'b')).join(a); });
+      return out;
+    }
+    [...SWAP.one, bugPair].forEach(([a, b]) => { out = out.split(a).join(b); });
     return out;
   }
 
-  window.K = { esc, money, icon, crest, avatar, bust, attrCls, spark, bar, ring, radar, form, lineChart, momentum, court, lineup, pchip, cchip, schip, stars, status, shell, wire, toast, shade, HUBS, applyClub, neonFor, swapCareerText, NO_CLUB };
+  window.K = { esc, money, icon, crest, avatar, bust, attrCls, spark, bar, ring, radar, form, lineChart, momentum, court, lineup, pchip, cchip, schip, stars, status, shell, wire, toast, shade, HUBS, applyClub, neonFor, registryFor, abbrOf, swapCareerText, NO_CLUB, REGISTRY: REGDATA };
 })();

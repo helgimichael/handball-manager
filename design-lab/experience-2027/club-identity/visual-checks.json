@@ -1,0 +1,74 @@
+[
+ {
+  "id": "se_club_ifk_kristianstad",
+  "date": "2026-11-13",
+  "url": "https://ifkkristianstad.se/",
+  "season": "2026/27",
+  "primary": "orange",
+  "secondary": "white",
+  "trim": null,
+  "description": "Orange ('brandgul') shirt with thin white vertical pinstripes, worn at home in Kristianstad Arena (vs Amo HK, 12 Nov 2026). Crest is blue/white - crest differs from shirt.",
+  "evidence": "Official club website, match report photo 'Stabil brandgul seger over Amo hemma i Kristianstad Arena' (12 Nov 2026): player in orange shirt with white pinstripes."
+ },
+ {
+  "id": "se_club_ik_savehof",
+  "date": "2026-11-13",
+  "url": "https://savehof.se/",
+  "season": "2026/27",
+  "primary": "yellow",
+  "secondary": "black",
+  "trim": "black",
+  "description": "Yellow shirt with black shoulders/side detailing ('gulsvart'), worn by the men's team at home (vs HF Karlskrona, 11 Nov 2026). Yellow dominates.",
+  "evidence": "Official club website news photo 'Tva poang hemma mot Karlskrona' (11 Nov 2026): men's player in a yellow shirt with black shoulders. Resolves the earlier black-vs-yellow conflict."
+ },
+ {
+  "id": "se_club_hammarby_if_hf",
+  "date": "2026-11-13",
+  "url": "https://www.hammarbyhandboll.se/hifhandboll_herr/match/20557017/lugi-hf#referat",
+  "season": "2026/27",
+  "primary": "green",
+  "secondary": "white",
+  "trim": null,
+  "description": "Green shirt with thin white vertical stripes and green shorts, worn at home (Hammarby-Lugi 35-20, 11 Nov 2026). Green dominates.",
+  "evidence": "Official club website match report photo (Foto: Stephan Grahn), Hammarby-Lugi 11 Nov 2026: home player in green shirt with white pinstripes, green shorts."
+ },
+ {
+  "id": "se_club_hk_malmo",
+  "date": "2026-11-13",
+  "url": "https://hkmalmo.se/",
+  "season": "recent (undated official homepage photo)",
+  "primary": "black",
+  "secondary": "red",
+  "trim": "red",
+  "accentOnHomeShirt": true,
+  "confidence": 0.85,
+  "description": "Black shirt with red shoulders, red side panels and red numbers (home crowd, official homepage hero photo).",
+  "evidence": "Official club homepage hero photo: men's players in black shirts with red shoulders/side panels and red numbers. Confirms red as a home-shirt detail; photo undated."
+ },
+ {
+  "id": "swe2-guif",
+  "date": "2026-11-13",
+  "url": "https://shop.guif.nu/product/2026-2027-match-hemma",
+  "season": "2026/27",
+  "primary": "red",
+  "secondary": "dark-red",
+  "trim": "dark-red",
+  "confidence": 0.97,
+  "description": "Red hummel shirt with dark red (maroon) collar, cuffs and side panels - official 2026/27 home shirt.",
+  "evidence": "Official club shop product \"2026/2027 Match - Hemma\": product image shows a red shirt with dark-red collar, cuffs and side panels."
+ },
+ {
+  "id": "swe2-tumba",
+  "date": "2026-11-13",
+  "url": "https://www.svenskalag.se/tumbahandboll/bildgalleri",
+  "season": "2025 (club teams)",
+  "primary": "blue",
+  "secondary": "white",
+  "trim": null,
+  "status": "PROBABLE",
+  "confidence": 0.8,
+  "description": "Blue (royal/dark blue, not navy) match shirts with white details on official club photos.",
+  "evidence": "Official club photo gallery (USM Finalspelet 2025, P18 steg 4 2025): club teams in blue shirts with white details. Men's senior team not pictured, so not upgraded to VERIFIED; resolves the navy-vs-blue question in favour of blue.",
+  "reviewReason": "Official club photos show blue (not navy) club shirts, but the men's senior home shirt itself is not pictured — confirm with a men's match photo or shop listing."
+ }
+]

@@ -94,7 +94,10 @@ const arenaCount = LAB.surfaces.reduce((m, s) => ((m[s.arena.status] = (m[s.aren
   }
 
   // ---------- 4. club accent across all major prototypes × clubs × devices ----------
-  const EXPECT = { tum: 'rgb(46, 155, 255)', ham: 'rgb(31, 242, 138)', none: 'rgb(255, 122, 26)' };
+  // Expected accents come from the Club Identity Registry (home-shirt derived), never from hard-coded values.
+  const REGJ = JSON.parse(fs.readFileSync(path.join(__dirname, 'club-identity', 'registry.json'), 'utf8'));
+  const rgbOf = (h) => 'rgb(' + [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16)).join(', ') + ')';
+  const EXPECT = { tum: rgbOf(REGJ.clubs.find((c) => c.id === 'swe2-tumba').neon), ham: rgbOf(REGJ.clubs.find((c) => c.id === 'se_club_hammarby_if_hf').neon), none: rgbOf(REGJ.clubless) };
   const KEYS = [...new Set(LAB.surfaces.filter((s) => s.protoKey).map((s) => s.protoKey)), 'clubless', 'returning', 'system'];
   const DEVICES = { desktop: [1440, 900], tablet: [1024, 1180], mobile: [390, 844] };
   const accentIssues = []; let accentChecks = 0;
