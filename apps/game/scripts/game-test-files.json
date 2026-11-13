@@ -300,5 +300,7 @@
   "lib/manager/m7dCareer.test.ts",
   "lib/media/unemploymentMedia.test.ts",
   "lib/career/fixtureRoutes.test.ts",
-  "lib/career/division2Qualification.test.ts"
+  "lib/career/division2Qualification.test.ts",
+  "lib/game-data/clubIdentity.test.ts",
+  "lib/career/clubIdentityCareer.test.ts"
 ]

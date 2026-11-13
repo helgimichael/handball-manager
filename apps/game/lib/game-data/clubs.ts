@@ -1,5 +1,6 @@
 import { SWEDISH_DIVISION_2_CLUBS } from './swedishDivision2';
 import { clubVenue } from "./clubVenues";
+import { CLUB_IDENTITY_METADATA } from "./clubIdentityData";
 import type { Club } from "./types";
 
 /**
@@ -298,14 +299,31 @@ const WORLD_POOL_CLUBS: Club[] = [
   club({ id: "int-schaffhausen", competitionId: "int-che-1", dataSource: "REAL_WORLD", name: "Kadetten Schaffhausen", shortName: "Kadetten", primaryColor: "#1e3a8a", secondaryColor: "#ffffff" }),
 ];
 
-export const CLUBS: readonly Club[] = [...SWE_1, ...SWE_2, ...SWE_DIV1_NORRA, ...SWE_DIV1_SODRA, ...SWEDISH_DIVISION_2_CLUBS, ...DEN_1, ...GER_1, ...REST, ...WORLD_POOL_CLUBS];
-
-export function getClub(id: string): Club | undefined {
-  return CLUBS.find((c) => c.id === id);
+// Club Identity C1: the identity layer (clubIdentityData.ts) is merged into
+// each record here, so `getClub` returns one complete record. Array order is
+// part of deterministic behaviour (foreign-buyer picks index into it): new
+// clubs are only ever appended at the end of their block, never inserted.
+function withIdentity(c: Club): Club {
+  const meta = CLUB_IDENTITY_METADATA[c.id];
+  return meta ? { ...c, ...meta } : c;
 }
 
+export const CLUBS: readonly Club[] = [...SWE_1, ...SWE_2, ...SWE_DIV1_NORRA, ...SWE_DIV1_SODRA, ...SWEDISH_DIVISION_2_CLUBS, ...DEN_1, ...GER_1, ...REST, ...WORLD_POOL_CLUBS].map(withIdentity);
+
+const CLUB_BY_ID: ReadonlyMap<string, Club> = new Map(CLUBS.map((c) => [c.id, c]));
+
+export function getClub(id: string): Club | undefined {
+  return CLUB_BY_ID.get(id);
+}
+
+/**
+ * LEGACY-BASELINE membership: the clubs of `competitionId` in the v8 world
+ * (frozen `competitionId`, records added by a later data epoch excluded), in
+ * CLUBS order. Career code that must follow promotions or real-world league
+ * changes asks career/competitionMembership.ts (`careerClubsInCompetition`).
+ */
 export function getClubsByCompetition(competitionId: string): readonly Club[] {
-  return CLUBS.filter((c) => c.competitionId === competitionId);
+  return CLUBS.filter((c) => c.competitionId === competitionId && !c.addedInWorld);
 }
 
 export const TUMBA_CLUB_ID = "swe2-tumba";
