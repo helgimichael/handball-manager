@@ -83,12 +83,12 @@ test('Continue identifies the real stop, object navigation retains workspace con
   await expect(page.locator('.game-news-article')).not.toContainText('Välj ett meddelande');
   await navTo(page,'Trupp');
   await page.getByLabel('Sök spelare',{exact:true}).fill('Gabriel Helgason');
-  await page.getByRole('checkbox',{name:'Jämför Gabriel Helgason',exact:true}).check();
+  await page.getByRole('checkbox',{name:'Välj Gabriel Helgason',exact:true}).check();
   await page.locator('.hm-roster-table a[href^="/career/squad/"]').first().click();
   await expect(page.locator('.game-player-hero')).toBeVisible();
   await page.getByRole('button',{name:'Tillbaka i navigationen',exact:true}).click();
   await expect(page.getByLabel('Sök spelare',{exact:true})).toHaveValue('Gabriel Helgason');
-  await expect(page.getByRole('checkbox',{name:'Jämför Gabriel Helgason',exact:true})).toBeChecked();
+  await expect(page.getByRole('checkbox',{name:'Välj Gabriel Helgason',exact:true})).toBeChecked();
   await navTo(page,'Spelarsök');
   await page.getByLabel('Sök spelarmarknaden',{exact:true}).fill('Ahlin');
   await page.getByRole('combobox',{name:'Position',exact:true}).selectOption('M9');

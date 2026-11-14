@@ -151,3 +151,29 @@ test("DSH-01 Matchweek Front Page: lead story, numbered decisions, ears with del
   assert.equal(r.kind, "RESULT");
   assert.match(r.headline, /30–25/);
 });
+
+test("SQD-01 Squad Matrix: rows carry the chip data, four saved views of 8 columns, sorting puts missing values last, tray actions use existing write paths", async () => {
+  const { MATRIX_VIEWS, applyTrayAction, buildMatrixRows, cardMetrics, filterSortMatrix } = await import("./squadMatrix");
+  const s = career();
+  const before = hash(s);
+  const rows = buildMatrixRows(s);
+  assert.equal(rows.length, s.worldSquads[s.playerClubId]!.length);
+  assert.deepEqual(MATRIX_VIEWS.map((v) => v.label), ["Matchberedskap", "Prestation", "Kontraktsrisk", "Utveckling"]);
+  for (const v of MATRIX_VIEWS) { assert.equal(v.columns.length, 8, `${v.id}: 8 default columns`); assert.ok(v.columns.length + v.detailed.length <= 14); assert.equal(cardMetrics(v.id).length, 3); }
+  for (const r of rows) { assert.ok(r.energy >= 0 && r.energy <= 100); assert.ok(["LOW", "MID", "HIGH"].includes(r.fitnessBand)); assert.ok(r.morale >= 0 && r.morale <= 100); }
+  const gk = filterSortMatrix(rows, { query: "", position: "MV", state: "ALL", sortKey: "position", direction: "asc" });
+  assert.ok(gk.length > 0 && gk.every((r) => r.position === "MV" || r.secondaryPosition === "MV"));
+  const bySave = filterSortMatrix(rows, { query: "", position: "ALL", state: "ALL", sortKey: "savePct", direction: "desc" });
+  const firstNull = bySave.findIndex((r) => r.savePct == null);
+  assert.ok(firstNull === -1 || bySave.slice(firstNull).every((r) => r.savePct == null), "missing values sort last");
+  const two = rows.slice(0, 2).map((r) => r.id);
+  const rest = applyTrayAction(s, two, { kind: "REST" });
+  assert.deepEqual(rest.skipped, []);
+  for (const id of two) assert.equal(rest.state.playerTrainingAssignments[id]!.loadSetting, "REST");
+  const role = applyTrayAction(s, two, { kind: "ROLE", tier: "TALENT" });
+  for (const id of two) assert.equal(role.state.playerSquadStatus[id], "TALENT");
+  assert.equal(applyTrayAction(s, two, { kind: "CAPTAIN" }).skipped.length, 2, "captain needs exactly one player");
+  const cap = applyTrayAction(s, [two[0]!], { kind: "CAPTAIN" });
+  assert.equal(buildMatrixRows(cap.state).find((r) => r.id === two[0])!.captain, true);
+  assert.equal(hash(s), before, "tray actions never mutate the input");
+});

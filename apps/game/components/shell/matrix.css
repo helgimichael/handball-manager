@@ -1,0 +1,107 @@
+/* ==========================================================================
+   Arena Nights C5.3 -- SQD-01 Squad Matrix (Arena workbench: dense data on solid dark surfaces, tabular
+   figures, club neon only for selection, focus and own rows) + player chip + Peek drawer.
+   ========================================================================== */
+.hm-sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.hm-matrix-controls {
+  display: flex; flex-wrap: wrap; align-items: end; gap: 10px 14px;
+  margin: 16px 0 10px; padding: 12px 14px;
+  background: var(--arena-solid-1); border: 1px solid var(--arena-line); border-radius: 6px;
+}
+.hm-matrix-controls label { display: grid; gap: 4px; font-size: 11px; color: var(--arena-muted); }
+.hm-matrix-views, .hm-matrix-positions, .hm-matrix-density { display: inline-flex; border: 1px solid var(--arena-line-strong); border-radius: 4px; overflow: hidden; }
+.hm-matrix-views { flex-basis: 100%; width: max-content; max-width: 100%; overflow-x: auto; }
+.hm-matrix-views button, .hm-matrix-positions button, .hm-matrix-density button {
+  min-height: 34px; padding: 0 12px; background: transparent; color: var(--arena-muted); border: 0; border-right: 1px solid var(--arena-line);
+  font: 600 12px/1 var(--arena-font-ui); cursor: pointer; white-space: nowrap;
+}
+.hm-matrix-views button:last-child, .hm-matrix-positions button:last-child, .hm-matrix-density button:last-child { border-right: 0; }
+.hm-matrix-views button { min-height: 38px; font-size: 13px; padding: 0 16px; }
+:is(.hm-matrix-views [aria-selected="true"], .hm-matrix-positions [aria-pressed="true"], .hm-matrix-density [aria-pressed="true"]) { color: var(--arena-ink); background: color-mix(in srgb, var(--club-neon) 18%, transparent); box-shadow: inset 0 -2px 0 var(--club-neon); }
+.hm-matrix-controls button:focus-visible { outline: 2px solid var(--club-neon); outline-offset: -2px; }
+.hm-matrix-count { margin-left: auto; font-size: 12px; color: var(--arena-muted); }
+
+.hm-matrix-table { font-variant-numeric: tabular-nums; }
+.hm-matrix-table thead th { position: sticky; top: 0; z-index: 2; white-space: nowrap; }
+.hm-matrix-table th[data-numeric="true"], .hm-matrix-table td[data-numeric="true"] { text-align: right; }
+.hm-matrix-table .hm-sort { background: none; border: 0; color: inherit; font: inherit; padding: 0; cursor: pointer; letter-spacing: inherit; text-transform: inherit; }
+.hm-matrix-table .hm-sort:hover { color: var(--arena-ink); }
+.hm-matrix-table .hm-sort:focus-visible { outline: 2px solid var(--club-neon); outline-offset: 2px; }
+.hm-matrix-table td { vertical-align: middle; }
+.hm-matrix-table .hm-matrix-chip, .hm-matrix-table .hm-matrix-chip-h { position: sticky; left: 0; z-index: 1; background: var(--arena-solid-1); min-width: 240px; }
+.hm-matrix-table .hm-matrix-chip-h { z-index: 3; background: var(--arena-solid-2); }
+.hm-matrix-table tr[data-highlight="true"] .hm-matrix-chip { background: color-mix(in srgb, var(--club-neon) 12%, var(--arena-solid-1)); }
+.hm-matrix-table tr[data-unavailable="true"] .hm-chip-name a { color: var(--arena-muted); }
+.hm-matrix-select { width: 34px; }
+.hm-matrix-peek, .hm-matrix-peek-h { width: 40px; text-align: right; }
+.hm-matrix-screen[data-density="COMPACT"] .hm-matrix-table td { padding-top: 5px; padding-bottom: 5px; }
+.hm-stars { color: var(--arena-gold); letter-spacing: 1px; white-space: nowrap; }
+
+/* ---------------------------------------------------------------- player chip */
+.hm-chip { display: inline-flex; align-items: center; gap: 10px; min-width: 0; }
+.hm-chip-shirt { width: 30px; height: 30px; flex: none; display: grid; place-items: center; border-radius: 4px; font: 800 14px/1 var(--arena-font-display); color: var(--arena-ink); background: var(--arena-solid-3); box-shadow: inset 0 -2px 0 var(--club-neon); }
+.hm-chip[data-available="false"] .hm-chip-shirt { box-shadow: inset 0 -2px 0 var(--arena-neg); opacity: .8; }
+.hm-chip-main { display: grid; gap: 3px; min-width: 0; }
+.hm-chip-name { display: flex; align-items: center; gap: 4px; min-width: 0; font-weight: 600; }
+.hm-chip-name a, .hm-chip-name strong { color: var(--arena-ink); text-decoration: none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hm-chip-name a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.hm-chip-meta { display: flex; align-items: center; gap: 6px; }
+.hm-chip-pos { font: 700 10px/1 var(--arena-font-ui); letter-spacing: .08em; color: var(--arena-muted); min-width: 22px; }
+.hm-chip-energy { width: 44px; height: 5px; border-radius: 3px; background: var(--arena-solid-3); overflow: hidden; }
+.hm-chip-energy i { display: block; height: 100%; background: var(--arena-pos); }
+.hm-chip-energy i[data-low="true"] { background: var(--arena-warn); }
+.hm-chip-pip { width: 8px; height: 8px; border-radius: 2px; background: var(--arena-pos); }
+.hm-chip-pip[data-band="MID"] { background: var(--arena-warn); }
+.hm-chip-pip[data-band="LOW"] { background: var(--arena-neg); }
+.hm-chip-morale { width: 8px; height: 8px; border-radius: 50%; background: var(--arena-pos); }
+.hm-chip-morale[data-tone="ok"] { background: var(--arena-info); }
+.hm-chip-morale[data-tone="low"] { background: var(--arena-warn); }
+.hm-chip-morale[data-tone="bad"] { background: var(--arena-neg); }
+
+/* ---------------------------------------------------------------- selection tray */
+.hm-matrix-tray {
+  position: sticky; bottom: 0; z-index: 20; margin-top: 12px;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; padding: 10px 14px;
+  background: color-mix(in srgb, var(--club-neon) 10%, var(--arena-solid-2)); border: 1px solid var(--club-neon); border-radius: 6px;
+  box-shadow: 0 -8px 28px rgb(0 0 0 / .45);
+}
+.hm-matrix-tray label { display: inline-flex; gap: 6px; align-items: center; font-size: 12px; color: var(--arena-ink-2); }
+.hm-matrix-tray-note { flex-basis: 100%; margin: 0; font-size: 12px; color: var(--arena-ink-2); }
+
+/* ---------------------------------------------------------------- phone cards (rows collapse to ranked cards) */
+.hm-matrix-cards { display: none; list-style: none; margin: 0; padding: 0; }
+@media (max-width: 760px) {
+  .hm-matrix-table-wrap { display: none; }
+  .hm-matrix-cards { display: grid; gap: 6px; counter-reset: rank; }
+  .hm-matrix-cards li { counter-increment: rank; display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; gap: 6px 8px; align-items: center; padding: 10px; background: var(--arena-solid-1); border: 1px solid var(--arena-line); border-radius: 6px; }
+  .hm-matrix-cards li[data-highlight="true"] { border-color: var(--club-neon); }
+  .hm-matrix-cards dl { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin: 0; }
+  .hm-matrix-cards dt { font: 700 10px/1 var(--arena-font-ui); letter-spacing: .1em; text-transform: uppercase; color: var(--arena-faint); }
+  .hm-matrix-cards dd { margin: 3px 0 0; font-size: 13px; color: var(--arena-ink); font-variant-numeric: tabular-nums; }
+  .hm-matrix-card-select input { width: 22px; height: 22px; }
+  .hm-matrix-positions { max-width: 100%; overflow-x: auto; }
+  .hm-matrix-count { margin-left: 0; }
+  .hm-matrix-tray { bottom: calc(132px + env(safe-area-inset-bottom, 0px)); }
+}
+
+/* ---------------------------------------------------------------- Peek drawer / bottom sheet */
+.hm-peek-scrim { position: fixed; inset: 0; z-index: 85; background: rgb(3 6 12 / .5); }
+.hm-peek {
+  position: absolute; top: 0; right: 0; bottom: 0; width: min(420px, 100vw); overflow-y: auto;
+  display: grid; align-content: start; gap: 14px; padding: 18px;
+  background: var(--arena-solid-1); border-left: 1px solid var(--arena-line-strong); box-shadow: -18px 0 48px rgb(0 0 0 / .5);
+  animation: hm-peek-in 160ms cubic-bezier(.2, .8, .2, 1);
+}
+@keyframes hm-peek-in { from { transform: translateX(16px); opacity: 0; } }
+.hm-peek header { display: flex; justify-content: space-between; align-items: start; gap: 10px; }
+.hm-peek dl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 14px; margin: 0; }
+.hm-peek dt { font: 700 10px/1 var(--arena-font-ui); letter-spacing: .12em; text-transform: uppercase; color: var(--arena-faint); }
+.hm-peek dd { margin: 4px 0 0; font-size: 15px; color: var(--arena-ink); font-variant-numeric: tabular-nums; }
+.hm-peek-alert { margin: 0; padding: 8px 10px; border-radius: 4px; background: color-mix(in srgb, var(--arena-neg) 18%, transparent); color: var(--arena-ink); font-size: 13px; }
+.hm-peek-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+@media (max-width: 760px) {
+  .hm-peek { top: auto; left: 0; width: 100vw; max-height: 80dvh; border-left: 0; border-top: 1px solid var(--arena-line-strong); border-radius: 12px 12px 0 0; padding-bottom: calc(18px + env(safe-area-inset-bottom, 0px)); animation-name: hm-peek-up; }
+  @keyframes hm-peek-up { from { transform: translateY(24px); opacity: 0; } }
+}
+@media (prefers-reduced-motion: reduce) { .hm-peek { animation: none; } }

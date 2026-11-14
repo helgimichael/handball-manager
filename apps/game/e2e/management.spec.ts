@@ -33,10 +33,10 @@ test('connected management journeys, contracts, shortlist, scouting, world links
   await page.getByRole('combobox',{name:'Position',exact:true}).selectOption('MV');
   await expect(page.locator('main table tbody tr')).not.toHaveCount(0);
   await page.getByRole('combobox',{name:'Position',exact:true}).selectOption('ALL');
-  await page.getByRole('button',{name:'Prestation',exact:true}).click();
+  await page.getByRole('tab',{name:'Prestation',exact:true}).click();
   await page.getByRole('button',{name:/Mål/}).first().click();
-  await page.locator('input[aria-label^="Jämför "]').nth(0).check();
-  await page.locator('input[aria-label^="Jämför "]').nth(1).check();
+  await page.locator('table input[aria-label^="Välj "]:not([aria-label="Välj alla synliga spelare"])').nth(0).check();
+  await page.locator('table input[aria-label^="Välj "]:not([aria-label="Välj alla synliga spelare"])').nth(1).check();
   await page.getByRole('link',{name:'Jämför valda spelare →',exact:true}).click();
   await expect(page.getByRole('heading',{name:'Jämför spelare',exact:true})).toBeVisible();
   await expect(page.locator('.hm-compare-table thead a')).toHaveCount(2);
