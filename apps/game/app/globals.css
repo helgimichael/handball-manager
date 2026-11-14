@@ -25,6 +25,7 @@
 @import "../components/shell/front.css";
 @import "../components/shell/matrix.css";
 @import "../components/players/dossier.css";
+@import "../components/matchday/matchday-arena.css";
 /* Club Identity C5: Arena Nights production theme -- must load last. */
 @import "./arena-overrides.css";
 @import "./arena.css";

@@ -164,7 +164,8 @@ export function MatchCenterSurface({ model, fixture, frames, people, events, tea
                 <div className="mc-scoreline">
                     <ClubIdentity id={fixture.homeClubId} side="HEMMA" suspensions={homeSuspensions} disqualifications={homeDisqualifications}/>
                     <div className="mc-score">
-                        <strong>{model.result.homeGoals}<span>–</span>{model.result.awayGoals}</strong>
+                        {/* Arena Nights Phase 2 (MDY-02a): the figure re-mounts on every score change so the restrained score pop replays. */}
+                        <strong key={`${model.result.homeGoals}-${model.result.awayGoals}`} className="mc-score-figure">{model.result.homeGoals}<span>–</span>{model.result.awayGoals}</strong>
                         <small>{clockText(model.clock)} · {stateLabels[model.status]}</small>
                     </div>
                     <ClubIdentity id={fixture.awayClubId} side="BORTA" suspensions={awaySuspensions} disqualifications={awayDisqualifications}/>
@@ -216,7 +217,7 @@ export function MatchCenterSurface({ model, fixture, frames, people, events, tea
                 )}
             </header>
         )}
-        <nav className="mc-workspace-nav" ref={navigation} aria-label="Matchens vyer"><div className="mc-compact-identity"><strong>{names.HOME} <b>{model.result.homeGoals}–{model.result.awayGoals}</b> {names.AWAY}</strong><small>{clockText(model.clock)} · {stateLabels[model.status]}</small>{(homeSuspensions.length > 0 || awaySuspensions.length > 0 || model.manpower?.HOME === 7 || model.manpower?.AWAY === 7) && <span className="mc-compact-powerplay" title={model.manpower?.HOME === 7 || model.manpower?.AWAY === 7 ? '7 mot 6 spel' : 'Aktiva utvisningar'}>{model.manpower ? `${model.manpower.HOME}v${model.manpower.AWAY}` : 'Övertag'}{(model.manpower?.HOME === 7 || model.manpower?.AWAY === 7) && <b className="mc-7v6-pill">7v6</b>}{[...homeSuspensions, ...awaySuspensions].map(s => <time key={s.id}>#{s.number} {clockText(s.remainingSuspension)}</time>)}</span>}</div><div role="tablist" aria-label="Matchvy">{MATCH_VIEWS.map(v => <button type="button" key={v} id={`${uid}-${v}-tab`} role="tab" aria-selected={view === v} aria-controls={`${uid}-${v}-panel`} tabIndex={view === v ? 0 : -1} ref={element => { buttons.current[v] = element; }} onClick={() => changeView(v)} onKeyDown={e => { const next = keyboardView(v, e.key); if (next) { e.preventDefault(); changeView(next); buttons.current[next]?.focus(); } }}>{VIEW_LABELS[v]}</button>)}</div></nav>
+        <nav className="mc-workspace-nav" ref={navigation} aria-label="Matchens vyer"><div className="mc-compact-identity"><strong>{names.HOME} <b key={`${model.result.homeGoals}-${model.result.awayGoals}`} className="mc-score-figure">{model.result.homeGoals}–{model.result.awayGoals}</b> {names.AWAY}</strong><small>{clockText(model.clock)} · {stateLabels[model.status]}</small>{(homeSuspensions.length > 0 || awaySuspensions.length > 0 || model.manpower?.HOME === 7 || model.manpower?.AWAY === 7) && <span className="mc-compact-powerplay" title={model.manpower?.HOME === 7 || model.manpower?.AWAY === 7 ? '7 mot 6 spel' : 'Aktiva utvisningar'}>{model.manpower ? `${model.manpower.HOME}v${model.manpower.AWAY}` : 'Övertag'}{(model.manpower?.HOME === 7 || model.manpower?.AWAY === 7) && <b className="mc-7v6-pill">7v6</b>}{[...homeSuspensions, ...awaySuspensions].map(s => <time key={s.id}>#{s.number} {clockText(s.remainingSuspension)}</time>)}</span>}</div><div role="tablist" aria-label="Matchvy">{MATCH_VIEWS.map(v => <button type="button" key={v} id={`${uid}-${v}-tab`} role="tab" aria-selected={view === v} aria-controls={`${uid}-${v}-panel`} tabIndex={view === v ? 0 : -1} ref={element => { buttons.current[v] = element; }} onClick={() => changeView(v)} onKeyDown={e => { const next = keyboardView(v, e.key); if (next) { e.preventDefault(); changeView(next); buttons.current[next]?.focus(); } }}>{VIEW_LABELS[v]}</button>)}</div></nav>
         <div id={`${uid}-controls`} className="mc-controls">{controls}</div>
         <div className={`mc-active-layout ${coach && !reviewing ? 'mc-managing' : ''}`}>
             <section id={`${uid}-${view}-panel`} role="tabpanel" aria-labelledby={`${uid}-${view}-tab`} tabIndex={0} className="mc-view-panel">
@@ -240,6 +241,7 @@ export function MatchCenterSurface({ model, fixture, frames, people, events, tea
                             </section>
                         )
                     )}
+                    {reviewing && <FinalWhistle home={fixture.homeClubId} away={fixture.awayClubId} homeGoals={model.result.homeGoals} awayGoals={model.result.awayGoals} team={team} top={top.filter(t => t.player).slice(0, 3).map(t => ({ label: t.label, name: t.player!.name, line: `${t.player!.goals} mål · betyg ${t.player!.rating?.toFixed(1) ?? '—'}` }))} />}
                     <div className="mc-overview-grid"><div><section className="mc-summary"><header><span className="game-overline">{reviewing ? 'Matchberättelsen' : 'Matchbilden'}</span><h1>{reviewing ? model.result.homeGoals === model.result.awayGoals ? 'Oavgjort.' : `${names[model.result.homeGoals > model.result.awayGoals ? 'HOME' : 'AWAY']} vinner.` : 'Från avkast till avgörande.'}</h1></header>{facts.length ? <ul>{facts.map(f => <li key={f.id} data-fact={f.id}>{f.text}</li>)}</ul> : <p>Matchbilden växer fram när händelserna kommer.</p>}</section><ScoreFlow events={model.events}/>{!reviewing && <Commentary compact stream={stream} names={names} keyOnly={keyOnly} importantOnly={importantOnly} onOpen={openMoment} onView={() => changeView('MOMENTS')} onToggle={() => setKeyOnly(!keyOnly)}/>}</div>
                     <div><section className="mc-primary-metrics"><h2>Matchen i siffror</h2><table><thead><tr><th>{names.HOME}</th><th> </th><th>{names.AWAY}</th></tr></thead><tbody>{[
                         ['Mål', model.result.homeGoals, model.result.awayGoals], ['Skott', model.result.homeStats.shots, model.result.awayStats.shots], ['Träffsäkerhet', `${model.result.homeStats.shootingPct}%`, `${model.result.awayStats.shootingPct}%`], ['Räddningar', `${model.result.homeStats.saves}/${model.result.homeStats.shotsFaced}`, `${model.result.awayStats.saves}/${model.result.awayStats.shotsFaced}`], ['Bollförluster', model.result.homeStats.turnovers, model.result.awayStats.turnovers], ['7m mål/försök', `${model.result.homeStats.sevenMetreGoals}/${model.result.homeStats.sevenMetreAttempts}`, `${model.result.awayStats.sevenMetreGoals}/${model.result.awayStats.sevenMetreAttempts}`], ['2 min', model.result.homeStats.twoMinuteSuspensions, model.result.awayStats.twoMinuteSuspensions], ['Omställningsmål', model.shots.filter(s => s.team === 'HOME' && s.phase === 'TRANSITION' && s.outcome === 'GOAL').length, model.shots.filter(s => s.team === 'AWAY' && s.phase === 'TRANSITION' && s.outcome === 'GOAL').length]
@@ -289,3 +291,19 @@ export function ArchivedMatchCenter({ archive, frames, team = 'HOME', ...props }
     team?: TeamId;
 } & Omit<Parameters<typeof MatchCenterSurface>[0], 'model' | 'fixture' | 'frames' | 'people' | 'events' | 'team'>) { const model = useMemo(() => archivedMatchModel(archive, frames), [archive, frames]); return <MatchCenterSurface {...props} model={model} fixture={archive.fixture} frames={frames} people={archive.people} events={archive.events} team={team}/>; }
 
+/** Arena Nights Phase 2 -- MDY-02j "Final-whistle card": the result for the manager's own side, both identities and the match's profiles. Presentation only; finishing the match stays with the existing control. */
+function FinalWhistle({ home, away, homeGoals, awayGoals, team, top }: { home: string; away: string; homeGoals: number; awayGoals: number; team: TeamId; top: { label: string; name: string; line: string }[] }) {
+    const ours = team === 'HOME' ? homeGoals - awayGoals : awayGoals - homeGoals;
+    const verdict = ours > 0 ? 'Seger' : ours < 0 ? 'Förlust' : 'Oavgjort';
+    const h = getClub(home), a = getClub(away);
+    return <section className="mc-final-whistle" data-outcome={ours > 0 ? 'W' : ours < 0 ? 'L' : 'D'} aria-label="Slutsignal">
+        <span className="mc-final-tag">Slutsignal · {verdict}</span>
+        <div className="mc-final-score">
+            <span>{h && <ClubCrest shortName={h.shortName} primaryColor={h.primaryColor} clubId={h.id} size={56} />}<b>{h?.shortName ?? home}</b></span>
+            <strong>{homeGoals}<i>–</i>{awayGoals}</strong>
+            <span>{a && <ClubCrest shortName={a.shortName} primaryColor={a.primaryColor} clubId={a.id} size={56} />}<b>{a?.shortName ?? away}</b></span>
+        </div>
+        {top.length > 0 && <ul>{top.map(t => <li key={t.label + t.name}><small>{t.label}</small><b>{t.name}</b><span>{t.line}</span></li>)}</ul>}
+        <p>Slutför matchen för att spara resultatet, öppna matchrapporten och gå vidare till presskonferensen.</p>
+    </section>;
+}

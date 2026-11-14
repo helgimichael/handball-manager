@@ -25,6 +25,8 @@ import type { PlayerMatchContribution, TeamMatchStats } from "@handball-manager/
 import { PlayerLink } from "@/components/entityLinks";
 import { svOrdinal } from "@/lib/format/ordinal";
 import { fixtureIdFromParam, matchDayHref } from '@/lib/career/fixtureRoutes';
+import { clubMatchNeighbours, headToHead } from '@/lib/matchday/preMatch';
+import { HeadToHead, ReportNav } from '@/components/matchday/PreMatch';
 
 export default function MatchReportPage() {
   const router = useRouter();
@@ -60,16 +62,27 @@ export default function MatchReportPage() {
   const managerTeam = fixture.homeClubId === career.playerClubId ? 'HOME' : 'AWAY';
   const isCup = fixture.type === 'CUP' || fixture.competitionId === 'se-svenska-cupen-herr' || fixture.competitionId.toLowerCase().includes('cup');
   const pressId = `press:post:${fixture.id}`;
+  // Arena Nights Phase 2 (ANL-01 C): editorial headline, report-to-report navigation and earlier meetings.
+  const focusClub = fixture.homeClubId === career.playerClubId || fixture.awayClubId === career.playerClubId ? career.playerClubId : fixture.homeClubId;
+  const neighbours = clubMatchNeighbours(career, focusClub, fixture.id);
+  const meetings = headToHead(career, fixture.homeClubId, fixture.awayClubId, fixture.id);
+  const margin = result.homeGoals - result.awayGoals;
+  const headline = margin === 0 ? `${home.shortName} och ${away.shortName} delade på poängen, ${result.homeGoals}–${result.awayGoals}` : `${(margin > 0 ? home : away).shortName} ${Math.abs(margin) >= 6 ? 'körde över' : Math.abs(margin) <= 1 ? 'vann knappt mot' : 'besegrade'} ${(margin > 0 ? away : home).shortName}, ${result.homeGoals}–${result.awayGoals}`;
+  const editorial = <section className="md-report-head" aria-label="Matchen i korthet"><span className="game-overline">{COMPETITIONS.find(c => c.id === fixture.competitionId)?.name ?? (fixture.type === 'CUP' ? 'Svenska Cupen' : 'Match')}{fixture.type === 'LEAGUE' && fixture.round ? ` · omgång ${fixture.round}` : ''} · {fixture.date}{home.venue ? ` · ${home.venue}` : ''}</span><h2>{headline}</h2>{bestPerformer && <p>Matchens bästa betyg: <PlayerLink playerId={bestPerformer.playerId}>{getCareerPlayer(career, bestPerformer.playerId) ? `${getCareerPlayer(career, bestPerformer.playerId)!.firstName} ${getCareerPlayer(career, bestPerformer.playerId)!.lastName}` : 'okänd spelare'}</PlayerLink> ({bestPerformer.rating.toFixed(1)}).</p>}</section>;
+  const earlier = <section className="md-step" aria-labelledby="md-h2h-h"><header><h2 id="md-h2h-h">Tidigare möten</h2><small>{home.shortName} – {away.shortName} i din karriär</small></header><HeadToHead matches={meetings} clubId={focusClub} /></section>;
   const hasOpenPress = career.media?.press?.[pressId]?.status === 'OPEN';
 
   if (archive) {
     return (
       <div className="mc-report-page">
         <PageHeading eyebrow={fixture.date} title="Matchrapport" description="Resultatet, prestationerna och de avgörande ögonblicken." />
+        <ReportNav previous={neighbours.previous} next={neighbours.next} />
+        {editorial}
         <ArchiveReplay archive={archive} />
         <HeadToHeadStatsComparison home={home} away={away} homeStats={result.homeStats} awayStats={result.awayStats} />
         <MatchAftermathPanel fixtureId={fixture.id} />
         <PostMatchPressBanner fixture={fixture} result={result} career={career} updateCareer={updateCareer} />
+        {earlier}
         <div className="mc-report-actions">
           <button type="button" className="hm-btn" onClick={() => router.push('/career/schedule')}>← Schema</button>
           <button type="button" className="hm-btn" onClick={() => router.push(matchDayHref(fixture.id))}>Se matchrepris</button>
@@ -124,6 +137,8 @@ export default function MatchReportPage() {
     <div className="hm-grid" style={{ gap: 12 }}>
       {replay.error && <div role="alert"><p>{replay.error}</p><button className="hm-btn" onClick={replay.retry}>Försök igen</button></div>}
       <PageHeading eyebrow={fixture.date} title="Matchrapport" description="Slutsignalen har gått. Resultatet, spelarna och nästa steg i säsongen." />
+      <ReportNav previous={neighbours.previous} next={neighbours.next} />
+      {editorial}
       <MatchHero career={career} fixture={fixture} result={result} context="SLUTRESULTAT">
         {career.matchArchiveIds?.includes(fixture.id) && <button className="hm-btn" onClick={() => router.push(matchDayHref(fixture.id))}>Se matchrepris</button>}
         <button className="hm-btn hm-btn-primary" onClick={() => router.push(`/career/competitions/${fixture.competitionId}`)}>Tabell & liga →</button>
@@ -131,6 +146,7 @@ export default function MatchReportPage() {
       <HeadToHeadStatsComparison home={home} away={away} homeStats={result.homeStats} awayStats={result.awayStats} />
       <MatchAftermathPanel fixtureId={fixture.id} />
       <PostMatchPressBanner fixture={fixture} result={result} career={career} updateCareer={updateCareer} />
+      {earlier}
       <MatchContext fixture={fixture} postMatch />
       <MatchTimeline result={result} />
       <div className="hm-grid" style={{ gridTemplateColumns: "1fr 1fr" }}>

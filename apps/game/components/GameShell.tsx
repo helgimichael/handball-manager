@@ -212,7 +212,7 @@ export default function GameShell({ children }: { children: ReactNode }) {
   </button>;
   const activeTab = nav.find(item => item.id === activeNavId);
   return (
-    <div className="hm-shell" data-club-identity={dataIdentity} style={identityStyle as CSSProperties} data-game-state={gameState} data-rail={railOpen ? 'pinned' : 'collapsed'} data-spine={isOnLiveMatchRoute ? 'hidden' : 'shown'}>
+    <div className="hm-shell" data-club-identity={dataIdentity} style={identityStyle as CSSProperties} data-game-state={gameState} data-rail={railOpen ? 'pinned' : 'collapsed'} data-spine={isOnLiveMatchRoute ? 'hidden' : 'shown'} data-route={isOnLiveMatchRoute ? 'live-match' : pathname === '/career/match-preview' ? 'matchday' : undefined}>
       <a href="#manager-content" className="hm-skip-link">Till innehållet</a>
       {navOpen && <div className="hm-nav-scrim" aria-hidden="true" onClick={() => setNavOpen(false)} />}
       <aside className="hm-sidebar" id="hm-sidebar" data-open={navOpen} aria-label="Huvudnavigering">
