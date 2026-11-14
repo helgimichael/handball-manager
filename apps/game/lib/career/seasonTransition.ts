@@ -16,7 +16,7 @@ import { emptyMatchFitnessLedger, PRESEASON_MATCH_FITNESS } from '../players/mat
 import { progressCareerQualifications, QUALIFICATION_SCHEDULING_BLOCKER_CODES } from '../competition/transition/careerQualifications';
 import { careerQualificationEvidence } from '../competition/transition/careerQualificationEvidence';
 import { resolveParentPriority, type ParentPriorityMove } from '../competition/transition/parentPriority';
-import { continuityRegionAllows, continuityRegionalLeague } from '../competition/transition/gameContinuity';
+import { continuityRegionAllows, continuityRegionalLeague, hasValidCompetitionRegistrations } from '../competition/transition/gameContinuity';
 
 export type SeasonTransitionEvidence = Pick<PlannerInput, 'eligibility' | 'qualificationResults' | 'qualificationFixtures' | 'externalEntrants' | 'groupAllocations'> & {
   readonly rankingDecisions?: Readonly<Record<string, readonly RankingDecision[]>>;
@@ -136,7 +136,7 @@ export function attemptSeasonTransition(input: CareerState, request?: SeasonTran
     // Club Identity C4: "the A-team always has priority, the B-team must adapt" -- resolved on the sporting outcome,
     // before anything is committed (planner, eligibility evidence and qualification series stay untouched).
     const allocation = resolveParentPriority({ state: input, rules, membership, current: (id) => clubCompetitionId(input, id), rankings: preview.proposal.rankings,
-      eligibility: snapshot.eligibility, regionalLeague: continuityRegionalLeague, regionAllows: continuityRegionAllows, date: input.gameDate });
+      eligibility: snapshot.eligibility, regionalLeague: continuityRegionalLeague, regionAllows: continuityRegionAllows, registrationValid: (id) => hasValidCompetitionRegistrations(input, id), date: input.gameDate });
     blockers.push(...allocation.blockers);
     membership = allocation.membership;
     const parentPriority: ParentPriorityMove[] = allocation.moves;
@@ -158,7 +158,7 @@ export function attemptSeasonTransition(input: CareerState, request?: SeasonTran
       ...state.seasonOutcome, nextMembership: Object.fromEntries([...seen].sort().map((id) => [id, membership[id]])),
       // After A-team priority: a refused promotion is not a promotion; a displaced B-team is relegated; a replacement is promoted.
       promoted: [...new Set([...claims.filter((c) => c.kind === 'PROMOTION' && !parentPriority.some((m) => m.clubId === c.clubId)).map((c) => c.clubId), ...parentPriority.flatMap((m) => m.replacement ? [m.replacement.clubId] : [])])].sort(),
-      relegated: [...new Set([...claims.filter((c) => c.kind === 'RELEGATION').map((c) => c.clubId), ...parentPriority.filter((m) => membership[m.clubId] !== clubCompetitionId(input, m.clubId)).map((m) => m.clubId)])].sort(),
+      relegated: [...new Set([...claims.filter((c) => c.kind === 'RELEGATION').map((c) => c.clubId), ...parentPriority.filter((m) => m.kind !== 'RE_ENTRY' && membership[m.clubId] !== clubCompetitionId(input, m.clubId)).map((m) => m.clubId)])].sort(),
       ...(parentPriority.length ? { parentPriority } : {}),
     } : undefined;
     const tables = Object.fromEntries(rules.leagues.map((l) => {

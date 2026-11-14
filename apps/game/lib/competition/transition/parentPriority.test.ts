@@ -35,7 +35,7 @@ function setup(w: World) {
   // Default sporting order of a modeled league: its current members in CLUBS order (a deterministic stand-in for a completed table).
   const members = (league: string) => CLUBS.filter((c) => current(c.id) === league).map((c) => c.id);
   const rankings = rules.leagues.map((l) => ({ competitionId: l.id, groups: (w.rankings?.[l.id] ?? members(l.id)).map((clubId, i): RankGroup => ({ ranks: [i + 1], clubIds: [clubId] })) }));
-  const membership: Record<string, string> = {};
+  const membership: Record<string, string> = { ...(w.overrides ?? {}) }; // production starts from the saved membership
   for (const c of CLUBS) { const now = current(c.id); if (now && (rules.leagues.some((l) => l.id === now) || now.startsWith("se_division2_"))) membership[c.id] = now; }
   Object.assign(membership, w.final);
   const input: ParentPriorityInput = { state, rules, membership, current, rankings, eligibility: w.eligibility, regionalLeague: continuityRegionalLeague, regionAllows: continuityRegionAllows, date: "2027-05-30" };
@@ -139,3 +139,43 @@ test("no valid allocation is reported exactly and nothing is half-applied", () =
   assert.equal(r.blockers[0]!.status, "BLOCKED");
   assert.deepEqual(none.input.membership, none.membership);
 });
+
+// ---------------------------------------------------------------- C4.1 re-entry from Division 3
+test("re-entry: a B-team in Division 3 returns to its Division 2 district only after its A-team has been above Division 2 for a full season", () => {
+  // A-team promoted INTO Division 1 this transition (was Division 2 all season): no re-entry yet (hysteresis, no oscillation).
+  const promotedNow = setup({ overrides: { [LIF_BLA]: DIVISION_3_ID, [LINDESBERG]: D2("m") }, partnerships: [row(LINDESBERG, LIF_BLA)], final: { [LINDESBERG]: NORRA } });
+  const r1 = resolveParentPriority(promotedNow.input);
+  assert.deepEqual(r1.blockers, []);
+  assert.equal(r1.membership[LIF_BLA], DIVISION_3_ID, "not an automatic promotion because the A-team moved up");
+  // A-team in Division 1 all season and next: the B-team re-enters Division 2 (never higher), regionally.
+  const stable = setup({ overrides: { [LIF_BLA]: DIVISION_3_ID }, partnerships: [row(LINDESBERG, LIF_BLA)], final: {} });
+  const r2 = resolveParentPriority(stable.input);
+  assert.deepEqual(r2.blockers, []);
+  assert.equal(r2.membership[LIF_BLA], D2("m"));
+  assert.equal(r2.moves[0]!.kind, "RE_ENTRY");
+  assert.deepEqual(sizes(r2.membership), sizes(stable.membership), "fixed-size leagues untouched");
+  assert.deepEqual(resolveParentPriority(stable.input), r2, "deterministic");
+  // A-team relegated back into Division 2 next season: stays in Division 3.
+  const falling = setup({ overrides: { [LIF_BLA]: DIVISION_3_ID }, partnerships: [row(LINDESBERG, LIF_BLA)], final: { [LINDESBERG]: D2("m") } });
+  assert.equal(resolveParentPriority(falling.input).membership[LIF_BLA], DIVISION_3_ID);
+  // A terminated restriction: re-entry at the next transition.
+  const ended = setup({ overrides: { [LIF_BLA]: DIVISION_3_ID, [LINDESBERG]: D2("m") }, partnerships: [row(LINDESBERG, LIF_BLA, { status: "TERMINATED", endDate: "2027-03-01", permanent: false })], final: {} });
+  assert.equal(resolveParentPriority(ended.input).membership[LIF_BLA], D2("m"));
+  // Invalid Division 2 registration: no re-entry.
+  const invalid = setup({ overrides: { [LIF_BLA]: DIVISION_3_ID }, partnerships: [row(LINDESBERG, LIF_BLA)], final: {} });
+  assert.equal(resolveParentPriority({ ...invalid.input, registrationValid: () => false }).membership[LIF_BLA], DIVISION_3_ID);
+});
+
+test("full cycle: A-team relegated -> B-team to Division 3 -> A-team back up -> B-team re-enters one season later, never oscillating", () => {
+  // Season 1: Lindesberg relegated into Division 2 (m) -> Lif Blå displaced to Division 3.
+  const s1 = setup({ partnerships: [row(LINDESBERG, LIF_BLA)], final: { [LINDESBERG]: D2("m") } });
+  const a1 = resolveParentPriority(s1.input);
+  assert.equal(a1.membership[LIF_BLA], DIVISION_3_ID);
+  // Season 2: Lindesberg (Division 2 all season) promoted back to Division 1 -> Lif Blå stays in Division 3.
+  const s2 = setup({ overrides: { [LINDESBERG]: D2("m"), [LIF_BLA]: DIVISION_3_ID }, partnerships: [row(LINDESBERG, LIF_BLA)], final: { [LINDESBERG]: NORRA } });
+  assert.equal(resolveParentPriority(s2.input).membership[LIF_BLA], DIVISION_3_ID);
+  // Season 3: Lindesberg stays in Division 1 -> Lif Blå re-enters Division 2 Mitt.
+  const s3 = setup({ overrides: { [LIF_BLA]: DIVISION_3_ID }, partnerships: [row(LINDESBERG, LIF_BLA)], final: {} });
+  assert.equal(resolveParentPriority(s3.input).membership[LIF_BLA], D2("m"));
+});
+

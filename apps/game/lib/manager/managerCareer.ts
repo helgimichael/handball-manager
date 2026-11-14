@@ -27,7 +27,7 @@ import type { CareerState } from "../career/types";
 import { getClubEconomyBaseline } from "../economy/clubEconomyIntegration";
 import { ALLSVENSKAN, DIVISION_1, HANDBOLLSLIGAN } from "../competition/rules";
 import { competitionClubIds, competitionTable, hasLeagueCalendar } from "../competition/tables";
-import { getClub, getCompetition } from "../game-data";
+import { getClub, getCompetition, isHumanManageable } from "../game-data";
 import { releaseStaff } from "../staff/staffNegotiation";
 import { addDaysIso, hash, managerMatchesPlayed } from "../players/dynamicsState";
 import { boardSeasonEnd, objectivesScore, predictedPositionOf } from "../board/board";
@@ -129,9 +129,9 @@ export function managedClubId(state: Pick<CareerState, "playerClubId" | "manager
   return state.managerCareer?.seekingJob ? undefined : state.playerClubId;
 }
 
-/** Clubs a manager can coach: clubs in a simulated Swedish league (current membership) with a league calendar and a playable squad this season. */
+/** Clubs a manager can coach: clubs in a simulated Swedish league (current membership) with a league calendar and a playable squad this season -- never a B-team (owner decision: B-teams are always CPU-managed). */
 export function eligibleClubs(state: CareerState): string[] {
-  return MANAGEABLE_LEAGUES.filter((c) => hasLeagueCalendar(state, c)).flatMap((c) => competitionClubIds(state, c)).filter((id) => getCareerClubSquad(state, id).length >= 12);
+  return MANAGEABLE_LEAGUES.filter((c) => hasLeagueCalendar(state, c)).flatMap((c) => competitionClubIds(state, c)).filter((id) => getCareerClubSquad(state, id).length >= 12 && isHumanManageable(id, state.seasonId));
 }
 
 /** Clubs that will not take the manager (back) right now: any club that sacked him, and a club he walked out on within the last year. */
@@ -420,6 +420,7 @@ export function applyForJob(state: CareerState, clubId: string): CareerState {
   const s = ensureManagerCareer(state);
   const c = s.managerCareer!;
   if (clubId === managedClubId(s)) throw new Error("Du arbetar redan i klubben.");
+  if (!isHumanManageable(clubId, s.seasonId)) throw new Error(B_TEAM_CPU_ONLY);
   if (!hasOpenVacancy(s, clubId, s.gameDate)) throw new Error("Klubben söker ingen tränare just nu.");
   if (!openVacancies(s).some((v) => v.clubId === clubId)) throw new Error("Klubben är inte aktuell för dig just nu.");
   if (Object.values(c.applications).some((a) => a.clubId === clubId && (a.status === "INTERVIEW" || a.status === "ANSWERED"))) throw new Error("Du har redan sökt jobbet.");
@@ -743,6 +744,28 @@ function seasonRecord(state: CareerState, date: string, emit: Emit, force = fals
   for (const m of ms) emit(buildClubEvent("MANAGER_CAREER", `milestone:${m.kind}:${state.seasonId}`, date, "IMPORTANT", m.kind === "RELEGATION" ? "Ett tungt besked" : "En milstolpe i karriären", m.text, [{ route: "MANAGER" }]));
   if (delta !== 0) emit(buildClubEvent("MANAGER_CAREER", `reputation:${state.seasonId}`, date, "INFORMATION", delta > 0 ? "Ditt rykte växer" : "Ditt rykte har fått sig en törn", `Ryktet ${delta > 0 ? "steg" : "sjönk"} med ${Math.abs(delta)} till ${next.managerCareer!.reputation} efter säsongen. ${parts.map((p) => `${p.reason} (${p.points > 0 ? "+" : ""}${p.points})`).join(". ")}.`, [{ route: "MANAGER" }]));
   next = seasonEndVacancies(next, date, emit);
+  return next;
+}
+
+/** Shown wherever a human manager would reach a B-team. */
+export const B_TEAM_CPU_ONLY = "B-lag leds alltid av klubbens egen organisation och kan inte tränas av dig.";
+
+/**
+ * Compatibility path for a save written before B-teams became CPU-only: if the human manager
+ * currently leads a B-team, the appointment ends neutrally (CONTRACT_ENDED, no reputation
+ * penalty, no closed door). Nothing is deleted: the stint, results and history stay; the
+ * manager receives job offers exactly as after a contract expiry. Idempotent (a clubless
+ * manager is left alone).
+ */
+export function releaseManagerFromBTeam(state: CareerState, date: string, emit: Emit): CareerState {
+  const current = managedClubId(state);
+  if (!current || isHumanManageable(current, state.seasonId)) return state;
+  const s = ensureManagerCareer(state);
+  const clubId = current;
+  let next = closeOpenBusiness(s, date);
+  next = withCareer(next, (cc) => ({ ...closeStint(next, cc, date, "CONTRACT_ENDED"), seekingJob: { since: date, reason: "CONTRACT_ENDED", clubId }, lastUnemployedReview: date }));
+  next = offersAfterDismissal(next, date, emit);
+  emit(buildClubEvent("MANAGER_CAREER", `b-team-release:${clubId}:${date}`, date, "IMPORTANT", "Ditt uppdrag har avslutats", `${nameOf(clubId)} är ett B-lag och leds numera alltid av klubbens egen organisation. Uppdraget har avslutats utan anmärkning; din historik och dina resultat finns kvar. Nya erbjudanden väntar på jobbmarknaden.`, [{ route: "JOB_MARKET" }]));
   return next;
 }
 

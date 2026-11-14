@@ -1,3 +1,7 @@
+import { B_TEAM_CPU_ONLY, releaseManagerFromBTeam } from "../manager/managerCareer";
+import { withEvents } from "../manager/events";
+import { isHumanManageable } from "../game-data";
+import type { CareerEvent } from "./careerEvents";
 import { assertClubWorldCompatible } from "./clubWorldCompatibility";
 import { GAME_CURRENT_DATE, getClub, getClubsByCompetition, type PlayerMock } from '../game-data';
 import { ALLSVENSKAN, HANDBOLLSLIGAN } from '../competition/rules';
@@ -239,11 +243,18 @@ export async function getOrCreateCareerState(save: CareerSave, persist = true): 
     // clubs from the top-up just above. Idempotent/fill-only, so this is
     // a cheap no-op on every subsequent load once nothing is missing.
     migrated = ensureCareerAllClubEconomies(migrated);
+    // Owner decision (B-teams are CPU-only): an older save whose human manager leads a B-team is
+    // recovered by ending that appointment neutrally -- nothing is deleted, history stays intact.
+    const releaseEvents: CareerEvent[] = [];
+    migrated = releaseManagerFromBTeam(migrated, migrated.gameDate, (e) => releaseEvents.push(e));
+    if (releaseEvents.length) migrated = withEvents(migrated, releaseEvents);
     if (persist && migrated !== save.careerState) {
       await saveCareerState(save.saveId, migrated);
     }
     return migrated;
   }
+  // Owner decision: a human manager can never start a career with a B-team.
+  if (!isHumanManageable(save.clubId)) throw new Error(B_TEAM_CPU_ONLY);
   const club = getClub(save.clubId);
   const isRealWorld = club?.dataSource === "REAL_WORLD";
   const [

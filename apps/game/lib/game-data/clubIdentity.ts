@@ -181,3 +181,23 @@ export function clubRelationLabel(clubId: string, seasonId?: SeasonLabel): strin
     case "ACADEMY": return `${swedishGenitive(p)} akademi`;
   }
 }
+
+/**
+ * Owner decision 2026-11-14: A HUMAN PLAYER CAN NEVER MANAGE OR SELECT A B-TEAM.
+ * A B-team is a club's second team (andralag / reservlag): SECOND_TEAM,
+ * SAME_CLUB_SECOND_TEAM, SECOND_TEAM_UNDER_PARTNER_ASSOCIATION. It is NOT a farm
+ * club / partner association (IF Kristianstad, D8), NOT a U-team (HK Cliff stays
+ * selectable under D7), NOT an independent club and NOT a historical cooperation.
+ * B-teams exist and play normally under CPU management.
+ */
+export const B_TEAM_RELATION_KINDS: readonly ClubRelationKind[] = ["SECOND_TEAM", "SAME_CLUB_SECOND_TEAM", "SECOND_TEAM_UNDER_PARTNER_ASSOCIATION"];
+
+/** True for a B-team in `seasonId` (any current relation when omitted). */
+export function isBTeam(clubId: string, seasonId?: SeasonLabel): boolean {
+  return (getClub(clubId)?.relations ?? []).some((r) => B_TEAM_RELATION_KINDS.includes(r.relation) && (seasonId ? seasonWithin(seasonId, r.validFrom, r.validTo) : !r.validTo));
+}
+
+/** Whether a human manager may select, apply to, be offered or lead this club. */
+export function isHumanManageable(clubId: string, seasonId?: SeasonLabel): boolean {
+  return !!getClub(clubId) && !isBTeam(clubId, seasonId);
+}

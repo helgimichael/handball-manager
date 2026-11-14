@@ -2,10 +2,11 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { getMostRecentSave, setActiveSaveId, touchSave, type CareerSave } from '@/lib/save/saveRepository';
-import { CLUBS, getClub } from '@/lib/game-data';
+import { CLUBS, getClub, isHumanManageable } from '@/lib/game-data';
 import ClubCrest from '@/components/ClubCrest';
 
-const FEATURED_CLUBS = CLUBS.filter(c => c.playable).slice(0, 12);
+// Clubs a human can lead (never a B-team).
+const FEATURED_CLUBS = CLUBS.filter(c => c.playable && isHumanManageable(c.id)).slice(0, 12);
 
 export default function TitleScreen() {
   const router = useRouter();

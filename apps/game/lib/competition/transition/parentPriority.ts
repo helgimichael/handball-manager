@@ -30,6 +30,8 @@ import type { CompetitionRules, Dependency, EligibilityDecision, RankGroup } fro
 export const DIVISION_3_ID = "se_division3";
 
 export interface ParentPriorityMove {
+  /** DISPLACEMENT: a B-team gives way to its A-team. RE_ENTRY: a B-team returns from Division 3 to its Division 2 district (administrative, not a promotion). */
+  kind?: "DISPLACEMENT" | "RE_ENTRY";
   clubId: string;
   parentClubIds: string[];
   from: string;
@@ -51,6 +53,8 @@ export interface ParentPriorityInput {
   regionalLeague?: (clubId: string, candidates: readonly string[]) => string | undefined;
   /** Whether `clubId` may be placed in `competitionId` regionally (hard north/south anchors). */
   regionAllows?: (clubId: string, competitionId: string) => boolean;
+  /** Division 2 pool registration validity (gameContinuity.hasValidCompetitionRegistrations); empty pool squads are valid. */
+  registrationValid?: (clubId: string) => boolean;
   date: string;
 }
 
@@ -141,10 +145,39 @@ export function resolveParentPriority(input: ParentPriorityInput): ParentPriorit
     return undefined;
   };
 
+  /**
+   * Re-entry from Division 3 (C4.1). Division 3 is not simulated, so there is no sporting order to
+   * promote from: a displaced B-team returns ADMINISTRATIVELY to its geographic Division 2 district
+   * (the lowest simulated tier) -- never higher -- and only when
+   *   - every restricting A-team has been above Division 2 for the whole current season AND stays above it
+   *     next season (one full season of stability: no oscillation on a single promotion/relegation), or the
+   *     restriction has ended;
+   *   - its Division 2 registration is valid (the pool's own rule: valid contracts, no duplicate registrations);
+   *   - the unchanged cooperation rule allows Division 2.
+   * Any further rise must then be earned in Division 2's own sporting order. Deterministic: CLUBS-id order
+   * only decides the order of independent re-entries, never a contested place (pools have no fixed size).
+   */
+  const reEnter = () => {
+    const boundaryTier = maxTier;
+    const inDivision3 = Object.entries(state.competitionMembership ?? {}).filter(([, c]) => c === DIVISION_3_ID).map(([id]) => id).sort();
+    for (const clubId of inDivision3) {
+      if (finalOf(clubId) !== DIVISION_3_ID) continue;
+      const parents = restrictingParents(state.clubPartnerships, clubId, nextSeasonStart);
+      const stable = parents.every((p) => (tierOf(input.current(p)) ?? Infinity) < boundaryTier && (tierOf(finalOf(p)) ?? Infinity) < boundaryTier);
+      if (!stable) continue;
+      if (input.registrationValid && !input.registrationValid(clubId)) continue;
+      if (!cooperationEligibility(state as CareerState, clubId, boundaryTier, date).eligible) continue;
+      const to = input.regionalLeague?.(clubId, leaguesInTier(boundaryTier));
+      if (!to) continue;
+      membership[clubId] = to;
+      moves.push({ kind: "RE_ENTRY", clubId, parentClubIds: parents, from: DIVISION_3_ID, to, reason: `Re-entry ${state.seasonId}: ${parents.length ? `${parents.join(", ")} above Division 2 this season and next` : "no restricting A-team any more"}; returns to ${to} (not a promotion).` });
+    }
+  };
+
   const restrictedClubs = [...new Set(Object.values(state.clubPartnerships ?? {}).map((p) => p.clubBId))].sort();
   for (let guard = 0; guard < 500; guard++) {
     const conflicts = restrictedClubs.filter(conflictOf);
-    if (!conflicts.length) return { membership, moves, blockers };
+    if (!conflicts.length) { reEnter(); return { membership, moves, blockers }; }
     // Top tier first; inside a league the worst-ranked B-team adapts first (sporting order, never id order).
     conflicts.sort((a, b) => tierOf(finalOf(a))! - tierOf(finalOf(b))! || rankIn(b, finalOf(b)!) - rankIn(a, finalOf(a)!) || (a < b ? -1 : 1));
     const clubId = conflicts[0]!;
@@ -166,7 +199,7 @@ export function resolveParentPriority(input: ParentPriorityInput): ParentPriorit
       return { membership, moves, blockers };
     }
     membership[clubId] = to;
-    moves.push({ clubId, parentClubIds: parents, from, to, ...(replacement ? { replacement } : {}), reason });
+    moves.push({ kind: "DISPLACEMENT", clubId, parentClubIds: parents, from, to, ...(replacement ? { replacement } : {}), reason });
   }
   blockers.push({ code: "PARENT_PRIORITY_DID_NOT_TERMINATE", ref: state.seasonId, message: "Parent-priority allocation exceeded its safety bound.", status: "BLOCKED" });
   return { membership, moves, blockers };

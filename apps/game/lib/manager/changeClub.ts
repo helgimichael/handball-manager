@@ -23,7 +23,8 @@ import { closeOpenBusiness } from "./departure";
 import { addDaysIso } from "../players/dynamicsState";
 import { ensureBoard } from "../board/board";
 import { settleMediaForAppointment } from "../media/worldTick";
-import { closeStint, eligibleClubs, ensureManagerCareer, leagueName, unplayedOwnFixtureDue } from "./managerCareer";
+import { B_TEAM_CPU_ONLY, closeStint, eligibleClubs, ensureManagerCareer, leagueName, unplayedOwnFixtureDue } from "./managerCareer";
+import { isHumanManageable } from "../game-data";
 
 export function clubChangeBlocker(state: CareerState, clubId: string): string | null {
   if (state.productionMatch || state.activeMatchSession) return "Spela klart matchen först.";
@@ -31,6 +32,7 @@ export function clubChangeBlocker(state: CareerState, clubId: string): string | 
   if (clubId === state.playerClubId) return "Klubben går vidare utan dig.";
   // HM-M7D: a match whose day has come is played by the manager whose club it is.
   if (unplayedOwnFixtureDue(state)) return "Spela dagens match först.";
+  if (!isHumanManageable(clubId, state.seasonId)) return B_TEAM_CPU_ONLY;
   if (!eligibleClubs(state).includes(clubId)) return "Klubben spelar inte i någon av de svenska serierna den här säsongen.";
   return null;
 }
