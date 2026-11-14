@@ -1,0 +1,129 @@
+/* ==========================================================================
+   Arena Nights Phase 2 -- SQD-02 player dossier: sticky identity bar, chapters, data visualisation.
+   Arena workbench rules: solid dark surfaces for data, tabular figures, club neon for selection/own.
+   ========================================================================== */
+.hm-dossier { display: grid; gap: 14px; }
+
+/* SQD-02g sticky identity bar */
+.hm-dossier-bar {
+  position: sticky; top: 0; z-index: 15;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px;
+  padding: 8px 12px; margin: 0 -2px;
+  background: color-mix(in srgb, var(--arena-solid-1) 94%, transparent);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--arena-line); border-left: 3px solid var(--club-neon); border-radius: 6px;
+}
+.hm-dossier-bar-shirt { min-width: 28px; height: 28px; display: grid; place-items: center; border-radius: 4px; background: var(--arena-solid-3); font: 800 14px/1 var(--arena-font-display); color: var(--arena-ink); box-shadow: inset 0 -2px 0 var(--club-neon); }
+.hm-dossier-bar-name { font: 800 18px/1 var(--arena-font-display); text-transform: uppercase; letter-spacing: .02em; color: var(--arena-ink); }
+.hm-dossier-bar-pos { font: 700 11px/1 var(--arena-font-ui); letter-spacing: .1em; color: var(--arena-muted); }
+.hm-dossier-bar-chip, .hm-dossier-chip { padding: 4px 8px; border-radius: 999px; font: 600 11px/1 var(--arena-font-ui); color: var(--arena-ink-2); background: var(--arena-solid-3); }
+.hm-dossier-bar-chip[data-ok="false"], .hm-dossier-chip[data-ok="false"] { color: var(--arena-ink); background: color-mix(in srgb, var(--arena-neg) 32%, var(--arena-solid-3)); }
+.hm-dossier-bar-actions { margin-left: auto; }
+.hm-dossier-bar-actions .hm-object-actions { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; }
+.hm-dossier-tabs { position: relative; }
+
+/* sections: one rhythm, not a pile of cards */
+.hm-dossier-section { display: grid; gap: 10px; padding: 14px 0 16px; border-top: 1px solid var(--arena-line); }
+.hm-dossier-section > header { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.hm-dossier-section h2 { margin: 0; font: 700 12px/1 var(--arena-font-ui); letter-spacing: .16em; text-transform: uppercase; color: var(--arena-muted); }
+.hm-dossier-section h3 { margin: 0 0 6px; font: 700 11px/1 var(--arena-font-ui); letter-spacing: .12em; text-transform: uppercase; color: var(--arena-faint); }
+.hm-dossier-note { margin: 0; font-size: 12px; color: var(--arena-muted); line-height: 1.5; }
+.hm-dossier-empty { margin: 0; padding: 14px; border: 1px dashed var(--arena-line-strong); border-radius: 6px; font-size: 13px; color: var(--arena-muted); line-height: 1.5; }
+.hm-dossier-stars { color: var(--arena-gold); font-size: 12px; letter-spacing: .04em; }
+
+/* season line */
+.hm-dossier-season { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1px; margin: 0; background: var(--arena-line); border: 1px solid var(--arena-line); border-radius: 6px; overflow: hidden; }
+.hm-dossier-season > div { padding: 10px 12px; background: var(--arena-solid-1); }
+.hm-dossier-season dt { font: 700 10px/1 var(--arena-font-ui); letter-spacing: .12em; text-transform: uppercase; color: var(--arena-faint); }
+.hm-dossier-season dd { margin: 6px 0 0; font: 800 22px/1 var(--arena-font-display); color: var(--arena-ink); font-variant-numeric: tabular-nums; }
+
+/* form timeline */
+.hm-dossier-form { list-style: none; margin: 0; padding: 0; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(34px, 56px); justify-content: start; gap: 6px; align-items: end; height: 150px; }
+.hm-dossier-form li { height: 100%; }
+.hm-dossier-form a { height: 100%; display: grid; grid-template-rows: 1fr auto auto; justify-items: center; gap: 3px; text-decoration: none; color: var(--arena-ink-2); border-radius: 4px; padding: 2px; }
+.hm-dossier-form a:hover, .hm-dossier-form a:focus-visible { background: rgb(255 255 255 / .04); outline: none; box-shadow: inset 0 0 0 1px var(--club-neon); }
+.hm-dossier-form-bar { align-self: end; width: 70%; border-radius: 3px 3px 0 0; background: var(--arena-faint); transform-origin: bottom; animation: hm-bar-rise 360ms cubic-bezier(.2, .8, .2, 1) both; }
+.hm-dossier-form-bar[data-r="W"] { background: var(--arena-pos); }
+.hm-dossier-form-bar[data-r="D"] { background: var(--arena-warn); }
+.hm-dossier-form-bar[data-r="L"] { background: var(--arena-neg); }
+@keyframes hm-bar-rise { from { transform: scaleY(0); } }
+.hm-dossier-form b { font: 700 12px/1 var(--arena-font-ui); color: var(--arena-ink); font-variant-numeric: tabular-nums; }
+.hm-dossier-form small { font: 700 9px/1 var(--arena-font-ui); letter-spacing: .08em; color: var(--arena-faint); }
+
+/* key ratings */
+.hm-dossier-families { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.hm-dossier-families li { display: grid; grid-template-columns: minmax(120px, 180px) 1fr 40px; gap: 10px; align-items: center; font-size: 13px; color: var(--arena-ink-2); }
+.hm-dossier-families b { text-align: right; color: var(--arena-ink); font-variant-numeric: tabular-nums; }
+.hm-dossier-bar-track, .hm-dossier-prog-track { position: relative; height: 8px; border-radius: 4px; background: var(--arena-solid-3); overflow: hidden; }
+.hm-dossier-bar-track i { display: block; height: 100%; border-radius: 4px; background: var(--club-neon); }
+.hm-dossier-bar-track i[data-band="mid"] { background: color-mix(in srgb, var(--club-neon) 60%, var(--arena-solid-4)); }
+.hm-dossier-bar-track i[data-band="low"] { background: var(--arena-faint); }
+.hm-dossier-sw { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.hm-dossier-sw ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.hm-dossier-sw li { display: flex; justify-content: space-between; gap: 8px; padding: 6px 10px; border-radius: 4px; font-size: 13px; background: var(--arena-solid-1); border-left: 3px solid var(--arena-pos); color: var(--arena-ink-2); }
+.hm-dossier-sw li[data-tone="neg"] { border-left-color: var(--arena-neg); }
+.hm-dossier-sw b { color: var(--arena-ink); }
+
+/* readiness gauges */
+.hm-dossier-gauges { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.hm-dossier-gauge { position: relative; display: grid; justify-items: center; gap: 2px; }
+.hm-dossier-gauge svg { width: 64px; height: 64px; transform: rotate(-90deg); }
+.hm-dossier-gauge circle { fill: none; stroke-width: 3.5; }
+.hm-dossier-gauge circle:first-child { stroke: var(--arena-solid-3); }
+.hm-dossier-gauge circle:last-child { stroke: var(--arena-pos); stroke-linecap: round; }
+.hm-dossier-gauge[data-low="true"] circle:last-child { stroke: var(--arena-warn); }
+.hm-dossier-gauge b { position: absolute; top: 22px; font: 800 16px/1 var(--arena-font-display); color: var(--arena-ink); }
+.hm-dossier-gauge span { font-size: 11px; color: var(--arena-muted); }
+
+/* development */
+.hm-dossier-devline { width: 100%; height: 70px; }
+.hm-dossier-devline line { stroke: var(--arena-line-strong); stroke-width: 1; }
+.hm-dossier-devline circle { fill: var(--arena-neg); }
+.hm-dossier-devline circle[data-up="true"] { fill: var(--club-neon); }
+.hm-dossier-progression { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.hm-dossier-progression li { display: grid; grid-template-columns: minmax(130px, 200px) 1fr 70px 100px; gap: 10px; align-items: center; font-size: 13px; color: var(--arena-ink-2); }
+.hm-dossier-progression b { color: var(--arena-ink); font-variant-numeric: tabular-nums; text-align: right; }
+.hm-dossier-progression small { color: var(--arena-faint); }
+.hm-dossier-prog-track i { position: absolute; top: 0; bottom: 0; border-radius: 4px; background: var(--club-neon); }
+.hm-dossier-prog-track i[data-up="false"] { background: var(--arena-neg); }
+.hm-dossier-details summary { cursor: pointer; font-size: 13px; color: var(--arena-ink-2); }
+.hm-dossier-details ul { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 3px; }
+.hm-dossier-details li { display: grid; grid-template-columns: 96px minmax(120px, 1fr) 70px minmax(0, 1.2fr); gap: 8px; font-size: 12px; color: var(--arena-ink-2); }
+.hm-dossier-details small { color: var(--arena-faint); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* career timeline */
+.hm-dossier-timeline { list-style: none; margin: 0; padding: 0 0 0 14px; display: grid; gap: 0; border-left: 2px solid var(--arena-line-strong); }
+.hm-dossier-timeline li { position: relative; display: grid; grid-template-columns: 100px minmax(0, 1fr); gap: 10px; padding: 8px 0 8px 10px; }
+.hm-dossier-timeline li::before { content: ""; position: absolute; left: -21px; top: 13px; width: 10px; height: 10px; border-radius: 50%; background: var(--arena-faint); border: 2px solid var(--arena-bg); }
+.hm-dossier-timeline li[data-kind="TRANSFER"]::before, .hm-dossier-timeline li[data-kind="LOAN"]::before { background: var(--arena-info); }
+.hm-dossier-timeline li[data-kind="CONTRACT"]::before { background: var(--arena-gold); }
+.hm-dossier-timeline li[data-kind="MILESTONE"]::before { background: var(--club-neon); box-shadow: 0 0 8px var(--club-neon); }
+.hm-dossier-timeline li[data-kind="DEPARTURE"]::before { background: var(--arena-neg); }
+.hm-dossier-timeline time { font: 700 11px/1.6 var(--arena-font-ui); color: var(--arena-faint); font-variant-numeric: tabular-nums; }
+.hm-dossier-timeline strong { display: block; color: var(--arena-ink); font-size: 14px; }
+.hm-dossier-timeline strong a { color: inherit; }
+.hm-dossier-timeline small { color: var(--arena-muted); font-size: 12px; }
+
+/* risks */
+.hm-dossier-risks { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.hm-dossier-risks li { padding: 7px 10px; border-radius: 4px; font-size: 13px; color: var(--arena-ink); background: color-mix(in srgb, var(--arena-info) 14%, var(--arena-solid-1)); }
+.hm-dossier-risks li[data-tone="neg"] { background: color-mix(in srgb, var(--arena-neg) 20%, var(--arena-solid-1)); }
+.hm-dossier-risks li[data-tone="warn"] { background: color-mix(in srgb, var(--arena-warn) 18%, var(--arena-solid-1)); }
+
+@media (max-width: 760px) {
+  .hm-dossier-bar { gap: 6px; }
+  .hm-dossier-bar-name { font-size: 15px; }
+  .hm-dossier-bar-actions { margin-left: 0; width: 100%; overflow-x: auto; }
+  .hm-dossier-bar-actions .hm-object-actions { flex-wrap: nowrap; }
+  .hm-dossier-bar-actions .hm-btn { white-space: nowrap; }
+  .hm-dossier-tabs { overflow-x: auto; flex-wrap: nowrap; }
+  .hm-dossier-form { grid-auto-columns: minmax(28px, 40px); gap: 3px; height: 120px; overflow-x: auto; }
+  .hm-dossier-families li { grid-template-columns: minmax(96px, 120px) 1fr 34px; }
+  .hm-dossier-sw { grid-template-columns: minmax(0, 1fr); }
+  .hm-dossier-progression li { grid-template-columns: minmax(0, 1fr) 64px; }
+  .hm-dossier-progression .hm-dossier-prog-track, .hm-dossier-progression small { display: none; }
+  .hm-dossier-details li { grid-template-columns: 80px minmax(0, 1fr) 56px; }
+  .hm-dossier-details small { display: none; }
+  .hm-dossier-timeline li { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+}
+@media (prefers-reduced-motion: reduce) { .hm-dossier-form-bar { animation: none; } }

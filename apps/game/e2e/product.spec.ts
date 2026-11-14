@@ -18,7 +18,7 @@ test('normal career UI: real squad, calendar, live match, decisions, finalizatio
   await expect(page.locator('body')).toContainText('Tumba');
   await page.locator('table a[href^="/career/squad/"]').first().click();
   await expect(page.locator('.game-player-hero')).toBeVisible();
-  await page.getByRole('button',{name:'Kontrakt',exact:true}).click();
+  await page.getByRole('button',{name:'Kontrakt & framtid',exact:true}).click();
   await page.getByRole('button', { name: 'Inled förlängningssamtal', exact: true }).click({ timeout: 30000 });
   await page.getByLabel('Förlängning', { exact: true }).selectOption('3');
   await page.getByRole('button', { name: 'Förläng kontrakt', exact: true }).click();
@@ -114,7 +114,7 @@ test('normal career UI: real squad, calendar, live match, decisions, finalizatio
   await expect(page.getByRole('heading', { name: 'Allsvenskan', exact: true })).toBeVisible();
   await page.getByRole('link', { name: 'Spelarstatistik', exact: true }).click();
   await page.locator('main table a[href^="/career/squad/"]').first().click();
-  await page.getByRole('button', { name: 'Prestation & historik', exact: true }).click();
+  await page.getByRole('button', { name: 'Matcher', exact: true }).click();
   await expect(page.locator('main table a[href^="/career/match-report/"]')).not.toHaveCount(0);
   expect(errors).toEqual([]);
 });

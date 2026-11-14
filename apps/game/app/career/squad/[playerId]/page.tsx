@@ -1,5 +1,4 @@
 "use client";
-import { DevelopmentHistory } from "@/components/players/DevelopmentHistory";
 import PlayerActions from '@/components/manager/PlayerActions';
 import { careerPlayerVisibility } from "@/lib/knowledge/careerVisibility";
 import PlayerPerformance from '@/components/manager/PlayerPerformance';
@@ -16,12 +15,10 @@ import { useCareer } from "@/lib/career/CareerContext";
 import { getCareerPlayer } from "@/lib/career/careerWorld";
 import { isFreeAgentClubId } from "@/lib/career/contractExpiry";
 import { isRetiredClubId } from "@/lib/career/playerLifecycle";
-import { emptyPlayerSeasonStats } from "@/lib/career/types";
 import type { PlayerAvailability } from "@/lib/career/playerStatus";
 import StarRating from "@/components/StarRating";
 import StatValue from "@/components/StatValue";
 import { GameplayAbilityPanel, GameplayAttributesPanel, type GameplayRatingRow } from "@/components/GameplayProfilePanels";
-import { abilityStarsFromCA, potentialStarsFromPA, type IndividualDevelopmentFocus } from "@/lib/development/types";
 import { getCareerPlayerRating } from "@/lib/career/careerRatingNormalization";
 import type { GameplayPlayerRating } from "@/lib/gameWorld/gameplayRatingSnapshot";
 import { INJURY_SEVERITY_LABELS, INJURY_TYPE_LABELS, REHAB_PHASE_LABELS } from "@/lib/medical/labels";
@@ -37,6 +34,10 @@ import { buildScoutReportView } from "@/lib/knowledge/scoutReportVisibility";
 import { getClubScouts, getPlayerScoutReports } from "@/lib/career/scouting";
 import { findStaffMember } from "@/lib/staff/staffCareerIntegration";
 import { PlayerDynamicsPanel } from "@/components/players/PlayerDynamicsPanel";
+import { buildPlayerDossier } from "@/lib/players/playerDossier";
+import { CareerTimeline, ContractFuture, DevelopmentView, DossierBar, FormTimeline, KeyRatings, Readiness, SeasonLine } from "@/components/players/PlayerDossier";
+import { playerAvailabilityLabel } from "@/components/game/Identity";
+import { useMemo } from "react";
 import { ScoutReportPanel, type ScoutReportHistoryEntry } from "@/components/ScoutReportPanel";
 
 // HM-RATINGS-CAREER-1.0 Part 25: every career player (REAL_WORLD, mock or
@@ -102,7 +103,10 @@ export default function PlayerProfilePage() {
     };
   }, [player, career]);
 
-  if (!player) {
+  // Arena Nights Phase 2: the dossier model (pure, read-only, own-player gating inside).
+  const dossier = useMemo(() => (player ? buildPlayerDossier(career, player.id) : undefined), [career, player]);
+
+  if (!player || !dossier) {
     return (
       <div className="hm-panel">
         <div className="hm-panel-body hm-text-muted">Spelaren hittades inte.</div>
@@ -110,7 +114,6 @@ export default function PlayerProfilePage() {
     );
   }
 
-  const seasonStats = career.playerSeasonStats[player.id] ?? emptyPlayerSeasonStats(player.id);
   const age = playerAgeAtDate(player.dateOfBirth, player.birthYear, career.gameDate);
   const isWonderkid = age !== null && age <= 19 && potentialStars(player) >= 5;
   const isFreeAgentPlayer = isFreeAgentClubId(player.clubId);
@@ -338,88 +341,48 @@ export default function PlayerProfilePage() {
   const reportContent = !isOwnPlayer && scoutReportView ? (
     <ScoutReportPanel view={scoutReportView} history={scoutReportHistory} hasOwnScout={clubScouts.length > 0} onStartAssignment={() => router.push(`/career/scouting?target=${player.id}`)} />
   ) : null;
-  const tabs = [["overview", "Profil & egenskaper"], ["performance", "Prestation & historik"], ["attributes", "Egenskaper"], ["development", "Utveckling"], ["contract", "Kontrakt"], ["history", "Klubbhistorik"]];
+  // SQD-02 (C) Feature Profile: identity hero + sticky identity bar, then six chapters.
+  const tabs = [["overview", "Översikt"], ["development", "Utveckling"], ["matches", "Matcher"], ["career", "Karriär"], ["contract", "Kontrakt & framtid"], ["attributes", "Egenskaper"]];
+  const availability = isOwnPlayer ? playerAvailabilityLabel(career, player.id) : isRetiredPlayer ? "Pensionerad" : isFreeAgentPlayer ? "Fri agent" : club?.shortName ?? "Extern";
+  const back = <button type="button" className="hm-btn hm-btn-sm" onClick={() =>
+    isOwnPlayer ? router.push("/career/squad") : isFreeAgentPlayer ? router.push("/career/transfers") : isRetiredPlayer ? router.push("/career/squad") : router.push(`/career/clubs/${player.clubId}`)
+  }>← {isOwnPlayer ? "Trupp" : isFreeAgentPlayer ? "Transfers" : isRetiredPlayer ? "Trupp" : "Klubb"}</button>;
 
   return (
-    <div className="hm-profile-page">
-      <PlayerHero player={player} career={career}>
-        <button type="button" className="hm-btn hm-btn-sm" onClick={() =>
-          isOwnPlayer ? router.push("/career/squad") : isFreeAgentPlayer ? router.push("/career/transfers") : isRetiredPlayer ? router.push("/career/squad") : router.push(`/career/clubs/${player.clubId}`)
-        }>← {isOwnPlayer ? "Trupp" : isFreeAgentPlayer ? "Transfers" : isRetiredPlayer ? "Trupp" : "Klubb"}</button>
-      </PlayerHero>
-      <PlayerActions player={player} />
-      {isOwnPlayer && <PlayerConditionPanel career={career} player={player} />}
-      <nav className="hm-tabs hm-profile-tabs" aria-label="Spelarprofil">
+    <div className="hm-profile-page hm-dossier">
+      <PlayerHero player={player} career={career}>{back}</PlayerHero>
+      <DossierBar player={player} dossier={dossier} availability={availability} actions={<PlayerActions player={player} />} />
+      <nav className="hm-tabs hm-profile-tabs hm-dossier-tabs" aria-label="Spelarprofil">
         {tabs.map(([id, label]) => <button key={id} aria-pressed={tab === id} onClick={() => setTab(id)}>{label}</button>)}
       </nav>
       <div className="hm-profile-body" key={tab}>
         {tab === "overview" && <div className="hm-profile-split">
           <div className="hm-profile-main">
-            <section className="hm-profile-stats" aria-label="Säsongen i siffror">
-              <div><small>Matcher från start</small><strong>{seasonStats.starts}</strong></div>
-              <div><small>{player.position === "MV" ? "Mötta skott" : "Skott"}</small><strong>{player.position === "MV" ? seasonStats.shotsFaced : seasonStats.shots}</strong></div>
-              <div><small>{player.position === "MV" ? "Räddningsprocent" : "Skotteffektivitet"}</small><strong>{player.position === "MV" ? seasonStats.shotsFaced > 0 ? `${Math.round(seasonStats.saves / seasonStats.shotsFaced * 100)}%` : "—" : seasonStats.shots > 0 ? `${Math.round(seasonStats.goals / seasonStats.shots * 100)}%` : "—"}</strong></div>
-              <div><small>{player.position === "MV" ? "Räddningar / mötta" : "Mål / skott"}</small><strong>{player.position === "MV" ? `${seasonStats.saves}/${seasonStats.shotsFaced}` : `${seasonStats.goals}/${seasonStats.shots}`}</strong></div>
+            <SeasonLine dossier={dossier} position={player.position} />
+            <section className="hm-dossier-section" aria-labelledby="dossier-form-h">
+              <header><h2 id="dossier-form-h">Form · senaste matcherna</h2><button type="button" className="hm-btn hm-btn-sm" onClick={() => setTab("matches")}>Alla matcher →</button></header>
+              <FormTimeline matches={dossier.matches} />
             </section>
+            <KeyRatings dossier={dossier} fallback={abilityContent} />
+            {isOwnPlayer && <PlayerConditionPanel career={career} player={player} />}
             {/* HM-ALPHA3-M05: morale, talks, promises, requests, bids, transfer list and release. */}
             {isOwnPlayer && <PlayerDynamicsPanel playerId={player.id} />}
-            {attributesContent}
           </div>
-          <aside className="hm-world-rail" aria-label="Spelarbedömning och tillgänglighet">
-            {abilityContent}
+          <aside className="hm-world-rail" aria-label="Beredskap, tillgänglighet och kontrakt">
+            <Readiness dossier={dossier} />
             {reportContent}
             <MedicalPanel playerId={player.id} />
-            <section className="hm-world-note">
-              <h2>Din nästa bedömning</h2>
-              <p>{isOwnPlayer ? "Matchprestation, tillgänglighet och utveckling formar spelarens roll i din trupp." : "Fördjupa bedömningen genom scouting och jämför spelaren med din egen trupp innan du tar nästa steg."}</p>
-              <div className="hm-actions"><button className="hm-btn hm-btn-sm" onClick={() => setTab("contract")}>Visa kontrakt</button><button className="hm-btn hm-btn-sm" onClick={() => setTab("performance")}>Visa prestation</button></div>
-            </section>
+            <ContractFuture dossier={dossier} />
           </aside>
         </div>}
-        {tab === "performance" && <PlayerPerformance playerId={player.id} />}
+        {tab === "development" && <div className="hm-profile-split"><div className="hm-profile-main"><DevelopmentView dossier={dossier} />{bodyContent}</div><aside className="hm-world-rail">{abilityContent}<Readiness dossier={dossier} /><MedicalPanel playerId={player.id} /></aside></div>}
+        {tab === "matches" && <div className="hm-stack">
+          <section className="hm-dossier-section" aria-labelledby="dossier-form2-h"><header><h2 id="dossier-form2-h">Prestationskurva</h2><span className="hm-dossier-note">{dossier.season.matchesInArchive} matcher i arkivet · klicka en stapel för matchrapporten</span></header><FormTimeline matches={dossier.matches} limit={15} /></section>
+          <PlayerPerformance playerId={player.id} />
+        </div>}
+        {tab === "career" && <div className="hm-profile-split"><div className="hm-profile-main"><CareerTimeline dossier={dossier} />{historyContent}</div><aside className="hm-world-rail">{bodyContent}</aside></div>}
+        {tab === "contract" && <div className="hm-profile-split"><div className="hm-profile-main"><ContractFuture dossier={dossier} />{contractContent}</div><aside className="hm-world-rail">{historyContent}</aside></div>}
         {tab === "attributes" && <div className="hm-profile-split"><div className="hm-profile-main">{attributesContent}</div><aside className="hm-world-rail">{abilityContent}{bodyContent}{reportContent}</aside></div>}
-        {tab === "development" && <div className="hm-profile-split"><div className="hm-profile-main">{isOwnPlayer ? <DevelopmentPanel playerId={player.id} /> : <section className="hm-world-note"><h2>Utvecklingsbedömning</h2><p>Du följer spelarens utveckling genom scouting och registrerade prestationer. Individuell träning hanteras av spelarens klubb.</p></section>}{bodyContent}</div><aside className="hm-world-rail">{abilityContent}<MedicalPanel playerId={player.id} /></aside></div>}
-        {tab === "contract" && <div className="hm-profile-split"><div className="hm-profile-main">{contractContent}</div><aside className="hm-world-rail">{historyContent}</aside></div>}
-        {tab === "history" && <div className="hm-profile-split"><div className="hm-profile-main">{historyContent}<PlayerPerformance playerId={player.id} /></div><aside className="hm-world-rail">{bodyContent}</aside></div>}
-      </div>
-    </div>
-  );
-}
-
-function DevelopmentPanel({ playerId }: { playerId: string }) {
-  const { career } = useCareer();
-  const dev = career.playerDevelopmentState[playerId];
-  const rating = career.gameplayRatings[career.playerClubId]?.find((r) => r.playerId === playerId);
-  const assignment = career.playerTrainingAssignments[playerId];
-  const focus = (assignment?.individualFocus as IndividualDevelopmentFocus | undefined) ?? "NORMAL";
-  const focusLabel: Record<IndividualDevelopmentFocus, string> = {
-    NORMAL: "Normal",
-    TECHNICAL: "Teknik",
-    ATTACKING_DECISIONS: "Anfallsspel",
-    DEFENCE: "Försvarsspel",
-    PHYSICAL: "Fysik",
-    MENTAL: "Mentalt",
-    GOALKEEPER: "Målvaktsspel",
-  };
-  const recentEvents = dev?.developmentHistory.slice(0, 5) ?? [];
-
-  return (
-    <div className="hm-panel">
-      <div className="hm-panel-header">
-        <span className="hm-panel-title">Utveckling</span>
-      </div>
-      <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-        <ContractRow label="Nuvarande nivå" value={rating ? "★".repeat(abilityStarsFromCA(rating.ca)) + "☆".repeat(5 - abilityStarsFromCA(rating.ca)) : "—"} />
-        <ContractRow label="Potential" value={rating ? "★".repeat(potentialStarsFromPA(rating.pa)) + "☆".repeat(5 - potentialStarsFromPA(rating.pa)) : "—"} />
-        <ContractRow label="Individuellt fokus" value={focusLabel[focus]} />
-        <div className="hm-divider" />
-        {recentEvents.length === 0 ? (
-          <p className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", margin: 0 }}>
-            Ingen synlig förbättring registrerad ännu.
-          </p>
-        ) : (
-          <DevelopmentHistory events={recentEvents} />
-        )}
       </div>
     </div>
   );

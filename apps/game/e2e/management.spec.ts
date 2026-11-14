@@ -26,7 +26,7 @@ test('connected management journeys, contracts, shortlist, scouting, world links
   await page.waitForURL('**/career/squad/*');
   const ownHref = new URL(page.url()).pathname;
   const ownName = await page.locator('.game-player-hero').textContent();
-  await page.getByRole('button',{name:'Prestation & historik',exact:true}).click();
+  await page.getByRole('button',{name:'Matcher',exact:true}).click();
   await expect(page.getByRole('heading',{name:'Senaste matcherna',exact:true})).toBeVisible();
   await navTo(page,'Trupp');
   await page.waitForURL('**/career/squad');

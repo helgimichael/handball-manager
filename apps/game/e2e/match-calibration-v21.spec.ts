@@ -279,7 +279,7 @@ test('calibrated v2.1 career match: visible 2D at live speeds, coaching, both ha
     await page.getByRole('link',{name:'Matchrapport',exact:true}).click();await page.getByRole('button',{name:'Ligaläget →',exact:true}).click();
     await page.getByRole('link',{name:'Spelarstatistik',exact:true}).click();await expect(page.locator('main table a[href^="/career/squad/"]').first()).toBeVisible();
     await widths('season-player-statistics');await page.locator('main table a[href^="/career/squad/"]').first().click();
-    await expect(page.locator('.game-player-hero')).toBeVisible();await page.getByRole('button',{name:'Prestation & historik',exact:true}).click();
+    await expect(page.locator('.game-player-hero')).toBeVisible();await page.getByRole('button',{name:'Matcher',exact:true}).click();
     await expect(page.locator('main a[href^="/career/match-report/"]')).not.toHaveCount(0);await widths('player-recorded-match');
     expect(errors).toEqual([]);receipt.status='PASSED';
   }catch(cause){receipt.status='FAILED';receipt.error=cause instanceof Error?cause.message:String(cause);throw cause;}

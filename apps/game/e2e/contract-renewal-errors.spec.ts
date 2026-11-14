@@ -34,7 +34,7 @@ test('renewal refusal is recoverable, duplicate/over-budget offers are safe, and
   const loaded=await state(page);
   const refusedId=Object.keys(loaded.playerDynamics!.intentions!).find(id=>loaded.playerDynamics!.intentions![id]!.kind==='WANTS_TO_LEAVE'&&Object.values(loaded.renewalTalks??{}).some(t=>t.playerId===id&&t.status==='OPEN'))!;
   expect(refusedId).toBeTruthy();
-  const profile=async(id:string)=>{await page.goto(base+'/career/squad/'+encodeURIComponent(id));await page.getByRole('button',{name:'Kontrakt',exact:true}).click();await page.locator('.pd-renewal').waitFor();};
+  const profile=async(id:string)=>{await page.goto(base+'/career/squad/'+encodeURIComponent(id));await page.getByRole('button',{name:'Kontrakt & framtid',exact:true}).click();await page.locator('.pd-renewal').waitFor();};
   await profile(refusedId);
   const before=await state(page),beforeHash=hash(before);
   for(let i=0;i<3;i++){
@@ -42,7 +42,7 @@ test('renewal refusal is recoverable, duplicate/over-budget offers are safe, and
     await expect(page.locator('.pd-renewal > p[role="status"]').last()).toContainText(/Han vill l.mna och avvisar/,{timeout:10000});
     expect(errors).toEqual([]);expect(hash(await state(page))).toBe(beforeHash);
   }
-  await page.reload();await page.getByRole('button',{name:'Kontrakt',exact:true}).click();await expect(page.locator('.pd-renewal')).toContainText(/Han vill l.mna och avvisar/);expect(hash(await state(page))).toBe(beforeHash);
+  await page.reload();await page.getByRole('button',{name:'Kontrakt & framtid',exact:true}).click();await expect(page.locator('.pd-renewal')).toContainText(/Han vill l.mna och avvisar/);expect(hash(await state(page))).toBe(beforeHash);
   if(process.env.HM_QA_SCREENSHOT_DIR)await page.locator('.pd-renewal').screenshot({path:process.env.HM_QA_SCREENSHOT_DIR+'/refusal-functional.png'});
 
   await profile(plan.id);await page.getByRole('button',{name:/Inled f.rl.ngningssamtal/}).click();
@@ -61,7 +61,7 @@ test('renewal refusal is recoverable, duplicate/over-budget offers are safe, and
     expect(event.type).toBe('PLAYER_DYNAMICS');
     const c=Object.values(s.playerDynamics!.concerns).find(c=>'PLAYER_DYNAMICS:concern:'+c.id===event.id&&c.status==='OPEN')!;expect(c).toBeTruthy();
     const option=c.options.find(o=>['EARN_IT','LATER','PATIENCE','LISTEN_OFFERS'].includes(o.id))!;expect(option).toBeTruthy();
-    await page.goto(base+'/career/squad/'+encodeURIComponent(c.playerId));await page.getByRole('button',{name:'Profil & egenskaper',exact:true}).click();
+    await page.goto(base+'/career/squad/'+encodeURIComponent(c.playerId));await page.getByRole('button',{name:'Översikt',exact:true}).click();
     await page.getByRole('button',{name:option.label}).click();
     await expect.poll(async()=>(await state(page)).playerDynamics!.concerns[c.id]!.status).toBe('ANSWERED');s=await state(page);
   }
@@ -85,7 +85,7 @@ test('renewal refusal is recoverable, duplicate/over-budget offers are safe, and
   }
   expect((await state(page)).renewalTalks![talk.id]!.status).toBe('AGREED');
   s=await state(page);expect(s.playerContracts[plan.id]).toEqual(plan.expectedContract);expect(s.renewalTalks![talk.id]!.rounds).toHaveLength(1);expect(s.playerContracts[refusedId]).toEqual(before.playerContracts[refusedId]);expect(s.playerDynamics!.intentions![refusedId]).toEqual(before.playerDynamics!.intentions![refusedId]);
-  await profile(plan.id);await expect(page.locator('.pd-renewal')).toContainText(/F.rl.ngningen .r klar/);await page.reload();await page.getByRole('button',{name:'Kontrakt',exact:true}).click();
+  await profile(plan.id);await expect(page.locator('.pd-renewal')).toContainText(/F.rl.ngningen .r klar/);await page.reload();await page.getByRole('button',{name:'Kontrakt & framtid',exact:true}).click();
   const reloaded=await state(page);expect(reloaded.playerContracts[plan.id]).toEqual(plan.expectedContract);expect(reloaded.renewalTalks![talk.id]!.rounds).toHaveLength(1);expect(reloaded.playerDynamics!.requests[refusedId]).toEqual(before.playerDynamics!.requests[refusedId]);expect(reloaded.matchArchiveIds).toEqual(before.matchArchiveIds);expect(errors).toEqual([]);
   if(process.env.HM_QA_SCREENSHOT_DIR){await page.locator('.pd-renewal').screenshot({path:process.env.HM_QA_SCREENSHOT_DIR+'/valid-renewal-reloaded.png'});writeFileSync(process.env.HM_QA_SCREENSHOT_DIR+'/contract-browser-result.json',JSON.stringify({status:'PASS',base,refusedId,refusalCareerHash:beforeHash,refusalAttempts:3,overBudgetUnchanged:true,duplicateSubmissionRounds:1,validRenewal:{playerId:plan.id,contract:reloaded.playerContracts[plan.id]},archives:reloaded.matchArchiveIds?.length,reload:true,errors},null,2));}
 });

@@ -61,7 +61,7 @@ test('player identity survives tabs, offer drafts survive selection and sporting
   await page.locator('main table a[href^="/career/squad/"]').first().click();
   await expect(page.locator('.game-player-hero')).toBeVisible({timeout:30000});
   const playerId=await page.locator('.game-player-hero').getAttribute('data-player-id');
-  for(const tab of ['Prestation & historik','Egenskaper','Utveckling','Kontrakt','Klubbhistorik','Profil & egenskaper']) {
+  for(const tab of ['Matcher','Egenskaper','Utveckling','Kontrakt & framtid','Karriär','Översikt']) {
     await page.getByRole('button',{name:tab,exact:true}).click();
     await expect(page.locator('.game-player-hero')).toHaveAttribute('data-player-id',playerId!);
     await expect(page.getByRole('button',{name:tab,exact:true})).toHaveAttribute('aria-pressed','true');
