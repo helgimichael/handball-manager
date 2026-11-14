@@ -272,7 +272,7 @@ export default function GameShell({ children }: { children: ReactNode }) {
           <span aria-hidden="true">⌕</span><span className="hm-palette-trigger-text">Sök eller gå till…</span><kbd aria-hidden="true">Ctrl K</kbd>
         </button>
         <div className="hm-header-meta">
-          <CareerSaveControl />
+          <CareerSaveControl compact />
           {continueButton('hm-continue-header')}
         </div>
       </header>

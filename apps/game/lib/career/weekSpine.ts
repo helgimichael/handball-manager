@@ -11,6 +11,7 @@ import { resolveDestinationHref } from "./destinations";
 import { matchReportHref } from "./fixtureRoutes";
 import { mediaOf } from "../media/people";
 import { getClub } from "../game-data";
+import { isoWeek } from "./frontPage";
 
 export type SpinePinKind = "MATCH" | "RESULT" | "ACTION" | "PRESS" | "BOARD" | "WINDOW" | "TRANSFER" | "CONTRACT" | "SCOUTING" | "KICKOFF";
 
@@ -141,4 +142,49 @@ export function buildWeekSpine(state: CareerState, anchor = state.gameDate): Wee
     for (const p of pinsOn(state, date, cache)) if (p.kind !== "RESULT" && upNext.length < 3) upNext.push({ date, label: p.detail, href: p.href, kind: p.kind });
   }
   return { weekStart, days, nextMatch, upNext, pendingDecisions };
+}
+
+// ---------------------------------------------------------------- WLD-05 (C) Week Spine Calendar: the season strip
+export interface SeasonWeek {
+  weekStart: string;
+  isCurrent: boolean;
+  isPast: boolean;
+  /** Own fixtures this week: "W" | "D" | "L" for played, "M" for still to play. */
+  matches: ("W" | "D" | "L" | "M")[];
+  transferWindow: boolean;
+  nationalBreak: boolean;
+  playoffs: boolean;
+  label: string;
+}
+
+/** Every week of the season (first to last own/league fixture, with the current week always included). Pure. */
+export function buildSeasonStrip(state: CareerState, breaks: readonly { start: string; end: string }[] = []): SeasonWeek[] {
+  const club = managed(state) ?? state.playerClubId;
+  const own = state.fixtures.filter((f) => f.homeClubId === club || f.awayClubId === club);
+  const league = state.fixtures.filter((f) => f.competitionId === state.competitionId);
+  const dates = [...own, ...league].map((f) => f.date).concat(state.gameDate).sort();
+  if (!dates.length) return [];
+  const first = mondayOf(dates[0]!), last = mondayOf(dates.at(-1)!);
+  const current = mondayOf(state.gameDate);
+  const lastLeagueRound = league.filter((f) => f.type === "LEAGUE").reduce((d, f) => (f.date > d ? f.date : d), "");
+  const weeks: SeasonWeek[] = [];
+  for (let w = first, guard = 0; w <= last && guard < 80; w = addDays(w, 7), guard++) {
+    const end = addDays(w, 6);
+    const matches = own.filter((f) => f.date >= w && f.date <= end).sort((a, b) => a.date.localeCompare(b.date)).map((f) => {
+      const r = state.results[f.id];
+      if (!r) return "M" as const;
+      const home = f.homeClubId === club;
+      const d = (home ? r.homeGoals - r.awayGoals : r.awayGoals - r.homeGoals);
+      return d > 0 ? "W" as const : d < 0 ? "L" as const : "D" as const;
+    });
+    let window = false;
+    for (let i = 0; i < 7 && !window; i++) window = isTransferWindowOpen(addDays(w, i));
+    weeks.push({
+      weekStart: w, isCurrent: w === current, isPast: end < state.gameDate, matches, transferWindow: window,
+      nationalBreak: breaks.some((b) => b.start <= end && b.end >= w),
+      playoffs: !!lastLeagueRound && w > lastLeagueRound && own.some((f) => f.date >= w && f.date <= end && f.type !== "LEAGUE"),
+      label: `v. ${isoWeek(w)}`,
+    });
+  }
+  return weeks;
 }

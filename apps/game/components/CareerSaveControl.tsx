@@ -3,7 +3,8 @@ import { useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCareer } from '@/lib/career/CareerContext';
 import { exportSaveAsJson, importSaveFromJson, saveCareerState } from '@/lib/save/saveRepository';
-export default function CareerSaveControl() {
+/** ENT-08 C: in the top bar (`compact`) quick save stays visible; save-and-quit and the save files live in a ⋯ overflow. */
+export default function CareerSaveControl({ compact = false }: { compact?: boolean } = {}) {
   const { career, save } = useCareer();
   const router = useRouter();
   const [status, setStatus] = useState(''), [saving, setSaving] = useState(false);
@@ -40,9 +41,18 @@ export default function CareerSaveControl() {
   }
   return <div className="game-save-control">
     <button className="hm-btn hm-btn-sm" disabled={saving} onClick={() => void persist(false)}>{saving ? 'Arbetar…' : 'Spara'}</button>
-    <button className="hm-btn hm-btn-sm" disabled={saving} onClick={() => void persist(true)}>Spara och avsluta</button>
-    <button className="hm-btn hm-btn-sm" disabled={saving} onClick={() => void exportBackup()}>Exportera sparafil</button>
-    <button className="hm-btn hm-btn-sm" disabled={saving} onClick={() => importInput.current?.click()}>Importera sparafil</button>
+    {compact ? <details className="game-save-more" onClick={e => { if ((e.target as HTMLElement).closest('button')) (e.currentTarget as HTMLDetailsElement).open = false; }}>
+      <summary className="hm-btn hm-btn-sm" aria-label="Fler sparalternativ" title="Spara och avsluta, exportera eller importera sparfil">⋯</summary>
+      <div className="game-save-more-menu" role="group" aria-label="Sparalternativ">
+        <button className="hm-btn hm-btn-sm" disabled={saving} onClick={() => void persist(true)}>Spara och avsluta</button>
+        <button className="hm-btn hm-btn-sm" disabled={saving} onClick={() => void exportBackup()}>Exportera sparafil</button>
+        <button className="hm-btn hm-btn-sm" disabled={saving} onClick={() => importInput.current?.click()}>Importera sparafil</button>
+      </div>
+    </details> : <>
+      <button className="hm-btn hm-btn-sm" disabled={saving} onClick={() => void persist(true)}>Spara och avsluta</button>
+      <button className="hm-btn hm-btn-sm" disabled={saving} onClick={() => void exportBackup()}>Exportera sparafil</button>
+      <button className="hm-btn hm-btn-sm" disabled={saving} onClick={() => importInput.current?.click()}>Importera sparafil</button>
+    </>}
     <input ref={importInput} type="file" accept=".json,application/json" hidden aria-label="Importera sparafil" onChange={event => {
       const file = event.target.files?.[0];
       event.target.value = '';

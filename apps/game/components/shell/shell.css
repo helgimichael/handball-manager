@@ -219,3 +219,42 @@
   .hm-palette { animation: none; }
   .hm-shell[data-rail="collapsed"] .hm-sidebar { transition: none; }
 }
+
+/* ---------------------------------------------------------------- ENT-08 C: save files in a ⋯ overflow */
+.game-save-more { position: relative; display: inline-block; }
+.game-save-more > summary { list-style: none; cursor: pointer; min-width: 34px; text-align: center; }
+.game-save-more > summary::-webkit-details-marker { display: none; }
+.game-save-more[open] > summary { border-color: var(--club-neon); }
+.game-save-more-menu {
+  position: absolute; right: 0; top: calc(100% + 6px); z-index: 70; display: grid; gap: 6px; min-width: 200px; padding: 8px;
+  background: var(--arena-solid-1); border: 1px solid var(--arena-line-strong); border-radius: 6px; box-shadow: 0 16px 40px rgb(0 0 0 / .5);
+}
+.game-save-more-menu .hm-btn { justify-content: flex-start; text-align: left; width: 100%; }
+
+/* ---------------------------------------------------------------- WLD-05 C: calendar views + season strip */
+.hm-cal-views { display: inline-flex; margin: 0 0 10px; border: 1px solid var(--arena-line-strong); border-radius: 4px; overflow: hidden; }
+.hm-cal-views > * { min-height: 36px; padding: 0 16px; display: inline-flex; align-items: center; background: transparent; border: 0; border-right: 1px solid var(--arena-line); color: var(--arena-muted); font: 600 13px/1 var(--arena-font-ui); text-decoration: none; cursor: pointer; }
+.hm-cal-views > *:last-child { border-right: 0; }
+.hm-cal-views [aria-selected="true"] { color: var(--arena-ink); background: color-mix(in srgb, var(--club-neon) 18%, transparent); box-shadow: inset 0 -2px 0 var(--club-neon); }
+.hm-season-strip { margin: 0 0 16px; padding: 10px 12px 8px; background: var(--arena-solid-1); border: 1px solid var(--arena-line); border-radius: 6px; }
+.hm-season-strip ol { list-style: none; margin: 0; padding: 0; display: flex; gap: 2px; overflow-x: auto; scrollbar-width: thin; }
+.hm-season-strip li { flex: 1 0 22px; min-width: 22px; }
+.hm-season-strip button { width: 100%; display: grid; justify-items: center; gap: 4px; padding: 6px 0 4px; background: var(--arena-solid-2); border: 0; border-radius: 3px; color: var(--arena-muted); cursor: pointer; font: 600 10px/1 var(--arena-font-ui); }
+.hm-season-strip button:hover { color: var(--arena-ink); }
+.hm-season-strip button:focus-visible { outline: 2px solid var(--club-neon); outline-offset: 1px; }
+.hm-season-strip li[data-window="true"] button { box-shadow: inset 0 3px 0 var(--arena-info); }
+.hm-season-strip li[data-break="true"] button { box-shadow: inset 0 3px 0 var(--arena-gold); }
+.hm-season-strip li[data-past="true"] button { opacity: .6; }
+.hm-season-strip li[data-selected="true"] button { background: color-mix(in srgb, var(--club-neon) 20%, var(--arena-solid-2)); color: var(--arena-ink); }
+.hm-season-strip li[data-current="true"] button { outline: 2px solid var(--club-neon); outline-offset: -2px; color: var(--arena-ink); opacity: 1; }
+.hm-season-tick-matches { display: grid; gap: 2px; min-height: 14px; align-content: end; }
+.hm-season-tick-matches i, .hm-season-legend span[data-r]::before { display: block; width: 8px; height: 6px; border-radius: 1px; background: var(--arena-faint); }
+.hm-season-tick-matches i[data-r="W"], .hm-season-legend span[data-r="W"]::before { background: var(--arena-pos); }
+.hm-season-tick-matches i[data-r="D"], .hm-season-legend span[data-r="D"]::before { background: var(--arena-warn); }
+.hm-season-tick-matches i[data-r="L"], .hm-season-legend span[data-r="L"]::before { background: var(--arena-neg); }
+.hm-season-tick-matches i[data-r="M"], .hm-season-legend span[data-r="M"]::before { background: var(--club-neon); }
+.hm-season-legend { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 8px 0 0; font-size: 11px; color: var(--arena-muted); }
+.hm-season-legend span { display: inline-flex; align-items: center; gap: 5px; }
+.hm-season-legend span[data-r]::before { content: ""; }
+.hm-season-legend span[data-k]::before { content: ""; width: 12px; height: 3px; background: var(--arena-info); }
+.hm-season-legend span[data-k="break"]::before { background: var(--arena-gold); }

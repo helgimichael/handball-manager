@@ -177,3 +177,16 @@ test("SQD-01 Squad Matrix: rows carry the chip data, four saved views of 8 colum
   assert.equal(buildMatrixRows(cap.state).find((r) => r.id === two[0])!.captain, true);
   assert.equal(hash(s), before, "tray actions never mutate the input");
 });
+
+test("WLD-05 season strip: consecutive Monday weeks, the current week marked once, own matches per week, windows and breaks flagged", async () => {
+  const { buildSeasonStrip } = await import("./weekSpine");
+  const s = career();
+  const strip = buildSeasonStrip(s, [{ start: "2026-11-02", end: "2026-11-08" }]);
+  assert.ok(strip.length > 20);
+  for (let i = 1; i < strip.length; i++) assert.equal(strip[i]!.weekStart, addDays(strip[i - 1]!.weekStart, 7));
+  assert.equal(strip.filter((w) => w.isCurrent).length, 1);
+  const ownUnplayed = s.fixtures.filter((f) => (f.homeClubId === s.playerClubId || f.awayClubId === s.playerClubId) && !s.results[f.id]).length;
+  assert.equal(strip.reduce((n, w) => n + w.matches.filter((m) => m === "M").length, 0), ownUnplayed);
+  assert.ok(strip.some((w) => w.nationalBreak));
+  assert.ok(strip.some((w) => w.transferWindow));
+});

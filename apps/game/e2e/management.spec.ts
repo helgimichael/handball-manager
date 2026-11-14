@@ -142,6 +142,8 @@ test('connected management journeys, contracts, shortlist, scouting, world links
   await navTo(page,'Statistik');
   await expect(page.getByRole('heading',{name:'Statistik',exact:true})).toBeVisible();
   await navTo(page,'Kalender');
+  await expect(page.locator('.hm-calendar-day')).toHaveCount(7);
+  await page.getByRole('tab',{name:'Månad',exact:true}).click();
   await expect(page.locator('.hm-calendar-day')).toHaveCount(28);
   await navTo(page,'Träning');
   await expect(page.getByRole('heading',{name:'Träning & återhämtning',exact:true})).toBeVisible();
