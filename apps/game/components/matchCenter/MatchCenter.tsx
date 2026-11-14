@@ -241,7 +241,7 @@ export function MatchCenterSurface({ model, fixture, frames, people, events, tea
                             </section>
                         )
                     )}
-                    {reviewing && <FinalWhistle home={fixture.homeClubId} away={fixture.awayClubId} homeGoals={model.result.homeGoals} awayGoals={model.result.awayGoals} team={team} top={top.filter(t => t.player).slice(0, 3).map(t => ({ label: t.label, name: t.player!.name, line: `${t.player!.goals} mål · betyg ${t.player!.rating?.toFixed(1) ?? '—'}` }))} />}
+                    {reviewing && <FinalWhistle saved={!onCommand} home={fixture.homeClubId} away={fixture.awayClubId} homeGoals={model.result.homeGoals} awayGoals={model.result.awayGoals} team={team} top={top.filter(t => t.player).slice(0, 3).map(t => ({ label: t.label, name: t.player!.name, line: `${t.player!.goals} mål · betyg ${t.player!.rating?.toFixed(1) ?? '—'}` }))} />}
                     <div className="mc-overview-grid"><div><section className="mc-summary"><header><span className="game-overline">{reviewing ? 'Matchberättelsen' : 'Matchbilden'}</span><h1>{reviewing ? model.result.homeGoals === model.result.awayGoals ? 'Oavgjort.' : `${names[model.result.homeGoals > model.result.awayGoals ? 'HOME' : 'AWAY']} vinner.` : 'Från avkast till avgörande.'}</h1></header>{facts.length ? <ul>{facts.map(f => <li key={f.id} data-fact={f.id}>{f.text}</li>)}</ul> : <p>Matchbilden växer fram när händelserna kommer.</p>}</section><ScoreFlow events={model.events}/>{!reviewing && <Commentary compact stream={stream} names={names} keyOnly={keyOnly} importantOnly={importantOnly} onOpen={openMoment} onView={() => changeView('MOMENTS')} onToggle={() => setKeyOnly(!keyOnly)}/>}</div>
                     <div><section className="mc-primary-metrics"><h2>Matchen i siffror</h2><table><thead><tr><th>{names.HOME}</th><th> </th><th>{names.AWAY}</th></tr></thead><tbody>{[
                         ['Mål', model.result.homeGoals, model.result.awayGoals], ['Skott', model.result.homeStats.shots, model.result.awayStats.shots], ['Träffsäkerhet', `${model.result.homeStats.shootingPct}%`, `${model.result.awayStats.shootingPct}%`], ['Räddningar', `${model.result.homeStats.saves}/${model.result.homeStats.shotsFaced}`, `${model.result.awayStats.saves}/${model.result.awayStats.shotsFaced}`], ['Bollförluster', model.result.homeStats.turnovers, model.result.awayStats.turnovers], ['7m mål/försök', `${model.result.homeStats.sevenMetreGoals}/${model.result.homeStats.sevenMetreAttempts}`, `${model.result.awayStats.sevenMetreGoals}/${model.result.awayStats.sevenMetreAttempts}`], ['2 min', model.result.homeStats.twoMinuteSuspensions, model.result.awayStats.twoMinuteSuspensions], ['Omställningsmål', model.shots.filter(s => s.team === 'HOME' && s.phase === 'TRANSITION' && s.outcome === 'GOAL').length, model.shots.filter(s => s.team === 'AWAY' && s.phase === 'TRANSITION' && s.outcome === 'GOAL').length]
@@ -292,7 +292,7 @@ export function ArchivedMatchCenter({ archive, frames, team = 'HOME', ...props }
 } & Omit<Parameters<typeof MatchCenterSurface>[0], 'model' | 'fixture' | 'frames' | 'people' | 'events' | 'team'>) { const model = useMemo(() => archivedMatchModel(archive, frames), [archive, frames]); return <MatchCenterSurface {...props} model={model} fixture={archive.fixture} frames={frames} people={archive.people} events={archive.events} team={team}/>; }
 
 /** Arena Nights Phase 2 -- MDY-02j "Final-whistle card": the result for the manager's own side, both identities and the match's profiles. Presentation only; finishing the match stays with the existing control. */
-function FinalWhistle({ home, away, homeGoals, awayGoals, team, top }: { home: string; away: string; homeGoals: number; awayGoals: number; team: TeamId; top: { label: string; name: string; line: string }[] }) {
+function FinalWhistle({ saved, home, away, homeGoals, awayGoals, team, top }: { saved: boolean; home: string; away: string; homeGoals: number; awayGoals: number; team: TeamId; top: { label: string; name: string; line: string }[] }) {
     const ours = team === 'HOME' ? homeGoals - awayGoals : awayGoals - homeGoals;
     const verdict = ours > 0 ? 'Seger' : ours < 0 ? 'Förlust' : 'Oavgjort';
     const h = getClub(home), a = getClub(away);
@@ -304,6 +304,6 @@ function FinalWhistle({ home, away, homeGoals, awayGoals, team, top }: { home: s
             <span>{a && <ClubCrest shortName={a.shortName} primaryColor={a.primaryColor} clubId={a.id} size={56} />}<b>{a?.shortName ?? away}</b></span>
         </div>
         {top.length > 0 && <ul>{top.map(t => <li key={t.label + t.name}><small>{t.label}</small><b>{t.name}</b><span>{t.line}</span></li>)}</ul>}
-        <p>Slutför matchen för att spara resultatet, öppna matchrapporten och gå vidare till presskonferensen.</p>
+        <p>{saved ? 'Resultatet är sparat. Matchrapporten och presskonferensen väntar.' : 'Slutför matchen för att spara resultatet, öppna matchrapporten och gå vidare till presskonferensen.'}</p>
     </section>;
 }

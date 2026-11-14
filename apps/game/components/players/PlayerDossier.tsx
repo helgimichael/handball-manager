@@ -18,7 +18,7 @@ const FOCUS_LABEL: Record<string, string> = { NORMAL: 'Normal (inget extra fokus
 const stars = (n: number) => '★'.repeat(n) + '☆'.repeat(Math.max(0, 5 - n));
 
 /** SQD-02g: compact identity bar that stays in view while the dossier scrolls; carries the real actions. */
-export function DossierBar({ player, dossier, availability, actions }: { player: PlayerMock; dossier: PlayerDossier; availability: string; actions: ReactNode }) {
+export function DossierBar({ player, dossier, availability, actions, primary }: { player: PlayerMock; dossier: PlayerDossier; availability: string; actions: ReactNode; primary?: ReactNode }) {
   const club = player.clubId ? getClub(player.clubId) : undefined;
   return <div className="hm-dossier-bar" data-own={dossier.own}>
     {club ? <ClubCrest clubId={club.id} shortName={club.shortName} primaryColor={club.primaryColor} size={28} /> : <span className="hm-dossier-bar-nocrest" aria-hidden="true">—</span>}
@@ -30,7 +30,7 @@ export function DossierBar({ player, dossier, availability, actions }: { player:
     {dossier.roles.captain && <span className="hm-squad-role-pill" data-role="captain">K</span>}
     {dossier.roles.vice && <span className="hm-squad-role-pill" data-role="vice">VK</span>}
     {dossier.roles.penalty != null && <span className="hm-squad-role-pill" data-role="penalty">7m</span>}
-    <div className="hm-dossier-bar-actions">{actions}</div>
+    <div className="hm-dossier-bar-actions">{primary}{actions}</div>
   </div>;
 }
 

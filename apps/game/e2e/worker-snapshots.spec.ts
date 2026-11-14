@@ -38,7 +38,7 @@ test('New Game initializes and persists a real Handbollsligan career under worke
   await page.getByRole('radio', { name: 'Vid första tävlingsmatchen', exact: true }).check();
   await page.getByRole('button', { name: 'STARTA KARRIÄR', exact: true }).click();
   await page.waitForURL('**/career', { timeout: 120_000 });
-  await expect(page.getByRole('link', { name: 'Trupp', exact: true })).toBeVisible({ timeout: 60_000 });
+  await expect(page.getByRole('navigation', { name: 'Hubbar', exact: true }).getByRole('link', { name: 'Laget', exact: true })).toBeVisible({ timeout: 60_000 });
   const saved = await page.evaluate(async () => {
     const id = localStorage.getItem('hm-game:active-save:v1');
     const db = await new Promise<IDBDatabase>((resolve, reject) => {
@@ -60,6 +60,6 @@ test('New Game initializes and persists a real Handbollsligan career under worke
   expect(career.worldSquads.se_club_alingsas_hk.length).toBeGreaterThan(7);
   expect(career.gameplayRatings.se_club_alingsas_hk).toHaveLength(career.worldSquads.se_club_alingsas_hk.length);
   await page.reload();
-  await expect(page.getByRole('link', { name: 'Trupp', exact: true })).toBeVisible({ timeout: 60_000 });
+  await expect(page.getByRole('navigation', { name: 'Hubbar', exact: true }).getByRole('link', { name: 'Laget', exact: true })).toBeVisible({ timeout: 60_000 });
   expect(errors).toEqual([]);
 });

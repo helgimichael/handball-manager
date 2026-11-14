@@ -1,4 +1,5 @@
 import { test, expect as baseExpect } from '@playwright/test';
+import { navTo } from './hubNav';
 const expect = baseExpect.configure({ timeout: 30000 });
 const base = process.env.HM_QA_URL ?? 'http://localhost:3001';
 test('normal career UI: real squad, calendar, live match, decisions, finalization and reload', async ({ page }) => {
@@ -13,8 +14,8 @@ test('normal career UI: real squad, calendar, live match, decisions, finalizatio
   await page.getByRole('radio', { name: 'Vid första tävlingsmatchen', exact: true }).check();
   await page.getByRole('button', { name: 'STARTA KARRIÄR', exact: true }).click();
   await page.waitForURL('**/career', { timeout: 90000 });
-  await expect(page.getByRole('link', { name: 'Trupp', exact: true })).toBeVisible({ timeout: 90000 });
-  await page.getByRole('link', { name: 'Trupp', exact: true }).click();
+  await expect(page.locator('.hm-shell #manager-content')).toBeVisible({ timeout: 90000 });
+  await navTo(page, 'Trupp');
   await expect(page.locator('body')).toContainText('Tumba');
   await page.locator('table a[href^="/career/squad/"]').first().click();
   await expect(page.locator('.game-player-hero')).toBeVisible();
@@ -23,7 +24,7 @@ test('normal career UI: real squad, calendar, live match, decisions, finalizatio
   await page.getByLabel('Förlängning', { exact: true }).selectOption('3');
   await page.getByRole('button', { name: 'Förläng kontrakt', exact: true }).click();
   await expect(page.getByRole('status').filter({ hasText: 'Budet är lämnat. Svar i morgon.' })).toBeVisible();
-  await page.getByRole('link', { name: 'Taktik', exact: true }).click();
+  await navTo(page, 'Taktik');
   await expect(page.getByText('Startsju', { exact: true })).toBeVisible({ timeout: 30000 });
   await page.getByRole('button', { name: 'Välj startposition V6', exact: true }).click();
   const formerStarterName = (await page.locator('.coach-current-player .game-player-cell a').innerText()).trim();
@@ -104,9 +105,9 @@ test('normal career UI: real squad, calendar, live match, decisions, finalizatio
   await expect(page.getByText('Repris', { exact: true })).toBeVisible({ timeout: 60000 });
   await page.getByLabel('Position i reprisen').press('End');
   await page.screenshot({ path: `${process.env.HM_QA_SCREENSHOT_DIR ?? '../../docs/audit'}/replay-ui.png`, fullPage: true });
-  await page.getByRole('link', { name: 'Schema', exact: true }).click();
+  await navTo(page, 'Schema');
   await expect(page.locator('body')).toContainText('Tumba');
-  await page.getByRole('link', { name: 'Tävlingar', exact: true }).click();
+  await navTo(page, 'Tävlingar');
   await page.getByRole('link', { name: 'Resultat', exact: true }).click();
   await page.locator('main table a[href^="/career/match-report/"]').first().click();
   await expect(page.getByText('Matchrapport', { exact: true })).toBeVisible();

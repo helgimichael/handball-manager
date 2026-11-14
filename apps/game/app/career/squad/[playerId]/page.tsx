@@ -351,7 +351,11 @@ export default function PlayerProfilePage() {
   return (
     <div className="hm-profile-page hm-dossier">
       <PlayerHero player={player} career={career}>{back}</PlayerHero>
-      <DossierBar player={player} dossier={dossier} availability={availability} actions={<PlayerActions player={player} />} />
+      {/* SQD-02g: one primary action chosen from state; the existing actions follow. */}
+      <DossierBar player={player} dossier={dossier} availability={availability} actions={<PlayerActions player={player} />} primary={
+        isOwnPlayer && dossier.contract?.daysLeft != null && dossier.contract.daysLeft <= 365 ? <button type="button" className="hm-btn hm-btn-sm hm-btn-primary" onClick={() => setTab("contract")}>Förläng kontrakt</button>
+        : isOwnPlayer && Object.values(career.playerDynamics?.concerns ?? {}).some(c => c.playerId === player.id && c.status === "OPEN") ? <button type="button" className="hm-btn hm-btn-sm hm-btn-primary" onClick={() => setTab("overview")}>Svara på oro</button>
+        : null} />
       <nav className="hm-tabs hm-profile-tabs hm-dossier-tabs" aria-label="Spelarprofil">
         {tabs.map(([id, label]) => <button key={id} aria-pressed={tab === id} onClick={() => setTab(id)}>{label}</button>)}
       </nav>

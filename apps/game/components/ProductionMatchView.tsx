@@ -76,8 +76,11 @@ function ExperimentalArchiveReplay({ archive }: { archive: PlayedMatchArchive })
 
 /** Normal replay is the recorded event/key-moment experience. 2D remains optional. */
 export function ArchiveReplay({archive, defaultShowExperimental = false}:{archive:PlayedMatchArchive; defaultShowExperimental?: boolean}){
+  // The manager's own side (an archived replay used to default to HOME, mislabelling away results).
+  const { career } = useCareer();
+  const team: TeamId = archive.fixture.awayClubId === career.playerClubId ? 'AWAY' : 'HOME';
   const decoded=useMemo(()=>{try{return{frames:archiveFrames(archive),error:null};}catch{return{frames:[],error:'Positionsbilderna kunde inte läsas. Matchrapporten finns kvar.'};}},[archive]);
-  return <>{decoded.error&&<p role="alert">{decoded.error}</p>}<ArchivedMatchCenter archive={archive} frames={decoded.frames} defaultShowExperimental={defaultShowExperimental} experimental={<ExperimentalArchiveReplay archive={archive}/>}/></>;
+  return <>{decoded.error&&<p role="alert">{decoded.error}</p>}<ArchivedMatchCenter archive={archive} frames={decoded.frames} team={team} defaultShowExperimental={defaultShowExperimental} experimental={<ExperimentalArchiveReplay archive={archive}/>}/></>;
 }
 
 export default function ProductionMatchView({ fixtureId, quickFinish = false }: { fixtureId: string; quickFinish?: boolean }) {
