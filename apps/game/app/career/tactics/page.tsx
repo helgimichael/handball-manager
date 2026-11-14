@@ -32,6 +32,8 @@ import { assistantRotationAtKickoff, engineRotationStrategy } from '@/lib/matchP
 import { engineSevenVSixMode, sevenVSixPolicyFor } from '@/lib/matchPlan/sevenVSix';
 import { defenceSystemKey, effectiveDefenceSpaces } from '@/lib/matchPlan/engineMatchPlan';
 import { currentTeamRoles } from '@/lib/career/teamRoles';
+import { boardReadiness, phaseMatrix } from '@/lib/matchPlan/boardReadiness';
+import { PhaseMatrix, ReadinessHeader } from '@/components/tactics/TacticsBoardHeader';
 import {
   COURT_ORDER,
   DEFENCE_SPACE_LABEL,
@@ -250,6 +252,9 @@ export default function TacticsPage() {
   const opponentId = fixture.homeClubId === career.playerClubId ? fixture.awayClubId : fixture.homeClubId;
   const opponent = getClub(opponentId);
   const roles = currentTeamRoles(career);
+  // Arena Nights Phase 2 -- TRN-02 readiness header and phase × manpower switcher (read-only over the plan).
+  const readinessChips = boardReadiness(plan, roles, availableIds);
+  const matrixCells = phaseMatrix(readinessChips);
 
   function startDragPlayer(e: DragEvent<HTMLElement>, playerId: string) {
     e.dataTransfer.setData(TACTICAL_DRAG_PLAYER_MIME, playerId);
@@ -1315,92 +1320,12 @@ export default function TacticsPage() {
             </small>
           </div>
 
-          <div className="coach-court-mode-bar">
-            {/* Primary Dual Lineup Switch: ATTACK | DEFENCE */}
-            <div className="coach-lineup-dual-switch" role="tablist" aria-label="Primär uppställning">
-              <button
-                type="button"
-                role="tab"
-                aria-selected={courtMode === 'ATTACK_6V6'}
-                className="coach-dual-tab coach-dual-tab-attack"
-                data-active={courtMode === 'ATTACK_6V6'}
-                onClick={() => setCourtMode('ATTACK_6V6')}
-              >
-                <span className="coach-dual-icon">⚔️</span>
-                <div className="coach-dual-content">
-                  <strong>ANFALL (6v6)</strong>
-                  <small>Startsjua & anfallsroller</small>
-                </div>
-                {diff.attackOnlyPlayers.length > 0 ? (
-                  <span className="coach-dual-badge coach-dual-badge-spec">
-                    {diff.attackOnlyPlayers.length} vilar i försvar
-                  </span>
-                ) : (
-                  <span className="coach-dual-badge coach-dual-badge-twoway">6 båda vägar</span>
-                )}
-              </button>
-              <button
-                type="button"
-                role="tab"
-                aria-selected={courtMode === 'DEFENCE_6V6'}
-                className="coach-dual-tab coach-dual-tab-defence"
-                data-active={courtMode === 'DEFENCE_6V6'}
-                onClick={() => setCourtMode('DEFENCE_6V6')}
-              >
-                <span className="coach-dual-icon">🛡️</span>
-                <div className="coach-dual-content">
-                  <strong>FÖRSVAR (6v6)</strong>
-                  <small>{defKey} uppställning & byten</small>
-                </div>
-                {diff.activePairs.length > 0 ? (
-                  <span className="coach-dual-badge coach-dual-badge-spec">
-                    {diff.activePairs.length} specialist{diff.activePairs.length > 1 ? 'er' : ''}
-                  </span>
-                ) : (
-                  <span className="coach-dual-badge coach-dual-badge-twoway">Alla 6 båda vägar</span>
-                )}
-              </button>
-            </div>
-
-            {/* Special Situations */}
-            <div className="coach-situation-row">
-              <span className="coach-situation-label">Specialsituationer:</span>
-              <div className="coach-situation-tabs" role="tablist" aria-label="Specialsituationer">
-                <button
-                  type="button"
-                  role="tab"
-                  aria-selected={courtMode === 'ATTACK_6V5'}
-                  className="coach-situation-tab"
-                  data-active={courtMode === 'ATTACK_6V5'}
-                  onClick={() => setCourtMode('ATTACK_6V5')}
-                >
-                  <strong>6 mot 5</strong>
-                  <small>Numerärt överläge</small>
-                </button>
-                <button
-                  type="button"
-                  role="tab"
-                  aria-selected={courtMode === 'DEFENCE_5V6'}
-                  className="coach-situation-tab"
-                  data-active={courtMode === 'DEFENCE_5V6'}
-                  onClick={() => setCourtMode('DEFENCE_5V6')}
-                >
-                  <strong>5 mot 6</strong>
-                  <small>Numerärt underläge</small>
-                </button>
-                <button
-                  type="button"
-                  role="tab"
-                  aria-selected={courtMode === 'ATTACK_7V6'}
-                  className="coach-situation-tab"
-                  data-active={courtMode === 'ATTACK_7V6'}
-                  onClick={() => setCourtMode('ATTACK_7V6')}
-                >
-                  <strong>7 mot 6</strong>
-                  <small>Spel med tomt mål</small>
-                </button>
-              </div>
-            </div>
+          <div className="coach-court-mode-bar tb-board-bar" data-phase={courtMode.startsWith('DEFENCE') ? 'DEFENCE' : courtMode === 'EXCHANGES' ? 'EXCHANGES' : 'ATTACK'}>
+            <ReadinessHeader chips={readinessChips} onMode={setCourtMode} />
+            <PhaseMatrix cells={matrixCells} active={courtMode} onMode={setCourtMode} badges={{
+              ATTACK_6V6: diff.attackOnlyPlayers.length > 0 ? `${diff.attackOnlyPlayers.length} vilar i försvar` : '6 båda vägar',
+              DEFENCE_6V6: diff.activePairs.length > 0 ? `${defKey} · ${diff.activePairs.length} specialist${diff.activePairs.length > 1 ? 'er' : ''}` : `${defKey} · alla 6 båda vägar`,
+            }} />
           </div>
 
           {/* Derived Exchange Banner (Utväxlingsbalk) */}
