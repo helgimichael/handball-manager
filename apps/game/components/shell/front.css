@@ -1,0 +1,86 @@
+/* ==========================================================================
+   Arena Nights C5.2 -- DSH-01 "Matchweek Front Page": broadcast-strap masthead with neon ring ears,
+   lead story as a full-bleed hero (headline on the image), numbered decisions with neon numerals,
+   ladder ±2 and briefs. Mobile order: lead -> decisions -> match -> table (DSH-01 preserved).
+   ========================================================================== */
+.hm-front { display: grid; gap: 18px; }
+.hm-front-masthead {
+  display: grid; grid-template-columns: minmax(180px, 1fr) minmax(0, 2.2fr) minmax(180px, 1fr); gap: 0; align-items: stretch;
+  margin-top: 4px;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--club-neon) 16%, var(--arena-solid-1)), var(--arena-solid-1) 30%, var(--arena-solid-1) 70%, color-mix(in srgb, var(--club-neon) 10%, var(--arena-solid-1)));
+  border: 1px solid var(--arena-line); border-top: 2px solid var(--club-neon); border-radius: 6px;
+}
+.hm-front-nameplate { display: flex; align-items: center; gap: 14px; padding: 14px 18px; border-inline: 1px solid var(--arena-line); min-width: 0; }
+.hm-front-nameplate > div { min-width: 0; flex: 1; }
+.hm-front-nameplate h1 { margin: 2px 0 2px; font: 800 clamp(26px, 3.2vw, 40px)/1 var(--arena-font-display); letter-spacing: .01em; text-transform: uppercase; color: var(--arena-ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hm-front-nameplate p { margin: 0; font-size: 12px; color: var(--arena-muted); }
+.hm-front-rooms { display: grid; gap: 4px; font-size: 12px; }
+.hm-front-rooms a { color: var(--arena-ink-2); text-decoration: none; white-space: nowrap; }
+.hm-front-rooms a:hover { color: var(--arena-ink); }
+.hm-front-ear { display: flex; align-items: center; gap: 10px; padding: 12px 14px; text-decoration: none; color: var(--arena-ink-2); min-width: 0; }
+.hm-front-ear:hover { background: rgb(255 255 255 / .03); }
+.hm-front-ear:focus-visible { outline: 2px solid var(--club-neon); outline-offset: -2px; }
+.hm-front-ear svg { width: 46px; height: 46px; flex: none; transform: rotate(-90deg); }
+.hm-front-ring-bg { fill: none; stroke: var(--arena-line-strong); stroke-width: 4; }
+.hm-front-ring { fill: none; stroke: var(--club-neon); stroke-width: 4; stroke-linecap: round; filter: drop-shadow(0 0 4px color-mix(in srgb, var(--club-neon) 70%, transparent)); }
+.hm-front-ear[data-tone="warn"] .hm-front-ring { stroke: var(--arena-warn); filter: none; }
+.hm-front-ear[data-tone="neg"] .hm-front-ring { stroke: var(--arena-neg); filter: none; }
+.hm-front-ear-copy { display: grid; gap: 2px; min-width: 0; }
+.hm-front-ear-label { font: 700 10px/1 var(--arena-font-ui); letter-spacing: .14em; text-transform: uppercase; color: var(--arena-muted); }
+.hm-front-ear-label small { letter-spacing: .06em; text-transform: none; font-weight: 500; }
+.hm-front-ear strong { font: 800 26px/1 var(--arena-font-display); color: var(--arena-ink); display: flex; gap: 6px; align-items: baseline; }
+.hm-front-ear em { font: 700 12px/1 var(--arena-font-ui); font-style: normal; }
+.hm-front-ear em[data-dir="up"] { color: var(--arena-pos); }
+.hm-front-ear em[data-dir="down"] { color: var(--arena-neg); }
+.hm-front-ear-copy > small { font-size: 11px; color: var(--arena-muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+.hm-front-top { display: grid; grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); gap: 18px; }
+.hm-front-lead { position: relative; min-height: 260px; border-radius: 6px; overflow: hidden; display: flex; align-items: flex-end; border: 1px solid var(--arena-line); }
+.hm-front-lead::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 20%, rgb(4 7 12 / .88) 78%); pointer-events: none; }
+.hm-front-lead-copy { position: relative; z-index: 1; padding: 22px 24px; max-width: 70ch; }
+.hm-front-kicker { display: inline-block; font: 700 11px/1 var(--arena-font-ui); letter-spacing: .16em; text-transform: uppercase; color: var(--club-neon); margin-bottom: 8px; }
+.hm-front-lead h2 { margin: 0 0 8px; font: 800 clamp(30px, 4vw, 52px)/.98 var(--arena-font-display); text-transform: uppercase; color: var(--arena-ink); letter-spacing: .005em; }
+.hm-front-lead p { margin: 0 0 14px; color: var(--arena-ink-2); font-size: 14px; line-height: 1.5; }
+.hm-front-lead[data-kind="LIVE"], .hm-front-lead[data-kind="MATCHDAY"] { border-color: var(--club-neon); box-shadow: var(--arena-glow); }
+
+.hm-front-decisions { background: var(--arena-solid-1); border: 1px solid var(--arena-line); border-radius: 6px; padding: 14px 16px; min-width: 0; }
+.hm-front-decisions h2 { margin: 0 0 10px; font: 700 12px/1 var(--arena-font-ui); letter-spacing: .16em; text-transform: uppercase; color: var(--arena-muted); }
+.hm-front-decisions ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.hm-front-decisions li { display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 4px 10px; padding-bottom: 10px; border-bottom: 1px solid var(--arena-line); }
+.hm-front-decisions li:last-child { border-bottom: 0; padding-bottom: 0; }
+.hm-front-decisions li > .hm-btn { grid-column: 2; justify-self: start; }
+.hm-front-num { font: 800 28px/1 var(--arena-font-display); color: var(--club-neon); text-shadow: 0 0 12px color-mix(in srgb, var(--club-neon) 50%, transparent); }
+.hm-front-decisions li[data-urgent="true"] .hm-front-num { color: var(--arena-warn); text-shadow: none; }
+.hm-front-decisions strong { display: block; color: var(--arena-ink); font-size: 14px; }
+.hm-front-decisions p { margin: 2px 0 0; font-size: 12px; color: var(--arena-muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.hm-front-clear { margin: 0; color: var(--arena-muted); font-size: 13px; }
+
+.hm-front-ladder ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.hm-front-ladder li { display: grid; grid-template-columns: 32px minmax(0, 1fr) 48px 48px 56px; gap: 10px; align-items: center; padding: 8px 12px; background: var(--arena-solid-1); border-radius: 3px; font-variant-numeric: tabular-nums; font-size: 13px; color: var(--arena-ink-2); }
+.hm-front-ladder li[data-own="true"] { background: color-mix(in srgb, var(--club-neon) 14%, var(--arena-solid-1)); box-shadow: inset 3px 0 0 var(--club-neon); color: var(--arena-ink); }
+.hm-front-pos { font: 800 18px/1 var(--arena-font-display); color: var(--arena-ink); }
+.hm-front-ladder strong { text-align: right; color: var(--arena-ink); }
+
+.hm-front-briefs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.hm-front-briefs ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.hm-front-briefs a { display: grid; gap: 2px; padding: 9px 12px; background: var(--arena-solid-1); border-radius: 3px; text-decoration: none; }
+.hm-front-briefs a:hover { background: var(--arena-solid-2); }
+.hm-front-briefs strong { color: var(--arena-ink); font-size: 13px; }
+.hm-front-briefs small { color: var(--arena-muted); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+@media (max-width: 1100px) {
+  .hm-front-masthead { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hm-front-nameplate { grid-column: 1 / -1; order: -1; border-inline: 0; border-bottom: 1px solid var(--arena-line); }
+  .hm-front-top { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 760px) {
+  .hm-front-rooms { display: none; }
+  .hm-front-ear svg { width: 38px; height: 38px; }
+  .hm-front-ear strong { font-size: 22px; }
+  .hm-front-ear-copy > small { display: none; }
+  .hm-front-lead { min-height: 220px; }
+  .hm-front-lead-copy { padding: 16px; }
+  .hm-front-briefs { grid-template-columns: minmax(0, 1fr); }
+  .hm-front-ladder li { grid-template-columns: 26px minmax(0, 1fr) 40px 48px; }
+  .hm-front-ladder li > span:nth-of-type(2) { display: none; }
+}

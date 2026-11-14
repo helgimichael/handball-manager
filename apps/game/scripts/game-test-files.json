@@ -312,5 +312,6 @@
   "lib/competition/transition/parentPriority.test.ts",
   "lib/career/parentPrioritySeason.test.ts",
   "lib/ui/arenaTheme.test.ts",
-  "lib/manager/bTeamHumanManager.test.ts"
+  "lib/manager/bTeamHumanManager.test.ts",
+  "lib/career/arenaShell.test.ts"
 ]

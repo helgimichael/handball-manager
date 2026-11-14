@@ -1,4 +1,5 @@
 import { test, expect as baseExpect, type Page } from '@playwright/test';
+import { navTo } from './hubNav';
 const expect = baseExpect.configure({ timeout: 30000 });
 const base = process.env.HM_QA_URL ?? 'http://localhost:3001';
 async function newCareer(page: Page) {
@@ -19,7 +20,7 @@ test('connected management journeys, contracts, shortlist, scouting, world links
   page.on('pageerror',error=>errors.push(error.message));
   await newCareer(page);
   await page.screenshot({path:`${process.env.HM_QA_SCREENSHOT_DIR ?? '../../docs/management-experience'}/home.png`,fullPage:true});
-  await page.getByRole('link',{name:'Inkorg',exact:true}).click();
+  await navTo(page,'Inkorg');
   await page.getByRole('button',{name:/Kontraktsplanering:/}).first().click();
   await page.getByRole('button',{name:'Öppna spelare',exact:true}).click();
   await page.waitForURL('**/career/squad/*');
@@ -27,7 +28,7 @@ test('connected management journeys, contracts, shortlist, scouting, world links
   const ownName = await page.locator('.game-player-hero').textContent();
   await page.getByRole('button',{name:'Prestation & historik',exact:true}).click();
   await expect(page.getByRole('heading',{name:'Senaste matcherna',exact:true})).toBeVisible();
-  await page.getByRole('link',{name:'Trupp',exact:true}).click();
+  await navTo(page,'Trupp');
   await page.waitForURL('**/career/squad');
   await page.getByRole('combobox',{name:'Position',exact:true}).selectOption('MV');
   await expect(page.locator('main table tbody tr')).not.toHaveCount(0);
@@ -132,21 +133,23 @@ test('connected management journeys, contracts, shortlist, scouting, world links
   await expect(page.getByText('Senaste bud',{exact:true})).toBeVisible({timeout:60000});
   await page.goto(`${base}${targetHref}`);
   await expect(page.getByRole('link',{name:'Kontraktsöversikt',exact:true})).toBeVisible();
-  await page.getByRole('link',{name:'Trupp',exact:true}).click();
+  await navTo(page,'Trupp');
   await expect(page.getByRole('link',{name:targetName,exact:true})).toBeVisible();
-  await page.getByRole('link',{name:'Tävlingar',exact:true}).click();
+  await navTo(page,'Tävlingar');
   await page.locator('main table tbody a[href^="/career/clubs/"]').first().click();
   await page.locator('main a[href^="/career/squad/"]').first().click();
   await expect(page.getByRole('link',{name:'Jämför spelare',exact:true})).toBeVisible();
-  await page.getByRole('link',{name:'Statistik',exact:true}).click();
+  await navTo(page,'Statistik');
   await expect(page.getByRole('heading',{name:'Statistik',exact:true})).toBeVisible();
-  await page.getByRole('link',{name:'Kalender',exact:true}).click();
+  await navTo(page,'Kalender');
   await expect(page.locator('.hm-calendar-day')).toHaveCount(28);
-  await page.getByRole('link',{name:'Träning',exact:true}).click();
+  await navTo(page,'Träning');
   await expect(page.getByRole('heading',{name:'Träning & återhämtning',exact:true})).toBeVisible();
-  await page.getByRole('link',{name:'Hem',exact:true}).click();
-  await page.getByLabel('Sök spelare, klubbar och tävlingar').fill('Tumba');
-  await expect(page.locator('.hm-search-results a')).not.toHaveCount(0);
+  await navTo(page,'Hem');
+  await page.getByRole('button',{name:'Sök spelare, klubbar, tävlingar och sidor (Ctrl+K)',exact:true}).click();
+  await page.getByLabel('Sök spelare, klubbar, tävlingar, sidor och åtgärder').fill('Tumba');
+  await expect(page.locator('.hm-palette-item')).not.toHaveCount(0);
+  await page.keyboard.press('Escape');
   await page.getByLabel('Sök spelare, klubbar och tävlingar').press('Escape');
   await page.getByRole('button',{name:'Spara',exact:true}).click();
   await expect(page.getByRole('status').filter({hasText:'Sparat'})).toBeVisible();

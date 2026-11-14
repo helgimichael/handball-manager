@@ -1,0 +1,221 @@
+/* ==========================================================================
+   Arena Nights C5.1 -- shell structure: ENT-07 C hub rail + Week Spine, ENT-07a phone bottom
+   tabs with docked Continue, ENT-08 C matchday clock, ENT-08a command palette, ENT-10 up-next.
+   Colours come only from Arena tokens (app/arena.css); club neon only for selection/focus/state.
+   ========================================================================== */
+
+/* ---------------------------------------------------------------- grid: rail | header / spine / main */
+.hm-shell {
+  grid-template-rows: var(--hm-header-height) auto minmax(0, 1fr);
+  grid-template-areas: "sidebar header" "sidebar spine" "sidebar main";
+}
+.hm-spine-row { grid-area: spine; min-width: 0; }
+.hm-main { grid-area: main; }
+
+/* ---------------------------------------------------------------- hub rail (desktop) */
+.hm-rail { display: grid; gap: 2px; padding: 8px; }
+.hm-rail-hub { display: block; }
+.hm-rail-link { display: flex; align-items: center; gap: 10px; min-height: 40px; position: relative; }
+.hm-rail-link[data-active="true"] { box-shadow: inset 3px 0 0 var(--club-neon); }
+.hm-rail-label { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hm-rail-key {
+  font: 600 10px/1 var(--arena-font-ui);
+  color: var(--arena-faint);
+  border: 1px solid var(--arena-line);
+  border-radius: 3px;
+  padding: 2px 5px;
+}
+.hm-rail-sub { display: none; list-style: none; margin: 0; padding: 0 0 6px 38px; }
+.hm-rail-sub a { display: flex; justify-content: space-between; gap: 8px; padding: 9px 10px; font-size: 13px; color: var(--arena-ink-2); text-decoration: none; border-radius: 3px; }
+.hm-rail-sub a[data-active="true"] { color: var(--arena-ink); background: color-mix(in srgb, var(--club-neon) 14%, transparent); }
+.hm-rail-foot { display: grid; gap: 2px; padding: 8px; margin-top: auto; border-top: 1px solid var(--arena-line); }
+.hm-rail-foot .hm-nav-badge { margin-left: auto; }
+.hm-rail-pin {
+  justify-self: end;
+  min-width: 32px; min-height: 32px;
+  background: transparent; color: var(--arena-muted);
+  border: 1px solid var(--arena-line); border-radius: 3px; cursor: pointer;
+}
+.hm-rail-pin:hover { color: var(--arena-ink); border-color: var(--arena-line-strong); }
+.hm-sidebar .hm-sidebar-footer { margin-top: 0; }
+
+@media (min-width: 761px) {
+  .hm-shell { --hm-nav-width: 220px; }
+  .hm-shell[data-rail="collapsed"] { --hm-nav-width: 64px; }
+  .hm-shell[data-rail="collapsed"] .hm-sidebar { width: 64px; overflow-x: hidden; transition: width 160ms cubic-bezier(.2, .8, .2, 1), box-shadow 160ms; z-index: 40; }
+  /* Hover/focus expands the collapsed rail as an overlay (labels on demand); the grid track stays 64px. */
+  .hm-shell[data-rail="collapsed"] .hm-sidebar:is(:hover, :focus-within) { width: 220px; box-shadow: 12px 0 32px rgb(0 0 0 / .45); }
+  .hm-shell[data-rail="collapsed"] .hm-sidebar:not(:hover):not(:focus-within) :is(.hm-rail-label, .hm-rail-key, .hm-wordmark > span:last-child, .hm-club-badge > div, .hm-sidebar-footer) { display: none; }
+  .hm-shell[data-rail="collapsed"] .hm-sidebar:not(:hover):not(:focus-within) .hm-rail-link { justify-content: center; padding-left: 0; padding-right: 0; }
+  .hm-shell[data-rail="collapsed"] .hm-sidebar:not(:hover):not(:focus-within) .hm-rail-foot .hm-nav-badge { position: absolute; top: 4px; right: 6px; }
+  .hm-shell[data-rail="collapsed"] .hm-sidebar:not(:hover):not(:focus-within) .hm-club-badge { padding: 8px 12px; display: flex; justify-content: center; }
+  .hm-shell[data-rail="collapsed"] .hm-sidebar:not(:hover):not(:focus-within) .hm-club-badge .game-club-crest { width: 40px; height: 40px; }
+  .hm-shell[data-rail="collapsed"] .hm-sidebar:not(:hover):not(:focus-within) .hm-wordmark { padding: 16px 0 8px; justify-content: center; }
+  .hm-shell[data-rail="collapsed"] .hm-sidebar:not(:hover):not(:focus-within) .hm-rail-pin { justify-self: center; }
+  .hm-mobile-dock { display: none; }
+}
+
+/* ---------------------------------------------------------------- hub header: breadcrumb + tab row */
+.hm-breadcrumb { display: inline-flex; gap: 6px; align-items: center; margin-left: 6px; color: var(--arena-muted); }
+.hm-breadcrumb span:last-child { color: var(--arena-ink-2); }
+.hm-hub-tabs {
+  display: flex; gap: 2px; margin: -2px 0 14px;
+  border-bottom: 1px solid var(--arena-line);
+  overflow-x: auto; scrollbar-width: none;
+}
+.hm-hub-tabs::-webkit-scrollbar { display: none; }
+.hm-hub-tabs a {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 10px 14px; min-height: 40px;
+  font: 600 13px/1 var(--arena-font-ui); letter-spacing: .02em;
+  color: var(--arena-muted); text-decoration: none; white-space: nowrap;
+  border-bottom: 2px solid transparent; margin-bottom: -1px;
+}
+.hm-hub-tabs a:hover { color: var(--arena-ink); }
+.hm-hub-tabs a[data-active="true"] { color: var(--arena-ink); border-bottom-color: var(--club-neon); }
+.hm-hub-tabs a:focus-visible, .hm-rail-sub a:focus-visible, .hm-mobile-tabs :focus-visible { outline: 2px solid var(--club-neon); outline-offset: -2px; }
+
+/* ---------------------------------------------------------------- palette trigger in the header */
+.hm-palette-trigger {
+  display: inline-flex; align-items: center; gap: 10px;
+  min-width: 0; width: clamp(160px, 22vw, 320px); min-height: 36px; padding: 0 10px;
+  color: var(--arena-muted); background: var(--arena-solid-2);
+  border: 1px solid var(--arena-line-strong); border-radius: 4px; cursor: pointer;
+  font: 500 13px/1 var(--arena-font-ui);
+}
+.hm-palette-trigger:hover { color: var(--arena-ink); border-color: color-mix(in srgb, var(--club-neon) 55%, var(--arena-line-strong)); }
+.hm-palette-trigger:focus-visible { outline: 2px solid var(--club-neon); outline-offset: 2px; }
+.hm-palette-trigger-text { flex: 1; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hm-palette-trigger kbd { font: 600 10px/1 var(--arena-font-ui); border: 1px solid var(--arena-line); border-radius: 3px; padding: 3px 5px; color: var(--arena-faint); }
+
+/* ---------------------------------------------------------------- command palette */
+.hm-palette-scrim { position: fixed; inset: 0; z-index: 90; background: rgb(3 6 12 / .62); display: grid; justify-items: center; align-items: start; padding-top: 12vh; }
+.hm-palette {
+  width: min(640px, calc(100vw - 32px)); max-height: 70vh; display: grid; grid-template-rows: auto minmax(0, 1fr) auto;
+  background: var(--arena-solid-1); color: var(--arena-ink);
+  border: 1px solid var(--arena-line-strong); border-radius: 8px;
+  box-shadow: 0 24px 64px rgb(0 0 0 / .55), 0 0 0 1px color-mix(in srgb, var(--club-neon) 25%, transparent);
+  animation: hm-palette-in 140ms cubic-bezier(.2, .8, .2, 1);
+}
+@keyframes hm-palette-in { from { opacity: 0; transform: translateY(-6px) scale(.985); } }
+.hm-palette-input { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-bottom: 1px solid var(--arena-line); }
+.hm-palette-input input { flex: 1; min-width: 0; font: 500 16px/1.3 var(--arena-font-ui); background: transparent; border: 0; color: var(--arena-ink); padding: 8px 2px; outline: none; }
+.hm-palette-list { list-style: none; margin: 0; padding: 6px; overflow-y: auto; }
+.hm-palette-group { padding: 10px 10px 4px; font: 700 10px/1 var(--arena-font-ui); letter-spacing: .16em; text-transform: uppercase; color: var(--arena-faint); }
+.hm-palette-item { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 10px; border-radius: 4px; cursor: pointer; }
+.hm-palette-item small { color: var(--arena-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 45%; }
+.hm-palette-item[data-active="true"] { background: color-mix(in srgb, var(--club-neon) 16%, var(--arena-solid-2)); box-shadow: inset 3px 0 0 var(--club-neon); }
+.hm-palette-empty { padding: 18px 10px; color: var(--arena-muted); }
+.hm-palette-hints { display: flex; gap: 16px; padding: 8px 12px; border-top: 1px solid var(--arena-line); font-size: 11px; color: var(--arena-faint); }
+
+/* ---------------------------------------------------------------- Week Spine */
+.hm-spine {
+  display: grid; grid-template-columns: auto minmax(0, 1fr) minmax(0, auto); align-items: stretch; gap: 0;
+  min-height: 56px;
+  background: var(--arena-bg-2); border-bottom: 1px solid var(--arena-line);
+}
+.hm-spine-clock { display: grid; align-content: center; gap: 2px; padding: 6px 16px; border-right: 1px solid var(--arena-line); min-width: 0; }
+.hm-spine-clock-day { font: 700 11px/1 var(--arena-font-ui); letter-spacing: .12em; text-transform: uppercase; color: var(--arena-muted); white-space: nowrap; }
+.hm-spine-countdown { display: flex; gap: 6px; align-items: baseline; color: var(--arena-ink-2); text-decoration: none; font-size: 12px; white-space: nowrap; }
+.hm-spine-countdown b { font: 700 18px/1 var(--arena-font-display); color: var(--arena-ink); letter-spacing: .02em; }
+.hm-spine-countdown[data-matchday="true"] b { color: var(--club-neon); text-shadow: 0 0 14px color-mix(in srgb, var(--club-neon) 55%, transparent); }
+.hm-spine-days { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); min-width: 0; }
+.hm-spine-day { min-width: 0; border-right: 1px solid var(--arena-line); }
+.hm-spine-day > a, .hm-spine-day > button {
+  position: relative; width: 100%; height: 100%; min-height: 56px;
+  display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto auto; column-gap: 6px; align-content: center;
+  padding: 6px 10px; text-align: left; text-decoration: none; color: var(--arena-ink-2);
+  background: transparent; border: 0; font: inherit; cursor: pointer;
+}
+.hm-spine-day > :is(a, button):hover { background: rgb(255 255 255 / .035); }
+.hm-spine-day > :is(a, button):focus-visible { outline: 2px solid var(--club-neon); outline-offset: -2px; }
+.hm-spine-wd { grid-row: 1; font: 700 10px/1 var(--arena-font-ui); letter-spacing: .14em; text-transform: uppercase; color: var(--arena-faint); align-self: end; }
+.hm-spine-day strong { grid-row: 2; font: 700 20px/1 var(--arena-font-display); color: var(--arena-ink); }
+.hm-spine-pins { grid-column: 2; grid-row: 1; display: flex; gap: 3px; align-items: center; justify-content: flex-end; }
+.hm-spine-pins i { width: 7px; height: 7px; border-radius: 50%; background: var(--arena-muted); }
+.hm-spine-pins i[data-kind="MATCH"] { background: var(--club-neon); box-shadow: 0 0 8px color-mix(in srgb, var(--club-neon) 70%, transparent); }
+.hm-spine-pins i[data-kind="RESULT"] { background: var(--arena-ink-2); }
+.hm-spine-pins i[data-kind="ACTION"] { background: var(--arena-warn); }
+.hm-spine-pins i[data-kind="WINDOW"], .hm-spine-pins i[data-kind="TRANSFER"] { background: var(--arena-info); }
+.hm-spine-pins i[data-kind="CONTRACT"] { background: var(--arena-neg); }
+.hm-spine-pins i[data-kind="BOARD"], .hm-spine-pins i[data-kind="KICKOFF"] { background: var(--arena-gold); }
+.hm-spine-pins i[data-kind="TRAINING"] { background: transparent; border: 1px solid var(--arena-faint); }
+.hm-spine-pin-label { grid-column: 2; grid-row: 2; font-size: 11px; color: var(--arena-ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; align-self: end; text-align: right; }
+.hm-spine-stop { position: absolute; right: 4px; bottom: 2px; font-size: 9px; color: var(--club-neon); }
+.hm-spine-day[data-past="true"] { opacity: .55; }
+.hm-spine-day[data-daytype="MATCH"] { background: color-mix(in srgb, var(--club-neon) 7%, transparent); }
+.hm-spine-day[data-today="true"] { background: color-mix(in srgb, var(--club-neon) 13%, var(--arena-solid-1)); box-shadow: inset 0 -2px 0 var(--club-neon); opacity: 1; }
+.hm-spine-day[data-selected="true"] { box-shadow: inset 0 0 0 1px var(--club-neon), inset 0 -2px 0 var(--club-neon); }
+.hm-spine-next { display: grid; align-content: center; gap: 3px; padding: 6px 14px; border-left: 1px solid var(--arena-line); min-width: 0; max-width: 360px; }
+.hm-spine-next-label { font: 700 10px/1 var(--arena-font-ui); letter-spacing: .14em; text-transform: uppercase; color: var(--arena-faint); }
+.hm-spine-next ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.hm-spine-next a { display: block; font-size: 12px; color: var(--arena-ink-2); text-decoration: none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hm-spine-next a:hover { color: var(--arena-ink); }
+.hm-spine-next time { color: var(--arena-muted); font-weight: 700; margin-right: 4px; }
+.hm-spine-next li:first-child a { color: var(--arena-ink); }
+.hm-spine-detail { grid-column: 1 / -1; padding: 12px 16px 14px; border-top: 1px solid var(--arena-line); background: var(--arena-solid-1); }
+.hm-spine-detail h3 { margin: 0 0 6px; font: 700 14px/1.2 var(--arena-font-ui); color: var(--arena-ink); }
+.hm-spine-detail p { margin: 0 0 6px; font-size: 13px; color: var(--arena-ink-2); }
+.hm-spine-detail ul { list-style: none; margin: 0 0 8px; padding: 0; display: grid; gap: 4px; }
+.hm-spine-detail li a { color: var(--arena-ink); text-decoration: none; font-size: 13px; }
+.hm-spine-detail li a span { display: inline-block; min-width: 92px; font: 700 10px/1 var(--arena-font-ui); letter-spacing: .12em; text-transform: uppercase; color: var(--arena-muted); }
+.hm-spine-detail-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+@media (min-width: 761px) and (max-width: 1199px) {
+  /* Spine compresses: up-next moves out (it stays in the Idag front page and on the phone dock). */
+  .hm-spine { grid-template-columns: auto minmax(0, 1fr); }
+  .hm-spine-next { display: none; }
+  .hm-spine-pin-label { display: none; }
+}
+
+/* ---------------------------------------------------------------- phone: bottom tabs + docked Continue */
+@media (max-width: 760px) {
+  .hm-shell { grid-template-rows: auto auto minmax(0, 1fr); grid-template-areas: "header" "spine" "main"; }
+  .hm-header .hm-nav-toggle, .hm-continue-header, .hm-header .game-save-control { display: none !important; }
+  .hm-header { padding-top: 6px; padding-bottom: 6px; padding-right: 8px; }
+  /* The host's STARKVIS reveal control sits at the left edge where the old menu button was: keep its room. */
+  .hm-header-title { margin-left: 36px; }
+  /* The alpha feedback button floats above the dock, never over Continue or the tabs. */
+  body:has(.hm-mobile-dock) .alpha-feedback-trigger { bottom: calc(140px + env(safe-area-inset-bottom, 0px)); }
+  /* Idag keeps the strip and up-next; the day detail lives in the calendar on a phone. */
+  .hm-spine-detail { display: none; }
+  /* ENT-08a on a phone: the palette is a full-screen search sheet. */
+  .hm-palette-scrim { padding-top: 0; align-items: stretch; }
+  .hm-palette { width: 100vw; max-height: none; height: 100dvh; border-radius: 0; border: 0; }
+  .hm-palette-hints { display: none; }
+  .hm-palette-trigger { width: 44px; min-height: 44px; justify-content: center; padding: 0; }
+  .hm-palette-trigger-text, .hm-palette-trigger kbd { display: none; }
+  .hm-main { padding-bottom: calc(132px + env(safe-area-inset-bottom, 0px)); }
+  .hm-sidebar { bottom: 0; }
+  .hm-sidebar .hm-rail-sub { display: block; }
+  .hm-rail-key, .hm-rail-pin { display: none; }
+  .hm-mobile-dock {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
+    display: grid; background: rgb(5 8 14 / .96); border-top: 1px solid var(--arena-line);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .hm-continue-dock { width: auto; margin: 8px 10px 6px; min-height: 48px; display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 16px; }
+  .hm-continue-dock small { font-size: 12px; opacity: .85; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .hm-mobile-tabs { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .hm-mobile-tabs > a, .hm-mobile-tabs > button {
+    position: relative; display: grid; justify-items: center; gap: 3px; padding: 7px 2px 8px; min-height: 56px;
+    color: var(--arena-muted); background: transparent; border: 0; font: 600 11px/1 var(--arena-font-ui); text-decoration: none; cursor: pointer;
+  }
+  .hm-mobile-tabs svg { width: 20px; height: 20px; }
+  .hm-mobile-more { font-size: 20px; line-height: 20px; }
+  .hm-mobile-tabs [data-active="true"] { color: var(--arena-ink); box-shadow: inset 0 2px 0 var(--club-neon); }
+  .hm-mobile-tabs .hm-nav-badge { position: absolute; top: 5px; right: calc(50% - 20px); }
+  /* Spine becomes a swipeable day strip. */
+  .hm-spine { grid-template-columns: minmax(0, 1fr); min-height: 0; }
+  .hm-spine-clock { grid-auto-flow: column; justify-content: space-between; align-items: center; border-right: 0; border-bottom: 1px solid var(--arena-line); padding: 6px 12px; }
+  .hm-spine-days { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .hm-spine-days::-webkit-scrollbar { display: none; }
+  .hm-spine-day { flex: 0 0 calc(100% / 5); scroll-snap-align: start; }
+  .hm-spine-day > a, .hm-spine-day > button { min-height: 48px; padding: 5px 8px; }
+  .hm-spine-pin-label { display: none; }
+  .hm-spine:not([data-expanded="true"]) .hm-spine-next { display: none; }
+  .hm-spine-next { border-left: 0; border-top: 1px solid var(--arena-line); max-width: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hm-palette { animation: none; }
+  .hm-shell[data-rail="collapsed"] .hm-sidebar { transition: none; }
+}

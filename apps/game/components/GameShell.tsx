@@ -7,7 +7,8 @@ import Link from 'next/link';
 import type { ReactNode } from "react";
 import ClubCrest from "./ClubCrest";
 import CareerSaveControl from './CareerSaveControl';
-import GlobalSearch from './manager/GlobalSearch';
+import CommandPalette, { useCommandPaletteHotkey } from './shell/CommandPalette';
+import WeekSpine from './shell/WeekSpine';
 import NavIcon, { type NavIconName } from "./NavIcon";
 import ContinueProcessingOverlay, { type ProcessingDay } from "./ContinueProcessingOverlay";
 import { useCareer } from "@/lib/career/CareerContext";
@@ -18,14 +19,13 @@ import type { CSSProperties } from "react";
 import { getNextEventDate } from "@/lib/career/calendar";
 import { addDays, formatGameDate } from "@/lib/career/dateUtils";
 import { CAREER_NAV_ITEMS, resolveActiveNavId } from "@/lib/career/navigation";
+import { CAREER_HUBS, MOBILE_TAB_HUBS, hubHref, hubTabs, resolveHubRoute } from "@/lib/career/hubs";
 import { COMPETITIONS, getClub } from "@/lib/game-data";
 import { computeLiveMatchView } from "@/lib/liveMatch/liveMatchView";
 import { formatMatchMinute } from "@/lib/liveMatch/commentary";
 import { progressionNotice, type ProgressionNotice } from './game/progressionPresentation';
 import { resolveContextualContinueAction } from '@/lib/career/contextualContinueAction';
 import { matchDayHref } from '@/lib/career/fixtureRoutes';
-
-const NAV_GROUP_LABELS: Record<string, string> = { home: 'Din säsong', squad: 'Laget', calendar: 'Match & kalender', players: 'Spelarvärlden', staff: 'Klubben', settings: 'Spelet' };
 
 type NavEntry = { id: string; href: string; label: string; icon: NavIconName; badge?: number };
 
@@ -131,6 +131,33 @@ export default function GameShell({ children }: { children: ReactNode }) {
   // HM-ALPHA3-M10: on a phone the sidebar is a menu the header opens; it closes on navigation and Escape.
   const [navOpen, setNavOpen] = useState(false);
   useEffect(() => { setNavOpen(false); }, [pathname]);
+  // ENT-08a: Ctrl/Cmd+K opens the command palette anywhere in the career.
+  const [paletteOpen, setPaletteOpen] = useState(false);
+  const openPalette = () => { setNavOpen(false); setPaletteOpen(true); };
+  useCommandPaletteHotkey(openPalette);
+  // ENT-07: keys 1-6 jump to the six hubs (never while typing, never during a live match).
+  const { hub: activeHub } = resolveHubRoute(pathname);
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.ctrlKey || e.metaKey || e.altKey || paletteOpen || isOnLiveMatchRoute) return;
+      const t = e.target as HTMLElement | null;
+      if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+      const n = Number(e.key);
+      if (!Number.isInteger(n) || n < 1 || n > CAREER_HUBS.length) return;
+      e.preventDefault();
+      router.push(hubHref(CAREER_HUBS[n - 1]!));
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [paletteOpen, isOnLiveMatchRoute, router]);
+  // Desktop rail: collapsed (64px) or pinned open (220px); a per-device convenience only.
+  // The shell only renders on the client (after the save loads), so the lazy initialisers can read the device.
+  const [railPinned, setRailPinned] = useState<boolean | null>(() => { try { const v = window.localStorage.getItem("hm-rail-pinned"); return v === null ? null : v === "1"; } catch { return null; } });
+  // Default by width: pinned open from 1360px, collapsed below (tables get the room); the toggle overrides it.
+  const [wide, setWide] = useState(() => typeof window === "undefined" || window.matchMedia("(min-width: 1360px)").matches);
+  useEffect(() => { const mq = window.matchMedia("(min-width: 1360px)"); const on = () => setWide(mq.matches); mq.addEventListener("change", on); return () => mq.removeEventListener("change", on); }, []);
+  const railOpen = railPinned ?? wide;
+  const toggleRail = () => { const next = !railOpen; setRailPinned(next); try { window.localStorage.setItem("hm-rail-pinned", next ? "1" : "0"); } catch { /* convenience only */ } };
   useEffect(() => {
     if (!navOpen) return;
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setNavOpen(false); };
@@ -170,11 +197,25 @@ export default function GameShell({ children }: { children: ReactNode }) {
     router.push(processing.notice.navigateHref);
   }, [processing, router, setNotice, setProcessing]);
 
+  const gameState = career.productionMatch ? 'live' : career.seasonComplete ? 'season-complete' : career.fixtures.some(f => f.date===career.gameDate && !career.results[f.id] && (f.homeClubId===career.playerClubId || f.awayClubId===career.playerClubId)) ? 'matchday' : 'season';
+  const inboxBadge = unread ? <span className="hm-nav-badge" aria-hidden="true">{unread}</span> : null;
+  const continueButton = (className: string) => <button
+    type="button"
+    className={`hm-btn hm-btn-primary game-continue ${className}`}
+    aria-label={contextualAction.ariaLabel}
+    onClick={handleContinue}
+    disabled={contextualAction.disabled || processing !== null}
+    title={contextualAction.tooltip}
+  >
+    {contextualAction.label}
+    <small>{contextualAction.sublabel}</small>
+  </button>;
+  const activeTab = nav.find(item => item.id === activeNavId);
   return (
-    <div className="hm-shell" data-club-identity={dataIdentity} style={identityStyle as CSSProperties} data-game-state={career.productionMatch ? 'live' : career.seasonComplete ? 'season-complete' : career.fixtures.some(f => f.date===career.gameDate && !career.results[f.id] && (f.homeClubId===career.playerClubId || f.awayClubId===career.playerClubId)) ? 'matchday' : 'season'}>
+    <div className="hm-shell" data-club-identity={dataIdentity} style={identityStyle as CSSProperties} data-game-state={gameState} data-rail={railOpen ? 'pinned' : 'collapsed'} data-spine={isOnLiveMatchRoute ? 'hidden' : 'shown'}>
       <a href="#manager-content" className="hm-skip-link">Till innehållet</a>
       {navOpen && <div className="hm-nav-scrim" aria-hidden="true" onClick={() => setNavOpen(false)} />}
-      <aside className="hm-sidebar" id="hm-sidebar" data-open={navOpen}>
+      <aside className="hm-sidebar" id="hm-sidebar" data-open={navOpen} aria-label="Huvudnavigering">
         <Link href="/career" className="hm-wordmark"><span className="hm-monogram">HM</span><span>HANDBALL<br /><strong>MANAGER</strong></span></Link>
         <div className="hm-club-badge">
           {clubless ? <span className="hm-clubless-mark" aria-hidden="true">HM</span> : <ClubCrest shortName={club.shortName} primaryColor={club.primaryColor} clubId={club.id} size={64} />}
@@ -184,37 +225,38 @@ export default function GameShell({ children }: { children: ReactNode }) {
             {!clubless && <ClubIdentityTags clubId={club.id} seasonId={career.seasonId} compact />}
           </div>
         </div>
-        <div className="hm-nav-group">
-          {nav.map((item) => {
-            const active = item.id === activeNavId || (item.id === "editor" && pathname.startsWith("/editor"));
+        <nav className="hm-nav-group hm-rail" aria-label="Hubbar">
+          {CAREER_HUBS.map((hub, index) => {
+            const active = activeHub?.id === hub.id;
             return (
-              <div key={item.href}>
-              {NAV_GROUP_LABELS[item.id] && <div className="hm-nav-group-label">{NAV_GROUP_LABELS[item.id]}</div>}
-              <Link
-                key={item.href}
-                className="hm-nav-item"
-                data-active={active}
-                href={item.href}
-                aria-label={item.label}
-                aria-current={active ? 'page' : undefined}
-              >
-                <span className="hm-nav-icon">
-                  <NavIcon name={item.icon} />
-                </span>
-                <span>{item.label}</span>
-                {item.badge ? <span className="hm-nav-badge" aria-hidden="true">{item.badge}</span> : null}
-              </Link>
+              <div key={hub.id} className="hm-rail-hub" data-active={active}>
+                <Link className="hm-nav-item hm-rail-link" data-active={active} href={hubHref(hub)} aria-label={hub.label} aria-current={active ? 'page' : undefined} title={`${hub.label} (${index + 1})`}>
+                  <span className="hm-nav-icon"><NavIcon name={hub.icon} /></span>
+                  <span className="hm-rail-label">{hub.label}</span>
+                  <kbd className="hm-rail-key" aria-hidden="true">{index + 1}</kbd>
+                </Link>
+                <ul className="hm-rail-sub" aria-label={`${hub.label}: sidor`}>
+                  {hubTabs(hub).map((tab) => <li key={tab.id}><Link href={tab.href} data-active={tab.id === activeNavId} aria-current={tab.id === activeNavId ? 'page' : undefined}>{tab.label}{tab.id === 'inbox' ? inboxBadge : null}</Link></li>)}
+                </ul>
               </div>
             );
           })}
+        </nav>
+        <div className="hm-rail-foot">
+          <Link className="hm-nav-item hm-rail-link" href="/career/inbox" data-active={activeNavId === 'inbox'} aria-label={`Inkorg, ${unread} olästa`} title="Inkorg">
+            <span className="hm-nav-icon"><NavIcon name="inbox" /></span><span className="hm-rail-label">Inkorg</span>{inboxBadge}
+          </Link>
+          {nav.filter(item => item.id === 'settings' || item.id === 'editor').map(item => (
+            <Link key={item.id} className="hm-nav-item hm-rail-link" href={item.href} data-active={item.id === activeNavId || (item.id === 'editor' && pathname.startsWith('/editor'))} aria-label={item.label} title={item.label}>
+              <span className="hm-nav-icon"><NavIcon name={item.icon} /></span><span className="hm-rail-label">{item.label}</span>
+            </Link>
+          ))}
+          <button type="button" className="hm-rail-pin" onClick={toggleRail} aria-expanded={railOpen} aria-label={railOpen ? 'Fäll ihop menyn' : 'Fäst menyn öppen'} title={railOpen ? 'Fäll ihop menyn' : 'Fäst menyn öppen'}><span aria-hidden="true">{railOpen ? '«' : '»'}</span></button>
         </div>
         <div className="hm-sidebar-footer"><span>{save.manager.name}</span><Link href="/load-game">Sparade karriärer →</Link>{navOpen && <div className="hm-sidebar-save"><CareerSaveControl /></div>}</div>
       </aside>
 
       <header className="hm-header">
-        <button type="button" className="hm-btn hm-btn-ghost hm-nav-toggle" aria-controls="hm-sidebar" aria-expanded={navOpen} aria-label={navOpen ? "Stäng menyn" : "Öppna menyn"} onClick={() => setNavOpen((open) => !open)}>
-          <span aria-hidden="true">{navOpen ? "✕" : "☰"}</span>
-        </button>
         <div className="hm-header-title">
           <div className="hm-header-title-text">{clubless ? "Utan klubb" : club.name} <span className="hm-text-muted"> / {career.seasonId}</span></div>
           <div className="hm-header-sub">
@@ -226,24 +268,45 @@ export default function GameShell({ children }: { children: ReactNode }) {
             )}
           </div>
         </div>
-        <GlobalSearch />
+        <button type="button" className="hm-palette-trigger" onClick={openPalette} aria-haspopup="dialog" aria-label="Sök spelare, klubbar, tävlingar och sidor (Ctrl+K)">
+          <span aria-hidden="true">⌕</span><span className="hm-palette-trigger-text">Sök eller gå till…</span><kbd aria-hidden="true">Ctrl K</kbd>
+        </button>
         <div className="hm-header-meta">
           <CareerSaveControl />
-          <button
-            type="button"
-            className="hm-btn hm-btn-primary game-continue"
-            aria-label={contextualAction.ariaLabel}
-            onClick={handleContinue}
-            disabled={contextualAction.disabled || processing !== null}
-            title={contextualAction.tooltip}
-          >
-            {contextualAction.label}
-            <small>{contextualAction.sublabel}</small>
-          </button>
+          {continueButton('hm-continue-header')}
         </div>
       </header>
 
-      <main className="hm-main" id="manager-content"><div className="hm-context-bar"><div className="hm-actions"><button type="button" className="hm-btn hm-btn-sm hm-btn-ghost" onClick={() => router.back()} aria-label="Tillbaka i navigationen">←</button><button type="button" className="hm-btn hm-btn-sm hm-btn-ghost" onClick={() => router.forward()} aria-label="Framåt i navigationen">→</button><Link href="/career">Kontoret</Link><span>/</span><span>{nav.find(item => item.id === activeNavId)?.label ?? 'Detalj'}</span></div><Link href="/career/inbox">{unread} olästa meddelanden</Link></div>{notice && (notice.kind !== 'matchday' || career.careerEvents.some(e => e.id === notice.event?.id && !e.resolved)) && <aside className="game-progression-notice" aria-label="Senaste tidsförflyttningen"><div role="status"><strong>{money.text(notice.title)}</strong><p>{money.text(notice.detail)}</p></div><Link className="hm-btn hm-btn-sm" href={notice.actionHref}>{notice.actionLabel}</Link><button className="hm-btn hm-btn-sm hm-btn-ghost" aria-label="Stäng händelsebesked" onClick={() => setNotice(null)}>×</button></aside>}{children}</main>
+      {!isOnLiveMatchRoute && <div className="hm-spine-row"><WeekSpine career={career} expanded={pathname === '/career'} /></div>}
+
+      <main className="hm-main" id="manager-content">
+        <div className="hm-context-bar hm-hub-header">
+          <div className="hm-actions"><button type="button" className="hm-btn hm-btn-sm hm-btn-ghost" onClick={() => router.back()} aria-label="Tillbaka i navigationen">←</button><button type="button" className="hm-btn hm-btn-sm hm-btn-ghost" onClick={() => router.forward()} aria-label="Framåt i navigationen">→</button>
+            <nav aria-label="Brödsmulor" className="hm-breadcrumb"><Link href="/career">Kontoret</Link><span aria-hidden="true">›</span><span>{activeHub?.label ?? 'Spelet'}</span><span aria-hidden="true">›</span><span>{activeTab?.label ?? 'Detalj'}</span></nav>
+          </div>
+          <Link href="/career/inbox">{unread} olästa meddelanden</Link>
+        </div>
+        {activeHub && hubTabs(activeHub).length > 1 && <nav className="hm-hub-tabs" aria-label={`${activeHub.label}: flikar`}>
+          {hubTabs(activeHub).map((tab) => <Link key={tab.id} href={tab.href} data-active={tab.id === activeNavId} aria-current={tab.id === activeNavId ? 'page' : undefined}>{tab.label}{tab.id === 'inbox' && unread ? <span className="hm-nav-badge" aria-hidden="true">{unread}</span> : null}</Link>)}
+        </nav>}
+        {notice && (notice.kind !== 'matchday' || career.careerEvents.some(e => e.id === notice.event?.id && !e.resolved)) && <aside className="game-progression-notice" aria-label="Senaste tidsförflyttningen"><div role="status"><strong>{money.text(notice.title)}</strong><p>{money.text(notice.detail)}</p></div><Link className="hm-btn hm-btn-sm" href={notice.actionHref}>{notice.actionLabel}</Link><button className="hm-btn hm-btn-sm hm-btn-ghost" aria-label="Stäng händelsebesked" onClick={() => setNotice(null)}>×</button></aside>}
+        {children}
+      </main>
+
+      <div className="hm-mobile-dock">
+        {continueButton('hm-continue-dock')}
+        <nav className="hm-mobile-tabs" aria-label="Hubbar (mobil)">
+          {MOBILE_TAB_HUBS.map((id) => CAREER_HUBS.find(h => h.id === id)!).map((hub) => (
+            <Link key={hub.id} href={hubHref(hub)} data-active={activeHub?.id === hub.id} aria-current={activeHub?.id === hub.id ? 'page' : undefined}>
+              <NavIcon name={hub.icon} /><span>{hub.shortLabel}</span>{hub.id === 'idag' ? inboxBadge : null}
+            </Link>
+          ))}
+          <button type="button" onClick={() => setNavOpen((o) => !o)} aria-controls="hm-sidebar" aria-expanded={navOpen} data-active={navOpen || activeHub?.id === 'klubben' || activeHub?.id === 'karriar'}>
+            <span aria-hidden="true" className="hm-mobile-more">⋯</span><span>Mer</span>
+          </button>
+        </nav>
+      </div>
+      {paletteOpen && <CommandPalette onClose={() => setPaletteOpen(false)} />}
       {processing ? <ContinueProcessingOverlay days={processing.days} notice={processing.notice} clubName={club.name} clubShortName={club.shortName} season={career.seasonId} onFinished={handleProcessingFinished} /> : null}
     </div>
   );

@@ -21,6 +21,8 @@
 @import "../components/game/coaching.css";
 @import "../components/matchCenter/match-center.css";
 @import "../components/game/playtest.css";
+@import "../components/shell/shell.css";
+@import "../components/shell/front.css";
 /* Club Identity C5: Arena Nights production theme -- must load last. */
 @import "./arena-overrides.css";
 @import "./arena.css";

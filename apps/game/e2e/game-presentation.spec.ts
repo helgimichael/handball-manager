@@ -1,6 +1,7 @@
 import { test, expect, type Page } from '@playwright/test';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
+import { navTo } from './hubNav';
 const base = process.env.HM_QA_URL ?? 'http://localhost:3004';
 const phase = process.env.HM_VISUAL_PHASE ?? 'after';
 const evidenceRoot = path.resolve(process.env.HM_GAME_QA_DIR ?? '../../docs/game-experience');
@@ -27,7 +28,7 @@ test('five presentation screens at desktop and ultrawide, with actual career dat
   const errors:string[]=[];
   page.on('pageerror',error => errors.push(error.message));
   await createCareer(page);
-  await page.getByRole('link',{name:'Trupp',exact:true}).click();
+  await navTo(page,'Trupp');
   await page.waitForURL('**/career/squad');
   const playerHref = await page.locator('main table a[href^="/career/squad/"]').first().getAttribute('href');
   const screens = [{name:'home',route:'/career'},{name:'squad',route:'/career/squad'},{name:'player',route:playerHref!},{name:'search',route:'/career/players'},{name:'competition',route:'/career/competitions'}];
@@ -56,7 +57,7 @@ test('player identity survives tabs, offer drafts survive selection and sporting
   const errors:string[]=[];
   page.on('pageerror',error=>errors.push(error.message));
   await createCareer(page);
-  await page.getByRole('link',{name:'Trupp',exact:true}).click();
+  await navTo(page,'Trupp');
   await page.locator('main table a[href^="/career/squad/"]').first().click();
   await expect(page.locator('.game-player-hero')).toBeVisible({timeout:30000});
   const playerId=await page.locator('.game-player-hero').getAttribute('data-player-id');
@@ -65,7 +66,7 @@ test('player identity survives tabs, offer drafts survive selection and sporting
     await expect(page.locator('.game-player-hero')).toHaveAttribute('data-player-id',playerId!);
     await expect(page.getByRole('button',{name:tab,exact:true})).toHaveAttribute('aria-pressed','true');
   }
-  await page.getByRole('link',{name:'Transfers',exact:true}).click();
+  await navTo(page,'Transfers');
   const row=page.locator('main table tbody tr').first();
   await row.getByRole('button',{name:'Välj',exact:true}).click();
   const fee=page.getByLabel('Övergångssumma (€)',{exact:true});

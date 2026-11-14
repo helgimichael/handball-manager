@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { navTo } from './hubNav';
 const base = process.env.HM_QA_URL ?? 'http://localhost:3006';
 
 async function tumbaCareer(page: import('@playwright/test').Page) {
@@ -80,7 +81,7 @@ test('Continue identifies the real stop, object navigation retains workspace con
   await unread.click();
   await expect(page.locator('.game-news-article h2')).toHaveText(unreadTitle!);
   await expect(page.locator('.game-news-article')).not.toContainText('Välj ett meddelande');
-  await page.getByRole('link',{name:'Trupp',exact:true}).click();
+  await navTo(page,'Trupp');
   await page.getByLabel('Sök spelare',{exact:true}).fill('Gabriel Helgason');
   await page.getByRole('checkbox',{name:'Jämför Gabriel Helgason',exact:true}).check();
   await page.locator('.hm-roster-table a[href^="/career/squad/"]').first().click();
@@ -88,7 +89,7 @@ test('Continue identifies the real stop, object navigation retains workspace con
   await page.getByRole('button',{name:'Tillbaka i navigationen',exact:true}).click();
   await expect(page.getByLabel('Sök spelare',{exact:true})).toHaveValue('Gabriel Helgason');
   await expect(page.getByRole('checkbox',{name:'Jämför Gabriel Helgason',exact:true})).toBeChecked();
-  await page.getByRole('link',{name:'Spelarsök',exact:true}).click();
+  await navTo(page,'Spelarsök');
   await page.getByLabel('Sök spelarmarknaden',{exact:true}).fill('Ahlin');
   await page.getByRole('combobox',{name:'Position',exact:true}).selectOption('M9');
   await page.locator('.game-target-dossier').getByRole('link',{name:'Öppna spelarprofil →',exact:true}).click();
@@ -97,7 +98,7 @@ test('Continue identifies the real stop, object navigation retains workspace con
   await expect(page.getByLabel('Sök spelarmarknaden',{exact:true})).toHaveValue('Ahlin');
   await expect(page.getByRole('combobox',{name:'Position',exact:true})).toHaveValue('M9');
   await expect(page.locator('.game-target-dossier')).toContainText('Ahlin');
-  await page.getByRole('link',{name:'Rekrytering',exact:true}).click();
+  await navTo(page,'Rekrytering');
   await expect(page.getByRole('link',{name:'Rekrytera en scout →',exact:true})).toBeVisible();
   expect(articleTitle).toBeTruthy();
   expect(errors).toEqual([]);
