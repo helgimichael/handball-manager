@@ -258,3 +258,15 @@
 .hm-season-legend span[data-r]::before { content: ""; }
 .hm-season-legend span[data-k]::before { content: ""; width: 12px; height: 3px; background: var(--arena-info); }
 .hm-season-legend span[data-k="break"]::before { background: var(--arena-gold); }
+
+/* ---------------------------------------------------------------- C5.6 responsive QA fixes (pre-existing defects found by the sweep) */
+@media (max-width: 760px) {
+  /* TRN-02b court modes: the two phase tabs share the width instead of pushing FÖRSVAR outside the clipped lineup. */
+  .coach-lineup-dual-switch { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 6px; }
+  .coach-dual-tab { min-width: 0; gap: 6px; padding: 10px; }
+  .coach-dual-icon { font-size: 18px; }
+  .coach-dual-content { min-width: 0; }
+  .coach-dual-content strong { font-size: 13px; overflow-wrap: anywhere; }
+  .coach-dual-badge { white-space: normal; }
+  .coach-court-mode-bar { padding: 12px; }
+}
