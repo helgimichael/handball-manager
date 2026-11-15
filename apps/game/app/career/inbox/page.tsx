@@ -32,7 +32,8 @@ function Inbox() {
   // visible until another selection/filter, and honor a new deep link immediately.
   const selected = (currentReader.id ? career.inbox.find(m => m.id === currentReader.id) : undefined) ?? messages[0];
   const unread = career.inbox.filter(m => !m.archived && !m.read).length;
-  const required = career.inbox.filter(m => !m.archived && m.actionRequired && !m.resolved).length;
+  const todo = career.inbox.filter(m => !m.archived && m.actionRequired && !m.resolved).sort((a, b) => (a.date ?? '').localeCompare(b.date ?? ''));
+  const required = todo.length;
   const canArchive = selected ? !(selected.actionRequired && !selected.resolved) : false;
   const playerDestination = selected?.destinations?.find(d => d.route === 'PLAYER_PROFILE' || d.route === 'SCOUT_REPORT');
   const player = playerDestination ? getCareerPlayer(career, playerDestination.playerId) : undefined;
@@ -44,6 +45,11 @@ function Inbox() {
   return <div className="game-news-page">
     <PageHeading eyebrow={`${getClub(career.playerClubId)?.shortName ?? 'Klubben'} / nyheter & kommunikation`} title="Inkorg" description="Rapporter från laget, besked från klubben och händelser som formar din säsong." />
     <div className="game-news-masthead"><div><span className="hm-eyebrow">Klubbens senaste</span><strong>{new Date(`${career.gameDate}T12:00:00Z`).toLocaleDateString('sv-SE', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })}</strong></div><div><strong>{unread}</strong><span>olästa besked</span></div><div data-urgent={required > 0}><strong>{required}</strong><span>beslut som kräver dig</span></div><span className="game-news-edition">SÄSONG {career.seasonId}</span></div>
+    {/* Arena Nights Phase 3 (WLD-01 C, partial): the pinned "Att göra" tray -- every unresolved decision, oldest first, opened in the reader. */}
+    <section className="nw-todo" aria-labelledby="nw-todo-h">
+      <h2 id="nw-todo-h">Att göra <span>{todo.length}</span></h2>
+      {todo.length ? <ol>{todo.map(m => <li key={m.id}><button type="button" aria-pressed={m.id === selected?.id} onClick={() => setReader({ source, id: m.id, filter: 'ALL' })}><small>{categoryLabel(m.category)} · {m.date ? m.date.slice(0, 10) : ''}</small><strong>{m.subject}</strong></button></li>)}</ol> : <p>Inget väntar på dig. Nya beslut hamnar här först.</p>}
+    </section>
     <div className="game-news-layout">
       <section className="game-news-feed" aria-label="Meddelanden">
         <div className="game-news-filters">{INBOX_FILTERS.map(f => <button key={f.id} type="button" className="hm-btn hm-btn-sm" aria-pressed={filter === f.id} data-active={filter === f.id} onClick={() => setReader({source, id:'', filter:f.id})}>{f.label}</button>)}</div>
