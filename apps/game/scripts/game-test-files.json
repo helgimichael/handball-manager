@@ -318,5 +318,6 @@
   "lib/matchday/preMatch.test.ts",
   "lib/matchPlan/tacticsBoard.test.ts",
   "lib/save/careerWriteStatus.test.ts",
-  "lib/career/timeoutDuringFlight.test.ts"
+  "lib/career/timeoutDuringFlight.test.ts",
+  "lib/club/clubJournal.test.ts"
 ]

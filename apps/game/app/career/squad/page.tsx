@@ -13,7 +13,9 @@ import { formatMoney } from '@/lib/economy/currency';
 import { CONTRACT_STATUS_LABEL, CONTRACT_STATUS_TONE } from '@/lib/economy/labels';
 import { useMoney } from '@/lib/settings/usePreferences';
 import { RECOVERY_OUTLOOK_LABEL, WORKLOAD_TREND_LABEL } from '@/lib/training/readinessSummary';
-import { clubColorVars, SquadDepth, playerAvailabilityLabel } from '@/components/game/Identity';
+import { clubColorVars, playerAvailabilityLabel } from '@/components/game/Identity';
+import { DepthCourt } from '@/components/club/ClubJournal';
+import { positionDepth } from '@/lib/club/clubJournal';
 import { EmptyState } from '@/components/manager/Workspace';
 import { EnvironmentBanner } from '@/components/clubhq/EnvironmentBanner';
 import { getPlayerFormHistory } from '@/lib/career/playerForm';
@@ -133,7 +135,11 @@ export default function SquadPage() {
         { label: 'Lagkapten', value: captainPlayer ? captainPlayer.lastName : 'Ej utsedd', sub: captainPlayer ? `#${captainPlayer.shirtNumber} ${captainPlayer.position}` : 'Välj i truppen', tone: 'signal' },
       ]}
     />
-    <SquadDepth career={career} />
+    {/* Arena Nights Phase 3 (SQD-01f B): the depth court is the position filter -- tap a spot, tap again to clear. */}
+    <section className="cj-squad-depth" aria-labelledby="cj-squad-depth-h">
+      <header><h2 id="cj-squad-depth-h">Truppens balans</h2><Link href="/career/tactics">Taktiktavla →</Link></header>
+      <DepthCourt depth={positionDepth(career, squad)} selected={position === 'ALL' ? null : position} onSelect={p => setPosition(p ?? 'ALL')} />
+    </section>
 
     <section className="hm-matrix-controls" aria-label="Truppmatrisens kontrollpanel">
       <div className="hm-matrix-views" role="tablist" aria-label="Sparade vyer">
