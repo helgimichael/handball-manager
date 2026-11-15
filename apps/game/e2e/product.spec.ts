@@ -1,4 +1,5 @@
 import { test, expect as baseExpect } from '@playwright/test';
+import { chooseStartingSeven, readyStartMatch } from './matchPrep';
 import { navTo } from './hubNav';
 const expect = baseExpect.configure({ timeout: 30000 });
 const base = process.env.HM_QA_URL ?? 'http://localhost:3001';
@@ -27,7 +28,8 @@ test('normal career UI: real squad, calendar, live match, decisions, finalizatio
   await page.getByRole('button', { name: 'Förläng kontrakt', exact: true }).click();
   await expect(page.getByRole('status').filter({ hasText: 'Budet är lämnat. Svar i morgon.' })).toBeVisible();
   await navTo(page, 'Taktik');
-  await expect(page.getByText('Startsju', { exact: true })).toBeVisible({ timeout: 30000 });
+  // A new career has no starting seven yet; the manager chooses one before editing it (no bypass).
+  await chooseStartingSeven(page, base);
   await page.getByRole('button', { name: 'Välj startposition V6', exact: true }).click();
   const formerStarterName = (await page.locator('.coach-current-player .game-player-cell a').innerText()).trim();
   const reserve = page.locator('.coach-candidate-list button').filter({has:page.locator('small', {hasText:'Bänk'})}).first();
@@ -47,6 +49,8 @@ test('normal career UI: real squad, calendar, live match, decisions, finalizatio
   await page.setViewportSize({width:1920,height:1080});
   await page.getByRole('link', { name: 'Till matchen →' }).click();
   for (let n = 0; n < 30; n++) {
+    // Wait until the preview has rendered either the start button (matchday) or the not-yet-matchday note.
+    await expect(page.getByRole('button', { name: 'STARTA MATCH →', exact: true }).or(page.getByText('Fortsätt säsongen till matchdagen för att spela.'))).toBeVisible({ timeout: 90000 });
     if (await page.getByRole('button', { name: 'STARTA MATCH →', exact: true }).isVisible()) break;
     await page.locator('.hm-continue-header').click();
     await expect(page.locator('.game-world-advance')).toHaveCount(0, { timeout: 30000 });
@@ -55,6 +59,7 @@ test('normal career UI: real squad, calendar, live match, decisions, finalizatio
   await page.getByRole('button', { name: 'Spara', exact: true }).click();
   await expect(page.getByRole('status').filter({ hasText: 'Sparat' })).toBeVisible({ timeout: 30000 });
   await page.reload();
+  await readyStartMatch(page, base);
   await page.getByRole('button', { name: 'STARTA MATCH →', exact: true }).click();
   await page.waitForURL('**/career/match-day/**');
   await expect(page.getByRole('button', { name: 'Spela', exact: true })).toBeVisible();

@@ -92,7 +92,7 @@ test('three automatically selected real career archives: normal report and visib
         await expect(page.getByText('Speltid och belastning',{exact:true})).toBeVisible({timeout:90000});
         const archiveBefore=await persistedArchive(page,envelope.saveId,item.fixture.id);
         expect(archiveBefore.archiveHash).toBe(item.archiveHash);expect(archiveBefore.activeSession).toBe(false);archiveProof.before=archiveBefore;
-        await expect(page.locator('.game-match-centre > strong')).toHaveText(`${item.score.HOME}–${item.score.AWAY}`);await widths('recorded-report');
+        await expect(page.locator('.game-match-centre > strong, .mc-scoreline .mc-score-figure').first()).toHaveText(`${item.score.HOME}–${item.score.AWAY}`);await widths('recorded-report');
         await page.getByRole('button',{name:'Se matchrepris',exact:true}).click();await page.waitForURL('**/career/match-day/**');
         await expect(page.getByText('Repris',{exact:true})).toBeVisible({timeout:60000});
         const slider=page.getByLabel('Position i reprisen',{exact:true});await slider.press('Home');await frame('start');await widths('replay-start');
@@ -107,7 +107,7 @@ test('three automatically selected real career archives: normal report and visib
         const bounds=await slider.boundingBox();expect(bounds).not.toBeNull();await slider.click({position:{x:bounds!.width/2,y:bounds!.height/2}});
         await frame('middle');await widths('replay-middle');await slider.press('End');
         await expect(page.locator('.game-live-score')).toHaveText(`${item.score.HOME}:${item.score.AWAY}`);await frame('end');await widths('replay-end');
-        await page.getByRole('link',{name:'Matchrapport',exact:true}).click();await expect(page.locator('.game-match-centre > strong')).toHaveText(`${item.score.HOME}–${item.score.AWAY}`);
+        await page.getByRole('link',{name:'Matchrapport',exact:true}).click();await expect(page.locator('.game-match-centre > strong, .mc-scoreline .mc-score-figure').first()).toHaveText(`${item.score.HOME}–${item.score.AWAY}`);
         const archiveAfter=await persistedArchive(page,envelope.saveId,item.fixture.id);
         expect(archiveAfter).toEqual(archiveBefore);archiveProof.after=archiveAfter;
         expect(errors).toEqual([]);

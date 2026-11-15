@@ -129,3 +129,38 @@
 @media (prefers-reduced-motion: reduce) {
   .mc-score-figure, .mc-final-whistle, .mc-match[data-phase="live"] .mc-broadcast-pill[data-live="true"] { animation: none; }
 }
+
+/* Arena Nights Phase 2 completion (MDY-02a / B2-B3): always-visible score bug meta and event emphasis. */
+.mc-scorebug-meta { display: inline-flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.mc-scorebug-half { font: 700 10px/1 var(--arena-font-ui, inherit); font-style: normal; letter-spacing: .12em; text-transform: uppercase; padding: 4px 7px; border-radius: 3px; background: var(--arena-solid-3, #1c2433); color: var(--arena-ink, #f4f6fa); }
+.mc-scorebug-half[data-phase="halftime"], .mc-scorebug-half[data-phase="timeout"] { background: color-mix(in srgb, var(--arena-warn) 30%, transparent); }
+.mc-scorebug-half[data-phase="fulltime"] { background: color-mix(in srgb, var(--arena-gold) 30%, transparent); }
+.mc-scorebug-row { display: inline-flex; align-items: center; gap: 8px; font-size: 10px; color: var(--arena-muted, #b7c0cf); letter-spacing: .06em; }
+.mc-scorebug-row > span { display: inline-flex; align-items: center; gap: 4px; }
+.mc-scorebug-row small { max-width: 9ch; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--arena-faint, #8590a6); font-size: 9.5px; }
+.mc-pips { display: inline-flex; gap: 2px; font-style: normal; }
+.mc-pips b { display: inline-block; font-size: 0 !important; width: 6px; height: 6px; padding: 0 !important; border-radius: 50%; border: 1px solid var(--arena-muted, #b7c0cf); background: transparent; }
+.mc-pips b[data-on] { background: var(--club-neon, #f3b38a); border-color: var(--club-neon, #f3b38a); }
+.mc-broadcast-callout { animation: mc-callout-in 360ms cubic-bezier(.2, .8, .2, 1); }
+@keyframes mc-callout-in { from { opacity: 0; transform: translateY(-4px); } }
+.mc-broadcast-callout[data-tone="timeout"] { border-left-color: var(--arena-info); }
+.mc-broadcast-callout[data-tone="period"] { border-left-color: var(--arena-gold); }
+.mc-comm-badge[data-tone="period"], .mc-broadcast-callout-tag[data-tone="period"] { background: color-mix(in srgb, var(--arena-gold) 70%, #000); color: #fff; }
+.mc-match li[data-tone="goal"] { box-shadow: inset 3px 0 0 var(--club-neon); }
+.mc-match li[data-tone="suspension"] { box-shadow: inset 3px 0 0 var(--arena-neg); }
+.mc-match li[data-tone="timeout"] { box-shadow: inset 3px 0 0 var(--arena-info); }
+.mc-match li[data-tone="period"] { box-shadow: inset 3px 0 0 var(--arena-gold); }
+.mc-match li[data-tone="save"] { box-shadow: inset 3px 0 0 var(--arena-pos); }
+@media (max-width: 640px) { .mc-scorebug-row small { display: none; } .mc-scorebug-meta { gap: 8px; } }
+@media (prefers-reduced-motion: reduce) { .mc-broadcast-callout { animation: none; } }
+/* B2: score and clock stay visible on phones too -- the Match Center unsticks its bar below 900 px; the live route re-sticks it. */
+@media (max-width: 900px) {
+  .hm-shell[data-route="live-match"] .mc-workspace-nav { position: sticky; top: 0; z-index: 5; }
+  .hm-shell[data-route="live-match"] .mc-workspace-nav [role="tablist"] { overflow-x: auto; scrollbar-width: none; }
+}
+@media (max-width: 640px) {
+  .hm-shell[data-route="live-match"] .mc-compact-identity { flex-wrap: wrap; row-gap: 4px; column-gap: 10px; }
+  .hm-shell[data-route="live-match"] .mc-compact-identity > strong { white-space: nowrap; font-size: 13px; }
+  .hm-shell[data-route="live-match"] .mc-compact-identity > strong b { padding: 0 6px; }
+  .hm-shell[data-route="live-match"] .mc-scorebug-meta { flex-basis: 100%; }
+}

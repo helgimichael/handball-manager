@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { readyStartMatch } from './matchPrep';
 import { mkdirSync, writeFileSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 const base = process.env.HM_QA_URL ?? 'http://127.0.0.1:3015';
@@ -33,6 +34,7 @@ test('normal career: live decisions, halftime, save/load and four match review v
         await expect(page.locator('.game-world-advance')).toHaveCount(0);
         await page.goto(`${base}/career/match-preview`);
     }
+    await readyStartMatch(page, base);
     await page.getByRole('button', { name: 'STARTA MATCH →', exact: true }).click();
     await page.waitForURL('**/career/match-day/**');
     await expect(tab('Översikt')).toHaveAttribute('aria-selected', 'true');
@@ -71,7 +73,9 @@ test('normal career: live decisions, halftime, save/load and four match review v
     await page.getByRole('button', { name: 'Starta andra halvlek', exact: true }).click();
     await page.getByRole('button', { name: 'Spela till slut', exact: true }).click();
     await page.waitForURL('**/career/match-report/**', { timeout: 180000 });
-    await page.context().storageState({ path: `${evidence}/review-storage.json`, indexedDB: true });
+    // Optional resume aid for HM_QA_REVIEW. With full match archives in IndexedDB the dump can exceed Node's
+    // maximum string length (RangeError); that is a harness limit, not a product failure, so it is best-effort.
+    await page.context().storageState({ path: `${evidence}/review-storage.json`, indexedDB: true }).catch((e: Error) => console.warn(`resume dump skipped: ${e.message}`));
     writeFileSync(`${evidence}/review-resume.json`, JSON.stringify({ url: page.url(), normalCareer: true, liveDecisions: true, saveLoadTimeout: true, halftime: true }));
     }
     await expect(tab('Översikt')).toHaveAttribute('aria-selected', 'true');
@@ -99,7 +103,7 @@ test('normal career: live decisions, halftime, save/load and four match review v
     await expect(page.locator('.mc-tactical svg')).toHaveAttribute('viewBox', '-1 -1 42 22');
     await page.screenshot({ path: `${evidence}/screenshots/key-moment-full-court-1920.png`, fullPage: true });
     await page.getByRole('button', { name: 'Mål', exact: true }).click();
-    await expect(page.locator('.mc-moment-list li').first()).toContainText('Mål');
+    await expect(page.locator('.mc-moment-list li').first()).toContainText(/mål/i); // goals include 7 m goals ('7m-mål')
     await page.locator('.mc-event-review summary').click();
     await expect(page.locator('.mc-commentary')).toBeVisible();
     await tab('Spelare').click();

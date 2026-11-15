@@ -106,7 +106,7 @@ test('arena journey: existing career to a completed native V2 match and back, de
     if (await start.isVisible() && await start.isEnabled()) break;
     await page.locator('.hm-continue-header').click();
     await expect(page.locator('.game-world-advance')).toHaveCount(0, { timeout: 60000 });
-    if (/\/career\/tactics/.test(page.url())) await chooseStartingSeven(page, base);
+    if (/\/career\/tactics/.test(page.url())) { await chooseStartingSeven(page, base); await page.getByRole('link', { name: 'Till matchen →' }).first().click(); await page.waitForURL('**/career/match-preview'); }
   }
   await expect(page.locator('.md-ritual li')).toHaveCount(3);
   await expect(page.locator('.md-court-spots li')).toHaveCount(7);
@@ -122,8 +122,24 @@ test('arena journey: existing career to a completed native V2 match and back, de
   await expect(page.locator('.hm-spine')).toHaveCount(0);
   await expect(page.locator('.hm-continue-header')).toBeDisabled();
   await page.screenshot({ path: `${shots}/06-live-match-desktop.png` });
+  // Score bug (MDY-02a): half indicator, players on court and timeouts left, always in the sticky bar.
+  const bug = page.locator('.mc-workspace-nav .mc-scorebug-meta');
+  await expect(bug.locator('.mc-scorebug-half')).toHaveText('1:a halvlek');
+  await expect(bug.locator('.mc-pips')).toHaveCount(4);
+  await expect(bug.getByRole('img', { name: /utespelare på plan/ })).toHaveCount(2);
   await page.getByRole('button', { name: 'Spela', exact: true }).click();
   await expect(page.locator('.mc-match')).toHaveAttribute('data-phase', /live|paused|halftime|timeout/);
+  // Pause holds the clock; resume continues it (no simulation change, only the session's own controls).
+  await expect(page.locator('.mc-compact-identity > small')).not.toContainText(/^0:00/, { timeout: 60000 });
+  const pauseBtn = page.getByRole('button', { name: /^Pausa/ });
+  if (await pauseBtn.isVisible()) {
+    await pauseBtn.click();
+    await expect(page.locator('.mc-match')).toHaveAttribute('data-phase', 'paused');
+    const held = await page.locator('.mc-compact-identity > small').innerText();
+    await page.waitForTimeout(1500);
+    await expect(page.locator('.mc-compact-identity > small')).toHaveText(held);
+    await page.getByRole('button', { name: 'Spela', exact: true }).click();
+  }
   const finishBtn = page.getByRole('button', { name: 'Slutför match och öppna rapport', exact: true });
   // "Spela till slut" plays the rest of the native V2 match (both halves) and finalises it, landing on the report;
   // a manually played match ends on the live page with the final-whistle card and the finish button instead.
@@ -174,5 +190,47 @@ test('arena journey: existing career to a completed native V2 match and back, de
   await page.getByRole('button', { name: 'Mer', exact: true }).click();
   await expect(page.locator('#hm-sidebar')).toHaveAttribute('data-open', 'true');
   await expect(page.locator('#hm-sidebar .hm-rail-sub a')).toHaveCount(26);
+  await page.keyboard.press('Escape');
+
+  // Phone matchday: the next match from preview to report at 375 px, score and clock always visible.
+  // Advancing the calendar happens at desktop width (header Continue and Spara); the matchday itself is played on the phone.
+  await page.keyboard.press('Escape');
+  await page.setViewportSize({ width: 1440, height: 900 });
+  for (let n = 0; n < 40; n++) {
+    if (!/\/career\/match-preview/.test(page.url())) await page.goto(`${base}/career/match-preview`);
+    await shell(page);
+    if (await start.isVisible() && await start.isEnabled()) break;
+    const pressPending = /Presskonferens/.test((await page.locator('.hm-continue-header').getAttribute('aria-label')) ?? '');
+    await page.locator('.hm-continue-header').click();
+    if (pressPending) {
+      await page.waitForURL('**/career/media/press/**');
+      await page.getByRole('button', { name: /Delegera/ }).click();
+      await page.getByRole('button', { name: 'Spara', exact: true }).click();
+      await expect(page.getByRole('status').filter({ hasText: 'Sparat' })).toBeVisible();
+      continue;
+    }
+    await expect(page.locator('.game-world-advance')).toHaveCount(0, { timeout: 60000 });
+    if (/\/career\/tactics/.test(page.url())) { await chooseStartingSeven(page, base); await page.getByRole('link', { name: 'Till matchen →' }).first().click(); await page.waitForURL('**/career/match-preview'); }
+  }
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.waitForTimeout(500);
+  await noOverflow(page, 'preview phone');
+  await page.screenshot({ path: `${shots}/11-preview-phone.png` });
+  await start.click();
+  if (await confirm.isVisible().catch(() => false)) await confirm.click();
+  await page.waitForURL('**/career/match-day/**');
+  await expect(bug.locator('.mc-scorebug-half')).toBeVisible();
+  await page.getByRole('button', { name: 'Spela', exact: true }).click();
+  await page.mouse.wheel(0, 1600);
+  await expect(page.locator('.mc-workspace-nav .mc-compact-identity')).toBeInViewport();
+  await noOverflow(page, 'live phone');
+  await page.screenshot({ path: `${shots}/12-live-phone.png` });
+  await page.getByRole('button', { name: 'Spela till slut', exact: true }).click();
+  await Promise.race([finishBtn.waitFor({ timeout: 900000 }), page.waitForURL('**/career/match-report/**', { timeout: 900000 })]);
+  if (await finishBtn.isVisible()) await finishBtn.click();
+  await page.waitForURL('**/career/match-report/**', { timeout: 60000 });
+  await expect(page.locator('.md-report-head h2')).toBeVisible();
+  await noOverflow(page, 'report phone');
+  await page.screenshot({ path: `${shots}/13-report-phone.png` });
   expect(errors, 'no page errors').toEqual([]);
 });

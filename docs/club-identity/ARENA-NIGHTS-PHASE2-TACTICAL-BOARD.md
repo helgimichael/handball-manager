@@ -1,15 +1,29 @@
-# Arena Nights Phase 2 — Tactical Board (Phase C)
+# Arena Nights Phase 2 — Tactical Board (Phase C, completed)
 
-**Status: PARTIAL.**
+**Status: COMPLETE.** All ten tactics-board recommendations (TRN-02, TRN-02a–i) are implemented. The seven that Phase 2 left open (TRN-02a, d, e, f, g, h, i) were finished in the completion pass; none is a theme-only change.
 
-- The board gained a coherent workspace header and a phase × manpower switcher. The court, overlays, set pieces, leadership and roster were already a professional workspace and are kept.
-- Pairing lines on the court (TRN-02d), ordered 7 m takers with stats (TRN-02g) and the bench pull-up drawer (TRN-02i) are still open.
+- The court stays the visual centre: guard bar above it, overlay control and legend beside it, bench strip under it, pairing court in the Byten & Diff mode.
+- Every write still goes through the existing match-plan operations; the helpers in `lib/matchPlan/tacticsBoard.ts` only describe or diff plans and stored results.
+- No match engine, rating, development or competition code changed.
 
 | | |
 |---|---|
-| Commit | `b09b6db` |
-| Recommendations implemented | TRN-02 (A) Tactics Board readiness header, TRN-02b (A) phase × manpower switcher, TRN-02c (A) situations as matrix cells with completion |
+| Commits | `b09b6db` (TRN-02, 02b, 02c) · `4355fcf` (TRN-02a, 02d, 02e, 02f, 02g, 02h, 02i) |
 | Screenshot | `phase2-screenshots/04-tactics-defence-desktop.png`, `09-tactics-phone.png` |
+
+## Completion pass — the seven open recommendations
+
+| ID | Recommendation | What was built | Evidence |
+|---|---|---|---|
+| TRN-02a | Inline warning + auto-fix preview | Guard bar listing every blocking issue. "Assistentens förslag" / "Åtgärda – visa förslag" now previews the proposal as a per-position diff (from → to, squad in/out) **before** saving. "Tillämpa förslaget" or "Avbryt"; after applying, "Ångra" restores the previous plan. | `diffLineups` unit test; `e2e/matchPrep.ts` uses preview → apply → "Startsju 7/7" |
+| TRN-02d | Pairing lines on court | Byten & Diff draws each attack/defence substitution pair as a line on a court, with six defence-zone markers and "n par (riktmärke 3)". Tap an attacker, then a bench player, to pair; tap a defence label to unpair. Uses the existing `activeSubstitutionPairs` / `assignExchangeOnCourt`. | Browser check (add/remove pair) |
+| TRN-02e | Segmented control + legend | "Taktikvisning" is a `radiogroup` (arrow keys) with a legend quoting the exact chip thresholds the court uses (energy < 75 %, rating 7.5 / 6.5, natural/secondary/off role). | Legend test reads the page source; journey switches to "Lämplighet" and checks "Naturlig roll" |
+| TRN-02f | Choices with trade-off lines | Every coaching choice shows a live trade-off sentence paraphrasing what the native V2 engine does with it. Rotation quotes the engine's energy thresholds (50 / 62 / 72 %) and notes it only applies with assistant substitutions. | Test checks every option has a line and the thresholds match `coaching.ts`; journey checks lines are non-empty |
+| TRN-02g | Ordered takers with stats | 7 m takers as an ordered list: rank, this season's 7 m goals/attempts from stored `SEVEN_M` events, ↑ ↓ ✕. Add a taker from candidates sorted by attempts. | Unit test (stats only from this season's stored events; reorder is a pure swap) |
+| TRN-02h | Single roles editor | "Ledarskap & roller": captain, vice-captain and first-choice 7 m taker in one editor, each with what the role does. | Browser check |
+| TRN-02i | Bench strip + counter | 16 match-squad places (court · bench · empty) with an n/16 counter under the court. Tap a bench chip to place it at the active position, ✕ to remove, drag supported. "Ej uttagna" drawer sorted available-first then by readiness, with "Ta ut". | Unit test (16 slots, ordering, purity); journey asserts 16 slots |
+
+Trade-off sentences were deliberately kept to what the engine states (for example, the 6:0 / 5:1 lines describe the shape, not claimed effects).
 
 ## What changed
 
@@ -68,23 +82,11 @@ No match engine, tactical calculation or saved-plan format was touched.
 
 ## Tests
 
-- **E2E journey (steps 8–9):**
-  - opens the board;
-  - checks the grid;
-  - switches to "Försvar 6 mot 6" (heading and `data-phase="DEFENCE"`) and back to attack.
-- **TypeScript:** clean.
-- **ESLint on the tactics page:** the same 10 pre-existing warnings as before; none new.
+- **Unit:** `lib/matchPlan/tacticsBoard.test.ts` — 5 tests (trade-offs cover every option and match the engine thresholds; legend matches the page; lineup diff; 7 m stats and reorder; bench strip and drawer). All pass.
+- **E2E journey (step 8):** chooses a valid starting seven through the guard preview, switches the overlay and checks the legend, checks the trade-off lines and the 16-place strip; the phase grid and "Försvar 6 mot 6" switch as before.
+- **Shared e2e step:** `e2e/matchPrep.ts` (`chooseStartingSeven`, `readyStartMatch`) is now used by every match spec, so none bypasses the starting-seven requirement.
+- **TypeScript:** clean. **ESLint on the tactics page:** 6 warnings, all pre-existing (down from 10).
 
 ## Remaining (traceability)
 
-| Recommendation | Status |
-|---|---|
-| TRN-02a (inline warning + auto-fix preview) | Deferred |
-| TRN-02d (pairing lines on court) | Deferred |
-| TRN-02e (overlay legend) | Deferred |
-| TRN-02f (trade-off sentence under choices) | Deferred |
-| TRN-02g (ordered 7 m takers with stats) | Deferred |
-| TRN-02h (single roles editor) | Deferred |
-| TRN-02i (bench strip + pull-up drawer) | Deferred |
-
-These remain on their existing layouts.
+None on the tactics board. Every TRN-02 recommendation is marked Implemented in the traceability table with its evidence.

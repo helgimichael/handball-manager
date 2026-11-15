@@ -1,4 +1,5 @@
 import { test, expect as baseExpect, type Page } from '@playwright/test';
+import { readyStartMatch, showCourt2D } from './matchPrep';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import type { CareerSave } from '../lib/save/saveRepository';
@@ -213,8 +214,9 @@ test('calibrated v2.1 career match: visible 2D at live speeds, coaching, both ha
       await expect(page.locator('.game-world-advance')).toHaveCount(0);await page.goto(`${base}/career/match-preview`);
     }
     await expect(page.getByRole('button',{name:'STARTA MATCH →',exact:true})).toBeVisible();await widths('preview');
+    await readyStartMatch(page, base);
     await page.getByRole('button',{name:'STARTA MATCH →',exact:true}).click();await page.waitForURL('**/career/match-day/**');
-    await expect(page.locator(courtSelector)).toBeVisible({timeout:60000});await expect(page.getByRole('button',{name:'Spela',exact:true})).toBeVisible();
+    await showCourt2D(page);await expect(page.locator(courtSelector)).toBeVisible({timeout:60000});await expect(page.getByRole('button',{name:'Spela',exact:true})).toBeVisible();
     const matchUrl=page.url(),fixtureId=matchUrl.split('/').at(-1)!.split('?')[0];observations.push({kind:'match',fixtureId,matchUrl});
     await widths('kickoff');await renderedFrame('kickoff');
     for(const speed of [1,4,16]){await watch(speed,`first-half-${speed}x`);await widths(`first-half-${speed}x-paused`);}
@@ -243,7 +245,7 @@ test('calibrated v2.1 career match: visible 2D at live speeds, coaching, both ha
     await widths('timeout');await save();
     const beforeReload=await savedFacts(page),clockBefore=await page.locator('.game-scoreboard-top').innerText();
     expect(beforeReload.coreHash).toBeTruthy();observations.push({kind:'saved-live',...beforeReload});
-    await page.reload();await expect(page.locator(courtSelector)).toBeVisible({timeout:60000});
+    await page.reload();await showCourt2D(page);await expect(page.locator(courtSelector)).toBeVisible({timeout:60000});
     expect(await page.locator('.game-scoreboard-top').innerText()).toBe(clockBefore);
     await expect(page.locator('.coach-timeout[data-active="true"]')).toBeVisible();await expect(timeout).toBeDisabled();
     for(const name of ['Försvar 5:1','Tempo Snabbt','Anfall Bredd'])await expect(page.getByRole('button',{name,exact:true})).toHaveAttribute('aria-pressed','true');
@@ -260,12 +262,12 @@ test('calibrated v2.1 career match: visible 2D at live speeds, coaching, both ha
     await pause();await widths('second-half-paused');
     await page.getByRole('button',{name:'Spela till slut',exact:true}).click();await page.waitForURL('**/career/match-report/**',{timeout:180000});
     await expect(page.getByText('Speltid och belastning',{exact:true})).toBeVisible();
-    const finalScore=(await page.locator('.game-match-centre > strong').innerText()).replace(/\s/g,'');
+    const finalScore=(await page.locator('.game-match-centre > strong, .mc-scoreline .mc-score-figure').first().innerText()).replace(/\s/g,'');
     await widths('fulltime-report');await save();const reportSaved=await savedFacts(page);observations.push({kind:'report-saved',finalScore,...reportSaved});
     expect(reportSaved.archiveIds).toContain(fixtureId);expect(reportSaved.resultScores[fixtureId]).toHaveLength(2);
     await page.reload();await expect(page.getByText('Speltid och belastning',{exact:true})).toBeVisible({timeout:60000});
     const reportReloaded=await savedFacts(page);expect(reportReloaded.resultScores).toEqual(reportSaved.resultScores);expect(reportReloaded.resultCount).toBe(reportSaved.resultCount);
-    await expect(page.locator('.game-match-centre > strong')).toHaveText(finalScore);observations.push({kind:'report-reloaded',...reportReloaded});
+    await expect(page.locator('.game-match-centre > strong, .mc-scoreline .mc-score-figure').first()).toHaveText(finalScore);observations.push({kind:'report-reloaded',...reportReloaded});
 
     await page.getByRole('button',{name:'Se matchrepris',exact:true}).click();await page.waitForURL('**/career/match-day/**');
     await expect(page.getByText('Repris',{exact:true})).toBeVisible({timeout:60000});
@@ -310,7 +312,7 @@ test('retained19–19 replay stays immutable on the new build; same pinned recip
   oldPage.on('pageerror',error=>receipt.errors.push(error.message));
   try{
     await importQa(oldPage,oldCompleted);await oldPage.goto(`${base}/career/match-report/${fixtureId}`);
-    await expect(oldPage.locator('.game-match-centre > strong')).toHaveText('19–19',{timeout:90000});
+    await expect(oldPage.locator('.game-match-centre > strong, .mc-scoreline .mc-score-figure').first()).toHaveText('19–19',{timeout:90000});
     const before=await archiveEvidence(oldPage,fixtureId);expect(before.hash).toBe(oldCase.archiveHash);expect(before.activeSession).toBe(false);
     await oldPage.getByRole('button',{name:'Se matchrepris',exact:true}).click();await oldPage.waitForURL('**/career/match-day/**');
     await expect(oldPage.getByText('Repris',{exact:true})).toBeVisible({timeout:60000});
@@ -335,8 +337,9 @@ test('retained19–19 replay stays immutable on the new build; same pinned recip
     fresh.careerState!.productionMatch=null;fresh.careerState!.activeMatchSession=null;
     await importQa(page,fresh);await page.goto(`${base}/career/match-preview`);
     await expect(page.getByRole('button',{name:'STARTA MATCH →',exact:true})).toBeVisible({timeout:90000});
+    await readyStartMatch(page, base);
     await page.getByRole('button',{name:'STARTA MATCH →',exact:true}).click();await page.waitForURL('**/career/match-day/**');
-    await expect(page.locator(courtSelector)).toBeVisible({timeout:60000});await page.getByRole('button',{name:'Spara',exact:true}).click();
+    await showCourt2D(page);await expect(page.locator(courtSelector)).toBeVisible({timeout:60000});await page.getByRole('button',{name:'Spara',exact:true}).click();
     await expect(page.getByRole('status').filter({hasText:'Sparat'})).toBeVisible();const started=await savedFacts(page);
     expect(started.seed).toBe(oldCase.canonicalSeed);expect(started.saveSeed).toBe(oldInitial.careerState!.saveSeed);
     expect(started.initialSessionHash).toBe(recorded.initialSessionHash);
@@ -387,7 +390,7 @@ test('selected calibration archives: three automatic cases with real replay move
       }
       try{
         await importQa(page,envelope);await page.goto(`${base}/career/match-report/${item.fixture.id}`);
-        await expect(page.locator('.game-match-centre > strong')).toHaveText(`${item.score.HOME}–${item.score.AWAY}`,{timeout:90000});
+        await expect(page.locator('.game-match-centre > strong, .mc-scoreline .mc-score-figure').first()).toHaveText(`${item.score.HOME}–${item.score.AWAY}`,{timeout:90000});
         const before=await archiveEvidence(page,item.fixture.id);expect(before.hash).toBe(item.archiveHash);expect(before.activeSession).toBe(false);expect(before.seed).toBe(item.canonicalSeed);
         if(item.resultHash)expect(before.resultHash).toBe(item.resultHash);
         observations.push({kind:'verified-export',archiveHash:before.hash,resultHash:before.resultHash,seed:before.seed,score:before.score});

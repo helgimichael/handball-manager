@@ -1,0 +1,30 @@
+{
+  "recordedOn": "2026-11-15",
+  "career": "Arena Testare (IFK Tumba HK) — existing QA career on the dev origin http://localhost:3763; not reset or overwritten",
+  "fixture": "2026-cup-R32-15-l2 · Svenska Cupen · 2026-08-26 · IFK Tumba – VästeråsIrsta HF (home)",
+  "engine": { "version": "2.9.1-court-rotation.1", "behaviorRevision": "career-seven-v-six-v1", "seed": 2189754862 },
+  "lineup": "Starting seven already valid (7/7) on the tactics board; STARTA MATCH → enabled only then",
+  "progression": [
+    "Kick-off 0:00 (PREMATCH → LIVE), Express 48× then Maximal 86×",
+    "Pause at 0:57: clock held at 0:57 for 6 s (PAUSAD), resumed",
+    "Tactical decision: aggression Balanserad → Hög (archived TACTICS_CHANGED, final tactics aggression HIGH)",
+    "Manager timeout at 1:26 (state TIMEOUT, score bug timeouts IFK Tumba 1 → 0, callout tone timeout), resumed",
+    "Opponent timeout at 20:29",
+    "Half-time 30:00 at 14–7: score bug 'Halvtid', 6 v 5 pips with a carried-over suspension (#11 1:46)",
+    "Second half started via 'Starta andra halvlek': '2:a halvlek', timeouts reset to 1/1",
+    "Manual substitution ~44:00: Albin Brauer (43 % energy) → Joakim Lindahl, confirmed with 'Genomför byte'",
+    "Full time 60:00: SLUTRESULTAT, final-whistle card 'Slutsignal · Seger'"
+  ],
+  "result": { "home": 31, "away": 19, "halfTime": "14–7", "topRated": "David Blazevic 10 goals · 7.3", "keeper": "Olle Söderqvist 15/34 saves (44 %) · 7.0" },
+  "archive": { "key": "<saveId>:2026-cup-R32-15-l2", "archivesInStore": 2, "eventTypes": { "PERIOD_STARTED": 2, "PERIOD_ENDED": 2, "TACTICS_CHANGED": 1, "TEAM_TIMEOUT_STARTED": 3, "SUBSTITUTE_ADMITTED": 14, "TWO_MINUTE_SUSPENSION": 7 } },
+  "report": "'Slutför match och öppna rapport' → /career/match-report/2026-cup-R32-15-l2 shows 31–19, headline 'IFK Tumba körde över V.Irsta, 31–19', previous-report link to 2026-08-20 V.Irsta 29–26",
+  "saveLoad": "Spara → 'Sparat'; full reloads of both reports and the schedule show 29–26 (archive l1) and 31–19 'Vinst' (archive l2) unchanged",
+  "fixedDuringRun": [
+    "Final-whistle keeper card showed '0 mål' under 'Målvakt · räddningsprocent' — now saves/shots and percentage",
+    "Score bug hides players-on-court and timeout pips after full time"
+  ],
+  "notes": [
+    "Running in a hidden browser pane throttles timers; the match ran slower than the chosen speed, with no effect on outcomes",
+    "Team timeouts are not listed among key moments (importance filter); they are archived and shown in the live callout"
+  ]
+}

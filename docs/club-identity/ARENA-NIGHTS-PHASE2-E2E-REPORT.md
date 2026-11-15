@@ -132,13 +132,67 @@ None of these is caused by Arena Nights Phase 1 or 2. Each was checked against t
 | `match-motion` (2) | `ENOENT …/after-final/match-007-completed.json` | Environment: recorded motion archives (`HM_MOTION_ARCHIVE_DIR`) not present | The third motion test passes |
 | `product` (rerun) | `getByText('Startsju', { exact: true })` not found | Pre-existing: no element with exactly that text exists at `0e2129e` or `27a559d` either. My regression in this spec (duplicate "Förläng kontrakt") is fixed and the spec now gets past the renewal step. | `git show 0e2129e:…/tactics/page.tsx \| grep Startsju` |
 
+## Completion pass — Playwright repair (Phase C)
+
+### What was repaired (no assertion weakened)
+
+| Change | Specs | Why |
+|---|---|---|
+| `e2e/matchPrep.ts`: `chooseStartingSeven` (guard preview → apply → "Startsju 7/7") and `readyStartMatch` (if "STARTA MATCH →" is disabled, choose a seven on the board and return **in-app** via "Till matchen →", then assert the button is enabled, with the preview's own attention list in the failure message) | `match-calibration-v21`, `match-center-v21`, `match-realism-v2`, `reconciliation`, `product`, `arena-journey` | Careers require a manual starting seven; the specs now select one the way a manager does. A full reload right after applying drops the plan before autosave, so the helper navigates in-app. |
+| `product`: `getByText('Startsju', {exact:true})` → choose the starting seven first | `product` | A new career has no seven; the old exact text never existed. |
+| Report score: `.game-match-centre > strong` → `.game-match-centre > strong, .mc-scoreline .mc-score-figure` (first) | `human-match-realism-v2`, `match-calibration-v21`, `match-realism-v2` | Archived reports render the Match Center scoreline, plain results the `MatchHero`. The same score is still asserted exactly. |
+| `showCourt2D`: open the "Experimental 2D" disclosure (retrying past hydration) before asserting the court is visible | `match-calibration-v21`, `match-realism-v2`, `match-motion` | The 2D court has been opt-in since `c3d4ad4`, before this branch. |
+| Optional `storageState({indexedDB:true})` resume dump made best-effort | `match-center-v21`, `reconciliation` | With full match archives the dump exceeds Node's maximum string length (`RangeError`). It is a resume aid for `HM_QA_REVIEW`, not a check. |
+| Key-moment "Mål" filter: the first row contains `/mål/i` | `match-center-v21`, `reconciliation` | 7 m goals are labelled "7m-mål" (since `0f7a84e`); they are goals. |
+| `product` advance loop waits for the preview to render before checking for "STARTA MATCH →" | `product` | It checked `isVisible()` before render and then clicked a disabled Continue. |
+| Journey: score-bug and pause/resume assertions; a **second full native V2 match played at 375 px** (preview → live → report), press conferences delegated; the sticky score bar must stay in the viewport after scrolling | `arena-journey` | B2/B4 and the mobile journey. |
+
+### Genuine regressions found and fixed in this pass
+
+1. **Reduced motion:** `arena.css` set `transition-duration: 0.01ms` on every element, overriding the Match Center's own `transition: none` (found by `match-center-v21`). Now `0s`.
+2. **Phone live match:** below 900 px the Match Center unsticks its score bar, so score and clock scrolled away (found by the new phone journey). The live route now keeps it sticky on phones.
+3. **Final-whistle keeper card** showed "0 mål" under "Målvakt · räddningsprocent" (found in the native V2 run). It now shows saves/shots and the percentage.
+
+### Final full run (production build of the final code, all 31 tests)
+
+| Measure | Count |
+|---|---|
+| Tests in the suite | 31 |
+| Executed | 27 |
+| Passed | **15** |
+| Failed | 12 |
+| Skipped by design | 1 (`contract-renewal-errors`: needs an exported controlled career) |
+| Never ran | 3 (`career-loading-screen` serial tests after its first failure) |
+
+Run 2 (Phase 2) had 12 passed and 15 failed; its table also counted the 3 never-run tests as "skipped" (4), which is corrected here. Newly passing: `arena-journey` (now two full matches, desktop and phone), `human-match-realism-v2`, `match-calibration-v21` › selected archives, and `match-center-v21`. `game-presentation` #1 passed in run 3 and failed in the final run because it is seed-dependent (below).
+
+| Spec | Cause | Class |
+|---|---|---|
+| `career-loading-screen` (1 failed + 3 not run) | Missing `docs/career-loading-screen-v1/verification/baseline-snapshots.json` (record with `HM_LOADING_BASELINE=1`) | Environment |
+| `match-motion` › full canonical replay | Missing recorded archives in `docs/match-motion-continuity/after-final/` (`HM_MOTION_ARCHIVE_DIR`) | Environment |
+| `match-motion` › normal career motion | The court now opens; the spec then selects speeds 4× and 16×, which the speed list (since `48446f0`) does not offer | Pre-existing stale flow |
+| `match-calibration-v21` › calibrated; `match-realism-v2` | Kick-off now works; the spec then reads the old live scoreboard `.game-scoreboard-top`, replaced by the Match Center in `c3d4ad4` | Pre-existing stale flow |
+| `match-calibration-v21` › retained 19–19 | Kick-off and court work; the new session's initial hash differs from the recorded one (the behaviour revision changed after the recording; the engine is untouched here) | Pre-existing recorded fixture |
+| `reconciliation` | Kick-off works. In the final run the match stops in an opponent timeout the spec never resumes. In run 6 **the engine stopped with "Matchen kunde inte fortsätta … Unresolved ball flight budget" after timeout → save → reload → resume** | Seed-dependent flow; **engine defect for the owner** |
+| `game-presentation` (2) | Expects "Torslanda" as the first opponent; the opponent depends on the New Game seed, which the UI cannot pin | Seed nondeterminism |
+| `game-experience-v11` › Continue … | No "Ahlin" M9 in the player market | Data drift |
+| `management` | Expects the contract date to change right after offering; renewals answer the next day and may be refused | Pre-existing, nondeterministic |
+| `product` | Gets through the live match and report, then expects league results; the first competitive match was a cup tie | Seed-dependent |
+
+### Environment prerequisites
+
+- Production build: `npm run build` in `apps/game`, then `next start --port 3001`. Never run it alongside the dev server; they share `.next`.
+- `HM_QA_URL=http://localhost:3001`, and `HM_QA_SCREENSHOT_DIR=<scratch folder>` so specs do not overwrite tracked evidence.
+- Recorded fixtures for the environment-class specs: an `HM_LOADING_BASELINE=1` run for `career-loading-screen`, `HM_MOTION_ARCHIVE_DIR` for `match-motion`, and an exported career plus plan file for `contract-renewal-errors`.
+- Some specs still write into tracked `docs/` (`docs/game-experience/*`, `docs/match-realism-v2/human-qa/browser/*`) and create `docs/match-motion-continuity/browser-baseline/canonical-cues.{json,webm}`. Restore with `git checkout --` and remove those two files after each run.
+
 ## Summary
 
 | | |
 |---|---|
-| New journey | **PASS** (desktop + phone, full native V2 match, save/load) |
-| Regressions caused by this work | **3 found by the e2e runs, all fixed:** "Sparade karriärer" link covered by the feedback button; wrong verdict on archived away matches; duplicate "Förläng kontrakt" label |
-| Specs passing in the latest runs | alpha-access 6/6, worker-snapshots 2/2, arena-journey 1/1, game-experience-v11 1/2, game-presentation 1/2, weekly-manager 1/1, match-motion 1/3 |
-| Remaining failures | 13 failing + 4 not executed, all pre-existing (environment, data or seed drift, stale selectors); listed above |
+| Journey | **PASS**: career → front page → squad → dossier → tactics (valid seven via the guard preview) → preview → live (score bug, pause/resume) → final whistle → report → front page, then a second full match on a phone |
+| Final suite | 31 tests: 27 executed, 15 passed, 12 failed, 1 skipped by design, 3 never ran |
+| Regressions caused by Arena Nights | 6 found across Phase 2 and this pass, all fixed |
+| Remaining failures | All classified above: missing recorded fixtures, seed or data dependence, flows stale since before this branch, and one engine defect (reported, not fixable here) |
 
-**Status: PARTIAL.** The new and affected journeys are green. The older suite still needs repairs that are outside this phase's scope: a manual line-up step in the match specs, recorded fixtures, and updated selectors for archived reports.
+**Status: PARTIAL.** Every regression is fixed, and every match spec now selects a valid starting seven and starts its match. The remaining failures need recorded fixtures, seed control, rewrites of flows that predate this branch, or an engine fix, which this phase may not make.

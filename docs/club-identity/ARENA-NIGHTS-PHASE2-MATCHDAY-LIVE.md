@@ -90,6 +90,40 @@ On the live page it points to the existing "Slutför match och öppna rapport". 
 - **Tidigare möten:** earlier meetings from stored results (current season, archive summaries, past seasons).
 - **Unchanged:** all match ids and archives, and the existing report content (aftermath, press, statistics, timeline).
 
+## Completion pass — score bug and event emphasis (MDY-02a)
+
+**Score bug, always visible.** The sticky live bar (`.mc-workspace-nav`) now carries, next to the score and clock:
+
+- a half indicator: "1:a halvlek", "2:a halvlek", "Halvtid", "Slut";
+- players-on-court pips per team (6, 7 with an empty net, 5 during a suspension) from `model.manpower`;
+- timeout pips per team for the current half from `model.timeouts`.
+
+Each pip group has a spoken label ("IFK Tumba: 6 utespelare på plan", "V.Irsta: 0 timeout kvar"). Pips are omitted for archives, where the model has no manpower or timeouts, and after full time. Nothing is computed beyond what the live model already exposes.
+
+**Event emphasis.** The latest-event callout re-mounts per event so its short entrance replays. Timeout and period events get their own tone (info blue, gold); commentary rows carry a thin tone edge (goal in club neon, suspension red, timeout blue, period gold, save green). Only events that exist in the session are shown; no event or statistic is invented. Entrance animation is off under `prefers-reduced-motion`.
+
+**Fixed during the native V2 run:** the final-whistle keeper card ("Målvakt · räddningsprocent") showed "0 mål"; it now shows saves/shots and the save percentage.
+
+## Native V2 match on the existing QA career (Phase E)
+
+Played by hand on the existing tester career "Arena Testare" (IFK Tumba, dev origin). The career was not reset or overwritten. Source: `phase2-screenshots/native-v2-match-evidence.json`.
+
+| | |
+|---|---|
+| Fixture | Svenska Cupen, 2026-08-26, IFK Tumba – VästeråsIrsta HF (home) |
+| Engine | native V2 `2.9.1-court-rotation.1`, behaviour revision `career-seven-v-six-v1` |
+| Line-up | valid starting seven (7/7); "STARTA MATCH →" enabled only then |
+| Pause / resume | paused at 0:57, clock held, resumed |
+| Tactical control | aggression Balanserad → Hög (archived `TACTICS_CHANGED`; final tactics aggression HIGH) |
+| Timeout | manager timeout at 1:26 (state TIMEOUT, our timeout pip 1 → 0); opponent timeout at 20:29 |
+| Half-time | 14–7; "Halvtid", 6 v 5 pips with a suspension carried over; "Starta andra halvlek" reset timeouts to 1/1 |
+| Substitution | ~44:00, Albin Brauer (43 % energy) → Joakim Lindahl, via "Genomför byte" |
+| Result | **IFK Tumba 31–19 V.Irsta**; "Slutsignal · Seger"; top rated David Blazevic (10 goals, 7.3) |
+| Report | "IFK Tumba körde över V.Irsta, 31–19", linked to the previous report (2026-08-20, V.Irsta 29–26) |
+| Archive | 2 archives in the store; the new one holds 2 period starts/ends, 1 tactics change, 3 team timeouts, 14 substitutions, 7 suspensions |
+| Save / load | "Sparat"; full reloads of both reports and the schedule show 29–26 and 31–19 "Vinst" unchanged |
+| Return | report "Fortsätt →" lands on the front page |
+
 ## Live-match evidence
 
 A native V2 match was played through the new experience by the journey e2e. No result was mocked. Source: `phase2-screenshots/live-match-evidence.json`.
@@ -115,6 +149,7 @@ An earlier attempt of the same journey on a different career seed also played a 
 - `07-final-whistle-desktop.png`
 - `08-match-report-desktop.png`
 - `09-report-phone.png`
+- `11-preview-phone.png`, `12-live-phone.png`, `13-report-phone.png` (phone match)
 
 ## Tests
 
@@ -124,13 +159,15 @@ An earlier attempt of the same journey on a different career seed also played a 
 2. Court line-up from a real plan, bench grouped, nothing invented without a plan.
 3. Head-to-head and report navigation use stored results only.
 
-The journey e2e covers the rest; see the E2E report.
+The journey e2e covers the rest: score-bug assertions (half, 4 pip groups), pause holds the clock, and a second full native V2 match played at 375 px with the score bar kept in view while scrolling. See the E2E report.
+
+Fixed in the completion pass: reduced-motion transitions were `0.01ms` instead of `0s`; the score bar was not sticky below 900 px; the final-whistle keeper card.
 
 ## Remaining
 
 | Recommendation | What is missing |
 |---|---|
-| MDY-02 | Separate walk-out, timeout-huddle and half-time layouts |
-| MDY-02a | Timeout pips per half and the compact score-bug layout |
+| MDY-02 | Separate walk-out and half-time layouts (the live environment, score bug, event emphasis and final whistle are built) |
 | MDY-02b–i | Their earlier layouts are kept |
+| Key moments | Team timeouts are archived and shown live, but are not listed among key moments (existing importance filter) |
 | ANL-01 | Momentum hero chart, turning points with court snapshots, workload box |

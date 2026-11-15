@@ -255,5 +255,5 @@
 :root[data-theme="arena"] .career-entry[data-club-identity] .career-choice[data-selected="true"] { border-color: var(--club-neon); box-shadow: inset 3px 0 var(--club-neon), var(--arena-glow); }
 
 @media (prefers-reduced-motion: reduce) {
-  :root[data-theme="arena"] * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+  :root[data-theme="arena"] * { transition-duration: 0s !important; animation-duration: 0.01ms !important; }
 }
