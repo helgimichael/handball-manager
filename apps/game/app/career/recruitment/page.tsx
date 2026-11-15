@@ -35,6 +35,10 @@ import { PlayerCell, PlayerHero } from '@/components/game/Identity';
 import { KnowledgeMeter, RecruitmentTag, TransferEvent } from '@/components/game/RecruitmentPresentation';
 import { getCareerPlayer } from '@/lib/career/careerWorld';
 import type { CareerState } from '@/lib/career/types';
+import { PipelineBoard } from '@/components/recruitment/PipelineBoard';
+import { buildPipeline } from '@/lib/recruitment/pipeline';
+import { positionDepth } from '@/lib/club/clubJournal';
+import { getClubEconomySnapshot } from '@/lib/economy/clubEconomyIntegration';
 
 type SectionId = "ALL" | "NEW" | "SCOUTING" | "SCOUTED" | "SHORTLIST" | "PRIORITIZED" | "NEGOTIATING";
 
@@ -70,6 +74,11 @@ function RecruitmentCentre() {
   const [statusFilter, setStatusFilter] = useState<RecruitmentStatus | "ALL">("ALL");
   const [knowledgeFilter, setKnowledgeFilter] = useState<KnowledgeTier | "ALL">("ALL");
   const [selectedPlayerId, setSelectedPlayerId] = useState<string | null>(null);
+  // Arena Nights Phase 3 (REC-02 C): the pipeline board is the default view; the filterable list stays one tap away.
+  const [mode, setMode] = useState<'PIPELINE' | 'LIST'>(params.get("view") ? 'LIST' : 'PIPELINE');
+  const lanes = useMemo(() => buildPipeline(allCandidates, positionDepth(career)), [allCandidates, career]);
+  const economy = getClubEconomySnapshot(career, career.playerClubId);
+  const budget = economy ? { transfer: formatMoney(economy.budgets.transferBudgetEur), wageRoom: formatMoney(economy.budgets.wageBudgetEur - economy.playerWageCostsEurAnnual), wageRoomNegative: economy.budgets.wageBudgetEur < economy.playerWageCostsEurAnnual } : null;
 
   const nations = useMemo(() => Array.from(new Set(allCandidates.map((c) => c.nationality))).sort((a, b) => (NATION_LABEL_SV[a] ?? a).localeCompare(NATION_LABEL_SV[b] ?? b)), [allCandidates]);
 
@@ -93,8 +102,14 @@ function RecruitmentCentre() {
 
   return (
     <div className="game-discovery-page"><PageHeading eyebrow="Rekrytering / klubbens nästa kapitel" title="Rekryteringscentrum" description="Bygg ett lag för nästa match och nästa säsong. Dina upptäckter, rapporter och värvningsmål samlade." actions={<Link className="hm-btn" href="/career/players">Spelarsök →</Link>} />
-      <nav className="game-recruitment-stage" aria-label="Rekryteringsprocess">{SECTIONS.map((s, i) => <button key={s.id} type="button" aria-pressed={section === s.id} data-active={section === s.id} onClick={() => setSection(s.id)}><span className="game-stage-index">{String(i + 1).padStart(2, '0')}</span><span>{s.label}</span><strong>{allCandidates.filter(s.match).length}</strong></button>)}</nav>
-      <div className="game-recruitment-layout">
+      {mode === 'LIST' && <nav className="game-recruitment-stage" aria-label="Rekryteringsprocess">{SECTIONS.map((s, i) => <button key={s.id} type="button" aria-pressed={section === s.id} data-active={section === s.id} onClick={() => setSection(s.id)}><span className="game-stage-index">{String(i + 1).padStart(2, '0')}</span><span>{s.label}</span><strong>{allCandidates.filter(s.match).length}</strong></button>)}</nav>}
+      <div className="rp-mode" role="group" aria-label="Visning">
+        <button type="button" aria-pressed={mode === 'PIPELINE'} onClick={() => setMode('PIPELINE')}>Kedjan</button>
+        <button type="button" aria-pressed={mode === 'LIST'} onClick={() => setMode('LIST')}>Lista & filter</button>
+      </div>
+      {mode === 'PIPELINE' && <PipelineBoard lanes={lanes} selectedId={selected?.playerId ?? null} onSelect={setSelectedPlayerId} budget={budget} />}
+      <div className="game-recruitment-layout" data-mode={mode}>
+      {mode === 'LIST' && (
       <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
         {/* Filters + candidate list */}
         <div className="hm-panel">
@@ -202,6 +217,7 @@ function RecruitmentCentre() {
           {filtered.length === 0 ? <div className="hm-panel-body hm-text-muted">Inga kandidater matchar filtret.</div> : null}
         </div>
       </div>
+      )}
 
       <div className="game-candidate-column">
         {selected ? (

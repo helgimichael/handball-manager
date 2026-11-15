@@ -29,6 +29,7 @@
 @import "../components/tactics/tactics-board.css";
 @import "../components/tactics/board-tools.css";
 @import "../components/club/club-journal.css";
+@import "../components/recruitment/pipeline-board.css";
 /* Club Identity C5: Arena Nights production theme -- must load last. */
 @import "./arena-overrides.css";
 @import "./arena.css";
