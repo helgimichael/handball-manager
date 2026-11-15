@@ -12,6 +12,7 @@ import { managementPlayers } from '@/lib/career/management';
 import { ClubLink } from '@/components/entityLinks';
 import { CompetitionHero, PlayerCell, RankIndicator } from '@/components/game/Identity';
 import FormDots from '@/components/FormDots';
+import { annotatedStandings } from '@/lib/competition/standingsZones';
 import { Panel, EmptyState, FixtureTable, matchHref } from './Workspace';
 import StatisticsTable from './StatisticsTable';
 
@@ -36,6 +37,9 @@ function Competition() {
   const live = hasLeagueCalendar(career, id);
   const tab = query.get('tab') ?? 'table';
   const table = live ? competitionTable(career, id) : [];
+  // Arena Nights Phase 3 (CMP-01a A): verified zone rules, movement since the previous round, points gaps.
+  const annotated = live ? annotatedStandings(career, id, table) : [];
+  const legend = [...new Map(annotated.filter(a => a.zone).map(a => [a.zone!.id, a.zone!])).values()];
   // Club Identity C3: members in this career season (promotions and season-bound real-world leagues).
   const clubs = careerClubsInCompetition(career, id);
   const fixtures = career.fixtures.filter(f => f.competitionId === id);
@@ -63,7 +67,7 @@ function Competition() {
     <div className="hm-league-split">
       <div className="hm-world-main">
         {tab === 'table' && <Panel title="Tabell & form" actions={live ? <span className="hm-text-muted">{career.seasonId} · efter {leaguePlayed.length} ligamatcher</span> : undefined}>
-          {live ? <div className="hm-scroll-x"><table className="hm-table hm-league-table"><thead><tr><th>#</th><th>Klubb</th><th>SM</th><th>V</th><th>O</th><th>F</th><th>GM</th><th>IM</th><th>MSK</th><th>P</th><th>Form · fem senaste</th></tr></thead><tbody>{table.map((r,i) => <tr key={r.clubId} data-highlight={r.clubId === career.playerClubId}><td>{i+1}</td><td><ClubLink clubId={r.clubId}>{getClub(r.clubId)?.name ?? r.clubId}</ClubLink></td><td>{r.played}</td><td>{r.won}</td><td>{r.drawn}</td><td>{r.lost}</td><td>{r.goalsFor}</td><td>{r.goalsAgainst}</td><td>{r.goalDifference > 0 ? `+${r.goalDifference}` : r.goalDifference}</td><td><strong>{r.points}</strong></td><td><FormDots results={(career.clubForm[r.clubId] ?? []).slice(-5)} /></td></tr>)}</tbody></table></div> : <EmptyState>Denna tävling har ingen simulerad tabell. <Link href={`${href}?tab=clubs`}>Inspektera klubbarna →</Link></EmptyState>}
+          {live ? <div className="hm-scroll-x"><table className="hm-table hm-league-table"><thead><tr><th>#</th><th>Klubb</th><th>SM</th><th>V</th><th>O</th><th>F</th><th>GM</th><th>IM</th><th>MSK</th><th>P</th><th>Form · fem senaste</th></tr></thead><tbody>{annotated.map(({ row: r, position, zone, zoneStart, movement, gapToAbove }) => <tr key={r.clubId} data-highlight={r.clubId === career.playerClubId} data-zone={zone?.tone} data-zone-start={zoneStart || undefined}><td className="cz-pos"><b>{position}</b>{movement ? <i data-dir={movement > 0 ? 'up' : 'down'} aria-label={movement > 0 ? `Upp ${movement}` : `Ned ${-movement}`}>{movement > 0 ? '▲' : '▼'}{Math.abs(movement)}</i> : null}</td><td><ClubLink clubId={r.clubId}>{getClub(r.clubId)?.name ?? r.clubId}</ClubLink>{zoneStart && zone ? <small className="cz-zone" data-tone={zone.tone}>{zone.label}</small> : null}{gapToAbove ? <small className="cz-gap" title="Poäng upp till laget ovanför">−{gapToAbove}</small> : null}</td><td>{r.played}</td><td>{r.won}</td><td>{r.drawn}</td><td>{r.lost}</td><td>{r.goalsFor}</td><td>{r.goalsAgainst}</td><td>{r.goalDifference > 0 ? `+${r.goalDifference}` : r.goalDifference}</td><td><strong>{r.points}</strong></td><td><FormDots results={(career.clubForm[r.clubId] ?? []).slice(-5)} /></td></tr>)}</tbody></table>{legend.length > 0 && <ul className="cz-legend" aria-label="Tabellens zoner">{legend.map(z => <li key={z.id} data-tone={z.tone}>{z.label}</li>)}</ul>}</div> : <EmptyState>Denna tävling har ingen simulerad tabell. <Link href={`${href}?tab=clubs`}>Inspektera klubbarna →</Link></EmptyState>}
         </Panel>}
         {(tab === 'fixtures' || tab === 'results') && <Panel title={tab === 'results' ? 'Spelade matcher' : 'Kommande matcher'}><FixtureTable career={career} fixtures={tab === 'results' ? played : upcoming} /></Panel>}
         {tab === 'statistics' && <Panel title="Spelarstatistik"><StatisticsTable competitionId={id} /></Panel>}

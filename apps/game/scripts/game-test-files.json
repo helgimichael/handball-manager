@@ -320,5 +320,6 @@
   "lib/save/careerWriteStatus.test.ts",
   "lib/career/timeoutDuringFlight.test.ts",
   "lib/club/clubJournal.test.ts",
-  "lib/recruitment/pipeline.test.ts"
+  "lib/recruitment/pipeline.test.ts",
+  "lib/competition/standingsZones.test.ts"
 ]
