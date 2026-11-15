@@ -4,6 +4,7 @@
 // back home; then the same surfaces at phone width. Screenshots and match evidence go to HM_QA_SCREENSHOT_DIR.
 import { test, expect as baseExpect, type Page } from '@playwright/test';
 import { mkdirSync, writeFileSync } from 'node:fs';
+import { chooseStartingSeven } from './matchPrep';
 const expect = baseExpect.configure({ timeout: 30000 });
 const base = process.env.HM_QA_URL ?? 'http://localhost:3001';
 const shots = process.env.HM_QA_SCREENSHOT_DIR ?? '../../docs/club-identity/phase2-screenshots';
@@ -81,7 +82,15 @@ test('arena journey: existing career to a completed native V2 match and back, de
   // 8-9. Tactical board and its views.
   await page.getByRole('navigation', { name: 'Laget: flikar', exact: true }).getByRole('link', { name: 'Taktik', exact: true }).click();
   await expect(page.getByRole('grid', { name: /Fas och numerär/ })).toBeVisible();
-  if (await page.getByRole('button', { name: 'Assistentens förslag', exact: true }).isVisible()) await page.getByRole('button', { name: 'Assistentens förslag', exact: true }).click();
+  // Starting seven (required before a match can start): preview the assistant's proposal, apply it, 7/7.
+  await chooseStartingSeven(page, base);
+  // Overlay control (TRN-02e): radio group with a legend that follows the mode.
+  await page.getByRole('radiogroup', { name: 'Taktikvisning' }).getByRole('radio', { name: 'Lämplighet', exact: true }).click();
+  await expect(page.locator('.tb-legend')).toContainText('Naturlig roll');
+  await page.getByRole('radiogroup', { name: 'Taktikvisning' }).getByRole('radio', { name: 'Energi', exact: true }).click();
+  // Trade-off lines (TRN-02f) and the bench strip (TRN-02i).
+  await expect(page.locator('.coach-choice-tradeoff').first()).not.toBeEmpty();
+  await expect(page.locator('.tb-strip-slots li')).toHaveCount(16);
   await page.locator('button.tb-cell', { hasText: 'Försvar 6 mot 6' }).click();
   await expect(page.locator('.coach-lineup h2')).toContainText('Försvar 6 mot 6');
   await expect(page.locator('.tb-board-bar')).toHaveAttribute('data-phase', 'DEFENCE');
@@ -97,7 +106,7 @@ test('arena journey: existing career to a completed native V2 match and back, de
     if (await start.isVisible() && await start.isEnabled()) break;
     await page.locator('.hm-continue-header').click();
     await expect(page.locator('.game-world-advance')).toHaveCount(0, { timeout: 60000 });
-    if (/\/career\/tactics/.test(page.url()) && await page.getByRole('button', { name: 'Assistentens förslag', exact: true }).isVisible()) await page.getByRole('button', { name: 'Assistentens förslag', exact: true }).click();
+    if (/\/career\/tactics/.test(page.url())) await chooseStartingSeven(page, base);
   }
   await expect(page.locator('.md-ritual li')).toHaveCount(3);
   await expect(page.locator('.md-court-spots li')).toHaveCount(7);

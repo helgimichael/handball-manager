@@ -27,6 +27,7 @@
 @import "../components/players/dossier.css";
 @import "../components/matchday/matchday-arena.css";
 @import "../components/tactics/tactics-board.css";
+@import "../components/tactics/board-tools.css";
 /* Club Identity C5: Arena Nights production theme -- must load last. */
 @import "./arena-overrides.css";
 @import "./arena.css";

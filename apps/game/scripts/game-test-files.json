@@ -315,5 +315,6 @@
   "lib/manager/bTeamHumanManager.test.ts",
   "lib/career/arenaShell.test.ts",
   "lib/players/playerDossier.test.ts",
-  "lib/matchday/preMatch.test.ts"
+  "lib/matchday/preMatch.test.ts",
+  "lib/matchPlan/tacticsBoard.test.ts"
 ]
