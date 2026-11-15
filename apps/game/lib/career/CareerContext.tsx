@@ -2,7 +2,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode, type SetStateAction } from "react";
 import type { FastMatchResult } from "@handball-manager/game-simulation";
-import { getActiveSave, saveCareerState, type CareerSave } from "../save/saveRepository";
+import { flushCareerWritesOnExit, getActiveSave, getCareerWriteStatus, saveCareerState, subscribeCareerWriteStatus, type CareerSave, type CareerWriteStatus } from "../save/saveRepository";
 import { continueCareerRhythm, type ContinueStopReason } from "./continueController";
 import { addDays } from "./dateUtils";
 import { archiveMessage, markMessageRead, unarchiveMessage } from "./inboxActions";
@@ -206,6 +206,10 @@ type CareerContextValue = {
   recallPlayerFromPlacement: (playerId: string) => void;
   /** HM-CLUB-PARTNERSHIPS-1.1: starts a real loan under an active INTERNATIONAL_LOAN_PARTNERSHIP (minimal integration -- reuses the existing loan mechanism unchanged) and persists on success. */
   startInternationalPartnershipLoan: (partnershipId: string, playerId: string, wageShareBorrowingPct: number, endDate: string) => StartPartnershipLoanResult;
+  /** Stabilization: the career write queue's state (SAVING / SAVED / FAILED) for this save; undefined before the first write. */
+  saveStatus: CareerWriteStatus | undefined;
+  /** Stabilization: re-persists the current in-memory career (every unsaved edit) after a failed write. */
+  retrySave: () => void;
 };
 
 const CareerContext = createContext<CareerContextValue | null>(null);
@@ -314,6 +318,48 @@ export function CareerProvider({ children, loadingFallback, initializationErrorF
     return () => {
       persistenceFailureListener = null;
     };
+  }, []);
+
+  // Stabilization (tactical autosave): mirror the write queue for this save. Edits live in memory at once and are
+  // written by the queue; while a write is in flight or has failed, a reload/close would drop them, so the browser's
+  // own "leave page?" guard is armed until the newest snapshot commits. A later successful write clears the banner.
+  const saveId = value?.save.saveId;
+  const [observedStatus, setObservedStatus] = useState<{ saveId: string; status: CareerWriteStatus } | null>(null);
+  useEffect(() => {
+    if (!saveId) return;
+    return subscribeCareerWriteStatus((id, status) => {
+      if (id !== saveId) return;
+      setObservedStatus({ saveId: id, status });
+      if (status.phase === "SAVED") setPersistError(null);
+    });
+  }, [saveId]);
+  const saveStatus: CareerWriteStatus | undefined = !saveId ? undefined : observedStatus?.saveId === saveId ? observedStatus.status : getCareerWriteStatus(saveId);
+  // Leaving or hiding the page writes a snapshot that is still waiting in the queue at once (mobile browsers may
+  // never show a leave-page prompt, and a reload must not drop the newest edit).
+  useEffect(() => {
+    const flush = () => flushCareerWritesOnExit();
+    const hidden = () => { if (document.visibilityState === "hidden") flushCareerWritesOnExit(); };
+    window.addEventListener("pagehide", flush);
+    window.addEventListener("beforeunload", flush);
+    document.addEventListener("visibilitychange", hidden);
+    return () => {
+      window.removeEventListener("pagehide", flush);
+      window.removeEventListener("beforeunload", flush);
+      document.removeEventListener("visibilitychange", hidden);
+    };
+  }, []);
+  const unsaved = saveStatus?.phase === "SAVING" || saveStatus?.phase === "FAILED";
+  useEffect(() => {
+    if (!unsaved) return;
+    const guard = (event: BeforeUnloadEvent) => { event.preventDefault(); event.returnValue = ""; };
+    window.addEventListener("beforeunload", guard);
+    return () => window.removeEventListener("beforeunload", guard);
+  }, [unsaved]);
+  const latestValue = useRef(value);
+  useEffect(() => { latestValue.current = value; }, [value]);
+  const retrySave = useCallback(() => {
+    const current = latestValue.current;
+    if (current) persistCareerState(current.save.saveId, current.career);
   }, []);
 
   // HM-MATCH-1.3A: these three MUST be reference-stable across renders
@@ -837,17 +883,19 @@ export function CareerProvider({ children, loadingFallback, initializationErrorF
         startPlacement: startPlacementActionWrapper,
         recallPlayerFromPlacement: recallPlayerFromPlacementActionWrapper,
         startInternationalPartnershipLoan: startInternationalPartnershipLoanActionWrapper,
+        saveStatus,
+        retrySave,
       }}
     >
       {/* A write that failed AFTER the career loaded: the manager keeps
           playing, but must be told their progress is not being saved. */}
-      {persistError ? <CareerPersistenceBanner message={persistError} /> : null}
+      {persistError ? <CareerPersistenceBanner message={persistError} onRetry={retrySave} retrying={saveStatus?.phase === "SAVING"} /> : null}
       {children}
     </CareerContext.Provider>
   );
 }
 
-function CareerPersistenceBanner({ message }: { message: string }) {
+function CareerPersistenceBanner({ message, onRetry, retrying }: { message: string; onRetry: () => void; retrying: boolean }) {
   return (
     <div
       role="alert"
@@ -856,9 +904,11 @@ function CareerPersistenceBanner({ message }: { message: string }) {
         maxWidth: 620, padding: "10px 14px", borderRadius: 6,
         background: "var(--hm-bg-panel)", border: "1px solid var(--hm-accent-strong)",
         color: "var(--hm-text-primary)", fontSize: "12px",
+        display: "flex", gap: 12, alignItems: "center",
       }}
     >
-      <strong>Karriären sparas inte längre.</strong> {message}
+      <span><strong>Ändringarna är inte sparade.</strong> De finns kvar här tills de sparas. {message}</span>
+      <button type="button" className="hm-btn hm-btn-sm" onClick={onRetry} disabled={retrying}>{retrying ? "Sparar…" : "Försök igen"}</button>
     </div>
   );
 }

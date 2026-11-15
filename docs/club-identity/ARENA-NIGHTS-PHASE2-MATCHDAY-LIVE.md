@@ -124,6 +124,41 @@ Played by hand on the existing tester career "Arena Testare" (IFK Tumba, dev ori
 | Save / load | "Sparat"; full reloads of both reports and the schedule show 29–26 and 31–19 "Vinst" unchanged |
 | Return | report "Fortsätt →" lands on the front page |
 
+## Stabilization — native V2 resume ("Unresolved ball flight budget")
+
+**Not a save/reload defect.** A deterministic reproduction (`lib/career/timeoutDuringFlight.test.ts`) granted a team timeout in six different ball-flight situations and compared the uninterrupted continuation with a JSON save → reload continuation. Every reloaded continuation was **identical** to the uninterrupted one. The failure depended only on what the ball was doing when the timeout was granted:
+
+| Timeout granted while… | Result |
+|---|---|
+| a live pass is in the air | converted to a free throw by the engine; the match continues |
+| a **non-live** ball is in the air (throw-off pass, dead-ball return to the restart taker) | always `INCOMPLETE: Unresolved ball flight budget` after the timeout |
+
+**Root cause (engine behaviour, unchanged):**
+
+- During any official timeout, `advanceOneTick` returns before `execute`, so a ball flight is not advanced while `tick − releasedTick` keeps counting.
+- A team timeout lasts 1,200 ticks; the flight budget is 160 ticks.
+- `requestTeamTimeout` converts a live ball into a free throw, but leaves a non-live flight in the air.
+- Contextual CPU timeouts already require a live, controlled ball, so only the manager's command could reach this state.
+- Phase 2's run 6 saw it after a save/reload only by coincidence.
+
+**Fix (no engine change):**
+
+- `commandProductionMatch` refuses a manager timeout while a non-live ball is in the air, exactly like a request without possession. The match is untouched (asserted byte-for-byte).
+- The coach panel explains it: "Vänta tills bollen är i spel."
+- No completed match can change outcome: every previously accepted timeout in that state ended the match as INCOMPLETE.
+- `packages/handball-engine` is untouched.
+
+**Regression test:**
+
+- refuses the timeout in open-flight situations without changing state;
+- grants a timeout with the ball in play;
+- after timeout → save → reload → resume, the match is still running and identical to the uninterrupted continuation.
+
+**Browser evidence:**
+
+- Stabilization QA career: own timeout at 1:10 → Spara → full reload restored TIMEOUT at 1:10 → "Återuppta efter timeout" → played on to 6:33 without error.
+- Then a substitution and full time, 17–24 (`phase2-screenshots/stabilization-qa-evidence.json`).
+
 ## Live-match evidence
 
 A native V2 match was played through the new experience by the journey e2e. No result was mocked. Source: `phase2-screenshots/live-match-evidence.json`.

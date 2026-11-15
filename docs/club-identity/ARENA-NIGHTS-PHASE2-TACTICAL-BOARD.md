@@ -80,6 +80,45 @@ All existing interactions are unchanged:
 
 No match engine, tactical calculation or saved-plan format was touched.
 
+## Stabilization — save reliability (P0)
+
+**Root cause.** Board edits were never only React state: every edit goes through `updateMatchPlan` / `updateCareer`, which apply it to the latest committed career and queue a write. The queue is serialized and latest-wins, so an older edit cannot overwrite a newer one. The loss came from the write itself:
+
+- Each write first re-read the whole save (tens of MB) and then put it.
+- An edit made while a write was running only waited in the queue.
+- A reload or closed tab in that window dropped the waiting edit; an in-flight write survived.
+- Nothing showed that a write was pending, nothing guarded the reload, and a failed write left a banner with no retry.
+
+Reproduced in the browser: V6 change and tempo change, then an immediate reload. V6 (in flight) survived; the tempo (queued) was lost.
+
+**Fix (same save system, no second store):**
+
+- `saveRepository.ts`
+  - The queue publishes a write status (`SAVING` / `SAVED` / `FAILED`).
+  - It caches the record it last wrote, so later writes put at once (every other write path invalidates the cache).
+  - A sequence check means an older snapshot never puts after a newer one.
+  - `flushCareerWritesOnExit()` writes a still-queued snapshot immediately.
+  - `flushCareerSave` no longer re-throws an old failure into every later read.
+- `CareerContext.tsx`
+  - Calls the exit flush on `pagehide`, hidden `visibilitychange` and `beforeunload`.
+  - Arms the browser's leave-page guard while a write is pending or failed.
+  - Exposes `saveStatus` and `retrySave`.
+  - The failure banner now says the changes are kept and offers "Försök igen"; it clears once a save commits.
+- `BoardTools.tsx`: a save-state line on the board ("Sparar ändringarna…" / "Alla ändringar sparade" / "Ändringarna är inte sparade" + "Försök igen").
+- `saveStorage.ts`: a database that exists without its stores is upgraded one version so the stores are created (found during QA; existing data is never touched).
+
+**Evidence.**
+
+- After the fix, three edits made about 60 ms before a reload were all restored.
+- `e2e/tactics-persistence.spec.ts` covers the 13 steps:
+  - starting seven, then an immediate reload;
+  - formation, then reload;
+  - instructions, then reload;
+  - match preview shows the same seven, and back;
+  - rapid edits (the last wins);
+  - injected IndexedDB failure: edit kept, alert shown, retry commits it, reload confirms.
+- `lib/save/careerWriteStatus.test.ts`: status transitions, latest-wins, fail then retry, and the exit flush with the newest snapshot stored.
+
 ## Tests
 
 - **Unit:** `lib/matchPlan/tacticsBoard.test.ts` — 5 tests (trade-offs cover every option and match the engine thresholds; legend matches the page; lineup diff; 7 m stats and reorder; bench strip and drawer). All pass.

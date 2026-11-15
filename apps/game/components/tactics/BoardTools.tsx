@@ -3,6 +3,7 @@
 // with auto-fix preview, TRN-02i bench strip + "Ej uttagna" drawer, TRN-02d pairing lines on court.
 // Every control calls an existing match-plan operation passed in by the page; nothing here changes plan semantics.
 import { useRef, type DragEvent, type KeyboardEvent } from 'react';
+import { useCareer } from '@/lib/career/CareerContext';
 import type { PlayerMock } from '@/lib/game-data';
 import { OVERLAY_LEGEND, type LineupDiff, type OverlayMode, type StripSlot } from '@/lib/matchPlan/tacticsBoard';
 
@@ -120,4 +121,18 @@ export function PairingCourt({ attackers, pairs, zoneOf, zoneLabel, players, sel
       {selectedAttacker && <span className="tb-pairing-bench">{bench.length ? bench.map(b => <button key={b.id} type="button" className="hm-btn hm-btn-xs" onClick={() => { onPair(selectedAttacker, b.id); onSelectAttacker(''); }}>{b.lastName} · {b.position}</button>) : <em>Inga uttagna utespelare på bänken.</em>}</span>}
     </figcaption>
   </figure>;
+}
+
+// ---------------------------------------------------------------- Stabilization: save state of board edits
+/** Every board edit is written by the career write queue; this says whether the latest edit is committed. */
+export function SaveStateChip() {
+  const { saveStatus, retrySave } = useCareer();
+  if (!saveStatus) return null;
+  const label = saveStatus.phase === 'SAVING' ? 'Sparar ändringarna…' : saveStatus.phase === 'SAVED' ? 'Alla ändringar sparade' : 'Ändringarna är inte sparade';
+  return (
+    <p className="tb-save-state" data-state={saveStatus.phase} role={saveStatus.phase === 'FAILED' ? 'alert' : 'status'} aria-live="polite">
+      <i aria-hidden="true" />{label}
+      {saveStatus.phase === 'FAILED' && <button type="button" className="hm-btn hm-btn-sm" onClick={retrySave}>Försök igen</button>}
+    </p>
+  );
 }

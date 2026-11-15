@@ -1,5 +1,5 @@
 import { test, expect as baseExpect, type Page } from '@playwright/test';
-import { readyStartMatch, showCourt2D } from './matchPrep';
+import { readyStartMatch, scoreboardClock, scoreboardScore, showCourt2D } from './matchPrep';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import type { CareerSave } from '../lib/save/saveRepository';
@@ -101,7 +101,7 @@ async function recordScenes(page:Page,fixtureId:string,directory:string,observat
       await expect.poll(async()=>Number(await page.locator(`${courtSelector} > circle`).getAttribute('cx')),{timeout:10000}).toBeCloseTo(4000-expected[6],3);
       await expect.poll(async()=>Number(await page.locator(`${courtSelector} > circle`).getAttribute('cy')),{timeout:10000}).toBeCloseTo(expected[5],3);
       const visible=await page.locator(courtSelector).evaluate(svg=>({players:Array.from(svg.querySelectorAll(':scope > g[transform^="translate("]')).map(g=>({name:g.querySelector('title')?.textContent,transform:g.getAttribute('transform')})),ball:{x:svg.querySelector(':scope > circle')?.getAttribute('cx'),y:svg.querySelector(':scope > circle')?.getAttribute('cy')}}));
-      sequence.push({tick:desired,clock:await page.locator('.game-scoreboard-top').innerText(),...visible});
+      sequence.push({tick:desired,clock:await scoreboardClock(page),...visible});
       for(const width of offset===5?[1920,2560]:[1920]){
         await page.setViewportSize({width,height:1080});await page.evaluate(()=>window.scrollTo(0,0));
         expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
@@ -155,7 +155,7 @@ test('calibrated v2.1 career match: visible 2D at live speeds, coaching, both ha
       players:Array.from(svg.querySelectorAll(':scope > g[transform^="translate("]')).map(group=>({name:group.querySelector('title')?.textContent??'',transform:group.getAttribute('transform')})),
       ball:{x:svg.querySelector(':scope > circle')?.getAttribute('cx'),y:svg.querySelector(':scope > circle')?.getAttribute('cy')},
     }));
-    const clock=await page.locator('.game-scoreboard-top').innerText(),score=await page.locator('.game-live-score').innerText();
+    const clock=await scoreboardClock(page),score=await scoreboardScore(page);
     const visibleEvents=await page.locator('.coach-live-event strong').allTextContents();
     observations.push({kind:'rendered-2d',label,wallTime:new Date().toISOString(),clock,score,visibleEvents,
       visibleWhistle:visibleEvents.includes('Avblåsning'),visibleAdvantage:visibleEvents.includes('Fördel spelad'),...frame});
@@ -243,10 +243,10 @@ test('calibrated v2.1 career match: visible 2D at live speeds, coaching, both ha
     }
     await expect(page.locator('.coach-timeout[data-active="true"]')).toBeVisible();await expect(timeout).toBeDisabled();
     await widths('timeout');await save();
-    const beforeReload=await savedFacts(page),clockBefore=await page.locator('.game-scoreboard-top').innerText();
+    const beforeReload=await savedFacts(page),clockBefore=await scoreboardClock(page);
     expect(beforeReload.coreHash).toBeTruthy();observations.push({kind:'saved-live',...beforeReload});
     await page.reload();await showCourt2D(page);await expect(page.locator(courtSelector)).toBeVisible({timeout:60000});
-    expect(await page.locator('.game-scoreboard-top').innerText()).toBe(clockBefore);
+    expect(await scoreboardClock(page)).toBe(clockBefore);
     await expect(page.locator('.coach-timeout[data-active="true"]')).toBeVisible();await expect(timeout).toBeDisabled();
     for(const name of ['Försvar 5:1','Tempo Snabbt','Anfall Bredd'])await expect(page.getByRole('button',{name,exact:true})).toHaveAttribute('aria-pressed','true');
     const afterReload=await savedFacts(page);expect(afterReload.coreHash).toBe(beforeReload.coreHash);expect(afterReload.rng).toEqual(beforeReload.rng);
@@ -276,7 +276,7 @@ test('calibrated v2.1 career match: visible 2D at live speeds, coaching, both ha
     const bounds=await slider.boundingBox();expect(bounds).not.toBeNull();await slider.click({position:{x:bounds!.width/2,y:bounds!.height/2}});
     observations.push({kind:'replay-middle',tick:await slider.inputValue()});await renderedFrame('replay-middle');await widths('replay-middle');
     await slider.press('End');await renderedFrame('replay-end');await widths('replay-end');
-    const replayScore=(await page.locator('.game-live-score').innerText()).replace(/\s/g,'').replace(':','–');expect(replayScore).toBe(finalScore);
+    const replayScore=(await scoreboardScore(page)).replace(/\s/g,'').replace(':','–');expect(replayScore).toBe(finalScore);
     const replaySaved=await savedFacts(page);expect(replaySaved.resultScores).toEqual(reportSaved.resultScores);expect(replaySaved.resultCount).toBe(reportSaved.resultCount);
     observations.push({kind:'archive-replay-unchanged',finalScore,...replaySaved});
     await recordScenes(page,fixtureId,join(output,'normal-match-scenes'),observations);
@@ -305,7 +305,7 @@ test('retained19–19 replay stays immutable on the new build; same pinned recip
   const directory=join(output,'retained-seed16');mkdirSync(directory,{recursive:true});
   async function observed(page:Page,label:string){
     const frame=await page.locator(courtSelector).evaluate(svg=>({players:Array.from(svg.querySelectorAll(':scope > g[transform^="translate("]')).map(g=>({name:g.querySelector('title')?.textContent,transform:g.getAttribute('transform')})),ball:{x:svg.querySelector(':scope > circle')?.getAttribute('cx'),y:svg.querySelector(':scope > circle')?.getAttribute('cy')}}));
-    receipt.observations.push({kind:'rendered-2d',label,clock:await page.locator('.game-scoreboard-top').innerText(),...frame});
+    receipt.observations.push({kind:'rendered-2d',label,clock:await scoreboardClock(page),...frame});
     const target=join(directory,'1920');mkdirSync(target,{recursive:true});await page.screenshot({path:join(target,`${label}.png`),animations:'disabled'});return frame;
   }
   const oldContext=await browser.newContext({viewport:{width:1920,height:1080}}),oldPage=await oldContext.newPage();
@@ -385,7 +385,7 @@ test('selected calibration archives: three automatic cases with real replay move
       mkdirSync(caseDirectory,{recursive:true});
       async function frame(label:string){
         const visible=await page.locator(courtSelector).evaluate(svg=>({players:Array.from(svg.querySelectorAll(':scope > g[transform^="translate("]')).map(g=>({name:g.querySelector('title')?.textContent,transform:g.getAttribute('transform')})),ball:{x:svg.querySelector(':scope > circle')?.getAttribute('cx'),y:svg.querySelector(':scope > circle')?.getAttribute('cy')}}));
-        observations.push({kind:'real-replay-frame',label,clock:await page.locator('.game-scoreboard-top').innerText(),...visible});
+        observations.push({kind:'real-replay-frame',label,clock:await scoreboardClock(page),...visible});
         const target=join(caseDirectory,'1920');mkdirSync(target,{recursive:true});await page.screenshot({path:join(target,`${label}.png`),animations:'disabled'});return visible;
       }
       try{

@@ -186,13 +186,55 @@ Run 2 (Phase 2) had 12 passed and 15 failed; its table also counted the 3 never-
 - Recorded fixtures for the environment-class specs: an `HM_LOADING_BASELINE=1` run for `career-loading-screen`, `HM_MOTION_ARCHIVE_DIR` for `match-motion`, and an exported career plus plan file for `contract-renewal-errors`.
 - Some specs still write into tracked `docs/` (`docs/game-experience/*`, `docs/match-realism-v2/human-qa/browser/*`) and create `docs/match-motion-continuity/browser-baseline/canonical-cues.{json,webm}`. Restore with `git checkout --` and remove those two files after each run.
 
+## Stabilization pass (baseline `65668fa`)
+
+### Repairs in this pass (no assertion weakened, no mocked gameplay)
+
+| Change | Specs | Why |
+|---|---|---|
+| New `tactics-persistence.spec.ts`: 13 steps of board edits across reloads, the preview, rapid edits and an injected IndexedDB failure with retry | new | P0 save reliability |
+| Half-time wait resumes every team time-out (opponent's too) before expecting "Starta andra halvlek" | `reconciliation`, `match-center-v21` | Play stops at every time-out until the manager resumes it; the old wait timed out when the opponent called one |
+| Live clock/score read through `scoreboardClock` / `scoreboardScore` (classic scoreboard on replays, Match Center bar live) | `match-realism-v2`, `match-calibration-v21` | The live scoreboard is the Match Center bar since `c3d4ad4`; replay reads unchanged |
+
+### Raw results — final full run on the stabilization build (32 tests)
+
+| Measure | Count |
+|---|---|
+| Tests | 32 (31 + `tactics-persistence`) |
+| Executed | 28 |
+| Passed | **17** |
+| Failed | 11 |
+| Skipped by design | 1 |
+| Never ran (serial interruption) | 3 |
+
+Reconciliation: 17 + 11 + 1 + 3 = 32. Compared with the Phase 2 final (31 tests: 15 passed, 12 failed), `reconciliation` now passes and `tactics-persistence` is new and passing. `tactics-persistence` and `arena-journey` were rerun and passed again on the final build after a lint-only refactor.
+
+### Every remaining failure
+
+| # | Test | Failure | Category | On the Phase 2 baseline? | Recommended action |
+|---|---|---|---|---|---|
+| 1 | `career-loading-screen` › real New Game | Missing `docs/career-loading-screen-v1/verification/baseline-snapshots.json` | D Missing test data | Yes | Record a baseline with `HM_LOADING_BASELINE=1` |
+| 2–4 | `career-loading-screen` › 3 serial tests | Never ran after #1 | F Serial interruption | Yes | Resolves with #1 |
+| 5 | `contract-renewal-errors` | Skipped by design (needs an exported controlled career + plan file) | D | Yes | Provide the fixture |
+| 6 | `match-motion` › full canonical replay | Missing `docs/match-motion-continuity/after-final/match-007-completed.json` | D | Yes | Provide `HM_MOTION_ARCHIVE_DIR` |
+| 7 | `match-motion` › normal career motion | Selects speeds 4× and 16×, absent from the speed list since `48446f0` | B Outdated UI assumption | Yes | Rewrite against the current speed list (owner to choose replacement speeds) |
+| 8 | `match-calibration-v21` › calibrated | Starts, plays and opens the court; then the same 4×/16× speed selection | B | Yes | As #7 |
+| 9 | `match-realism-v2` | As #8 | B | Yes | As #7 |
+| 10 | `match-calibration-v21` › retained 19–19 | New session's initial hash differs from the recorded hash (behaviour revision changed after the recording) | D Recorded fixture outdated | Yes | Re-record the pinned recipe after an owner decision |
+| 11–12 | `game-presentation` (2) | Expects "Torslanda" as the first opponent; it depends on the New Game seed | C Seed-dependent | Yes | Derive the expected opponent from the career or pin the seed via a test hook |
+| 13 | `game-experience-v11` › Continue … | No "Ahlin" M9 in the player market | C / data drift | Yes | Pick the target from the current market |
+| 14 | `management` | Expects the contract date to change immediately; renewals answer next day and may be refused | B Outdated assumption (nondeterministic) | Yes | Advance a day and accept either answer |
+| 15 | `product` | Live match and report pass; expects league results, but the first competitive match was a cup tie | C Seed-dependent | Yes | Use the played fixture's own competition |
+
+No failure is a product regression (category A) and none is a native engine failure (category E). The one engine-related failure from Phase 2 (`reconciliation`, "Unresolved ball flight budget") is fixed; see the Matchday/Live and Stabilization reports.
+
 ## Summary
 
 | | |
 |---|---|
-| Journey | **PASS**: career → front page → squad → dossier → tactics (valid seven via the guard preview) → preview → live (score bug, pause/resume) → final whistle → report → front page, then a second full match on a phone |
-| Final suite | 31 tests: 27 executed, 15 passed, 12 failed, 1 skipped by design, 3 never ran |
-| Regressions caused by Arena Nights | 6 found across Phase 2 and this pass, all fixed |
-| Remaining failures | All classified above: missing recorded fixtures, seed or data dependence, flows stale since before this branch, and one engine defect (reported, not fixable here) |
+| Journeys | **PASS** desktop and phone: career → front page → squad → dossier → tactics (save and reload) → preview → starting seven → live → pause/resume → report → management, with two full native V2 matches |
+| Final suite | 32 tests: 28 executed, 17 passed, 11 failed, 1 skipped by design, 3 never ran |
+| Product regressions open | none |
+| Remaining failures | missing fixtures (D), stale speed assumptions and renewal timing (B), seed/data dependence (C), serial interruption (F) — every one listed above with a recommended action |
 
-**Status: PARTIAL.** Every regression is fixed, and every match spec now selects a valid starting seven and starts its match. The remaining failures need recorded fixtures, seed control, rewrites of flows that predate this branch, or an engine fix, which this phase may not make.
+**Status: PARTIAL by suite count; no product or engine defect remains open.**

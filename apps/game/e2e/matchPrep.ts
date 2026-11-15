@@ -41,3 +41,14 @@ export async function showCourt2D(page: Page) {
     await expect(details.locator('.game-court-stage')).toBeVisible({ timeout: 2000 });
   }).toPass({ timeout: 60000 });
 }
+
+/** Live clock / score text. Replays still render the classic scoreboard; the live match shows them in the Match
+ *  Center's sticky bar (since c3d4ad4). Prefer the scoreboard when it is on the page. */
+export async function scoreboardClock(page: Page): Promise<string> {
+  const classic = page.locator('.game-scoreboard-top');
+  return (await classic.count()) ? classic.first().innerText() : page.locator('.mc-workspace-nav .mc-compact-identity > small').innerText();
+}
+export async function scoreboardScore(page: Page): Promise<string> {
+  const classic = page.locator('.game-live-score');
+  return (await classic.count()) ? classic.first().innerText() : page.locator('.mc-workspace-nav .mc-score-figure').innerText();
+}

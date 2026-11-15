@@ -34,7 +34,7 @@ import { defenceSystemKey, effectiveDefenceSpaces } from '@/lib/matchPlan/engine
 import { currentTeamRoles } from '@/lib/career/teamRoles';
 import { boardReadiness, phaseMatrix } from '@/lib/matchPlan/boardReadiness';
 import { PhaseMatrix, ReadinessHeader } from '@/components/tactics/TacticsBoardHeader';
-import { BenchStrip, GuardBar, OverlayControl, PairingCourt } from '@/components/tactics/BoardTools';
+import { BenchStrip, GuardBar, OverlayControl, PairingCourt, SaveStateChip } from '@/components/tactics/BoardTools';
 import { benchStrip, diffLineups, outsideByReadiness } from '@/lib/matchPlan/tacticsBoard';
 import { getZoneLabel as zoneLabelOf } from '@/lib/matchPlan/tacticsDiffWorkflow';
 import { activeSubstitutionPairs } from '@/lib/matchPlan/substitutionPairs';
@@ -1175,6 +1175,7 @@ export default function TacticsPage() {
       {heading}
       {notice && <p className="hm-panel-body coach-tactics-notice" role="status">{notice}</p>}
       <PlanSummary career={career} plan={plan} squad={allSquad} />
+      <SaveStateChip />
       {manual && (
         <div className="hm-panel-body coach-lineup-status" role={manualIssues.length ? 'alert' : 'status'} data-complete={manualIssues.length === 0}>
           <strong>Startsju {selectedStarters}/7 · Matchtrupp {plan.squad.players.length}/{MATCH_SQUAD_MAX_PLAYERS}</strong>{' '}

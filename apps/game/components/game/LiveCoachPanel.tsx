@@ -17,7 +17,7 @@ export function LiveCoachPanel({ session, team, busy, outId, inId, onOut, onIn, 
   const incoming = replacements.find(p => p.id === inId);
   const usedTimeout = core.referee.teamTimeouts[team].includes(core.period);
   const match = core.match;
-  const timeoutReason = disabled ? 'Matchen är stoppad.' : core.referee.timeout ? 'Spelavbrott pågår.' : match?.phase === 'PREMATCH' ? 'Timeout blir tillgänglig efter avkast och vid eget bollinnehav.' : !match || !['FIRST_HALF', 'SECOND_HALF'].includes(match.phase) ? 'Timeout under pågående halvlek.' : usedTimeout ? 'Din timeout i halvleken är använd.' : core.referee.resumeOnWhistle ? 'Vänta på domarens signal.' : core.possession.team !== team ? 'Timeout kräver eget bollinnehav.' : core.officialClock.timeMs - match.periodStartMs >= match.periodLengthMs ? 'Halvleken är slut.' : null;
+  const timeoutReason = disabled ? 'Matchen är stoppad.' : core.referee.timeout ? 'Spelavbrott pågår.' : match?.phase === 'PREMATCH' ? 'Timeout blir tillgänglig efter avkast och vid eget bollinnehav.' : !match || !['FIRST_HALF', 'SECOND_HALF'].includes(match.phase) ? 'Timeout under pågående halvlek.' : usedTimeout ? 'Din timeout i halvleken är använd.' : core.referee.resumeOnWhistle ? 'Vänta på domarens signal.' : core.possession.team !== team ? 'Timeout kräver eget bollinnehav.' : core.ball.flight && !core.ball.live ? 'Vänta tills bollen är i spel.' : core.officialClock.timeMs - match.periodStartMs >= match.periodLengthMs ? 'Halvleken är slut.' : null;
   const timeoutEvent = [...core.events].reverse().find(e => e.type === 'TEAM_TIMEOUT_STARTED');
   const timeoutTeam = timeoutEvent?.details.team as TeamId | undefined;
   const timeoutOwnerId = timeoutTeam === 'HOME' ? session.fixture.homeClubId : session.fixture.awayClubId;

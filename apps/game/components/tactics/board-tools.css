@@ -115,3 +115,10 @@
   .tb-drawer li { grid-template-columns: 24px minmax(0, 1fr) auto; }
   .tb-drawer li small { display: none; }
 }
+
+/* Stabilization: save state of board edits */
+.tb-save-state { display: flex; align-items: center; gap: 8px; margin: 8px 16px; font-size: 12px; color: var(--arena-muted, #b7c0cf); }
+.tb-save-state i { width: 8px; height: 8px; border-radius: 50%; background: var(--arena-pos, #38b277); }
+.tb-save-state[data-state="SAVING"] i { background: var(--arena-warn, #eab308); }
+.tb-save-state[data-state="FAILED"] { color: var(--arena-ink, #f4f6fa); }
+.tb-save-state[data-state="FAILED"] i { background: var(--arena-neg, #ef4444); }

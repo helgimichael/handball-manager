@@ -316,5 +316,7 @@
   "lib/career/arenaShell.test.ts",
   "lib/players/playerDossier.test.ts",
   "lib/matchday/preMatch.test.ts",
-  "lib/matchPlan/tacticsBoard.test.ts"
+  "lib/matchPlan/tacticsBoard.test.ts",
+  "lib/save/careerWriteStatus.test.ts",
+  "lib/career/timeoutDuringFlight.test.ts"
 ]

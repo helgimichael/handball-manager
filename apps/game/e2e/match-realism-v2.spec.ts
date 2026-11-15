@@ -1,5 +1,5 @@
 import { test, expect as baseExpect, type Page } from '@playwright/test';
-import { readyStartMatch, showCourt2D } from './matchPrep';
+import { readyStartMatch, scoreboardClock, scoreboardScore, showCourt2D } from './matchPrep';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import type { CareerSave } from '../lib/save/saveRepository';
@@ -47,7 +47,7 @@ test('canonical career match: visible 2D at live speeds, coaching, both halves, 
       players:Array.from(svg.querySelectorAll(':scope > g[transform^="translate("]')).map(group=>({name:group.querySelector('title')?.textContent??'',transform:group.getAttribute('transform')})),
       ball:{x:svg.querySelector(':scope > circle')?.getAttribute('cx'),y:svg.querySelector(':scope > circle')?.getAttribute('cy')},
     }));
-    const clock=await page.locator('.game-scoreboard-top').innerText(),score=await page.locator('.game-live-score').innerText();
+    const clock=await scoreboardClock(page),score=await scoreboardScore(page);
     observations.push({kind:'rendered-2d',label,wallTime:new Date().toISOString(),clock,score,...frame});
     expect(frame.players.length).toBeGreaterThanOrEqual(10);
     return frame;
@@ -133,10 +133,10 @@ test('canonical career match: visible 2D at live speeds, coaching, both halves, 
     }
     await expect(page.locator('.coach-timeout[data-active="true"]')).toBeVisible();await expect(timeout).toBeDisabled();
     await widths('timeout');await save();
-    const beforeReload=await savedFacts(page),clockBefore=await page.locator('.game-scoreboard-top').innerText();
+    const beforeReload=await savedFacts(page),clockBefore=await scoreboardClock(page);
     expect(beforeReload.coreHash).toBeTruthy();observations.push({kind:'saved-live',...beforeReload});
     await page.reload();await showCourt2D(page);await expect(page.locator(courtSelector)).toBeVisible({timeout:60000});
-    expect(await page.locator('.game-scoreboard-top').innerText()).toBe(clockBefore);
+    expect(await scoreboardClock(page)).toBe(clockBefore);
     await expect(page.locator('.coach-timeout[data-active="true"]')).toBeVisible();await expect(timeout).toBeDisabled();
     for(const name of ['Försvar 5:1','Tempo Snabbt','Anfall Bredd'])await expect(page.getByRole('button',{name,exact:true})).toHaveAttribute('aria-pressed','true');
     const afterReload=await savedFacts(page);expect(afterReload.coreHash).toBe(beforeReload.coreHash);expect(afterReload.rng).toEqual(beforeReload.rng);
@@ -166,7 +166,7 @@ test('canonical career match: visible 2D at live speeds, coaching, both halves, 
     const bounds=await slider.boundingBox();expect(bounds).not.toBeNull();await slider.click({position:{x:bounds!.width/2,y:bounds!.height/2}});
     observations.push({kind:'replay-middle',tick:await slider.inputValue()});await renderedFrame('replay-middle');await widths('replay-middle');
     await slider.press('End');await renderedFrame('replay-end');await widths('replay-end');
-    const replayScore=(await page.locator('.game-live-score').innerText()).replace(/\s/g,'').replace(':','–');expect(replayScore).toBe(finalScore);
+    const replayScore=(await scoreboardScore(page)).replace(/\s/g,'').replace(':','–');expect(replayScore).toBe(finalScore);
     const replaySaved=await savedFacts(page);expect(replaySaved.resultScores).toEqual(reportSaved.resultScores);expect(replaySaved.resultCount).toBe(reportSaved.resultCount);
     observations.push({kind:'archive-replay-unchanged',finalScore,...replaySaved});
     await page.getByRole('link',{name:'Matchrapport',exact:true}).click();await page.getByRole('button',{name:'Ligaläget →',exact:true}).click();

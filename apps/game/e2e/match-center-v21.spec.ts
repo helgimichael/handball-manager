@@ -67,7 +67,12 @@ test('normal career: live decisions, halftime, save/load and four match review v
     await expect(page.getByRole('button', { name: 'Anfall Bredd', exact: true })).toHaveAttribute('aria-pressed', 'true');
     await page.getByLabel('Matchhastighet').selectOption('64');
     await page.getByRole('button', { name: 'Återuppta efter timeout', exact: true }).click();
-    await expect(page.getByRole('button', { name: 'Starta andra halvlek', exact: true })).toBeVisible({ timeout: 180000 });
+    // Play stops at every team time-out (the opponent's too) until the manager resumes it -- the product's rule.
+    await expect(async () => {
+      const resume = page.getByRole('button', { name: 'Återuppta efter timeout', exact: true });
+      if (await resume.isVisible()) await resume.click();
+      await expect(page.getByRole('button', { name: 'Starta andra halvlek', exact: true })).toBeVisible({ timeout: 5000 });
+    }).toPass({ timeout: 180000 });
     await expect(tab('Översikt')).toHaveAttribute('aria-selected', 'true');
     await page.screenshot({ path: `${evidence}/screenshots/halftime-1920.png`, fullPage: true });
     await page.getByRole('button', { name: 'Starta andra halvlek', exact: true }).click();

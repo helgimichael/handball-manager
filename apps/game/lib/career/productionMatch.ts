@@ -242,7 +242,12 @@ export function commandProductionMatch(state: CareerState, command: MatchCommand
   if (command.kind === 'SECOND_HALF') { session.pausedAtHalf = false; accepted = true; }
   else if (command.kind === 'TACTICS') accepted = setTactics(session.core, command.team, command.patch);
   else if (command.kind === 'SUBSTITUTION') accepted = requestExchange(session.core, command.team, command.outId, command.inId);
-  else accepted = requestTeamTimeout(session.core, command.team);
+  // Stabilization: a team time-out is only granted once a dead ball has reached its taker. During any official
+  // time-out the engine does not advance a ball flight while its age keeps counting, so a time-out granted while a
+  // non-live ball is in the air (throw-off pass, dead-ball return) always ended the match with "Unresolved ball
+  // flight budget". Refusing it here, like a request without possession, leaves the engine untouched; contextual
+  // CPU time-outs already require a live, controlled ball and are unaffected.
+  else accepted = !(session.core.ball.flight && !session.core.ball.live) && requestTeamTimeout(session.core, command.team);
   if (!accepted) throw new Error('Beslutet kan inte genomföras just nu. Timeout kräver eget bollinnehav; ett byte kräver en tillgänglig ersättare.');
   return { ...state, productionMatch: session };
 }

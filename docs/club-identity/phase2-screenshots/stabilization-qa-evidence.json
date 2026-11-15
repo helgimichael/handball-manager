@@ -1,0 +1,22 @@
+{
+  "recordedOn": "2026-11-15",
+  "career": "Stabilization QA (IFK Tumba HK), created in the browser pane on the dev origin http://localhost:3763 because the earlier 'Arena Testare' QA career was no longer in the pane's storage (no hm-game database, no active-save key, no exported copy on disk). This career is left in place.",
+  "tacticsPersistence": {
+    "applyProposal": "Assistentens förslag -> Tillämpa förslaget: chip SAVING at 0 ms, SAVED at 299 ms; 'Startsju 7/7 · Matchtrupp 16/16'",
+    "beforeFix": "V6 change + tempo Snabbt, reload while SAVING: V6 (write in flight) survived, tempo (queued behind it) was LOST; no leave-page prompt (script clicks carry no user activation)",
+    "afterFix": "V6 -> Gabriel Helgason, tempo Snabbt, anfall Bredd within ~60 ms, reload while SAVING: all three restored",
+    "preview": "match preview court spots: V6 G. Helgason, V9 A. Thomsen, M9 A. Brauer, H9 D. Blazevic, H6 S. Axelsson, M6 J. Magnusson, MV O. Söderqvist (the board's seven)"
+  },
+  "match": {
+    "fixture": "2026-cup-R32-15-l1 · Svenska Cupen · GF Kroppskultur – IFK Tumba (away)",
+    "engine": "2.9.1-court-rotation.1",
+    "kickoff": "court players = the saved seven (Helgason on court); live coaching panel shows Tempo Snabbt pressed; archived kickoff tempo QUICK",
+    "timeout": "own timeout at 1:10 (LIVE -> TIMEOUT, our timeout pip 1 -> 0)",
+    "saveReloadResume": "Spara -> 'Sparat'; full reload restored TIMEOUT at 1:10 with 'Återuppta efter timeout'; resumed and played on to 6:33 (1–4) with no error",
+    "substitution": "Albin Brauer -> Ted Wettebrandt via 'Genomför byte'",
+    "result": "Kropps 17–24 IFK Tumba, 'Slutsignal · Seger'; top rated Olle Söderqvist 25/42 saves (60 %) 7.8; top scorer Ted Wettebrandt 7 goals",
+    "archive": { "count": 1, "result": "17-24", "eventTypes": { "PERIOD_STARTED": 2, "PERIOD_ENDED": 2, "TEAM_TIMEOUT_STARTED": 2, "SUBSTITUTE_ADMITTED": 13 }, "incomplete": 0 },
+    "report": "/career/match-report/2026-cup-R32-15-l1 'IFK Tumba körde över Kropps, 17–24', identical after reload",
+    "return": "'Fortsätt →' -> /career, front-page lead RESULT 'Kropps 17–24 IFK Tumba'"
+  }
+}
