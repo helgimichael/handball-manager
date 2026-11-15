@@ -371,3 +371,20 @@
   .tc-own-link { transform: rotate(90deg); align-self: center; }
 }
 @media (prefers-reduced-motion: reduce) { .tc-card, .tc-stepper i, .tc-deal, .tc-feature, .tc-urgent-card, .tc-meet { transition: none; } .tc-stepper li[data-state="current"] i { transform: none; } }
+
+/* Arena Nights Phase 3 -- REC-04b A range-band slider */
+.tc-band { grid-column: 1 / -1; display: grid; gap: 6px; padding: 10px 12px; border-radius: 8px; background: var(--arena-solid-2, rgba(255,255,255,.03)); border: 1px solid var(--arena-line, rgba(255,255,255,.08)); }
+.tc-band-track { position: relative; height: 14px; border-radius: 7px; background: var(--arena-solid-3, #1c2433); }
+.tc-band-track i { position: absolute; top: 0; height: 100%; }
+.tc-band-range { background: repeating-linear-gradient(45deg, color-mix(in srgb, var(--arena-gold, #e0b23c) 70%, transparent) 0 3px, transparent 3px 6px); border-radius: 7px; box-shadow: inset 0 0 0 1px var(--arena-gold, #e0b23c); }
+.tc-band-budget { width: 2px; margin-left: -1px; background: var(--arena-pos, #38b277); top: -4px !important; height: 22px !important; }
+.tc-band-counter { width: 10px; height: 10px !important; top: 2px !important; margin-left: -5px; border-radius: 50%; background: var(--arena-warn, #eab308); }
+.tc-band-bid { width: 4px; margin-left: -2px; top: -5px !important; height: 24px !important; border-radius: 2px; background: var(--club-neon, #f3b38a); box-shadow: 0 0 8px var(--club-neon, #f3b38a); }
+.tc-band input[type="range"] { width: 100%; margin: 0; accent-color: var(--club-neon, #f3b38a); }
+.tc-band-legend { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 11px; color: var(--arena-muted, #b7c0cf); }
+.tc-band-legend li::before { content: ""; display: inline-block; width: 8px; height: 8px; margin-right: 5px; border-radius: 2px; vertical-align: 0; }
+.tc-band-legend li[data-k="range"]::before { background: var(--arena-gold, #e0b23c); }
+.tc-band-legend li[data-k="counter"]::before { background: var(--arena-warn, #eab308); border-radius: 50%; }
+.tc-band-legend li[data-k="budget"]::before { background: var(--arena-pos, #38b277); }
+.tc-band-legend li[data-k="bid"]::before { background: var(--club-neon, #f3b38a); }
+.tc-band[data-over] .tc-band-legend li[data-k="bid"] { color: var(--arena-neg, #ef4444); font-weight: 700; }

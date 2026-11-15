@@ -36,6 +36,7 @@ import { getDealSummary, getPlayerTransferStatus, summarizeNegotiation } from "@
 import type { NegotiationResponse, NegotiationRound, RivalInterest, TransferDealType, TransferNegotiation } from "@/lib/transfers/types";
 import { DealCompletion } from "./DealCompletion";
 import { NEGOTIATION_ROOM_BACKDROP, daysLeftLabel, deadlineUrgency, periodProgress } from "./transferVisuals";
+import { FeeRangeBand } from "./FeeRangeBand";
 
 const RESPONSE_LABEL: Record<NegotiationResponse, string> = { ACCEPT: "Accepterar", COUNTER: "Motbud", REJECT: "Avböjer", BREAK_OFF: "Avbryter" };
 const RIVAL_STATUS: Record<RivalInterest["status"], string> = { ACTIVE: "Aktiv", WITHDRAWN: "Drog sig ur", SIGNED: "Värvade spelaren" };
@@ -433,6 +434,7 @@ function Decision({ negotiation, run, contractWage, contractEnd }: { negotiation
         ); }}>
           {meet && <div className="tc-eyebrow tc-form-title">{title}</div>}
           {negotiation.stage === "CLUB" && !isLoan && <label>Övergångssumma ({currencySymbol()})<MoneyInput className="tc-input" minEur={0} stepEur={500} valueEur={fee} onChangeEur={setFee} /></label>}
+          {negotiation.stage === "CLUB" && !isLoan && <FeeRangeBand fee={fee} onFee={setFee} range={visibleRange} counter={lastClub?.counterFeeEur} budget={budgetEur} />}
           {negotiation.stage === "CLUB" && isLoan && <>
             <label>Lönebidrag ni betalar (%)<input className="tc-input" type="number" min={0} max={100} step={5} value={share} onChange={(e) => setShare(Number(e.target.value))} /></label>
             <label>Lånet slutar<input className="tc-input" type="date" value={endDate} max={contractEnd} onChange={(e) => setEndDate(e.target.value)} /></label>
