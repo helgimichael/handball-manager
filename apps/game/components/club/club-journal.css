@@ -11,7 +11,7 @@
 .cj-history ol { position: absolute; inset: 14px 12px 34px; margin: 0; padding: 0; list-style: none; }
 .cj-history li { position: absolute; transform: translate(-50%, -50%); display: grid; justify-items: center; gap: 2px; }
 .cj-history li b { display: grid; place-items: center; min-width: 34px; height: 24px; padding: 0 6px; border-radius: 12px; background: var(--arena-solid-3); color: var(--arena-ink); font: 800 12px/1 var(--arena-font-display, inherit); border: 1px solid var(--arena-line, #263041); }
-.cj-history li[data-current] b { background: var(--club-neon); color: #05070b; border-color: var(--club-neon); box-shadow: 0 0 14px color-mix(in srgb, var(--club-neon) 55%, transparent); }
+.cj-history li[data-current] b { background: var(--club-neon); color: var(--club-neon-ink, #05070b); border-color: var(--club-neon); box-shadow: 0 0 14px color-mix(in srgb, var(--club-neon) 55%, transparent); }
 .cj-history li[data-top] b { border-color: var(--arena-gold); }
 .cj-history li small { font-size: 10px; color: var(--arena-faint); white-space: nowrap; }
 .cj-history figcaption { position: absolute; left: 12px; bottom: 8px; font-size: 11px; color: var(--arena-muted); }
@@ -136,7 +136,7 @@
 /* Arena Nights Phase 3 -- WLD-01 C (partial): pinned "Att göra" tray in the inbox */
 .nw-todo { display: grid; gap: 8px; margin-bottom: 14px; padding: 12px 14px; border-radius: 8px; background: color-mix(in srgb, var(--club-neon) 6%, var(--arena-solid-1)); border: 1px solid var(--arena-line, #263041); border-left: 4px solid var(--club-neon); }
 .nw-todo h2 { margin: 0; display: flex; gap: 8px; align-items: baseline; font: 800 14px/1 var(--arena-font-display, inherit); text-transform: uppercase; letter-spacing: .06em; color: var(--arena-ink); }
-.nw-todo h2 span { font-size: 12px; padding: 2px 7px; border-radius: 10px; background: var(--club-neon); color: #05070b; }
+.nw-todo h2 span { font-size: 12px; padding: 2px 7px; border-radius: 10px; background: var(--club-neon); color: var(--club-neon-ink, #05070b); }
 .nw-todo ol { list-style: none; margin: 0; padding: 0; display: flex; gap: 8px; overflow-x: auto; scrollbar-width: thin; }
 .nw-todo li button { display: grid; gap: 2px; min-width: 220px; max-width: 300px; text-align: left; padding: 8px 10px; border-radius: 6px; border: 1px solid var(--arena-line, #263041); background: var(--arena-solid-2); color: var(--arena-ink); cursor: pointer; font: inherit; }
 .nw-todo li button[aria-pressed="true"] { border-color: var(--club-neon); }

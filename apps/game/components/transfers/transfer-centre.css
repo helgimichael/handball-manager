@@ -376,7 +376,7 @@
 .tc-band { grid-column: 1 / -1; display: grid; gap: 6px; padding: 10px 12px; border-radius: 8px; background: var(--arena-solid-2, rgba(255,255,255,.03)); border: 1px solid var(--arena-line, rgba(255,255,255,.08)); }
 .tc-band-track { position: relative; height: 14px; border-radius: 7px; background: var(--arena-solid-3, #1c2433); }
 .tc-band-track i { position: absolute; top: 0; height: 100%; }
-.tc-band-range { background: repeating-linear-gradient(45deg, color-mix(in srgb, var(--arena-gold, #e0b23c) 70%, transparent) 0 3px, transparent 3px 6px); border-radius: 7px; box-shadow: inset 0 0 0 1px var(--arena-gold, #e0b23c); }
+.tc-band-range { background-image: repeating-linear-gradient(45deg, color-mix(in srgb, var(--arena-gold, #e0b23c) 70%, transparent) 0 3px, transparent 3px 6px); border-radius: 7px; box-shadow: inset 0 0 0 1px var(--arena-gold, #e0b23c); }
 .tc-band-budget { width: 2px; margin-left: -1px; background: var(--arena-pos, #38b277); top: -4px !important; height: 22px !important; }
 .tc-band-counter { width: 10px; height: 10px !important; top: 2px !important; margin-left: -5px; border-radius: 50%; background: var(--arena-warn, #eab308); }
 .tc-band-bid { width: 4px; margin-left: -2px; top: -5px !important; height: 24px !important; border-radius: 2px; background: var(--club-neon, #f3b38a); box-shadow: 0 0 8px var(--club-neon, #f3b38a); }
