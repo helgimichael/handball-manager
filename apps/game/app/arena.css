@@ -20,7 +20,7 @@
   --arena-ink: #f4f6fa;
   --arena-ink-2: #d5dbe6;
   --arena-muted: #9aa6b8;
-  --arena-faint: #6c7890;
+  --arena-faint: #8590a6; /* Phase 2 polish: >= 4.8:1 on every Arena surface (was #6c7890, ~3.8-4.4:1) for the small uppercase labels */
   --arena-line: rgba(255, 255, 255, 0.1);
   --arena-line-strong: rgba(255, 255, 255, 0.2);
   --arena-pos: #2bd98a;

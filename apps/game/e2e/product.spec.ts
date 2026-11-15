@@ -10,6 +10,8 @@ test('normal career UI: real squad, calendar, live match, decisions, finalizatio
   await page.goto(`${base}/new-game`);
   for (let i = 0; i < 4; i++) await page.getByRole('button', { name: 'Nästa →', exact: true }).click();
   await page.getByPlaceholder('För- och efternamn').fill('Test Manager');
+  await page.getByRole('combobox', { name: 'Nationalitet', exact: true }).selectOption('SWE');
+  await page.getByRole('textbox', { name: 'Födelsedatum', exact: true }).fill('1985-04-12');
   await page.getByRole('button', { name: 'Nästa →', exact: true }).click();
   await page.getByRole('radio', { name: 'Vid första tävlingsmatchen', exact: true }).check();
   await page.getByRole('button', { name: 'STARTA KARRIÄR', exact: true }).click();
@@ -46,7 +48,7 @@ test('normal career UI: real squad, calendar, live match, decisions, finalizatio
   await page.getByRole('link', { name: 'Till matchen →' }).click();
   for (let n = 0; n < 30; n++) {
     if (await page.getByRole('button', { name: 'STARTA MATCH →', exact: true }).isVisible()) break;
-    await page.getByRole('button', { name: 'Fortsätt »', exact: true }).click();
+    await page.locator('.hm-continue-header').click();
     await expect(page.locator('.game-world-advance')).toHaveCount(0, { timeout: 30000 });
     await page.goto(`${base}/career/match-preview`);
   }

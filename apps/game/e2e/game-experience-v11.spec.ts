@@ -6,6 +6,8 @@ async function tumbaCareer(page: import('@playwright/test').Page) {
   await page.goto(`${base}/new-game`);
   for (let step=0;step<4;step++) await page.getByRole('button',{name:'Nästa →',exact:true}).click();
   await page.getByPlaceholder('För- och efternamn').fill('Experience v11 QA');
+  await page.getByRole('combobox', { name: 'Nationalitet', exact: true }).selectOption('SWE');
+  await page.getByRole('textbox', { name: 'Födelsedatum', exact: true }).fill('1985-04-12');
   await page.getByRole('button',{name:'Nästa →',exact:true}).click();
   await page.getByRole('radio',{name:'8 veckor före seriestart',exact:true}).check();
   await page.getByRole('button',{name:'STARTA KARRIÄR',exact:true}).click();
@@ -33,6 +35,8 @@ test('career setup validates the selected league, starts another club, and safel
   await expect(page.locator('.career-entry-context')).toContainText('Hammarby');
   await page.getByRole('button',{name:'Nästa →',exact:true}).press('Enter');
   await page.getByPlaceholder('För- och efternamn').fill('Hammarby v11 QA');
+  await page.getByRole('combobox', { name: 'Nationalitet', exact: true }).selectOption('SWE');
+  await page.getByRole('textbox', { name: 'Födelsedatum', exact: true }).fill('1985-04-12');
   await page.getByRole('button',{name:'Nästa →',exact:true}).press('Enter');
   await page.getByRole('radio',{name:'Vid första tävlingsmatchen',exact:true}).check();
   await expect(page.locator('.career-start-mandate')).toContainText('Hammarby v11 QA');
@@ -67,7 +71,7 @@ test('Continue identifies the real stop, object navigation retains workspace con
   const errors:string[]=[]; page.on('pageerror',error=>errors.push(error.message));
   await page.setViewportSize({width:1920,height:1080});
   await tumbaCareer(page);
-  await page.getByRole('button',{name:'Fortsätt »',exact:true}).click();
+  await page.locator('.hm-continue-header').click();
   await expect(page.getByRole('dialog',{name:'Världen går vidare.',exact:true})).toBeVisible();
   const stopTitle=(await page.locator('.game-advance-stop h3').innerText()).trim();
   await page.getByRole('dialog').press('Escape');

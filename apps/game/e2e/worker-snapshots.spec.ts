@@ -33,6 +33,8 @@ test('New Game initializes and persists a real Handbollsligan career under worke
   await page.getByRole('button', { name: 'Nästa →', exact: true }).click();
   await page.getByPlaceholder('För- och efternamn').fill('Worker Alphatestare');
   await page.getByRole('combobox', { name: 'Nationalitet', exact: true }).selectOption('SWE');
+  await page.getByRole('textbox', { name: 'Födelsedatum', exact: true }).fill('1985-04-12');
+  await page.getByRole('combobox', { name: 'Nationalitet', exact: true }).selectOption('SWE');
   await page.getByLabel('F\u00f6delsedatum', { exact: true }).fill('1985-01-15');
   await page.getByRole('button', { name: 'Nästa →', exact: true }).click();
   await page.getByRole('radio', { name: 'Vid första tävlingsmatchen', exact: true }).check();

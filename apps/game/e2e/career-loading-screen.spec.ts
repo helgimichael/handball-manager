@@ -18,6 +18,8 @@ async function setup(page: Page, club = 'Alingsås HK') {
   await page.getByRole('button', { name: 'Nästa →', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Nästa →', exact: true })).toBeDisabled();
   await page.getByPlaceholder('För- och efternamn').fill('Loading QA');
+  await page.getByRole('combobox', { name: 'Nationalitet', exact: true }).selectOption('SWE');
+  await page.getByRole('textbox', { name: 'Födelsedatum', exact: true }).fill('1985-04-12');
   await page.getByRole('button', { name: 'Nästa →', exact: true }).click();
 }
 

@@ -53,6 +53,8 @@
   .hm-shell[data-rail="collapsed"] .hm-sidebar:not(:hover):not(:focus-within) .hm-wordmark { padding: 16px 0 8px; justify-content: center; }
   .hm-shell[data-rail="collapsed"] .hm-sidebar:not(:hover):not(:focus-within) .hm-rail-pin { justify-self: center; }
   .hm-mobile-dock { display: none; }
+  /* The alpha feedback button floats at the bottom-left: keep the rail foot (inbox, settings, saved careers) clear of it. */
+  .hm-sidebar { padding-bottom: 68px; }
 }
 
 /* ---------------------------------------------------------------- hub header: breadcrumb + tab row */

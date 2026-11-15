@@ -199,6 +199,8 @@ test('calibrated v2.1 career match: visible 2D at live speeds, coaching, both ha
     await page.goto(`${base}/new-game`);
     for(let step=0;step<4;step++)await page.getByRole('button',{name:'Nästa →',exact:true}).click();
     await page.getByPlaceholder('För- och efternamn').fill('Match Calibration v2.1 Browser QA');
+    await page.getByRole('combobox', { name: 'Nationalitet', exact: true }).selectOption('SWE');
+    await page.getByRole('textbox', { name: 'Födelsedatum', exact: true }).fill('1985-04-12');
     await page.getByRole('button',{name:'Nästa →',exact:true}).click();
     await page.getByRole('radio',{name:'Vid första tävlingsmatchen',exact:true}).check();
     await page.getByRole('button',{name:'STARTA KARRIÄR',exact:true}).click();
@@ -206,7 +208,7 @@ test('calibrated v2.1 career match: visible 2D at live speeds, coaching, both ha
     await page.goto(`${base}/career/match-preview`);
     for(let attempt=0;attempt<30;attempt++){
       if(await page.getByRole('button',{name:'STARTA MATCH →',exact:true}).isVisible())break;
-      await page.getByRole('button',{name:'Fortsätt »',exact:true}).click();
+      await page.locator('.hm-continue-header').click();
       if(await page.getByRole('dialog').isVisible())await page.getByRole('dialog').press('Escape');
       await expect(page.locator('.game-world-advance')).toHaveCount(0);await page.goto(`${base}/career/match-preview`);
     }

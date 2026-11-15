@@ -6,6 +6,8 @@ async function newCareer(page: Page) {
   await page.goto(`${base}/new-game`);
   for (let i=0;i<4;i++) await page.getByRole('button',{name:'Nästa →',exact:true}).click();
   await page.getByPlaceholder('För- och efternamn').fill('Management QA');
+  await page.getByRole('combobox', { name: 'Nationalitet', exact: true }).selectOption('SWE');
+  await page.getByRole('textbox', { name: 'Födelsedatum', exact: true }).fill('1985-04-12');
   await page.getByRole('button',{name:'Nästa →',exact:true}).click();
   await page.getByRole('radio',{name:'8 veckor före seriestart',exact:true}).check();
   await page.getByRole('button',{name:'STARTA KARRIÄR',exact:true}).click();
@@ -100,7 +102,7 @@ test('connected management journeys, contracts, shortlist, scouting, world links
   for (let day=0;day<24;day++) {
     if (await page.getByText('Ingen scoutingrapport ännu.',{exact:true}).count() === 0) break;
     const beforeDate = await page.locator('.hm-header-sub').innerText();
-    await page.getByRole('button',{name:'Fortsätt »',exact:true}).click();
+    await page.locator('.hm-continue-header').click();
     await expect(page.locator('.hm-header-sub')).not.toHaveText(beforeDate);
     await expect(page.locator('.game-world-advance')).toHaveCount(0,{timeout:30000});
     await page.getByRole('button',{name:'Spara',exact:true}).click();

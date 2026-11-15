@@ -16,6 +16,8 @@ async function createCareer(page:Page) {
   await page.goto(`${base}/new-game`);
   for(let step=0;step<4;step++) await page.getByRole('button',{name:'Nästa →',exact:true}).click();
   await page.getByPlaceholder('För- och efternamn').fill('Visual QA');
+  await page.getByRole('combobox', { name: 'Nationalitet', exact: true }).selectOption('SWE');
+  await page.getByRole('textbox', { name: 'Födelsedatum', exact: true }).fill('1985-04-12');
   await page.getByRole('button',{name:'Nästa →',exact:true}).click();
   await page.getByRole('radio',{name:'Vid första tävlingsmatchen',exact:true}).check();
   await page.getByRole('button',{name:'STARTA KARRIÄR',exact:true}).click();
