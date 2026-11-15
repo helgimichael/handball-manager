@@ -24,7 +24,7 @@ New is the **sticky identity bar**, which stays in view while the dossier scroll
 
 It carries one **primary action chosen from state**:
 
-- **Förläng kontrakt** when a year or less remains;
+- **Till förlängning →** (opens the contract chapter) when a year or less remains;
 - **Svara på oro** when the player has an open concern;
 - **Förhandla** for external players (from the existing actions).
 

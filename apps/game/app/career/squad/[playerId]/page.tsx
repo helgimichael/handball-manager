@@ -353,7 +353,7 @@ export default function PlayerProfilePage() {
       <PlayerHero player={player} career={career}>{back}</PlayerHero>
       {/* SQD-02g: one primary action chosen from state; the existing actions follow. */}
       <DossierBar player={player} dossier={dossier} availability={availability} actions={<PlayerActions player={player} />} primary={
-        isOwnPlayer && dossier.contract?.daysLeft != null && dossier.contract.daysLeft <= 365 ? <button type="button" className="hm-btn hm-btn-sm hm-btn-primary" onClick={() => setTab("contract")}>Förläng kontrakt</button>
+        isOwnPlayer && dossier.contract?.daysLeft != null && dossier.contract.daysLeft <= 365 ? <button type="button" className="hm-btn hm-btn-sm hm-btn-primary" onClick={() => setTab("contract")}>Till förlängning →</button>
         : isOwnPlayer && Object.values(career.playerDynamics?.concerns ?? {}).some(c => c.playerId === player.id && c.status === "OPEN") ? <button type="button" className="hm-btn hm-btn-sm hm-btn-primary" onClick={() => setTab("overview")}>Svara på oro</button>
         : null} />
       <nav className="hm-tabs hm-profile-tabs hm-dossier-tabs" aria-label="Spelarprofil">
