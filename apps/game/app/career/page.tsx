@@ -3,30 +3,31 @@ import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useCareer } from '@/lib/career/CareerContext';
 import { getCareerClub, getCareerSquad } from '@/lib/career/careerWorld';
-import { getNextPlayerFixture } from '@/lib/career/calendar';
 import { getLiveStandings } from '@/lib/career/standings';
-import { managementAttention, squadEnergy } from '@/lib/career/management';
+import { managementAttention } from '@/lib/career/management';
 import { attemptSeasonTransition } from '@/lib/career/seasonRollover';
 import type { Dependency } from '@/lib/competition/transition/types';
-import { getClub, COMPETITIONS } from '@/lib/game-data';
+import { COMPETITIONS } from '@/lib/game-data';
 import { getClubEconomySnapshot } from '@/lib/economy/clubEconomyIntegration';
 import { formatMoney } from '@/lib/economy/currency';
 import { useMoney } from '@/lib/settings/usePreferences';
-import { resolveStatusLabel } from '@/lib/career/playerStatus';
+import { categoryLabel } from '@/lib/career/inboxBridge';
 import { WeeklyManagerOverview } from '@/components/game/WeeklyManagerOverview';
-import { ClubLink, PlayerLink } from '@/components/entityLinks';
+import { PlayerLink } from '@/components/entityLinks';
 import ClubCrest from '@/components/ClubCrest';
 import { resolveClubIdentity } from '@/components/crests/clubIdentity';
-import FormDots from '@/components/FormDots';
 import { EmptyState } from '@/components/manager/Workspace';
-import { clubColorVars, MatchHero, PlayerCell, RankIndicator, ClubHero } from '@/components/game/Identity';
+import { clubColorVars, ClubHero } from '@/components/game/Identity';
 import { ENVIRONMENTS } from '@/components/clubhq/environments';
 import { MeterBar } from '@/components/experience/primitives';
 import { boardPressureStage, BOARD_PRESSURE_LABEL, boardOf, ensureBoard, evaluateObjectives } from '@/lib/board/board';
 import { currentTeamRoles } from '@/lib/career/teamRoles';
-import { matchFitnessOf } from '@/lib/players/matchFitness';
-import { matchReportHref } from '@/lib/career/fixtureRoutes';
-import { buildFrontPage, type FrontPageEar } from '@/lib/career/frontPage';
+import { buildFrontPage, buildMatchBox, buildSeasonCurtain, courtCoverage, describeTransitionBlocker, type BriefPriority, type FrontPageEar } from '@/lib/career/frontPage';
+import { MatchBox } from '@/components/front/MatchBox';
+import { CourtCoverage } from '@/components/front/CourtCoverage';
+import { SeasonCurtain, useSeasonCurtain } from '@/components/front/SeasonCurtain';
+
+const PRIORITY_LABEL: Record<BriefPriority, string> = { ACTION: 'Kräver åtgärd', IMPORTANT: 'Viktigt', UNREAD: 'Oläst', READ: 'Läst' };
 
 export default function HomePage() {
   const money = useMoney();
@@ -42,24 +43,32 @@ export default function HomePage() {
   const attention = useMemo(() => managementAttention(career), [career]);
   const table = useMemo(() => getLiveStandings(career), [career]);
   const ownRow = table.find(r => r.clubId === club.id);
-  const next = getNextPlayerFixture(career);
   const competition = COMPETITIONS.find(c => c.id === career.competitionId);
   const economy = getClubEconomySnapshot(career, club.id);
-  const recent = career.fixtures.filter(f => career.results[f.id]).sort((a,b) => b.date.localeCompare(a.date));
-  const ownRecent = recent.filter(f => f.homeClubId === club.id || f.awayClubId === club.id).slice(0,3);
   const previousSeason = career.seasonHistory?.at(-1);
   const nextYear = Number(career.seasonId.slice(0, 4)) + 1;
   const nextSeasonId = `${nextYear}/${String(nextYear + 1).slice(-2)}`;
   const boardView = useMemo(() => (boardOf(career) ? career : ensureBoard(career, career.gameDate)), [career]);
   const board = boardView.board!;
   const boardObjectives = useMemo(() => evaluateObjectives(boardView, boardView.board!), [boardView]);
-  const issues = [...attention.unavailable.map(p => ({p,detail:resolveStatusLabel(career.playerStatuses,p)})), ...attention.tired.filter(p=>!attention.unavailable.some(x=>x.id===p.id)).map(p=>({p,detail:`${Math.round(squadEnergy(career,p))}% energi`}))];
   const identity = resolveClubIdentity(club.id, club.shortName, club.primaryColor);
   const roles = currentTeamRoles(career);
   const captain = roles.captainId ? squad.find(p => p.id === roles.captainId) : undefined;
-  const avgMatchFitness = squad.length ? Math.round(squad.reduce((s, p) => s + matchFitnessOf(career, p.id), 0) / squad.length) : 0;
-  // DSH-01 (Arena adaptation "Matchweek Front Page"): masthead + ears, lead story, numbered decisions, ladder ±2, briefs.
+  // DSH-01 (Arena adaptation "Matchweek Front Page"): masthead + ears, lead story, numbered decisions, match box, briefs.
   const front = useMemo(() => buildFrontPage(boardView), [boardView]);
+  // DSH-01b/g match box with form strip; DSH-01e court coverage.
+  const box = useMemo(() => buildMatchBox(career), [career]);
+  const spots = useMemo(() => courtCoverage(career), [career]);
+  // DSH-01c season curtain + hand-off checklist, from the season-complete state and the transition's own blockers.
+  const curtainData = useMemo(() => (career.seasonComplete ? buildSeasonCurtain(boardView, evaluateObjectives(boardView, boardView.board!, true)) : null), [career.seasonComplete, boardView]);
+  const curtain = useSeasonCurtain(`hm-season-curtain:${career.saveSeed}:${club.id}:${career.seasonId}`, !!curtainData);
+  const blockers = useMemo(() => {
+    const all = [...transitionBlockers, ...(career.seasonComplete ? career.seasonOutcome?.qualificationBlockers ?? [] : [])];
+    return [...new Map(all.map(b => [`${b.code}:${b.ref}`, b])).values()];
+  }, [transitionBlockers, career.seasonComplete, career.seasonOutcome]);
+  const matchday = front.lead.kind === 'MATCHDAY';
+  const competitionHref = `/career/competitions/${encodeURIComponent(career.competitionId)}`;
+  const matchBox = !career.seasonComplete && <MatchBox box={box} ladder={front.ladder} clubId={club.id} competitionHref={competitionHref} />;
 
   return <div className="game-home hm-front" style={clubColorVars(club)}>
     <header className="hm-front-masthead" aria-label="Matchveckan">
@@ -71,10 +80,11 @@ export default function HomePage() {
           <h1>{club.name}</h1>
           <p>{competition?.name}{identity.heritageTag ? ` · ${identity.heritageTag}` : ''}</p>
         </div>
-        <nav className="hm-front-rooms" aria-label="Klubbens rum"><Link href="/career/klubbhuset">Klubbhuset →</Link><Link href="/career/tactics">Taktikrummet →</Link></nav>
+        <nav className="hm-front-rooms" aria-label="Klubbens rum"><Link href="/career/club">Klubbhuset →</Link><Link href="/career/tactics">Taktikrummet →</Link></nav>
       </div>
       <FrontEar ear={front.ears[1]} />
     </header>
+    {matchday && matchBox}
     <section className="hm-front-top" aria-label="Förstasidan">
       <article className="hm-front-lead xp-photo-hero" data-kind={front.lead.kind} style={ENVIRONMENTS["manager-office"].backdropStyle}>
         <div className="hm-front-lead-copy">
@@ -91,25 +101,32 @@ export default function HomePage() {
     </section>
     {career.managerCareer?.seekingJob && <div className="game-new-season-note"><strong>Du står utan klubb.</strong> Kalendern fortsätter och klubbar med lediga tjänster hör av sig. Sök jobb själv eller tryck Fortsätt.<Link href="/career/manager?tab=jobs">Jobbmarknaden →</Link></div>}
     {previousSeason && !career.seasonComplete && !ownRow?.played && <div className="game-new-season-note"><strong>Säsong {career.seasonId} tar vid.</strong> Matcher och spelarstatistik från {previousSeason.seasonId} finns kvar.<Link href={`/career/history?season=${encodeURIComponent(previousSeason.seasonId)}`}>Se föregående säsong →</Link></div>}
-    {career.seasonComplete && transitionBlockers.length > 0 && <div role="alert" className="game-new-season-note"><strong>Säsongsbytet är blockerat. Karriären är bevarad.</strong><ul>{transitionBlockers.map((b, i) => <li key={`${b.code}:${b.ref}:${i}`}>{b.message} ({b.ref})</li>)}</ul></div>}
-    {career.seasonComplete ? <><ClubHero clubId={club.id} career={career}/><section className="game-season-milestone"><div><span className="game-overline">{competition?.name} · {career.seasonId} avslutad</span><h2>Säsongen är i mål.</h2><p>{attention.contracts.length} spelare har avtal att ta ställning till. Nästa ligasäsong blir {nextSeasonId}. Sluttabellen, spelarstatistiken och matcharkiven bevaras när du går vidare.</p><div className="hm-actions"><button className="hm-btn hm-btn-primary" onClick={startNextSeason}>Börja nästa säsong →</button><Link className="hm-btn" href="/career/contracts">Se över avtalen →</Link><Link className="hm-btn" href={`/career/competitions/${career.competitionId}`}>Sluttabellen →</Link></div></div><div className="game-milestone-facts"><div><strong>{ownRow ? table.indexOf(ownRow)+1 : '—'}</strong><span>Slutplacering</span></div><div><strong>{ownRow?.points ?? '—'}</strong><span>Poäng</span></div><div><strong>{ownRow?.goalsFor ?? '—'}</strong><span>Gjorda mål</span></div></div></section></> : <div className="game-home-event">{next ? <MatchHero career={career} fixture={next}><Link className="hm-btn" href={`/career/clubs/${next.homeClubId===club.id ? next.awayClubId : next.homeClubId}`}>Motståndaren →</Link><Link className="hm-btn" href="/career/tactics">Taktiktavla →</Link><Link className="hm-btn hm-btn-primary" href="/career/match-preview">Förbered match →</Link></MatchHero> : <EmptyState>Inget kommande avkast.</EmptyState>}<aside className="game-season-card"><div><div className="game-overline">{competition?.name} · {ownRow?.played ? 'LIGALÄGET' : 'FÖRE SERIESTART'}</div><RankIndicator position={ownRow?.played ? table.indexOf(ownRow)+1 : '—'} label={`/ ${table.length}`}/><h2>{club.shortName} i ligan</h2></div><div className="game-season-record"><div><strong>{ownRow?.points ?? 0}</strong><small>POÄNG</small></div><div><strong>{ownRow?.played ?? 0}</strong><small>MATCHER</small></div><div><strong>{ownRow?.goalDifference ?? 0}</strong><small>MÅLSKILLNAD</small></div></div><div><span className="game-overline">Senaste fem</span><div><FormDots results={career.clubForm[club.id] ?? []}/>{!(career.clubForm[club.id]?.length) && <small>Inga spelade matcher ännu</small>}</div></div><Link href={`/career/competitions/${career.competitionId}`}>Ligan, resultaten och rivalerna →</Link></aside></div>}
-    {!career.seasonComplete && front.ladder.length > 0 && <section className="hm-front-ladder" aria-label="Tabelläget ±2"><div className="game-section-heading"><h2>Tabelläget</h2><Link href={`/career/competitions/${career.competitionId}`}>Hela tabellen →</Link></div><ol>{front.ladder.map(r => <li key={r.clubId} data-own={r.own}><span className="hm-front-pos">{r.position}</span><ClubLink clubId={r.clubId}>{r.name}</ClubLink><span>{r.played} m</span><span>{r.goalDifference > 0 ? '+' : ''}{r.goalDifference}</span><strong>{r.points} p</strong></li>)}</ol></section>}
+    {career.seasonComplete ? <>
+      <ClubHero clubId={club.id} career={career} />
+      <section className="game-season-milestone hm-handoff-card" aria-labelledby="hm-handoff-h">
+        <div>
+          <span className="game-overline">{competition?.name} · {career.seasonId} avslutad</span>
+          <h2 id="hm-handoff-h">Säsongen är i mål.</h2>
+          <p>Nästa ligasäsong blir {nextSeasonId}. Sluttabellen, spelarstatistiken och matcharkiven bevaras när du går vidare.</p>
+          <ol className="hm-handoff">
+            <li data-done={attention.contracts.length === 0 || undefined}><span className="hm-handoff-n" aria-hidden="true">1</span><div><strong>Se över avtalen</strong><small>{attention.contracts.length ? `${attention.contracts.length} spelare har avtal att ta ställning till.` : 'Inga avtal kräver beslut just nu.'}</small></div><Link className="hm-btn hm-btn-sm" href="/career/contracts">Se över avtalen →</Link></li>
+            <li><span className="hm-handoff-n" aria-hidden="true">2</span><div><strong>Granska sluttabellen</strong><small>{ownRow ? `${table.indexOf(ownRow) + 1}:a med ${ownRow.points} poäng.` : 'Din klubb finns inte i tabellen.'}</small></div><Link className="hm-btn hm-btn-sm" href={competitionHref}>Sluttabellen →</Link></li>
+            <li data-blocked={blockers.length > 0 || undefined}><span className="hm-handoff-n" aria-hidden="true">3</span><div><strong>Börja säsong {nextSeasonId}</strong><small>{blockers.length ? 'Säsongsbytet väntar på punkterna nedan. Karriären är bevarad.' : 'Seriernas nya sammansättning tillämpas när du startar.'}</small></div><button type="button" className="hm-btn hm-btn-primary hm-btn-sm" onClick={startNextSeason}>Börja nästa säsong →</button></li>
+          </ol>
+          {blockers.length > 0 && <div role="alert" className="hm-handoff-blockers"><strong>Det här hindrar säsongsbytet</strong><ul>{blockers.map((b, i) => { const copy = describeTransitionBlocker(b); return <li key={`${b.code}:${b.ref}:${i}`}><b>{copy.title}</b><span>{copy.detail}</span><details><summary>Teknisk detalj</summary><code>{b.code}</code> {b.message}</details></li>; })}</ul></div>}
+          <button type="button" className="hm-btn hm-btn-ghost hm-btn-sm" onClick={curtain.replay}>Visa säsongen igen</button>
+        </div>
+        <div className="game-milestone-facts"><div><strong>{ownRow ? table.indexOf(ownRow) + 1 : '—'}</strong><span>Slutplacering</span></div><div><strong>{ownRow?.points ?? '—'}</strong><span>Poäng</span></div><div><strong>{ownRow?.goalsFor ?? '—'}</strong><span>Gjorda mål</span></div></div>
+      </section>
+      {curtain.open && curtainData && <SeasonCurtain curtain={curtainData} onClose={curtain.close} />}
+    </> : !matchday && matchBox}
     <div className="hm-front-briefs">
-      <section aria-labelledby="hm-front-league-h"><div className="game-section-heading"><h2 id="hm-front-league-h">Runt ligan</h2><Link href={`/career/competitions/${career.competitionId}?tab=results`}>Resultaten →</Link></div>{front.leagueBriefs.length ? <ul>{front.leagueBriefs.map(b => <li key={b.id}><Link href={b.href}><strong>{b.text}</strong><small>{b.detail}</small></Link></li>)}</ul> : <EmptyState>Inga ligaresultat ännu.</EmptyState>}</section>
-      <section aria-labelledby="hm-front-club-h"><div className="game-section-heading"><h2 id="hm-front-club-h">Från klubben</h2><Link href="/career/inbox">Inkorgen →</Link></div>{front.clubBriefs.length ? <ul>{front.clubBriefs.map(b => <li key={b.id}><Link href={b.href}><strong>{money.text(b.text)}</strong><small>{money.text(b.detail)}</small></Link></li>)}</ul> : <EmptyState>Inga meddelanden.</EmptyState>}</section>
+      <section aria-labelledby="hm-front-league-h"><div className="game-section-heading"><h2 id="hm-front-league-h">Runt ligan</h2><Link href={`${competitionHref}?tab=results`}>Resultaten →</Link></div>{front.leagueBriefs.length ? <ul>{front.leagueBriefs.map(b => <li key={b.id}><Link href={b.href}><strong>{b.text}</strong><small>{b.detail}</small></Link></li>)}</ul> : <EmptyState>Inga ligaresultat ännu.</EmptyState>}</section>
+      <section aria-labelledby="hm-front-club-h"><div className="game-section-heading"><h2 id="hm-front-club-h">Från klubben</h2><Link href="/career/inbox">Inkorgen{front.inboxUnread ? ` (${front.inboxUnread})` : ''} →</Link></div>{front.clubBriefs.length ? <ul className="hm-front-ranked">{front.clubBriefs.map(b => <li key={b.id} data-priority={b.priority}><Link href={b.href}><span className="hm-brief-emblem" data-category={b.category} aria-hidden="true">{b.category ? categoryLabel(b.category).slice(0, 2) : '·'}</span><span className="hm-brief-copy"><span className="hm-brief-meta">{b.priority && b.priority !== 'READ' && <em>{PRIORITY_LABEL[b.priority]}</em>}{b.sender}{b.category ? ` · ${categoryLabel(b.category)}` : ''}{b.date ? ` · ${b.date}` : ''}</span><strong>{money.text(b.text)}</strong><small>{money.text(b.detail)}</small></span></Link></li>)}</ul> : <EmptyState>Inga meddelanden. Nyheter från staben och styrelsen hamnar här. <Link href="/career/inbox">Inkorgen →</Link></EmptyState>}</section>
     </div>
     <div className="game-home-body"><div className="game-home-column">
-      <section>
-        <div className="game-section-heading"><h2>Laget inför avkast</h2><Link href="/career/squad">Hela truppen →</Link></div>
-        <div className="game-availability-line">
-          <strong>{squad.length-attention.unavailable.length}<span>/{squad.length}</span></strong>
-          <span>spelare tillgängliga · matchträning {avgMatchFitness}%<br /><small>{attention.tired.length} behöver mer återhämtning{captain ? ` · Kapten: ${captain.lastName}` : ''}</small></span>
-          <Link className="hm-btn" href="/career/tactics">Välj startsju →</Link>
-        </div>
-        {issues.slice(0,3).map(({p,detail})=><div className="game-week-line" key={p.id}><PlayerCell player={p}/><span>{detail}</span></div>)}
-      </section>
+      <CourtCoverage spots={spots} captain={captain?.lastName} />
       <section><div className="game-section-heading"><h2>Utanför planen</h2><Link href="/career/contracts">Besluten →</Link></div><div className="game-decision"><strong>{attention.contracts.length}</strong><div><h3>Avtal närmar sig slutet</h3><p>Vilka blir kvar i laget? Jämför spelarna, förläng eller leta efter nästa lösning.</p><div className="hm-actions"><Link href="/career/contracts">Planera kontrakten →</Link><Link href="/career/players">Upptäck spelare →</Link></div></div></div>{attention.contracts.slice(0,2).map(r=><div className="game-week-line" key={r.player.id}><PlayerLink playerId={r.player.id}>{r.player.firstName} {r.player.lastName}</PlayerLink><span>{r.player.position} · {r.contract?.contractEndDate}</span></div>)}<div className="game-decision"><strong>{attention.shortlist.length}</strong><div><h3>Spelare på din radar</h3><p>{attention.reports.length} scoutingrapporter tillgängliga. Budget för övergångar: {economy ? formatMoney(economy.budgets.transferBudgetEur) : '—'}.</p><Link href="/career/recruitment?view=SHORTLIST">Din kortlista →</Link></div></div></section>
-      <section><div className="game-section-heading"><h2>Senaste avtrycket</h2><Link href="/career/schedule">Matcharkivet →</Link></div>{ownRecent.length ? ownRecent.map(f=>{const result=career.results[f.id];return <Link className="game-recent-score" href={matchReportHref(f.id)} key={f.id}><span>{getClub(f.homeClubId)?.shortName}<br />{getClub(f.awayClubId)?.shortName}<small> · {f.date}</small></span><strong>{result.homeGoals}–{result.awayGoals}</strong></Link>;}) : <EmptyState>Säsongens första avkast väntar. Här följer dina resultat och matchrapporter.</EmptyState>}</section>
     </div><div className="game-home-column">
       <WeeklyManagerOverview career={career}/>
     </div><div className="game-home-column">
