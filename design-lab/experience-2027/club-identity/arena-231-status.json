@@ -1,101 +1,101 @@
 {
  "ENT-01": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M5-entry-shell",
   "summary": "Alpha gate as a ticket over the blurred title backdrop, 200 ms tear-away, NEXT_PUBLIC_ALPHA_GATE=off skip; same keys and messages.",
   "evidence": "components/AlphaAccessGate.tsx, components/entry/alpha-gate.css",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 2/2 checks on * (alpha gate) at desktop/phone; interaction: ticket gate over the backdrop; wrong code shows the message; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "ENT-02": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M5-entry-shell",
   "summary": "Journal Cover title screen: masthead with issue line, headline from real results, single FORTSÄTT, arena photo with crest, three briefs, other careers as cards; welcome cover without saves; phone pinned Fortsätt.",
   "evidence": "app/page.tsx, components/entry/saveCover.ts; components/entry/entryModels.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 10/10 checks on / at desktop/tablet/phone; interaction: FORTSÄTT opens the career; welcome cover without saves (NYTT SPEL); no pageerror/overflow; unit: components/entry/entryModels.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "ENT-03": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M5-entry-shell",
   "summary": "Club first, contract last: three-step wizard (Klubb · Manager · Kontrakt), nations/leagues in the Världen drawer, club-coloured context column; B-team filter and validations unchanged, identical createNewCareerSave inputs.",
   "evidence": "app/new-game/page.tsx; components/entry/entryModels.test.ts, lib/career/clubWorldMembership.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /new-game (creation) | /new-game at desktop/tablet/phone; interaction: three-step wizard Klubb · Manager · Kontrakt; no pageerror/overflow; unit: components/entry/entryModels.test.ts, lib/career/clubWorldMembership.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "ENT-03a": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M5-entry-shell",
   "summary": "Världen advanced drawer with nation toggles (bottom sheet on phone), opened from a chip on the club step.",
   "evidence": "components/entry/WorldDrawer.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 10/10 checks on /new-game (creation) | /new-game at desktop/tablet/phone; interaction: Världen drawer opens from the chip; open Världen drawer (sheet on phone); no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "ENT-03b": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M5-entry-shell",
   "summary": "League pyramid per nation inside the drawer with kval tooltip and Återställ standard.",
   "evidence": "components/entry/WorldDrawer.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 10/10 checks on /new-game (creation) | /new-game at desktop/tablet/phone; interaction: league pyramid with kval + Återställ standard; pyramid visible in drawer; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "ENT-03c": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M5-entry-shell",
   "summary": "Database summary folded into the drawer footer.",
   "evidence": "components/entry/WorldDrawer.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 10/10 checks on /new-game (creation) | /new-game at desktop/tablet/phone; interaction: database summary in drawer footer, Klar closes; footer summary + Klar; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "ENT-03d": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M5-entry-shell",
   "summary": "Club Wall by ambition (Alla/Vinna/Utmana/Överleva from forecast position) and league, club-coloured tiles with Förväntan / Trupp / Ekonomi, compare up to 3, non-playable clubs greyed.",
   "evidence": "components/entry/ClubWall.tsx, components/entry/clubWallModel.ts; components/entry/entryModels.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 8/8 checks on /new-game (creation) | /new-game at desktop/tablet/phone; interaction: club wall: compare a club; compare a club; no pageerror/overflow; unit: components/entry/entryModels.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "ENT-03e": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M5-entry-shell",
   "summary": "Accreditation pass with inputs on the pass, photo style and optional philosophy (device-local, never in the save).",
   "evidence": "app/new-game/page.tsx, components/entry/managerPass.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 10/10 checks on /new-game (creation) | /new-game at desktop/tablet/phone; interaction: accreditation pass updates from inputs; step 2 accreditation pass; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "ENT-03f": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M5-entry-shell",
   "summary": "Signing ceremony: contract card on the signing backdrop with board clause, preseason chips, summary and signature line; crest stamps onto the loading screen. Deviation: click-to-sign instead of press-and-hold (keeps the immediate loading screen).",
   "evidence": "app/new-game/page.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 10/10 checks on /new-game (creation) | /new-game at desktop/tablet/phone; interaction: contract card with clause chips and signature line; step 3 contract (not signed); no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "ENT-04": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M5-entry-shell",
   "summary": "Load game as Journal Cover career cards with detail column (last 5, next match, Fortsätt); in-card detail on tablet/phone; '+ Ny karriär' card.",
   "evidence": "app/load-game/page.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 9/9 checks on /load-game at desktop/tablet/phone; interaction: select a career card shows detail; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "ENT-04a": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M5-entry-shell",
   "summary": "Consequence delete dialog: crest, season, dates, 'Kan inte ångras', Exportera först / Behåll / Ta bort; phone bottom sheet.",
   "evidence": "app/load-game/page.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 9/9 checks on /load-game at desktop/tablet/phone; interaction: delete dialog → Behåll karriären; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "ENT-04b": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M5-entry-shell",
   "summary": "Skeleton save cards while loading, invitation empty state, plain-Swedish storage error with Försök igen.",
   "evidence": "app/load-game/page.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 3/3 checks on /load-game at desktop/tablet/phone; interaction: invitation empty state without saves; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "ENT-05": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M5-entry-shell",
   "summary": "Unified settings panel: Visning (Täthet Bekväm/Kompakt, Textstorlek 100/112/125 %, Rörelse, Tema row stating the single Arena Nights theme with always-on club accent), Match, Ekonomi with live currency sample, Data export/import; instant apply, reset per section, real radios; phone list → detail.",
   "evidence": "components/settings/UnifiedSettings.tsx, components/settings/displayPreferences.ts, components/settings/motion.css, components/settings/settings.css, app/settings/page.tsx; components/settings/displayPreferences.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /settings at desktop/tablet/phone; interaction: Täthet Kompakt applies instantly (restored); no pageerror/overflow; unit: components/settings/displayPreferences.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "ENT-06": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M5-entry-shell",
   "summary": "Corner escape hatch: host shell hidden on /career and match routes, 28 px bottom-left pill reveals the existing 'Tillbaka till Apps' panel (Escape/outside click close); phone uses a ⋯ menu item; title screen keeps the slim reveal edge.",
   "evidence": "app/app-shell/StarkvisAppShell.tsx, app/app-shell/HostNavigation.tsx, app/app-shell/hostShellScope.ts, app/app-shell/shell.css, components/CareerSaveControl.tsx; app/app-shell/hostShellScope.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career at desktop/tablet/phone; interaction: corner pill reveals Tillbaka till Apps; Escape closes; no pageerror/overflow; unit: app/app-shell/hostShellScope.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "ENT-07": {
   "status": "VERIFIED",
@@ -105,18 +105,18 @@
   "verification": "automated test named in evidence; earlier-phase browser QA"
  },
  "ENT-07a": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M0-prior-phases",
   "summary": "Phone bottom bar Idag · Laget · Tävling · Marknad · Mer with docked full-width Continue; Mer opens the full hub map with save controls. Long-press-to-last-sub-page and swipe-to-close not implemented.",
   "evidence": "components/GameShell.tsx (.hm-mobile-dock), components/shell/shell.css; ARENA-NIGHTS-RESPONSIVE-QA.md",
-  "verification": "earlier-phase browser QA only; needs automated evidence"
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career at desktop/tablet/phone; interaction: Mer opens the hub map; no pageerror/overflow; unit: ARENA-NIGHTS-RESPONSIVE-QA.md. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "ENT-08": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M0-prior-phases",
   "summary": "Matchday clock (day tile + countdown to the next match, floodlit on matchday) heads the Week Spine directly under the top bar; ⌘K field in the header; labelled Continue; save files in a ⋯ overflow.",
   "evidence": "components/shell/WeekSpine.tsx (.hm-spine-clock), components/CareerSaveControl.tsx (compact)",
-  "verification": "earlier-phase browser QA only; needs automated evidence"
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 6/6 checks on /career at desktop/tablet/phone; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "ENT-08a": {
   "status": "VERIFIED",
@@ -126,25 +126,25 @@
   "verification": "automated test named in evidence; earlier-phase browser QA"
  },
  "ENT-08b": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M5-entry-shell",
   "summary": "Autosave indicator from CareerContext saveStatus/retrySave (Sparat · hh:mm / Sparar… / Kunde inte spara + Försök igen) and ⋯ overflow (Spara nu, Spara och avsluta, export, import with confirm, settings, feedback); Ctrl+S.",
   "evidence": "components/CareerSaveControl.tsx; lib/save/careerWriteStatus.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career at desktop/tablet/phone; interaction: ⋯ → Spara nu shows Sparat; no pageerror/overflow; unit: lib/save/careerWriteStatus.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "ENT-09": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M5-entry-shell",
   "summary": "Real breadcrumb from the hub map down to the entity (e.g. Laget › Trupp › player); phone '‹ Parent'; old context row removed.",
   "evidence": "components/GameShell.tsx, components/shell/breadcrumb.ts; components/shell/shellModels.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/squad/[playerId] (own) at desktop/tablet/phone; interaction: crumb back to Trupp; no pageerror/overflow; unit: components/shell/shellModels.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "ENT-09a": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M5-entry-shell",
   "summary": "Progression stops as numbered pins under the Week Spine, one expanded event card (type, headline, reason, action, Visa i inkorg), N cycles, badge on today's spine cell.",
   "evidence": "components/GameShell.tsx, components/shell/eventStops.ts, components/shell/WeekSpine.tsx; components/shell/shellModels.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 1/1 checks on /career/* at desktop; interaction: numbered stop pins with one expanded event card; close; no pageerror/overflow; unit: components/shell/shellModels.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "ENT-10": {
   "status": "VERIFIED",
@@ -154,32 +154,32 @@
   "verification": "automated test named in evidence; earlier-phase browser QA"
  },
  "ENT-10a": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M5-entry-shell",
   "summary": "Continue overlay: club-coloured crest, calendar page flip per day with highlight (≤1.5 s), up to 5 highlights, then stop card; floodlight match card with 'Förbered match →'; no dialog for single-day advance; reduced-motion safe.",
   "evidence": "components/ContinueProcessingOverlay.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 1/1 checks on /career/* at desktop; interaction: Continue overlay: calendar flip then stop/floodlight card; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "ENT-11": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M5-entry-shell",
   "summary": "Feedback via help menu entries (title menu, career ⋯), F8 anywhere, floating button only where no menu exists; dialog pre-fills context with 'Kopiera uppgifterna'.",
   "evidence": "components/FeedbackModal.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career at desktop/tablet/phone; interaction: F8 opens feedback with Kopiera uppgifterna; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "ENT-12": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M5-entry-shell",
   "summary": "First-day handover loading screen: club colour, facts revealed one by one, rotating tips; 'Gå in på kontoret →' after 3 s.",
   "evidence": "components/game/CareerInitialization.tsx, app/career/layout.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 1/1 checks on /career (layout) & /new-game at desktop; interaction: handover loading screen with club crest and tips; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "ENT-13": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M5-entry-shell",
   "summary": "Live score pill in the top bar (phone: under the spine) with pulse, crests, score, clock, state and last-3-events tooltip.",
   "evidence": "components/GameShell.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 2/2 checks on /career/* (away from live match) at desktop/phone; interaction: live score pill in the top bar; click returns to the match; phone pill under the spine; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "DSH-01": {
   "status": "VERIFIED",
@@ -189,18 +189,18 @@
   "verification": "automated test named in evidence; earlier-phase browser QA"
  },
  "DSH-01a": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M0-prior-phases",
   "summary": "Journal masthead (Arena broadcast strap) with nameplate, week number and the two ears.",
   "evidence": "app/career/page.tsx (.hm-front-masthead)",
-  "verification": "earlier-phase browser QA only; needs automated evidence"
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 6/6 checks on /career at desktop/tablet/phone; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "DSH-01b": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M8-dashboard-competition",
   "summary": "Match Box: headline with countdown and crest score-bug, readiness line and opponent form, ladder ±2 with zone marks; actions Motståndaren (Peek) / Taktiktavla / Förbered match; promoted above the lead on matchday; sticky prep on phone.",
   "evidence": "components/front/MatchBox.tsx, lib/career/frontPage.ts, app/career/page.tsx; lib/career/frontPageMatchBox.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career at desktop/tablet/phone; interaction: Motståndaren → opens club Peek; no pageerror/overflow; unit: lib/career/frontPageMatchBox.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "DSH-01c": {
   "status": "IMPLEMENTED",
@@ -217,81 +217,81 @@
   "verification": "automated test named in evidence; earlier-phase browser QA"
  },
  "DSH-01e": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M8-dashboard-competition",
   "summary": "Court Coverage: half-court with seven tappable position nodes and depth dots (spelklar / tveksam / borta), thin positions glow, Peek list with energy and cover, 'Välj startsju'.",
   "evidence": "components/front/CourtCoverage.tsx, lib/career/frontPage.ts; lib/career/frontPageMatchBox.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career at desktop/tablet/phone; interaction: tap a position node opens the depth Peek; no pageerror/overflow; unit: lib/career/frontPageMatchBox.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "DSH-01f": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M0-prior-phases",
   "summary": "Contracts and board offers fold into the numbered decisions column (the detailed 'Utanför planen' section remains below as depth).",
   "evidence": "lib/career/frontPage.ts (decisions)",
-  "verification": "earlier-phase browser QA only; needs automated evidence"
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 6/6 checks on /career at desktop/tablet/phone; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "DSH-01g": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M8-dashboard-competition",
   "summary": "Form strip of the last five results inside the Match Box with crest hover card; tap opens the report.",
   "evidence": "components/front/MatchBox.tsx, lib/career/frontPage.ts; lib/career/frontPageMatchBox.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career (after match) at desktop/tablet/phone; interaction: form tile opens the report; no pageerror/overflow; unit: lib/career/frontPageMatchBox.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "DSH-01h": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M8-dashboard-competition",
   "summary": "Ranked briefs (unresolved important → important → unread → read) with emblem, sender, date, dek; open the inbox thread.",
   "evidence": "lib/career/frontPage.ts (rankedClubBriefs), app/career/page.tsx; lib/career/frontPageMatchBox.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career at desktop/tablet/phone; interaction: brief opens the inbox thread; no pageerror/overflow; unit: lib/career/frontPageMatchBox.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "DSH-01i": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M0-prior-phases",
   "summary": "Week Spine embedded on Idag, expanded with selectable day detail (sessions, pins, links).",
   "evidence": "components/shell/WeekSpine.tsx (expanded)",
-  "verification": "earlier-phase browser QA only; needs automated evidence"
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career at desktop/tablet/phone; interaction: select another day; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "DSH-01j": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M0-prior-phases",
   "summary": "Dual meter (board confidence | manager reputation) in the masthead; the board card with objectives is kept.",
   "evidence": "app/career/page.tsx (FrontEar)",
-  "verification": "earlier-phase browser QA only; needs automated evidence"
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career at desktop/tablet/phone; interaction: board ear opens the board; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "DSH-01k": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M0-prior-phases",
   "summary": "Ladder slice ±2 around the own club + round list of other results.",
   "evidence": "lib/career/frontPage.ts (ladder, leagueBriefs)",
-  "verification": "earlier-phase browser QA only; needs automated evidence"
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 6/6 checks on /career (after match) at desktop/tablet/phone; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "CLB-01": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M9-club",
   "summary": "Klubbhuset merged into the Club Journal: /career/klubbhuset redirects to /career/club, whose header is the facility-tier clubhouse art with department hotspots opening a room Peek, 'Visa som karta' full screen, phone department chips; Klubben hub lands on Klubb.",
   "evidence": "app/career/klubbhuset/page.tsx, app/career/club/page.tsx, components/club/ClubhouseHeader.tsx, lib/club/clubAlmanac.ts, lib/career/hubs.ts; lib/club/clubTimeline.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/klubbhuset → /career/club at desktop/tablet/phone; interaction: Visa som karta; no pageerror/overflow; unit: lib/club/clubTimeline.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "CLB-01a": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M9-club",
   "summary": "Illustrated map hotspots: tap/Enter opens, arrow keys move between rooms, Peek with room photo, metrics and 'Öppna rummet'.",
   "evidence": "components/club/ClubhouseHeader.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/klubbhuset → /career/club at desktop/tablet/phone; interaction: arrow keys + Enter open the room Peek; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "CLB-01b": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M9-club",
   "summary": "Room-card gallery retired (recommendation A: Retire the Gallery); rooms are reached from the clubhouse header.",
   "evidence": "app/career/klubbhuset/page.tsx, components/club/ClubhouseHeader.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/klubbhuset → /career/club at desktop/tablet/phone; interaction: department chip opens the room; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "CLB-01c": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M9-club",
   "summary": "Club Almanac: honours timeline linking to season books, facts and colours, supporters' mood with cause chips, rivals with head-to-head, one next-national-break line.",
   "evidence": "components/club/ClubAlmanac.tsx, lib/club/clubAlmanac.ts; lib/club/clubTimeline.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 6/6 checks on /career/klubbhuset → /career/club at desktop/tablet/phone; no pageerror/overflow; unit: lib/club/clubTimeline.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "CLB-02": {
   "status": "VERIFIED",
@@ -301,60 +301,60 @@
   "verification": "automated test named in evidence; earlier-phase browser QA"
  },
  "CLB-02a": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M9-club",
   "summary": "Club Story: one month-grouped timeline of matches, transfers and season ends with URL filter chips (?story=), opponents open the club Peek; on both club pages.",
   "evidence": "components/club/ClubStory.tsx, lib/club/clubTimeline.ts; lib/club/clubTimeline.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 14/14 checks on /career/klubbhuset → /career/club | /career/clubs/[clubId] at desktop/tablet/phone; interaction: Matcher chip filters story (?story=); story chips on the other club page; no pageerror/overflow; unit: lib/club/clubTimeline.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "CLB-02b": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M0-prior-phases",
   "summary": "KPI trio (Kassa, Lönerum / år, Transferbudget) with tone, revenue-mix stacked bar from the economy snapshot, partnerships kept; link to Finanscentralen.",
   "evidence": "components/club/ClubJournal.tsx (BoardAndEconomy)",
-  "verification": "earlier-phase browser QA only; needs automated evidence"
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/klubbhuset → /career/club at desktop/tablet/phone; interaction: Finanscentralen link; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "CLB-03": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M9-club",
   "summary": "Partner dossier cards (crest, league, months left, cost, players placed), Förläng/Avsluta with consequence and confirm, 'Ny samarbetsklubb' card, history accordion.",
   "evidence": "app/career/club/partnerships/page.tsx, components/club/club-org.css",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/club/partnerships at desktop/tablet/phone; interaction: history accordion opens; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "CLB-03a": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M9-club",
   "summary": "Three-step drawer Sök → Välj kandidat → Villkor (cost × months), review and 'Ingå avtal'; validation from the existing actions.",
   "evidence": "app/career/club/partnerships/page.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 9/9 checks on /career/club/partnerships at desktop/tablet/phone; interaction: three-step drawer opens at Sök; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "CLB-03b": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M9-club",
   "summary": "Placement list rows (position, age, A-team appearances) with Placera / Kalla tillbaka; international loan form in a drawer.",
   "evidence": "app/career/club/partnerships/page.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 6/6 checks on /career/club/partnerships at desktop/tablet/phone; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "CLB-04": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M9-club",
   "summary": "Other club as a portrait: headline sentence from table and form, coach style, head-to-head and knowledge rail with 'Scouta klubben', story timeline, squad, fixtures; the club Peek gains head-to-head, knowledge tier and 'Öppna hela →'.",
   "evidence": "app/career/clubs/[clubId]/page.tsx, lib/club/clubPortrait.ts, components/club/ClubPeekDossier.tsx, components/manager/ClubPeek.tsx; lib/club/clubTimeline.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 6/6 checks on /career/clubs/[clubId] at desktop/tablet/phone; no pageerror/overflow; unit: lib/club/clubTimeline.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "CLB-04a": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M9-club",
   "summary": "Profile in words: identity one sentence per domain, coach philosophy as pull quotes, unknown domains fogged with a scouting link.",
   "evidence": "app/career/clubs/[clubId]/page.tsx, lib/club/clubPortrait.ts; lib/club/clubTimeline.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 6/6 checks on /career/clubs/[clubId] at desktop/tablet/phone; no pageerror/overflow; unit: lib/club/clubTimeline.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "CLB-05": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M9-club",
   "summary": "Board Minutes: confidence and reputation meters with warning/final/dismissal lines, pressure stage, factor chips, objective meters, trend; pinned open decision; minutes newest first with stamp, demand, response, outcome and 'Läget då'.",
   "evidence": "app/career/board/page.tsx, lib/club/boardMinutes.ts, components/board/board-minutes.css; lib/club/boardMinutes.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/board at desktop/tablet/phone; interaction: expand a minute shows 'Läget då'; no pageerror/overflow; unit: lib/club/boardMinutes.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "CLB-05a": {
   "status": "IMPLEMENTED",
@@ -371,18 +371,18 @@
   "verification": ""
  },
  "CLB-06": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M9-club",
   "summary": "Finance Cockpit: KPI strip (Kassa, Lönerum, Prognos säsongsslut with deltas), cash chart beside action cards, budget decision, Detaljer accordion rendered on open; ?section= deep links and legacy ?tab= mapping.",
   "evidence": "app/career/finance/page.tsx, lib/finance/financeCockpit.ts, components/finance/finance-cockpit.css; lib/finance/financeCockpit.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/finance at desktop/tablet/phone; interaction: ?section=wages deep link opens the section; no pageerror/overflow; unit: lib/finance/financeCockpit.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "CLB-06a": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M9-club",
   "summary": "Cash chart with projection band and credit floor; every warning ends in one verb with a real route.",
   "evidence": "components/finance/FinanceCharts.tsx, lib/finance/financeCockpit.ts; lib/finance/financeCockpit.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 6/6 checks on /career/finance at desktop/tablet/phone; no pageerror/overflow; unit: lib/finance/financeCockpit.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "CLB-06b": {
   "status": "IMPLEMENTED",
@@ -392,11 +392,11 @@
   "verification": ""
  },
  "CLB-06c": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M9-club",
   "summary": "Reallocation slider over the one existing budget action (setBudgetPlan wages ⇄ transfers, ±15 %) with board/saved markers, steppers, margin panel, preview and 'Bekräfta plan'. Staff, academy and facility budgets are shown read-only because the game has no rule to reallocate them (no new rule invented).",
   "evidence": "app/career/finance/page.tsx, lib/finance/financeCockpit.ts; lib/finance/financeCockpit.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/finance?tab=budget at desktop/tablet/phone; interaction: stepper previews a plan (not confirmed); no pageerror/overflow; unit: lib/finance/financeCockpit.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "CLB-06d": {
   "status": "IMPLEMENTED",
@@ -406,46 +406,46 @@
   "verification": ""
  },
  "CLB-06e": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M9-club",
   "summary": "Wages merged into Kontrakt: commitments stacked by season with links to Kontrakt and Personal; duplicate wage table removed.",
   "evidence": "app/career/finance/page.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/finance?tab=wages at desktop/tablet/phone; interaction: link to Kontrakt; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "CLB-06f": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M9-club",
   "summary": "Forecast as a fan band with assumptions written as sentences; month table folded.",
   "evidence": "app/career/finance/page.tsx, lib/finance/financeCockpit.ts; lib/finance/financeCockpit.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/finance?tab=forecast at desktop/tablet/phone; interaction: unfold month table; no pageerror/overflow; unit: lib/finance/financeCockpit.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "MGR-01": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M11-manager-season",
   "summary": "Manager Biography: monogram from the manager's name with current crest, reputation standing, stats strip, dual meter; Biografi · Jobbmarknaden · Säsongsböcker; one collapsible chapter per stint (start/end reasons, reputation in→out, honours) on a timeline with sticky index; resign footer with the existing consequence card.",
   "evidence": "app/career/manager/page.tsx, components/manager/CareerBiography.tsx, lib/manager/careerBiography.ts, components/manager/career.css; lib/manager/careerBiography.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/manager at desktop/tablet/phone; interaction: Jobbmarknaden tab; no pageerror/overflow; unit: lib/manager/careerBiography.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "MGR-01a": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M11-manager-season",
   "summary": "Annotated reputation timeline from reputationLog with club-stint bands and clickable milestones (detail panel, link to season book); phone vertical list; first-chapter empty state.",
   "evidence": "components/manager/CareerBiography.tsx, lib/manager/careerBiography.ts; lib/manager/careerBiography.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/manager at desktop/tablet/phone; interaction: first-chapter link to the board objectives; no pageerror/overflow; unit: lib/manager/careerBiography.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "MGR-01b": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M11-manager-season",
   "summary": "Application pipeline Lediga → Ansökt → Intervju → Erbjudande → Avgjort with fit from assessCandidate, deadlines, next action; Peek with fit factors, interview and accept consequence (clubChangeBlocker); phone stage segments.",
   "evidence": "components/manager/JobPipeline.tsx, lib/manager/jobPipeline.ts; lib/manager/jobPipeline.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/manager?tab=jobs at desktop/tablet/phone; interaction: phone stage segment Avgjort; no pageerror/overflow; unit: lib/manager/jobPipeline.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "MGR-01c": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M0-prior-phases",
   "summary": "Unemployed state: orange clubless identity across shell + front-page lead 'Du står utan klubb' with the former club and a route to the job market.",
   "evidence": "lib/career/activeClubIdentity.ts, lib/career/frontPage.ts (SEEKING_JOB)",
-  "verification": "earlier-phase browser QA only; needs automated evidence"
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 2/2 checks on /career/manager | /career at desktop/phone; interaction: resign → clubless identity and front-page lead; clubless front page on phone, no overflow; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "MGR-02": {
   "status": "IMPLEMENTED",
@@ -455,25 +455,25 @@
   "verification": ""
  },
  "MGR-02a": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M11-manager-season",
   "summary": "Season timeline shelf of season cards linked by ?season=, running season last; first-season empty state.",
   "evidence": "app/career/history/page.tsx; lib/manager/seasonBooks.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/history at desktop/tablet/phone; interaction: running season spine; no pageerror/overflow; unit: lib/manager/seasonBooks.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "MGR-03": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M11-manager-season",
   "summary": "Path to Gold: route from league position through projected SM-slutspel to Guld (or kval / relegation branch) labelled as a forecast, three lanes (league, SM/Kval, cup), competition tabs.",
   "evidence": "app/career/season/page.tsx, components/season/PathToGold.tsx, lib/manager/seasonPath.ts, components/season/path.css; lib/manager/seasonPath.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/season at desktop/tablet/phone; interaction: Regler tab; no pageerror/overflow; unit: lib/manager/seasonPath.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "MGR-03a": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M11-manager-season",
   "summary": "Ghost bracket from SM_SLUTSPEL_RULES (projected ties dashed, real ties fill in via the existing TieCard/BracketGrid), own route glows; kval from KVAL_HBL_RULES / ALLSVENSKAN_RULES; phone round scroll.",
   "evidence": "components/season/GhostBracket.tsx, lib/manager/seasonPath.ts; lib/manager/seasonPath.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 9/9 checks on /career/season (ghost bracket) at desktop/tablet/phone; interaction: SM-slutspel tab shows the ghost bracket; no pageerror/overflow; unit: lib/manager/seasonPath.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "MGR-03b": {
   "status": "IMPLEMENTED",
@@ -483,88 +483,88 @@
   "verification": ""
  },
  "MGR-04": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M12-internal-tools",
   "summary": "Moment library moved out of the player product: /career/moments server-redirects to /career. Design Lab specimen gallery is a lab-side follow-up (lab files are read-only for this mission).",
   "evidence": "app/career/moments/page.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 6/6 checks on /career/moments → /career at desktop/tablet/phone; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "WLD-01": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M4-inbox-world",
   "summary": "Correspondence Desk: pinned Att göra tray (deadline-first, top item neon), entity threads with role emblems, j/k thread keys, guarded archive.",
   "evidence": "app/career/inbox/page.tsx, lib/inbox/threads.ts, components/inbox/InboxDecision.tsx, components/inbox/inbox-desk.css; lib/inbox/threads.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/inbox at desktop/tablet/phone; interaction: open thread, j moves; no pageerror/overflow; unit: lib/inbox/threads.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "WLD-01a": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M4-inbox-world",
   "summary": "Segment Att göra · Allt · Arkiv plus counted multi-select category chips; URL state ?view=&cat=.",
   "evidence": "app/career/inbox/page.tsx; lib/inbox/threads.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/inbox at desktop/tablet/phone; interaction: Att göra segment in URL; no pageerror/overflow; unit: lib/inbox/threads.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "WLD-01b": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M4-inbox-world",
   "summary": "Thread reader with chain rail (event → ask → decision → consequence, related media); inline resolution via the existing mutations (answerConcern, decideTransferRequest, submitBoardRecoveryPlan, press delegate/skip); phone full-screen reader with sticky decision bar.",
   "evidence": "app/career/inbox/page.tsx, components/inbox/InboxDecision.tsx; lib/inbox/threads.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/inbox?message= at desktop/tablet/phone; interaction: phone full-screen reader ← Trådarna; no pageerror/overflow; unit: lib/inbox/threads.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "WLD-02": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M4-inbox-world",
   "summary": "Newsstand: featured press slot, mini front page per outlet tier with masthead skins, Senaste column + aside (filters, rivals, relations); tabs Förstasidan/Presskonferenser/Rivaler/Medierna.",
   "evidence": "app/career/media/page.tsx, components/media/MediaParts.tsx, lib/media/newsstand.ts, components/media/media.css; lib/media/newsstand.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/media at desktop/tablet/phone; interaction: Presskonferenser tab; no pageerror/overflow; unit: lib/media/newsstand.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "WLD-02a": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M4-inbox-world",
   "summary": "Image lead story (existing environment photos) + date-grouped list; URL-persisted scope filter; search kept.",
   "evidence": "app/career/media/page.tsx, components/media/MediaParts.tsx; lib/media/newsstand.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/media at desktop/tablet/phone; interaction: scope filter Din klubb in URL; no pageerror/overflow; unit: lib/media/newsstand.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "WLD-02b": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M4-inbox-world",
   "summary": "Open conferences as decisions; past conferences as quote cards with consequence chips per group, opening the transcript.",
   "evidence": "app/career/media/page.tsx, lib/media/newsstand.ts; lib/media/newsstand.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/media?tab=press at desktop/tablet/phone; interaction: conference opens transcript; no pageerror/overflow; unit: lib/media/newsstand.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "WLD-02c": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M4-inbox-world",
   "summary": "Rivalry cards hottest first: rivalry and coach-relation meters, last flashpoint, head-to-head, next meeting link.",
   "evidence": "app/career/media/page.tsx, lib/media/newsstand.ts; lib/media/newsstand.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/media?tab=rivals at desktop/tablet/phone; interaction: rival club link; no pageerror/overflow; unit: lib/media/newsstand.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "WLD-02d": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M4-inbox-world",
   "summary": "Disciplin tab retired; old ?tab=discipline opens a manager-discipline archive under Medierna with the appeal kept (cases concern the manager, so no player status chips).",
   "evidence": "app/career/media/page.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 6/6 checks on /career/media?tab=discipline at desktop/tablet/phone; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "WLD-02e": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M4-inbox-world",
   "summary": "Media favour meter per outlet with label, meaning, last story and count; most critical first.",
   "evidence": "app/career/media/page.tsx, lib/media/newsstand.ts; lib/media/newsstand.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 6/6 checks on /career/media?tab=outlets at desktop/tablet/phone; no pageerror/overflow; unit: lib/media/newsstand.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "WLD-03": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M4-inbox-world",
   "summary": "Live Transcript press conference: captions in order, tone chips (keys 1–6), Ångra, 'Vem reagerar' rail from existing effectsOf (directions only), closed recap with Följder; press rules unchanged.",
   "evidence": "app/career/media/press/[pressId]/page.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/media/press/[pressId] at desktop/tablet/phone; interaction: tone key 1 answers, Ångra enabled; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "WLD-04": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M4-inbox-world",
   "summary": "Outlet-skinned article (local/regional serif, web, national, tabloid), quote column, 'Så skrev andra' strip, link to inbox thread.",
   "evidence": "app/career/media/story/[storyId]/page.tsx, components/media/media.css",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 6/6 checks on /career/media/story/[storyId] at desktop/tablet/phone; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "WLD-05": {
   "status": "VERIFIED",
@@ -574,32 +574,32 @@
   "verification": "automated test named in evidence; earlier-phase browser QA"
  },
  "WLD-06": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M4-inbox-world",
   "summary": "Schedule as the calendar's Lista view (shared Vecka/Månad/Lista switch), pinned next match, month-grouped agenda with crests and outcome colours, phone cards.",
   "evidence": "app/career/schedule/page.tsx, lib/schedule/fixtureList.ts, components/schedule/schedule-list.css; lib/schedule/fixtureList.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/schedule at desktop/tablet/phone; interaction: Vecka switches to the calendar; no pageerror/overflow; unit: lib/schedule/fixtureList.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "WLD-06a": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M4-inbox-world",
   "summary": "Pre-season board: every day to league kickoff as a slot; free day opens the existing planner pre-filled (PreseasonPlanner initialDate).",
   "evidence": "app/career/schedule/page.tsx, components/season/PreseasonPlanner.tsx; lib/schedule/fixtureList.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 9/9 checks on /career/schedule (pre-season) at desktop/tablet/phone; interaction: free day opens the planner; no pageerror/overflow; unit: lib/schedule/fixtureList.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "WLD-06b": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M4-inbox-world",
   "summary": "Time chips + counted competition chips, URL state ?when=&type=.",
   "evidence": "app/career/schedule/page.tsx, lib/schedule/fixtureList.ts; lib/schedule/fixtureList.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 9/9 checks on /career/schedule at desktop/tablet/phone; interaction: Resultat chip in URL; no pageerror/overflow; unit: lib/schedule/fixtureList.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "MED-01": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M10-staff-medical-scouting",
   "summary": "Return-to-play timeline: physio quote from real data, 28-day bars against fixture markers with missed matches hatched, next-match availability, recent returns; return ranges projected read-only from rehab rules; phone cards.",
   "evidence": "app/career/medical/page.tsx, components/medical/ReturnToPlay.tsx, lib/medical/returnToPlay.ts, components/medical/medical.css; lib/medical/returnToPlay.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/medical at desktop/tablet/phone; interaction: next match link; no pageerror/overflow; unit: lib/medical/returnToPlay.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "MED-01a": {
   "status": "IMPLEMENTED",
@@ -609,95 +609,95 @@
   "verification": ""
  },
  "SYS-01": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M5-entry-shell",
   "summary": "In-career settings share the ENT-05 unified panel (with real club budgets in Ekonomi).",
   "evidence": "app/career/settings/page.tsx, components/settings/UnifiedSettings.tsx; components/settings/displayPreferences.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/settings at desktop/tablet/phone; interaction: Rörelse: Minska rörelse (restored); no pageerror/overflow; unit: components/settings/displayPreferences.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "SYS-02": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M12-internal-tools",
   "summary": "Dev console home in a shared DevShell (DEV ribbon, Editor Mode toggle, 'Till spelet'): tools grouped Data / Motorlabb / Felsökning with real counts, keys 1–8; server-gated by isEditorEnabled.",
   "evidence": "app/editor/page.tsx, app/editor/layout.tsx, components/dev/DevShell.tsx, components/dev/dev.css, lib/editor/devTools.ts; lib/editor/devTools.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 1/1 checks on /editor at desktop; interaction: gated: 404, no dev shell; no pageerror/overflow; unit: lib/editor/devTools.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "SYS-02a": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M12-internal-tools",
   "summary": "Bulk calibration spreadsheet kept with sticky header/name column, unsaved-only filter, changed-cell highlight, batch save bar, Ctrl+S / Ctrl+Z; same save API.",
   "evidence": "app/editor/players/page.tsx, lib/editor/calibrationEdits.ts; lib/editor/calibrationEdits.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 1/1 checks on /editor/players at desktop; interaction: gated: 404, no dev shell; no pageerror/overflow; unit: lib/editor/calibrationEdits.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "SYS-02b": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M12-internal-tools",
   "summary": "Diff-first player detail: saved vs edited side by side, confirm table before any write.",
   "evidence": "app/editor/players/[playerId]/page.tsx; lib/editor/calibrationEdits.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 1/1 checks on /editor/players/any-player at desktop; interaction: gated: 404, no dev shell; no pageerror/overflow; unit: lib/editor/calibrationEdits.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "SYS-02c": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M12-internal-tools",
   "summary": "Rating review queue: club list + roster, status chips, unreviewed count and progress.",
   "evidence": "app/editor/ratings/page.tsx, lib/editor/ratingQueue.ts; lib/editor/ratingQueue.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 1/1 checks on /editor/ratings at desktop; interaction: gated: 404, no dev shell; no pageerror/overflow; unit: lib/editor/ratingQueue.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "SYS-02d": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M12-internal-tools",
   "summary": "Sectioned rating detail with sticky summary, confirmed lock/unlock, override diff table.",
   "evidence": "app/editor/ratings/[playerId]/page.tsx; lib/editor/ratingQueue.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 1/1 checks on /editor/ratings/any-player at desktop; interaction: gated: 404, no dev shell; no pageerror/overflow; unit: lib/editor/ratingQueue.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "SYS-02e": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M12-internal-tools",
   "summary": "Court grid canvas + inspector (mode, coordinates, snap), arrow keys move the inspected cell; calibration logic unchanged.",
   "evidence": "app/editor/court-grid/page.tsx, lib/editor/courtGridNudge.ts, components/court/CourtGridOverlay.tsx; lib/editor/courtGridNudge.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 1/1 checks on /editor/court-grid at desktop; interaction: gated: 404, no dev shell; no pageerror/overflow; unit: lib/editor/courtGridNudge.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "SYS-03": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M12-internal-tools",
   "summary": "Scenario lab gated under the dev console (404 when off): lab list plus the throw-off lab as court + controls.",
   "evidence": "app/scenario-lab/layout.tsx, app/scenario-lab/page.tsx, app/scenario-lab/LabList.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 1/1 checks on /scenario-lab at desktop; interaction: gated: 404, no dev shell; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "SYS-03a": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M12-internal-tools",
   "summary": "Core lab in the dev shell: court, run controls, snapshot list seeking the replay.",
   "evidence": "app/scenario-lab/core/page.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 1/1 checks on /scenario-lab/core at desktop; interaction: gated: 404, no dev shell; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "SYS-03b": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M12-internal-tools",
   "summary": "Timeline-first match lab: full-width court above a scrubber timeline with clickable events.",
   "evidence": "app/scenario-lab/match/page.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 1/1 checks on /scenario-lab/match at desktop; interaction: gated: 404, no dev shell; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "SYS-04": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M12-internal-tools",
   "summary": "Match QA harness gated under the dev flag with a grouped control panel (Uppspelning / Scenario / Växlar); engine and harness calls unchanged.",
   "evidence": "app/match-qa/layout.tsx, app/match-qa/page.tsx, app/match-qa/match-qa.css",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 1/1 checks on /match-qa at desktop; interaction: gated: 404, no dev shell; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "SYS-05": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M12-internal-tools",
   "summary": "CPU recruitment debug moved under the dev gate at /editor/cpu-recruitment (active-save aware); the old career route is 404 when off and redirects when on.",
   "evidence": "app/editor/cpu-recruitment/page.tsx, app/career/club/cpu-recruitment/page.tsx; lib/editor/devTools.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 2/2 checks on /career/club/cpu-recruitment | /editor/cpu-recruitment at desktop; interaction: gated: 404, no dev shell; no pageerror/overflow; unit: lib/editor/devTools.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "SYS-06": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M12-internal-tools",
   "summary": "DEV corner tab replaces the floating widgets and the career sidebar Editor item: Editor Mode toggle, console and tool links; only when the server flag is on.",
   "evidence": "app/EditorModeWidget.tsx, components/dev/useEditorMode.ts, components/GameShell.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 1/1 checks on * (root layout) at desktop; interaction: DEV corner absent; editor status disabled; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "SQD-01": {
   "status": "VERIFIED",
@@ -707,32 +707,32 @@
   "verification": "automated test named in evidence; earlier-phase browser QA"
  },
  "SQD-01a": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M6-squad-players",
   "summary": "Curated Översikt default view with expandable rows (chevron, ←/→) into performance / physical+contract bands with ?tab= links; phone cards.",
   "evidence": "app/career/squad/page.tsx, lib/career/squadMatrix.ts, components/players/SquadViews.tsx; lib/career/squadMatrix.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/squad at desktop/tablet/phone; interaction: expand a row (chevron); no pageerror/overflow; unit: lib/career/squadMatrix.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "SQD-01b": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M6-squad-players",
   "summary": "Position-aware stat tables: Utespelare and Målvakter, sortable, per-match values with bars; phone role cards.",
   "evidence": "components/players/SquadViews.tsx, lib/career/squadMatrix.ts; lib/career/squadMatrix.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 9/9 checks on /career/squad at desktop/tablet/phone; interaction: Prestation view: outfield + keeper tables; no pageerror/overflow; unit: lib/career/squadMatrix.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "SQD-01c": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M6-squad-players",
   "summary": "Readiness heat-strip (Energi, Matchträning with 80 % marker, 7d/28d load, Trend, Utsikt), legend, risk sort, reason chips, per-row load select via the existing setter.",
   "evidence": "components/players/SquadViews.tsx, lib/career/squadMatrix.ts; lib/career/squadMatrix.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 9/9 checks on /career/squad at desktop/tablet/phone; interaction: Fysisk status heat-strip, risk sort; no pageerror/overflow; unit: lib/career/squadMatrix.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "SQD-01d": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M0-prior-phases",
   "summary": "Kontraktsrisk view sorted by days left with countdown bar; Förläng opens the renewal drawer in place.",
   "evidence": "app/career/squad/page.tsx, components/players/RenewalDrawer.tsx; lib/career/squadMatrix.test.ts",
-  "verification": "earlier-phase browser QA only; needs automated evidence"
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/squad at desktop/tablet/phone; interaction: Kontraktsrisk → Förläng opens the renewal drawer; no pageerror/overflow; unit: lib/career/squadMatrix.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "SQD-01e": {
   "status": "VERIFIED",
@@ -749,11 +749,11 @@
   "verification": "automated test named in evidence; earlier-phase browser QA"
  },
  "SQD-01g": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M6-squad-players",
   "summary": "Explaining empty filter state with cause, nearest matches (Peek) and reset.",
   "evidence": "components/players/SquadViews.tsx, lib/career/squadMatrix.ts; lib/career/squadMatrix.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 9/9 checks on /career/squad at desktop/tablet/phone; interaction: no-match search shows explaining empty state; Rensa filter; no pageerror/overflow; unit: lib/career/squadMatrix.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "SQD-02": {
   "status": "VERIFIED",
@@ -770,221 +770,221 @@
   "verification": "automated test named in evidence; earlier-phase browser QA"
  },
  "SQD-02b": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M6-squad-players",
   "summary": "Matcher tab: rating trend chart linked to the match log (rows open reports), season history.",
   "evidence": "components/players/ProfileViews.tsx, lib/players/profileModels.ts; lib/players/profileModels.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/squad/[playerId]?tab=matches at desktop/tablet/phone; interaction: chart point focuses the log row; no pageerror/overflow; unit: lib/players/profileModels.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "SQD-02c": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M6-squad-players",
   "summary": "Attributes & development workspace: matrix with history rail, court and body profile in one tab (?tab=attributes aliased).",
   "evidence": "app/career/squad/[playerId]/page.tsx, components/players/ProfileViews.tsx; lib/players/attributeMatrix.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/squad/[playerId]?tab=development at desktop/tablet/phone; interaction: tile opens its history; no pageerror/overflow; unit: lib/players/attributeMatrix.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "SQD-02d": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M6-squad-players",
   "summary": "Development curve vs potential band with event markers; individual focus segmented control (existing setPlayerIndividualFocus).",
   "evidence": "components/players/ProfileViews.tsx; lib/players/attributeMatrix.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/squad/[playerId]?tab=development at desktop/tablet/phone; interaction: individual focus Mentalt; no pageerror/overflow; unit: lib/players/attributeMatrix.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "SQD-02e": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M6-squad-players",
   "summary": "Deal sheet: facts row (exact value own / range external), payroll bar, renewal panel and transfer card, link to contracts.",
   "evidence": "components/players/ProfileViews.tsx, lib/players/profileModels.ts; lib/players/profileModels.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/squad/[playerId]?tab=contract at desktop/tablet/phone; interaction: Alla kontrakt link; no pageerror/overflow; unit: lib/players/profileModels.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "SQD-02f": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M6-squad-players",
   "summary": "Career ribbon of clubs by age with crests and training-compensation shares, linking to club profiles.",
   "evidence": "components/players/ProfileViews.tsx, lib/players/profileModels.ts; lib/players/profileModels.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/squad/[playerId]?tab=career at desktop/tablet/phone; interaction: ribbon club opens profile; no pageerror/overflow; unit: lib/players/profileModels.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "SQD-02g": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M0-prior-phases",
   "summary": "Sticky identity bar (crest, shirt, name, position, availability, squad role, K/VK/7m) with one state-chosen primary action (Till förlängning when under a year remains, Svara på oro on an open concern; external players: Förhandla) followed by the existing real actions.",
   "evidence": "components/players/PlayerDossier.tsx (DossierBar), app/career/squad/[playerId]/page.tsx",
-  "verification": "earlier-phase browser QA only; needs automated evidence"
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/squad/[playerId] (own) at desktop/tablet/phone; interaction: Jämför spelare action; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "SQD-02h": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M6-squad-players",
   "summary": "Condition gauge set: energy ring, match-fitness bar with 80 % marker, availability, rehab progress, tap explanations.",
   "evidence": "components/players/ProfileViews.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 9/9 checks on /career/squad/[playerId] (own) at desktop/tablet/phone; interaction: tap gauge explains; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "SQD-02i": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M6-squad-players",
   "summary": "Mood hub: morale meter, cause waterfall, decision cards, promise chips; release behind an alertdialog; same talk actions.",
   "evidence": "components/players/PlayerDynamicsPanel.tsx; lib/players/playerDynamics.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/squad/[playerId] (own) at desktop/tablet/phone; interaction: release behind an alertdialog, Avbryt; no pageerror/overflow; unit: lib/players/playerDynamics.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "SQD-02j": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M6-squad-players",
   "summary": "Attribute heat matrix: families as columns, tier ramp, 30-day change from stored development history, role outlines, compare overlay (own players), tile history; phone accordions.",
   "evidence": "components/GameplayProfilePanels.tsx, lib/players/attributeMatrix.ts; lib/players/attributeMatrix.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/squad/[playerId]?tab=development at desktop/tablet/phone; interaction: compare overlay (lagsnitt); no pageerror/overflow; unit: lib/players/attributeMatrix.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "SQD-02k": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M6-squad-players",
   "summary": "Suitability court: primary solid, secondary partial, role spots dashed; tap lists roles; role chips; tactics link.",
   "evidence": "components/GameplayProfilePanels.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/squad/[playerId]?tab=development at desktop/tablet/phone; interaction: tap a court spot lists roles; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "SQD-02l": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M6-squad-players",
   "summary": "Tightening range bars for external players (gated ability/potential, Okänd ännu), tier hint, chips, inline Scouta nu.",
   "evidence": "components/KnowledgeGatedProfilePanels.tsx, components/players/RangeBar.tsx, lib/players/rangeBar.ts; lib/players/rangeBar.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/squad/[playerId] (external) at desktop/tablet/phone; interaction: Scouta nu / hint; no pageerror/overflow; unit: lib/players/rangeBar.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "SQD-02m": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M6-squad-players",
   "summary": "Scout report timeline: each version gated at its own knowledge level, latest first, compare older vs latest.",
   "evidence": "components/ScoutReportPanel.tsx, app/career/squad/[playerId]/page.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 6/6 checks on /career/squad/[playerId] (external) at desktop/tablet/phone; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "SQD-02n": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M6-squad-players",
   "summary": "Renewal offer with consequence preview: demand breakdown, slider bound to the wage value, payroll/budget bar, verdict from assessRenewalAffordability; phone Krav → Bud → Bekräfta; same actions.",
   "evidence": "components/ContractRenewal.tsx, lib/players/renewalPreview.ts; lib/players/contractTimeline.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 6/6 checks on /career/squad/[playerId]?tab=contract at desktop/tablet/phone; no pageerror/overflow; unit: lib/players/contractTimeline.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "SQD-02o": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M6-squad-players",
   "summary": "Unified transfer status card in the profile card system: negotiation clock first (days left, whose move), promise / loan / competing-interest chips, owner → playing club, loan bar, negotiation CTA; same actions.",
   "evidence": "components/transfers/PlayerTransferCard.tsx, components/transfers/player-transfer-card.css",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 13/13 checks on /career/squad/[playerId]?tab=contract | /career/squad/[playerId]?tab=contract (external) at desktop/tablet/phone; interaction: negotiation CTA; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "SQD-02p": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M6-squad-players",
   "summary": "Rehab timeline: 4-phase bar, return marker vs upcoming fixtures (missed matches), injury history, link to medical.",
   "evidence": "components/players/ProfileViews.tsx, lib/players/profileModels.ts; lib/players/profileModels.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/squad/[playerId] (own) at desktop/tablet/phone; interaction: Medicinska avdelningen link; no pageerror/overflow; unit: lib/players/profileModels.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "SQD-02q": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M6-squad-players",
   "summary": "Layout skeleton while loading; not-found with routes back and recently viewed players.",
   "evidence": "app/career/squad/[playerId]/page.tsx, components/players/ProfileViews.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/squad/[unknown] at desktop/tablet/phone; interaction: back to the squad; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "SQD-03": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M6-squad-players",
   "summary": "Market workbench: filter rail, gated ability/potential/value range bands, midpoint sort, saved searches, need presets, bulk Kortlista.",
   "evidence": "app/career/players/page.tsx, lib/players/marketWorkbench.ts, components/players/market.css; lib/players/marketWorkbench.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/players at desktop/tablet/phone; interaction: select row → bulk Kortlista tray; no pageerror/overflow; unit: lib/players/marketWorkbench.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "SQD-03a": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M6-squad-players",
   "summary": "Peek drawer replaces the aside with ←/→ through the list; phone bottom sheet.",
   "evidence": "components/players/MarketPeek.tsx, components/players/SideDrawer.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/players at desktop/tablet/phone; interaction: Peek drawer, Nästa spelare; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "SQD-04": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M6-squad-players",
   "summary": "Head-to-head compare: searchable pickers, swap, vs squad average, delta sort, centre-axis delta bars; external players ranges only.",
   "evidence": "app/career/compare/page.tsx, lib/players/compareModel.ts, components/players/ComparePicker.tsx; lib/players/compareModel.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/compare at desktop/tablet/phone; interaction: delta sort; no pageerror/overflow; unit: lib/players/compareModel.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "SQD-05": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M6-squad-players",
   "summary": "Contract timeline Gantt (players + salaried staff), season lines, transfer windows, final-year band, payroll vs budget with projected renewals; phone list by expiry season.",
   "evidence": "app/career/contracts/page.tsx, lib/players/contractTimeline.ts; lib/players/contractTimeline.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/contracts at desktop/tablet/phone; interaction: group by position; no pageerror/overflow; unit: lib/players/contractTimeline.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "SQD-05a": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M6-squad-players",
   "summary": "Decision panel as a 480 px side drawer driven by ?player=.",
   "evidence": "app/career/contracts/page.tsx, components/players/RenewalDrawer.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/contracts at desktop/tablet/phone; interaction: ?player= side drawer; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "STF-01": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M10-staff-medical-scouting",
   "summary": "Org & Responsibility Matrix: departments as row groups (vacancies and weak fits first) with holder, 1–20 fit bar, wage/contract, delegation mode per area (set in the row) and sessions this week; staff cost vs board limit and 'Behov just nu'; holder Peek; phone accordions.",
   "evidence": "app/career/staff/page.tsx, components/staff/StaffOrganisation.tsx, components/staff/FitBar.tsx, lib/staff/staffDesk.ts, components/staff/staff-desk.css; lib/staff/staffDesk.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/staff at desktop/tablet/phone; interaction: holder Peek; no pageerror/overflow; unit: lib/staff/staffDesk.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "STF-01a": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M10-staff-medical-scouting",
   "summary": "Hub secondary tabs Organisation · Rekrytering · Ansvar with badges; vacancies and negotiations as chips inside Rekrytering.",
   "evidence": "components/staff/StaffNav.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/staff at desktop/tablet/phone; interaction: Ansvar tab; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "STF-01b": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M10-staff-medical-scouting",
   "summary": "Health-coloured organisation tree (manager → departments), vacant nodes to candidates, holders to Peek; indented list on phone.",
   "evidence": "components/staff/OrganisationChart.tsx; lib/staff/staffDesk.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 9/9 checks on /career/staff at desktop/tablet/phone; interaction: Träd lens; no pageerror/overflow; unit: lib/staff/staffDesk.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "STF-01c": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M10-staff-medical-scouting",
   "summary": "Compact list view toggle sortable by name, role, fit with top attribute values; phone cards.",
   "evidence": "components/staff/StaffOrganisation.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/staff at desktop/tablet/phone; interaction: Lista lens sort by name; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "STF-01d": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M10-staff-medical-scouting",
   "summary": "Mini week grid: seven day cells with session type colour and coach initials linking to training.",
   "evidence": "components/staff/StaffOrganisation.tsx, lib/staff/staffDesk.ts; lib/staff/staffDesk.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/staff at desktop/tablet/phone; interaction: day links to training; no pageerror/overflow; unit: lib/staff/staffDesk.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "STF-02": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M10-staff-medical-scouting",
   "summary": "Staff Dossier: identity column and work column (fit, attributes, impact, deal); role choice re-evaluates fit and impact; phone sticky bar.",
   "evidence": "app/career/staff/[staffId]/page.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/staff/[staffId] at desktop/tablet/phone; interaction: ← Tillbaka; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "STF-02a": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M10-staff-medical-scouting",
   "summary": "Fit per role as 1–20 range bars (range below 90 % knowledge) with holder delta and 'Pröva en annan roll'.",
   "evidence": "components/staff/StaffInsight.tsx; lib/staff/staffDesk.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/staff/[staffId] at desktop/tablet/phone; interaction: Pröva en annan roll; no pageerror/overflow; unit: lib/staff/staffDesk.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "STF-02b": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M10-staff-medical-scouting",
   "summary": "Deal panel with the shared negotiation progress stepper (ProgressSteps) and a consequence preview: budget bar (current costs, this deal, board-limit marker) plus four figures; dismissal as a separate confirmed danger action (same dismissStaff).",
   "evidence": "components/staff/StaffDealPanel.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 6/6 checks on /career/staff/[staffId] (market candidate) at desktop/tablet/phone; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "STF-03": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M10-staff-medical-scouting",
   "summary": "Vacancy-led hiring: vacancy cards then the ranked market for that role (?role=).",
   "evidence": "app/career/staff/recruitment/page.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/staff/recruitment at desktop/tablet/phone; interaction: role filter ?role=; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "STF-03a": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M10-staff-medical-scouting",
   "summary": "Vacancy cards with impact, budget room and candidate counts plus 'Alla roller'.",
   "evidence": "components/staff/StaffNav.tsx, lib/staff/staffDesk.ts; lib/staff/staffDesk.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 6/6 checks on /career/staff/recruitment at desktop/tablet/phone; no pageerror/overflow; unit: lib/staff/staffDesk.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "STF-03b": {
   "status": "IMPLEMENTED",
@@ -994,67 +994,67 @@
   "verification": ""
  },
  "STF-03c": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M10-staff-medical-scouting",
   "summary": "Market board as the sole market: fit range bars with holder marker, 'Mot i dag' range, column chooser, phone cards.",
   "evidence": "components/staff/StaffMarketBoard.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/staff/recruitment at desktop/tablet/phone; interaction: column chooser; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "STF-03d": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M10-staff-medical-scouting",
   "summary": "Legacy 'Fria scouter' and 'Rekrytering — Personal' tables removed; every action exists on the market board (and the removal stops exposing true suitability for other clubs' staff).",
   "evidence": "app/career/staff/recruitment/page.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 6/6 checks on /career/staff/recruitment at desktop/tablet/phone; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "STF-04": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M10-staff-medical-scouting",
   "summary": "Contextual delegation + proposals queue: one queue with per-area mode chips and a filterable log; 'Vem gör det?' toggle (existing setDelegation) on scouting, staff recruitment, transfers and contracts; training keeps its own delegation control; approving training plans stays in the protected M6D flow with a visible reason and link.",
   "evidence": "app/career/staff/responsibilities/page.tsx, components/staff/DelegationToggle.tsx, app/career/transfers/page.tsx, app/career/contracts/page.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/staff/responsibilities at desktop/tablet/phone; interaction: log area filter; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "TRN-01": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M2-training",
   "summary": "Assistant Proposal page: assistant header (goal, readiness before → after, Godkänn/Justera/Avböj, delegation mode), Förslaget/Mitt schema switch, diff grid with readiness forecast rail, individual advice list; duplicate readiness band removed.",
   "evidence": "app/career/training/page.tsx, components/training/ReadinessForecast.tsx, components/training/AssistantAdviceList.tsx, lib/training/readinessProjection.ts; lib/training/readinessProjection.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 6/6 checks on /career/training at desktop/tablet/phone; no pageerror/overflow; unit: lib/training/readinessProjection.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "TRN-01a": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M2-training",
   "summary": "Proposal drawn as a diff over the grid (added dashed, changed Var:/Ändras:, removed hatched), per-day Behåll mitt schema / Ta assistentens dag, per-block before/after; M6C/M6D actions unchanged.",
   "evidence": "components/manager/AssistantTrainingPanel.tsx, components/training/ProposalDiffGrid.tsx, lib/training/weekPlanView.ts; lib/training/weekPlanView.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/training (proposal) at desktop/tablet/phone; interaction: ask for a week proposal → diff grid, then Avböj; no pageerror/overflow; unit: lib/training/weekPlanView.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "TRN-01b": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M2-training",
   "summary": "Block planner: colour = type, height = intensity, width = duration, daily load bar; palette tap-to-place, drag, arrow keys, inline block editor; phone day-swipe.",
   "evidence": "components/training/WeekBlockPlanner.tsx, components/training/weekParts.tsx; lib/training/weekPlanView.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/training at desktop/tablet/phone; interaction: palette chip selects a block type; no pageerror/overflow; unit: lib/training/weekPlanView.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "TRN-01c": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M2-training",
   "summary": "Readiness strip (Beredskap, Matchform, Belastning 7 d + trend, Återhämtning, Prognos) sorted by risk; inline load segmented control with medical reasons, focus chips, bulk set with skip reasons; phone cards.",
   "evidence": "components/training/PlayerReadinessStrip.tsx, lib/training/readinessStrip.ts; lib/training/readinessStrip.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/training at desktop/tablet/phone; interaction: pick a player activates bulk bar; no pageerror/overflow; unit: lib/training/readinessStrip.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "TRN-01d": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M2-training",
   "summary": "Development leaderboard: 28-day net gains with attribute delta chips, focus, own-squad level/potential, links to dossier.",
   "evidence": "components/training/DevelopmentLeaderboard.tsx, lib/training/developmentBoard.ts; lib/training/developmentBoard.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 6/6 checks on /career/training at desktop/tablet/phone; no pageerror/overflow; unit: lib/training/developmentBoard.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "TRN-01e": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M2-training",
   "summary": "Outcome chip on each executed day (energy change, attendance) opening the per-player table.",
   "evidence": "components/manager/TrainingFeedback.tsx, components/training/WeekBlockPlanner.tsx, lib/training/weekPlanView.ts; lib/training/weekPlanView.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/training at desktop/tablet/phone; interaction: outcome chip opens per-player table; no pageerror/overflow; unit: lib/training/weekPlanView.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "TRN-01f": {
   "status": "IMPLEMENTED",
@@ -1078,25 +1078,25 @@
   "verification": "automated test named in evidence; earlier-phase browser QA"
  },
  "TRN-02b": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M0-prior-phases",
   "summary": "2×4 phase × manpower switcher (Anfall/Försvar × 6v6, 6v5, 5v6, 7v6) with completion dots; only court modes the tactical domain supports are interactive, the other cells state 'följer 6 mot 6'.",
   "evidence": "components/tactics/TacticsBoardHeader.tsx (PhaseMatrix)",
-  "verification": "earlier-phase browser QA only; needs automated evidence"
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/tactics at desktop/tablet/phone; interaction: switch to Försvar 6 mot 6; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "TRN-02c": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M0-prior-phases",
   "summary": "Special situations live in the phase × manpower grid with dots (klar / ofullständig / standard).",
   "evidence": "lib/matchPlan/boardReadiness.ts (phaseMatrix)",
-  "verification": "earlier-phase browser QA only; needs automated evidence"
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/tactics at desktop/tablet/phone; interaction: open Anfall 6 mot 5; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "TRN-02d": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M0-prior-phases",
   "summary": "Byten & Diff draws each substitution pair as a line on a court (attacker at the attack spot, defender at the defence zone), with six zone markers, a pair count against the benchmark of 3; tap attacker then a bench player to pair, tap a defence label to unpair (existing assignExchangeOnCourt / activeSubstitutionPairs).",
   "evidence": "components/tactics/BoardTools.tsx (PairingCourt), app/career/tactics/page.tsx",
-  "verification": "earlier-phase browser QA only; needs automated evidence"
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 14/14 checks on /career/tactics | /career/tactics (after match) at desktop/tablet/phone; interaction: Byten & Diff shows the pairing court; pair: tap attacker on the pairing court; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "TRN-02e": {
   "status": "VERIFIED",
@@ -1120,11 +1120,11 @@
   "verification": "automated test named in evidence; earlier-phase browser QA"
  },
  "TRN-02h": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M0-prior-phases",
   "summary": "'Ledarskap & roller' single editor: captain, vice-captain and first-choice 7 m taker in one place, with what each role does.",
   "evidence": "components/matchPlan/HandballPlanSections.tsx (LeadershipSection)",
-  "verification": "earlier-phase browser QA only; needs automated evidence"
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 6/6 checks on /career/tactics at desktop/tablet/phone; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "TRN-02i": {
   "status": "VERIFIED",
@@ -1134,46 +1134,46 @@
   "verification": "automated test named in evidence; earlier-phase browser QA"
  },
  "REC-01": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M10-staff-medical-scouting",
   "summary": "Shortlist & Reports scouting desk: pipeline strip with scout cards, report feed as articles (confidence, verdict, ranges, knowledge from→to), Kortlista by priority with need tags, one-field 'Ge ett uppdrag', report Peek, ?report= / ?target= deep links; phone tabs and sheet. Kortlista reorders via the existing priority levels (no free order without new saved data).",
   "evidence": "app/career/scouting/page.tsx, components/scouting/ScoutDesk.tsx, lib/scouting/scoutDesk.ts, components/scouting/scout-desk.css; lib/scouting/scoutDesk.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/scouting at desktop/tablet/phone; interaction: phone tab Kortlista; no pageerror/overflow; unit: lib/scouting/scoutDesk.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "REC-01a": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M10-staff-medical-scouting",
   "summary": "Need-driven recommendations rail: up to four need cards with three ranged candidates each and 'Visa fler' to recruitment.",
   "evidence": "components/scouting/ScoutingCentre.tsx; lib/scouting/scoutDesk.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 6/6 checks on /career/scouting at desktop/tablet/phone; no pageerror/overflow; unit: lib/scouting/scoutDesk.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "REC-01b": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M10-staff-medical-scouting",
   "summary": "Scout capacity cards: judgement x/20, workload pips, next finish date, 'Rekrytera scout' card.",
   "evidence": "components/scouting/ScoutDesk.tsx; lib/scouting/scoutDesk.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 6/6 checks on /career/scouting at desktop/tablet/phone; no pageerror/overflow; unit: lib/scouting/scoutDesk.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "REC-01c": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M10-staff-medical-scouting",
   "summary": "'Scouta' action sheet: knowledge now and expected after the report (previewed on a state copy), scout picker, one-click start, inline errors; phone bottom sheet.",
   "evidence": "components/scouting/ScoutaSheet.tsx; lib/scouting/scoutDesk.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 9/9 checks on /career/scouting?target= at desktop/tablet/phone; interaction: Escape closes without starting; no pageerror/overflow; unit: lib/scouting/scoutDesk.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "REC-01d": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M10-staff-medical-scouting",
   "summary": "Coverage map tiles for leagues and countries shaded by stored knowledge, least covered first, start a sweep with duration preview (one scope per assignment, per the rules).",
   "evidence": "components/scouting/ScoutDesk.tsx; lib/scouting/scoutDesk.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/scouting at desktop/tablet/phone; interaction: coverage tile configures a sweep (not started); no pageerror/overflow; unit: lib/scouting/scoutDesk.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "REC-01e": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M10-staff-medical-scouting",
   "summary": "Single pipeline list grouped Klar / Pågår / Svep with progress and actions.",
   "evidence": "components/scouting/ScoutDesk.tsx; lib/scouting/scoutDesk.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 6/6 checks on /career/scouting at desktop/tablet/phone; no pageerror/overflow; unit: lib/scouting/scoutDesk.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "REC-01f": {
   "status": "IMPLEMENTED",
@@ -1190,67 +1190,67 @@
   "verification": "automated test named in evidence; earlier-phase browser QA"
  },
  "REC-02a": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M10-staff-medical-scouting",
   "summary": "Recruitment Peek drawer (480 px; full screen on phone) opened from pipeline cards and list rows: ranges, confidence, knowledge, verdict, value, contract, priority, note and sticky actions; ?position= filter.",
   "evidence": "app/career/recruitment/page.tsx, components/scouting/RecruitPeek.tsx, components/recruitment/PipelineBoard.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 9/9 checks on /career/recruitment at desktop/tablet/phone; interaction: card opens the recruitment Peek; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "REC-03": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M1-transfers",
   "summary": "Transfer desk: Köp · Sälj · Affärer modes with badges, budget waterfall (transferram → bundet → kvar, lönerum), market table 8/12 + Deal Panel 4/12; mode/view/filters/target in URL.",
   "evidence": "app/career/transfers/page.tsx, components/transfers/BudgetWaterfall.tsx, components/transfers/MarketTable.tsx, lib/transfers/transferDesk.ts; lib/transfers/transferDesk.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/transfers at desktop/tablet/phone; interaction: Affärer mode; no pageerror/overflow; unit: lib/transfers/transferDesk.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "REC-03a": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M1-transfers",
   "summary": "Sälj mode: bids answer-first by respond-by date, fee vs valuation, squad-impact chip; departure lists as columns / phone accordions.",
   "evidence": "components/players/IncomingOffersBoard.tsx; lib/transfers/transferDesk.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 9/9 checks on /career/transfers?mode=salj at desktop/tablet/phone; interaction: open a departure list; no pageerror/overflow; unit: lib/transfers/transferDesk.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "REC-03b": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M1-transfers",
   "summary": "One market table with saved views Möjligheter / Hela marknaden / Kortlista (+ user views), shared filters, knowledge-gated Förmåga/Värde ranges, keyboard row nav, bulk Kortlista; phone ranked cards.",
   "evidence": "components/transfers/MarketTable.tsx, lib/transfers/transferDesk.ts; lib/transfers/transferDesk.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 9/9 checks on /career/transfers at desktop/tablet/phone; interaction: saved view Hela marknaden (chips; dropdown on phone); no pageerror/overflow; unit: lib/transfers/transferDesk.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "REC-03c": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M1-transfers",
   "summary": "Deal drawer: star and value ranges, knowledge meter, readiness checklist with visible reasons (matched against runNegotiationAction START in a test); sticky panel / slide-over / bottom sheet.",
   "evidence": "components/transfers/DealDrawer.tsx; lib/transfers/transferDesk.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 9/9 checks on /career/transfers at desktop/tablet/phone; interaction: row opens the deal drawer; no pageerror/overflow; unit: lib/transfers/transferDesk.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "REC-03d": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M1-transfers",
   "summary": "Need heat-map court in the Köp header from the existing need assessment (click filters the market); Förhandlingar, Marknadspuls, Senaste affärer moved to Affärer mode.",
   "evidence": "components/transfers/NeedCourt.tsx, app/career/transfers/page.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/transfers at desktop/tablet/phone; interaction: need court filters the market; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "REC-04": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M1-transfers",
   "summary": "Term sheet: Vårt bud · Skillnad · Deras krav per term with 'Möt motbudet', budget impact rail, compact round history; same FEE / LOAN_TERMS / TERMS / WITHDRAW / START actions; phone term cards + sticky footer.",
   "evidence": "components/transfers/TermSheet.tsx, components/transfers/NegotiationRoom.tsx; lib/transfers/transferDesk.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/transfers/[playerId] (negotiation) at desktop/tablet/phone; interaction: START: 'Öppna förhandlingen →' opens the term sheet; no pageerror/overflow; unit: lib/transfers/transferDesk.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "REC-04a": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M1-transfers",
   "summary": "Two choice cards Permanent / Lån with what is negotiated, value range, training compensation and readiness; own-player and cooling-off state cards.",
   "evidence": "components/transfers/TermSheet.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 9/9 checks on /career/transfers/[playerId] (before negotiation) at desktop/tablet/phone; interaction: choose Permanent; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "REC-04b": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M0-prior-phases",
   "summary": "Range-band slider in the club-stage decision form: the scouts' knowledge-gated value range as a hatched band, the selling club's latest counter, the transfer budget and our bid on one axis; the slider drives the same fee field the form submits (negotiation rules unchanged).",
   "evidence": "components/transfers/FeeRangeBand.tsx, components/transfers/NegotiationRoom.tsx, components/transfers/transfer-centre.css",
-  "verification": "earlier-phase browser QA only; needs automated evidence"
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/transfers/[playerId] (negotiation) at desktop/tablet/phone; interaction: fee slider moves our bid on the band; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "REC-04c": {
   "status": "IMPLEMENTED",
@@ -1260,11 +1260,11 @@
   "verification": ""
  },
  "REC-04d": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M1-transfers",
   "summary": "Waiting card with answer date and 'Spela fram till svaret' (ordinary continueCareer, stops on events), blocked reasons, mini Week Spine via pinsOn.",
   "evidence": "components/transfers/TermSheet.tsx; lib/transfers/transferDesk.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/transfers/[playerId] (negotiation) | /career/transfers/[playerId] (negotiation) waiting at desktop/tablet/phone; interaction: submit bid → waiting card with answer date; no pageerror/overflow; unit: lib/transfers/transferDesk.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "REC-04e": {
   "status": "IMPLEMENTED",
@@ -1288,11 +1288,11 @@
   "verification": ""
  },
  "CMP-01": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M8-dashboard-competition",
   "summary": "League Centre: competitions overview; one shell for leagues and the cup (switcher, round x/y, URL tabs); Total/Hemma/Borta/Form table views with zones, movement and pinned own row; points-gap chart with deciding fixtures; Din klubb / Omgång / Skytteligan rail; club Peek.",
   "evidence": "components/manager/CompetitionWorkspace.tsx, components/manager/CompetitionShell.tsx, components/manager/ClubPeek.tsx, lib/competition/leagueCentre.ts; lib/competition/leagueCentre.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/competitions at desktop/tablet/phone; interaction: own competition opens the shell; no pageerror/overflow; unit: lib/competition/leagueCentre.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "CMP-01a": {
   "status": "VERIFIED",
@@ -1302,32 +1302,32 @@
   "verification": "automated test named in evidence; earlier-phase browser QA"
  },
  "CMP-01b": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M8-dashboard-competition",
   "summary": "Fixtures grouped by round with date range, own game first and highlighted, position chips.",
   "evidence": "components/manager/CompetitionShell.tsx (RoundList), lib/competition/leagueCentre.ts; lib/competition/leagueCentre.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/competitions/swe-2?tab=fixtures at desktop/tablet/phone; interaction: Resultat tab in URL; no pageerror/overflow; unit: lib/competition/leagueCentre.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "CMP-01c": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M8-dashboard-competition",
   "summary": "Results by round with half-time score from the stored goal timeline and extra time / penalties.",
   "evidence": "components/manager/CompetitionShell.tsx, lib/competition/leagueCentre.ts; lib/competition/leagueCentre.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/competitions/swe-2?tab=results at desktop/tablet/phone; interaction: own result opens the report; no pageerror/overflow; unit: lib/competition/leagueCentre.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "CMP-01d": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M8-dashboard-competition",
   "summary": "Shared stats component: seven position leader cards above the ranking table with position filter.",
   "evidence": "components/manager/CompetitionStats.tsx, lib/competition/leaderboards.ts; lib/competition/competitionViews.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/competitions/swe-2?tab=statistics at desktop/tablet/phone; interaction: position filter tab; no pageerror/overflow; unit: lib/competition/competitionViews.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "CMP-01e": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M8-dashboard-competition",
   "summary": "Crest grid opening the club Peek with 'Scouta klubben' (existing createBroadScoutingAssignment; disabled with reason when no scout).",
   "evidence": "components/manager/ClubPeek.tsx, components/manager/ScoutAssignButton.tsx; lib/competition/leagueCentre.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 9/9 checks on /career/competitions/swe-2?tab=clubs at desktop/tablet/phone; interaction: crest opens club Peek with Scouta klubben; no pageerror/overflow; unit: lib/competition/leagueCentre.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "CMP-01f": {
   "status": "IMPLEMENTED",
@@ -1337,39 +1337,39 @@
   "verification": ""
  },
  "CMP-01g": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M8-dashboard-competition",
   "summary": "Svenska Cupen in the same shell: stage stepper with own status, group tables, bracket from saved ties with own path; old tab links mapped.",
   "evidence": "components/manager/CupWorkspace.tsx, lib/competition/cupCentre.ts; lib/competition/competitionViews.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/competitions/se-svenska-cupen-herr at desktop/tablet/phone; interaction: Matcher view; no pageerror/overflow; unit: lib/competition/competitionViews.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "CMP-01h": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M8-dashboard-competition",
   "summary": "Non-simulated league explains why, offers 'Starta bevakning i ligan' and the crest grid; unknown id links to the overview.",
   "evidence": "components/manager/CompetitionWorkspace.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/competitions/[non-simulated] at desktop/tablet/phone; interaction: unknown id links to the overview; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "CMP-02": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M8-dashboard-competition",
   "summary": "Head-to-head fixture page: score-bug header, mirrored comparison, meetings this and archived seasons with record; Förbered & spela / Matchrapport CTA.",
   "evidence": "app/career/fixtures/[fixtureId]/page.tsx, lib/competition/headToHead.ts; lib/competition/competitionViews.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/fixtures/[fixtureId] at desktop/tablet/phone; interaction: crest opens club Peek; no pageerror/overflow; unit: lib/competition/competitionViews.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "CMP-03": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M8-dashboard-competition",
   "summary": "/career/matches is a server redirect to /career/schedule.",
   "evidence": "app/career/matches/page.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 6/6 checks on /career/matches → /career/schedule at desktop/tablet/phone; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "CMP-04": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M8-dashboard-competition",
   "summary": "Statistik: position leaderboards (shared component) with competition switcher ?competition= and the team table kept.",
   "evidence": "app/career/statistics/page.tsx, components/manager/StatisticsTable.tsx; lib/competition/competitionViews.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/statistics at desktop/tablet/phone; interaction: position leaderboard tab; no pageerror/overflow; unit: lib/competition/competitionViews.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "MDY-01": {
   "status": "VERIFIED",
@@ -1379,11 +1379,11 @@
   "verification": "automated test named in evidence; earlier-phase browser QA"
  },
  "MDY-01a": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M7-matchprep-analysis",
   "summary": "Stakes strip: competition, round, venue, both table positions and gap, 'Vinst = X:e plats / Förlust = …'; table/form/media in an expander.",
   "evidence": "components/matchday/Matchday.tsx, lib/matchday/preMatch.ts; lib/matchday/prep.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/match-preview at desktop/tablet/phone; interaction: open table/form expander; no pageerror/overflow; unit: lib/matchday/prep.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "MDY-01b": {
   "status": "IMPLEMENTED",
@@ -1393,18 +1393,18 @@
   "verification": ""
  },
  "MDY-01c": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M7-matchprep-analysis",
   "summary": "Alert banners replaced by ritual tile states with reason and 'Rätta i Taktik →'.",
   "evidence": "lib/matchday/preMatch.ts, components/matchday/PreMatch.tsx; lib/matchday/prep.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/match-preview at desktop/tablet/phone; interaction: blocked ritual tile with reason and 'Rätta i Taktik →'; no pageerror/overflow; unit: lib/matchday/prep.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "MDY-01d": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M7-matchprep-analysis",
   "summary": "Threat cards (confidence, 'Vårt svar' link) in step 3; compact scouting panel only when no report exists.",
   "evidence": "app/career/match-preview/page.tsx, components/analysis/Trends.tsx; lib/analysis/trends.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 6/6 checks on /career/match-preview at desktop/tablet/phone; no pageerror/overflow; unit: lib/analysis/trends.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "MDY-01e": {
   "status": "VERIFIED",
@@ -1421,11 +1421,11 @@
   "verification": ""
  },
  "MDY-02": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M3-live-match",
   "summary": "Floodlight Sequence: walk-out (both sevens), live, timeout huddle, half-time briefing and final-whistle phases with phase chip and momentum line in the score bug; 600 ms transitions (crossfade with reduced motion); primary action moves into the phase card.",
   "evidence": "components/matchCenter/MatchCenter.tsx, components/matchCenter/liveFlow.ts, components/matchCenter/live-arena.css; components/matchCenter/liveFlow.test.ts, components/matchCenter/floodlight.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 5/5 checks on /career/match-day/[fixtureId] at desktop/tablet/phone; interaction: walk-out phase with both sevens and phase chip; Spela moves walk-out to live; no horizontal overflow (live, half-time); no pageerror/overflow; unit: components/matchCenter/liveFlow.test.ts, components/matchCenter/floodlight.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "MDY-02a": {
   "status": "VERIFIED",
@@ -1435,60 +1435,60 @@
   "verification": "automated test named in evidence; earlier-phase browser QA"
  },
  "MDY-02b": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M3-live-match",
   "summary": "Transport control: one primary button, 7-step speed radiogroup, 'Nästa viktiga händelse', 'Mer' menu (key-events toggle, Spela till slut with confirm); Space/1–7/N shortcuts; speed saved as defaultMatchSpeed; phone bottom bar.",
   "evidence": "components/ProductionMatchView.tsx; components/matchCenter/liveFlow.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/match-day/[fixtureId] at desktop/tablet/phone; interaction: transport: primary, 7-step speed radiogroup, next event, Mer; no horizontal overflow (live, half-time); transport at this viewport (primary action moved into the half-time card); no pageerror/overflow; unit: components/matchCenter/liveFlow.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "MDY-02c": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M3-live-match",
   "summary": "Live-first overview: key-moment snapshot (feed tap to inspect, 'Följ live' returns), commentary feed, five-number strip; profiles only in archive mode.",
   "evidence": "components/matchCenter/MatchCenter.tsx; components/matchCenter/floodlight.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 1/1 checks on /career/match-day/[fixtureId] at desktop; interaction: live overview: commentary, key moment inspect + Följ live, numbers; no pageerror/overflow; unit: components/matchCenter/floodlight.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "MDY-02d": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M3-live-match",
   "summary": "0–60 timeline scrubber with category-coloured markers (home above, away below), filter dimming, click to select; vertical list on phone.",
   "evidence": "components/matchCenter/MatchCenter.tsx; components/matchCenter/floodlight.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 1/1 checks on /career/match-day/[fixtureId] at desktop; interaction: timeline scrubber markers select a moment; no pageerror/overflow; unit: components/matchCenter/floodlight.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "MDY-02e": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M3-live-match",
   "summary": "Energy-forward player table: energy bar, status chip, live default sort lowest energy, 'Byt' opens the dock with the player; cards ≤700 px.",
   "evidence": "components/matchCenter/WorkspaceViews.tsx; lib/matchCenter/workspace.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 1/1 checks on /career/match-day/[fixtureId] at desktop; interaction: energy-forward player table; Byt opens the dock; no pageerror/overflow; unit: lib/matchCenter/workspace.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "MDY-02f": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M3-live-match",
   "summary": "Avslut as a shot-map board with linked detail and filters (team, player, outcome, shot type) and keeper saves by shot kind.",
   "evidence": "components/matchCenter/WorkspaceViews.tsx, components/matchCenter/TacticalCourt.tsx; lib/matchCenter/workspace.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 1/1 checks on /career/match-day/[fixtureId] at desktop; interaction: Avslut shot-map board with outcome filter; no pageerror/overflow; unit: lib/matchCenter/workspace.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "MDY-02g": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M3-live-match",
   "summary": "Bench Dock: Timeout → Byten (tiredest first, energy bars, confirm) → Taktik (existing CoachingChoices with effect timing); collapsible; phone bottom drawer with tabs.",
   "evidence": "components/game/LiveCoachPanel.tsx, components/matchCenter/EnergyBar.tsx; components/matchCenter/floodlight.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 1/1 checks on /career/match-day/[fixtureId] at desktop; interaction: bench dock with timeout and subs sections; collapse subs; no pageerror/overflow; unit: components/matchCenter/floodlight.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "MDY-02h": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M3-live-match",
   "summary": "Timeout huddle: three directive cards (changes, effect, risk, duration) + 'Återgå till match'; duplicate panels removed; fixed the overlay never receiving the live session.",
   "evidence": "components/matchCenter/TimeoutOverlay.tsx, components/matchCenter/MatchCenter.tsx; components/matchCenter/floodlight.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 1/1 checks on /career/match-day/[fixtureId] at desktop; interaction: own timeout opens the huddle; directive card; Återgå till match; no pageerror/overflow; unit: components/matchCenter/floodlight.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "MDY-02i": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M3-live-match",
   "summary": "Half-time briefing: first-half numbers vs opponent, energy lowest first, assistant suggestions from existing directives with Tillämpa / Välj ersättare, then 'Starta andra halvlek'.",
   "evidence": "components/matchCenter/MatchCenter.tsx; components/matchCenter/liveFlow.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 5/5 checks on /career/match-day/[fixtureId] at desktop/tablet/phone; interaction: half-time briefing with numbers and Starta andra halvlek; no horizontal overflow (live, half-time); Starta andra halvlek resumes in the 2nd half; no pageerror/overflow; unit: components/matchCenter/liveFlow.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "MDY-02j": {
   "status": "VERIFIED",
@@ -1505,115 +1505,115 @@
   "verification": ""
  },
  "MDY-02l": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M3-live-match",
   "summary": "'Plan' view tab replaces the Experimental 2D disclosure: trails toggle, manpower overlay, phone landscape hint; shared with archive replay.",
   "evidence": "components/matchCenter/PlanCourt.tsx, components/matchCenter/MatchCenter.tsx, components/ProductionMatchView.tsx; lib/matchCenter/presentation.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 1/1 checks on /career/match-day/[fixtureId] at desktop; interaction: Plan view with trails toggle and manpower overlay; no pageerror/overflow; unit: lib/matchCenter/presentation.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "MDY-02m": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M3-live-match",
   "summary": "Quick-finish progress card (score bug, 0–60 bar with goal ticks, auto-opens the report); loading/error/no-replay states as cards.",
   "evidence": "components/matchCenter/MatchStates.tsx, components/ProductionMatchView.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 8/8 checks on /career/match-day/[fixtureId]?finish=1 | /career/match-day/[upcoming fixture] at desktop/tablet/phone; interaction: quick-finish progress card with 0–60 bar; Öppna match → preview; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "MDY-03": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M12-internal-tools",
   "summary": "/career/match-center server-redirects directly to /career/schedule.",
   "evidence": "app/career/match-center/page.tsx; lib/career/navigation.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 6/6 checks on /career/match-center → /career/schedule at desktop/tablet/phone; no pageerror/overflow; unit: lib/career/navigation.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "MDY-04": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M7-matchprep-analysis",
   "summary": "Replays live in the report's Repris tab (#repris deep link); /career/match-2d redirects to the schedule, whose link now points at Matchrapporter.",
   "evidence": "app/career/match-2d/page.tsx, app/career/schedule/page.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 6/6 checks on /career/match-2d → /career/schedule at desktop/tablet/phone; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "ANL-01": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M7-matchprep-analysis",
   "summary": "Editorial Match Report for archive and legacy matches: headline from goal events, prev/next + picker, tabs Rapport · Statistik · Repris, momentum hero with ratings column, 3 turning points with court pictures, workload box, lessons, earlier meetings, single sticky 'Fortsätt'.",
   "evidence": "app/career/match-report/[fixtureId]/page.tsx, components/analysis/MatchReport.tsx, lib/analysis/matchReport.ts; lib/analysis/matchReport.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/match-report/[fixtureId] at desktop/tablet/phone; interaction: Statistik tab (#statistik); no pageerror/overflow; unit: lib/analysis/matchReport.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "ANL-01a": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M7-matchprep-analysis",
   "summary": "Archived match center behind the summary: Repris tab renders ArchiveReplay with hideOverview (no duplicate Översikt, opens on Nyckelögonblick); Statistik tab reuses StatisticsView.",
   "evidence": "app/career/match-report/[fixtureId]/page.tsx, components/analysis/MatchReport.tsx, components/ProductionMatchView.tsx (hideOverview); components/matchCenter/floodlight.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/match-report/[fixtureId] at desktop/tablet/phone; interaction: Repris tab: archived match center without Översikt; no pageerror/overflow; unit: components/matchCenter/floodlight.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "ANL-01b": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M7-matchprep-analysis",
   "summary": "Momentum hero: goal-difference chart with shaded runs, half-time line, goal ticks with hover read-out and numbered markers linked to turning points; aftermath headlines and voices in the aside.",
   "evidence": "components/analysis/MatchReport.tsx, components/matchday/Matchday.tsx; lib/analysis/matchReport.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/match-report/[fixtureId] at desktop/tablet/phone; interaction: turning point selects; no pageerror/overflow; unit: lib/analysis/matchReport.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "ANL-01c": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M7-matchprep-analysis",
   "summary": "Workload with actions: own players by risk (energy, 7-day load vs typical week, minutes), inline load selector via existing setPlayerTrainingLoad, bulk 'Vila alla >50 min'; phone cards.",
   "evidence": "components/analysis/MatchReport.tsx, lib/analysis/matchReport.ts; lib/analysis/matchReport.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/match-report/[fixtureId] at desktop/tablet/phone; interaction: inline load selector; no pageerror/overflow; unit: lib/analysis/matchReport.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "ANL-01d": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M7-matchprep-analysis",
   "summary": "Legacy (no archive) matches use the same layout with sections degraded to 'Ingen detaljdata för den här matchen'; past-season results resolved.",
   "evidence": "app/career/match-report/[fixtureId]/page.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/match-report/[other club fixture] at desktop/tablet/phone; interaction: Repris degrades to Ingen detaljdata; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "ANL-01e": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M7-matchprep-analysis",
   "summary": "ReportEmpty: message, Försök igen on error, routes to Schema and Tabell.",
   "evidence": "components/analysis/MatchReport.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/match-report/[unknown] at desktop/tablet/phone; interaction: route to Schema; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "ANL-01f": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M7-matchprep-analysis",
   "summary": "Secondary 'Pressen väntar' box in the next-steps column with Möt pressen / Delegera / Hoppa över (same press functions).",
   "evidence": "components/analysis/MatchReport.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 6/6 checks on /career/match-report/[fixtureId] at desktop/tablet/phone; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "ANL-02": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M7-matchprep-analysis",
   "summary": "Trend dashboard: KPI tiles (last 5 vs season, sparkline) selecting the metric, trend chart with window toggle and per-match links, 'Vad har ändrats' cards, next-step links.",
   "evidence": "app/career/analysis/page.tsx, components/analysis/Trends.tsx, lib/analysis/trends.ts; lib/analysis/trends.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/analysis at desktop/tablet/phone; interaction: KPI tile selects the metric; no pageerror/overflow; unit: lib/analysis/trends.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "ANL-02a": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M7-matchprep-analysis",
   "summary": "Tabs Översikt · Motståndaren · Vårt lag · Matcher; new Matcher page lists every played match with filter, opening its report.",
   "evidence": "app/career/analysis/layout.tsx, app/career/analysis/matches/page.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/analysis at desktop/tablet/phone; interaction: Matcher page lists played matches; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "ANL-03": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M7-matchprep-analysis",
   "summary": "Mirror comparison chart (8 metrics), threat cards, window toggle, recent matches; scouting order kept.",
   "evidence": "app/career/analysis/opponent/page.tsx, lib/analysis/threats.ts; lib/analysis/trends.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/analysis/opponent at desktop/tablet/phone; interaction: window toggle Hela säsongen; no pageerror/overflow; unit: lib/analysis/trends.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "ANL-04": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M7-matchprep-analysis",
   "summary": "One window toggle drives KPI tiles, trend, goal-contribution bars and outfield/keeper tables summed from stored contributions.",
   "evidence": "app/career/analysis/our-team/page.tsx; lib/analysis/trends.test.ts",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 7/7 checks on /career/analysis/our-team at desktop/tablet/phone; interaction: window toggle drives the page; no pageerror/overflow; unit: lib/analysis/trends.test.ts. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  },
  "ANL-05": {
-  "status": "IMPLEMENTED",
+  "status": "VERIFIED",
   "milestone": "M7-matchprep-analysis",
   "summary": "Merged into the report: /career/analysis/last-match redirects to the latest report (empty state if none); halves, runs and timeline live in the report's Statistik tab.",
   "evidence": "app/career/analysis/last-match/page.tsx",
-  "verification": ""
+  "verification": "Playwright e2e/arena-231-sweep.spec.ts on production build, 2026-11-16 (run 2, 1 passed): 6/6 checks on /career/analysis/last-match → report at desktop/tablet/phone; no pageerror/overflow. Screenshots C:/DEV/QA/reports/arena-231/sweep."
  }
 }
