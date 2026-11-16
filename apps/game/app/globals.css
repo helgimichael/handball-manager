@@ -36,6 +36,7 @@
 @import "../components/matchday/matchday-arena.css";
 @import "../components/matchCenter/live-arena.css";
 @import "../components/matchday/prep.css";
+@import "../components/matchday/minutes-planner-arena.css";
 @import "../components/analysis/report.css";
 @import "../components/tactics/tactics-board.css";
 @import "../components/tactics/board-tools.css";

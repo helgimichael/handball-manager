@@ -2,6 +2,7 @@ import { matchPlanBefore, plannedSeventhPlayer, type TeamMatchPlan } from './mat
 import { courtPlayers,otherTeam,record,type CorePlayer,type CoreState,type TeamId } from './state';
 import { requestExchange,exchangeActive,courtLimit } from './population';
 import { requestTeamTimeout } from './referee';
+import { manualLocked, minutesNeed, minutesReading, minutesRotationBefore } from './minutesRotation';
 import type { AttackIdentity } from './offence';
 
 /** How far the defence is prepared to leave its line to take the ball. */
@@ -72,7 +73,9 @@ export type TeamTactics={defence:'6:0'|'5:1';tempo:OffensiveTempo;attackIdentity
   /** HM-PLAYTEST-01: the manager's own match plan (pairs, situational units, defensive spaces, 7m order). Absent: unchanged behaviour. */
   plan?:TeamMatchPlan;
   /** HM-PLAYTEST-04: contextual timeout team instruction. */
-  instruction?:string};
+  instruction?:string;
+  /** SQUAD-ROLE-MINUTES: players the manager exchanged himself, keyed to the official time until which the assistant leaves them alone. */
+  manualLocks?:Record<string,number>};
 /**
  * 7v6: the goalkeeper leaves for a seventh court player during an established
  * attack, and comes back when the ball is lost (population.ts). SITUATIONAL
@@ -191,21 +194,28 @@ export function coachingBefore(s:CoreState) {
     const pairOf=(id:string)=>plan?.pairs?.find(pr=>pr.attackId===id||pr.defenceId===id);
     const isExhaustedOrNormalTired=(p:CorePlayer)=>specialistIds.has(p.id)?p.condition.energy<.40:p.condition.energy<tiredBelow;
 
-    const tired=players.filter(p=>free(p)&&isExhaustedOrNormalTired(p)).sort((a,b)=>a.condition.energy-b.condition.energy||a.id.localeCompare(b.id));
+    // SQUAD-ROLE-MINUTES: a manager's own substitution is never reversed by the assistant (minutesRotation.ts).
+    const locked=(p:CorePlayer)=>manualLocked(s,team,p.id);
+    // Planned minutes are one weighted input among energy and position: absent, every need reads 0 and the order is unchanged.
+    const minutes=plan?.minutes,reading=minutes?minutesReading(s,team):null;
+    const need=(p:CorePlayer)=>minutes&&reading?minutesNeed(minutes,p,reading):0;
+    const tired=players.filter(p=>free(p)&&!locked(p)&&isExhaustedOrNormalTired(p)).sort((a,b)=>a.condition.energy-b.condition.energy||a.id.localeCompare(b.id));
     let requested=false;
     for(const outgoing of tired) {
       const pr=pairOf(outgoing.id);
       const counterpartId=pr?(pr.attackId===outgoing.id?pr.defenceId:pr.attackId):null;
-      const incoming=s.players.filter(p=>ready(p)&&!specialistIds.has(p.id)&&p.kind===outgoing.kind&&p.id!==counterpartId&&p.condition.energy>outgoing.condition.energy+profile.freshMargin)
-        .sort((a,b)=>Number(b.role===outgoing.role)-Number(a.role===outgoing.role)||
+      const incoming=s.players.filter(p=>ready(p)&&!locked(p)&&!specialistIds.has(p.id)&&p.kind===outgoing.kind&&p.id!==counterpartId&&p.condition.energy>outgoing.condition.energy+profile.freshMargin)
+        .sort((a,b)=>Number(b.role===outgoing.role)-Number(a.role===outgoing.role)||need(b)-need(a)||
           (profile.prefer==='STRENGTH'?playingStrength(b)-playingStrength(a):0)||b.condition.energy-a.condition.energy||a.id.localeCompare(b.id))[0];
       if(incoming&&requestExchange(s,team,outgoing.id,incoming.id)){requested=true;break;}
     }
+    if(!requested&&minutes)requested=minutesRotationBefore(s,team,{free,ready,protectedIds:specialistIds,tiredBelow});
     if(requested||strategy!=='SHORT')continue;
     // SHORT also restores its strongest lineup: a clearly stronger player in
     // the same role who has recovered on the bench replaces a weaker one.
-    for(const weaker of players.filter(free).sort((a,b)=>playingStrength(a)-playingStrength(b)||a.id.localeCompare(b.id))) {
-      const stronger=s.players.filter(p=>ready(p)&&!specialistIds.has(p.id)&&p.kind===weaker.kind&&p.role===weaker.role&&p.condition.energy>=.78&&
+    // With planned minutes, a player still owed his minutes stays on, and only a player still owed his comes back.
+    for(const weaker of players.filter(p=>free(p)&&!locked(p)&&!(need(p)>0)).sort((a,b)=>playingStrength(a)-playingStrength(b)||a.id.localeCompare(b.id))) {
+      const stronger=s.players.filter(p=>ready(p)&&!locked(p)&&!specialistIds.has(p.id)&&(!minutes||need(p)>0)&&p.kind===weaker.kind&&p.role===weaker.role&&p.condition.energy>=.78&&
         p.condition.energy>=weaker.condition.energy-.05&&playingStrength(p)>playingStrength(weaker)+.04)
         .sort((a,b)=>playingStrength(b)-playingStrength(a)||a.id.localeCompare(b.id))[0];
       if(stronger&&requestExchange(s,team,weaker.id,stronger.id))break;

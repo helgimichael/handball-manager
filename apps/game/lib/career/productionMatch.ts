@@ -8,6 +8,8 @@ import {transferDecisionTrace} from '@handball-manager/handball-engine/src/v2/co
 import { buildProfile, ROLE_TENDENCIES, defaultAttackRole, type AttributeSheet } from '@handball-manager/handball-engine/src/v2/core/profile';
 import { defensiveAggression, rotationStrategy, setTactics, sevenVSixMode, type DefensiveAggression, type RotationStrategy, type SevenVSixMode, type TeamTactics } from '@handball-manager/handball-engine/src/v2/core/coaching';
 import { requestExchange } from '@handball-manager/handball-engine/src/v2/core/population';
+import { lockManualExchange } from '@handball-manager/handball-engine/src/v2/core/minutesRotation';
+import { engineMinutesPlan } from '../matchPlan/minutesPlan';
 import { requestTeamTimeout } from '@handball-manager/handball-engine/src/v2/core/referee';
 import type { CoreEvent, CorePlayer, CoreState, Role, TeamId } from '@handball-manager/handball-engine/src/v2/core/state';
 import { ledger, lossClassOf } from '@handball-manager/handball-engine/src/v2/core/ledger';
@@ -160,7 +162,8 @@ export function createProductionSession(state: CareerState, fixture: CareerFixtu
     core.coaching[team].defence = engineDefenceSystem(side.plan?.defencePlan.baseFormation);
     core.coaching[team].aggression = engineDefensiveAggression(side.plan?.defencePlan);
     // HM-PLAYTEST-01 WS2: the manager's own handball match plan reaches the engine.
-    if (!cpu) { const teamPlan = engineTeamMatchPlan(side.plan, currentTeamRoles(state)); if (teamPlan && Object.keys(teamPlan).length) core.coaching[team].plan = teamPlan; }
+    // SQUAD-ROLE-MINUTES: the plan's minutes (role-based defaults where the manager set none) reach the assistant as weighted inputs.
+    if (!cpu) { const minutes = engineMinutesPlan(state, side.plan); const teamPlan = { ...engineTeamMatchPlan(side.plan, currentTeamRoles(state)), ...(minutes ? { minutes } : {}) }; if (Object.keys(teamPlan).length) core.coaching[team].plan = teamPlan; }
     core.coaching[team].attackIdentity = side.plan?.attackPlan.ballCirculation === 'DIRECT' ? 'DIRECT' : side.plan?.attackPlan.wingUsage === 'HIGH' ? 'WIDTH' : side.plan?.attackPlan.structureFreedom === 'STRUCTURED' ? 'COMBINATION' : 'BALANCED';
   }
   // Replace all template references, including receiver/mark/throw-off identities.
@@ -241,7 +244,11 @@ export function commandProductionMatch(state: CareerState, command: MatchCommand
   if (command.kind !== 'SECOND_HALF' && session.control?.by === 'ASSISTANT') throw new Error(`${session.control.name} leder laget i den här matchen. ${session.control.reason}`);
   if (command.kind === 'SECOND_HALF') { session.pausedAtHalf = false; accepted = true; }
   else if (command.kind === 'TACTICS') accepted = setTactics(session.core, command.team, command.patch);
-  else if (command.kind === 'SUBSTITUTION') accepted = requestExchange(session.core, command.team, command.outId, command.inId);
+  else if (command.kind === 'SUBSTITUTION') {
+    accepted = requestExchange(session.core, command.team, command.outId, command.inId);
+    // SQUAD-ROLE-MINUTES: the assistant never reverses the manager's own substitution.
+    if (accepted) lockManualExchange(session.core, command.team, [command.outId, command.inId]);
+  }
   // Stabilization: a team time-out is only granted once a dead ball has reached its taker. During any official
   // time-out the engine does not advance a ball flight while its age keeps counting, so a time-out granted while a
   // non-live ball is in the air (throw-off pass, dead-ball return) always ended the match with "Unresolved ball

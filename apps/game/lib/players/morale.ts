@@ -37,7 +37,10 @@ export function moraleFactors(state: CareerState, playerId: string): MoraleFacto
   const played = managerMatchesPlayed(state);
 
   const time = assessPlayingTime(state,playerId);
-  if (time.status === 'UNMET') {
+  if (time.status === 'UNMET' && time.basis === 'DEVELOPMENT') {
+    // Talang: a season without match opportunities is a slow, modest weight -- never a role-sized shortfall.
+    out.push({key:'PLAYING_TIME',label:time.explanation,points:-Math.round(Math.min(10,5+p.ambition/4))});
+  } else if (time.status === 'UNMET') {
     const deficit = 1-time.courtMinutes/time.expectedMinutes;
     out.push({key:'PLAYING_TIME',label:time.explanation,points:-Math.round(Math.min(28,24*deficit*(.7+p.ambition/40)))});
   } else if (time.status === 'EXCEEDED') out.push({key:'PLAYING_TIME',label:time.explanation,points:4});

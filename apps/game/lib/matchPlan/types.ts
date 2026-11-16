@@ -307,6 +307,13 @@ export interface MatchPlan {
   situationUnits?: SituationUnits;
   /** HM-PLAYTEST-01 2.3: the preferred seventh court player in 7 mot 6. */
   sevenVSixPlayerId?: string;
+  /**
+   * SQUAD-ROLE-MINUTES: the manager's own planned court minutes (0-60) per
+   * registered player -- overrides only. Absent (every older save) or missing
+   * for a player: the role-based default (lib/matchPlan/minutesPlan.ts).
+   * A match intention for the assistant; never a squad-role or expectation change.
+   */
+  plannedMinutes?: Readonly<Record<string, number>>;
 }
 
 export type DefenceSystemKey = "6-0" | "5-1";

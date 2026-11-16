@@ -21,6 +21,7 @@
  */
 import { courtLimit, exchangeActive, requestExchange } from './population';
 import { courtPlayers, otherTeam, type CorePlayer, type CoreState, type Role, type TeamId } from './state';
+import type { PlannedMinutes } from './minutesRotation';
 
 export type UnitSituation = 'ATTACK_6V5' | 'DEFENCE_5V6';
 export type UnitEntry = { readonly playerId: string; readonly role?: Role; readonly zone?: number };
@@ -30,6 +31,8 @@ export type TeamMatchPlan = {
   readonly defenceZones?: Readonly<Record<string, number>>;
   readonly penaltyTakers?: readonly string[];
   readonly sevenVSixPlayerId?: string;
+  /** SQUAD-ROLE-MINUTES: planned minutes per player -- weighted assistant-rotation inputs only (minutesRotation.ts). */
+  readonly minutes?: PlannedMinutes;
 };
 
 const planOf = (s: CoreState, team: TeamId): TeamMatchPlan | undefined => s.coaching[team]?.plan;

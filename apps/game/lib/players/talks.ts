@@ -22,7 +22,7 @@ function concernFor(state: CareerState, playerId: string): { kind: ConcernKind; 
   const time = assessPlayingTime(state,playerId);
   const priorTime = Object.values(dynamicsOf(state).concerns).filter(c => c.playerId === playerId && c.kind === 'PLAYING_TIME').sort((a,b) => b.raisedOn.localeCompare(a.raisedOn))[0];
   if ((m?.playingTimeUnmetWeeks ?? 0) >= 3 && time.status === 'UNMET' && (!priorTime || priorTime.playingTimeFixtureId !== time.lastFixtureId)) return {
-    kind:'PLAYING_TIME',message:`Min speltid motsvarar inte min roll. ${time.explanation}`,
+    kind:'PLAYING_TIME',message:`${time.basis === 'DEVELOPMENT' ? 'Jag behöver matcher för att utvecklas.' : 'Min speltid motsvarar inte min roll.'} ${time.explanation}`,
     options:[
       {id:'EARN_IT',label:'Förklara att han behöver slå sig in',consequence:'Inget löfte. Professionella spelare tar utmaningen; andra blir mer missnöjda. Svaret påverkar moralen i fem veckor, men fortsatt bänkning räknas fortfarande.'},
       {id:'LISTEN_OFFERS',label:'Lyssna på bud',consequence:'Spelaren transferlistas och får en tillfällig lättnad. Ingen flytt genomförs utan den vanliga transferprocessen.'},

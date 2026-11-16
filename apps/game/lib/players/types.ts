@@ -104,6 +104,16 @@ export interface TransferListing {
   reason: "MANAGER" | "TRANSFER_REQUEST";
 }
 
+export interface DevelopmentLedgerEntry {
+  seasonId: string;
+  /** Competitive matches this season the player was available for while in the Talent role. */
+  availableMatches: number;
+  /** Of those, matches in which he actually got onto the court. */
+  matchesWithMinutes: number;
+  courtMinutes: number;
+  lastFixtureId: string;
+}
+
 /** A bounded match fact inside the existing player dynamics state, not a second relationship model. */
 export interface PlayingTimeMatch {
   fixtureId: string;
@@ -147,6 +157,13 @@ export interface PlayerDynamicsState {
   lastWeeklyUpdate?: string;
   /** Recorded forward only; absent on older saves. Never reconstructed from starts or attacking actions. */
   playingTime?: Record<string, PlayingTimeMatch>;
+  /**
+   * SQUAD-ROLE-MINUTES: a compact per-season tally of competitive matches a
+   * player was available for while holding the Talent role -- the long-horizon
+   * development-opportunity check (the per-match samples above age out after
+   * six weeks). Optional and lazily created; older saves simply start empty.
+   */
+  developmentLedger?: Record<string, DevelopmentLedgerEntry>;
   /** Recent departures of the manager's players (sales, releases, pre-contract exits) for Moments and the Transfers page. */
   departures: PlayerDeparture[];
 }

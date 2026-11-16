@@ -1,0 +1,38 @@
+/* ==========================================================================
+   SQUAD-ROLE-MINUTES -- "Speltidsplan" in the matchday preview (Arena Nights tokens only).
+   Wide: one row per player; narrow container (phone, or a half-width panel): stacked cards with large steppers.
+   ========================================================================== */
+.mp-planner { display: grid; gap: 8px; margin-top: 14px; container-type: inline-size; }
+.mp-planner > header { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.mp-planner > header .md-subhead { margin: 0; }
+.mp-group { display: grid; gap: 4px; }
+.mp-rows { list-style: none; margin: 0; padding: 0; display: grid; gap: 3px; }
+.mp-rows li { display: grid; grid-template-columns: 34px minmax(0, 1.4fr) minmax(0, 1fr) auto 64px; gap: 10px; align-items: center; padding: 6px 10px; border-radius: 4px; background: var(--arena-solid-1); border-left: 3px solid var(--arena-line); font-size: 13px; color: var(--arena-ink); }
+.mp-rows li[data-edited] { border-left-color: var(--club-neon); }
+.mp-rows li[data-available="false"] { opacity: .55; border-left-color: var(--arena-neg); }
+.mp-pos { text-align: center; }
+.mp-who { display: grid; min-width: 0; }
+.mp-who a { color: var(--arena-ink); text-decoration: none; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mp-who small { color: var(--arena-muted); font-size: 11px; }
+.mp-recent { color: var(--arena-muted); font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mp-recent b { color: var(--arena-ink-2); font-weight: 700; }
+.mp-recent i { font-style: normal; color: var(--arena-faint); }
+.mp-stepper { display: inline-grid; grid-template-columns: 30px 52px 30px; align-items: center; border: 1px solid var(--arena-line); border-radius: 6px; overflow: hidden; background: var(--arena-solid-2); }
+.mp-stepper button { height: 30px; border: 0; background: var(--arena-solid-3); color: var(--arena-ink); font: 800 16px/1 var(--arena-font-display); cursor: pointer; }
+.mp-stepper button:hover:not(:disabled), .mp-stepper button:focus-visible { background: var(--club-neon); color: var(--club-neon-ink); outline: none; }
+.mp-stepper button:disabled { opacity: .4; cursor: default; }
+.mp-stepper input { width: 100%; height: 30px; border: 0; background: transparent; color: var(--arena-ink); text-align: center; font: 800 15px/1 var(--arena-font-display); -moz-appearance: textfield; appearance: textfield; }
+.mp-stepper input::-webkit-outer-spin-button, .mp-stepper input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.mp-stepper input:focus-visible { outline: 2px solid var(--club-neon); outline-offset: -2px; }
+.mp-reset { justify-self: end; padding: 3px 6px; border: 1px solid var(--arena-line); border-radius: 4px; background: transparent; color: var(--arena-muted); font-size: 11px; cursor: pointer; }
+.mp-reset:hover, .mp-reset:focus-visible { color: var(--arena-ink); border-color: var(--club-neon); outline: none; }
+
+@container (max-width: 560px) {
+  .mp-rows li { grid-template-columns: 34px minmax(0, 1fr) auto; grid-template-areas: "pos who step" "recent recent reset"; row-gap: 6px; padding: 8px 10px; }
+  .mp-pos { grid-area: pos; }
+  .mp-who { grid-area: who; }
+  .mp-stepper { grid-area: step; grid-template-columns: 40px 48px 40px; }
+  .mp-stepper button, .mp-stepper input { height: 40px; }
+  .mp-recent { grid-area: recent; }
+  .mp-reset, .mp-reset-slot { grid-area: reset; }
+}

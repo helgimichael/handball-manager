@@ -29,6 +29,10 @@ import { threatCards } from '@/lib/analysis/threats';
 import { mirrorRows } from '@/lib/analysis/trends';
 import { getClubMatchHistory, sliceWindow } from '@/lib/analysis/matchHistory';
 import { TEMPO_LABELS_SV } from '@/lib/matchPlan/matchPlanLabels';
+import { minutesPlannerRows, resetPlannedMinutes, setPlannedMinutes } from '@/lib/matchPlan/minutesPlan';
+import type { MatchPlan } from '@/lib/matchPlan/types';
+import { setMatchPlan } from '@/lib/career/matchPlanActions';
+import { MinutesPlanner } from '@/components/matchday/MinutesPlanner';
 
 export default function MatchPreviewPage() {
   const router = useRouter();
@@ -83,6 +87,19 @@ export default function MatchPreviewPage() {
     router.push(matchDayHref(fixture!.id, { finish: !!options.quick }));
   }
 
+  // SQUAD-ROLE-MINUTES: the minutes plan is saved with this fixture's own match plan; nothing else changes.
+  const minutesRows = savedPlan ? minutesPlannerRows(career, savedPlan) : [];
+  function editMinutes(edit: (plan: MatchPlan) => MatchPlan) {
+    updateCareer(state => {
+      if (state.productionMatch?.fixture.id === fixture!.id) return state;
+      const available = getCareerSquad(state).filter(p => isSelectableForMatch(state.playerStatuses, p.id));
+      const plan = isManualLineupCareer(state) ? resolveManualMatchPlan(state, fixture!.id, available) : state.matchPlans[fixture!.id];
+      if (!plan) return state;
+      const next = edit(plan);
+      return next === plan ? state : setMatchPlan(state, fixture!.id, next);
+    });
+  }
+
   function handlePlayMatch() { startMatch({}); }
 
   function handleQuickResult() { startMatch({ quick: true }); }
@@ -129,6 +146,10 @@ export default function MatchPreviewPage() {
                 <LineupCourt spots={board.spots} />
                 <h3 className="md-subhead">Avbytare · {board.bench.length}</h3>
                 <Bench bench={board.bench} />
+                <MinutesPlanner rows={minutesRows} readOnly={hasActiveSessionForFixture}
+                  onChange={(id, minutes) => editMinutes(plan => setPlannedMinutes(plan, id, minutes))}
+                  onReset={id => editMinutes(plan => resetPlannedMinutes(plan, id))}
+                  onResetAll={() => editMinutes(plan => resetPlannedMinutes(plan))} />
               </>
             ) : (
               <p>Granska truppens tillgänglighet och välj startsju och instruktioner i Taktik innan avkast.</p>
