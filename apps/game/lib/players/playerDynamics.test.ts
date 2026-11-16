@@ -122,7 +122,8 @@ test("accepting a bid outside the window agrees the deal and completes it when t
   const id = managerSquadIds(s)[5]!;
   const buyer = findBuyer(s, id, "t");
   if (!buyer) return;
-  const offer = { id: "in:test", playerId: id, fromClubId: buyer.clubId, foreign: buyer.foreign, openedOn: s.gameDate, feeEur: 5000, maxFeeEur: 8000, wageEurPerMonth: 1500, contractYears: 2, status: "OPEN" as const, respondBy: "2026-11-09", rounds: [], motive: "test" };
+  // HM-TRANSFER-REALISM-1.0: the buyer's own terms (priced by the shared PCDM) -- a transfer request no longer makes any wage acceptable.
+  const offer = { id: "in:test", playerId: id, fromClubId: buyer.clubId, foreign: buyer.foreign, openedOn: s.gameDate, feeEur: 5000, maxFeeEur: 8000, wageEurPerMonth: buyer.wageEurPerMonth, contractYears: buyer.contractYears, status: "OPEN" as const, respondBy: "2026-11-09", rounds: [], motive: "test" };
   s = { ...s, incomingOffers: { [offer.id]: offer }, playerDynamics: { morale: {}, promises: {}, concerns: {}, requests: { [id]: { playerId: id, submittedOn: s.gameDate, reason: "x", status: "OPEN" } }, listings: {}, departures: [] } };
   s = acceptIncomingOffer(s, offer.id);
   assert.equal(s.incomingOffers![offer.id]!.status, "AWAITING_FINAL_APPROVAL");

@@ -9,8 +9,6 @@
 // CareerState glue lives in negotiationIntegration.ts.
 import { seededOffset } from "../rating/generation/deterministicVariation";
 import { SQUAD_STATUS_TIERS, SQUAD_STATUS_TIER_LABEL_SV, type SquadStatusTier } from "../career/squadStatus";
-import type { FinancialPressureLevel } from "../economy/clubEconomyTypes";
-import type { SquadStatus } from "../game-data";
 import type { NegotiationResponse } from "./types";
 
 /** A club states its price after this many fee rounds; a third miss ends talks. */
@@ -106,33 +104,6 @@ export function evaluateClubFeeRound(inputs: ClubFeeRoundInputs): NegotiationRou
 
 const TIER_RANK: Record<SquadStatusTier, number> = Object.fromEntries(SQUAD_STATUS_TIERS.map((t, i) => [t, i])) as Record<SquadStatusTier, number>;
 
-export interface PlayerWageDemandInputs {
-  playerId: string;
-  age: number | null;
-  isFreeAgent: boolean;
-  currentWageEurPerMonth: number;
-  /** contractIntegration.ts's own role/CA/age-driven baseline. */
-  fairWageEurPerMonth: number;
-  currentClubTier: 1 | 2 | undefined;
-  newClubTier: 1 | 2 | undefined;
-  currentSquadStatus: SquadStatus;
-  currentClubPressure: FinancialPressureLevel;
-  /** HM-ALPHA2-05B: the BUYING club's financial state -- a shaky club must pay a risk premium. */
-  newClubPressure?: FinancialPressureLevel;
-  /** The role the player believes their quality earns at the buying club. */
-  expectedRole: SquadStatusTier;
-  promisedRole: SquadStatusTier;
-  contractYears: number;
-  /**
-   * HM-ALPHA2-05E: sporting ambition -- the player's own ability against
-   * the buying squad's level (cpuCandidateEvaluation.ts's ownLevelScore:
-   * average ability of its best seven). Optional: absent = neutral.
-   */
-  sportingLevel?: { playerCa: number; buyingSquadLevel: number };
-  /** HM-ALPHA2-05E: potential still to realise (PA - CA) -- a big gap makes playing time matter more. */
-  potentialGap?: number;
-}
-
 /** HM-ALPHA2-05E: one reason the demand moved, and by how much -- shown to the manager as-is. */
 export interface DemandFactor {
   label: string;
@@ -150,58 +121,10 @@ export interface PlayerWageDemand {
   breakdown?: DemandFactor[];
 }
 
-/** HM-ALPHA2-05E: a potential gap this large marks an ambitious talent who weighs playing time heavily. */
-export const AMBITIOUS_TALENT_POTENTIAL_GAP = 15;
-
-/**
- * What the player asks for. Under contract they want a raise on their
- * current wage (moving is a disruption); a free agent has no leverage
- * and asks roughly market rate. Moving down a league, being promised a
- * smaller role than their quality earns, or a contract length that
- * does not suit their age all push the demand up.
- */
-export function computePlayerWageDemand(inputs: PlayerWageDemandInputs): PlayerWageDemand {
-  const factors: string[] = [];
-  const breakdown: DemandFactor[] = [];
-  const base = inputs.isFreeAgent ? inputs.fairWageEurPerMonth * 0.95 : Math.max(inputs.currentWageEurPerMonth * 1.1, inputs.fairWageEurPerMonth);
-  let demand = base;
-  const apply = (multiplier: number, label: string) => {
-    demand *= multiplier;
-    factors.push(label);
-    breakdown.push({ label, effectPct: Math.round((multiplier - 1) * 100) });
-  };
-
-  const currentTier = inputs.currentClubTier ?? 2;
-  const newTier = inputs.newClubTier ?? 2;
-  if (newTier > currentTier) apply(1.15, "Kräver kompensation för att gå till en lägre serie.");
-  else if (newTier < currentTier) apply(0.92, "Lockas av en högre serie.");
-
-  // HM-ALPHA2-05E: the squad he would join, not just its league.
-  if (inputs.sportingLevel) {
-    const { playerCa, buyingSquadLevel } = inputs.sportingLevel;
-    if (buyingSquadLevel < playerCa - 10) apply(1.08, "Ser er trupp som ett sportsligt steg ned.");
-    else if (buyingSquadLevel > playerCa + 5) apply(0.96, "Lockas av en starkare trupp att utvecklas i.");
-  }
-
-  const ambitious = (inputs.potentialGap ?? 0) >= AMBITIOUS_TALENT_POTENTIAL_GAP;
-  const roleGap = TIER_RANK[inputs.promisedRole] - TIER_RANK[inputs.expectedRole];
-  const refusesRole = roleGap >= 3;
-  if (roleGap > 0) apply(1 + (ambitious ? 0.18 : 0.12) * roleGap, "Den utlovade rollen är mindre än spelaren anser sig förtjäna.");
-  else if (roleGap < 0) apply(Math.pow(ambitious ? 0.95 : 0.97, Math.min(2, -roleGap)), "Uppskattar en större roll än väntat.");
-
-  if (inputs.age !== null && inputs.age >= 30 && inputs.contractYears < 2) apply(1.1, "Vill ha trygghet i ett längre avtal.");
-  else if (inputs.age !== null && inputs.age <= 23 && inputs.contractYears > 4) apply(1.08, "Vill inte binda sig för länge i början av karriären.");
-
-  if (inputs.currentSquadStatus === "Rotation" || inputs.currentSquadStatus === "Ungdom") apply(0.95, "Vill ha mer speltid än i nuvarande klubb.");
-  if (inputs.currentClubPressure === "SERIOUS" || inputs.currentClubPressure === "CRITICAL") apply(0.93, "Nuvarande klubb har ekonomiska problem.");
-  if (inputs.newClubPressure === "SERIOUS" || inputs.newClubPressure === "CRITICAL") apply(1.06, "Vill ha betalt för risken i en klubb med ansträngd ekonomi.");
-
-  // Fixed per-player personal offset on the DEMAND (never on the decision) -- shown, not hidden.
-  const personal = seededOffset(`${inputs.playerId}:negotiation:wage-demand`, 5);
-  demand *= 1 + personal / 100;
-  if (personal !== 0) breakdown.push({ label: "Spelarens egen värdering", effectPct: personal });
-  return { demandEurPerMonth: roundUp(Math.max(0, demand), 10), refusesRole, factors, baseEurPerMonth: Math.round(base), breakdown };
-}
+// HM-TRANSFER-REALISM-1.0: the wage demand itself is no longer computed here.
+// It comes from the shared Player Career Decision Model
+// (lib/transfers/careerDecision), so the manager, CPU clubs and rival clubs
+// all face the same player. The rounds below only judge an offer against it.
 
 /**
  * HM-ALPHA2-05E: the agent's commission -- a fixed number of months of
@@ -220,29 +143,14 @@ export function effectiveMonthlyWage(wageEurPerMonth: number, signingBonusEur: n
 }
 
 export interface PlayerTermsRoundInputs {
+  /** The PCDM demand -- already priced against the player's alternatives, including the best rival package. */
   demand: PlayerWageDemand;
   offeredWageEurPerMonth: number;
   round: number;
-  /**
-   * HM-ALPHA2-05B: the most attractive active rival package, as its wage
-   * over what the player would demand AT THAT CLUB (>1 = better than the
-   * player needs there). To win, the manager must match that same margin
-   * against their own demand; a tie goes to the club already in talks.
-   */
-  rival?: { clubName: string; packageRatio: number };
-}
-
-/** The ratio a package scores: offered wage over the player's demand for exactly those terms. */
-export function packageRatio(offeredWageEurPerMonth: number, demand: PlayerWageDemand): number {
-  if (demand.refusesRole || demand.demandEurPerMonth <= 0) return 0;
-  return offeredWageEurPerMonth / demand.demandEurPerMonth;
 }
 
 export function evaluatePlayerTermsRound(inputs: PlayerTermsRoundInputs): NegotiationRoundResult {
-  const rivalBeats = inputs.rival !== undefined && inputs.rival.packageRatio > 1;
-  const demand: PlayerWageDemand = rivalBeats
-    ? { ...inputs.demand, demandEurPerMonth: roundUp(inputs.demand.demandEurPerMonth * inputs.rival!.packageRatio, 10), factors: [...inputs.demand.factors, `Har ett bättre erbjudande från ${inputs.rival!.clubName}.`] }
-    : inputs.demand;
+  const demand = inputs.demand;
   const offered = Math.max(0, Math.round(inputs.offeredWageEurPerMonth));
   if (!demand.refusesRole && offered >= demand.demandEurPerMonth) {
     return { response: "ACCEPT", reason: "Spelaren accepterar villkoren." };
@@ -254,7 +162,8 @@ export function evaluatePlayerTermsRound(inputs: PlayerTermsRoundInputs): Negoti
     return { response: "REJECT", reason: "Spelaren vägrar en så liten roll oavsett lön." };
   }
   if (offered >= demand.demandEurPerMonth * PLAYER_COUNTER_RATIO) {
-    return { response: "COUNTER", reason: rivalBeats ? `Spelaren vill ha ${demand.demandEurPerMonth} €/mån för att välja er framför ${inputs.rival!.clubName}.` : `Spelaren vill ha ${demand.demandEurPerMonth} €/mån.`, counterWageEurPerMonth: demand.demandEurPerMonth };
+    const rival = demand.factors.find((f) => f.startsWith("Har ett bättre erbjudande från "));
+    return { response: "COUNTER", reason: rival ? `Spelaren vill ha ${demand.demandEurPerMonth} €/mån för att välja er framför ${rival.slice("Har ett bättre erbjudande från ".length, -1)}.` : `Spelaren vill ha ${demand.demandEurPerMonth} €/mån.`, counterWageEurPerMonth: demand.demandEurPerMonth };
   }
   return { response: "REJECT", reason: "Lönen ligger långt under spelarens förväntningar." };
 }

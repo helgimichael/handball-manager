@@ -71,6 +71,8 @@ export interface MarketContext {
   internationalAlternative?: ClubOption;
   /** Market level a free agent / out-of-contract player can credibly expect to find by waiting (CA scale). */
   waitLevel: number;
+  /** The role he can expect at such a club (default FIRST_CHOICE). */
+  waitRole?: SquadStatusTier;
   /** Months without a club (0 when under contract). */
   monthsUnattached: number;
   /** True when the player is looking for a contract (free agent or final contract months). */
@@ -114,8 +116,8 @@ export const PROFILE_WEIGHTS: Readonly<Record<ProfileKind, Weights>> = {
   WORLD_CLASS: W(0.45, 0.1, 0.25, 0.05, 0.05, 0.1, 0),
   ESTABLISHED_ELITE: W(0.3, 0.2, 0.3, 0.05, 0.05, 0.1, 0),
   AMBITIOUS: W(0.38, 0.2, 0.25, 0.05, 0.02, 0.1, 0),
-  YOUNG_TALENT: W(0.15, 0.25, 0.15, 0.05, 0.1, 0.05, 0.25),
-  DEVELOPMENT: W(0.1, 0.3, 0.2, 0.1, 0.1, 0.05, 0.15),
+  YOUNG_TALENT: W(0.2, 0.2, 0.15, 0.05, 0.1, 0.05, 0.25),
+  DEVELOPMENT: W(0.15, 0.25, 0.2, 0.1, 0.1, 0.05, 0.15),
   ROTATION: W(0.2, 0.25, 0.35, 0.1, 0.05, 0.05, 0),
   VETERAN: W(0.15, 0.15, 0.35, 0.2, 0.1, 0.05, 0),
   CAREER_END: W(0.05, 0.1, 0.35, 0.2, 0.25, 0.05, 0),
@@ -172,7 +174,7 @@ export function blendWeights(memberships: Record<ProfileKind, number>): Weights 
  * starts from 0 (a free agent's recorded wage), always from at least a modest
  * professional contract.
  */
-export const MIN_REFERENCE_WAGE_EUR = 600;
+export const MIN_REFERENCE_WAGE_EUR = 200; // the economy's own minimum salary (marketValue.ts SALARY_MIN_EUR_PER_MONTH)
 
 export function buildProfile(i: ProfileInputs): PlayerCareerProfile {
   const memberships = profileMemberships(i);
@@ -193,7 +195,7 @@ export function buildProfile(i: ProfileInputs): PlayerCareerProfile {
 // ---------------------------------------------------------------------------
 
 /** Expected share of matches started for a role. */
-export const ROLE_SHARE: Readonly<Record<SquadStatusTier, number>> = { KEY_PLAYER: 0.9, FIRST_CHOICE: 0.72, ROTATION: 0.45, SQUAD_PLAYER: 0.18, TALENT: 0.3 };
+export const ROLE_SHARE: Readonly<Record<SquadStatusTier, number>> = { KEY_PLAYER: 0.9, FIRST_CHOICE: 0.72, ROTATION: 0.45, SQUAD_PLAYER: 0.18, TALENT: 0.4 };
 
 /**
  * Sporting fit: environment level vs the player's own level. Increasing in the
@@ -209,10 +211,13 @@ export function roleComponent(role: SquadStatusTier): number {
   return Math.max(-1, Math.min(1, 2 * (ROLE_SHARE[role] - 0.55)));
 }
 
+/** Money utility per doubling of the wage, before saturation. */
+export const MONEY_SENSITIVITY = 1.2;
+
 /** Logarithmic and saturating; increasing in the wage. 0 at the reference wage. */
 export function moneyComponent(wageEurPerMonth: number, referenceWageEurPerMonth: number): number {
   const ratio = Math.max(1e-6, wageEurPerMonth) / Math.max(1, referenceWageEurPerMonth);
-  return Math.tanh(0.9 * Math.log2(ratio));
+  return Math.tanh(MONEY_SENSITIVITY * Math.log2(ratio));
 }
 
 export function securityComponent(contractYears: number, age: number): number {
@@ -232,15 +237,15 @@ export function personalComponent(option: Pick<ClubOption, "isHomeCountry" | "is
 const STABILITY: Readonly<Record<FinancialPressureLevel, number>> = { NONE: 0.2, WATCH: 0.1, PRESSURED: -0.1, SERIOUS: -0.45, CRITICAL: -0.8 };
 
 /**
- * Development: playing time, and an environment that challenges him. Playing
- * time dominates; the environment term is monotone (a better environment never
+ * Development: playing time, and an environment that challenges him (training
+ * every day with better players is development too). The environment term is monotone (a better environment never
  * hurts development by itself -- a stronger squad costs minutes, which the role
  * already prices).
  */
 export function developmentComponent(role: SquadStatusTier, environmentLevel: number, ca: number): number {
   const minutes = roleComponent(role);
   const environment = Math.tanh((environmentLevel - ca + 5) / 25);
-  return 0.65 * minutes + 0.35 * environment;
+  return 0.5 * minutes + 0.5 * environment;
 }
 
 // ---------------------------------------------------------------------------
@@ -280,6 +285,22 @@ export function evaluateCareerOption(profile: PlayerCareerProfile, option: ClubO
   return { utility, components, contributions, floorApplied };
 }
 
+/**
+ * A club signing a player in the open market pays a little above his
+ * reference wage (the old demand model's own "+10 % for a move"): what the
+ * market can offer him by waiting is priced at that level.
+ */
+export const MARKET_MOVE_PREMIUM = 1.1;
+
+/** The role a player of `ca` can expect at a club of `clubLevel`: his ability relative to its best seven. */
+export function roleForLevelGap(ca: number, clubLevel: number): SquadStatusTier {
+  const gap = ca - clubLevel;
+  if (gap >= 6) return "KEY_PLAYER";
+  if (gap >= -5) return "FIRST_CHOICE";
+  if (gap >= -13) return "ROTATION";
+  return "SQUAD_PLAYER";
+}
+
 /** Cost of waiting: uncertainty plus time without a club, rising with age. */
 export function waitCost(monthsUnattached: number, age: number): number {
   return 0.1 + 0.035 * monthsUnattached * (1 + 0.6 * smoothstep(28, 34, age));
@@ -300,8 +321,8 @@ export function reservationUtility(profile: PlayerCareerProfile, market: MarketC
     const waitOption: ClubOption = {
       clubId: "",
       environmentLevel: market.waitLevel,
-      role: "FIRST_CHOICE",
-      wageEurPerMonth: profile.referenceWageEurPerMonth,
+      role: market.waitRole ?? "FIRST_CHOICE",
+      wageEurPerMonth: profile.referenceWageEurPerMonth * MARKET_MOVE_PREMIUM,
       contractYears: 2,
       pressure: "NONE",
       isHomeCountry: false,
@@ -353,6 +374,12 @@ export const WAGE_SEARCH_MAX_MULTIPLE = 8;
  * reservation, and `toBeat` when a rival package is on the table). `null`
  * when no wage can do it -- the sporting floor or the role rule it out.
  */
+/**
+ * Staying where he is carries no relocation, a known role and known
+ * teammates: a renewal is weighed against the open market with this bonus.
+ */
+export const RENEWAL_CONTINUITY_BONUS = 0.06;
+
 export function wageDemandFor(profile: PlayerCareerProfile, option: Omit<ClubOption, "wageEurPerMonth">, market: MarketContext, jitter = 0, toBeat?: number, playsAbroad = false): number | null {
   const reservation = reservationUtility(profile, market, playsAbroad);
   const target = Math.max(reservation.utility, toBeat ?? -Infinity) + DECISION_MARGIN + jitter;
@@ -362,7 +389,7 @@ export function wageDemandFor(profile: PlayerCareerProfile, option: Omit<ClubOpt
   let hi = ref * WAGE_SEARCH_MAX_MULTIPLE;
   if (at(hi) <= target) return null;
   if (at(lo) > target) return Math.ceil(lo / 10) * 10;
-  for (let i = 0; i < 40; i++) {
+  for (let i = 0; i < 18; i++) {
     const mid = Math.sqrt(lo * hi);
     if (at(mid) > target) hi = mid;
     else lo = mid;

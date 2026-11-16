@@ -13,7 +13,7 @@ import { getPlayerClubHistory } from "../../economy/clubHistoryIntegration";
 import { personalityOf } from "../../players/dynamicsState";
 import { seededOffset } from "../../rating/generation/deterministicVariation";
 import { FREE_AGENT_CLUB_ID, RETIRED_CLUB_ID } from "../../career/contractExpiry";
-import { getClub } from "../../game-data";
+import { getClub, type PlayerMock } from "../../game-data";
 import {
   buildProfile,
   chooseBetweenOptions,
@@ -27,8 +27,36 @@ import {
   type ClubOption,
   type MarketContext,
   type PlayerCareerProfile,
+  MARKET_MOVE_PREMIUM,
+  RENEWAL_CONTINUITY_BONUS,
+  roleForLevelGap,
 } from "./model";
 import { clubLevelOf, clubNation, environmentLevelOf, strengthTable, worldPercentileOf, worldPoolClubIds } from "./sportingStrength";
+
+/**
+ * Club-side wage discipline (CPU clubs and the abstract international clubs):
+ * a club pays a player at most this multiple of the larger of his current and
+ * his market wage. Above it the club lets him go rather than break its wage
+ * structure; the player decides on what the club does offer.
+ */
+export const CLUB_WAGE_CAP_MULTIPLE = 1.3;
+
+/**
+ * A renewal raise a club will give, relative to the player's CURRENT wage. The
+ * club economy is calibrated on renewals that keep wages roughly flat; a
+ * player who needs more than this to stay goes to the market instead.
+ */
+export const CLUB_RENEWAL_RAISE_CAP = 1.1;
+
+export function clubRenewalWageCap(state: CareerState, playerId: string): number {
+  const current = getPlayerContract(state, playerId)?.wageEurPerMonth ?? 0;
+  return Math.round((current * CLUB_RENEWAL_RAISE_CAP) / 10) * 10;
+}
+
+export function clubWageCap(state: CareerState, playerId: string): number {
+  const profile = playerCareerProfile(state, playerId);
+  return Math.round(((profile?.referenceWageEurPerMonth ?? 0) * CLUB_WAGE_CAP_MULTIPLE) / 10) * 10;
+}
 
 export interface OfferTerms {
   wageEurPerMonth: number;
@@ -38,7 +66,7 @@ export interface OfferTerms {
 }
 
 /** The international market's capacity per world-pool club (they hold a slice of a real squad, not a full one). */
-export const INTERNATIONAL_SQUAD_CAPACITY = 12;
+export const INTERNATIONAL_SQUAD_CAPACITY = 10;
 /** A world-pool club wants a player who would at least be close to its own level... */
 export const INTERNATIONAL_FIT_BELOW_CA = 14;
 /** ...and who is not long past his career. */
@@ -50,11 +78,47 @@ export const INTERNATIONAL_MAX_AGE = 34;
 let memoWorld: { ratings: unknown; squads: unknown; contracts: unknown; date: string; market: unknown } | undefined;
 const profileMemo = new Map<string, PlayerCareerProfile | null>();
 const marketMemo = new Map<string, MarketContext>();
+const pressureMemo = new Map<string, ClubOption["pressure"]>();
+const caMemo = new Map<string, { ca: number; pa: number } | null>();
+let playerIndex: Map<string, PlayerMock> | undefined;
+let memoEconomies: unknown;
 function memoCheck(state: CareerState): void {
-  if (memoWorld && memoWorld.ratings === state.gameplayRatings && memoWorld.squads === state.worldSquads && memoWorld.contracts === state.playerContracts && memoWorld.date === state.gameDate && memoWorld.market === state.transferMarket) return;
+  if (memoWorld && memoWorld.ratings === state.gameplayRatings && memoWorld.squads === state.worldSquads && memoWorld.contracts === state.playerContracts && memoWorld.date === state.gameDate && memoWorld.market === state.transferMarket) {
+    if (memoEconomies !== state.clubEconomies) {
+      memoEconomies = state.clubEconomies;
+      pressureMemo.clear();
+      marketMemo.clear();
+    }
+    return;
+  }
   memoWorld = { ratings: state.gameplayRatings, squads: state.worldSquads, contracts: state.playerContracts, date: state.gameDate, market: state.transferMarket };
+  memoEconomies = state.clubEconomies;
   profileMemo.clear();
   marketMemo.clear();
+  pressureMemo.clear();
+  caMemo.clear();
+  waitMemo.clear();
+  playerIndex = undefined;
+}
+
+/** O(1) player lookup for the current world (getCareerPlayer scans every squad). */
+function playerOf(state: CareerState, playerId: string): PlayerMock | undefined {
+  memoCheck(state);
+  if (!playerIndex) {
+    playerIndex = new Map();
+    for (const squad of Object.values(state.worldSquads)) for (const p of squad) if (!playerIndex.has(p.id)) playerIndex.set(p.id, p);
+  }
+  return playerIndex.get(playerId) ?? getCareerPlayer(state, playerId);
+}
+
+function pressureOf(state: CareerState, clubId: string): ClubOption["pressure"] {
+  memoCheck(state);
+  let p = pressureMemo.get(clubId);
+  if (p === undefined) {
+    p = getClubFinancialHealth(state, clubId)?.pressure ?? "NONE";
+    pressureMemo.set(clubId, p);
+  }
+  return p;
 }
 
 // ---------------------------------------------------------------------------
@@ -62,10 +126,18 @@ function memoCheck(state: CareerState): void {
 // ---------------------------------------------------------------------------
 
 export function playerCAInWorld(state: CareerState, playerId: string): { ca: number; pa: number } | undefined {
-  const player = getCareerPlayer(state, playerId);
-  if (!player) return undefined;
+  memoCheck(state);
+  const cached = caMemo.get(playerId);
+  if (cached !== undefined) return cached ?? undefined;
+  const player = playerOf(state, playerId);
+  if (!player) {
+    caMemo.set(playerId, null);
+    return undefined;
+  }
   const r = state.gameplayRatings[player.clubId]?.find((x) => x.playerId === playerId);
-  return { ca: r?.ca ?? player.currentAbility, pa: r?.pa ?? player.potentialAbility };
+  const value = { ca: r?.ca ?? player.currentAbility, pa: r?.pa ?? player.potentialAbility };
+  caMemo.set(playerId, value);
+  return value;
 }
 
 function monthsBetween(from: string, to: string): number {
@@ -74,14 +146,14 @@ function monthsBetween(from: string, to: string): number {
 
 /** The club the player last played for (his current one, or the latest history entry for a free agent). */
 function lastClubId(state: CareerState, playerId: string): string | undefined {
-  const player = getCareerPlayer(state, playerId);
+  const player = playerOf(state, playerId);
   if (player && player.clubId !== FREE_AGENT_CLUB_ID && player.clubId !== RETIRED_CLUB_ID) return player.clubId;
   const entries = getPlayerClubHistory(state, playerId)?.entries ?? [];
   return entries.length > 0 ? entries[entries.length - 1]!.clubId : undefined;
 }
 
 function playsAbroad(state: CareerState, playerId: string): boolean {
-  const player = getCareerPlayer(state, playerId);
+  const player = playerOf(state, playerId);
   const club = lastClubId(state, playerId);
   if (!player || !club) return false;
   const nation = clubNation(state, club);
@@ -91,7 +163,7 @@ function playsAbroad(state: CareerState, playerId: string): boolean {
 export function playerCareerProfile(state: CareerState, playerId: string): PlayerCareerProfile | undefined {
   memoCheck(state);
   if (profileMemo.has(playerId)) return profileMemo.get(playerId) ?? undefined;
-  const player = getCareerPlayer(state, playerId);
+  const player = playerOf(state, playerId);
   const rating = playerCAInWorld(state, playerId);
   if (!player || !rating) {
     profileMemo.set(playerId, null);
@@ -101,9 +173,10 @@ export function playerCareerProfile(state: CareerState, playerId: string): Playe
   const personality = personalityOf(state, playerId);
   const contract = getPlayerContract(state, playerId);
   const currentWage = contract?.wageEurPerMonth ?? 0;
-  // HM-TRANSFER-REALISM-1.0: never 0 -- a free agent's recorded wage is 0, but what money is worth to him is set by the market.
-  const fair = getPlayerFairWageEurPerMonth(state, playerId) ?? 0;
-  const referenceWage = Math.max(currentWage, fair, 600);
+  // HM-TRANSFER-REALISM-1.0: a contracted player measures money against what he earns. A free agent's
+  // recorded wage is 0, so his reference is the market's: the formula wage, scaled to the wages the
+  // world's clubs actually pay (never 0 -- the root of the audit's P1 bug).
+  const referenceWage = currentWage > 0 ? currentWage : (getPlayerFairWageEurPerMonth(state, playerId) ?? 0) * marketWageFactor(state);
   const profile = buildProfile({
     playerId,
     ca: rating.ca,
@@ -119,6 +192,27 @@ export function playerCareerProfile(state: CareerState, playerId: string): Playe
   return profile;
 }
 
+let marketFactorMemo: { contracts: unknown; value: number } | undefined;
+/**
+ * Median of (actual contract wage / formula fair wage) over contracted players
+ * at clubs -- calibrates a free agent's market reference to real wage levels.
+ */
+export function marketWageFactor(state: CareerState): number {
+  if (marketFactorMemo?.contracts === state.playerContracts) return marketFactorMemo.value;
+  const ratios: number[] = [];
+  let i = 0;
+  for (const c of Object.values(state.playerContracts)) {
+    if (c.wageEurPerMonth <= 0 || !getClub(c.clubId)) continue;
+    if (i++ % 7 !== 0) continue; // a deterministic sample keeps this cheap
+    const fair = getPlayerFairWageEurPerMonth(state, c.playerId);
+    if (fair && fair > 0) ratios.push(c.wageEurPerMonth / fair);
+  }
+  ratios.sort((a, b) => a - b);
+  const value = ratios.length > 0 ? Math.max(0.3, Math.min(1.5, ratios[Math.floor(ratios.length / 2)]!)) : 1;
+  marketFactorMemo = { contracts: state.playerContracts, value };
+  return value;
+}
+
 export function playerJitter(playerId: string): number {
   return seededOffset(`${playerId}:pcdm:decision`, 3) / 100;
 }
@@ -126,7 +220,7 @@ export function playerJitter(playerId: string): number {
 /** Where the player's ability would rank him in `clubId`'s squad. */
 export function expectedRoleAt(state: CareerState, playerId: string, clubId: string): SquadStatusTier {
   const rating = playerCAInWorld(state, playerId);
-  const player = getCareerPlayer(state, playerId);
+  const player = playerOf(state, playerId);
   const ca = rating?.ca ?? 0;
   const rank = (state.gameplayRatings[clubId] ?? []).filter((r) => r.playerId !== playerId && r.ca > ca).length;
   const age = player ? playerAgeAtDate(player.dateOfBirth, player.birthYear, state.gameDate) : null;
@@ -143,7 +237,7 @@ function plannedRole(expected: SquadStatusTier, promised: SquadStatusTier | unde
 }
 
 export function clubOptionFor(state: CareerState, playerId: string, clubId: string, terms: OfferTerms): ClubOption {
-  const player = getCareerPlayer(state, playerId);
+  const player = playerOf(state, playerId);
   const history = getPlayerClubHistory(state, playerId);
   const currentClub = getPlayerContract(state, playerId)?.clubId;
   const years = Math.max(0.5, terms.contractYears);
@@ -153,7 +247,7 @@ export function clubOptionFor(state: CareerState, playerId: string, clubId: stri
     role: plannedRole(expectedRoleAt(state, playerId, clubId), terms.promisedRole),
     wageEurPerMonth: terms.wageEurPerMonth + Math.max(0, terms.signingBonusEur ?? 0) / (12 * Math.max(1, years)),
     contractYears: years,
-    pressure: getClubFinancialHealth(state, clubId)?.pressure ?? "NONE",
+    pressure: pressureOf(state, clubId),
     isHomeCountry: !!player && clubNation(state, clubId) === player.nationality,
     isFormerClub: !!history?.entries.some((e) => e.clubId === clubId) && clubId !== currentClub,
     isCurrentClub: clubId === currentClub,
@@ -164,42 +258,77 @@ export function clubOptionFor(state: CareerState, playerId: string, clubId: stri
 // International market predicate (shared with lib/transfers/internationalMarket.ts)
 // ---------------------------------------------------------------------------
 
+/**
+ * The international market only notices players of established professional
+ * quality (top quarter of the world's rated players), or players coming home
+ * to their own country's league. Abstract by design: world-pool clubs hold a
+ * slice of their squads, so without this bar a weak foreign club would sweep
+ * up any Swedish free agent.
+ */
+export const INTERNATIONAL_VISIBILITY_PERCENTILE = 0.75;
+/** A signing must at least be close to the club's own level (a renewal keeps a looser fit). */
+export const INTERNATIONAL_SIGNING_FIT_BELOW_CA = 8;
+
 /** Would this world-pool club want this player (and have room)? Abstract international recruitment uses exactly this. */
 export function internationalClubWants(state: CareerState, clubId: string, playerId: string): boolean {
   const rating = playerCAInWorld(state, playerId);
-  const player = getCareerPlayer(state, playerId);
+  const player = playerOf(state, playerId);
   if (!rating || !player) return false;
   const age = playerAgeAtDate(player.dateOfBirth, player.birthYear, state.gameDate) ?? 26;
   if (age > INTERNATIONAL_MAX_AGE) return false;
-  if ((state.worldSquads[clubId]?.length ?? 0) >= INTERNATIONAL_SQUAD_CAPACITY && player.clubId !== clubId) return false;
-  return rating.ca >= clubLevelOf(state, clubId) - INTERNATIONAL_FIT_BELOW_CA;
+  const own = getPlayerContract(state, playerId)?.clubId === clubId;
+  if (own) return rating.ca >= clubLevelOf(state, clubId) - INTERNATIONAL_FIT_BELOW_CA;
+  if ((state.worldSquads[clubId]?.length ?? 0) >= INTERNATIONAL_SQUAD_CAPACITY) return false;
+  const home = clubNation(state, clubId) === player.nationality;
+  if (!home && worldPercentileOf(state, rating.ca) < INTERNATIONAL_VISIBILITY_PERCENTILE) return false;
+  return rating.ca >= clubLevelOf(state, clubId) - INTERNATIONAL_SIGNING_FIT_BELOW_CA;
 }
 
 /** The best concrete international option at the player's market wage, or undefined. */
-export function bestInternationalOption(state: CareerState, playerId: string, profile: PlayerCareerProfile): ClubOption | undefined {
+export function bestInternationalOption(state: CareerState, playerId: string, profile: PlayerCareerProfile, exclude: ReadonlySet<string> = new Set()): ClubOption | undefined {
   const current = getPlayerContract(state, playerId)?.clubId;
   let best: { option: ClubOption; u: number } | undefined;
   for (const clubId of worldPoolClubIds(state)) {
-    if (clubId === current) continue;
+    if (clubId === current || exclude.has(clubId)) continue;
     if (!internationalClubWants(state, clubId, playerId)) continue;
-    const option = clubOptionFor(state, playerId, clubId, { wageEurPerMonth: profile.referenceWageEurPerMonth, contractYears: 2 });
+    const option = clubOptionFor(state, playerId, clubId, { wageEurPerMonth: profile.referenceWageEurPerMonth * MARKET_MOVE_PREMIUM, contractYears: 2 });
     const u = evaluateCareerOption(profile, option).utility;
     if (!best || u > best.u || (u === best.u && clubId < best.option.clubId)) best = { option, u };
   }
   return best?.option;
 }
 
-/** The environment level the market can credibly offer a player of this CA (best club that would take him, less uncertainty). */
-function credibleWaitLevel(state: CareerState, ca: number): number {
+/** Clubs a player can credibly join by testing the market: ones where his ability makes him a regular... */
+export const WAIT_REACH_ABOVE_CA = 4;
+/** ...and that are not far beneath him. */
+export const WAIT_REACH_BELOW_CA = 18;
+/** A good-but-typical outcome among those clubs, not the very best one. */
+export const WAIT_LEVEL_QUANTILE = 0.75;
+/** Uncertainty of landing it, in CA points of environment. */
+export const WAIT_UNCERTAINTY_CA = 4;
+
+const waitMemo = new Map<number, { level: number; clubLevel: number }>();
+/**
+ * What waiting credibly offers a player of this CA: a good-but-typical club
+ * among those where he would be a regular (the 75th percentile of their
+ * environments, less uncertainty), and the role his ability earns there.
+ */
+function credibleWait(state: CareerState, ca: number): { level: number; clubLevel: number } {
+  memoCheck(state);
+  const key = Math.round(ca);
+  const cached = waitMemo.get(key);
+  if (cached !== undefined) return cached;
   const t = strengthTable(state);
-  let best = -Infinity;
+  const clubs: { env: number; level: number }[] = [];
   for (const [clubId, level] of Object.entries(t.clubLevel)) {
-    if (level > ca + 10) continue;
-    const env = environmentLevelOf(state, clubId);
-    if (env > best) best = env;
+    if (level > key + WAIT_REACH_ABOVE_CA || level < key - WAIT_REACH_BELOW_CA) continue;
+    clubs.push({ env: environmentLevelOf(state, clubId), level });
   }
-  if (!Number.isFinite(best)) best = ca - 10;
-  return Math.min(ca - 4, best) - 6;
+  clubs.sort((x, y) => x.env - y.env);
+  const pick = clubs.length > 0 ? clubs[Math.min(clubs.length - 1, Math.floor(WAIT_LEVEL_QUANTILE * (clubs.length - 1)))]! : { env: key - 10, level: key - 10 };
+  const value = { level: pick.env - WAIT_UNCERTAINTY_CA, clubLevel: pick.level };
+  waitMemo.set(key, value);
+  return value;
 }
 
 export function marketContextFor(state: CareerState, playerId: string, options: { excludeStay?: boolean; wantsToLeave?: boolean } = {}): MarketContext | undefined {
@@ -218,16 +347,31 @@ export function marketContextFor(state: CareerState, playerId: string, options: 
     const remainingYears = Math.max(0.25, monthsBetween(state.gameDate, contract.contractEndDate) / 12);
     stay = clubOptionFor(state, playerId, contract.clubId, { wageEurPerMonth: contract.wageEurPerMonth, contractYears: remainingYears });
   }
+  const wait = credibleWait(state, profile.ca);
   const market: MarketContext = {
     ...(stay ? { stay } : {}),
     ...(openMarket ? { internationalAlternative: bestInternationalOption(state, playerId, profile) } : {}),
-    waitLevel: credibleWaitLevel(state, profile.ca),
+    waitLevel: wait.level,
+    waitRole: roleForLevelGap(profile.ca, wait.clubLevel),
     monthsUnattached: isFree ? monthsBetween(contract.contractEndDate, state.gameDate) : 0,
     openMarket,
     ...(options.wantsToLeave ? { wantsToLeave: true } : {}),
   };
   marketMemo.set(key, market);
   return market;
+}
+
+/**
+ * The alternative a player weighs an offer against must be ANOTHER club: when
+ * the market's best international option is one of the clubs on the table, the
+ * next best one stands in for it.
+ */
+function excludingOffered(state: CareerState, playerId: string, profile: PlayerCareerProfile, market: MarketContext, offered: readonly string[]): MarketContext {
+  if (!market.internationalAlternative || !offered.includes(market.internationalAlternative.clubId)) return market;
+  const alternative = bestInternationalOption(state, playerId, profile, new Set(offered));
+  const { internationalAlternative: _dropped, ...rest } = market;
+  void _dropped;
+  return alternative ? { ...rest, internationalAlternative: alternative } : rest;
 }
 
 // ---------------------------------------------------------------------------
@@ -247,7 +391,7 @@ export function playerDecisionOnMove(state: CareerState, playerId: string, toClu
   if (!profile || !market) return { accept: false, reason: "Spelaren kunde inte hittas." };
   const option = clubOptionFor(state, playerId, toClubId, terms);
   const abroad = playsAbroad(state, playerId);
-  const decision = decide(profile, option, market, playerJitter(playerId), abroad);
+  const decision = decide(profile, option, excludingOffered(state, playerId, profile, market, [toClubId]), playerJitter(playerId), abroad);
   const reservationEval = market.stay && decision.reservation.source === "STAY" ? evaluateCareerOption(profile, market.stay, abroad) : undefined;
   return { accept: decision.accept, reason: explainDecision(decision, reservationEval), decision };
 }
@@ -270,8 +414,9 @@ export interface WageDemandResult {
 
 export function playerWageDemandAt(state: CareerState, playerId: string, clubId: string, terms: { contractYears: number; promisedRole?: SquadStatusTier; signingBonusEur?: number; toBeatUtility?: number; excludeStay?: boolean }): WageDemandResult | undefined {
   const profile = playerCareerProfile(state, playerId);
-  const market = marketContextFor(state, playerId, { excludeStay: terms.excludeStay });
-  if (!profile || !market) return undefined;
+  const rawMarket = marketContextFor(state, playerId, { excludeStay: terms.excludeStay });
+  if (!profile || !rawMarket) return undefined;
+  const market = excludingOffered(state, playerId, profile, rawMarket, [clubId]);
   const expectedRole = expectedRoleAt(state, playerId, clubId);
   const refusesRole = !!terms.promisedRole && SQUAD_STATUS_TIERS.indexOf(terms.promisedRole) - SQUAD_STATUS_TIERS.indexOf(expectedRole) >= 3;
   const option = clubOptionFor(state, playerId, clubId, { wageEurPerMonth: 0, contractYears: terms.contractYears, promisedRole: terms.promisedRole });
@@ -290,7 +435,7 @@ export function acceptanceEstimate(state: CareerState, playerId: string, clubId:
   const profile = playerCareerProfile(state, playerId);
   const market = marketContextFor(state, playerId);
   if (!profile || !market) return 0;
-  return estimateAcceptance(profile, clubOptionFor(state, playerId, clubId, terms), market, playerJitter(playerId), playsAbroad(state, playerId));
+  return estimateAcceptance(profile, clubOptionFor(state, playerId, clubId, terms), excludingOffered(state, playerId, profile, market, [clubId]), playerJitter(playerId), playsAbroad(state, playerId));
 }
 
 /**
@@ -304,7 +449,7 @@ export function playerRenewalDecision(state: CareerState, playerId: string, term
   if (!contract || !profile || !base) return { accept: false, reason: "Spelaren kunde inte hittas." };
   const market: MarketContext = { ...base, openMarket: true, internationalAlternative: base.internationalAlternative ?? bestInternationalOption(state, playerId, profile) };
   const option = clubOptionFor(state, playerId, contract.clubId, terms);
-  const decision = decide(profile, option, market, playerJitter(playerId), playsAbroad(state, playerId));
+  const decision = decide(profile, option, market, playerJitter(playerId) - RENEWAL_CONTINUITY_BONUS, playsAbroad(state, playerId));
   return {
     accept: decision.accept,
     reason: decision.accept ? "Spelaren vill förlänga." : decision.evaluation.floorApplied || decision.evaluation.components.sport < -0.6 ? "Spelaren vill ta ett steg upp sportsligt och förlänger inte." : decision.reservation.source === "INTERNATIONAL" ? "Spelaren har bättre möjligheter utomlands." : "Villkoren räcker inte för att han ska stanna.",
@@ -320,7 +465,7 @@ export function renewalWageDemand(state: CareerState, playerId: string, contract
   if (!contract || !profile || !base) return null;
   const market: MarketContext = { ...base, openMarket: true, internationalAlternative: base.internationalAlternative ?? bestInternationalOption(state, playerId, profile) };
   const option = clubOptionFor(state, playerId, contract.clubId, { wageEurPerMonth: 0, contractYears, promisedRole });
-  return wageDemandFor(profile, option, market, playerJitter(playerId), undefined, playsAbroad(state, playerId));
+  return wageDemandFor(profile, option, market, playerJitter(playerId) - RENEWAL_CONTINUITY_BONUS, undefined, playsAbroad(state, playerId));
 }
 
 /** Free agent / player choosing between several concrete packages at once. */
@@ -330,6 +475,74 @@ export function playerChoosesBetween(state: CareerState, playerId: string, offer
   if (!profile || !market) return { clubId: null, utilities: {} };
   const abroad = playsAbroad(state, playerId);
   const options = offers.map((o) => clubOptionFor(state, playerId, o.clubId, o.terms));
-  const { choice, ranked } = chooseBetweenOptions(profile, options, market, playerJitter(playerId), abroad);
+  const { choice, ranked } = chooseBetweenOptions(profile, options, excludingOffered(state, playerId, profile, market, offers.map((o) => o.clubId)), playerJitter(playerId), abroad);
   return { clubId: choice?.clubId ?? null, utilities: Object.fromEntries(ranked.map((r) => [r.option.clubId, r.decision.utility])) };
+}
+
+// ---------------------------------------------------------------------------
+// Explained demand: the negotiation room's wage demand, with its reasons.
+// ---------------------------------------------------------------------------
+
+export interface ExplainedDemand {
+  demandEurPerMonth: number;
+  /** True when no wage makes the move acceptable (role far too small, sporting floor, better alternatives). */
+  refusesRole: boolean;
+  factors: string[];
+  baseEurPerMonth: number;
+  breakdown: { label: string; effectPct: number }[];
+  expectedRole: SquadStatusTier;
+}
+
+const FACTOR_LABEL_SV: Record<string, [raises: string, lowers: string]> = {
+  sport: ["Ser klubben som ett sportsligt steg ned.", "Lockas av den sportsliga nivån."],
+  role: ["Den utlovade rollen är mindre än han vill ha.", "Uppskattar rollen han erbjuds."],
+  security: ["Kontraktslängden passar honom inte.", "Uppskattar tryggheten i kontraktet."],
+  personal: ["Trivs där han är.", "Har en personlig koppling till klubben."],
+  stability: ["Vill ha betalt för risken i en klubb med ansträngd ekonomi.", "Klubbens stabila ekonomi lockar."],
+  development: ["Miljön hjälper inte hans utveckling.", "Miljön passar hans utveckling."],
+};
+
+/**
+ * The player's demand for these terms at `clubId`, with a breakdown: each
+ * component where this club is better or worse than his reservation (staying,
+ * waiting, or abroad), converted to its approximate effect on the wage he
+ * needs. One model -- the same numbers CPU clubs and rivals face.
+ */
+export function explainedWageDemand(state: CareerState, playerId: string, clubId: string, terms: { contractYears: number; promisedRole?: SquadStatusTier; signingBonusEur?: number; toBeatUtility?: number; rivalName?: string }): ExplainedDemand | undefined {
+  const result = playerWageDemandAt(state, playerId, clubId, terms);
+  const profile = playerCareerProfile(state, playerId);
+  const rawMarket = marketContextFor(state, playerId);
+  if (!result || !profile || !rawMarket) return undefined;
+  const market = excludingOffered(state, playerId, profile, rawMarket, [clubId]);
+  const abroad = playsAbroad(state, playerId);
+  const base = profile.referenceWageEurPerMonth;
+  const option = clubOptionFor(state, playerId, clubId, { wageEurPerMonth: base, contractYears: terms.contractYears, promisedRole: terms.promisedRole });
+  const here = evaluateCareerOption(profile, option, abroad);
+  const reservation = reservationUtility(profile, market, abroad);
+  const refEval = reservation.source === "STAY" && market.stay ? evaluateCareerOption(profile, market.stay, abroad) : market.internationalAlternative && reservation.source === "INTERNATIONAL" ? evaluateCareerOption(profile, market.internationalAlternative, abroad) : undefined;
+  const moneySlope = 0.9 * Math.max(0.05, profile.weights.money); // utility per doubling of the wage, near the reference
+  const breakdown: { label: string; effectPct: number }[] = [];
+  const factors: string[] = [];
+  for (const key of Object.keys(FACTOR_LABEL_SV)) {
+    const c = key as keyof typeof here.contributions;
+    const delta = here.contributions[c] - (refEval?.contributions[c] ?? 0);
+    if (Math.abs(delta) < 0.01) continue;
+    const effectPct = Math.round((Math.pow(2, -delta / moneySlope) - 1) * 100);
+    if (effectPct === 0) continue;
+    const label = FACTOR_LABEL_SV[key]![delta < 0 ? 0 : 1];
+    breakdown.push({ label, effectPct: Math.max(-60, Math.min(300, effectPct)) });
+    factors.push(label);
+  }
+  if (reservation.source === "INTERNATIONAL") factors.push("Har alternativ utomlands.");
+  if (reservation.source === "WAIT" && market.openMarket) factors.push("Kan vänta på ett bättre erbjudande.");
+  if (terms.rivalName && terms.toBeatUtility !== undefined && terms.toBeatUtility > reservation.utility) factors.push(`Har ett bättre erbjudande från ${terms.rivalName}.`);
+  if (result.floorBinding && result.demandEurPerMonth === null) factors.push("Den sportsliga nivån är för låg -- pengar ändrar inte det.");
+  return {
+    demandEurPerMonth: result.demandEurPerMonth ?? 0,
+    refusesRole: result.refusesRole || result.demandEurPerMonth === null,
+    factors,
+    baseEurPerMonth: Math.round(base),
+    breakdown,
+    expectedRole: result.expectedRole,
+  };
 }

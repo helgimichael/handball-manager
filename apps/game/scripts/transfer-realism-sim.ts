@@ -113,6 +113,7 @@ const initial = snapshot(state, date);
 const startCAs = [...initial.values()].filter((s) => s.group !== "FA" && s.group !== "RETIRED").map((s) => s.ca);
 const WORLD_CLASS_CA = quantile(startCAs, 0.97);
 const ELITE_CA = quantile(startCAs, 0.9);
+const initialWorldClassInEurope = [...initial.values()].filter((s) => s.ca >= WORLD_CLASS_CA && (s.group === "EURO_ELITE" || s.group === "EURO_OTHER")).length;
 const NAMED = ["Gidsel", "Skipagøtu"];
 const namedIds = [...initial.entries()].filter(([, s]) => NAMED.some((n) => s.name.includes(n))).map(([id]) => id);
 
@@ -265,6 +266,7 @@ const metrics = {
   eliteDowngradeShareOfMoves: r1((100 * sum((r) => r.eliteDowngrades)) / totalMoves),
   internationalMoveShare: r1((100 * sum((r) => r.movesInternational)) / totalMoves),
   worldClassStillInEurope: last.worldClassByGroup.EURO_ELITE + last.worldClassByGroup.EURO_OTHER,
+  worldClassInEuropeAtStart: initialWorldClassInEurope,
   worldClassInFA_final: last.worldClassByGroup.FA,
   faPoolFinal: last.faPoolEnd,
   faReemploymentRate: r1((100 * sum((r) => r.faReemployed)) / faStartTotal),
@@ -283,7 +285,7 @@ const ACCEPTANCE: { name: string; ok: boolean; detail: string }[] = [
   { name: "Elite (top 10%) under-31 moves into Division 1 <= 1 over the whole run", ok: metrics.eliteDowngradeToDiv1Total <= 1, detail: String(metrics.eliteDowngradeToDiv1Total) },
   { name: "Elite downgrades (>= 2 levels) <= 5% of all club moves", ok: metrics.eliteDowngradeShareOfMoves <= 5, detail: `${metrics.eliteDowngradeShareOfMoves}%` },
   { name: "International clubs renew contracts (world-pool renewals > 0)", ok: metrics.worldPoolRenewalsTotal > 0, detail: String(metrics.worldPoolRenewalsTotal) },
-  { name: "At least 60% of world-class players still in European leagues at the end", ok: metrics.worldClassStillInEurope >= 0.6 * Math.max(1, sum(() => 0) + rows[0]!.worldClassByGroup.EURO_ELITE + rows[0]!.worldClassByGroup.EURO_OTHER), detail: `${metrics.worldClassStillInEurope} vs S1 ${rows[0]!.worldClassByGroup.EURO_ELITE + rows[0]!.worldClassByGroup.EURO_OTHER}` },
+  { name: "World-class presence in European leagues holds (>= 60% of the career-start count every season)", ok: rows.every((r) => r.worldClassByGroup.EURO_ELITE + r.worldClassByGroup.EURO_OTHER >= 0.6 * initialWorldClassInEurope), detail: `min ${Math.min(...rows.map((r) => r.worldClassByGroup.EURO_ELITE + r.worldClassByGroup.EURO_OTHER))} vs start ${initialWorldClassInEurope}` },
   { name: "League order Euro elite > HBL > Allsvenskan > Div 1 holds every season", ok: metrics.leagueOrderHeldEverySeason, detail: String(metrics.leagueOrderHeldEverySeason) },
   { name: "Swedish CPU squad median >= 16 every season", ok: metrics.minSwedishSquadMedian >= 16, detail: String(metrics.minSwedishSquadMedian) },
   { name: "At most 2 Swedish CPU squads under 14 players at any season end", ok: metrics.maxSwedishSquadsUnder14 <= 2, detail: String(metrics.maxSwedishSquadsUnder14) },

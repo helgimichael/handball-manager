@@ -87,3 +87,13 @@ export function assessRenewalAffordability(state: CareerState, clubId: string, p
   if (projected > budgets.wageBudgetEur) return { affordable: false, reasons: [`Lönekostnaden nästa säsong (${Math.round(projected)} €/år) skulle överstiga lönebudgeten (${Math.round(budgets.wageBudgetEur)} €/år).`] };
   return { affordable: true, reasons: [] };
 }
+
+/** HM-TRANSFER-REALISM-1.0: the highest monthly wage assessRenewalAffordability would accept (same rule, solved in one pass). */
+export function maxAffordableRenewalWage(state: CareerState, clubId: string, playerId: string): number {
+  const budgets = getClubBudgets(state, clubId);
+  if (!budgets) return 0;
+  const from = state.playerContracts[playerId]?.contractEndDate ?? state.gameDate;
+  let committed = 0;
+  for (const c of Object.values(state.playerContracts)) if (c.clubId === clubId && c.playerId !== playerId && c.contractEndDate > from) committed += c.wageEurPerMonth * 12;
+  return Math.max(0, Math.floor((budgets.wageBudgetEur - committed) / 12 / 10) * 10);
+}

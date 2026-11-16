@@ -7,13 +7,13 @@
 // through the ledger and the normal ownership change.
 import { getCareerClubSquad, getCareerPlayer } from "../career/careerWorld";
 import { releasePlayerToFreeAgency } from "../career/contractExpiry";
-import { clubCompetitionTier } from "../career/competitionMembership";
 import { getCareerWorldCompetitionIds } from "../career/worldCompetitions";
 import type { CareerState } from "../career/types";
-import { ownLevelScore } from "../career/cpuCandidateEvaluation";
+import { acceptanceEstimate, internationalClubWants, playerDecisionOnMove, playerWageDemandAt } from "../transfers/careerDecision/stateAdapter";
+import { clubLevelOf, environmentLevelOf, worldPoolClubIds } from "../transfers/careerDecision/sportingStrength";
 import { assessPositionNeed } from "../career/cpuSquadNeeds";
 import { adjustClubCash, getClubEconomyBaseline } from "../economy/clubEconomyIntegration";
-import { getPlayerFairWageEurPerMonth, getPlayerMarketValueEur } from "../economy/contractIntegration";
+import { getPlayerMarketValueEur } from "../economy/contractIntegration";
 import { getPlayerTrainingCompensation } from "../economy/trainingCompensationIntegration";
 import { getClub, getClubsByCompetition, getCompetition, positionLabel } from "../game-data";
 import { assessTransferAffordability } from "../transfers/affordability";
@@ -29,7 +29,6 @@ import { buildClubEvent } from "../career/careerEvents";
 
 const RESPOND_DAYS = 7;
 const MAX_OPEN_OFFERS = 3;
-const FOREIGN_LEAGUES = ["ger-1", "den-1", "nor-1", "esp-1", "hun-1"] as const;
 const round500 = (n: number) => Math.max(500, Math.round(n / 500) * 500);
 
 function seasonEndYear(date: string): number {
@@ -51,7 +50,27 @@ function foreignBar(state: CareerState): number {
   return cas.length ? cas[Math.floor(cas.length * 0.75)]! : Infinity;
 }
 
-interface Buyer { clubId: string; foreign: boolean; level: number; motive: string }
+interface Buyer { clubId: string; foreign: boolean; level: number; motive: string; wageEurPerMonth: number; contractYears: number }
+
+/** A club wants a player who would be at least close to the core of its squad. */
+const BUYER_FIT_BELOW_CA = 18;
+
+/**
+ * HM-TRANSFER-REALISM-1.0: the wage a buyer offers is what the player would
+ * need there (the shared PCDM demand), and the buyer must be a move the
+ * player would actually consider -- the same model every other transfer flow
+ * uses. `null`: no wage makes this club acceptable to him.
+ */
+function buyerTerms(state: CareerState, playerId: string, clubId: string): { wageEurPerMonth: number; contractYears: number } | null {
+  const age = ageYears(state, playerId);
+  const contractYears = age !== null && age >= 30 ? 2 : 3;
+  const demand = playerWageDemandAt(state, playerId, clubId, { contractYears });
+  if (!demand || demand.demandEurPerMonth === null) return null;
+  const current = state.playerContracts[playerId]?.wageEurPerMonth ?? 0;
+  const wageEurPerMonth = Math.round(Math.max(demand.demandEurPerMonth, current * 1.05) / 10) * 10;
+  if (acceptanceEstimate(state, playerId, clubId, { wageEurPerMonth, contractYears }) < 0.5) return null;
+  return { wageEurPerMonth, contractYears };
+}
 
 /** The most plausible buyer for a player right now, or null. */
 export function findBuyer(state: CareerState, playerId: string, salt: string): Buyer | null {
@@ -59,29 +78,36 @@ export function findBuyer(state: CareerState, playerId: string, salt: string): B
   if (!player) return null;
   const ca = caOf(state, playerId);
   const value = getPlayerMarketValueEur(state, playerId) ?? 0;
-  const wage = state.playerContracts[playerId]?.wageEurPerMonth ?? 0;
   const domestic = getCareerWorldCompetitionIds(state)
     .flatMap((id) => getClubsByCompetition(id))
     .filter((c) => c.id !== state.playerClubId && getClubEconomyBaseline(state, c.id) && (state.worldSquads[c.id]?.length ?? 0) > 0)
-    .map((c) => ({ club: c, level: ownLevelScore(state, c.id) }))
-    .filter(({ club, level }) => level <= ca + 6 && level >= ca - 25 && assessPositionNeed(state, club.id, player.position, getCareerClubSquad(state, club.id)).level !== "NONE")
-    .filter(({ club }) => assessTransferAffordability(state, club.id, value * 0.8, 0, Math.max(wage * 1.1, getPlayerFairWageEurPerMonth(state, playerId) ?? wage)).affordable)
-    .sort((a, b) => b.level - a.level || a.club.id.localeCompare(b.club.id));
+    .map((c) => ({ club: c, level: clubLevelOf(state, c.id) }))
+    .filter(({ club, level }) => ca >= level - BUYER_FIT_BELOW_CA && assessPositionNeed(state, club.id, player.position, getCareerClubSquad(state, club.id)).level !== "NONE")
+    .map((x) => ({ ...x, terms: buyerTerms(state, playerId, x.club.id) }))
+    .filter((x): x is typeof x & { terms: NonNullable<typeof x.terms> } => x.terms !== null && assessTransferAffordability(state, x.club.id, value * 0.8, 0, x.terms.wageEurPerMonth).affordable)
+    .sort((a, b) => environmentLevelOf(state, b.club.id) - environmentLevelOf(state, a.club.id) || a.club.id.localeCompare(b.club.id));
   const foreignInterest = ca >= foreignBar(state);
   const pickForeign = foreignInterest && (domestic.length === 0 || hash(`${salt}:abroad`) < 0.45);
   if (pickForeign) {
-    const pool = FOREIGN_LEAGUES.flatMap((l) => getClubsByCompetition(l));
+    // A real world-pool club that wants him and that he would join -- never a random name.
+    const pool = worldPoolClubIds(state)
+      .filter((id) => internationalClubWants(state, id, playerId))
+      .map((id) => ({ id, terms: buyerTerms(state, playerId, id) }))
+      .filter((x): x is { id: string; terms: NonNullable<typeof x.terms> } => x.terms !== null)
+      .sort((a, b) => environmentLevelOf(state, b.id) - environmentLevelOf(state, a.id) || a.id.localeCompare(b.id))
+      .slice(0, 3);
     if (pool.length) {
-      const club = pool[Math.floor(hash(`${salt}:foreign`) * pool.length)]!;
+      const chosen = pool[Math.floor(hash(`${salt}:foreign`) * pool.length)]!;
+      const club = getClub(chosen.id)!;
       const country = getCompetition(club.competitionId)?.name ?? "utlandet";
-      return { clubId: club.id, foreign: true, level: ca + 10, motive: `${club.name} (${country}) vill ta honom till en högre nivå och erbjuder en lön svenska klubbar inte kan matcha.` };
+      return { clubId: club.id, foreign: true, level: clubLevelOf(state, club.id), motive: `${club.name} (${country}) vill ta honom till en högre nivå.`, ...chosen.terms };
     }
   }
   const pick = domestic[0];
   if (!pick) return null;
   const need = assessPositionNeed(state, pick.club.id, player.position, getCareerClubSquad(state, pick.club.id));
   const role = ca >= pick.level ? "en självklar startspelare" : "en viktig förstärkning";
-  return { clubId: pick.club.id, foreign: false, level: pick.level, motive: `${pick.club.shortName} söker en ${positionLabel(player.position).toLowerCase()} – de har ${need.usableCount} på positionen – och ser honom som ${role}.` };
+  return { clubId: pick.club.id, foreign: false, level: pick.level, motive: `${pick.club.shortName} söker en ${positionLabel(player.position).toLowerCase()} – de har ${need.usableCount} på positionen – och ser honom som ${role}.`, ...pick.terms };
 }
 
 /** Weekly: at most one new bid, for the player with the strongest reason to attract one. */
@@ -143,12 +169,10 @@ function buildOffer(state: CareerState, playerId: string, buyer: Buyer, date: st
   let maxFee = value * (1.1 + hash(`${salt}:max`) * 0.3) * (buyer.foreign ? 1.25 : 1);
   if (!buyer.foreign) {
     // A domestic buyer never goes beyond what its board allows.
-    const wage = Math.max((state.playerContracts[playerId]?.wageEurPerMonth ?? 0) * 1.12, getPlayerFairWageEurPerMonth(state, playerId) ?? 0);
+    const wage = buyer.wageEurPerMonth;
     while (maxFee > fee && !assessTransferAffordability(state, buyer.clubId, maxFee, 0, wage).affordable) maxFee *= 0.9;
     if (!assessTransferAffordability(state, buyer.clubId, fee, 0, wage).affordable) return null;
   }
-  const current = state.playerContracts[playerId]?.wageEurPerMonth ?? 0;
-  const age = ageYears(state, playerId);
   return {
     id: `in:${playerId}:${date}`,
     playerId,
@@ -157,8 +181,8 @@ function buildOffer(state: CareerState, playerId: string, buyer: Buyer, date: st
     openedOn: date,
     feeEur: round500(fee),
     maxFeeEur: round500(Math.max(fee, maxFee)),
-    wageEurPerMonth: Math.round(buyer.foreign ? current * 1.6 : Math.max(current * 1.12, getPlayerFairWageEurPerMonth(state, playerId) ?? current)),
-    contractYears: age !== null && age >= 30 ? 2 : 3,
+    wageEurPerMonth: buyer.wageEurPerMonth,
+    contractYears: buyer.contractYears,
     status: "OPEN",
     respondBy: addDaysIso(date, RESPOND_DAYS),
     rounds: [{ date, by: "BUYER", feeEur: round500(fee), note: "Första bud." }],
@@ -173,27 +197,26 @@ function ageYears(state: CareerState, playerId: string): number | null {
   return by ? Number(state.gameDate.slice(0, 4)) - by : null;
 }
 
-/** Would the player go? Decided when the clubs agree -- reasons in his words. */
+/**
+ * Would the player go? Decided when the clubs agree -- reasons in his words.
+ * HM-TRANSFER-REALISM-1.0: the shared Player Career Decision Model, exactly
+ * as for any other move. A transfer request or low morale makes staying worth
+ * less to him; it never makes an unacceptable club acceptable by itself.
+ */
 export function playerStance(state: CareerState, offer: IncomingOffer): { willing: boolean; reason: string } {
   const d = dynamicsOf(state);
   const request = d.requests[offer.playerId];
-  if (request?.status === "OPEN" || request?.status === "ACCEPTED" || d.listings[offer.playerId]?.reason === "TRANSFER_REQUEST") return { willing: true, reason: "Han vill lämna och tackar ja direkt." };
-  const p = personalityOf(state, offer.playerId);
+  const requested = request?.status === "OPEN" || request?.status === "ACCEPTED" || d.listings[offer.playerId]?.reason === "TRANSFER_REQUEST";
   const morale = moraleOf(state, offer.playerId);
-  if (offer.foreign) {
-    if (p.loyalty >= 17 && morale >= 75) return { willing: false, reason: "Han trivs och vill inte flytta utomlands nu." };
-    return { willing: true, reason: "Ett steg utomlands lockar – både sportsligt och ekonomiskt." };
+  const wantsToLeave = requested || morale < 45;
+  const outcome = playerDecisionOnMove(state, offer.playerId, offer.fromClubId, { wageEurPerMonth: offer.wageEurPerMonth, contractYears: offer.contractYears }, { wantsToLeave });
+  if (outcome.accept) {
+    if (requested) return { willing: true, reason: "Han vill lämna och tackar ja direkt." };
+    if (offer.foreign) return { willing: true, reason: "Ett steg utomlands lockar – både sportsligt och ekonomiskt." };
+    if (morale < 55) return { willing: true, reason: "Han är inte nöjd här och ser en nystart." };
+    return { willing: true, reason: outcome.reason.replace("Spelaren tackar ja. ", "Han tackar ja. ") };
   }
-  const myTier = clubCompetitionTier(state, state.playerClubId) ?? 1;
-  const theirTier = clubCompetitionTier(state, offer.fromClubId) ?? 1;
-  const raise = offer.wageEurPerMonth / Math.max(1, state.playerContracts[offer.playerId]?.wageEurPerMonth ?? 1);
-  if (theirTier < myTier) return { willing: true, reason: "En chans att spela i en högre serie." };
-  if (theirTier > myTier && morale >= 40) return { willing: false, reason: "Han vill inte gå ner en serie." };
-  if (morale < 55) return { willing: true, reason: "Han är inte nöjd här och ser en nystart." };
-  if (ownLevelScore(state, offer.fromClubId) > ownLevelScore(state, state.playerClubId) + 3) return { willing: true, reason: "Den nya klubben har ett starkare lag." };
-  if (raise >= 1.15 && p.ambition >= 12) return { willing: true, reason: "Lönehöjningen och rollen lockar." };
-  if (p.loyalty >= 13) return { willing: false, reason: "Han trivs och vill stanna." };
-  return { willing: true, reason: "Han ser flytten som ett steg framåt." };
+  return { willing: false, reason: outcome.reason.replace("Spelaren tackar nej", "Han tackar nej") };
 }
 
 export function acceptIncomingOffer(state: CareerState, offerId: string): CareerState {
@@ -403,7 +426,9 @@ export function progressPreContracts(state: CareerState, date: string, emit: Emi
       if (hash(`${next.saveSeed}:precontract:${id}:${date}`) >= chance) continue;
       const buyer = findBuyer(next, id, `${next.saveSeed}:pre:${id}:${date}`);
       if (!buyer) continue;
-      next = { ...next, preContracts: { ...next.preContracts, [id]: { playerId: id, toClubId: buyer.clubId, foreign: buyer.foreign, agreedOn: date, effectiveOn: c.contractEndDate, wageEurPerMonth: Math.round(c.wageEurPerMonth * (buyer.foreign ? 1.5 : 1.15)) } } };
+      // HM-TRANSFER-REALISM-1.0: he signs only what he would accept under the shared PCDM, at the buyer's PCDM-priced terms.
+      if (!playerDecisionOnMove(next, id, buyer.clubId, { wageEurPerMonth: buyer.wageEurPerMonth, contractYears: buyer.contractYears }).accept) continue;
+      next = { ...next, preContracts: { ...next.preContracts, [id]: { playerId: id, toClubId: buyer.clubId, foreign: buyer.foreign, agreedOn: date, effectiveOn: c.contractEndDate, wageEurPerMonth: buyer.wageEurPerMonth } } };
       for (const t of Object.values(next.renewalTalks ?? {})) if (t.playerId === id && t.status === "OPEN") next = { ...next, renewalTalks: { ...next.renewalTalks, [t.id]: { ...t, status: "WITHDRAWN", closedOn: date, answerOn: undefined } } };
       // His wish to leave is settled by the agreement: the open transfer request closes.
       const dd = dynamicsOf(next);
