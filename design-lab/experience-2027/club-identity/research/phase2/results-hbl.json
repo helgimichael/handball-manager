@@ -1,0 +1,282 @@
+[
+  {
+    "id": "se_club_alingsas_hk", "name": "Alingsås HK",
+    "status": "VERIFIED", "confidence": 0.8,
+    "primary": "royal-blue", "primaryMeasured": "#0748B4",
+    "secondary": "light-blue", "secondaryMeasured": "#2854E8",
+    "accent": "white", "accentMeasured": null,
+    "pattern": "other",
+    "crest": { "primary": "blue", "secondary": "white", "note": "Round AHK crest, blue/light-blue with white; matches the shirt family." },
+    "description": "Royal-blue shirt with a lighter blue/white patterned upper body and sleeves (Kempa). Away shirt is white with blue patterned shoulders.",
+    "team": "men-A", "homeKit": true, "season": "2026/27", "photoDate": "2026-11-14",
+    "evidence": [
+      { "url": "https://alingsashk.myclub.se/herrlag/", "type": "official-team-photo", "date": "2026-11-13",
+        "screenshot": "evidence/se_club_alingsas_hk-1.jpg", "observation": "Official club home-match banner 'Alingsås HK - IK Sävehof, 14 Nov, Estrad Alingsås': men's player in blue shirt with lighter blue patterned sleeves. Image is colour-graded blue, so hex is approximate." },
+      { "url": "https://ifkskovdehandboll.com/marginalerna-emot-i-vastgotaderbt/", "type": "official-match-photo", "date": "2026-11-11",
+        "screenshot": "evidence/se_club_alingsas_hk-2.jpg", "observation": "Skövde-Alingsås 26-29 at Arena Skövde: Alingsås (away) in white shirt with blue details. Shows the away kit, not home." },
+      { "url": "https://myclub-site.s3.amazonaws.com/uploads/images/000/128/913/AHK_RESULTAT_HERR.png", "type": "official-social", "date": "2026-11-12",
+        "screenshot": "evidence/se_club_alingsas_hk-3.jpg", "observation": "Club result graphic (Skövde 26-29 AHK, away): men's player #11 in white shirt with blue geometric shoulders (#1C346A) = away kit." }
+    ],
+    "womenDiffer": false,
+    "notes": "Club domains ahk.nu / alingsashk.se failed; club runs on alingsashk.myclub.se. No in-game home match photo of the men found; home evidence is the official home-match promo banner. Women's team photo on the same site shows a blue Kempa home shirt too. Do not use the white kit seen in the Skövde reports.",
+    "reviewReason": "Home colour from an official, colour-graded promo banner rather than a live match photo; hex approximate."
+  },
+  {
+    "id": "se_club_amo_hk", "name": "Amo HK",
+    "status": "VERIFIED", "confidence": 0.9,
+    "primary": "royal-blue", "primaryMeasured": "#04397B",
+    "secondary": "navy", "secondaryMeasured": "#001847",
+    "accent": "white", "accentMeasured": null,
+    "pattern": "solid",
+    "crest": { "primary": "blue", "secondary": "white", "note": "Blue/white shield with a white pegasus; matches shirt." },
+    "description": "Royal-blue shirt with white print, dark navy shorts, at home in Amokabelhallen.",
+    "team": "men-A", "homeKit": true, "season": "2026/27", "photoDate": "2026-11-13",
+    "evidence": [
+      { "url": "https://amohandboll.com/a/tack-till-alla-som-varit-med-och-bidragit-till-mustaschkampen", "type": "official-team-photo", "date": "2026-11-13",
+        "screenshot": "evidence/se_club_amo_hk-1.jpg", "observation": "Men's A squad posed on court in the home arena: royal-blue shirts (with Movember moustache print), navy shorts." },
+      { "url": "https://amohandboll.com/", "type": "official-social", "date": "2026-11-13",
+        "screenshot": "evidence/se_club_amo_hk-2.jpg", "observation": "Home-match promo (Amo HK vs IF Hallby, 14 Nov, Amokabelhallen): men's player #8 in blue patterned shirt." }
+    ],
+    "womenDiffer": null,
+    "notes": "Team photo shirts carry a one-off moustache (Movember) print; base colour royal blue is consistent with the regular-shirt promo. Shorts are dark navy, not black as Wikipedia states.",
+    "reviewReason": null
+  },
+  {
+    "id": "se_club_hammarby_if_hf", "name": "Hammarby IF HF",
+    "status": "VERIFIED", "confidence": 0.95,
+    "primary": "green", "primaryMeasured": "#08361F",
+    "secondary": "white", "secondaryMeasured": "#BDBCBF",
+    "accent": "white", "accentMeasured": null,
+    "pattern": "stripes",
+    "crest": { "primary": "green", "secondary": "white", "note": "Green/white striped shield with gold laurel; laurel gold not on shirt." },
+    "description": "Green and white vertical stripes (green slightly dominant), green shorts.",
+    "team": "men-A", "homeKit": true, "season": "2026/27", "photoDate": "2026-11-11",
+    "evidence": [
+      { "url": "https://www.hammarbyhandboll.se/hifhandboll_herr/match/20557017/lugi-hf#referat", "type": "official-match-photo", "date": "2026-11-11",
+        "screenshot": "evidence/se_club_hammarby_if_hf-1.jpg", "observation": "Hammarby-Lugi 35-20 (home), Foto Stephan Grahn: Hammarby player in green/white striped shirt, green shorts. Lugi in white away." },
+      { "url": "https://www.hammarbyhandboll.se/hifhandboll_herr/match/20557017/lugi-hf#referat", "type": "official-match-photo", "date": "2026-11-11",
+        "screenshot": "evidence/se_club_hammarby_if_hf-2.png", "observation": "Zoom on the Hammarby player: stripes are broad green and white bands, not thin pinstripes." }
+    ],
+    "womenDiffer": null,
+    "notes": "Prior description said 'thin white pinstripes'; the zoom shows broad green/white stripes of similar width. Arena lighting is dim so the measured green is darker than the true brand green.",
+    "reviewReason": null
+  },
+  {
+    "id": "se_club_hf_karlskrona", "name": "HF Karlskrona",
+    "status": "VERIFIED", "confidence": 0.85,
+    "primary": "black", "primaryMeasured": "#232220",
+    "secondary": "gold", "secondaryMeasured": "#B58919",
+    "accent": "gold", "accentMeasured": "#B58919",
+    "pattern": "stripes",
+    "crest": { "primary": "yellow", "secondary": "orange", "note": "2026/27 'Stadens Lag' branding uses yellow/orange/red stripe logo; shirt is black with gold." },
+    "description": "Black shirt with thin gold vertical pinstripes, gold collar trim and gold numbers (2026/27 retro 'Stadens Lag' match shirt).",
+    "team": "men-A", "homeKit": true, "season": "2026/27", "photoDate": "2026-09-01",
+    "evidence": [
+      { "url": "https://hfk.se/nyheter/nytt-koncept-for-sasongen-2026-2027/", "type": "official-team-photo", "date": "2026-09-01",
+        "screenshot": "evidence/se_club_hf_karlskrona-1.jpg", "observation": "Official launch of the new 2026/27 match shirt: black with gold pinstripes, gold collar and numbers." },
+      { "url": "https://hfk.se/herrlaget/", "type": "official-team-photo", "date": "2026-11-13",
+        "screenshot": "evidence/se_club_hf_karlskrona-2.jpg", "observation": "Men's squad photo (yellow overlay) on the Herrlaget page: players wear the black pinstripe shirts." }
+    ],
+    "womenDiffer": null,
+    "notes": "No live home match photo found; evidence is official kit launch plus men's team photo. Yellow/gold confirmed on the home shirt (resolves prior 'yellow only from club colours' doubt).",
+    "reviewReason": "No in-match home photo; based on official kit launch image and tinted team photo."
+  },
+  {
+    "id": "se_club_hk_malmo", "name": "HK Malmö",
+    "status": "VERIFIED", "confidence": 0.85,
+    "primary": "black", "primaryMeasured": "#040407",
+    "secondary": "red", "secondaryMeasured": "#8B0519",
+    "accent": "red", "accentMeasured": "#8B0519",
+    "pattern": "sleeves",
+    "crest": { "primary": "red", "secondary": "white", "note": "Red/white shield with black text; red is accent on the black shirt." },
+    "description": "Black shirt with red shoulders/side panels and red trim, black shorts.",
+    "team": "men-A", "homeKit": true, "season": null, "photoDate": null,
+    "evidence": [
+      { "url": "https://hkmalmo.se/", "type": "official-match-photo", "date": null,
+        "screenshot": "evidence/se_club_hk_malmo-1.jpg", "observation": "Homepage hero: men's players (Hilding #7, #28, Tønnesen #79) celebrating in front of home crowd, black shirts with red shoulders." },
+      { "url": "https://hkmalmo.se/", "type": "official-match-photo", "date": null,
+        "screenshot": "evidence/se_club_hk_malmo-2.png", "observation": "Zoom on #79: black shirt, red shoulder/side panels." },
+      { "url": "https://hkmalmo.se/matchreferat-herr-28-10/", "type": "text", "date": "2026-10-29",
+        "screenshot": null, "observation": "Match reports use graphics only (no photos); squad page has no player photos." }
+    ],
+    "womenDiffer": null,
+    "notes": "Hero photo undated (staff wear 'SM-final' shirts, likely 2025/26 playoffs). Red is darkened by arena light.",
+    "reviewReason": null
+  },
+  {
+    "id": "se_club_if_hallby_hk", "name": "IF Hallby HK",
+    "status": "VERIFIED", "confidence": 0.95,
+    "primary": "royal-blue", "primaryMeasured": "#032AAE",
+    "secondary": null, "secondaryMeasured": null,
+    "accent": "white", "accentMeasured": null,
+    "pattern": "other",
+    "crest": { "primary": "navy", "secondary": "white", "note": "Navy/white shield with castle; shirt is brighter royal blue." },
+    "description": "Royal-blue Kempa shirt with subtle tonal pattern and white sponsor print.",
+    "team": "men-A", "homeKit": true, "season": "2026/27", "photoDate": "2026-11-11",
+    "evidence": [
+      { "url": "https://hallbyhandboll.se/", "type": "official-match-photo", "date": "2026-11-11",
+        "screenshot": "evidence/se_club_if_hallby_hk-2.jpg", "observation": "Result post 'Förlust' IF Hallby-HK Malmö 27-29: Hallby players in royal-blue shirts in timeout." },
+      { "url": "https://handbollsligan.se/herrligan/rasmus-thomsen-onnered-ar-ett-lag-vi-vill-ha-bakom-oss/", "type": "league-photo", "date": "2026-10-09",
+        "screenshot": "evidence/se_club_if_hallby_hk-1.jpg", "observation": "League portrait of Rasmus Thomsen #22 in Hallby royal-blue Kempa shirt." }
+    ],
+    "womenDiffer": null,
+    "notes": "Club domain is hallbyhandboll.se (ifhallby.se failed).",
+    "reviewReason": null
+  },
+  {
+    "id": "se_club_ifk_kristianstad", "name": "IFK Kristianstad",
+    "status": "VERIFIED", "confidence": 0.95,
+    "primary": "orange", "primaryMeasured": "#E86919",
+    "secondary": "white", "secondaryMeasured": "#BDCFEB",
+    "accent": "white", "accentMeasured": null,
+    "pattern": "stripes",
+    "crest": { "primary": "blue", "secondary": "white", "note": "Crest is blue/white, differs from the orange shirt." },
+    "description": "Orange ('brandgul') shirt with thin white vertical pinstripes, white shorts.",
+    "team": "men-A", "homeKit": true, "season": "2026/27", "photoDate": "2026-11-12",
+    "evidence": [
+      { "url": "https://ifkkristianstad.se/nyheter/stabil-brandgul-seger-over-amo-hemma-i-kristianstad-arena/", "type": "official-match-photo", "date": "2026-11-12",
+        "screenshot": "evidence/se_club_ifk_kristianstad-1.jpg", "observation": "IFK-Amo 39-33 in Kristianstad Arena (Foto Kimme Persson): player in orange pinstriped shirt, white shorts; orange-clad home crowd." }
+    ],
+    "womenDiffer": null,
+    "notes": "Shorts appear white (measured slightly blue-tinted).",
+    "reviewReason": null
+  },
+  {
+    "id": "se_club_ifk_skovde_hk", "name": "IFK Skövde HK",
+    "status": "VERIFIED", "confidence": 0.9,
+    "primary": "navy", "primaryMeasured": "#11134A",
+    "secondary": "navy", "secondaryMeasured": "#13215B",
+    "accent": "light-blue", "accentMeasured": null,
+    "pattern": "solid",
+    "crest": { "primary": "blue", "secondary": "white", "note": "Crest is mid-blue/white; shirt is much darker navy." },
+    "description": "Dark navy shirt with light-blue/white sponsor detailing, navy shorts.",
+    "team": "men-A", "homeKit": true, "season": "2026/27", "photoDate": "2026-11-11",
+    "evidence": [
+      { "url": "https://ifkskovdehandboll.com/marginalerna-emot-i-vastgotaderbt/", "type": "official-match-photo", "date": "2026-11-11",
+        "screenshot": "evidence/se_club_ifk_skovde_hk-1.jpg", "observation": "IFK Skövde-Alingsås 26-29 at home (foto Viktor Ljungström): Daniel Ekman in navy shirt and navy shorts; Alingsås in white." },
+      { "url": "https://ifkskovdehandboll.com/alla-nyheter/", "type": "official-match-photo", "date": "2026-11-10",
+        "screenshot": null, "observation": "News list thumbnail: player 'FRANZÉN' in the same navy shirt and shorts." }
+    ],
+    "womenDiffer": null,
+    "notes": "Change from prior: shirt is navy, not mid/royal blue. Club domain ifkskovdehandboll.com (ifkskovde.se is the football club).",
+    "reviewReason": null
+  },
+  {
+    "id": "se_club_ik_savehof", "name": "IK Sävehof",
+    "status": "VERIFIED", "confidence": 0.95,
+    "primary": "yellow", "primaryMeasured": "#FCE325",
+    "secondary": "black", "secondaryMeasured": "#050507",
+    "accent": "black", "accentMeasured": "#050507",
+    "pattern": "sleeves",
+    "crest": { "primary": "yellow", "secondary": "black", "note": "Yellow/black shield inside a green laurel; green not on shirt." },
+    "description": "Yellow shirt with black sleeves/shoulders and black collar (adidas).",
+    "team": "men-A", "homeKit": true, "season": "2026/27", "photoDate": "2026-11-11",
+    "evidence": [
+      { "url": "https://savehof.se/tva-poang-hemma-mot-karlskrona/", "type": "official-match-photo", "date": "2026-11-11",
+        "screenshot": "evidence/se_club_ik_savehof-1.jpg", "observation": "Sävehof-Karlskrona (home): men's player #7 in yellow shirt with black sleeves." }
+    ],
+    "womenDiffer": null,
+    "notes": "Sävehof also wore yellow away at Önnered (Mar 2026 report), so yellow is the standard shirt. Cookie banner had only an accept button; not clicked.",
+    "reviewReason": null
+  },
+  {
+    "id": "se_club_lugi_hf", "name": "Lugi HF",
+    "status": "VERIFIED", "confidence": 0.9,
+    "primary": "wine", "primaryMeasured": "#751D2A",
+    "secondary": "black", "secondaryMeasured": "#0D0B0F",
+    "accent": "white", "accentMeasured": null,
+    "pattern": "sleeves",
+    "crest": { "primary": "red", "secondary": "white", "note": "Small crest on chest; not inspected closely." },
+    "description": "Wine-red shirt with black shoulders/sleeves and white sponsor print (Puma).",
+    "team": "men-A", "homeKit": true, "season": "2026/27", "photoDate": "2026-09-28",
+    "evidence": [
+      { "url": "https://handbollsligan.se/herrligan/vinrod-tvamalsseger-i-lund/", "type": "league-photo", "date": "2026-09-28",
+        "screenshot": "evidence/se_club_lugi_hf-1.jpg", "observation": "Lugi-Skånela 31-29 in Lund (home): Lugi player #17 in wine-red shirt with black shoulders." },
+      { "url": "https://www.hammarbyhandboll.se/hifhandboll_herr/match/20557017/lugi-hf#referat", "type": "official-match-photo", "date": "2026-11-11",
+        "screenshot": "evidence/se_club_hammarby_if_hf-1.jpg", "observation": "Lugi away at Hammarby in white shirts with black shorts (away kit)." }
+    ],
+    "womenDiffer": null,
+    "notes": "Away kit white. Black secondary from shoulders/sleeves.",
+    "reviewReason": null
+  },
+  {
+    "id": "se_club_ov_helsingborg", "name": "OV Helsingborg",
+    "status": "VERIFIED", "confidence": 0.85,
+    "primary": "dark-green", "primaryMeasured": "#01532D",
+    "secondary": "red", "secondaryMeasured": "#742418",
+    "accent": "red", "accentMeasured": "#742418",
+    "pattern": "other",
+    "crest": { "primary": "green", "secondary": "red", "note": "OV logo green with red outline and white text; matches shirt." },
+    "description": "Dark green shirt with red collar and red shoulder stripes, faint tonal pinstripes (adidas).",
+    "team": "men-A", "homeKit": true, "season": "2026/27", "photoDate": null,
+    "evidence": [
+      { "url": "https://ovhelsingborg.myclub.se/", "type": "official-team-photo", "date": "2026-11-13",
+        "screenshot": "evidence/se_club_ov_helsingborg-1.jpg", "observation": "2026/27 club banner: men's and women's players in dark green shirts with red collar and red shoulder stripes." },
+      { "url": "https://myclub-site.s3.amazonaws.com/uploads/banners/000/003/901/hemmamatch_2026-11-20_ov-hf-karlskrona.jpg", "type": "official-team-photo", "date": "2026-11-13",
+        "screenshot": "evidence/se_club_ov_helsingborg-2.jpg", "observation": "Home-match banner OV Helsingborg-HF Karlskrona 20 Nov: men's player in the same green/red shirt." }
+    ],
+    "womenDiffer": false,
+    "notes": "Change from prior: trim is red, not white. No live match photo found; evidence is official studio promo photos (graded green background).",
+    "reviewReason": "Studio promo photos only; no in-match home photo."
+  },
+  {
+    "id": "se_club_skanela_if", "name": "Skånela IF",
+    "status": "VERIFIED", "confidence": 0.85,
+    "primary": "red", "primaryMeasured": "#D43A3B",
+    "secondary": "black", "secondaryMeasured": null,
+    "accent": "white", "accentMeasured": null,
+    "pattern": "solid",
+    "crest": { "primary": "red", "secondary": "white", "note": "Red/white SIF shield with gold rim." },
+    "description": "Red shirt with black side/shoulder detail and white print, black shorts.",
+    "team": "men-A", "homeKit": true, "season": "2026/27", "photoDate": null,
+    "evidence": [
+      { "url": "https://www.skanela.se/grupp/?ID=366440", "type": "official-team-photo", "date": null,
+        "screenshot": "evidence/se_club_skanela_if-1.jpg", "observation": "Herrar A 'Truppen' squad photo: whole men's team in red shirts and black shorts." },
+      { "url": "https://www.skanela.se/grupp/?ID=366440", "type": "official-team-photo", "date": null,
+        "screenshot": "evidence/se_club_skanela_if-2.png", "observation": "Zoom: red shirts with black side panels." }
+    ],
+    "womenDiffer": null,
+    "notes": "Club site is skanela.se (skanelaif.se failed). The news thumbnail for the 11 Nov away loss at Ystad also shows red-shirted Skånela players. Team photo undated but on the current squad page.",
+    "reviewReason": "Official squad photo, no dated home match photo."
+  },
+  {
+    "id": "se_club_ystads_if_hf", "name": "Ystads IF HF",
+    "status": "VERIFIED", "confidence": 0.9,
+    "primary": "white", "primaryMeasured": "#DDDFDF",
+    "secondary": "royal-blue", "secondaryMeasured": "#020C61",
+    "accent": "royal-blue", "accentMeasured": "#020C61",
+    "pattern": "other",
+    "crest": { "primary": "unknown", "secondary": "unknown", "note": "Small chest crest not legible." },
+    "description": "White shirt with grey/light-blue shoulder pattern and blue sponsor print, dark royal-blue shorts (adidas).",
+    "team": "men-A", "homeKit": true, "season": "2026/27", "photoDate": "2026-09-23",
+    "evidence": [
+      { "url": "https://handbollsligan.se/herrligan/succepremiar-for-ystads-if/", "type": "league-photo", "date": "2026-09-23",
+        "screenshot": "evidence/se_club_ystads_if_hf-1.jpg", "observation": "Ystad-Skövde 36-26 at home (Foto Bildbyrån): Ystad players in white shirts, blue shorts." },
+      { "url": "https://handbollsligan.se/herrligan/succepremiar-for-ystads-if/", "type": "league-photo", "date": "2026-09-23",
+        "screenshot": "evidence/se_club_ystads_if_hf-2.png", "observation": "Zoom: white body, patterned grey-blue shoulders, blue shorts (#020C61)." }
+    ],
+    "womenDiffer": null,
+    "notes": "White primary. Yellow club colour not seen on the shirt; blue is the only real accent. For a neon UI accent use blue.",
+    "reviewReason": null
+  },
+  {
+    "id": "se_club_onnereds_hk", "name": "Önnereds HK",
+    "status": "VERIFIED", "confidence": 0.8,
+    "primary": "green", "primaryMeasured": "#066853",
+    "secondary": null, "secondaryMeasured": null,
+    "accent": "white", "accentMeasured": null,
+    "pattern": "solid",
+    "crest": { "primary": "green", "secondary": "white", "note": "Green/white shield with gold laurel." },
+    "description": "Green shirt with white sponsor print and numbers (Craft).",
+    "team": "men-A", "homeKit": true, "season": "2026/27", "photoDate": "2026-10-13",
+    "evidence": [
+      { "url": "https://www.onneredshk.se/nyheter/?ID=611344&NID=1368282", "type": "official-team-photo", "date": "2026-10-13",
+        "screenshot": "evidence/se_club_onnereds_hk-1.jpg", "observation": "Official home-match promo (Önnered-Hammarby, 16 Oct, ÖHK-hallen): two men's players in green shirts." },
+      { "url": "https://www.onneredshk.se/nyheter/?ID=611344&NID=1368282", "type": "official-team-photo", "date": "2026-10-13",
+        "screenshot": "evidence/se_club_onnereds_hk-2.png", "observation": "Zoom on #18: green shirt, white DBET/number print." }
+    ],
+    "womenDiffer": null,
+    "notes": "Herr news and gallery pages are empty; no live match photo found. Shorts not visible, so the prior 'black shorts' is not confirmed. Promo is graded; green is a slightly teal green.",
+    "reviewReason": "Home colour from official promo cutouts, not a live match photo; shorts unconfirmed."
+  }
+]

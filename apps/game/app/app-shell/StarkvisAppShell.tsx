@@ -44,11 +44,22 @@ const EXTRA_STYLES = `
 @media(prefers-reduced-motion:reduce) { *,*::before,*::after { transition-duration:0s!important;animation:none!important; } }
 `;
 
-export function StarkvisAppShell({ appName, appsReturnUrl, previewDestinations, backgroundFamily }: AppShellProps) {
+/**
+ * ENT-06 A "Corner escape hatch": "edge" keeps the original top reveal edge (title screen, editor…); "corner" starts
+ * hidden and replaces the edge with a 28px bottom-left pill that reveals the same panel. `cornerScope` "career"
+ * hides the pill on phones, where the career ⋯ menu carries "Tillbaka till Apps" instead.
+ */
+export type ShellRevealMode = "edge" | "corner";
+
+export function StarkvisAppShell({ appName, appsReturnUrl, previewDestinations, backgroundFamily, revealMode = "edge", cornerScope }: AppShellProps & { revealMode?: ShellRevealMode; cornerScope?: "career" | "match" }) {
   const target = useSyncExternalStore(subscribe, fullscreenHost, serverHost);
   const [shadow, setShadow] = useState<ShadowRoot | null>(null);
-  const [visible, setVisible] = useState(true);
+  const corner = revealMode === "corner";
+  const [visible, setVisible] = useState(!corner);
   const [appsOpen, setAppsOpen] = useState(false);
+  // Entering a career/match route from the title screen: the host chrome steps out of the way at once.
+  const [wasCorner, setWasCorner] = useState(corner);
+  if (wasCorner !== corner) { setWasCorner(corner); if (corner) { setVisible(false); setAppsOpen(false); } }
   const [resolvedDestinations, setResolvedDestinations] = useState<Record<string, string> | undefined>();
   const hostRef = useRef<HTMLDivElement>(null);
   const indicatorRef = useRef<HTMLButtonElement>(null);
@@ -80,12 +91,12 @@ export function StarkvisAppShell({ appName, appsReturnUrl, previewDestinations, 
     revealUntilRef.current = performance.now() + 180;
     setVisible(true);
   }, []);
-  const leave = useCallback(() => {
+  const leave = useCallback((graceMs = 0) => {
     hoverRef.current = false;
     clearTimeout(leaveTimerRef.current);
     leaveTimerRef.current = setTimeout(() => {
       if (!stateRef.current.appsOpen && !pointerInside() && !(keyboardRef.current && focusInside())) close();
-    }, Math.max(0, revealUntilRef.current - performance.now()));
+    }, Math.max(graceMs, revealUntilRef.current - performance.now()));
   }, [close, focusInside, pointerInside]);
   useEffect(() => () => clearTimeout(leaveTimerRef.current), []);
 
@@ -131,14 +142,18 @@ export function StarkvisAppShell({ appName, appsReturnUrl, previewDestinations, 
       }
       else close(true);
     };
-    const work = (event: PointerEvent) => {
+    const pointer = () => { keyboardRef.current = false; };
+    // Close on click, not pointerdown: closing collapses the revealed navigation and shifts the page up, so a
+    // close on pointerdown moved the target away before mouseup and the click was lost (e.g. title FORTSÄTT).
+    const work = (event: MouseEvent) => {
       keyboardRef.current = false;
       if (event.composedPath().includes(hostRef.current as EventTarget) || event.composedPath().includes(indicatorRef.current as EventTarget)) return;
       close();
     };
     window.addEventListener("keydown", keyboard, true);
-    document.addEventListener("pointerdown", work, true);
-    return () => { window.removeEventListener("keydown", keyboard, true); document.removeEventListener("pointerdown", work, true); };
+    document.addEventListener("pointerdown", pointer, true);
+    document.addEventListener("click", work, true);
+    return () => { window.removeEventListener("keydown", keyboard, true); document.removeEventListener("pointerdown", pointer, true); document.removeEventListener("click", work, true); };
   }, [close, focusInside, shadow]);
   useEffect(() => {
     const timer = window.setTimeout(() => { if (!stateRef.current.appsOpen && !pointerInside() && !focusInside()) close(); }, 3000);
@@ -184,10 +199,20 @@ export function StarkvisAppShell({ appName, appsReturnUrl, previewDestinations, 
         <WebsiteNavbarContext.Provider value={{ appsUrl, appsOpen, onApps: toggleApps }}><WebsiteNavbar onOpenNotify={() => window.location.assign("https://starkv.is")} appExtras={extras} /></WebsiteNavbarContext.Provider>
       </div></>, shadow)}
     </div>
-    <div className="sv-reveal-edge" data-header-visible={visible} onPointerEnter={event => { if (event.pointerType !== "touch") { hoverRef.current = true; show(); } }} onPointerLeave={event => { if (event.pointerType !== "touch") leave(); }}>
+    {corner ? <div className="sv-corner" data-scope={cornerScope} data-header-visible={visible}>
+      <button ref={indicatorRef} type="button" className="sv-corner-pill" aria-label="Visa STARKVIS-navigation (Tillbaka till Apps)" title="Tillbaka till Apps" aria-expanded={visible}
+        onPointerEnter={event => { if (event.pointerType !== "touch") { hoverRef.current = true; show(); } }}
+        // Generous grace: the panel sits at the top edge, so the pointer has a long way to travel from the corner.
+        onPointerLeave={event => { if (event.pointerType !== "touch") leave(1400); }}
+        onFocus={() => { if (restoringFocusRef.current) restoringFocusRef.current = false; }}
+        onClick={() => { if (visible && !hoverRef.current) close(); else show(); }}
+        onKeyDown={event => {
+          if (["Enter", " "].includes(event.key)) { event.preventDefault(); show(); requestAnimationFrame(() => shadow?.querySelector<HTMLElement>(".sv-return")?.focus()); }
+        }}><span aria-hidden="true">↖</span><span className="sv-corner-label">Apps</span></button>
+    </div> : <div className="sv-reveal-edge" data-header-visible={visible} onPointerEnter={event => { if (event.pointerType !== "touch") { hoverRef.current = true; show(); } }} onPointerLeave={event => { if (event.pointerType !== "touch") leave(); }}>
       <button ref={indicatorRef} type="button" aria-label="Visa STARKVIS-navigation" aria-expanded={visible} className="sv-reveal-control" onFocus={() => { if (restoringFocusRef.current) restoringFocusRef.current = false; else if (keyboardRef.current) show(); }} onClick={() => { if (visible) close(); else show(); }} onKeyDown={event => {
         if (["Enter", " ", "ArrowDown"].includes(event.key)) { event.preventDefault(); show(); requestAnimationFrame(() => shadow?.querySelector<HTMLElement>("[data-website-navbar] a")?.focus()); }
       }}><span aria-hidden="true">⌄</span></button>
-    </div>
+    </div>}
   </>, target);
 }

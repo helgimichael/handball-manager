@@ -1,0 +1,112 @@
+/* =====================================================================
+   Arena Nights adaptation layer (owner decision 2026-11-13)
+   1) Recommended navigation structure (Week Spine + hub rail) rendered in Arena Nights.
+   2) .arena-adapt.ad-<screen>: visual adaptations of recommended alternatives whose original
+      presentation depended on Paper & Floodlight. Structure/hierarchy/interactions are untouched.
+   All colour comes from the Club Identity System (--club-neon, --accent*, --glow, --club-primary).
+   ===================================================================== */
+
+/* ---------- Week Spine shell in Arena Nights ---------- */
+[data-theme="b"] .shell-c .masthead { border-bottom: 1px solid var(--line); color: var(--ink); }
+[data-theme="b"] .shell-c .masthead .wm small { color: var(--muted); opacity: 1; }
+[data-theme="b"] .shell-c .cont-c { color: var(--accent-ink); box-shadow: var(--glow); font-style: italic; font-weight: 800; }
+[data-theme="b"] .spine { background: rgba(255, 255, 255, 0.025); border-bottom: 1px solid var(--line); }
+[data-theme="b"] .spine .day { border-right-color: var(--line); }
+[data-theme="b"] .spine .day.today { background: var(--accent-soft); box-shadow: inset 0 -3px 0 var(--accent), inset 0 -14px 18px -14px var(--accent); }
+[data-theme="b"] .spine .day.match { background: linear-gradient(180deg, color-mix(in srgb, var(--club-primary, #14284b) 85%, #000), color-mix(in srgb, var(--club-primary, #14284b) 60%, #000)); box-shadow: inset 0 2px 0 var(--accent); }
+[data-theme="b"] .shell-c .rail { border-right-color: var(--line); }
+[data-theme="b"] .shell-c .hub.on { color: var(--accent); background: var(--accent-soft); box-shadow: inset 2px 0 0 var(--accent); }
+[data-theme="b"] .shell-a .rail { border-right-color: var(--line); }
+[data-theme="b"] .shell-a .topbar { background: rgba(7, 11, 18, 0.8); }
+[data-theme="b"] .mbar a.on { color: var(--accent); }
+[data-theme="b"] :focus-visible { outline-color: var(--accent); box-shadow: var(--glow); }
+[data-theme="b"] .tabs .on { text-shadow: 0 0 12px color-mix(in srgb, var(--club-neon) 50%, transparent); }
+[data-theme="b"] .tbl tr.me td { background: var(--accent-soft); box-shadow: inset 0 1px 0 var(--accent-line), inset 0 -1px 0 var(--accent-line); }
+[data-theme="b"] .tbl tr.me td:first-child { box-shadow: inset 3px 0 0 var(--accent), inset 0 1px 0 var(--accent-line), inset 0 -1px 0 var(--accent-line); }
+/* Dense workbench tables (A-style recommendations) on dark: solid surface, no blur, for long-session legibility */
+[data-theme="b"] .card.flush { background: #0d1524; backdrop-filter: none; }
+
+/* ---------- shared adaptation primitives ---------- */
+.arena-adapt .ed-lead, .arena-adapt .ent-c-h { font-family: var(--font-display); font-weight: 800; font-style: italic; text-transform: uppercase; letter-spacing: 0.005em; line-height: 0.98; }
+.arena-adapt .ed-h { font-family: var(--font-display); font-style: italic; text-transform: uppercase; }
+.arena-adapt .lede, .arena-adapt .ed { font-family: var(--font-ui); }
+.arena-adapt .quote { font-family: var(--font-ui); font-style: normal; font-weight: 500; border-left-color: var(--accent); box-shadow: -8px 0 16px -12px var(--accent); }
+.arena-adapt .card.boxed { border-color: var(--accent-line); box-shadow: var(--glow); }
+
+/* ---------- DSH-01 Matchweek Front Page ---------- */
+.ad-strap { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 16px; padding: 14px 18px; margin-bottom: var(--gap); border-radius: var(--radius-lg); background: linear-gradient(90deg, var(--accent-soft), transparent 30%, transparent 70%, var(--accent-soft)); border: 1px solid var(--line); box-shadow: inset 0 -2px 0 var(--accent); }
+.ad-plate { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.ad-plate .disp { font-size: clamp(30px, 4vw, 48px); line-height: 1; }
+.ad-ear { display: flex; flex-direction: column; gap: 4px; }
+.ad-ear:last-child { align-items: flex-end; text-align: right; }
+.ad-ear-v { display: flex; align-items: center; gap: 10px; }
+.ad-ear:last-child .ad-ear-v { flex-direction: row-reverse; }
+.ad-lead { position: relative; min-height: 440px; border-radius: var(--radius-lg); overflow: hidden; display: flex; align-items: flex-end; border: 1px solid var(--line); }
+.ad-lead .photo-bg { position: absolute; inset: 0; background-size: cover; background-position: center; }
+.ad-lead .photo-bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(7,11,18,0.05) 20%, rgba(7,11,18,0.92) 78%), radial-gradient(80% 60% at 20% 100%, color-mix(in srgb, var(--club-neon) 22%, transparent), transparent 70%); }
+.ad-lead-in { position: relative; z-index: 1; padding: clamp(18px, 3vw, 30px); }
+.ad-decide .decision .n { text-shadow: 0 0 14px color-mix(in srgb, var(--club-neon) 60%, transparent); font-style: italic; }
+.ad-bug { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 8px; padding: 12px; border-radius: 12px; background: rgba(255, 255, 255, 0.04); border: 1px solid var(--line); }
+.ad-bug span { display: flex; align-items: center; gap: 8px; font-family: var(--font-display); text-transform: uppercase; font-size: 17px; }
+.ad-bug span:last-child { justify-content: flex-end; }
+.ad-bug .disp { font-size: 26px; text-shadow: 0 0 14px var(--accent); }
+.ad-me { background: var(--accent-soft); box-shadow: inset 3px 0 0 var(--accent); padding-left: 8px; border-radius: 4px; }
+.ad-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 6px; background: var(--accent); box-shadow: 0 0 8px var(--accent); flex: 0 0 auto; }
+@media (max-width: 720px) { .ad-strap { grid-template-columns: 1fr 1fr; } .ad-plate { grid-column: 1 / -1; grid-row: 1; } .ad-lead { min-height: 380px; } }
+
+/* ---------- ENT-02/04 Journal Cover → "Season Cover" ---------- */
+.ad-entry .ent-c { background: radial-gradient(70% 60% at 30% 20%, color-mix(in srgb, var(--club-neon) 14%, transparent), transparent 70%), var(--bg); }
+.ad-entry .ent-c-cover { border-right-color: var(--line); }
+.ad-entry .ent-c-mast { border-bottom: 2px solid var(--accent); box-shadow: 0 10px 18px -14px var(--accent); }
+.ad-entry .ent-c-mast span:first-child { font-style: italic; font-weight: 800; }
+.ad-entry .ent-c-photo { border-radius: var(--radius-lg); filter: none; overflow: visible; }
+.ad-entry .ent-c-photo::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(180deg, transparent 40%, rgba(7,11,18,0.75)); }
+.ad-entry .ent-c-cl { background: transparent; z-index: 1; filter: drop-shadow(0 0 16px color-mix(in srgb, var(--club-neon) 55%, transparent)); }
+.ad-entry .ent-c-back { background: rgba(255, 255, 255, 0.03); }
+.ad-entry .ent-c-issue { background: var(--card-bg); border: 1px solid var(--line); border-radius: var(--radius); color: var(--ink); }
+.ad-entry .ent-c-issue.on { border-color: var(--accent); box-shadow: var(--glow); }
+
+/* ---------- CLB-02 Club Journal → "Club Channel" ---------- */
+.ad-club .club-c-stripe { height: 4px; background: linear-gradient(90deg, var(--club-primary, #14284b), var(--club-neon)) !important; box-shadow: var(--glow); }
+.ad-club .club-c-head { padding: 18px; border-radius: var(--radius-lg); background: radial-gradient(60% 120% at 0% 0%, color-mix(in srgb, var(--club-neon) 14%, transparent), transparent 70%); }
+.ad-club .club-c-facts b { font-style: italic; }
+.ad-club .hist-strip { border-top: 2px solid var(--accent-line); }
+.ad-club .hs { border-right-color: var(--line); }
+.ad-club .hs.gold .disp { text-shadow: 0 0 14px color-mix(in srgb, var(--gold) 60%, transparent); }
+
+/* ---------- MGR-01 Manager Biography → "Career Chapters" ---------- */
+.ad-manager .bio-tl { border-left: 2px solid var(--accent-line); }
+.ad-manager .bt::before { background: var(--bg); border-color: var(--accent); box-shadow: 0 0 10px var(--accent); }
+.ad-manager .bt.trophy::before { background: var(--gold); border-color: var(--gold); box-shadow: 0 0 12px var(--gold); }
+.ad-manager .bt .disp { font-style: italic; }
+
+/* ---------- WLD-01 Correspondence Desk → "Message Desk" ---------- */
+.ad-inbox .letter { transform: none; background: var(--card-bg); border: 1px solid var(--line); border-radius: var(--radius-lg); box-shadow: none; backdrop-filter: blur(12px); }
+.ad-inbox .letter.top { border-color: var(--accent-line); box-shadow: inset 3px 0 0 var(--accent), var(--glow); }
+
+/* ---------- SQD-02 Feature Profile → "Athlete Feature" ---------- */
+.ad-player .pl-c-head { border-bottom: 1px solid var(--line); box-shadow: 0 1px 0 var(--accent-line); }
+.ad-player .pl-c-portrait { border: 1px solid var(--accent-line); border-radius: var(--radius-lg); background: radial-gradient(circle at 50% 80%, color-mix(in srgb, var(--club-neon) 30%, transparent), transparent 70%); box-shadow: var(--glow); }
+.ad-player .pl-c-portrait .av { background: transparent !important; }
+
+/* ---------- REC-01 Shortlist & Reports → "Scout Desk" ---------- */
+.ad-scouting .verdict { border-left-color: var(--accent-line); }
+.ad-scouting .verdict .disp { text-shadow: 0 0 14px color-mix(in srgb, var(--pos) 60%, transparent); }
+.ad-scouting .sl-c.on { box-shadow: inset 3px 0 0 var(--accent), var(--glow); }
+
+/* ---------- MDY-02 Floodlight Sequence → "Matchday Sequence" (intensity escalation replaces the paper→floodlight switch) ---------- */
+.ad-matchday .md-c { background: radial-gradient(60% 40% at 50% 0%, color-mix(in srgb, var(--club-neon) 12%, transparent), transparent 70%), var(--bg); }
+.ad-matchday .md-c-steps { background: rgba(255, 255, 255, 0.03); }
+.ad-matchday .md-c-steps button.on { color: var(--accent); border-bottom-color: var(--accent); text-shadow: 0 0 12px var(--accent); }
+.ad-matchday [data-pane="0"] { filter: saturate(0.85); }
+.ad-matchday [data-pane="2"] .card { box-shadow: 0 0 0 1px var(--accent-line), var(--glow); }
+.ad-matchday .md-c-score .sep { text-shadow: 0 0 18px var(--accent); }
+.ad-matchday .chk.done .ck { box-shadow: 0 0 10px var(--pos); }
+
+/* ---------- ANL-01 Editorial Match Report → "Match Feature" ---------- */
+.ad-analysis .rep-c { padding-left: 0; }
+.ad-analysis .rep-c > .kicker { color: var(--accent); }
+
+/* Owner decision 2026-11-14: fallback identity is visibly marked (never presented as verified club data) */
+.idfb { display: inline-flex; align-items: center; margin-left: 8px; padding: 2px 7px; border-radius: 999px; border: 1px dashed currentColor; color: var(--accent); font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: .04em; text-transform: none; font-style: normal; white-space: nowrap; }
+@media (max-width: 720px) { .idfb { font-size: 9px; padding: 1px 5px; margin-left: 5px; } }

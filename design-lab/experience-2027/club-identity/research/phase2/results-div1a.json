@@ -1,0 +1,244 @@
+[
+  {
+    "id": "se_club_bodens_bk_hf", "name": "Bodens BK HF",
+    "status": "VERIFIED", "confidence": 0.85,
+    "primary": "green", "primaryMeasured": "#2B5744",
+    "secondary": "black", "secondaryMeasured": "#0E0B0A",
+    "accent": "white", "accentMeasured": null,
+    "pattern": "other",
+    "crest": { "primary": "green", "secondary": "white", "note": "Green BK monogram roundel (seen on the hall wall in the photo); crest matches the shirt colour." },
+    "description": "Green shirt with a darker tonal graphic pattern and white sponsor print, black shorts, white socks.",
+    "team": "men-A", "homeKit": true, "season": "2026/27", "photoDate": null,
+    "evidence": [
+      { "url": "https://www.laget.se/BBKHandboll_Herrar/News/8181345/Bolton-pa-besok", "type": "official-match-photo", "date": "2026-10-24",
+        "screenshot": "evidence/se_club_bodens_bk_hf-1.jpg", "observation": "Official men's team page (Herr), news preview for a home match. Header photo shows a Boden player in a green shirt and black shorts in their home hall (Hildursborg, local Boden sponsor boards). The opponent is in blue." },
+      { "url": "https://az729104.cdn.laget.se/12015991.jpeg", "type": "official-match-photo", "date": "2026-10-24",
+        "screenshot": "evidence/se_club_bodens_bk_hf-2.jpg", "observation": "Full-size version of the same image. Green shirt with GRK/Boden/ICA sponsors, black shorts, Bodens BK green roundel on the wall. Measured lit fabric #2B5744; shaded areas measure about #102F1C." }
+    ],
+    "womenDiffer": null,
+    "notes": "This replaces the prior inference from the football section with handball-specific evidence. Bodens BK HF is the handball section of Bodens BK, separate from Boden Handboll IF. The photo was posted in Oct 2026, but the match it shows is not named, so the exact photo date is unknown. Measured hex is darker than the shirt looks because of indoor lighting.",
+    "reviewReason": null
+  },
+  {
+    "id": "se_club_enkopings_hf", "name": "Enköpings HF",
+    "status": "VERIFIED", "confidence": 0.9,
+    "primary": "red", "primaryMeasured": "#E23133",
+    "secondary": "white", "secondaryMeasured": null,
+    "accent": "black", "accentMeasured": null,
+    "pattern": "solid",
+    "crest": { "primary": "blue", "secondary": "yellow", "note": "Crest is a blue shield with a yellow fleur-de-lis and 1945; it differs from the red shirt." },
+    "description": "Red Kempa shirt with white and black sponsor print and a small blue/yellow crest. The club tagline is 'Vi bär rött med stolthet'.",
+    "team": "men-A", "homeKit": true, "season": "2026/27", "photoDate": "2026-11-12",
+    "evidence": [
+      { "url": "https://www.enkopinghandboll.se/News/8191536/Herrmatch-14-november-", "type": "official-team-photo", "date": "2026-11-12",
+        "screenshot": "evidence/se_club_enkopings_hf-1.jpg", "observation": "Official 'HEMMA MATCH' poster for the men's home match on 14 Nov 2026. Player #20 in a red Kempa match shirt; banner reads 'Vi bär rött med stolthet'." },
+      { "url": "https://www.enkopinghandboll.se/News/8181383/Herr-spelar-mot-RP-idag-24-10", "type": "official-team-photo", "date": "2026-10-24",
+        "screenshot": "evidence/se_club_enkopings_hf-2.jpg", "observation": "Men's home-match poster for 24 Oct 2026 showing two players (#4, #10) in the same red Kempa shirts." },
+      { "url": "https://az729104.cdn.laget.se/12034269.jpg", "type": "official-match-photo", "date": "2026-10",
+        "screenshot": "evidence/se_club_rimbo_hk_roslagen-1.jpg", "observation": "Rimbo official site, Rimbo vs Enköping (away for Enköping). Enköping wear a white away shirt with red shoulders and black shorts." }
+    ],
+    "womenDiffer": false,
+    "notes": "The 'Dam A' news thumbnails also show red shirts. The away kit is white with red shoulders and black shorts. The posters are studio media-day photos, not in-match photos, but they are official and labelled as men's home matches. The colour of the men's home shorts was not visible.",
+    "reviewReason": null
+  },
+  {
+    "id": "se_club_hk_cliff", "name": "HK Cliff",
+    "status": "PROBABLE", "confidence": 0.8,
+    "primary": "yellow", "primaryMeasured": "#B8753C",
+    "secondary": "navy", "secondaryMeasured": "#01215E",
+    "accent": null, "accentMeasured": null,
+    "pattern": "solid",
+    "crest": { "primary": "unknown", "secondary": "unknown", "note": "Crest not inspected closely." },
+    "description": "Yellow shirt with dark-blue (navy/royal) shorts.",
+    "team": "men-A", "homeKit": true, "season": "2025/26", "photoDate": "2026-02-08",
+    "evidence": [
+      { "url": "https://sannadal.com/content/uploads/2026/02/herr-seger-borta-cliff-8-feb-2026-1-scaled.jpg", "type": "official-match-photo", "date": "2026-02-08",
+        "screenshot": "evidence/se_club_hk_cliff-3.jpg", "observation": "Opponent's official site (Sannadals SK): 'Herrarna krossade Cliff borta'. Cliff at home vs Sannadal men's A. Cliff players and bench wear yellow shirts and blue shorts. Measured yellow is warm and dim under hall light." },
+      { "url": "https://www.hkcliff.se/news/8170222/Tva-av-tva-for-herrarna", "type": "official-match-photo", "date": "2026-10-05",
+        "screenshot": "evidence/se_club_hk_cliff-1.jpg", "observation": "Cliff's own site, away at Skogås HK 2. Yellow/blue team vs green/black team. This is HK Cliff Blå, a lower-division second team ('fyran'), not the Division 1 side." }
+    ],
+    "womenDiffer": null,
+    "notes": "The best evidence is a photo on an opponent's official site, not Cliff's own channels, from the 2025/26 season. hkcliff.se's 'Seniorlag Herrar' page covers HK Cliff Blå (division 4 opponents). The Division 1 team is confirmed by the Täby HBK vs HK Cliff match on 17 Oct 2026 and Lindesberg's fixture list, but I found no Cliff A-team page. A scoreboard photo (Skuru vs Cliff) shows Cliff's team colour bar in yellow. Measured hex reads amber because of the lighting; visually the shirt is yellow.",
+    "reviewReason": "Evidence is an opponent's photo from 2025/26. No 2026/27 Cliff A-team home photo was found on Cliff channels."
+  },
+  {
+    "id": "se_club_hk_eskil", "name": "HK Eskil",
+    "status": "VERIFIED", "confidence": 0.92,
+    "primary": "green", "primaryMeasured": "#077E4A",
+    "secondary": "dark-green", "secondaryMeasured": "#034B22",
+    "accent": "white", "accentMeasured": null,
+    "pattern": "sleeves",
+    "crest": { "primary": "dark-green", "secondary": "white", "note": "Dark green shield with white 'HK ESKIL 1971'. Matches the shirt family." },
+    "description": "Green shirt with darker green shoulders and sleeves, white sponsor print, green shorts, white socks.",
+    "team": "men-A", "homeKit": true, "season": "2026/27", "photoDate": "2026-07-26",
+    "evidence": [
+      { "url": "https://www.hkeskil.nu/hkeskil-herr", "type": "official-team-photo", "date": "2026-07-26",
+        "screenshot": "evidence/se_club_hk_eskil-1.jpg", "observation": "Official men's team page ('Handbollsklubben Eskils herrlag', posted 26 Jul). Squad photo in green shirts with dark-green shoulders and green shorts; goalkeepers in white." },
+      { "url": "https://sannadal.com/2026/03/stabil-bortaseger-for-herrar-a-mot-hk-eskil/", "type": "official-match-photo", "date": "2026-02-28",
+        "screenshot": "evidence/se_club_hk_eskil-2.jpg", "observation": "Opponent's site: Eskil at home (HK Eskil banner in the hall) vs Sannadal men's A, 28 Feb 2026. Eskil in all green (shirt and shorts). Image is small and warm-lit, so it was not used for the hex." }
+    ],
+    "womenDiffer": null,
+    "notes": "This confirms the prior from Wikipedia. Primary hex comes from the well-lit 2026 team photo.",
+    "reviewReason": null
+  },
+  {
+    "id": "se_club_ik_bolton", "name": "IK Bolton",
+    "status": "UNCERTAIN", "confidence": 0.55,
+    "primary": "yellow", "primaryMeasured": "#FCA726",
+    "secondary": "black", "secondaryMeasured": "#111D28",
+    "accent": null, "accentMeasured": null,
+    "pattern": "solid",
+    "crest": { "primary": "yellow", "secondary": "black", "note": "Yellow laurel-wreath crest 'I.K. BOLTON 1933' on black. Same palette as both kits." },
+    "description": "Two kits seen: a yellow shirt with black numbers and black shorts, and a black hummel shirt with yellow/gold trim and black shorts. Which one is first-choice at home is not established.",
+    "team": "men-A", "homeKit": null, "season": "2026/27", "photoDate": "2026-10-10",
+    "evidence": [
+      { "url": "https://www.laget.se/IKBolton-Herrar", "type": "official-team-photo", "date": "2024",
+        "screenshot": "evidence/se_club_ik_bolton-3.jpg", "observation": "Official Herrar A page (news 'Div 2-kontraktet klart för 24/25', spring 2024). Men's A players celebrating indoors in yellow shirts with black numbers. Home/away not stated." },
+      { "url": "https://www.laget.se/IKBolton-Herrar/News/7642117/Eken-2024", "type": "official-team-photo", "date": "2024",
+        "screenshot": "evidence/se_club_ik_bolton-1.jpg", "observation": "Herrar A team photo at the outdoor Eken 2024 tournament in black shirts with yellow collar trim and black shorts." },
+      { "url": "https://www.svenskalag.se/liflindesberg-herra/nyheter/2578446/tredje-raka-segern-herrarna-besegrade-ik-bolton", "type": "official-match-photo", "date": "2026-10-10",
+        "screenshot": "evidence/se_club_ik_bolton-2.jpg", "observation": "Lindesberg's official site (photo: Hassessportbilder). Bolton AWAY at Lindesberg in black hummel shirts with yellow trim and black shorts. This is the current season." }
+    ],
+    "womenDiffer": null,
+    "notes": "The club identity is clearly yellow and black, which matches the prior. The only 2026/27 image is an away match (black). The yellow kit appears in an older (2024) indoor photo. I found no Bolton home-match photo from 2025–26. The yellow measured amber because of warm light.",
+    "reviewReason": "Yellow vs black first-choice home shirt unresolved; need a Bolton home-match photo from 2026/27."
+  },
+  {
+    "id": "se_club_lif_lindesberg", "name": "LIF Lindesberg",
+    "status": "VERIFIED", "confidence": 0.95,
+    "primary": "orange", "primaryMeasured": "#E1562A",
+    "secondary": "royal-blue", "secondaryMeasured": "#020369",
+    "accent": "white", "accentMeasured": null,
+    "pattern": "solid",
+    "crest": { "primary": "unknown", "secondary": "unknown", "note": "Crest not inspected." },
+    "description": "Orange shirt with blue/white sponsor print and blue detailing, royal-blue shorts, white socks.",
+    "team": "men-A", "homeKit": true, "season": "2026/27", "photoDate": "2026-10-25",
+    "evidence": [
+      { "url": "https://www.svenskalag.se/liflindesberg-herra/nyheter/2586420/derbyseger-infor-storpublik-lif-fallde-osk-i-arenan", "type": "official-match-photo", "date": "2026-10-25",
+        "screenshot": "evidence/se_club_lif_lindesberg-2.jpg", "observation": "Official Herr A news: home derby vs Örebro SK in Lindesberg Arena (photo Hassessportbilder). Player #18 in an orange shirt and royal-blue shorts." },
+      { "url": "https://www.svenskalag.se/liflindesberg-herra/nyheter/2578446/tredje-raka-segern-herrarna-besegrade-ik-bolton", "type": "official-match-photo", "date": "2026-10-10",
+        "screenshot": "evidence/se_club_lif_lindesberg-3.jpg", "observation": "Home win vs IK Bolton, same kit: orange shirt and blue shorts." },
+      { "url": "https://sannadal.com/2026/10/tung-forlust-i-hemmapremiaren/", "type": "official-match-photo", "date": "2026-10",
+        "screenshot": "evidence/se_club_lif_lindesberg-1.jpg", "observation": "Away at Sannadal: Lindesberg also wear orange with blue shorts." }
+    ],
+    "womenDiffer": null,
+    "notes": "This confirms the prior. Measured orange runs from #C75A2E to #F27944 depending on light; #E1562A is a well-lit sample from the home arena.",
+    "reviewReason": null
+  },
+  {
+    "id": "se_club_rp_if_linkoping", "name": "RP IF Linköping",
+    "status": "VERIFIED", "confidence": 0.88,
+    "primary": "white", "primaryMeasured": "#F4EEF3",
+    "secondary": "red", "secondaryMeasured": "#C60515",
+    "accent": "red", "accentMeasured": "#C80510",
+    "pattern": "other",
+    "crest": { "primary": "red", "secondary": "white", "note": "Small red 'RP' crest. Red is the accent on the white shirt." },
+    "description": "White Kempa shirt with a red graphic pattern on the shoulders and upper chest, red sponsor print (Botrygg), red shorts, white socks.",
+    "team": "men-A", "homeKit": true, "season": "2025/26", "photoDate": "2026-03-14",
+    "evidence": [
+      { "url": "https://www.rpif.se/rpif-herra", "type": "official-team-photo", "date": null,
+        "screenshot": "evidence/se_club_rp_if_linkoping-1.jpg", "observation": "Official 'Lagbild Herrar A' on the Herr A page. White shirts with red shoulder pattern and red shorts; goalkeepers in black." },
+      { "url": "https://www.rpif.se/rpif-herra/nyheter/2481905/herrarna-sakrade-kvalplats-efter-segerfest-i-sporthallen", "type": "official-match-photo", "date": "2026-03-14",
+        "screenshot": "evidence/se_club_rp_if_linkoping-2.jpg", "observation": "Collage from a home match in Sporthallen (14 Mar 2026). Players in white/red shirts and red shorts in front of the home crowd." }
+    ],
+    "womenDiffer": null,
+    "notes": "The prior was UNKNOWN; this is new. The team-photo season is not labelled; the home-match collage is from 2025/26. Many sponsors appear on the shirt (Botrygg, Maxi).",
+    "reviewReason": null
+  },
+  {
+    "id": "se_club_rimbo_hk_roslagen", "name": "Rimbo HK Roslagen",
+    "status": "VERIFIED", "confidence": 0.88,
+    "primary": "teal", "primaryMeasured": "#11837F",
+    "secondary": "black", "secondaryMeasured": null,
+    "accent": "white", "accentMeasured": null,
+    "pattern": "sleeves",
+    "crest": { "primary": "unknown", "secondary": "unknown", "note": "Crest not inspected." },
+    "description": "Sea-green/teal shirt body with black shoulders and sleeves, white sponsor print, black shorts, white socks.",
+    "team": "men-A", "homeKit": true, "season": "2026/27", "photoDate": null,
+    "evidence": [
+      { "url": "https://www.laget.se/rimbohk_herr", "type": "official-match-photo", "date": "2026-10",
+        "screenshot": "evidence/se_club_rimbo_hk_roslagen-2.jpg", "observation": "Official Herrlag page image (az729104.cdn.laget.se/12016014.jpg). Rimbo players in their home hall (Rimbo sporthall, packed stands) in a green/teal body with black sleeves and black shorts, vs an opponent in white hummel." },
+      { "url": "https://az729104.cdn.laget.se/12034269.jpg", "type": "official-match-photo", "date": "2026-10-10",
+        "screenshot": "evidence/se_club_rimbo_hk_roslagen-1.jpg", "observation": "Same hall, Rimbo vs Enköping (home). Rimbo wear a PINK one-off shirt for 'Rosa matchen' (breast-cancer charity match, confirmed in 'Inför Enköpings HF hemma'). This is not the regular kit." }
+    ],
+    "womenDiffer": null,
+    "notes": "This confirms the prior's layout (body with black sleeves). Pixel hue is about 175–178°, so the measured colour is teal or sea-green rather than pure green, though it reads as emerald green at a glance. Choose between 'green' and 'teal' for the neon. Second kit (yellow per Wikipedia) not seen. The pink shirt is a one-match special.",
+    "reviewReason": null
+  },
+  {
+    "id": "se_club_sannadals_sk", "name": "Sannadals SK",
+    "status": "VERIFIED", "confidence": 0.92,
+    "primary": "red", "primaryMeasured": "#A62C30",
+    "secondary": "white", "secondaryMeasured": null,
+    "accent": "white", "accentMeasured": null,
+    "pattern": "solid",
+    "crest": { "primary": "unknown", "secondary": "unknown", "note": "Crest not inspected." },
+    "description": "Red shirt with white print, red shorts (some players' shorts look red with white details), white socks.",
+    "team": "men-A", "homeKit": true, "season": "2026/27", "photoDate": "2026-10-04",
+    "evidence": [
+      { "url": "https://sannadal.com/2026/10/tung-forlust-i-hemmapremiaren/", "type": "official-match-photo", "date": "2026-10",
+        "screenshot": "evidence/se_club_sannadals_sk-2.jpg", "observation": "Official match report: men's A home opener vs LIF Lindesberg in Västertorpshallen. Sannadal players (#3, #5) in red shirts and red shorts." },
+      { "url": "https://sannadal.com/content/uploads/2026/02/herr-seger-borta-cliff-8-feb-2026-1-scaled.jpg", "type": "official-match-photo", "date": "2026-02-08",
+        "screenshot": "evidence/se_club_sannadals_sk-1.jpg", "observation": "Away at Cliff (Feb 2026): also red shirt and red shorts (adidas)." }
+    ],
+    "womenDiffer": null,
+    "notes": "This confirms the prior. Away kit seen at HK Eskil (Feb 2026) is white with maroon. Measured red is darker than it looks under hall lighting (#7F1D23–#A62C30).",
+    "reviewReason": null
+  },
+  {
+    "id": "se_club_taby_hbk", "name": "Täby HBK",
+    "status": "VERIFIED", "confidence": 0.9,
+    "primary": "red", "primaryMeasured": "#F44041",
+    "secondary": "navy", "secondaryMeasured": "#2A2836",
+    "accent": "white", "accentMeasured": null,
+    "pattern": "solid",
+    "crest": { "primary": "red", "secondary": "navy", "note": "Shield with red/navy vertical stripes and a white cross. Same palette as the kit." },
+    "description": "Red shirt with white sponsor print and small crest, navy shorts, white socks.",
+    "team": "men-A", "homeKit": true, "season": "2026/27", "photoDate": null,
+    "evidence": [
+      { "url": "https://www.svenskalag.se/tabyhbk-herrar", "type": "official-team-photo", "date": "2026",
+        "screenshot": "evidence/se_club_taby_hbk-1.jpg", "observation": "Official 'Täby HBK Herr Säsongen 2026-2027' squad photo (idrottsfoto.com). Red shirts and navy shorts; goalkeepers in grey." }
+    ],
+    "womenDiffer": null,
+    "notes": "This confirms the prior (red/blue). No in-match photo was checked, but the official season squad photo is labelled 2026-2027. The shorts are dark navy rather than bright blue.",
+    "reviewReason": null
+  },
+  {
+    "id": "se_club_uppsala_hk", "name": "Uppsala HK",
+    "status": "PROBABLE", "confidence": 0.75,
+    "primary": "royal-blue", "primaryMeasured": "#162C57",
+    "secondary": "black", "secondaryMeasured": null,
+    "accent": "white", "accentMeasured": null,
+    "pattern": "other",
+    "crest": { "primary": "navy", "secondary": "light-blue", "note": "Shield split navy and light blue, with a white player figure, 'HK' and Uppsala skyline. Darker and lighter blues than the shirt." },
+    "description": "Royal-blue hummel shirt with chevron sleeve trim and white sponsor print, black shorts.",
+    "team": "men-A", "homeKit": null, "season": "2025/26", "photoDate": "2025-08",
+    "evidence": [
+      { "url": "https://www.uppsalahk.se/?SID=10157", "type": "official-team-photo", "date": "2025-08",
+        "screenshot": "evidence/se_club_uppsala_hk-1.jpg", "observation": "Official 'Herrar Senior A-trupp' page: 'Vinnarna i VästeråsIrsta Open 2025' (preseason tournament). Men's A in blue hummel shirts and black shorts. Not a home league match." }
+    ],
+    "womenDiffer": null,
+    "notes": "The prior had blue plus an orange second kit; orange was not seen. The shirt looks royal-blue, but measures darker (#0B1D45–#162C57) because the photo is underexposed. The Rimbo photo shows an opponent in a white hummel shirt with a blue crest that could be Uppsala HK's away kit (unconfirmed). The club gallery has only 2016–17 albums.",
+    "reviewReason": "Only a preseason tournament photo from Aug 2025. No home league-match image for 2026/27; measured hex is underexposed."
+  },
+  {
+    "id": "se_club_orebro_sk_hk_herr", "name": "Örebro SK HK herr",
+    "status": "PROBABLE", "confidence": 0.8,
+    "primary": "white", "primaryMeasured": "#D5C8C9",
+    "secondary": "black", "secondaryMeasured": "#121010",
+    "accent": "grey", "accentMeasured": null,
+    "pattern": "other",
+    "crest": { "primary": "red", "secondary": "green", "note": "ÖSK crest is a red/white/black shield inside a green laurel wreath. Red and green appear only in the crest, not on the shirt." },
+    "description": "White shirt with black/grey graphic panels, black shorts. Slogan 'Mot svartvita drömmar'.",
+    "team": "men-A", "homeKit": true, "season": "2026/27", "photoDate": null,
+    "evidence": [
+      { "url": "https://www.laget.se/OSKH", "type": "official-match-photo", "date": "2026-10",
+        "screenshot": "evidence/se_club_orebro_sk_hk_herr-1.jpg", "observation": "Official ÖSK Handboll Herr page (lecture promo, Oct 2026) with a match photo: ÖSK players in white shirts with black graphics and black shorts, opponents in black, large crowd (likely home). Match and date not stated." },
+      { "url": "https://www.svenskalag.se/liflindesberg-herra/nyheter/2586420/derbyseger-infor-storpublik-lif-fallde-osk-i-arenan", "type": "official-match-photo", "date": "2026-10-25",
+        "screenshot": "evidence/se_club_orebro_sk_hk_herr-2.png", "observation": "Away at Lindesberg: an ÖSK player in a white shirt with black shorts; bench in black training tops." }
+    ],
+    "womenDiffer": null,
+    "notes": "This confirms the prior (white/black). The shirt is monochrome, so the neon still needs a call (crest has red and green). 'Home' is inferred from the crowd. The date of the promo match photo is unknown.",
+    "reviewReason": "The home match photo's date and opponent are unconfirmed. The shirt is monochrome, so a neon accent decision is needed."
+  }
+]

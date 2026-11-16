@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="sv" data-theme="b">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HM 2027 prototype frame</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,700;1,800&family=Barlow:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&family=Saira+Condensed:wght@600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,500;0,8..60,700;1,8..60,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="proto/themes.css?v=20261114c">
+<link rel="stylesheet" href="proto/kit.css?v=20261114c">
+<link rel="stylesheet" href="proto/screens.css?v=20261114c">
+<link rel="stylesheet" href="proto/screens2.css?v=20261114c">
+<link rel="stylesheet" href="proto/screens3.css?v=20261114c">
+<link rel="stylesheet" href="proto/arena.css?v=20261114c">
+</head>
+<body>
+<div id="root"></div>
+<script src="data/club-registry.js?v=20261114c"></script>
+<script src="proto/sample.js?v=20261114c"></script>
+<script src="proto/kit.js?v=20261114c"></script>
+<script src="proto/screens-core.js?v=20261114c"></script>
+<script src="proto/screens-people.js?v=20261114c"></script>
+<script src="proto/screens-market.js?v=20261114c"></script>
+<script src="proto/screens-compete.js?v=20261114c"></script>
+<script src="proto/screens-world.js?v=20261114c"></script>
+<script src="proto/screens-extra.js?v=20261114c"></script>
+<script src="proto/screens-arena.js?v=20261114c"></script>
+<script src="data/surfaces.js?v=20261114c"></script>
+<script src="proto/wireframe.js?v=20261114c"></script>
+<script>
+(function () {
+  function params() {
+    const q = new URLSearchParams(location.hash.slice(1) || location.search.slice(1));
+    return { s: q.get('s') || 'dashboard', alt: (q.get('alt') || 'C').toUpperCase(), theme: (q.get('theme') || 'b').toLowerCase(), mode: q.get('mode') || '', shell: q.get('shell') !== '0', density: q.get('density') || '', surface: q.get('surface') || '', club: q.get('club') || 'tum', adapt: q.get('adapt') === '1', nav: q.get('nav') || '' };
+  }
+  function render() {
+    const p = params();
+    const html = document.documentElement;
+    html.dataset.theme = p.theme;
+    const club = K.applyClub(p.club); // Club Identity System: sets --club-neon etc. before rendering
+    html.dataset.adapt = p.adapt ? '1' : '0';
+    if (p.mode) html.dataset.mode = p.mode; else delete html.dataset.mode;
+    if (p.density) html.dataset.density = p.density; else delete html.dataset.density;
+    const scr = window.SCREENS && window.SCREENS[p.s];
+    let out;
+    try {
+      if (scr && scr[p.alt]) {
+        // adapt=1 → Arena Nights adaptation of this alternative (structure preserved), when one exists
+        const adapted = p.adapt && scr.arena && scr.arena[p.alt];
+        const content = adapted ? scr.arena[p.alt](p.theme) : scr[p.alt](p.theme);
+        const full = scr.fullscreen && scr.fullscreen.includes(p.alt);
+        if (scr.mode && scr.mode[p.alt] && !p.mode) html.dataset.mode = scr.mode[p.alt](p.theme) || '';
+        out = full || !p.shell ? `<div class="app">${content}<div class="palette"><input/><div class="opts"></div></div><div class="toast" role="status"></div><div class="scrim"></div><aside class="drawer"></aside></div>` : K.shell(p.theme, scr.hub, content, { sub: scr.sub, title: scr.title, nav: p.nav });
+      } else if (window.WIRE && p.surface) {
+        out = K.shell(p.theme, WIRE.hubFor(p.surface), WIRE.render(p.surface, p.alt, { adapt: p.adapt }), { title: WIRE.title(p.surface), tabs: false, nav: p.nav });
+      } else {
+        out = `<div class="page"><div class="note-box">Ingen prototyp för “${p.s}” / ${p.alt}.</div></div>`;
+      }
+    } catch (err) {
+      out = `<div class="page"><div class="note-box">Renderingsfel: ${K.esc(err.message)}</div></div>`;
+      console.error(err);
+    }
+    document.getElementById('root').innerHTML = K.swapCareerText(out);
+    window.scrollTo(0, 0);
+    if (window.SCREEN_AFTER) window.SCREEN_AFTER(p);
+  }
+  K.wire(document);
+  window.addEventListener('hashchange', render);
+  render();
+})();
+</script>
+</body>
+</html>

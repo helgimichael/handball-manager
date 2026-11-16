@@ -1,19 +1,23 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import GameShell from "@/components/GameShell";
 import { getActiveSave } from "@/lib/save/saveRepository";
 import { COMPETITIONS, getClub } from '@/lib/game-data';
-import CareerInitialization from '@/components/game/CareerInitialization';
-import { CareerProvider } from "@/lib/career/CareerContext";
+import CareerInitialization, { type HandoverFact } from '@/components/game/CareerInitialization';
+import { buildSaveCover } from '@/components/entry/saveCover';
+import { CareerProvider, useCareer } from "@/lib/career/CareerContext";
+import { activeClubId } from "@/lib/manager/employment";
 import '@/components/game/game-feedback.css';
 import { WorkspaceMemory } from '@/components/game/WorkspaceMemory';
 
 export default function CareerLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   // Keep only display metadata; the provider owns the large career snapshot.
-  const [save, setSave] = useState<{ clubId: string; gameDate: string; seasonId?: string; existing: boolean } | null>(null);
+  const [save, setSave] = useState<{ clubId: string; gameDate: string; seasonId?: string; existing: boolean; facts?: HandoverFact[] } | null>(null);
+  // ENT-12: when opening takes longer than three seconds the handover waits for 'Gå in på kontoret'.
+  const [startedAt] = useState(() => Date.now());
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -38,7 +42,8 @@ export default function CareerLayout({ children }: { children: React.ReactNode }
           router.replace("/");
           return;
         }
-        setSave({ clubId: save.clubId, gameDate: save.gameDate, seasonId: save.careerState?.seasonId, existing: !!save.careerState });
+        // Employment states: a manager without a club opens his career, not his former club.
+        setSave({ clubId: save.careerState?.managerCareer?.seekingJob ? "" : save.clubId, gameDate: save.gameDate, seasonId: save.careerState?.seasonId, existing: !!save.careerState, facts: save.careerState ? coverFacts(save) : undefined });
       })
       .catch((cause: unknown) => {
         if (cancelled) return;
@@ -56,12 +61,41 @@ export default function CareerLayout({ children }: { children: React.ReactNode }
   // Clear any failed in-memory write promise before the player opens a saved career.
   const failure = <CareerInitialization {...identity} failed onBack={() => window.location.replace('/')} />;
   if (error) return failure;
-  const loading = <CareerInitialization {...identity} existing={!save || identity.existing} />;
+  const loading = <CareerInitialization {...identity} facts={save?.facts} existing={!save || identity.existing} />;
   if (!save) return loading;
 
   return (
     <CareerProvider loadingFallback={loading} initializationErrorFallback={failure}>
-      <WorkspaceMemory><GameShell>{children}</GameShell></WorkspaceMemory>
+      <Handover startedAt={startedAt} identity={identity} facts={save.facts}>
+        <EmploymentWorkspace><GameShell>{children}</GameShell></EmploymentWorkspace>
+      </Handover>
     </CareerProvider>
   );
+}
+
+/** ENT-12 for a saved career: the cover's own facts (position, last result, next match) instead of preseason ones. */
+function coverFacts(save: Parameters<typeof buildSaveCover>[0]): HandoverFact[] {
+  try {
+    const c = buildSaveCover(save);
+    return [
+      c.position && c.tableSize ? { label: 'Läget', value: `${c.position}:a av ${c.tableSize} i ${c.competitionName}` } : null,
+      c.lastResult ? { label: 'Senast', value: `${c.lastResult.ours}–${c.lastResult.theirs} ${c.lastResult.home ? 'hemma' : 'borta'} mot ${c.lastResult.opponent}` } : null,
+      c.nextFixture ? { label: 'Nästa match', value: `${c.nextFixture.opponent} ${c.nextFixture.home ? 'hemma' : 'borta'} · ${c.nextFixture.daysUntil <= 0 ? 'i dag' : c.nextFixture.daysUntil === 1 ? 'i morgon' : `om ${c.nextFixture.daysUntil} dagar`}` } : null,
+    ].filter((f): f is HandoverFact => !!f);
+  } catch {
+    return [];
+  }
+}
+
+/** Mounted only once the provider has the career: a quick open goes straight in, a slow one hands over with a button. */
+function Handover({ startedAt, identity, facts, children }: { startedAt: number; identity: Omit<Parameters<typeof CareerInitialization>[0], 'facts'>; facts?: HandoverFact[]; children: ReactNode }) {
+  const [entered, setEntered] = useState(() => Date.now() - startedAt <= 3000);
+  if (entered) return children;
+  return <CareerInitialization {...identity} facts={facts} ready onEnter={() => setEntered(true)} />;
+}
+
+/** Employment states: the workspace memory is scoped to the club the manager runs (or to having none). */
+function EmploymentWorkspace({ children }: { children: ReactNode }) {
+  const { career } = useCareer();
+  return <WorkspaceMemory scope={activeClubId(career) ?? "no-club"}>{children}</WorkspaceMemory>;
 }

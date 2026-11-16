@@ -7,7 +7,8 @@
 // real-world-imported at career creation, falling back to the legacy
 // static mock squad (TUMBA_SQUAD) for clubs that still only have mock
 // data (i.e. IFK Tumba/Allsvenskan, unchanged by this milestone).
-import { CLUBS, TUMBA_CLUB_ID, TUMBA_SQUAD, getClub, getClubsByCompetition, type Club, type PlayerMock } from "../game-data";
+import { CLUBS, TUMBA_CLUB_ID, TUMBA_SQUAD, getClub, type Club, type PlayerMock } from "../game-data";
+import { careerClubsInCompetition } from "./competitionMembership";
 import { careerWorldCatalogClubs } from "./worldCompetitions";
 import type { CareerState } from "./types";
 
@@ -39,7 +40,8 @@ export const WORLD_POOL_COMPETITION_IDS = [
  */
 export function getExternalCandidateClubs(career: CareerState): Club[] {
   const swedishClubs = careerWorldCatalogClubs(career);
-  const worldPoolClubs = WORLD_POOL_COMPETITION_IDS.flatMap((id) => getClubsByCompetition(id));
+  // Club Identity C3: season-aware membership (legacy careers: the v8 pool until their first rollover).
+  const worldPoolClubs = WORLD_POOL_COMPETITION_IDS.flatMap((id) => careerClubsInCompetition(career, id));
   return [...swedishClubs, ...worldPoolClubs].filter((c) => c.id !== career.playerClubId);
 }
 

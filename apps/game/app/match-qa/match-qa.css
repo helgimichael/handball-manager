@@ -1,0 +1,33 @@
+/* Arena Nights SYS-04 (A): Match 2D QA harness inside the Dev shell -- court (9) + control panel (3).
+   The page is pinned to the viewport (minus the dev ribbon and body padding) so the fitted court never
+   grows with the read-out lists; only the right column scrolls. Tokens come from components/dev/dev.css. */
+.mqa {
+  display: grid; grid-template-columns: minmax(0, 9fr) minmax(300px, 3fr); gap: 12px;
+  height: calc(100vh - 44px - 40px); min-height: 520px;
+}
+.mqa-court { display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+.mqa-stage { position: relative; flex: 1 1 auto; min-height: 0; overflow: hidden; background-color: var(--ds-color-background, var(--dev-bg)); }
+.mqa-court-rotor { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-90deg); transform-origin: center center; }
+.mqa-seek { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-top: 1px solid var(--dev-line); }
+.mqa-seek input[type="range"] { flex: 1 1 auto; accent-color: var(--dev-flag); }
+.mqa-side { min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding-right: 2px; }
+.mqa-side > .hm-dev-panel + .hm-dev-panel { margin-top: 0; }
+.mqa-stack { display: flex; flex-direction: column; gap: 10px; font-size: 12px; }
+.mqa-row { display: flex; gap: 6px; flex-wrap: wrap; }
+.mqa-field { display: flex; flex-direction: column; gap: 4px; }
+.mqa-label { color: var(--dev-muted); font: 600 11px/1.4 var(--dev-mono); letter-spacing: 0.06em; text-transform: uppercase; }
+.mqa-presets { display: flex; flex-wrap: wrap; gap: 4px; }
+.mqa-readout { display: flex; flex-direction: column; gap: 3px; font-size: 12px; }
+.mqa-team { margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--dev-line); }
+.mqa-details > summary { display: flex; }
+.mqa-details:not([open]) > summary { border-bottom: 0; }
+.mqa-sub { margin-bottom: 4px; font-size: 12px; }
+.mqa-trace { min-height: 32px; font-size: 12px; }
+.mqa-who { display: grid; grid-template-columns: auto auto 1fr; gap: 2px 8px; font-size: 12px; }
+.mqa-list { display: flex; flex-direction: column; gap: 2px; max-height: 200px; overflow-y: auto; font-size: 12px; }
+.mqa-list--tall { max-height: 260px; }
+.mqa-cond { display: flex; gap: 6px; }
+.mqa-cond-id { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@media (max-width: 1279px) {
+  .mqa { grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr); height: calc(100vh - 44px - 32px); }
+}

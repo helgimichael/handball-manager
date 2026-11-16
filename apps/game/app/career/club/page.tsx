@@ -1,7 +1,6 @@
 "use client";
-import ClubContext from "@/components/manager/ClubContext";
 import { Panel } from "@/components/manager/Workspace";
-import { ClubHero, PlayerCell } from "@/components/game/Identity";
+import { PlayerCell } from "@/components/game/Identity";
 
 import Link from "next/link";
 import { getClub } from "@/lib/game-data";
@@ -14,6 +13,12 @@ import { useMoney } from "@/lib/settings/usePreferences";
 import { ECONOMIC_BAND_LABEL, FINANCIAL_PRESSURE_LABEL, FINANCIAL_PRESSURE_TONE, LIQUIDITY_HEALTH_LABEL, STRUCTURAL_HEALTH_LABEL } from "@/lib/economy/clubEconomyLabels";
 import { getClubPartnerships } from "@/lib/career/clubPartnerships";
 import { svOrdinal } from "@/lib/format/ordinal";
+import { clubJournal } from "@/lib/club/clubJournal";
+import { BoardAndEconomy, Briefs, DepthCourt, HistoryStrip } from "@/components/club/ClubJournal";
+import { clubAlmanac } from "@/lib/club/clubAlmanac";
+import { ClubhouseHeader } from "@/components/club/ClubhouseHeader";
+import { ClubAlmanacSection } from "@/components/club/ClubAlmanac";
+import { ClubStory } from "@/components/club/ClubStory";
 
 export default function ClubPage() {
   useMoney(); // re-render every figure when the display currency changes
@@ -26,12 +31,18 @@ export default function ClubPage() {
   const permanentBTeam = partnerships.find((p) => p.type === "AFFILIATED_B_TEAM");
   const activeDevelopment = partnerships.find((p) => p.type === "DEVELOPMENT_PARTNERSHIP" && p.status === "ACTIVE");
   const pendingSearch = Object.values(career.partnershipSearches).find((s) => s.clubId === club.id && s.status === "IN_PROGRESS");
+  // Arena Nights Phase 3 (CLB-02 C): the club's own front page -- identity, trajectory, what needs attention now.
+  const journal = clubJournal(career);
+  // CLB-01 C: Klubbhuset folded in -- tier art header with department hotspots, and the almanac below.
+  const almanac = clubAlmanac(career);
 
   return (
     <div className="hm-world-page">
-      <ClubHero clubId={club.id} career={career}>
+      <ClubhouseHeader clubId={club.id} name={club.name} kicker={journal.kicker} almanac={almanac}>
         <Link className="hm-btn hm-btn-sm" href="/career/squad">Öppna truppen →</Link>
-      </ClubHero>
+      </ClubhouseHeader>
+      <div className="cj-journal">
+      <HistoryStrip history={journal.history} />
       <section className="hm-world-facts" aria-label="Klubben den här säsongen">
         <div><small>Tabellplacering</small><strong>{position > 0 ? `${svOrdinal(position)}` : "—"}</strong></div>
         <div><small>Spelare i truppen</small><strong>{squad.length}</strong></div>
@@ -40,15 +51,22 @@ export default function ClubPage() {
       </section>
       <div className="hm-world-split">
       <div className="hm-world-main">
-        <ClubContext clubId={club.id} />
-        <Panel title="Truppens positioner" actions={<Link href="/career/squad">Trupp & lagbygge →</Link>}>
-          <div className="hm-world-depth">{(["MV", "V6", "V9", "M9", "M6", "H9", "H6"] as const).map(p => <Link href="/career/squad" key={p}><small>{p}</small><strong>{squad.filter(player => player.position === p).length}</strong><small>spelare</small></Link>)}</div>
+        <section className="cj-section" aria-labelledby="cj-attention">
+          <h2 id="cj-attention">Läget i klubben</h2>
+          <Briefs briefs={journal.briefs} />
+        </section>
+        <Panel title="Truppens täckning" actions={<Link href="/career/squad">Trupp & lagbygge →</Link>}>
+          <DepthCourt depth={journal.depth} />
         </Panel>
+        <ClubStory clubId={club.id} />
         <Panel title="Spelarna bakom säsongen" actions={<Link href="/career/statistics">Alla prestationer →</Link>}>
           <ul className="hm-world-player-list">{[...squad].sort((a,b) => (career.playerSeasonStats[b.id]?.goals ?? 0) - (career.playerSeasonStats[a.id]?.goals ?? 0) || (a.shirtNumber ?? 99) - (b.shirtNumber ?? 99)).slice(0,6).map(player => <li key={player.id}><PlayerCell player={player} /><span className="hm-world-player-score" title="Registrerade mål den här säsongen">{career.playerSeasonStats[player.id]?.goals ?? 0}</span></li>)}</ul>
         </Panel>
       </div>
       <aside className="hm-world-rail" aria-label="Klubbens förutsättningar">
+      <BoardAndEconomy journal={journal} />
+      <details className="cj-more">
+      <summary>Hela ekonomin</summary>
       <div className="hm-panel">
         <div className="hm-panel-header">
           <span className="hm-panel-title">Ekonomi</span>
@@ -91,6 +109,7 @@ export default function ClubPage() {
           <div className="hm-panel-body hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>Ingen ekonomidata genererad för denna klubb ännu.</div>
         )}
       </div>
+      </details>
 
       <div className="hm-panel">
         <div className="hm-panel-header">
@@ -115,6 +134,8 @@ export default function ClubPage() {
         </div>
       </div>
       </aside>
+      </div>
+      <ClubAlmanacSection almanac={almanac} />
       </div>
     </div>
   );

@@ -23,8 +23,14 @@
 //    (LOCKED > CALIBRATED > ESTIMATED > GENERATED_GAME_PRIOR), which is
 //    what every fresh career's gameplayRatings snapshot is built from.
 // There is no third, parallel data source anywhere in this page.
-import { useEffect, useMemo, useState, type CSSProperties, type KeyboardEvent } from "react";
+//
+// Arena Nights SYS-02a (A) "Keep spreadsheet, add dev affordances": sticky header and name
+// column, column filters (+ "only unsaved"), dirty-cell highlight, a batch save bar, Ctrl+S
+// (save all) and Ctrl+Z / Ångra (undo the last cell edit). Save paths are unchanged.
+import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent, type MouseEvent } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { DevPageHead } from "@/components/dev/DevShell";
 import { abilityStarsFromCA, potentialStarsFromPA } from "@/lib/development/types";
 import { SortableTh, applySortDirection, type SortState } from "@/components/SortableTh";
 import StarRating from "@/components/StarRating";
@@ -38,6 +44,8 @@ import {
   runSaveAll,
   applySaveOutcome,
 } from "@/lib/editor/bulkEditorState";
+import { countDirtyCells, dirtyFields, pickBefore, popEditStep, pushEditStep, revertPatch, type BulkEditableField, type EditStep } from "@/lib/editor/calibrationEdits";
+import "./players.css";
 
 const CANONICAL_POSITIONS = ["MV", "V6", "V9", "M9", "M6", "H9", "H6"] as const;
 type CanonicalPosition = (typeof CANONICAL_POSITIONS)[number];
@@ -61,17 +69,6 @@ const PLAYER_TAG_LABEL_SV: Record<PlayerTagValue, string> = {
   FIRST_GOALKEEPER: "Förstemålvakt",
   BACKUP_GOALKEEPER: "Reservmålvakt",
 };
-
-const inputStyle: CSSProperties = {
-  background: "var(--hm-surface-2)",
-  border: "1px solid var(--hm-border)",
-  borderRadius: "var(--hm-radius-sm)",
-  color: "var(--hm-text-primary)",
-  padding: "5px 7px",
-  fontSize: "var(--hm-text-2xs)",
-};
-const numberInputStyle: CSSProperties = { ...inputStyle, width: 56 };
-const errorInputStyle: CSSProperties = { ...numberInputStyle, border: "1px solid var(--hm-negative, #b23a2e)" };
 
 interface ApiPlayer {
   playerId: string;
@@ -193,6 +190,9 @@ export default function PlayerCalibrationWorkspace() {
   const [statusFilter, setStatusFilter] = useState<string>("");
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState<SortState<SortKey> | null>(null);
+  // SYS-02a: every inline edit records the cell's previous value so Ctrl+Z / Ångra can undo it.
+  const [undoStack, setUndoStack] = useState<EditStep<RowVM>[]>([]);
+  const [onlyDirty, setOnlyDirty] = useState(false);
 
   function load() {
     setLoading(true);
@@ -230,8 +230,12 @@ export default function PlayerCalibrationWorkspace() {
   // only once its edit has actually been saved.
   const filtered = useMemo(() => {
     const filters = { league: leagueFilter, club: clubFilter, position: positionFilter, status: statusFilter, search };
-    return rows.filter((r) => matchesFilters(r, originals[r.playerId], filters));
-  }, [rows, originals, leagueFilter, clubFilter, positionFilter, statusFilter, search]);
+    return rows.filter((r) => {
+      if (!matchesFilters(r, originals[r.playerId], filters)) return false;
+      const saved = originals[r.playerId];
+      return !onlyDirty || (saved ? isDirty(r, saved) : false);
+    });
+  }, [rows, originals, leagueFilter, clubFilter, positionFilter, statusFilter, search, onlyDirty]);
 
   const sorted = useMemo(() => {
     if (!sort) return filtered;
@@ -276,7 +280,25 @@ export default function PlayerCalibrationWorkspace() {
   }, [filtered, sort]);
 
   function updateRow(playerId: string, patch: Partial<RowVM>) {
+    const current = rows.find((r) => r.playerId === playerId);
+    if (current) setUndoStack((prev) => pushEditStep(prev, { playerId, before: pickBefore(current, Object.keys(patch) as (keyof RowVM)[]) }));
     setRows((prev) => prev.map((r) => (r.playerId === playerId ? { ...r, ...patch } : r)));
+  }
+
+  const undo = useCallback(() => {
+    const { step, rest } = popEditStep(undoStack);
+    if (!step) return;
+    setUndoStack(rest);
+    setRows((prev) => prev.map((r) => (r.playerId === step.playerId ? { ...r, ...step.before } : r)));
+  }, [undoStack]);
+
+  function revertAll() {
+    if (!window.confirm("Återställ alla osparade ändringar till sparade värden?")) return;
+    setRows((prev) => prev.map((r) => {
+      const saved = originals[r.playerId];
+      return saved ? { ...r, ...revertPatch(saved) } : r;
+    }));
+    setUndoStack([]);
   }
 
   // PA>=CA only blocks a save when the rating fields are actually the
@@ -379,10 +401,44 @@ export default function PlayerCalibrationWorkspace() {
     return () => window.removeEventListener("beforeunload", onBeforeUnload);
   }, [dirtyPlayerIds.length]);
 
+  function confirmLeave(): boolean {
+    return dirtyPlayerIds.length === 0 || window.confirm(`${dirtyPlayerIds.length} osparade ändringar går förlorade om du lämnar sidan. Lämna ändå?`);
+  }
+
   function leaveEditor() {
-    if (dirtyPlayerIds.length > 0 && !window.confirm(`${dirtyPlayerIds.length} osparade ändringar går förlorade om du lämnar sidan. Lämna ändå?`)) return;
+    if (!confirmLeave()) return;
     router.push("/editor");
   }
+
+  function guardLink(e: MouseEvent<HTMLAnchorElement>) {
+    if (!confirmLeave()) e.preventDefault();
+  }
+
+  const dirtyCellCount = useMemo(() => countDirtyCells(rows, originals), [rows, originals]);
+
+  // SYS-02a keyboard: Ctrl/Cmd+S saves every dirty row; Ctrl/Cmd+Z undoes the last cell edit
+  // (left to the browser inside text-like inputs, where it already undoes typing).
+  const saveAllRef = useRef<() => void>(() => {});
+  useEffect(() => {
+    saveAllRef.current = () => void saveAll();
+  });
+  useEffect(() => {
+    const onKey = (e: globalThis.KeyboardEvent) => {
+      if (!(e.ctrlKey || e.metaKey) || e.altKey) return;
+      const key = e.key.toLowerCase();
+      if (key === "s") {
+        e.preventDefault();
+        saveAllRef.current();
+      } else if (key === "z" && !e.shiftKey) {
+        const el = document.activeElement;
+        if (el instanceof HTMLInputElement && ["text", "search", "number", "date"].includes(el.type)) return;
+        e.preventDefault();
+        undo();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [undo]);
 
   function focusNextRow(playerId: string, columnSelector: string) {
     const idx = sorted.findIndex((r) => r.playerId === playerId);
@@ -401,63 +457,43 @@ export default function PlayerCalibrationWorkspace() {
     focusNextRow(playerId, columnSelector);
   }
 
+  const saving = saveAllState?.running ?? false;
+  const nameSortDir = sort?.key === "name" ? sort.direction : null;
+
   return (
-    <div style={{ maxWidth: 1600, margin: "24px auto", padding: "0 16px" }}>
-      {/* `overflow: visible` overrides .hm-panel's own `overflow: hidden`,
-          which would otherwise silently disable the sticky header below --
-          a sticky element is inert inside ANY clipping ancestor. Scoped to
-          this page's panel only; the shared class is untouched. */}
-      <div className="hm-panel" style={{ overflow: "visible" }}>
-        {/* Sticky: the table is 17 columns and 1200 rows, so a header that
-            scrolls away leaves the ONLY control that can save an edited row
-            unreachable from wherever the editing actually happens. */}
-        <div className="hm-panel-header" style={{ position: "sticky", top: 0, zIndex: 5, background: "var(--hm-surface-1)" }}>
-          <span className="hm-panel-title">EDITOR — Spelarkalibrering ({rows.length} spelare)</span>
-          <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-            {saveAllState?.running ? (
-              <span style={{ fontSize: "var(--hm-text-2xs)", color: "var(--hm-text-muted)" }}>
-                Sparar… {saveAllState.done}/{saveAllState.total}
-              </span>
-            ) : null}
-            {dirtyPlayerIds.length > 0 && !saveAllState?.running ? (
-              <span style={{ fontSize: "var(--hm-text-2xs)", color: "var(--hm-accent)", fontWeight: 700 }}>
-                {dirtyPlayerIds.length} osparade
-              </span>
-            ) : null}
-            <button type="button" className="hm-btn hm-btn-sm hm-btn-primary" disabled={dirtyPlayerIds.length === 0 || saveAllState?.running} onClick={saveAll}>
-              {saveAllState?.running ? "Sparar…" : `Spara alla (${dirtyPlayerIds.length})`}
-            </button>
-            <button type="button" className="hm-btn hm-btn-sm hm-btn-ghost" onClick={leaveEditor}>
-              ← Editor
-            </button>
-          </div>
+    <>
+      <DevPageHead
+        eyebrow="Data · Spelare"
+        title={`Spelarkalibrering (${rows.length} spelare)`}
+        note={
+          <>
+            Redigera direkt i tabellen. Ändrade celler markeras; spara alla med <span className="hm-dev-kbd">Ctrl</span>+<span className="hm-dev-kbd">S</span>, ångra
+            senaste celländring med <span className="hm-dev-kbd">Ctrl</span>+<span className="hm-dev-kbd">Z</span>. Klicka ett namn för detaljvyn.
+          </>
+        }
+        actions={
+          <button type="button" className="hm-dev-btn" onClick={leaveEditor}>
+            ← Dev-konsol
+          </button>
+        }
+      />
+
+      <div className="hm-dev-panel">
+        <div className="hm-dev-panel-head">
+          <span className="hm-dev-panel-title">Kolumnfilter</span>
+          <span className="hm-dev-muted hm-dev-num">
+            Visar {sorted.length} av {rows.length}
+          </span>
         </div>
-
-        {saveAllState && !saveAllState.running ? (
-          <div
-            className="hm-panel-body"
-            style={{
-              fontSize: "var(--hm-text-2xs)",
-              color: saveAllState.failed.length > 0 ? "var(--hm-negative, #b23a2e)" : "var(--hm-positive)",
-              fontWeight: 700,
-            }}
-          >
-            {saveAllState.failed.length > 0
-              ? `${saveAllState.total - saveAllState.failed.length} av ${saveAllState.total} sparade — ${saveAllState.failed.length} MISSLYCKADES och är fortfarande osparade: ${saveAllState.failed.map((f) => f.name).join(", ")}`
-              : `${saveAllState.total} ${saveAllState.total === 1 ? "ändring sparad" : "ändringar sparade"}.`}
-          </div>
-        ) : null}
-
-        <div className="hm-panel-body" style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "flex-end" }}>
-          <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-2xs)" }}>
-            LIGA
+        <div className="hm-dev-panel-body ed-filters">
+          <label className="ed-filter">
+            Liga
             <select
               value={leagueFilter}
               onChange={(e) => {
                 setLeagueFilter(e.target.value);
                 setClubFilter("");
               }}
-              style={inputStyle}
             >
               <option value="">Alla</option>
               {leagues.map((l) => (
@@ -467,9 +503,9 @@ export default function PlayerCalibrationWorkspace() {
               ))}
             </select>
           </label>
-          <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-2xs)" }}>
-            KLUBB
-            <select value={clubFilter} onChange={(e) => setClubFilter(e.target.value)} style={inputStyle}>
+          <label className="ed-filter">
+            Klubb
+            <select value={clubFilter} onChange={(e) => setClubFilter(e.target.value)}>
               <option value="">Alla</option>
               {clubs.map(([id, name]) => (
                 <option key={id} value={id}>
@@ -478,9 +514,9 @@ export default function PlayerCalibrationWorkspace() {
               ))}
             </select>
           </label>
-          <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-2xs)" }}>
-            POSITION
-            <select value={positionFilter} onChange={(e) => setPositionFilter(e.target.value)} style={inputStyle}>
+          <label className="ed-filter">
+            Position
+            <select value={positionFilter} onChange={(e) => setPositionFilter(e.target.value)}>
               <option value="">Alla</option>
               {CANONICAL_POSITIONS.map((p) => (
                 <option key={p} value={p}>
@@ -489,9 +525,9 @@ export default function PlayerCalibrationWorkspace() {
               ))}
             </select>
           </label>
-          <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-2xs)" }}>
-            TRUPPSTATUS
-            <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} style={inputStyle}>
+          <label className="ed-filter">
+            Truppstatus
+            <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
               <option value="">Alla</option>
               {SQUAD_STATUS_TIER_VALUES.map((s) => (
                 <option key={s} value={s}>
@@ -503,26 +539,40 @@ export default function PlayerCalibrationWorkspace() {
               </option>
             </select>
           </label>
-          <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-2xs)", flex: 1, minWidth: 220 }}>
-            SÖK SPELARE
-            <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Namn..." style={inputStyle} />
+          <label className="ed-filter ed-filter--grow">
+            Sök spelare
+            <input type="search" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Namn…" />
           </label>
-          <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
-            Visar {sorted.length} av {rows.length}
-          </span>
+          <div className="hm-dev-chips">
+            <button type="button" className="hm-dev-chip" aria-pressed={onlyDirty} onClick={() => setOnlyDirty((v) => !v)}>
+              Endast osparade ({dirtyPlayerIds.length})
+            </button>
+          </div>
         </div>
 
         {loading ? (
-          <div className="hm-panel-body hm-text-muted">Läser in...</div>
+          <div className="hm-dev-empty">Läser in spelare…</div>
         ) : loadError ? (
-          <div className="hm-panel-body hm-text-muted">Fel: {loadError}</div>
+          <div className="hm-dev-panel-body">
+            <div className="hm-dev-alert">Kunde inte läsa spelarna: {loadError}</div>
+            <button type="button" className="hm-dev-btn" style={{ marginTop: 8 }} onClick={load}>
+              Försök igen
+            </button>
+          </div>
         ) : (
-          <div className="hm-scroll-x">
-            <table className="hm-table" style={{ fontSize: "var(--hm-text-2xs)" }}>
+          <div className="hm-dev-table-wrap">
+            <table className="hm-dev-table">
               <thead>
                 <tr>
-                  <th></th>
-                  <SortableTh label="Namn" sortKey="name" sort={sort} onSort={setSort} />
+                  <th className="hm-dev-sticky-col" aria-sort={nameSortDir ? (nameSortDir === "asc" ? "ascending" : "descending") : "none"}>
+                    <button
+                      type="button"
+                      className="hm-sort-button"
+                      onClick={() => setSort({ key: "name", direction: nameSortDir === "asc" ? "desc" : "asc" })}
+                    >
+                      Namn {nameSortDir ? (nameSortDir === "asc" ? "▲" : "▼") : ""}
+                    </button>
+                  </th>
                   <SortableTh label="Klubb" sortKey="club" sort={sort} onSort={setSort} />
                   <SortableTh label="Liga" sortKey="league" sort={sort} onSort={setSort} />
                   <SortableTh label="Pos" sortKey="position" sort={sort} onSort={setSort} />
@@ -545,6 +595,8 @@ export default function PlayerCalibrationWorkspace() {
                 {sorted.map((row) => {
                   const original = originals[row.playerId];
                   const dirty = original ? isDirty(row, original) : false;
+                  const cells = dirtyFields(row, original);
+                  const cell = (...fields: BulkEditableField[]) => (fields.some((f) => cells.has(f)) ? "hm-dev-dirty" : undefined);
                   const state = rowState[row.playerId] ?? {};
                   // HM-PLAYER-DATA-EDITOR-1.0B: a failed save's error can be about
                   // ANY field (e.g. a source-schema issue unrelated to CA/PA) --
@@ -552,33 +604,34 @@ export default function PlayerCalibrationWorkspace() {
                   // The row's error MESSAGE still shows whatever actually failed.
                   const ratingErr = paError(row, original);
                   const err = state.error ?? ratingErr;
+                  // The save state is mirrored in the sticky name column, which is always visible
+                  // (the row's own Spara button sits in the last column). "Sparad" only after a confirmed write.
+                  const mark = state.saving
+                    ? { cls: "", glyph: "…", title: "Sparar…" }
+                    : state.error
+                      ? { cls: "ed-mark--error", glyph: "⚠", title: `Fel: ${state.error}` }
+                      : dirty
+                        ? { cls: "ed-mark--dirty", glyph: "●", title: "Osparade ändringar" }
+                        : state.savedAt
+                          ? { cls: "ed-mark--saved", glyph: "✓", title: "Sparad" }
+                          : { cls: "", glyph: "", title: "" };
                   return (
-                    <tr key={row.playerId} data-row={row.playerId} style={{ background: dirty ? "color-mix(in srgb, var(--hm-accent) 6%, transparent)" : undefined }}>
-                      {/* The row's own Spara button and error cell sit in the
-                          LAST column, off-screen at any normal width -- so the
-                          save state is mirrored here, in the first column,
-                          which is always visible. "Sparad" appears only after
-                          the server confirmed the write. */}
-                      <td title={state.saving ? "Sparar…" : state.error ? `Fel: ${state.error}` : dirty ? "Osparade ändringar" : state.savedAt ? "Sparad" : ""}>
-                        {state.saving ? (
-                          <span style={{ color: "var(--hm-text-muted)" }}>…</span>
-                        ) : state.error ? (
-                          <span style={{ color: "var(--hm-negative, #b23a2e)", fontWeight: 700 }}>⚠</span>
-                        ) : dirty ? (
-                          <span style={{ color: "var(--hm-accent)", fontWeight: 700 }}>●</span>
-                        ) : state.savedAt ? (
-                          <span style={{ color: "var(--hm-positive)" }}>✓</span>
-                        ) : null}
+                    <tr key={row.playerId} data-row={row.playerId}>
+                      <td className="hm-dev-sticky-col" title={mark.title || undefined}>
+                        <span className="ed-name">
+                          <span className={`ed-mark ${mark.cls}`}>{mark.glyph}</span>
+                          <Link href={`/editor/players/${encodeURIComponent(row.playerId)}?clubId=${encodeURIComponent(row.clubId)}`} onClick={guardLink}>
+                            {row.fullName}
+                          </Link>
+                        </span>
                       </td>
-                      <td className="hm-td-strong">{row.fullName}</td>
                       <td>{row.clubName}</td>
-                      <td className="hm-text-muted">{row.competitionSlug}</td>
-                      <td>
+                      <td className="hm-dev-muted">{row.competitionSlug}</td>
+                      <td className={cell("primaryPosition")}>
                         <select
                           data-col="primaryPosition"
                           value={row.primaryPosition}
                           onChange={(e) => updateRow(row.playerId, { primaryPosition: e.target.value as CanonicalPosition })}
-                          style={inputStyle}
                         >
                           {CANONICAL_POSITIONS.map((p) => (
                             <option key={p} value={p}>
@@ -587,33 +640,32 @@ export default function PlayerCalibrationWorkspace() {
                           ))}
                         </select>
                       </td>
-                      <td>
+                      <td className={cell("dateOfBirth", "birthYear")}>
                         {row.dateOfBirth !== null ? (
                           <input
                             data-col="dateOfBirth"
                             type="date"
+                            className="ed-date"
                             value={row.dateOfBirth}
                             onChange={(e) => updateRow(row.playerId, { dateOfBirth: e.target.value || null })}
-                            style={{ ...inputStyle, width: 128 }}
                           />
                         ) : (
                           <input
                             data-col="birthYear"
                             type="number"
-                            placeholder="Födelseår"
+                            className="ed-num"
+                            placeholder="År"
                             value={row.birthYear ?? ""}
                             onChange={(e) => updateRow(row.playerId, { birthYear: e.target.value === "" ? null : Number(e.target.value) })}
-                            style={numberInputStyle}
                           />
                         )}
                       </td>
-                      <td className="hm-table-num">{row.ageYears ?? "—"}</td>
-                      <td>
+                      <td className="hm-dev-num">{row.ageYears ?? "—"}</td>
+                      <td className={cell("defaultSquadStatus")}>
                         <select
                           data-col="defaultSquadStatus"
                           value={row.defaultSquadStatus ?? ""}
                           onChange={(e) => updateRow(row.playerId, { defaultSquadStatus: e.target.value === "" ? null : (e.target.value as SquadStatusTierValue) })}
-                          style={inputStyle}
                         >
                           <option value="">— ej kalibrerad —</option>
                           {SQUAD_STATUS_TIER_VALUES.map((s) => (
@@ -623,14 +675,14 @@ export default function PlayerCalibrationWorkspace() {
                           ))}
                         </select>
                       </td>
-                      <td>
+                      <td className={cell("specialTags")}>
                         <select
                           data-col="specialTags"
+                          className="ed-tags"
                           multiple
                           size={3}
                           value={row.specialTags}
                           onChange={(e) => updateRow(row.playerId, { specialTags: Array.from(e.target.selectedOptions).map((o) => o.value as PlayerTagValue) })}
-                          style={{ ...inputStyle, minWidth: 140 }}
                         >
                           {PLAYER_TAG_VALUES.map((t) => (
                             <option key={t} value={t}>
@@ -639,65 +691,59 @@ export default function PlayerCalibrationWorkspace() {
                           ))}
                         </select>
                       </td>
-                      <td>
+                      <td className={cell("ca")}>
                         <input
                           data-col="ca"
                           type="number"
                           min={1}
                           max={200}
+                          className={`ed-num${ratingErr ? " ed-invalid" : ""}`}
                           value={row.ca ?? ""}
                           onChange={(e) => updateRow(row.playerId, { ca: e.target.value === "" ? null : Number(e.target.value) })}
                           onKeyDown={(e) => handleEnterKey(e, row.playerId, '[data-col="ca"]')}
-                          style={ratingErr ? errorInputStyle : numberInputStyle}
                         />
                       </td>
-                      <td>
+                      <td className={cell("pa")}>
                         <input
                           data-col="pa"
                           type="number"
                           min={1}
                           max={200}
+                          className={`ed-num${ratingErr ? " ed-invalid" : ""}`}
                           value={row.pa ?? ""}
                           onChange={(e) => updateRow(row.playerId, { pa: e.target.value === "" ? null : Number(e.target.value) })}
                           onKeyDown={(e) => handleEnterKey(e, row.playerId, '[data-col="ca"]')}
-                          style={ratingErr ? errorInputStyle : numberInputStyle}
                         />
                       </td>
                       <td>
-                        <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                        <div className="ed-stars">
                           <StarRating stars={row.ca !== null ? abilityStarsFromCA(row.ca) : 0} title="Nuvarande nivå (förhandsgranskning)" />
                           <StarRating stars={row.pa !== null ? potentialStarsFromPA(row.pa) : 0} title="Potential (förhandsgranskning)" />
                         </div>
                       </td>
-                      <td className="hm-text-muted">
+                      <td className="hm-dev-muted">
                         {CA_SOURCE_LABEL_SV[row.caSource] ?? row.caSource}
                         {row.locked ? " · LÅST" : ""}
                       </td>
-                      <td className="hm-table-num">{formatEditorEur(row.marketValueEurPreview)}</td>
-                      <td className="hm-text-muted">{row.contractEndDisplay}</td>
+                      <td className="hm-dev-num">{formatEditorEur(row.marketValueEurPreview)}</td>
+                      <td className="hm-dev-muted">{row.contractEndDisplay}</td>
+                      <td className="hm-dev-muted">{row.rosterConfidence}</td>
+                      <td className="ed-id">{row.playerId}</td>
                       <td>
-                        <span className="hm-badge hm-badge-neutral">{row.rosterConfidence}</span>
-                      </td>
-                      <td className="hm-text-muted" style={{ fontFamily: "monospace", fontSize: "10px" }}>
-                        {row.playerId}
-                      </td>
-                      <td>
-                        <button type="button" className="hm-btn hm-btn-sm" disabled={!dirty || state.saving} onClick={() => saveRow(row.playerId)}>
+                        <button type="button" className="hm-dev-btn hm-dev-btn--sm" disabled={!dirty || state.saving} onClick={() => saveRow(row.playerId)}>
                           {state.saving ? "Sparar…" : !dirty && state.savedAt ? "Sparad" : "Spara"}
                         </button>
-                        {err ? (
-                          <div className="hm-text-muted" style={{ color: "var(--hm-negative, #b23a2e)", fontSize: "10px", marginTop: 2, maxWidth: 160 }}>
-                            {err}
-                          </div>
-                        ) : null}
+                        {err ? <div className="ed-rowerr">{err}</div> : null}
                       </td>
                     </tr>
                   );
                 })}
                 {sorted.length === 0 ? (
                   <tr>
-                    <td colSpan={17} className="hm-text-muted">
-                      Inga spelare matchar filtren.
+                    <td colSpan={17} className="hm-dev-empty">
+                      {onlyDirty
+                        ? "Inga osparade ändringar matchar filtren. Slå av \"Endast osparade\" för att se alla spelare."
+                        : "Inga spelare matchar filtren. Rensa ett filter eller sök på ett annat namn."}
                     </td>
                   </tr>
                 ) : null}
@@ -705,10 +751,51 @@ export default function PlayerCalibrationWorkspace() {
             </table>
           </div>
         )}
-        <div className="hm-panel-body hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
-          CA/PA skrivs direkt till den låsta rating-databasen (samma mekanism som ratings-editorns Lås-knapp) -- de slår igenom i nästa fräscha karriär, Match Engine, utveckling/headroom och marknadsvärde. Position/född/truppstatus/tags skrivs till samma källfiler som spelar-editorn. Raw CA/PA visas endast här i Editor Mode -- normal spel-UI döljer alltid dessa.
-        </div>
       </div>
-    </div>
+
+      {/* Batch save bar (SYS-02a): pinned to the bottom of the viewport. A failed row is reported
+          here by name, never only in the table's last (off-screen) column. */}
+      <div className="hm-dev-savebar" role="region" aria-label="Osparade ändringar">
+        {saving ? (
+          <span className="hm-dev-num">
+            Sparar… {saveAllState?.done}/{saveAllState?.total}
+          </span>
+        ) : dirtyPlayerIds.length > 0 ? (
+          <span>
+            <b className="hm-dev-warn hm-dev-num">{dirtyPlayerIds.length}</b> spelare med osparade ändringar · <span className="hm-dev-num">{dirtyCellCount}</span>{" "}
+            {dirtyCellCount === 1 ? "cell" : "celler"}
+          </span>
+        ) : (
+          <span className="hm-dev-muted">Inga osparade ändringar.</span>
+        )}
+        {saveAllState && !saveAllState.running ? (
+          saveAllState.failed.length > 0 ? (
+            <span className="ed-failed">
+              {saveAllState.total - saveAllState.failed.length} av {saveAllState.total} sparade — {saveAllState.failed.length} MISSLYCKADES och är fortfarande osparade:{" "}
+              {saveAllState.failed.map((f) => f.name).join(", ")}
+            </span>
+          ) : (
+            <span className="hm-dev-pos">
+              {saveAllState.total} {saveAllState.total === 1 ? "ändring sparad" : "ändringar sparade"}.
+            </span>
+          )
+        ) : null}
+        <span className="hm-dev-savebar-spacer" />
+        <button type="button" className="hm-dev-btn" disabled={undoStack.length === 0 || saving} onClick={undo} title="Ångra senaste celländring (Ctrl+Z)">
+          Ångra <span className="hm-dev-kbd">Ctrl Z</span>
+        </button>
+        <button type="button" className="hm-dev-btn" disabled={dirtyPlayerIds.length === 0 || saving} onClick={revertAll}>
+          Återställ alla
+        </button>
+        <button type="button" className="hm-dev-btn hm-dev-btn--primary" disabled={dirtyPlayerIds.length === 0 || saving} onClick={saveAll} title="Spara alla (Ctrl+S)">
+          {saving ? "Sparar…" : `Spara alla (${dirtyPlayerIds.length})`} <span className="hm-dev-kbd">Ctrl S</span>
+        </button>
+      </div>
+      <p className="ed-footnote">
+        CA/PA skrivs direkt till den låsta rating-databasen (samma mekanism som betygseditorns Lås-knapp) och slår igenom i nästa nya karriär, matchmotorn, utveckling och
+        marknadsvärde. Position, född, truppstatus och tags skrivs till samma källfiler som spelardetaljen. Rå CA/PA visas bara här i Editor Mode; spelets vanliga vyer döljer
+        dem alltid.
+      </p>
+    </>
   );
 }

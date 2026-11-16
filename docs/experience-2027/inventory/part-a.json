@@ -1,0 +1,3604 @@
+[
+  {
+    "id": "ENT-01",
+    "domain": "ENT",
+    "name": "Alpha access gate",
+    "route": "* (all routes, root layout)",
+    "kind": "overlay",
+    "parent": null,
+    "components": [
+      "app/layout.tsx",
+      "components/AlphaAccessGate.tsx",
+      "components/alpha.css"
+    ],
+    "purpose": "Blocks the whole app until a tester enters the alpha access code (stored in localStorage).",
+    "actions": [
+      "Enter access code",
+      "Unlock"
+    ],
+    "structure": "Centred card (eyebrow 'Tidig testversion', H1 'Handball Manager Alpha', one text input, one button). Children stay unmounted while checking ('Kontrollerar åtkomst…').",
+    "strengths": [
+      "Accessible form (label, aria-invalid, role=alert error)",
+      "Children not mounted until verified, no flash of content"
+    ],
+    "weaknesses": [
+      "Default code is hard-coded in client bundle (HBL-ALPHA-2026) — gate is cosmetic",
+      "Plain utility card, no brand/club imagery; first impression of the product is a form",
+      "No explanation of what the alpha is or how to get a code"
+    ],
+    "links": [
+      "ENT-02"
+    ],
+    "desktop": "Centred card on page background.",
+    "mobile": "Same card; no specific mobile rules in alpha.css (0 media queries).",
+    "opportunities": [
+      "Fold into a branded splash (arena image already exists) instead of a bare form",
+      "Remove entirely for public builds; keep as env-gated wrapper"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "ENT-02",
+    "domain": "ENT",
+    "name": "Title screen (Huvudmeny)",
+    "route": "/",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/page.tsx",
+      "components/ClubCrest.tsx",
+      "app/game.css (.game-title)"
+    ],
+    "purpose": "Entry point: start a new career, continue the most recent save, load a save, open device settings.",
+    "actions": [
+      "NYTT SPEL",
+      "FORTSÄTT (most recent save)",
+      "LADDA SPEL",
+      "INSTÄLLNINGAR"
+    ],
+    "structure": "Two-column hero: left has tagline, big HANDBALL MANAGER wordmark and a row of 12 procedural club crests (36px); right is a vertical stack of 4 large text buttons with sublabels. A faint SVG court outline sits behind. Footer string 'GAME EXPERIENCE v2 …'.",
+    "strengths": [
+      "Clear primary verbs with helpful sublines (Continue shows manager · club · date)",
+      "Uses club colours/crests to signal 'Swedish handball'",
+      "Error from save storage surfaced with role=alert"
+    ],
+    "weaknesses": [
+      "No photography although arena/court renders exist; the 'court' is a 2px #eee outline",
+      "Inline styles for the crest row (style={{…}}) rather than design-system classes",
+      "Continue button only shows the single most recent save; no preview of club/season state",
+      "Footer 'GAME EXPERIENCE v2' is internal jargon visible to players"
+    ],
+    "links": [
+      "ENT-03",
+      "ENT-04",
+      "ENT-05",
+      "DSH-01"
+    ],
+    "desktop": "Full-bleed dark title (host shell header hidden via .app-shell:has(.game-title)).",
+    "mobile": "At ≤760px collapses to one column, h1 64px, padding 8vw (game.css ~L1725).",
+    "opportunities": [
+      "Make it a living 'club select' stage: last save's club crest/colours + arena env image as backdrop",
+      "Show 'what happened since you left' for Continue",
+      "Ambient motion (crest wall, arena lights)"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "ENT-03",
+    "domain": "ENT",
+    "name": "New game wizard",
+    "route": "/new-game",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/new-game/page.tsx",
+      "components/game/CareerEntryFrame.tsx",
+      "components/game/career-entry.css",
+      "components/game/NationFlag.tsx",
+      "components/ClubCrest.tsx",
+      "components/crests/clubIdentity.ts",
+      "lib/newGame/clubSelectionContext.ts"
+    ],
+    "purpose": "Six-step career setup: nations → leagues → database summary → club → manager → preseason/start.",
+    "actions": [
+      "Toggle nations",
+      "Toggle leagues",
+      "Pick club",
+      "Enter manager name/nationality/DOB",
+      "Choose preseason start (8/6/4/2 weeks or first match)",
+      "STARTA KARRIÄR",
+      "Back / Next",
+      "Open settings"
+    ],
+    "structure": "Three-zone CareerEntryFrame: left rail = numbered step list (01–06 with notes), centre = step content (choice-card grids), right = live context column (selected club crest 126px, club facts dl, manager pass, world summary counters), sticky footer with Back/hint/Next.",
+    "strengths": [
+      "Strong wizard scaffolding with persistent context column — the user always sees the club they are about to lead",
+      "Club cards show forecast ('Tips: 5:a · expectation') and heritage tag",
+      "Focus management on step change, aria-live hint, validation messages",
+      "Preseason options show computed dates"
+    ],
+    "weaknesses": [
+      "Steps 1–3 (nations/leagues/'Databas') are configuration chores before the emotional choice (club); 'Databas' step is a pure summary screen",
+      "Only Swedish clubs are playable, yet the flow starts with a multi-nation picker",
+      "Club grid is text-heavy cards with 48px procedural crests; no arena/town imagery",
+      "Manager creation is three form fields; no portrait/avatar or style choice"
+    ],
+    "links": [
+      "ENT-02",
+      "ENT-05",
+      "ENT-12",
+      "DSH-01"
+    ],
+    "desktop": "Three columns (rail / content / context).",
+    "mobile": "career-entry.css has 6 media queries; rail and context stack (exact order unverified in browser).",
+    "opportunities": [
+      "Lead with the club ('Välj din hemmaplan') and make leagues/nations an advanced drawer",
+      "Club cards as visual tiles: colour field, crest, arena, expectation meter",
+      "Manager card as a collectible 'pass' with chosen archetype",
+      "A cinematic 'first day' handover instead of the generic init screen"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "ENT-03a",
+    "domain": "ENT",
+    "name": "Step 1 · Nationer",
+    "route": "/new-game (step 0)",
+    "kind": "panel",
+    "parent": "ENT-03",
+    "components": [
+      "app/new-game/page.tsx"
+    ],
+    "purpose": "Select handball nations included in the career world.",
+    "actions": [
+      "Toggle nation checkbox cards"
+    ],
+    "structure": "Grid of checkbox cards (flag + code, nation name, '#ligor i urvalet', ✓ Vald / + Välj) plus a note card.",
+    "strengths": [
+      "Flags give some colour"
+    ],
+    "weaknesses": [
+      "Low-stakes setting presented as step one"
+    ],
+    "links": [
+      "ENT-03b"
+    ],
+    "desktop": "Card grid",
+    "mobile": "Stacks",
+    "opportunities": [
+      "Collapse into 'Världen' advanced settings"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "ENT-03b",
+    "domain": "ENT",
+    "name": "Step 2 · Ligor",
+    "route": "/new-game (step 1)",
+    "kind": "panel",
+    "parent": "ENT-03",
+    "components": [
+      "app/new-game/page.tsx"
+    ],
+    "purpose": "Select competitions per nation.",
+    "actions": [
+      "Toggle league cards"
+    ],
+    "structure": "Per-nation sections of league cards (tier number '01', name, '#klubbar', '# spelbara klubbar'). Empty state note when no playable club.",
+    "strengths": [
+      "Shows playable count"
+    ],
+    "weaknesses": [
+      "Tier shown as bare zero-padded number"
+    ],
+    "links": [
+      "ENT-03c"
+    ],
+    "desktop": "Grid",
+    "mobile": "Stacks",
+    "opportunities": [
+      "Pyramid visual of Swedish league system"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "ENT-03c",
+    "domain": "ENT",
+    "name": "Step 3 · Databas (summary)",
+    "route": "/new-game (step 2)",
+    "kind": "panel",
+    "parent": "ENT-03",
+    "components": [
+      "app/new-game/page.tsx"
+    ],
+    "purpose": "Overview of chosen nations/leagues/clubs.",
+    "actions": [
+      "Next"
+    ],
+    "structure": "Four MiniStat counters + list of selected competitions + explanatory note.",
+    "strengths": [
+      "Transparent about data provenance"
+    ],
+    "weaknesses": [
+      "A whole step that asks nothing of the player; reads like a DB report"
+    ],
+    "links": [
+      "ENT-03d"
+    ],
+    "desktop": "Stats row + two sections",
+    "mobile": "Stacks",
+    "opportunities": [
+      "Remove or merge into league step"
+    ],
+    "importance": "rare"
+  },
+  {
+    "id": "ENT-03d",
+    "domain": "ENT",
+    "name": "Step 4 · Klubb",
+    "route": "/new-game (step 3)",
+    "kind": "panel",
+    "parent": "ENT-03",
+    "components": [
+      "app/new-game/page.tsx",
+      "components/ClubCrest.tsx"
+    ],
+    "purpose": "Choose the playable club to manage.",
+    "actions": [
+      "Select club radio card",
+      "Change league selection",
+      "Expand 'andra klubbar' details"
+    ],
+    "structure": "Toolbar with count, radio-card grid (crest 48px, name, league, city · venue, heritage tag, forecast), a <details> list of non-playable clubs.",
+    "strengths": [
+      "Most emotional step; context column updates live with arena, prediction, board expectation, squad strength vs league, economy"
+    ],
+    "weaknesses": [
+      "~30 near-identical text cards; little differentiation between clubs at a glance",
+      "Key differentiators (budget, expectation, strength) live only in the right column"
+    ],
+    "links": [
+      "ENT-03e"
+    ],
+    "desktop": "Grid + context column",
+    "mobile": "Stacked",
+    "opportunities": [
+      "Map of Sweden / club wall with colour tiles; filter by ambition (survive/promote/title)"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "ENT-03e",
+    "domain": "ENT",
+    "name": "Step 5 · Manager",
+    "route": "/new-game (step 4)",
+    "kind": "panel",
+    "parent": "ENT-03",
+    "components": [
+      "app/new-game/page.tsx",
+      "components/game/NationFlag.tsx"
+    ],
+    "purpose": "Create the manager profile.",
+    "actions": [
+      "Name",
+      "Nationality select",
+      "Date of birth"
+    ],
+    "structure": "Form fields left, 'Tränarbänken' pass card right with initials monogram.",
+    "strengths": [
+      "Live preview pass card",
+      "Inline validation (age 18–85)"
+    ],
+    "weaknesses": [
+      "Identity is just initials; no avatar/style/background choice"
+    ],
+    "links": [
+      "ENT-03f"
+    ],
+    "desktop": "Two columns",
+    "mobile": "Stacks",
+    "opportunities": [
+      "Coaching-style archetype, appearance, backstory that later feed media/board"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "ENT-03f",
+    "domain": "ENT",
+    "name": "Step 6 · Starta (preseason)",
+    "route": "/new-game (step 5)",
+    "kind": "panel",
+    "parent": "ENT-03",
+    "components": [
+      "app/new-game/page.tsx",
+      "lib/career/preseason.ts"
+    ],
+    "purpose": "Pick preseason length and confirm.",
+    "actions": [
+      "Choose preseason option",
+      "STARTA KARRIÄR"
+    ],
+    "structure": "Mandate banner (manager name + 'tar plats hos' club + crest 84px), radio grid of 5 preseason options with dates, summary dl.",
+    "strengths": [
+      "Clear consequence (first day date)"
+    ],
+    "weaknesses": [
+      "Mandate moment is small and text-led"
+    ],
+    "links": [
+      "ENT-12",
+      "DSH-01"
+    ],
+    "desktop": "Stacked sections",
+    "mobile": "Stacks",
+    "opportunities": [
+      "Make this the 'signing' moment (DEAL_SIGNED backdrop already exists)"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "ENT-04",
+    "domain": "ENT",
+    "name": "Load game (Sparade karriärer)",
+    "route": "/load-game",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/load-game/page.tsx",
+      "components/game/CareerEntryFrame.tsx",
+      "components/game/career-entry.css",
+      "components/ClubCrest.tsx"
+    ],
+    "purpose": "List saved careers, preview one, open or delete it.",
+    "actions": [
+      "Select save",
+      "Ladda / Fortsätt karriären",
+      "Ta bort (two-step inline confirm)",
+      "Börja en ny karriär",
+      "Back to main menu"
+    ],
+    "structure": "Same three-zone frame as New Game: rail with save count; centre a 6-column table (Manager, Klubb, Säsong, Speldatum, Senast spelad, actions); right context shows selected club crest 126px, manager, facts and next match.",
+    "strengths": [
+      "Rich preview of selected save (next opponent, matches played)",
+      "Inline delete confirmation row with focus return and Escape",
+      "Distinct loading, empty ('Vilken klubb blir din?') and read-error states with retry"
+    ],
+    "weaknesses": [
+      "Saves rendered as a data table rather than career cards",
+      "Raw ISO game date in table column ('2026-08-03')",
+      "Delete is permanent with only an inline row — no undo/export prompt"
+    ],
+    "links": [
+      "ENT-02",
+      "ENT-03",
+      "DSH-01"
+    ],
+    "desktop": "Three-zone frame with table.",
+    "mobile": "Table inside .career-save-table-wrap (horizontal scroll likely); frame stacks.",
+    "opportunities": [
+      "Save slots as club-coloured cards with season progress and last result",
+      "Offer 'export before delete'"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "ENT-04a",
+    "domain": "ENT",
+    "name": "Delete-save inline confirmation",
+    "route": "/load-game",
+    "kind": "panel",
+    "parent": "ENT-04",
+    "components": [
+      "app/load-game/page.tsx (SaveRows)"
+    ],
+    "purpose": "Confirm permanent deletion of a save.",
+    "actions": [
+      "Behåll karriären",
+      "Ta bort karriären"
+    ],
+    "structure": "Extra full-width table row with question, club · date, two buttons.",
+    "strengths": [
+      "Keyboard-safe (focus on cancel, Esc cancels)"
+    ],
+    "weaknesses": [
+      "Visually just another table row"
+    ],
+    "links": [],
+    "desktop": "Inline row",
+    "mobile": "Inline row",
+    "opportunities": [
+      "Proper confirm dialog with consequences and export option"
+    ],
+    "importance": "rare"
+  },
+  {
+    "id": "ENT-04b",
+    "domain": "ENT",
+    "name": "Load game: loading / empty / error states",
+    "route": "/load-game",
+    "kind": "state",
+    "parent": "ENT-04",
+    "components": [
+      "app/load-game/page.tsx"
+    ],
+    "purpose": "Feedback while reading IndexedDB, when no saves exist, or on failure.",
+    "actions": [
+      "Försök igen",
+      "Skapa en karriär"
+    ],
+    "structure": "Text blocks in centre column with overline + heading + paragraph; context column swaps to matching copy.",
+    "strengths": [
+      "Warm, on-brand copy"
+    ],
+    "weaknesses": [
+      "No skeletons; text only"
+    ],
+    "links": [
+      "ENT-03"
+    ],
+    "desktop": "Centre column",
+    "mobile": "Stacks",
+    "opportunities": [
+      "Skeleton save cards"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "ENT-05",
+    "domain": "ENT",
+    "name": "Settings (from main menu)",
+    "route": "/settings",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/settings/page.tsx",
+      "components/settings/GlobalPreferences.tsx",
+      "components/settings/settings.css"
+    ],
+    "purpose": "Device-level preferences outside a career: display currency and default match speed.",
+    "actions": [
+      "Choose currency (EUR/SEK)",
+      "Choose default match speed",
+      "← Huvudmeny"
+    ],
+    "structure": "Simple header + three plain sections (Valuta radiogroup styled as subnav links, Matchhastighet select, explanatory 'Karriärens världsinställningar').",
+    "strengths": [
+      "Honest scope: only settings that do something"
+    ],
+    "weaknesses": [
+      "Different UI from in-career settings (SYS-01) for the same currency preference",
+      "Currency radio implemented as <a href='#…' role=radio> links",
+      "No audio/accessibility/text-size/theme options"
+    ],
+    "links": [
+      "ENT-02"
+    ],
+    "desktop": "Single column",
+    "mobile": "settings.css has 3 media queries",
+    "opportunities": [
+      "One settings surface shared in and out of career",
+      "Add text size / density / reduced motion toggles (density relevant to 'spreadsheet' feel)"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "ENT-06",
+    "domain": "ENT",
+    "name": "Host shell (STARKVIS navbar)",
+    "route": "* (root layout)",
+    "kind": "nav",
+    "parent": null,
+    "components": [
+      "app/app-shell/HostNavigation.tsx",
+      "app/app-shell/StarkvisAppShell.tsx",
+      "app/app-shell/WebsiteNavbar.tsx",
+      "app/app-shell/shell.css"
+    ],
+    "purpose": "Portfolio-site navbar injected in a shadow root on top of the game ('Handball Manager · LAB', '← Tillbaka till Apps', app switcher).",
+    "actions": [
+      "Reveal via top edge / button",
+      "Return to Apps",
+      "Switch app",
+      "Hide"
+    ],
+    "structure": "Fixed 160px-high shadow-DOM layer at z-index 2147483000 with an 8px reveal edge; sets --sv-shell-offset on <html> when revealed.",
+    "strengths": [
+      "Isolated in shadow DOM; auto-hide behaviour; reduced-motion respected"
+    ],
+    "weaknesses": [
+      "Non-game chrome ('LAB', 'Apps') competes with the game's own header and breaks immersion",
+      "Initial state visible=true — on first load it overlays the game header (behaviour after timeout not verified)",
+      "Teal #00c2b3 accent unrelated to game palette"
+    ],
+    "links": [
+      "external Apps hub"
+    ],
+    "desktop": "Top overlay",
+    "mobile": "Single-column app groups ≤767px",
+    "opportunities": [
+      "Hide entirely inside career, or reduce to a single unobtrusive corner affordance"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "ENT-07",
+    "domain": "ENT",
+    "name": "Career shell · sidebar navigation",
+    "route": "/career/* (layout)",
+    "kind": "nav",
+    "parent": null,
+    "components": [
+      "app/career/layout.tsx",
+      "components/GameShell.tsx",
+      "lib/career/navigation.ts",
+      "components/NavIcon.tsx",
+      "app/game.css (.hm-sidebar)",
+      "app/manager.css"
+    ],
+    "purpose": "Primary navigation for every career screen.",
+    "actions": [
+      "Navigate to 27 destinations (28 with Editor)",
+      "Open Sparade karriärer"
+    ],
+    "structure": "Dark navy 232px sidebar: HM monogram wordmark, club badge (crest 64px + name + league), then ONE flat list of 27 links with 6 group labels injected before specific items: 'Din säsong' (Hem, Klubbhuset, Inkorg, Media), 'Laget' (Trupp, Kontrakt, Taktik, Träning), 'Match & kalender' (Kalender, Schema, Analys), 'Spelarvärlden' (Spelarsök, Scouting, Rekrytering, Transfers), 'Klubben' (Personal, Medicinskt, Klubb, Styrelsen, Karriär, Ekonomi, Säsongen, Tävlingar, Svenska Cupen, Statistik, Historik), 'Spelet' (Inställningar). Footer: manager name + 'Sparade karriärer →'. Inbox badge shows unread count.",
+    "strengths": [
+      "Single source of truth (CAREER_NAV_ITEMS) with prefix ownership so nested routes highlight correctly",
+      "Unread badge on Inbox",
+      "Club identity always visible"
+    ],
+    "weaknesses": [
+      "27 top-level items — no hierarchy, everything is Level 1",
+      "'Klubben' group holds 11 unrelated items (medical, board, manager career, finance, season, competitions, cup, statistics, history)",
+      "Overlapping destinations: Kalender vs Schema; Säsongen vs Tävlingar vs Svenska Cupen; Spelarsök vs Scouting vs Rekrytering vs Transfers; Klubb vs Klubbhuset; Historik vs Karriär",
+      "Icons reused for different items (schedule ×3: Kalender/Schema/Historik; competitions ×3; scouting ×2; transfers ×2; analysis ×2) — icons stop carrying meaning",
+      "Labels 12px, group labels 9px uppercase (manager.css .hm-nav-group-label) — very small",
+      "Klubbhuset (spatial hub of 11 rooms) duplicates the sidebar instead of replacing it"
+    ],
+    "links": [
+      "DSH-01",
+      "CLB-01",
+      "WLD-01",
+      "WLD-02",
+      "/career/squad",
+      "/career/contracts",
+      "/career/tactics",
+      "/career/training",
+      "WLD-05",
+      "WLD-06",
+      "/career/analysis",
+      "/career/players",
+      "/career/scouting",
+      "/career/recruitment",
+      "/career/transfers",
+      "/career/staff",
+      "MED-01",
+      "CLB-02",
+      "CLB-05",
+      "MGR-01",
+      "CLB-06",
+      "MGR-03",
+      "/career/competitions",
+      "/career/competitions/se-svenska-cupen-herr",
+      "/career/statistics",
+      "MGR-02",
+      "SYS-01",
+      "ENT-04"
+    ],
+    "desktop": "Persistent left rail, scrolls when 27 items exceed viewport height.",
+    "mobile": "≤760px becomes an off-canvas drawer (ENT-07a).",
+    "opportunities": [
+      "Collapse to 6–7 hubs (Hem, Laget, Match, Marknad, Klubben, Värld, Karriär) with in-hub tabs",
+      "Merge Kalender+Schema, Säsongen+Tävlingar+Cup, Spelarsök+Scouting+Rekrytering",
+      "Let Klubbhuset or the Dashboard be the spatial hub; sidebar becomes compact icons",
+      "Distinct icon per destination"
+    ],
+    "importance": "core"
+  },
+  {
+    "id": "ENT-07a",
+    "domain": "ENT",
+    "name": "Mobile nav drawer",
+    "route": "/career/*",
+    "kind": "drawer",
+    "parent": "ENT-07",
+    "components": [
+      "components/GameShell.tsx (navOpen)",
+      "app/game.css (@media max-width:760px)"
+    ],
+    "purpose": "Phone access to the sidebar; also hosts the save controls on phones.",
+    "actions": [
+      "☰ open / ✕ close",
+      "Scrim click / Esc to close",
+      "Save/export/import inside drawer"
+    ],
+    "structure": "Same 27-item sidebar slides in from left (min(84vw,300px)), scrim behind; closes on navigation and Escape. Save controls duplicated into the drawer footer.",
+    "strengths": [
+      "Proper 44px toggle target, Esc handling, reduced-motion variant"
+    ],
+    "weaknesses": [
+      "A 27-item scrolling drawer is the only navigation on phones; no bottom tab bar",
+      "No focus trap inside the open drawer (not found in source)",
+      "manager.css also sets a 150px sidebar column at ≤760px — two conflicting mobile rules (game.css wins by load order, unverified)"
+    ],
+    "links": [
+      "ENT-07"
+    ],
+    "desktop": "Hidden",
+    "mobile": "Primary navigation",
+    "opportunities": [
+      "Bottom tab bar with 4–5 hubs + 'Mer'",
+      "Continue button as a thumb-reachable FAB"
+    ],
+    "importance": "core"
+  },
+  {
+    "id": "ENT-08",
+    "domain": "ENT",
+    "name": "Career top bar (header)",
+    "route": "/career/*",
+    "kind": "nav",
+    "parent": "ENT-07",
+    "components": [
+      "components/GameShell.tsx",
+      "components/manager/GlobalSearch.tsx",
+      "components/CareerSaveControl.tsx",
+      "lib/career/contextualContinueAction.ts",
+      "app/game.css (.hm-header, .game-continue)"
+    ],
+    "purpose": "Club/season title, current date & next event (or live-match banner), global search, save controls and the contextual Continue button.",
+    "actions": [
+      "Search players/clubs/competitions",
+      "Spara",
+      "Spara och avsluta",
+      "Exportera sparafil",
+      "Importera sparafil",
+      "Continue (contextual)"
+    ],
+    "structure": "Left: club name / season and a subline 'date · Nästa: date'. Middle: search input. Right: four small save buttons in a row, then the large orange primary Continue button with a small uppercase sublabel.",
+    "strengths": [
+      "Continue is context-aware (Fortsätt / Förbered match / Starta match / Återgå till match / Presskonferens / Styrelsemöte / Säsong klar) with tooltip and aria-label",
+      "Live match banner replaces date line when you navigate away from an in-progress match"
+    ],
+    "weaknesses": [
+      "Four save/export/import buttons permanently in the header compete with Continue (file-management in the game's most valuable real estate)",
+      "Date + next-event is plain small text — the game clock, the core of a manager game, has no visual weight",
+      "Search only appears as input; ≤760px it is hidden entirely (manager.css .hm-global-search display:none)"
+    ],
+    "links": [
+      "ENT-08a",
+      "ENT-08b",
+      "ENT-10"
+    ],
+    "desktop": "Single row header.",
+    "mobile": "Wraps; only 'Spara' remains (others moved to drawer), Continue shrinks to min-width 92px; search hidden.",
+    "opportunities": [
+      "Turn the date into a 'calendar clock' widget with next-event countdown",
+      "Move save/export/import to a menu",
+      "Make Continue the hero control with preview of what will happen"
+    ],
+    "importance": "core"
+  },
+  {
+    "id": "ENT-08a",
+    "domain": "ENT",
+    "name": "Global search results dropdown",
+    "route": "/career/*",
+    "kind": "panel",
+    "parent": "ENT-08",
+    "components": [
+      "components/manager/GlobalSearch.tsx",
+      "lib/career/management.ts (searchManagement)"
+    ],
+    "purpose": "Jump to players, clubs, competitions.",
+    "actions": [
+      "Type ≥2 chars",
+      "Select result"
+    ],
+    "structure": "Absolute dropdown under input with up to 12 text links (kind + name).",
+    "strengths": [
+      "Fast cross-entity jump"
+    ],
+    "weaknesses": [
+      "Text-only results, no crest/face",
+      "No keyboard arrow navigation found (16-line component)",
+      "Unavailable on mobile"
+    ],
+    "links": [
+      "/career/squad/[playerId]",
+      "CLB-04",
+      "/career/competitions/[id]"
+    ],
+    "desktop": "Dropdown",
+    "mobile": "Hidden",
+    "opportunities": [
+      "Command palette (Ctrl+K) incl. actions ('Gå till taktik')"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "ENT-08b",
+    "domain": "ENT",
+    "name": "Save controls",
+    "route": "/career/*",
+    "kind": "panel",
+    "parent": "ENT-08",
+    "components": [
+      "components/CareerSaveControl.tsx"
+    ],
+    "purpose": "Manual save, save & exit, export/import JSON backups.",
+    "actions": [
+      "Spara",
+      "Spara och avsluta",
+      "Exportera sparafil",
+      "Importera sparafil"
+    ],
+    "structure": "Row of 4 .hm-btn-sm buttons + inline status text (role=status / alert).",
+    "strengths": [
+      "Clear success/error feedback"
+    ],
+    "weaknesses": [
+      "Import of a file from the header of a running career is a destructive action with no confirm",
+      "Developer-ish 'sparafil (.json)' language in a game header"
+    ],
+    "links": [
+      "ENT-02"
+    ],
+    "desktop": "Header row",
+    "mobile": "Drawer footer",
+    "opportunities": [
+      "Autosave indicator + overflow menu"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "ENT-09",
+    "domain": "ENT",
+    "name": "Context bar (breadcrumb row)",
+    "route": "/career/*",
+    "kind": "nav",
+    "parent": "ENT-07",
+    "components": [
+      "components/GameShell.tsx (.hm-context-bar)",
+      "app/manager.css"
+    ],
+    "purpose": "Back/forward buttons, breadcrumb 'Kontoret / <section>', unread messages link.",
+    "actions": [
+      "← back",
+      "→ forward",
+      "Kontoret",
+      "N olästa meddelanden"
+    ],
+    "structure": "Thin 11px muted row above every page with two ghost arrow buttons, a two-level breadcrumb and an unread link at the right.",
+    "strengths": [
+      "Always offers a way back from deep Level-3 routes"
+    ],
+    "weaknesses": [
+      "Duplicates browser back/forward",
+      "Breadcrumb is always two levels ('Detalj' fallback) — doesn't reflect real depth",
+      "Naming drift: sidebar says 'Hem', breadcrumb says 'Kontoret', dashboard says 'MANAGERNS KONTOR'",
+      "Unread count duplicated (sidebar badge + this row)"
+    ],
+    "links": [
+      "DSH-01",
+      "WLD-01"
+    ],
+    "desktop": "Row",
+    "mobile": "Wraps",
+    "opportunities": [
+      "Replace with real hierarchical breadcrumb or remove in favour of hub tabs"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "ENT-09a",
+    "domain": "ENT",
+    "name": "Progression notice (after Continue)",
+    "route": "/career/*",
+    "kind": "panel",
+    "parent": "ENT-09",
+    "components": [
+      "components/GameShell.tsx",
+      "components/game/progressionPresentation.ts",
+      "components/game/game-feedback.css"
+    ],
+    "purpose": "Tells the manager why time stopped and links to the event.",
+    "actions": [
+      "Action link (e.g. 'Till matchen')",
+      "× dismiss"
+    ],
+    "structure": "Aside banner at top of main: bold title, detail paragraph, one button, close ×.",
+    "strengths": [
+      "Explains stop reason; matchday notice auto-hides once match played"
+    ],
+    "weaknesses": [
+      "Looks like a generic alert; competes with page heroes"
+    ],
+    "links": [
+      "WLD-01",
+      "CLB-05",
+      "/career/match-preview"
+    ],
+    "desktop": "Banner",
+    "mobile": "Banner",
+    "opportunities": [
+      "Turn into a 'news ticker / event card' with imagery per event type"
+    ],
+    "importance": "core"
+  },
+  {
+    "id": "ENT-10",
+    "domain": "ENT",
+    "name": "Continue / advance-day flow",
+    "route": "/career/*",
+    "kind": "panel",
+    "parent": "ENT-08",
+    "components": [
+      "components/GameShell.tsx (handleContinue)",
+      "lib/career/contextualContinueAction.ts",
+      "lib/career/CareerContext.tsx (continueCareer)"
+    ],
+    "purpose": "The heartbeat of the game: advance the calendar until something needs the manager, or route to the blocking task.",
+    "actions": [
+      "Fortsätt »",
+      "Förbered match",
+      "Starta match",
+      "Återgå till match",
+      "Presskonferens",
+      "Styrelsemöte (SVAR KRÄVS)",
+      "Säsong klar (disabled)"
+    ],
+    "structure": "One primary button; if the action has targetHref it navigates, otherwise runs continueCareer() then shows ENT-10a for ≥1 processed day, then navigates to notice.navigateHref and shows ENT-09a.",
+    "strengths": [
+      "Hard invariants (never advances a live match or a completed season)",
+      "Blocking decisions are surfaced by label (DECISION_BLOCKED)"
+    ],
+    "weaknesses": [
+      "Button may silently navigate elsewhere instead of advancing — mental model shifts with state",
+      "No preview of how far time will move before pressing"
+    ],
+    "links": [
+      "ENT-10a",
+      "ENT-09a",
+      "/career/tactics",
+      "/career/match-preview",
+      "/career/match-day/[fixtureId]",
+      "WLD-02b",
+      "CLB-05",
+      "WLD-01"
+    ],
+    "desktop": "Header right",
+    "mobile": "Header right, compact",
+    "opportunities": [
+      "'Next up' strip showing the queue (training, match in 3 days, deadline) under the button",
+      "Distinct visual states per action kind"
+    ],
+    "importance": "core"
+  },
+  {
+    "id": "ENT-10a",
+    "domain": "ENT",
+    "name": "Continue processing overlay ('Världen går vidare.')",
+    "route": "/career/*",
+    "kind": "overlay",
+    "parent": "ENT-10",
+    "components": [
+      "components/ContinueProcessingOverlay.tsx",
+      "components/game/game-feedback.css"
+    ],
+    "purpose": "Day-by-day replay of an already committed advance, then hands over to the stop reason.",
+    "actions": [
+      "Visa händelsen → (skip)",
+      "Esc to skip"
+    ],
+    "structure": "Modal <dialog>: header with crest (hard-coded navy #121d31 instead of club colour) + club · season + H2; body left = current date ticker, last 12 day numbers revealing, 'N dagar … träningsdagar', up to 5 highlight events; right = stop-reason card; footer hint text.",
+    "strengths": [
+      "Gives time passage a felt rhythm; bounded duration (≤ ~0.9s + 0.5s)",
+      "Accessible: aria-live date, Esc skip, focus via showModal"
+    ],
+    "weaknesses": [
+      "Crest ignores club primary colour (primaryColor='#121d31')",
+      "Purely textual; no imagery per event type",
+      "Very short — little anticipation for big events"
+    ],
+    "links": [
+      "ENT-09a"
+    ],
+    "desktop": "Centred dialog",
+    "mobile": "game-feedback.css has 2 media queries",
+    "opportunities": [
+      "Signature 'time passes' moment: calendar flip, event cards with photos (env images), match-day build-up"
+    ],
+    "importance": "core"
+  },
+  {
+    "id": "ENT-11",
+    "domain": "ENT",
+    "name": "Feedback / bug report modal",
+    "route": "* (root layout)",
+    "kind": "modal",
+    "parent": null,
+    "components": [
+      "components/FeedbackModal.tsx",
+      "components/alpha.css"
+    ],
+    "purpose": "Alpha testers download their save and get a feedback link.",
+    "actions": [
+      "Open via floating 'Rapportera bugg / Feedback' button",
+      "Ladda ner sparafil (.json)",
+      "Skicka feedback (link)",
+      "Stäng"
+    ],
+    "structure": "Fixed bottom-left floating button (z-index 200) opening a native <dialog> card with description, download button, status message, link, close.",
+    "strengths": [
+      "Native dialog, focus restore, clear failure copy"
+    ],
+    "weaknesses": [
+      "Floating button is on every screen incl. title and match, bottom-left — overlaps the sidebar footer area on desktop (likely, not verified visually)",
+      "No in-app text field; feedback goes out-of-band"
+    ],
+    "links": [],
+    "desktop": "Floating button + dialog",
+    "mobile": "Same; max-width calc(100vw-24px)",
+    "opportunities": [
+      "Move into a help/overflow menu; capture screenshot + note in-app"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "ENT-12",
+    "domain": "ENT",
+    "name": "Career initialization / loading / error screen",
+    "route": "/career (layout) & /new-game",
+    "kind": "state",
+    "parent": null,
+    "components": [
+      "components/game/CareerInitialization.tsx",
+      "components/game/career-initialization.css",
+      "app/career/layout.tsx"
+    ],
+    "purpose": "Full-screen state while a career is created or opened (IndexedDB), and failure screen.",
+    "actions": [
+      "Tillbaka och försök igen / Till huvudmenyn (on failure)"
+    ],
+    "structure": "Brand mark, big uppercase H1 ('BYGGER DIN HANDBOLLSVÄRLD…' / 'ÖPPNAR DIN KARRIÄR…' / 'KUNDE INTE ÖPPNA KARRIÄREN'), club crest 112px aside, elapsed seconds after 6s, footer tagline.",
+    "strengths": [
+      "Honest progress (elapsed time, no fake %)",
+      "Club identity shown while loading"
+    ],
+    "weaknesses": [
+      "Static text; no imagery despite arena assets"
+    ],
+    "links": [
+      "ENT-02",
+      "DSH-01"
+    ],
+    "desktop": "Full screen",
+    "mobile": "2 media queries",
+    "opportunities": [
+      "Use club's arena env image + tips/club facts while loading"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "ENT-13",
+    "domain": "ENT",
+    "name": "Live-match banner (header subline)",
+    "route": "/career/* (when away from live match)",
+    "kind": "state",
+    "parent": "ENT-08",
+    "components": [
+      "components/GameShell.tsx (liveMatchBanner)",
+      "lib/liveMatch/liveMatchView.ts"
+    ],
+    "purpose": "Remind that a match is in progress and show score/clock.",
+    "actions": [
+      "Continue button becomes 'Återgå till match'"
+    ],
+    "structure": "Replaces the date subline with 'MATCH PÅGÅR · HAM 7–5 SKA · 13:00' text.",
+    "strengths": [
+      "Correct, reuses live selector"
+    ],
+    "weaknesses": [
+      "Only a 12px text line — easy to miss"
+    ],
+    "links": [
+      "/career/match-day/[fixtureId]"
+    ],
+    "desktop": "Header subline",
+    "mobile": "Ellipsised",
+    "opportunities": [
+      "Persistent mini scoreboard pill with pulsing live dot"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "DSH-01",
+    "domain": "DSH",
+    "name": "Dashboard · Managerns kontor (Hem)",
+    "route": "/career",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/page.tsx",
+      "components/game/Identity.tsx (MatchHero, ClubHero, RankIndicator, PlayerCell, clubColorVars)",
+      "components/game/WeeklyManagerOverview.tsx",
+      "components/manager/Workspace.tsx (EmptyState, FixtureTable)",
+      "components/experience/primitives.tsx (MeterBar)",
+      "components/clubhq/environments.ts",
+      "components/FormDots.tsx",
+      "app/game.css (.game-home*)"
+    ],
+    "purpose": "Home: next match, league position, squad availability, decisions, news, weekly plan, board, rivals, other results.",
+    "actions": [
+      "Förbered match",
+      "Motståndaren",
+      "Taktiktavla",
+      "Välj startsju",
+      "Planera kontrakten",
+      "Upptäck spelare",
+      "Din kortlista",
+      "Open news item",
+      "Styrelserummet",
+      "Börja nästa säsong (season complete)",
+      "Klubbhuset / Taktikrummet links"
+    ],
+    "structure": "Photo hero (manager-office env image) with crest 64px + club name; then next-match hero + league card; then a 3-column body with ~11 sections: Laget inför avkast, Utanför planen, Senaste avtrycket | Från klubben, Veckans managerplan | Styrelsen, Rivalerna (mini table), På andra planer (fixture table), Nästa laginsats note. Most section bodies are lists of text lines and small tables.",
+    "strengths": [
+      "Covers everything the manager needs this week; every block links to its workspace",
+      "Uses club colour vars and a real photo hero",
+      "Season-complete variant with milestone facts and transition blockers"
+    ],
+    "weaknesses": [
+      "Three equal columns of ~11 text-heavy sections — no primary focus below the hero; reads as a report",
+      "Weekly plan (WeeklyManagerOverview) alone renders day list, decisions, board, economy and feedback — duplicating the board card and news",
+      "Many inline styles (flex/gap/colour) in the hero",
+      "Board objectives rendered as small pills; key numbers (position, points) not visualised beyond RankIndicator",
+      "No player faces — only PlayerCell glyphs"
+    ],
+    "links": [
+      "CLB-01",
+      "/career/tactics",
+      "/career/match-preview",
+      "CLB-04",
+      "/career/competitions/[id]",
+      "/career/squad",
+      "/career/contracts",
+      "/career/players",
+      "/career/recruitment?view=SHORTLIST",
+      "/career/match-report/[id]",
+      "WLD-01",
+      "WLD-05",
+      "CLB-05",
+      "/career/training",
+      "MGR-02",
+      "MGR-01b",
+      "CLB-06"
+    ],
+    "desktop": "Hero + event row (hero + 240–300px season card) + 3-column body (1.1fr 1fr 1fr at wide).",
+    "mobile": "Columns collapse to 2 then 1 (game.css ~L1678–1706); becomes a very long scroll of ~11 sections.",
+    "opportunities": [
+      "One 'Today' focal card driven by the Continue state (what matters now)",
+      "Card feed of events with imagery instead of three columns of lists",
+      "Visual league ladder / form strip / squad availability ring",
+      "Personalise by moment (matchday, transfer window, board review)"
+    ],
+    "importance": "core"
+  },
+  {
+    "id": "DSH-01a",
+    "domain": "DSH",
+    "name": "Office hero header",
+    "route": "/career",
+    "kind": "panel",
+    "parent": "DSH-01",
+    "components": [
+      "app/career/page.tsx",
+      "components/clubhq/environments.ts (manager-office)"
+    ],
+    "purpose": "Club identity banner.",
+    "actions": [
+      "Klubbhuset →",
+      "Taktikrummet →"
+    ],
+    "structure": "xp-photo-hero with manager-office photo, crest, overline 'MANAGERNS KONTOR · season', H1 club name, heritage tag; right: league, venue · capacity, two link chips.",
+    "strengths": [
+      "Real photography + club colours"
+    ],
+    "weaknesses": [
+      "Purely decorative — no state (date, next event, mood)"
+    ],
+    "links": [
+      "CLB-01",
+      "/career/tactics"
+    ],
+    "desktop": "Wide banner",
+    "mobile": "Stacks",
+    "opportunities": [
+      "Carry live state (countdown to match, board mood)"
+    ],
+    "importance": "core"
+  },
+  {
+    "id": "DSH-01b",
+    "domain": "DSH",
+    "name": "Next match hero + league card",
+    "route": "/career",
+    "kind": "panel",
+    "parent": "DSH-01",
+    "components": [
+      "components/game/Identity.tsx (MatchHero, RankIndicator)",
+      "components/FormDots.tsx"
+    ],
+    "purpose": "Next fixture and own league standing.",
+    "actions": [
+      "Motståndaren",
+      "Taktiktavla",
+      "Förbered match",
+      "Ligan, resultaten och rivalerna"
+    ],
+    "structure": "MatchHero (two crests, date, competition) beside an aside with rank '#/N', points/matches/GD triple and last-5 form dots. Empty: 'Inget kommande avkast.'",
+    "strengths": [
+      "Strongest visual block on the page"
+    ],
+    "weaknesses": [
+      "League card is three numbers + dots; no table context"
+    ],
+    "links": [
+      "/career/match-preview",
+      "/career/tactics",
+      "CLB-04"
+    ],
+    "desktop": "Hero + 240px aside",
+    "mobile": "Stacks",
+    "opportunities": [
+      "Countdown, opponent form, injury impact inline"
+    ],
+    "importance": "core"
+  },
+  {
+    "id": "DSH-01c",
+    "domain": "DSH",
+    "name": "Season-complete milestone & transition blockers",
+    "route": "/career (seasonComplete)",
+    "kind": "state",
+    "parent": "DSH-01",
+    "components": [
+      "app/career/page.tsx",
+      "lib/career/seasonRollover.ts"
+    ],
+    "purpose": "End of season summary and 'Börja nästa säsong'.",
+    "actions": [
+      "Börja nästa säsong →",
+      "Se över avtalen",
+      "Sluttabellen"
+    ],
+    "structure": "ClubHero + milestone section (H2 'Säsongen är i mål.', copy, three facts: final place, points, goals). Blockers shown as role=alert list with codes/refs.",
+    "strengths": [
+      "Preserves career on blocked transition"
+    ],
+    "weaknesses": [
+      "Blocker list exposes internal codes (b.ref)",
+      "A season ending is a big emotional moment rendered as a text card (trophy env image unused here)"
+    ],
+    "links": [
+      "/career/contracts",
+      "/career/competitions/[id]",
+      "MGR-03"
+    ],
+    "desktop": "Block",
+    "mobile": "Stacks",
+    "opportunities": [
+      "Season review ceremony (trophy-moment asset)"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "DSH-01d",
+    "domain": "DSH",
+    "name": "Contextual notices (unemployed / new season)",
+    "route": "/career",
+    "kind": "state",
+    "parent": "DSH-01",
+    "components": [
+      "app/career/page.tsx (.game-new-season-note)"
+    ],
+    "purpose": "Explain special career states.",
+    "actions": [
+      "Jobbmarknaden →",
+      "Se föregående säsong →"
+    ],
+    "structure": "Inline note strips with bold lead + link.",
+    "strengths": [
+      "Contextual"
+    ],
+    "weaknesses": [
+      "Same styling for very different stakes (job loss vs new season)"
+    ],
+    "links": [
+      "MGR-01b",
+      "MGR-02"
+    ],
+    "desktop": "Strip",
+    "mobile": "Strip",
+    "opportunities": [
+      "Tone-specific event cards"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "DSH-01e",
+    "domain": "DSH",
+    "name": "Laget inför avkast (availability)",
+    "route": "/career",
+    "kind": "panel",
+    "parent": "DSH-01",
+    "components": [
+      "app/career/page.tsx",
+      "lib/career/management.ts"
+    ],
+    "purpose": "Squad availability, match fitness, captain, top 3 issues.",
+    "actions": [
+      "Hela truppen",
+      "Välj startsju"
+    ],
+    "structure": "Big 'available/total' number + text line + up to 3 player rows (glyph + issue).",
+    "strengths": [
+      "Actionable"
+    ],
+    "weaknesses": [
+      "Fitness as a sentence; no visual"
+    ],
+    "links": [
+      "/career/squad",
+      "/career/tactics"
+    ],
+    "desktop": "Column 1",
+    "mobile": "Stacked",
+    "opportunities": [
+      "Availability ring + position coverage court diagram"
+    ],
+    "importance": "core"
+  },
+  {
+    "id": "DSH-01f",
+    "domain": "DSH",
+    "name": "Utanför planen (contracts & radar)",
+    "route": "/career",
+    "kind": "panel",
+    "parent": "DSH-01",
+    "components": [
+      "app/career/page.tsx"
+    ],
+    "purpose": "Expiring contracts and shortlist/scouting summary.",
+    "actions": [
+      "Planera kontrakten",
+      "Upptäck spelare",
+      "Din kortlista"
+    ],
+    "structure": "Two 'decision' rows (big count + H3 + copy + links) and 2 contract lines.",
+    "strengths": [
+      "Counts give quick read"
+    ],
+    "weaknesses": [
+      "Generic copy repeats every visit"
+    ],
+    "links": [
+      "/career/contracts",
+      "/career/players",
+      "/career/recruitment?view=SHORTLIST"
+    ],
+    "desktop": "Column 1",
+    "mobile": "Stacked",
+    "opportunities": [
+      "Deadline-driven cards with player faces"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "DSH-01g",
+    "domain": "DSH",
+    "name": "Senaste avtrycket (recent results)",
+    "route": "/career",
+    "kind": "panel",
+    "parent": "DSH-01",
+    "components": [
+      "app/career/page.tsx"
+    ],
+    "purpose": "Last 3 own results.",
+    "actions": [
+      "Open match report",
+      "Matcharkivet"
+    ],
+    "structure": "Three link rows: short names stacked + date + score; empty state copy.",
+    "strengths": [
+      "Direct to report"
+    ],
+    "weaknesses": [
+      "No W/D/L colour, no crests"
+    ],
+    "links": [
+      "/career/match-report/[id]",
+      "WLD-06"
+    ],
+    "desktop": "Column 1",
+    "mobile": "Stacked",
+    "opportunities": [
+      "Result tiles with crests and outcome colour"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "DSH-01h",
+    "domain": "DSH",
+    "name": "Från klubben (latest news)",
+    "route": "/career",
+    "kind": "panel",
+    "parent": "DSH-01",
+    "components": [
+      "app/career/page.tsx",
+      "lib/career/inboxBridge.ts"
+    ],
+    "purpose": "Latest 4 inbox messages.",
+    "actions": [
+      "Open message in inbox"
+    ],
+    "structure": "Four article lines: category · date · NYTT, bold subject, preview.",
+    "strengths": [
+      "Deep-links to the message"
+    ],
+    "weaknesses": [
+      "Duplicates inbox; no priority signal"
+    ],
+    "links": [
+      "WLD-01"
+    ],
+    "desktop": "Column 2",
+    "mobile": "Stacked",
+    "opportunities": [
+      "Merge into a single prioritised event feed"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "DSH-01i",
+    "domain": "DSH",
+    "name": "Veckans managerplan (weekly overview)",
+    "route": "/career",
+    "kind": "panel",
+    "parent": "DSH-01",
+    "components": [
+      "components/game/WeeklyManagerOverview.tsx",
+      "lib/career/weeklyManagement.ts"
+    ],
+    "purpose": "Seven-day plan, next step, decisions/deadlines, board and economy snapshot, latest feedback.",
+    "actions": [
+      "Öppna nästa steg",
+      "Justera träningsprioriteringar",
+      "Förbered nästa match",
+      "Open day in training",
+      "Decision links",
+      "Kalender"
+    ],
+    "structure": "Long vertical section: date range, status box, two links, 7 day lines (date + day type + sessions + fixtures), availability sentence, H3 'Beslut och tidsfrister' list, board sentence + objectives list, economy sentence, H3 feedback articles.",
+    "strengths": [
+      "The most complete 'what's this week' summary in the game"
+    ],
+    "weaknesses": [
+      "Wall of text and links; duplicates board card (DSH-01j) and news (DSH-01h)",
+      "No week visual (unlike calendar's day tiles)"
+    ],
+    "links": [
+      "WLD-05",
+      "/career/training",
+      "/career/tactics",
+      "/career/squad",
+      "WLD-01",
+      "CLB-05",
+      "CLB-06"
+    ],
+    "desktop": "Column 2",
+    "mobile": "Very long",
+    "opportunities": [
+      "Horizontal 7-day strip as the dashboard's spine"
+    ],
+    "importance": "core"
+  },
+  {
+    "id": "DSH-01j",
+    "domain": "DSH",
+    "name": "Styrelsen (board card)",
+    "route": "/career",
+    "kind": "panel",
+    "parent": "DSH-01",
+    "components": [
+      "app/career/page.tsx",
+      "components/experience/primitives.tsx (MeterBar)",
+      "lib/board/board.ts"
+    ],
+    "purpose": "Board confidence and top 3 objectives.",
+    "actions": [
+      "Styrelserummet →"
+    ],
+    "structure": "MeterBar 'Förtroende n/100', pressure label sentence, three objective rows with status pills.",
+    "strengths": [
+      "Meter gives at-a-glance read"
+    ],
+    "weaknesses": [
+      "Repeated in weekly plan"
+    ],
+    "links": [
+      "CLB-05"
+    ],
+    "desktop": "Column 3",
+    "mobile": "Stacked",
+    "opportunities": [
+      "Board mood portrait/gauge"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "DSH-01k",
+    "domain": "DSH",
+    "name": "Rivalerna + På andra planer + training note",
+    "route": "/career",
+    "kind": "panel",
+    "parent": "DSH-01",
+    "components": [
+      "app/career/page.tsx",
+      "components/manager/Workspace.tsx (FixtureTable)"
+    ],
+    "purpose": "Top-4 + own row mini table, other results, nudge to training.",
+    "actions": [
+      "Ligan →",
+      "Resultaten →",
+      "Träningsveckan →"
+    ],
+    "structure": "4-column mini table (#, Klubb, SM, P), fixture table of 4 other results, static training note card.",
+    "strengths": [
+      "Compact league context"
+    ],
+    "weaknesses": [
+      "Static training note repeats every visit"
+    ],
+    "links": [
+      "/career/competitions/[id]",
+      "/career/training",
+      "CLB-04"
+    ],
+    "desktop": "Column 3",
+    "mobile": "Stacked",
+    "opportunities": [
+      "Live ticker of round results"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "CLB-01",
+    "domain": "CLB",
+    "name": "Klubbhuset (clubhouse hub)",
+    "route": "/career/klubbhuset",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/klubbhuset/page.tsx",
+      "lib/clubhq/clubhq.ts",
+      "components/clubhq/environments.ts",
+      "components/clubhq/clubhq.css",
+      "components/experience/Moment.tsx (MomentHero)",
+      "components/experience/primitives.tsx (MeterBar)",
+      "lib/nationalTeam/nationalTeam.ts"
+    ],
+    "purpose": "Spatial headquarters: 11 rooms (manager, dressing, tactics, hall, board, press, scouting, medical, office, staff, trophies) with status, plus identity, supporters, rivals, honours and national team windows.",
+    "actions": [
+      "Select room on floorplan",
+      "Double-click/enter room",
+      "Kliv in i <room>",
+      "Room card 'Öppna' / 'Granska'",
+      "Open rival club"
+    ],
+    "structure": "Arena photo MomentHero with crest; 'Anläggningen & Avdelningarna' = SVG court floorplan with absolutely-positioned room hotspots (status dot) beside a photo 'stage' of the selected room with metrics and CTA; then a gallery of 11 room cards with env photos; then 3 panels (Identitet, Läktaren/supporters meter/rivals/honours, Landslagsuppehåll).",
+    "strengths": [
+      "The most game-like, image-rich surface in the product (10 environment photos)",
+      "Rooms carry live status/alert tone, so it can act as a visual hub",
+      "Supporters mood meter and national-team calendar add world texture"
+    ],
+    "weaknesses": [
+      "Duplicates sidebar navigation — rooms link to the same routes; three ways to enter a room (hotspot, stage CTA, card)",
+      "Double-click to enter + hover-to-select on cards do not translate to touch",
+      "Floorplan is abstract boxes over a court SVG, not an illustrated building",
+      "Not the landing page — buried as 2nd nav item"
+    ],
+    "links": [
+      "DSH-01",
+      "/career/squad",
+      "/career/tactics",
+      "/career/training",
+      "CLB-05",
+      "WLD-02",
+      "/career/scouting",
+      "MED-01",
+      "CLB-06",
+      "/career/staff",
+      "MGR-03",
+      "CLB-04"
+    ],
+    "desktop": "Two-column complex (floorplan | stage), 3-col panel grid.",
+    "mobile": "≤1100px complex and grid stack; ≤680px floorplan min-height 420px; hotspots tiny on phones.",
+    "opportunities": [
+      "Make Klubbhuset the primary hub (replace half the sidebar)",
+      "Illustrated isometric clubhouse whose rooms visibly upgrade with economy tier (assets klubbhuset-local/pro/elite already exist but are unused)",
+      "Single tap opens room; status badges as notifications"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "CLB-01a",
+    "domain": "CLB",
+    "name": "Interactive floorplan + room stage",
+    "route": "/career/klubbhuset",
+    "kind": "panel",
+    "parent": "CLB-01",
+    "components": [
+      "app/career/klubbhuset/page.tsx (.kh-blueprint, .kh-stage)"
+    ],
+    "purpose": "Pick a room to preview its status.",
+    "actions": [
+      "Click hotspot",
+      "Double-click to open",
+      "Kliv in i …",
+      "secondary link"
+    ],
+    "structure": "Left: blueprint header, SVG court, % positioned hotspot buttons (wing, status dot, name, status), legend; Right: photo stage with wing · department, purpose, H3, summary, metric dl, CTA.",
+    "strengths": [
+      "aria-pressed, aria-live stage"
+    ],
+    "weaknesses": [
+      "Double-click affordance undiscoverable; hint text needed"
+    ],
+    "links": [
+      "(room routes)"
+    ],
+    "desktop": "Side by side",
+    "mobile": "Stacked",
+    "opportunities": [
+      "Illustrated map; long-press preview on touch"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "CLB-01b",
+    "domain": "CLB",
+    "name": "Room cards gallery",
+    "route": "/career/klubbhuset",
+    "kind": "panel",
+    "parent": "CLB-01",
+    "components": [
+      "app/career/klubbhuset/page.tsx (.kh-rooms)"
+    ],
+    "purpose": "One-click entry per room with photo.",
+    "actions": [
+      "Öppna",
+      "Granska",
+      "hover selects"
+    ],
+    "structure": "Grid of 11 cards: env photo top (wing, badge, title), purpose, metric dl, footer actions.",
+    "strengths": [
+      "Photography makes departments tangible"
+    ],
+    "weaknesses": [
+      "Same photo reused for multiple rooms (11 rooms, 10 images)",
+      "Hover side-effect changes the stage above"
+    ],
+    "links": [
+      "(room routes)"
+    ],
+    "desktop": "Grid",
+    "mobile": "Stacks",
+    "opportunities": [
+      "Use as hub cards on the dashboard"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "CLB-01c",
+    "domain": "CLB",
+    "name": "Identity / Supporters / National team panels",
+    "route": "/career/klubbhuset",
+    "kind": "panel",
+    "parent": "CLB-01",
+    "components": [
+      "app/career/klubbhuset/page.tsx (.kh-grid)"
+    ],
+    "purpose": "Club facts & colours, supporter mood, rivals, honours, national team breaks.",
+    "actions": [
+      "Open rival club"
+    ],
+    "structure": "Three bd-panels: dl of facts with colour swatches; MeterBar + rivals list + honours list; list of national windows with dates/opponents/called players.",
+    "strengths": [
+      "Unique world flavour (real EHF/IHF calendar)"
+    ],
+    "weaknesses": [
+      "Dense prose lists; national team info hidden here only"
+    ],
+    "links": [
+      "CLB-04",
+      "WLD-05"
+    ],
+    "desktop": "3 columns",
+    "mobile": "1 column",
+    "opportunities": [
+      "Trophy cabinet visual; supporter banner/tifo imagery"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "CLB-02",
+    "domain": "CLB",
+    "name": "Klubb (own club overview)",
+    "route": "/career/club",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/club/page.tsx",
+      "components/game/Identity.tsx (ClubHero, PlayerCell)",
+      "components/manager/ClubContext.tsx",
+      "components/manager/Workspace.tsx (Panel)",
+      "components/game/profile-world.css",
+      "lib/economy/clubEconomyLabels.ts"
+    ],
+    "purpose": "Own club profile: season facts, results/transfers/history, positional depth, top scorers, economy summary, partnerships.",
+    "actions": [
+      "Öppna truppen",
+      "Öppna tävlingen",
+      "Switch ClubContext tab",
+      "Trupp & lagbygge",
+      "Alla prestationer",
+      "Visa partnerskap"
+    ],
+    "structure": "ClubHero; 4-cell facts strip (position, squad size, venue, staff); main column: ClubContext panel with tabs, 7-position depth tiles (MV V6 V9 M9 M6 H9 H6 counts), top-6 scorers list; right rail: Ekonomi panel with ~16 label/value FinanceRows and Klubbpartnerskap panel.",
+    "strengths": [
+      "Positional depth tiles are a nice handball-specific visual",
+      "Economy health badge"
+    ],
+    "weaknesses": [
+      "Economy rail is a 16-row label/value list with inline styles — a spreadsheet in a sidebar, duplicating Finance",
+      "Overlaps heavily with Klubbhuset (CLB-01), Finance (CLB-06) and Squad",
+      "FinanceRow uses inline flex/font-size styles rather than tokens"
+    ],
+    "links": [
+      "/career/squad",
+      "/career/statistics",
+      "CLB-03",
+      "/career/competitions/[id]",
+      "MGR-02"
+    ],
+    "desktop": "Main + 290–340px rail.",
+    "mobile": "≤1250px rail drops below (2-col), ≤760px single column; facts 2-col.",
+    "opportunities": [
+      "Merge with Klubbhuset as 'Klubben' hub (identity, facilities, economy summary as visual cards)",
+      "Replace FinanceRows with 2–3 visual KPIs linking to Finance"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "CLB-02a",
+    "domain": "CLB",
+    "name": "ClubContext tabs (Resultat & form / Övergångar / Säsongshistorik)",
+    "route": "/career/club, /career/clubs/[clubId]",
+    "kind": "tab",
+    "parent": "CLB-02",
+    "components": [
+      "components/manager/ClubContext.tsx"
+    ],
+    "purpose": "Club-in-world context reused for own and other clubs.",
+    "actions": [
+      "Switch tab",
+      "Open fixture/report",
+      "Open player/club",
+      "Open historic season"
+    ],
+    "structure": "Panel 'Klubben i karriärvärlden' with hm-tabs (aria-pressed buttons): results = form dots + fixture table (8); transfers = 5-col table; history = 4-col table.",
+    "strengths": [
+      "Reusable component"
+    ],
+    "weaknesses": [
+      "Tabs are local state (not URL), reset on navigation",
+      "Transfers/history tables have no empty states styled beyond table"
+    ],
+    "links": [
+      "MGR-02",
+      "/career/match-report/[id]",
+      "CLB-04"
+    ],
+    "desktop": "Panel",
+    "mobile": "Tabs scroll-x",
+    "opportunities": [
+      "Timeline view of club story"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "CLB-02b",
+    "domain": "CLB",
+    "name": "Economy & partnerships rail",
+    "route": "/career/club",
+    "kind": "panel",
+    "parent": "CLB-02",
+    "components": [
+      "app/career/club/page.tsx (FinanceRow)"
+    ],
+    "purpose": "Revenue split, cash, wages vs budget, budgets, health; partnership status.",
+    "actions": [
+      "Visa partnerskap →"
+    ],
+    "structure": "hm-panel with badge + eyebrow + 16 FinanceRows separated by dividers + muted note; partnership panel with up to 3 rows or 'Inget aktivt samarbete.'",
+    "strengths": [
+      "Warns when wages exceed budget"
+    ],
+    "weaknesses": [
+      "Pure numeric list; no chart; 11px/12px text"
+    ],
+    "links": [
+      "CLB-03",
+      "CLB-06"
+    ],
+    "desktop": "Rail",
+    "mobile": "Below main",
+    "opportunities": [
+      "Mini stacked bar of revenue mix"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "CLB-03",
+    "domain": "CLB",
+    "name": "Klubbpartnerskap",
+    "route": "/career/club/partnerships",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/club/partnerships/page.tsx",
+      "components/MoneyInput.tsx",
+      "lib/career/clubPartnerships.ts"
+    ],
+    "purpose": "Permanent B-teams, development-partner search/agreement, player placements, international loan partnerships, history.",
+    "actions": [
+      "← Klubb",
+      "Sök samarbetsklubb",
+      "Choose candidate + cost/month + duration → Ingå avtal",
+      "Förläng 6 månader",
+      "Avsluta samarbete",
+      "Place player at partner",
+      "Recall player",
+      "Create international loan (player, wage share %, end date)"
+    ],
+    "structure": "Vertical stack of plain hm-panels: intro, 'Permanenta B-lag' 3-col table, 'Sök samarbetsklubb' (state machine: active / searching / candidates radio list + inline form / start button), PlacementPanel per relation (table + Place buttons), InternationalLoanPanel(s), 'Historik' 5-col table.",
+    "strengths": [
+      "Complete feature with clear state copy (searching until date)",
+      "Blockers explained"
+    ],
+    "weaknesses": [
+      "Pure admin form/table UI with inline styles (inputStyle object, radio labels styled as .hm-panel with inline borderColor)",
+      "No hero, no partner crests, no imagery — the least 'game' page in scope",
+      "'--' used as dash in copy ('Permanent -- kan inte sägas upp', 'Internationellt låneavtal -- …')",
+      "Only reachable via a ghost button in Club rail"
+    ],
+    "links": [
+      "CLB-02",
+      "CLB-04"
+    ],
+    "desktop": "Single column stack.",
+    "mobile": "No page-specific CSS; tables likely overflow (no hm-scroll-x wrappers on these tables).",
+    "opportunities": [
+      "Partner network diagram (club → B-team / partner with crests and players on loan)",
+      "Guided 'find partner' flow as a decision card"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "CLB-03a",
+    "domain": "CLB",
+    "name": "Partner search & agreement form",
+    "route": "/career/club/partnerships",
+    "kind": "panel",
+    "parent": "CLB-03",
+    "components": [
+      "app/career/club/partnerships/page.tsx"
+    ],
+    "purpose": "Ask the board to find a Division 1 partner, then agree terms.",
+    "actions": [
+      "Sök samarbetsklubb",
+      "Select candidate",
+      "Set cost/month",
+      "Set duration",
+      "Ingå avtal",
+      "Förläng",
+      "Avsluta"
+    ],
+    "structure": "Panel body switching between 4 states; candidate list of radio labels; inline form row.",
+    "strengths": [
+      "Explicit states"
+    ],
+    "weaknesses": [
+      "Termination is a single click, no confirm"
+    ],
+    "links": [],
+    "desktop": "Panel",
+    "mobile": "Wraps",
+    "opportunities": [
+      "Decision card with consequences"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "CLB-03b",
+    "domain": "CLB",
+    "name": "Placement & international loan panels",
+    "route": "/career/club/partnerships",
+    "kind": "panel",
+    "parent": "CLB-03",
+    "components": [
+      "app/career/club/partnerships/page.tsx (PlacementPanel, InternationalLoanPanel)"
+    ],
+    "purpose": "Send/recall players to partner clubs; register foreign loans.",
+    "actions": [
+      "Place",
+      "Recall",
+      "Submit loan"
+    ],
+    "structure": "Panel with player table + per-row buttons; loan panel with select, % input, date, submit.",
+    "strengths": [
+      "Inline errors"
+    ],
+    "weaknesses": [
+      "Player rows text only"
+    ],
+    "links": [
+      "/career/squad/[playerId]"
+    ],
+    "desktop": "Panels",
+    "mobile": "Overflow risk",
+    "opportunities": [
+      "Drag player onto partner card"
+    ],
+    "importance": "rare"
+  },
+  {
+    "id": "CLB-04",
+    "domain": "CLB",
+    "name": "Other club profile",
+    "route": "/career/clubs/[clubId]",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/clubs/[clubId]/page.tsx",
+      "components/game/Identity.tsx (ClubHero)",
+      "components/manager/ClubContext.tsx",
+      "lib/identity/presentation.ts",
+      "lib/knowledge/clubVisibility.ts"
+    ],
+    "purpose": "Profile for any non-own club: season facts, results/transfers/history, squad, fixtures, staff, club identity claims and head-coach philosophy (knowledge-gated).",
+    "actions": [
+      "Tillbaka",
+      "Switch ClubContext tab",
+      "Open player",
+      "Open fixture preview / match report",
+      "Open staff member",
+      "Öppna tävlingen"
+    ],
+    "structure": "ClubHero + 4 facts (position, points, squad, staff) + partnership note; main: ClubContext, 'Trupp' table (Nr/Spelare/Pos/Ålder), 'Matcher' table, 'Personal' table, 'Klubbidentitet' claims by 7 domains, 'Tränarfilosofi' claims by 6 domains; knowledge tier/percentage gates detail.",
+    "strengths": [
+      "Honest empty states ('Ingen truppdata tillgänglig…')",
+      "Knowledge-gated scouting flavour",
+      "Identity claims add narrative texture"
+    ],
+    "weaknesses": [
+      "Five stacked tables/panels with the same visual weight",
+      "Identity claims shown as label lists rather than a personality profile",
+      "Back button relies on router.back()"
+    ],
+    "links": [
+      "/career/squad/[playerId]",
+      "/career/fixtures/[id]",
+      "/career/match-report/[id]",
+      "/career/staff/[staffId]",
+      "/career/competitions/[id]",
+      "MGR-02"
+    ],
+    "desktop": "Main + rail split (hm-world-split).",
+    "mobile": "Stacks at ≤1250px; tables in hm-scroll-x.",
+    "opportunities": [
+      "Opponent 'dossier' look: style radar, key players with faces, rivalry status, head-to-head",
+      "Tabs: Översikt / Trupp / Matcher / Identitet"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "CLB-04a",
+    "domain": "CLB",
+    "name": "Club identity & coach philosophy panels",
+    "route": "/career/clubs/[clubId]",
+    "kind": "panel",
+    "parent": "CLB-04",
+    "components": [
+      "app/career/clubs/[clubId]/page.tsx",
+      "lib/identity/presentation.ts"
+    ],
+    "purpose": "Show club culture/tactical heritage and coach style claims at the manager's knowledge level.",
+    "actions": [],
+    "structure": "Two hm-panels with grouped claim lists by domain label; empty states when no data.",
+    "strengths": [
+      "Unique narrative data"
+    ],
+    "weaknesses": [
+      "Read like database fields"
+    ],
+    "links": [],
+    "desktop": "Main column",
+    "mobile": "Stacked",
+    "opportunities": [
+      "Visual identity card / personality wheel"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "CLB-05",
+    "domain": "CLB",
+    "name": "Styrelserummet (Board)",
+    "route": "/career/board",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/board/page.tsx",
+      "components/experience/Moment.tsx (MomentHero, DecisionCard)",
+      "components/experience/primitives.tsx (MeterBar)",
+      "components/board/boardVisuals.ts",
+      "components/board/board.css",
+      "lib/board/board.ts",
+      "lib/manager/managerCareer.ts"
+    ],
+    "purpose": "Board confidence and why, season objectives, manager contract and offers, meeting minutes, recovery plan.",
+    "actions": [
+      "Lämna handlingsplan (when warned)",
+      "Skriv på / Tacka nej (contract offer)",
+      "Din karriär →"
+    ],
+    "structure": "Boardroom photo MomentHero (verdict stamp if a meeting in last 21 days, else neutral); 2×2 grid of bd-panels: Förtroende (meter, trend sparkline SVG with warning/dismissal lines, factor list +/-), Säsongens mål (objectives with status pills, why, progress), Kontraktet (dl + DecisionCard), Möten (protocol list).",
+    "strengths": [
+      "Good narrative framing ('Hur styrelsen ser på dig'); transparent thresholds",
+      "DecisionCard pattern makes consequences explicit",
+      "Confidence trend sparkline"
+    ],
+    "weaknesses": [
+      "Board members are faceless — no people, only a room photo",
+      "Thresholds explained in a dense paragraph",
+      "Objectives list is text + pill; no progress bars"
+    ],
+    "links": [
+      "MGR-01",
+      "DSH-01"
+    ],
+    "desktop": "Hero + 2-column grids.",
+    "mobile": "≤1000px single column; ≤640px contract dl 2-col.",
+    "opportunities": [
+      "Board table with named members and moods",
+      "Objective progress meters",
+      "Meeting as a scene (dialogue) rather than minutes list"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "CLB-05a",
+    "domain": "CLB",
+    "name": "Board verdict hero",
+    "route": "/career/board",
+    "kind": "state",
+    "parent": "CLB-05",
+    "components": [
+      "components/experience/Moment.tsx (MomentHero)"
+    ],
+    "purpose": "Show latest board verdict prominently for 21 days.",
+    "actions": [],
+    "structure": "MomentHero with tone (gold/ink/loss), stamp (Nöjd/Godkänt/Oroad/Varning/Avsked), headline and lede.",
+    "strengths": [
+      "Emotional framing with stamp"
+    ],
+    "weaknesses": [
+      "Same photo for every verdict"
+    ],
+    "links": [],
+    "desktop": "Wide hero",
+    "mobile": "Stacks",
+    "opportunities": [
+      "Verdict-specific imagery"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "CLB-05b",
+    "domain": "CLB",
+    "name": "Recovery-plan & contract-offer decision cards",
+    "route": "/career/board",
+    "kind": "panel",
+    "parent": "CLB-05",
+    "components": [
+      "components/experience/Moment.tsx (DecisionCard)"
+    ],
+    "purpose": "Respond to board warnings and contract offers.",
+    "actions": [
+      "Lämna handlingsplan",
+      "Skriv på",
+      "Tacka nej"
+    ],
+    "structure": "DecisionCard: title, status pill (deadline), primary button with consequence line, secondary button; result message as role=status note.",
+    "strengths": [
+      "Consequence-first design"
+    ],
+    "weaknesses": [
+      "Embedded inside dense panels — easy to miss; also blocks Continue ('Styrelsemöte')"
+    ],
+    "links": [],
+    "desktop": "In panel",
+    "mobile": "In panel",
+    "opportunities": [
+      "Promote to modal 'meeting' moment"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "CLB-06",
+    "domain": "CLB",
+    "name": "Finanscentralen (Finance)",
+    "route": "/career/finance",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/finance/page.tsx",
+      "components/finance/FinanceCharts.tsx (CashLineChart, CategoryBars, StackedBars)",
+      "components/finance/finance.css",
+      "components/experience/CourtBackdrop.tsx",
+      "components/experience/primitives.tsx (Stat)",
+      "lib/economy/*"
+    ],
+    "purpose": "Club finances: cash trend, warnings/decisions, flows, budget reallocation, monthly ledger, wage commitments, forecast.",
+    "actions": [
+      "Switch tab (URL ?tab=)",
+      "Reallocate budget (Budget tab)",
+      "Open players from wage list"
+    ],
+    "structure": "Status band (court-line backdrop, H1 'Finanscentralen', headline sentence, status pill, 3 Stats: Kassa / Senaste månad / Prognos 31 maj) + tab bar with 6 tabs, each tab a 2-col grid of fc-panels with SVG charts and tables.",
+    "strengths": [
+      "Real charts (line with overdraft line, category bars, stacked bars) with draw-in animation + reduced-motion",
+      "Narrative headline sentence summarises status",
+      "Tabs are URL-addressable"
+    ],
+    "weaknesses": [
+      "Ledger/wages/forecast tabs are long multi-column numeric tables (forecast table ≥5 money columns)",
+      "Six tabs of accounting depth for a sports game; budget decisions buried in tab 3",
+      "No link from warnings to the actions that fix them (e.g. sell player)"
+    ],
+    "links": [
+      "/career/squad/[playerId]",
+      "CLB-05",
+      "/career/transfers"
+    ],
+    "desktop": "Band + 2-col grid.",
+    "mobile": "≤1100px band/grid single column; ≤760px stats stack, bars reflow.",
+    "opportunities": [
+      "Lead with 3 visual KPIs + one decision; move ledger to 'Detaljer'",
+      "Tie finance to football: 'this signing costs X of your budget' simulations"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "CLB-06a",
+    "domain": "CLB",
+    "name": "Tab · Översikt",
+    "route": "/career/finance",
+    "kind": "tab",
+    "parent": "CLB-06",
+    "components": [
+      "app/career/finance/page.tsx (Overview)",
+      "components/finance/FinanceCharts.tsx (CashLineChart)"
+    ],
+    "purpose": "Cash month-by-month (12 actual + 9 projected), warnings & decisions, season so far.",
+    "actions": [
+      "Decision links"
+    ],
+    "structure": "Line chart panel, warnings panel (EventCard-like items with tone/consequence), season summary panel.",
+    "strengths": [
+      "Best data viz in scope"
+    ],
+    "weaknesses": [
+      "Warnings are text cards"
+    ],
+    "links": [],
+    "desktop": "2-col",
+    "mobile": "1-col",
+    "opportunities": [
+      "Make warnings actionable buttons"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "CLB-06b",
+    "domain": "CLB",
+    "name": "Tab · Intäkter & kostnader",
+    "route": "/career/finance?tab=flows",
+    "kind": "tab",
+    "parent": "CLB-06",
+    "components": [
+      "app/career/finance/page.tsx (Flows)",
+      "components/finance/FinanceCharts.tsx (CategoryBars)"
+    ],
+    "purpose": "Income/cost categories and matchday gate revenue.",
+    "actions": [],
+    "structure": "Two CategoryBars panels + 5-col match table (date, opponent crest, attendance, occupancy fill bar, revenue). Empty: 'Första månadsbokslutet kommer…'",
+    "strengths": [
+      "Opponent crests + occupancy bars"
+    ],
+    "weaknesses": [
+      "Table-heavy"
+    ],
+    "links": [],
+    "desktop": "2-col",
+    "mobile": "1-col",
+    "opportunities": [
+      "Arena fill visual"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "CLB-06c",
+    "domain": "CLB",
+    "name": "Tab · Budget",
+    "route": "/career/finance?tab=budget",
+    "kind": "tab",
+    "parent": "CLB-06",
+    "components": [
+      "app/career/finance/page.tsx (Budget)"
+    ],
+    "purpose": "Board frames and up to 15% budget reallocation.",
+    "actions": [
+      "Shift budget between areas",
+      "Confirm plan"
+    ],
+    "structure": "Panel 'Budgeten' with board frames and allocation controls (StackedBars).",
+    "strengths": [
+      "Real decision"
+    ],
+    "weaknesses": [
+      "Hidden in 3rd tab; the only decision in Finance"
+    ],
+    "links": [],
+    "desktop": "Panel",
+    "mobile": "Stacked",
+    "opportunities": [
+      "Promote to season-start board meeting moment"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "CLB-06d",
+    "domain": "CLB",
+    "name": "Tab · Huvudbok (ledger)",
+    "route": "/career/finance?tab=ledger",
+    "kind": "tab",
+    "parent": "CLB-06",
+    "components": [
+      "app/career/finance/page.tsx (Ledger)"
+    ],
+    "purpose": "Monthly statements.",
+    "actions": [
+      "Select month"
+    ],
+    "structure": "Month selector + statement table with colour swatches per category, one-off transactions, opening/closing cash. Empty state text.",
+    "strengths": [
+      "Category swatches"
+    ],
+    "weaknesses": [
+      "Pure accounting table"
+    ],
+    "links": [],
+    "desktop": "Split",
+    "mobile": "1-col",
+    "opportunities": [
+      "Collapse into expandable detail"
+    ],
+    "importance": "rare"
+  },
+  {
+    "id": "CLB-06e",
+    "domain": "CLB",
+    "name": "Tab · Lönekontrakt",
+    "route": "/career/finance?tab=wages",
+    "kind": "tab",
+    "parent": "CLB-06",
+    "components": [
+      "app/career/finance/page.tsx (Wages)"
+    ],
+    "purpose": "Commitments per season, staff costs, player wage list.",
+    "actions": [
+      "Open player"
+    ],
+    "structure": "Commitments panel, staff panel, 4-col wage table with PlayerCell.",
+    "strengths": [
+      "Remaining-to-pay column useful"
+    ],
+    "weaknesses": [
+      "Overlaps Contracts page"
+    ],
+    "links": [
+      "/career/contracts",
+      "/career/squad/[playerId]"
+    ],
+    "desktop": "Panels",
+    "mobile": "Scroll-x tables",
+    "opportunities": [
+      "Merge with Kontrakt"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "CLB-06f",
+    "domain": "CLB",
+    "name": "Tab · Prognos",
+    "route": "/career/finance?tab=forecast",
+    "kind": "tab",
+    "parent": "CLB-06",
+    "components": [
+      "app/career/finance/page.tsx (Forecast)"
+    ],
+    "purpose": "Projection to season end with assumptions and month table.",
+    "actions": [],
+    "structure": "Projected CashLineChart, assumptions panel, wide month-by-month table, calibration note.",
+    "strengths": [
+      "Assumptions disclosed"
+    ],
+    "weaknesses": [
+      "Wide numeric table"
+    ],
+    "links": [],
+    "desktop": "Panels",
+    "mobile": "Scroll-x",
+    "opportunities": [
+      "What-if sliders"
+    ],
+    "importance": "rare"
+  },
+  {
+    "id": "MGR-01",
+    "domain": "MGR",
+    "name": "Karriär (manager career)",
+    "route": "/career/manager",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/manager/page.tsx",
+      "components/experience/Moment.tsx (MomentHero, DecisionCard)",
+      "components/board/boardVisuals.ts",
+      "lib/manager/managerCareer.ts"
+    ],
+    "purpose": "Manager reputation, career stats, clubs history, resignation, job market (offers, vacancies, applications).",
+    "actions": [
+      "Switch tab Profil och historik / Jobbmarknaden (?tab=jobs)",
+      "Avgå (resign)",
+      "Tacka ja / decline offer",
+      "Apply for vacancy"
+    ],
+    "structure": "Boardroom-photo MomentHero (variants: dismissed/unemployed, new club welcome, neutral compact); role=tablist with 2 tabs; bd-panels: Tränarprofilen, Karriärstatistik, Avgå (DecisionCard), Klubbarna (per stint 6-col season table) | Erbjudanden (DecisionCards with crest), Lediga tjänster, Ansökningar.",
+    "strengths": [
+      "Dismissal/appointment moments are dramatised with stamps ('Sparkad', 'Påskrivet')",
+      "Job market makes unemployment playable"
+    ],
+    "weaknesses": [
+      "Manager has no face/avatar — reputation is a label",
+      "Reuses the boardroom photo for all states",
+      "Overlaps with Board (contract) and Historik"
+    ],
+    "links": [
+      "CLB-05",
+      "MGR-02",
+      "DSH-01"
+    ],
+    "desktop": "Hero + panel grid.",
+    "mobile": "board.css rules (≤1000px single column).",
+    "opportunities": [
+      "Manager 'player card' with reputation level, badges, career timeline",
+      "Job offers as club cards with crest/colours/ambition"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "MGR-01a",
+    "domain": "MGR",
+    "name": "Tab · Profil och historik",
+    "route": "/career/manager",
+    "kind": "tab",
+    "parent": "MGR-01",
+    "components": [
+      "app/career/manager/page.tsx"
+    ],
+    "purpose": "Reputation, record, resign, club history.",
+    "actions": [
+      "Avgå"
+    ],
+    "structure": "4 bd-panels incl. per-club season tables.",
+    "strengths": [
+      "Clear sections"
+    ],
+    "weaknesses": [
+      "Stats as text/numbers"
+    ],
+    "links": [
+      "MGR-02"
+    ],
+    "desktop": "Grid",
+    "mobile": "Stack",
+    "opportunities": [
+      "Career timeline graphic"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "MGR-01b",
+    "domain": "MGR",
+    "name": "Tab · Jobbmarknaden",
+    "route": "/career/manager?tab=jobs",
+    "kind": "tab",
+    "parent": "MGR-01",
+    "components": [
+      "app/career/manager/page.tsx",
+      "components/experience/Moment.tsx (DecisionCard)"
+    ],
+    "purpose": "Offers, vacancies and applications.",
+    "actions": [
+      "Tacka ja",
+      "Apply",
+      "Withdraw"
+    ],
+    "structure": "Three bd-panels: offer DecisionCards (crest + deadline pill), vacancy list, applications list; count in tab label.",
+    "strengths": [
+      "Count badge in tab",
+      "Good empty-state copy"
+    ],
+    "weaknesses": [
+      "Vacancies as plain list"
+    ],
+    "links": [
+      "CLB-04"
+    ],
+    "desktop": "Grid",
+    "mobile": "Stack",
+    "opportunities": [
+      "Club cards with expectations & budget"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "MGR-01c",
+    "domain": "MGR",
+    "name": "Dismissed / unemployed hero state",
+    "route": "/career/manager",
+    "kind": "state",
+    "parent": "MGR-01",
+    "components": [
+      "app/career/manager/page.tsx"
+    ],
+    "purpose": "Frame being sacked/resigned/out of contract.",
+    "actions": [
+      "Go to job market"
+    ],
+    "structure": "MomentHero kind=DISMISSAL with stamp.",
+    "strengths": [
+      "Emotional beat exists"
+    ],
+    "weaknesses": [
+      "Elsewhere (dashboard) only a text note"
+    ],
+    "links": [
+      "MGR-01b"
+    ],
+    "desktop": "Hero",
+    "mobile": "Hero",
+    "opportunities": [
+      "Full-screen moment on the day it happens"
+    ],
+    "importance": "rare"
+  },
+  {
+    "id": "MGR-02",
+    "domain": "MGR",
+    "name": "Historik",
+    "route": "/career/history",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/history/page.tsx",
+      "components/game/Secondary.tsx (SectionScene)",
+      "components/manager/Workspace.tsx (Panel, FixtureTable)",
+      "components/manager/StatisticsTable.tsx",
+      "lib/career/matchArchiveSummary.ts"
+    ],
+    "purpose": "Past seasons: final table, player stats, career match archive, completed transfers.",
+    "actions": [
+      "Select season (?season=)",
+      "Toggle transfers Din klubb / Hela världen",
+      "Open match report",
+      "Open club/player"
+    ],
+    "structure": "SectionScene header with crest; season link tabs; main: final-table panel (wide table), statistics table, 'Spelade matcharkiv · hela karriären' fixture table, transfers table; rail: final-placement milestone card + note.",
+    "strengths": [
+      "Preserves full archive; season deep-links"
+    ],
+    "weaknesses": [
+      "Mostly long tables; no trophies or highlights",
+      "Mojibake in fallback link text: '?ppna ?ldre matcharkiv ?' (app/career/history/page.tsx L44) — encoding bug",
+      "Overlaps Säsongen, Karriär and Statistik"
+    ],
+    "links": [
+      "/career/match-report/[id]",
+      "CLB-04",
+      "/career/squad/[playerId]",
+      "MGR-03"
+    ],
+    "desktop": "Main + rail (game-secondary-split).",
+    "mobile": "Single column (secondary.css ≤ breakpoint).",
+    "opportunities": [
+      "Career scrapbook: season cards with final position, trophy, top scorer, best moment",
+      "Merge into a 'Karriär' hub with MGR-01"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "MGR-02a",
+    "domain": "MGR",
+    "name": "Season selector tabs",
+    "route": "/career/history?season=",
+    "kind": "tab",
+    "parent": "MGR-02",
+    "components": [
+      "app/career/history/page.tsx (.hm-tabs)"
+    ],
+    "purpose": "Pick historic season.",
+    "actions": [
+      "Select season"
+    ],
+    "structure": "Link tabs with aria-current; hidden when no history.",
+    "strengths": [
+      "URL-driven"
+    ],
+    "weaknesses": [
+      "Empty career shows no explanation in tab area"
+    ],
+    "links": [],
+    "desktop": "Tabs",
+    "mobile": "Scroll-x",
+    "opportunities": [
+      "Season timeline"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "MGR-03",
+    "domain": "MGR",
+    "name": "Säsongen (season hub)",
+    "route": "/career/season",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/season/page.tsx",
+      "components/season/CompetitionMark.tsx",
+      "components/season/Knockout.tsx (BracketGrid, TieCard)",
+      "components/season/seasonAssets.ts",
+      "components/season/season.css",
+      "components/experience/Moment.tsx (MomentHero, EventCard)"
+    ],
+    "purpose": "Whole-season picture: hero, next step, promotion/relegation movement, SM-slutspel bracket, kval ties, Svenska cupen, league tables with zones, important upcoming matches, rules, awards gala.",
+    "actions": [
+      "Open tie/fixture",
+      "Open award player",
+      "Read rules"
+    ],
+    "structure": "Court/trophy photo MomentHero; NextStep tone card with CompetitionMark; Movement lists (up/down/kval); competition-coloured sections with brackets (BracketGrid), TieCards, cup group tables + bracket, side-by-side league tables with zone colouring; upcoming list; rules; Galan EventCards.",
+    "strengths": [
+      "Competition identity marks and colour per competition (HBL/SM/KVAL/CUP)",
+      "Brackets are genuinely visual",
+      "Zone colouring in tables"
+    ],
+    "weaknesses": [
+      "Very long single page; overlaps /career/competitions and the separate 'Svenska Cupen' nav item",
+      "Explanatory notes are dense small print (ss-note)"
+    ],
+    "links": [
+      "/career/fixtures/[id]",
+      "/career/match-report/[id]",
+      "/career/squad/[playerId]",
+      "/career/competitions/[id]"
+    ],
+    "desktop": "Stacked full-width sections.",
+    "mobile": "≤760px band stats stack, fixture lists single column, cup path 2-col.",
+    "opportunities": [
+      "Become the single 'Tävlingar' hub with tabs (Liga / SM / Kval / Cup / Galan)",
+      "Animated bracket progression; trophy moment on title"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "MGR-03a",
+    "domain": "MGR",
+    "name": "SM-slutspel / Kval / Cup sections",
+    "route": "/career/season",
+    "kind": "panel",
+    "parent": "MGR-03",
+    "components": [
+      "components/season/Knockout.tsx"
+    ],
+    "purpose": "Knockout progress.",
+    "actions": [
+      "Open tie"
+    ],
+    "structure": "SectionHead with mark + BracketGrid (QF/SF/F) or TieCards; champion aside.",
+    "strengths": [
+      "Strong visual"
+    ],
+    "weaknesses": [
+      "Only appear when ties exist — no preview of the path before"
+    ],
+    "links": [],
+    "desktop": "Wide",
+    "mobile": "Scroll",
+    "opportunities": [
+      "Show projected bracket early"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "MGR-03b",
+    "domain": "MGR",
+    "name": "Season verdict & awards gala",
+    "route": "/career/season",
+    "kind": "state",
+    "parent": "MGR-03",
+    "components": [
+      "app/career/season/page.tsx (SeasonVerdict, Awards)"
+    ],
+    "purpose": "End-of-season honours.",
+    "actions": [
+      "Open player"
+    ],
+    "structure": "Verdict grid (champion, runner-up, cup winner, series winners with marks) + EventCards per award.",
+    "strengths": [
+      "Gala framing"
+    ],
+    "weaknesses": [
+      "Only on this page; not pushed as a moment"
+    ],
+    "links": [],
+    "desktop": "Grid",
+    "mobile": "Stack",
+    "opportunities": [
+      "Full-screen gala sequence"
+    ],
+    "importance": "rare"
+  },
+  {
+    "id": "MGR-04",
+    "domain": "MGR",
+    "name": "Momentbiblioteket (moment library)",
+    "route": "/career/moments",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/moments/page.tsx",
+      "components/experience/Moment.tsx",
+      "components/experience/primitives.tsx",
+      "components/transfers/transferVisuals.ts",
+      "components/experience/experienceAssets.ts"
+    ],
+    "purpose": "Developer reference page showing the shared 'experience' components (MomentHero, EventCard, DecisionCard, MeterBar, ProgressSteps, RouteLine, ValueFlow) with the user's club.",
+    "actions": [
+      "None functional (buttons are inert)"
+    ],
+    "structure": "Settings-styled page with examples: signing moment with RouteLine/ProgressSteps/ValueFlow, staff appointment hero, championship hero, promotion/dismissal heroes, three EventCards, DecisionCard, meter examples.",
+    "strengths": [
+      "De-facto living style guide for the 'experience' layer — the best inventory of existing high-emotion components"
+    ],
+    "weaknesses": [
+      "Not linked from navigation; reachable only by URL",
+      "Inert buttons look real"
+    ],
+    "links": [
+      "SYS-01"
+    ],
+    "desktop": "Stacked examples",
+    "mobile": "auto-fit grids",
+    "opportunities": [
+      "Promote into a proper documented component gallery for the redesign"
+    ],
+    "importance": "internal"
+  },
+  {
+    "id": "WLD-01",
+    "domain": "WLD",
+    "name": "Inkorg (Inbox)",
+    "route": "/career/inbox",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/inbox/page.tsx",
+      "lib/career/inboxFilters.ts",
+      "lib/career/destinations.ts",
+      "components/game/WorkspaceMemory.tsx",
+      "components/game/Identity.tsx (MatchHero, PlayerCell)",
+      "components/game/recruitment-news.css"
+    ],
+    "purpose": "Messages from club/staff/board/world with required actions and deep links.",
+    "actions": [
+      "Filter (Alla, Olästa, Åtgärd krävs, Kontrakt, Transfers, Analys, Scouting, Tränarstab, Arkiverat)",
+      "Select message",
+      "Markera som läst",
+      "Arkivera / Återställ",
+      "Destination buttons ('Nästa steg')"
+    ],
+    "structure": "PageHeading + masthead strip (date, unread count, action-required count); two-pane layout: left feed (9 filter buttons, count, scrollable list of message buttons with category · date, unread dot, subject, preview, 'ÅTGÄRD KRÄVS →'), right article (kicker, H2, byline, optional compact MatchHero / PlayerCell, paragraphs, next-step buttons, tools footer).",
+    "strengths": [
+      "Classic mail two-pane works; deep link ?message=",
+      "Action-required messages can't be archived until resolved",
+      "Contextual MatchHero/PlayerCell inside article",
+      "Reader state remembered across navigation (WorkspaceMemory)"
+    ],
+    "weaknesses": [
+      "Nine flat filter buttons",
+      "All messages look alike — no sender portraits/logos, category only as small text",
+      "Overlaps Media news feed and dashboard news"
+    ],
+    "links": [
+      "(destinations) /career/squad/[playerId]",
+      "/career/match-report/[id]",
+      "/career/match-day/[id]",
+      "CLB-05",
+      "/career/contracts",
+      "/career/scouting"
+    ],
+    "desktop": "Two-pane (360–420px list + article).",
+    "mobile": "≤900px single column — list above article; selecting a message does not scroll to it (no code found).",
+    "opportunities": [
+      "Unify with Media as one 'Nyheter & besked' stream with priority lanes",
+      "Sender identity (assistant, board chair, physio) with faces",
+      "Phone: list → full-screen reader"
+    ],
+    "importance": "core"
+  },
+  {
+    "id": "WLD-01a",
+    "domain": "WLD",
+    "name": "Inbox filters",
+    "route": "/career/inbox",
+    "kind": "panel",
+    "parent": "WLD-01",
+    "components": [
+      "lib/career/inboxFilters.ts"
+    ],
+    "purpose": "Narrow message list.",
+    "actions": [
+      "Select filter"
+    ],
+    "structure": "Row of 9 hm-btn-sm aria-pressed buttons.",
+    "strengths": [
+      "Includes Åtgärd krävs"
+    ],
+    "weaknesses": [
+      "No counts per filter"
+    ],
+    "links": [],
+    "desktop": "Wrap row",
+    "mobile": "Wrap",
+    "opportunities": [
+      "Segmented: Att göra / Allt / Arkiv + category chips"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "WLD-01b",
+    "domain": "WLD",
+    "name": "Message reader + empty states",
+    "route": "/career/inbox?message=",
+    "kind": "panel",
+    "parent": "WLD-01",
+    "components": [
+      "app/career/inbox/page.tsx"
+    ],
+    "purpose": "Read a message and act.",
+    "actions": [
+      "Destination buttons",
+      "Mark read",
+      "Archive/unarchive"
+    ],
+    "structure": "Article with data-category; empty: 'Välj ett meddelande…' / 'Inga meddelanden i denna vy.'",
+    "strengths": [
+      "Next-step buttons"
+    ],
+    "weaknesses": [
+      "Long body paragraphs at 13px"
+    ],
+    "links": [],
+    "desktop": "Right pane",
+    "mobile": "Below list",
+    "opportunities": [
+      "Email-as-scene: assistant briefings with visuals"
+    ],
+    "importance": "core"
+  },
+  {
+    "id": "WLD-02",
+    "domain": "WLD",
+    "name": "Mediecentret (Media)",
+    "route": "/career/media",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/media/page.tsx",
+      "components/media/MediaParts.tsx (StoryCard, OutletChip, FictionNote, PRESSROOM_BACKDROP)",
+      "components/media/media.css",
+      "components/experience/Moment.tsx (MomentHero)",
+      "lib/media/*"
+    ],
+    "purpose": "News world: stories from fictional outlets, press conferences, coach rivalries, discipline cases, outlet relations.",
+    "actions": [
+      "Switch tab (?tab=feed|press|rivals|discipline|outlets)",
+      "Filter scope (Alla, Din klubb, Lokalt, Regionalt, Nationellt, Handbollsmedia)",
+      "Search stories",
+      "Open story",
+      "Open press conference"
+    ],
+    "structure": "Press-room photo MomentHero (top story as headline, or neutral 'Handbollsvärlden'); role=tablist of 5 tabs (press tab shows open count); feed = lead StoryCard (lg) + list of md/sm cards; press = list of conferences with status; rivals = coach relations + club rivalries; discipline = case list; outlets = outlet relation rows.",
+    "strengths": [
+      "Editorial hierarchy (lead story, sizes by importance)",
+      "Fictional outlets/journalists give world texture",
+      "Top story promoted into hero"
+    ],
+    "weaknesses": [
+      "Story cards are typographic only — no photos even though match/arena images exist",
+      "Rivals/discipline/outlets are thin lists",
+      "News split between Media, Inbox and Dashboard"
+    ],
+    "links": [
+      "WLD-03",
+      "WLD-04",
+      "CLB-04"
+    ],
+    "desktop": "Hero + tabs + 2-col feed grid.",
+    "mobile": "≤1000px feed single column, outlet rows reflow.",
+    "opportunities": [
+      "Newspaper/social-feed look with imagery and headlines from your matches",
+      "Press conference as a featured interactive card on the dashboard"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "WLD-02a",
+    "domain": "WLD",
+    "name": "Tab · Nyheter (feed)",
+    "route": "/career/media",
+    "kind": "tab",
+    "parent": "WLD-02",
+    "components": [
+      "components/media/MediaParts.tsx (StoryCard)"
+    ],
+    "purpose": "Story feed.",
+    "actions": [
+      "Scope filter",
+      "Search",
+      "Open story"
+    ],
+    "structure": "Radiogroup scope chips + search, lead card + list; empty copy.",
+    "strengths": [
+      "Search"
+    ],
+    "weaknesses": [
+      "No images"
+    ],
+    "links": [
+      "WLD-04"
+    ],
+    "desktop": "2-col",
+    "mobile": "1-col",
+    "opportunities": [
+      "Image-led cards"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "WLD-02b",
+    "domain": "WLD",
+    "name": "Tab · Presskonferenser",
+    "route": "/career/media?tab=press",
+    "kind": "tab",
+    "parent": "WLD-02",
+    "components": [
+      "app/career/media/page.tsx"
+    ],
+    "purpose": "Open and past press conferences.",
+    "actions": [
+      "Open conference"
+    ],
+    "structure": "List of links with title, date · status. Open count in tab label.",
+    "strengths": [
+      "Continue button routes here when one is pending"
+    ],
+    "weaknesses": [
+      "Plain list"
+    ],
+    "links": [
+      "WLD-03"
+    ],
+    "desktop": "List",
+    "mobile": "List",
+    "opportunities": [
+      "Countdown + journalist faces"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "WLD-02c",
+    "domain": "WLD",
+    "name": "Tab · Rivaler",
+    "route": "/career/media?tab=rivals",
+    "kind": "tab",
+    "parent": "WLD-02",
+    "components": [
+      "app/career/media/page.tsx (Rivals)"
+    ],
+    "purpose": "Coach relations and club rivalries; open feud hero.",
+    "actions": [
+      "Open club"
+    ],
+    "structure": "Optional compact MomentHero 'Öppen fejd' + two panels of lists.",
+    "strengths": [
+      "Feud framing"
+    ],
+    "weaknesses": [
+      "Relations as list values"
+    ],
+    "links": [
+      "CLB-04"
+    ],
+    "desktop": "2 panels",
+    "mobile": "Stack",
+    "opportunities": [
+      "Rivalry heat map"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "WLD-02d",
+    "domain": "WLD",
+    "name": "Tab · Disciplin",
+    "route": "/career/media?tab=discipline",
+    "kind": "tab",
+    "parent": "WLD-02",
+    "components": [
+      "app/career/media/page.tsx"
+    ],
+    "purpose": "Disciplinary cases.",
+    "actions": [],
+    "structure": "List of cases; 'Inga ärenden.'",
+    "strengths": [],
+    "weaknesses": [
+      "Thin; odd home under Media"
+    ],
+    "links": [],
+    "desktop": "List",
+    "mobile": "List",
+    "opportunities": [
+      "Move to squad/player status"
+    ],
+    "importance": "rare"
+  },
+  {
+    "id": "WLD-02e",
+    "domain": "WLD",
+    "name": "Tab · Medierna (outlets)",
+    "route": "/career/media?tab=outlets",
+    "kind": "tab",
+    "parent": "WLD-02",
+    "components": [
+      "app/career/media/page.tsx (OutletRow)"
+    ],
+    "purpose": "Relationship with each outlet and story counts.",
+    "actions": [],
+    "structure": "Rows: OutletChip, relation value, count.",
+    "strengths": [],
+    "weaknesses": [
+      "Numbers without meaning"
+    ],
+    "links": [],
+    "desktop": "Rows",
+    "mobile": "Reflow",
+    "opportunities": [
+      "Media favour meter"
+    ],
+    "importance": "rare"
+  },
+  {
+    "id": "WLD-03",
+    "domain": "WLD",
+    "name": "Presskonferens",
+    "route": "/career/media/press/[pressId]",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/media/press/[pressId]/page.tsx",
+      "components/media/MediaParts.tsx (OutletChip, PRESSROOM_BACKDROP)",
+      "lib/media/actions.ts",
+      "lib/media/press.ts"
+    ],
+    "purpose": "Answer journalists' questions by tone, delegate to assistant, or skip; see consequences.",
+    "actions": [
+      "Choose answer tone per question",
+      "Lämna svaren",
+      "Låt <assistant> svara (Delegera)",
+      "Avböj / Hoppa över",
+      "← Presskonferenser"
+    ],
+    "structure": "Compact press-room MomentHero (pre/post match, date, stamp when closed); consequences panel when closed; ordered list of questions: outlet chip, journalist name, style badge, question, radio answers (tone label, quote, hint).",
+    "strengths": [
+      "Real interactive dialogue mechanic with tone hints, delegation option",
+      "Consequences listed with reasons"
+    ],
+    "weaknesses": [
+      "All questions on one long form; no sense of a live room/turn-taking",
+      "Inline style on badge",
+      "Not-found state is a bare EmptyState"
+    ],
+    "links": [
+      "WLD-02b",
+      "WLD-04"
+    ],
+    "desktop": "Single column",
+    "mobile": "Same; answers as stacked labels",
+    "opportunities": [
+      "One question at a time, journalist portrait, reaction feedback — a signature scene"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "WLD-04",
+    "domain": "WLD",
+    "name": "Artikel (story)",
+    "route": "/career/media/story/[storyId]",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/media/story/[storyId]/page.tsx",
+      "components/media/MediaParts.tsx",
+      "lib/media/newsEngine.ts"
+    ],
+    "purpose": "Read one story and how other outlets covered the same event.",
+    "actions": [
+      "← Mediecentret",
+      "Destination buttons",
+      "Open other coverage"
+    ],
+    "structure": "Article: outlet chip, scope, H1 headline, standfirst, byline, body, quote blockquote, destination buttons, fiction note; 'Så skrev andra' list of StoryCards.",
+    "strengths": [
+      "Newspaper typography hierarchy",
+      "Cross-coverage comparison is a nice idea"
+    ],
+    "weaknesses": [
+      "No image; outlets visually indistinct"
+    ],
+    "links": [
+      "WLD-02",
+      "(destinations)"
+    ],
+    "desktop": "Article column",
+    "mobile": "Same",
+    "opportunities": [
+      "Outlet-specific mastheads/styles (tabloid vs local)"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "WLD-05",
+    "domain": "WLD",
+    "name": "Kalender",
+    "route": "/career/calendar",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/calendar/page.tsx",
+      "components/manager/CalendarMilestones.tsx",
+      "components/manager/Workspace.tsx (PageHeading, Panel, FixtureTable)",
+      "components/game/Identity.tsx",
+      "lib/training/trainingSchedule.ts",
+      "components/game/squad-season.css"
+    ],
+    "purpose": "Four-week view of training day types, sessions, matches, contract expiries, scouting completions and milestones.",
+    "actions": [
+      "← Fyra veckor / → (navigate 4-week blocks)",
+      "Hantera träning (per week)",
+      "Open fixture / match report",
+      "Open player",
+      "Open scouting"
+    ],
+    "structure": "PageHeading with prev/next; context strip with period + counts; 4 stacked week Panels, each a 7-column grid of day cells (min-height 200px: weekday, big date, day-type badge, 'Idag', sessions text, match link, deadlines, scouting, milestones) followed by a FixtureTable for that week.",
+    "strengths": [
+      "Day cells with matchday/recovery/today states make rhythm visible"
+    ],
+    "weaknesses": [
+      "Each week repeats a fixture table under the grid (duplicate info)",
+      "4 × 7 × 200px tall cells = very long page; no month overview",
+      "Overlaps Schema (WLD-06) and the dashboard weekly plan"
+    ],
+    "links": [
+      "/career/training?week=",
+      "/career/fixtures/[id]",
+      "/career/match-report/[id]",
+      "/career/squad/[playerId]",
+      "/career/scouting"
+    ],
+    "desktop": "7 columns of min 145px.",
+    "mobile": "7×145px = ~1015px grid → horizontal scroll on phones.",
+    "opportunities": [
+      "Merge Calendar + Schedule into one 'Säsong' timeline (month / week / list views)",
+      "Agenda list on mobile"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "WLD-06",
+    "domain": "WLD",
+    "name": "Schema (Matcher & resultat)",
+    "route": "/career/schedule",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/schedule/page.tsx",
+      "components/season/PreseasonPlanner.tsx",
+      "components/game/Secondary.tsx (SectionScene)",
+      "components/manager/Workspace.tsx (Panel)",
+      "components/ClubCrest.tsx"
+    ],
+    "purpose": "Own fixture list and results; preseason planning (friendlies, camps, tournaments).",
+    "actions": [
+      "Plan friendly/camp/tournament",
+      "Filter Hela säsongen / Kommande / Resultat",
+      "Click row → match report or preview",
+      "Förhandsvisa / Matchrapport",
+      "Open opponent"
+    ],
+    "structure": "SectionScene header; PreseasonPlanner form section at top; hm-tabs filter; 8-column table (Omg, Datum, Typ badge, H/B, Motstånd, Status badge, Resultat, link); right rail: Nästa match panel (crest 58px) + note.",
+    "strengths": [
+      "Clickable rows with correct guard (only next/played)",
+      "Type and outcome badges"
+    ],
+    "weaknesses": [
+      "Preseason planner (a form with 3 sub-tabs) sits above the fixture list year-round",
+      "8-column table, no crests in rows",
+      "Nav label 'Schema' vs page title 'Matcher & resultat'"
+    ],
+    "links": [
+      "/career/match-preview",
+      "/career/match-report/[id]",
+      "/career/fixtures/[id]",
+      "CLB-04",
+      "WLD-05"
+    ],
+    "desktop": "Main + rail.",
+    "mobile": "Table in hm-scroll-x; rail below.",
+    "opportunities": [
+      "Fixture cards with crests, venue photo, result colour",
+      "Move preseason planner into a preseason-only moment"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "WLD-06a",
+    "domain": "WLD",
+    "name": "Preseason planner (tabs Träningsmatch / Läger-resa / Turnering)",
+    "route": "/career/schedule",
+    "kind": "tab",
+    "parent": "WLD-06",
+    "components": [
+      "components/season/PreseasonPlanner.tsx"
+    ],
+    "purpose": "Book friendlies, camps, tournaments; costs drawn from cash.",
+    "actions": [
+      "Switch sub-tab",
+      "Pick date/opponent/venue/location",
+      "Book"
+    ],
+    "structure": "hm-plan-section with intro (incl. cash), anchor-based subnav (role=tab <a href>), form grid of labelled inputs/selects, cost line, booked events list.",
+    "strengths": [
+      "Clash validation, cost transparency"
+    ],
+    "weaknesses": [
+      "Tab semantics on <a href='#'> links",
+      "Form-first UI"
+    ],
+    "links": [],
+    "desktop": "Form grid",
+    "mobile": "Wraps",
+    "opportunities": [
+      "Preseason calendar board with drag-to-book"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "WLD-06b",
+    "domain": "WLD",
+    "name": "Schedule filter tabs",
+    "route": "/career/schedule",
+    "kind": "tab",
+    "parent": "WLD-06",
+    "components": [
+      "app/career/schedule/page.tsx"
+    ],
+    "purpose": "Filter fixtures.",
+    "actions": [
+      "Hela säsongen",
+      "Kommande",
+      "Resultat"
+    ],
+    "structure": "hm-tabs aria-pressed buttons; empty row 'Inga matcher i den här vyn.'",
+    "strengths": [],
+    "weaknesses": [
+      "Not URL-persisted"
+    ],
+    "links": [],
+    "desktop": "Tabs",
+    "mobile": "Scroll-x",
+    "opportunities": [],
+    "importance": "frequent"
+  },
+  {
+    "id": "MED-01",
+    "domain": "MED",
+    "name": "Medicinskt & Rehabilitering",
+    "route": "/career/medical",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/medical/page.tsx",
+      "components/clubhq/EnvironmentBanner.tsx",
+      "components/game/Secondary.tsx (StaffMark)",
+      "components/manager/Workspace.tsx (Panel)",
+      "lib/medical/*"
+    ],
+    "purpose": "Active injuries with rehab phase/progress and return dates, recent recoveries, responsible physio, availability for next selection.",
+    "actions": [
+      "Belastning & återhämtning →",
+      "Truppens status →",
+      "Open player",
+      "Open physio",
+      "Open next opponent"
+    ],
+    "structure": "EnvironmentBanner (medical-room photo, badge, 3 metrics: active injuries, available x/y, rehab quality 1.00x); main: 7-column injuries table (Spelare, Skada, Allvarlighetsgrad, Status, Rehabfas, Rehabframsteg, Beräknad återkomst) or empty scene, 'Senaste återgångar' list; rail: physio panel with initials mark, next-selection note.",
+    "strengths": [
+      "Photo banner + metric tiles give a department feel",
+      "Clear empty state when no injuries"
+    ],
+    "weaknesses": [
+      "Core info is a 7-column table",
+      "Rehab quality shown as raw multiplier '1.00x'",
+      "No body map / timeline to return"
+    ],
+    "links": [
+      "/career/training",
+      "/career/squad",
+      "/career/squad/[playerId]",
+      "/career/staff/[staffId]",
+      "CLB-04"
+    ],
+    "desktop": "Banner + main/rail split.",
+    "mobile": "Banner stacks (≤900px), split collapses; table scroll-x.",
+    "opportunities": [
+      "Injury cards with body-zone silhouette and return-date timeline",
+      "Integrate availability into squad/tactics instead of a separate nav item"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "MED-01a",
+    "domain": "MED",
+    "name": "Active injuries table / empty scene",
+    "route": "/career/medical",
+    "kind": "panel",
+    "parent": "MED-01",
+    "components": [
+      "app/career/medical/page.tsx",
+      "components/game/Secondary.tsx (SceneEmpty)"
+    ],
+    "purpose": "Track rehab.",
+    "actions": [
+      "Open player"
+    ],
+    "structure": "Panel with hm-scroll-x table; else SceneEmpty.",
+    "strengths": [
+      "Progress column"
+    ],
+    "weaknesses": [
+      "Severity as text"
+    ],
+    "links": [],
+    "desktop": "Table",
+    "mobile": "Scroll-x",
+    "opportunities": [
+      "Progress bars + phase stepper"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "SYS-01",
+    "domain": "SYS",
+    "name": "Inställningar (in-career settings)",
+    "route": "/career/settings",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/settings/page.tsx",
+      "components/experience/ChoiceGroup.tsx",
+      "components/experience/CourtBackdrop.tsx",
+      "components/settings/SettingsSection.tsx",
+      "components/settings/settings.css"
+    ],
+    "purpose": "Display currency (EUR/SEK) with live preview using the club's own figures.",
+    "actions": [
+      "Choose currency"
+    ],
+    "structure": "Ink band with court backdrop, H1, two Stats; SettingsSection with ChoiceGroup (two option cards with sample amount); rail with preview dl (transfer budget, wage budget, top wage, cash) and 'Bra att veta' list.",
+    "strengths": [
+      "Excellent preview using real numbers",
+      "Persist/session fallback feedback"
+    ],
+    "weaknesses": [
+      "Only one setting — match speed (available on /settings) missing here",
+      "Visually heavier than its content warrants",
+      "Diverges from ENT-05 implementation"
+    ],
+    "links": [
+      "MGR-04 (from moments page)"
+    ],
+    "desktop": "Band + section/rail.",
+    "mobile": "settings.css stacks.",
+    "opportunities": [
+      "Single settings component used everywhere; add density/text-size/motion"
+    ],
+    "importance": "rare"
+  },
+  {
+    "id": "SYS-02",
+    "domain": "SYS",
+    "name": "Editor home (dev data editor)",
+    "route": "/editor",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/editor/layout.tsx",
+      "app/editor/EditorModeGate.tsx",
+      "app/editor/page.tsx",
+      "app/EditorModeWidget.tsx"
+    ],
+    "purpose": "INTERNAL. Real-database editor entry (nations/competitions/clubs/players counts) gated by HM_EDITOR_ENABLED server flag (404 otherwise).",
+    "actions": [
+      "ÖPPNA SPELARE",
+      "ÖPPNA BETYGSGRANSKNING"
+    ],
+    "structure": "Single hm-panel with UTVECKLING badge, 4 stats, two buttons (max-width 720 inline style).",
+    "strengths": [
+      "Server-side gate via notFound()"
+    ],
+    "weaknesses": [
+      "Internal styling"
+    ],
+    "links": [
+      "SYS-02a",
+      "SYS-02c"
+    ],
+    "desktop": "Centred panel",
+    "mobile": "n/a",
+    "opportunities": [
+      "Keep internal"
+    ],
+    "importance": "internal"
+  },
+  {
+    "id": "SYS-02a",
+    "domain": "SYS",
+    "name": "Editor · players (bulk calibration table)",
+    "route": "/editor/players",
+    "kind": "page",
+    "parent": "SYS-02",
+    "components": [
+      "app/editor/players/page.tsx"
+    ],
+    "purpose": "INTERNAL. Spreadsheet-like inline editing of every HBL + Allsvenskan player (714 lines).",
+    "actions": [
+      "Inline edit",
+      "Open player"
+    ],
+    "structure": "Self-described 'compact, spreadsheet-like table'.",
+    "strengths": [],
+    "weaknesses": [],
+    "links": [
+      "SYS-02b"
+    ],
+    "desktop": "Table",
+    "mobile": "n/a",
+    "opportunities": [],
+    "importance": "internal"
+  },
+  {
+    "id": "SYS-02b",
+    "domain": "SYS",
+    "name": "Editor · player detail",
+    "route": "/editor/players/[playerId]",
+    "kind": "page",
+    "parent": "SYS-02",
+    "components": [
+      "app/editor/players/[playerId]/page.tsx"
+    ],
+    "purpose": "INTERNAL. Real data, squad and game-data panels per player.",
+    "actions": [
+      "Edit fields",
+      "Save"
+    ],
+    "structure": "hm-panels 'VERKLIG DATA', 'TRUPP', 'SPEL-DATA'.",
+    "strengths": [],
+    "weaknesses": [],
+    "links": [],
+    "desktop": "Panels",
+    "mobile": "n/a",
+    "opportunities": [],
+    "importance": "internal"
+  },
+  {
+    "id": "SYS-02c",
+    "domain": "SYS",
+    "name": "Editor · rating review roster",
+    "route": "/editor/ratings",
+    "kind": "page",
+    "parent": "SYS-02",
+    "components": [
+      "app/editor/ratings/page.tsx"
+    ],
+    "purpose": "INTERNAL. Club selector → roster with rating proposals/review status.",
+    "actions": [
+      "Pick club",
+      "Open player"
+    ],
+    "structure": "Mirrors players editor layout.",
+    "strengths": [],
+    "weaknesses": [],
+    "links": [
+      "SYS-02d"
+    ],
+    "desktop": "Table",
+    "mobile": "n/a",
+    "opportunities": [],
+    "importance": "internal"
+  },
+  {
+    "id": "SYS-02d",
+    "domain": "SYS",
+    "name": "Editor · rating detail",
+    "route": "/editor/ratings/[playerId]",
+    "kind": "page",
+    "parent": "SYS-02",
+    "components": [
+      "app/editor/ratings/[playerId]/page.tsx"
+    ],
+    "purpose": "INTERNAL. Source proposal, CA estimate, generated attributes, overrides, LOCK.",
+    "actions": [
+      "Set status/note",
+      "Override CA/PA/attributes",
+      "LOCK"
+    ],
+    "structure": "Long detail page (625 lines).",
+    "strengths": [],
+    "weaknesses": [],
+    "links": [],
+    "desktop": "Panels",
+    "mobile": "n/a",
+    "opportunities": [],
+    "importance": "internal"
+  },
+  {
+    "id": "SYS-02e",
+    "domain": "SYS",
+    "name": "Editor · court grid calibration",
+    "route": "/editor/court-grid",
+    "kind": "page",
+    "parent": "SYS-02",
+    "components": [
+      "app/editor/court-grid/page.tsx"
+    ],
+    "purpose": "INTERNAL. Calibrate canonical 40×20 m court grid.",
+    "actions": [
+      "Select calibration mode"
+    ],
+    "structure": "Court canvas + controls.",
+    "strengths": [],
+    "weaknesses": [],
+    "links": [],
+    "desktop": "Canvas",
+    "mobile": "n/a",
+    "opportunities": [],
+    "importance": "internal"
+  },
+  {
+    "id": "SYS-03",
+    "domain": "SYS",
+    "name": "Scenario lab (engine labs)",
+    "route": "/scenario-lab",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/scenario-lab/page.tsx",
+      "app/scenario-lab/core/page.tsx",
+      "app/scenario-lab/match/page.tsx",
+      "app/scenario-lab/scenario-lab.css"
+    ],
+    "purpose": "INTERNAL. Engine V2 labs: centre throw-off (/scenario-lab), possession & transition (/core), full-match timeline QA (/match).",
+    "actions": [
+      "Run scenarios",
+      "Step snapshots"
+    ],
+    "structure": "Dark lab headers ('HANDBALL ENGINE V2 · MILESTONE 1'), canvases/timelines.",
+    "strengths": [],
+    "weaknesses": [
+      "No server/env gate found in source — publicly reachable in any build (unverified at deploy level)",
+      "Wrapped by AlphaAccessGate + feedback button like the game"
+    ],
+    "links": [
+      "SYS-03a",
+      "SYS-03b"
+    ],
+    "desktop": "Lab layout",
+    "mobile": "n/a",
+    "opportunities": [
+      "Gate like /editor"
+    ],
+    "importance": "internal"
+  },
+  {
+    "id": "SYS-03a",
+    "domain": "SYS",
+    "name": "Scenario lab · core",
+    "route": "/scenario-lab/core",
+    "kind": "page",
+    "parent": "SYS-03",
+    "components": [
+      "app/scenario-lab/core/page.tsx"
+    ],
+    "purpose": "INTERNAL. Possession & transition lab.",
+    "actions": [
+      "Run"
+    ],
+    "structure": "Lab page.",
+    "strengths": [],
+    "weaknesses": [],
+    "links": [],
+    "desktop": "",
+    "mobile": "",
+    "opportunities": [],
+    "importance": "internal"
+  },
+  {
+    "id": "SYS-03b",
+    "domain": "SYS",
+    "name": "Scenario lab · match",
+    "route": "/scenario-lab/match",
+    "kind": "page",
+    "parent": "SYS-03",
+    "components": [
+      "app/scenario-lab/match/page.tsx"
+    ],
+    "purpose": "INTERNAL. Full-match human QA timeline.",
+    "actions": [
+      "Run",
+      "Scrub"
+    ],
+    "structure": "Lab page with timeline.",
+    "strengths": [],
+    "weaknesses": [],
+    "links": [],
+    "desktop": "",
+    "mobile": "",
+    "opportunities": [],
+    "importance": "internal"
+  },
+  {
+    "id": "SYS-04",
+    "domain": "SYS",
+    "name": "Match 2D QA harness",
+    "route": "/match-qa",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/match-qa/page.tsx",
+      "@handball-manager/match-renderer MasterCourt"
+    ],
+    "purpose": "INTERNAL. Human QA gate: play dev scenarios through the real engine with toggles (fatigue, 7-vs-6, presets, speed).",
+    "actions": [
+      "Play/pause",
+      "Reset",
+      "Speed",
+      "Toggle fatigue/sevenOut",
+      "Run preset"
+    ],
+    "structure": "Court renderer + control rows of hm-btn toggles (inline styles).",
+    "strengths": [],
+    "weaknesses": [
+      "Outside /career deliberately; no gate found in source"
+    ],
+    "links": [],
+    "desktop": "Court + controls",
+    "mobile": "n/a",
+    "opportunities": [
+      "Gate"
+    ],
+    "importance": "internal"
+  },
+  {
+    "id": "SYS-05",
+    "domain": "SYS",
+    "name": "CPU-rekrytering (debug)",
+    "route": "/career/club/cpu-recruitment",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/club/cpu-recruitment/page.tsx",
+      "lib/career/cpuRecruitment.ts"
+    ],
+    "purpose": "INTERNAL. Debug view of AI clubs' positional needs, pursuits and decision log.",
+    "actions": [
+      "← Klubb"
+    ],
+    "structure": "Three hm-panels with tables (Positionsbehov, Aktiva/senaste pursuits, Beslutslogg).",
+    "strengths": [],
+    "weaknesses": [
+      "Lives under the player-facing /career/club route without any gate; not linked anywhere (URL-only)"
+    ],
+    "links": [
+      "CLB-02"
+    ],
+    "desktop": "Tables",
+    "mobile": "n/a",
+    "opportunities": [
+      "Move under /editor gate"
+    ],
+    "importance": "internal"
+  },
+  {
+    "id": "SYS-06",
+    "domain": "SYS",
+    "name": "Editor mode widget (global)",
+    "route": "* (root layout)",
+    "kind": "panel",
+    "parent": null,
+    "components": [
+      "app/EditorModeWidget.tsx",
+      "lib/editor/editorToggle.ts"
+    ],
+    "purpose": "INTERNAL. Floating toggle + link to /editor, rendered only when /api/editor/status reports enabled.",
+    "actions": [
+      "Toggle editor mode",
+      "Open editor"
+    ],
+    "structure": "Small floating control; also adds an 'Editor' item to the sidebar when enabled.",
+    "strengths": [
+      "Absent in production builds"
+    ],
+    "weaknesses": [],
+    "links": [
+      "SYS-02"
+    ],
+    "desktop": "Floating",
+    "mobile": "Floating",
+    "opportunities": [],
+    "importance": "internal"
+  }
+]

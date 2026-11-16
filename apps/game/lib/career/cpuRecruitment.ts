@@ -21,6 +21,7 @@ import { bestAffordableCandidate, rankCandidates } from "./cpuCandidateEvaluatio
 import { CLEARLY_REPLACED_CA_GAP } from "./cpuContractDecisions";
 import { careerWorldClubIds } from "./worldCompetitions";
 import type { CareerState } from "./types";
+import { activeClubId } from "../manager/employment";
 
 // ---------------------------------------------------------------------------
 // Pacing constants (mirrors careerRhythmConfig.ts's own "provisional
@@ -155,7 +156,9 @@ export function pushLog(log: readonly CpuDecisionLogEntry[], entries: readonly C
  * via `getExternalCandidateClubs`) could never actually buy anything.
  */
 export function cpuRecruiterClubIds(state: CareerState): string[] {
-  return careerWorldClubIds(state).filter((id) => id !== state.playerClubId);
+  // Employment states: while the manager has no club his former club is run by its own organisation, like every CPU club.
+  const managed = activeClubId(state);
+  return careerWorldClubIds(state).filter((id) => id !== managed);
 }
 
 /**
@@ -458,7 +461,7 @@ function pursuePosition(state: CareerState, clubId: string, position: HandballPo
     return { state: next, pursued: false };
   }
 
-  if (chosen.clubId === state.playerClubId) {
+  if (chosen.clubId === activeClubId(state)) {
     const afterBid = requestBidFor(state, chosen.playerId, date, emit, clubId);
     const incoming = Object.values(afterBid.incomingOffers ?? {}).find(o => o.playerId === chosen.playerId && o.fromClubId === clubId && o.openedOn === date && o.status === "OPEN");
     const plan: CpuRecruitmentPlan = {

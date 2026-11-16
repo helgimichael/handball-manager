@@ -1,1 +1,58 @@
-.scenario-lab{background:#111923;color:#e7edf6;min-height:100vh;padding:28px;font:14px/1.5 system-ui,sans-serif}.scenario-lab h1{font-size:30px;margin:4px 0}.scenario-lab h2{font-size:18px;margin:12px 0}.scenario-lab header small{color:#7bd5cb;letter-spacing:.1em}.scenario-lab p{margin:8px 0}.lab-controls{display:flex;flex-wrap:wrap;gap:12px;align-items:end;margin:20px 0}.scenario-lab label{display:flex;flex-direction:column;gap:5px}.scenario-lab button,.scenario-lab input,.scenario-lab select,.scenario-lab textarea{background:#233344;color:#fff;border:1px solid #567083;border-radius:5px;padding:8px;font:inherit}.scenario-lab button{cursor:pointer}.scenario-lab button:hover{background:#33506a}.scenario-lab button:disabled{opacity:.45;cursor:default}.scenario-lab input[aria-label=Seed]{width:110px}.lab-grid{display:grid;grid-template-columns:minmax(300px,480px) minmax(300px,1fr);gap:24px;align-items:start}.lab-court{height:700px;position:relative;pointer-events:none;overflow:hidden;background:#182735;border-radius:8px}.lab-inspector{padding:18px;background:#1b2939;border-radius:8px}.lab-inspector dl{display:grid;grid-template-columns:140px 1fr;gap:9px;margin:20px 0}.lab-inspector dd{margin:0;overflow-wrap:anywhere}.lab-inspector dt,.lab-note{color:#a9bdce}.lab-table{overflow:auto;margin-top:24px}.scenario-lab table{width:100%;border-collapse:collapse;white-space:nowrap}.scenario-lab th,.scenario-lab td{padding:10px;text-align:left;border-bottom:1px solid #334557}.scenario-lab small{color:#a9bdce}.lab-events{max-height:300px;overflow:auto;background:#1b2939;padding:12px;border-radius:6px}.scenario-lab textarea{width:100%;height:160px;font-family:monospace;font-size:12px}.scenario-lab pre{max-height:450px;overflow:auto;font-size:12px}.scenario-lab [role=alert]{color:#ffb6ab}.scenario-lab details{margin-top:20px}@media(max-width:800px){.lab-grid{grid-template-columns:1fr}.scenario-lab{padding:14px}.lab-court{height:600px}}
+/* Arena Nights SYS-03/03a/03b: engine V2 labs inside the Dev shell (components/dev/dev.css supplies
+   the grey --dev-* tokens, panels, tables and buttons). Only lab-specific layout lives here. */
+.scenario-lab { color: var(--dev-ink); }
+.scenario-lab h2 { margin: 0; font-size: 14px; }
+.scenario-lab p { margin: 6px 0; }
+.scenario-lab code { font-family: var(--dev-mono); font-size: 11px; overflow-wrap: anywhere; }
+
+.lab-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-bottom: 14px; }
+.lab-list-item { display: flex; flex-direction: column; gap: 2px; padding: 8px 12px; border: 1px solid var(--dev-line); border-radius: 6px; background-color: var(--dev-surface); color: var(--dev-ink); text-decoration: none; }
+.lab-list-item:hover { background-color: var(--dev-surface-2); }
+.lab-list-item[aria-current="page"] { border-color: var(--dev-flag); box-shadow: inset 3px 0 0 var(--dev-flag); }
+.lab-list-name { font-weight: 700; }
+.lab-list-note { color: var(--dev-muted); font-size: 12px; }
+
+.lab-court { height: 640px; position: relative; pointer-events: none; overflow: hidden; border-radius: 0 0 6px 6px; background-color: var(--dev-bg); }
+.lab-court--wide { height: 520px; }
+
+.lab-form { display: grid; gap: 8px; }
+.lab-form label { display: flex; flex-direction: column; gap: 3px; color: var(--dev-muted); font-size: 12px; }
+.lab-form label > input, .lab-form label > select { color: var(--dev-ink); }
+.lab-form input[type="range"] { width: 100%; accent-color: var(--dev-flag); }
+.lab-row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.lab-section-title { margin: 12px 0 6px; color: var(--dev-muted); font: 600 11px/1.4 var(--dev-mono); letter-spacing: 0.08em; text-transform: uppercase; }
+
+.lab-dl { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 4px 8px; margin: 8px 0 0; font-size: 12px; }
+.lab-dl dt { color: var(--dev-muted); }
+.lab-dl dd { margin: 0; overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
+.lab-note { color: var(--dev-muted); font-size: 12px; }
+
+.lab-snapshots { max-height: 260px; overflow: auto; }
+.lab-events { max-height: 300px; overflow: auto; font-size: 12px; }
+.lab-events p { margin: 0; padding: 5px 0; border-bottom: 1px solid var(--dev-line); }
+.lab-events small, .scenario-lab small { color: var(--dev-muted); }
+.lab-table .hm-dev-table td { white-space: nowrap; vertical-align: top; }
+.lab-table .hm-dev-table td.lab-wrap { white-space: normal; min-width: 210px; max-width: 320px; }
+.scenario-lab textarea { width: 100%; height: 140px; font-family: var(--dev-mono); font-size: 12px; }
+.scenario-lab pre { max-height: 450px; overflow: auto; font-size: 11px; font-family: var(--dev-mono); }
+.scenario-lab [role="alert"] { color: var(--dev-neg); }
+.scenario-lab details { margin-top: 12px; }
+
+/* SYS-03b timeline: full-width scrubber + event rows that seek on click. */
+.lab-timeline-scrub { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-bottom: 1px solid var(--dev-line); }
+.lab-timeline-scrub input[type="range"] { flex: 1 1 auto; accent-color: var(--dev-flag); }
+.lab-timeline-track { position: relative; height: 18px; margin: 8px 12px; border-radius: 3px; background-color: var(--dev-surface-2); }
+.lab-timeline-mark { position: absolute; top: 3px; width: 3px; height: 12px; padding: 0; border: 0; border-radius: 1px; background-color: var(--dev-faint); cursor: pointer; }
+.lab-timeline-mark[data-kind="GOAL"] { background-color: var(--dev-pos); height: 16px; top: 1px; }
+.lab-timeline-mark[data-kind="FOUL"], .lab-timeline-mark[data-kind="TWO_MINUTE_SUSPENSION"], .lab-timeline-mark[data-kind="DISQUALIFICATION"] { background-color: var(--dev-neg); }
+.lab-timeline-cursor { position: absolute; top: -2px; bottom: -2px; width: 2px; background-color: var(--dev-flag); pointer-events: none; }
+.lab-timeline-rows { max-height: 320px; overflow: auto; }
+.lab-timeline-row { display: grid; grid-template-columns: 64px 70px minmax(0, 1fr) 90px; gap: 10px; width: 100%; box-sizing: border-box; padding: 4px 12px; border: 0; border-bottom: 1px solid var(--dev-line); background-color: transparent; color: var(--dev-ink); font: inherit; font-size: 12px; text-align: left; cursor: pointer; }
+.lab-timeline-row:hover, .lab-timeline-row:focus-visible { background-color: var(--dev-surface-2); }
+.lab-timeline-row[aria-current="true"] { background-color: var(--dev-surface-3); box-shadow: inset 3px 0 0 var(--dev-flag); }
+.lab-timeline-row[data-past="false"] { color: var(--dev-muted); }
+.lab-timeline-row:disabled { cursor: default; }
+
+@media (max-width: 1279px) {
+  .lab-court { height: 560px; }
+}

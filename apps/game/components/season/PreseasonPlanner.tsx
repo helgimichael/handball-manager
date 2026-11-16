@@ -13,24 +13,25 @@ import { ClubLink } from "@/components/entityLinks";
 type Tab = "FRIENDLY" | "CAMP" | "TOURNAMENT";
 const VENUE_LABEL: Record<FriendlyVenue, string> = { HOME: "Hemma", AWAY: "Borta", NEUTRAL: "Neutral plan" };
 
-export function PreseasonPlanner() {
+/** `initialDate` (optional, Arena 231 WLD-06a): pre-fills every date field when opened from a pre-season board slot. */
+export function PreseasonPlanner({ initialDate = "" }: { initialDate?: string } = {}) {
   const { career, updateCareer } = useCareer();
   const money = useMoney();
   const [tab, setTab] = useState<Tab>("FRIENDLY");
   const [message, setMessage] = useState<{ ok: boolean; text: string } | null>(null);
   const opponents = CLUBS.filter((c) => c.id !== career.playerClubId && c.playable).sort((a, b) => a.name.localeCompare(b.name, "sv"));
   // Friendly
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState(initialDate);
   const [opponent, setOpponent] = useState(opponents[0]?.id ?? "");
   const [venue, setVenue] = useState<FriendlyVenue>("HOME");
   const [location, setLocation] = useState("");
   // Camp / trip
   const [campKind, setCampKind] = useState<"CAMP" | "TRIP">("CAMP");
   const [campLocation, setCampLocation] = useState<string>(CAMP_LOCATIONS[1]);
-  const [campStart, setCampStart] = useState("");
+  const [campStart, setCampStart] = useState(initialDate);
   const [campDays, setCampDays] = useState(4);
   // Tournament
-  const [tStart, setTStart] = useState("");
+  const [tStart, setTStart] = useState(initialDate);
   const [tLocation, setTLocation] = useState("");
   const [tOpponents, setTOpponents] = useState<string[]>([opponents[0]?.id ?? "", opponents[1]?.id ?? "", ""]);
 

@@ -41,3 +41,11 @@ export function periodProgress(start: string, end: string, today: string): numbe
   if (total <= 0) return 1;
   return Math.max(0, Math.min(1, daysBetween(start, today) / total));
 }
+
+const WEEKDAY_SV = ["sön", "mån", "tis", "ons", "tor", "fre", "lör"];
+/** "tor 14/3" -- a short Swedish weekday + day/month for an ISO date (UTC, like the rest of the calendar). */
+export function weekdayDate(iso: string): string {
+  const d = new Date(`${iso}T00:00:00Z`);
+  if (Number.isNaN(d.getTime())) return iso;
+  return `${WEEKDAY_SV[d.getUTCDay()]} ${d.getUTCDate()}/${d.getUTCMonth() + 1}`;
+}

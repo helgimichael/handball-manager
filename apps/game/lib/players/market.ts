@@ -7,7 +7,7 @@
 // through the ledger and the normal ownership change.
 import { getCareerClubSquad, getCareerPlayer } from "../career/careerWorld";
 import { releasePlayerToFreeAgency } from "../career/contractExpiry";
-import { clubCompetitionTier } from "../career/competitionMembership";
+import { careerClubsInCompetition, clubCompetitionId, clubCompetitionTier } from "../career/competitionMembership";
 import { careerWorldCatalogClubs } from "../career/worldCompetitions";
 import type { CareerState } from "../career/types";
 import { ownLevelScore } from "../career/cpuCandidateEvaluation";
@@ -69,10 +69,11 @@ export function findBuyer(state: CareerState, playerId: string, salt: string, bu
   const foreignInterest = ca >= foreignBar(state);
   const pickForeign = !buyerClubId && foreignInterest && (domestic.length === 0 || hash(`${salt}:abroad`) < 0.45);
   if (pickForeign) {
-    const pool = FOREIGN_LEAGUES.flatMap((l) => getClubsByCompetition(l));
+    // Club Identity C3: season-aware foreign pools, same CLUBS order (legacy picks unchanged before rollover).
+    const pool = FOREIGN_LEAGUES.flatMap((l) => careerClubsInCompetition(state, l));
     if (pool.length) {
       const club = pool[Math.floor(hash(`${salt}:foreign`) * pool.length)]!;
-      const country = getCompetition(club.competitionId)?.name ?? "utlandet";
+      const country = getCompetition(clubCompetitionId(state, club.id) ?? club.competitionId)?.name ?? "utlandet";
       return { clubId: club.id, foreign: true, level: ca + 10, motive: `${club.name} (${country}) vill ta honom till en högre nivå och erbjuder en lön svenska klubbar inte kan matcha.` };
     }
   }

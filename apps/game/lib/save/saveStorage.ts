@@ -112,12 +112,15 @@ const DB_VERSION = 1;
 const SAVES_STORE = "saves";
 const META_STORE = "meta";
 
-function openDatabase(): Promise<IDBDatabase> {
+function openDatabase(version?: number): Promise<IDBDatabase> {
   if (typeof indexedDB === "undefined") {
     throw new SavePersistenceError("BACKEND_UNAVAILABLE", "IndexedDB is not available in this browser context");
   }
   return new Promise<IDBDatabase>((resolve, reject) => {
-    const request = indexedDB.open(DB_NAME, DB_VERSION);
+    // Opened at its existing version (a new database is created at DB_VERSION). A database that exists
+    // without the save stores -- left by an interrupted first open or another tool -- is upgraded one
+    // version so the stores are created; existing stores and data are never touched.
+    const request = version === undefined ? indexedDB.open(DB_NAME) : indexedDB.open(DB_NAME, version);
     request.onupgradeneeded = () => {
       const db = request.result;
       if (!db.objectStoreNames.contains(SAVES_STORE)) {
@@ -127,7 +130,13 @@ function openDatabase(): Promise<IDBDatabase> {
         db.createObjectStore(META_STORE);
       }
     };
-    request.onsuccess = () => resolve(request.result);
+    request.onsuccess = () => {
+      const db = request.result;
+      if (db.objectStoreNames.contains(SAVES_STORE) && db.objectStoreNames.contains(META_STORE)) return resolve(db);
+      const next = Math.max(db.version, DB_VERSION) + 1;
+      db.close();
+      openDatabase(next).then(resolve, reject);
+    };
     request.onerror = () => reject(new SavePersistenceError("BACKEND_UNAVAILABLE", "Could not open the IndexedDB save database", { cause: request.error }));
     request.onblocked = () => reject(new SavePersistenceError("BACKEND_UNAVAILABLE", "Opening the IndexedDB save database was blocked by another tab"));
   });

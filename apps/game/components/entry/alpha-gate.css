@@ -1,0 +1,28 @@
+/* Arena 231 -- ENT-01 A "Ticket at the turnstile": the title-screen backdrop, dimmed and blurred, a wordmark and
+   a 360 px ticket stub that tears away on success. Arena tokens only. */
+.alpha-gate.ce-turnstile { position: relative; isolation: isolate; overflow: hidden; display: grid; grid-template-rows: auto 1fr; justify-items: center; align-items: center; gap: 24px; padding: clamp(24px, 6vh, 64px) 16px; background-color: var(--arena-bg); color: var(--arena-ink); }
+.ce-turnstile::before { content: ""; position: absolute; inset: -24px; z-index: -1; background-image: linear-gradient(180deg, color-mix(in srgb, var(--arena-bg) 55%, transparent), color-mix(in srgb, var(--arena-bg) 92%, transparent)), var(--xp-photo-wide); background-size: cover; background-position: center; filter: blur(10px) saturate(.8); }
+.ce-turnstile-mark { display: flex; align-items: center; gap: 14px; }
+.ce-turnstile-mark span { display: grid; place-items: center; width: 44px; height: 44px; background: var(--club-neon); color: var(--club-neon-ink); font: 800 italic 22px/1 var(--arena-font-display); transform: skew(-6deg); }
+.ce-turnstile-mark strong { font: 800 clamp(28px, 5vw, 52px)/1 var(--arena-font-display); letter-spacing: .06em; text-transform: uppercase; }
+.alpha-card.ce-ticket { position: relative; display: grid; grid-template-columns: 44px minmax(0, 1fr); width: min(100%, 400px); padding: 0; overflow: visible; background: var(--arena-solid-1); border: 1px solid var(--arena-line-strong); border-radius: 10px; box-shadow: 0 24px 64px rgb(0 0 0 / .55), 0 0 0 1px color-mix(in srgb, var(--club-neon) 25%, transparent); }
+.ce-ticket-stub { display: flex; flex-direction: column; justify-content: space-between; align-items: center; padding: 16px 0; background: var(--club-neon); color: var(--club-neon-ink); border-radius: 10px 0 0 10px; border-right: 2px dashed color-mix(in srgb, var(--club-neon-ink) 40%, transparent); font: 800 11px/1 var(--arena-font-ui); letter-spacing: .2em; text-transform: uppercase; writing-mode: vertical-rl; transform: rotate(180deg); }
+.ce-ticket-body { padding: 22px 22px 24px; min-width: 0; }
+.ce-ticket-body h1 { font: 800 26px/1.1 var(--arena-font-display) !important; text-transform: uppercase; margin: 0 0 10px !important; }
+.ce-ticket-body .alpha-eyebrow { color: var(--club-neon); margin-bottom: 6px; }
+.ce-ticket-body p { font-size: 13px; }
+.ce-ticket-body input { font-variant-numeric: tabular-nums; letter-spacing: .08em; text-transform: uppercase; }
+.ce-ticket-body input:focus-visible, .ce-ticket-body button:focus-visible { outline: 2px solid var(--club-neon); outline-offset: 3px; }
+.ce-ticket[data-tearing="true"] { pointer-events: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .ce-ticket[data-tearing="true"] .ce-ticket-body { animation: ce-tear 200ms ease-in forwards; transform-origin: left center; }
+  .ce-ticket[data-tearing="true"] .ce-ticket-stub { animation: ce-stub-drop 200ms ease-in forwards; }
+  @keyframes ce-tear { to { transform: translateX(28px) rotate(4deg); opacity: 0; } }
+  @keyframes ce-stub-drop { to { transform: rotate(180deg) translateY(-24px); opacity: 0; } }
+}
+@media (prefers-reduced-motion: reduce) { .ce-ticket[data-tearing="true"] { opacity: 0; transition: opacity 120ms; } }
+@media (max-width: 760px) {
+  .alpha-gate.ce-turnstile { grid-template-rows: 1fr auto; align-items: end; padding-bottom: max(16px, env(safe-area-inset-bottom)); }
+  .ce-turnstile-mark { align-self: center; }
+  .alpha-card.ce-ticket { width: 100%; }
+}

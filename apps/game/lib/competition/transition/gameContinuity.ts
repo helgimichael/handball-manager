@@ -47,6 +47,20 @@ export function continuityGeography(clubId:string):{district:District;band:numbe
  if(official.leagues.some(l=>l.id===club.competitionId))return {district:'v',band:2};
 }
 
+/** Club Identity C4: the league of `options` a club belongs to geographically (Division 1 groups by hard anchor/band, Division 2 by district). */
+export function continuityRegionalLeague(clubId:string,options:readonly string[]):string|undefined {
+ const geo=continuityGeography(clubId);if(!geo)return;
+ const district=options.find(o=>o===districtCompetition(geo.district));if(district)return district;
+ if(options.includes(L.norra)&&options.includes(L.sodra))return geo.hard==='N'||(!geo.hard&&geo.band>=3)?L.norra:L.sodra;
+}
+/** Club Identity C4: hard regional anchors (north/south) for a Division 1 place; other leagues have no regional limit. */
+export function continuityRegionAllows(clubId:string,competitionId:string):boolean {
+ const geo=continuityGeography(clubId);
+ if(competitionId===L.norra)return geo?.hard!=='S';
+ if(competitionId===L.sodra)return geo?.hard!=='N';
+ return true;
+}
+
 function rosterCounts(state:CareerState){const counts=new Map<string,number>();for(const squad of Object.values(state.worldSquads))for(const p of squad)counts.set(p.id,(counts.get(p.id)??0)+1);return counts}
 /** Empty pool squads are valid registrations; playable simulated squads have a separate coverage check. */
 export function hasValidCompetitionRegistrations(state:CareerState,id:string,date=state.gameDate,counts=rosterCounts(state)):boolean {

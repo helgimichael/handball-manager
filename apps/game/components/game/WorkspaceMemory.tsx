@@ -5,8 +5,12 @@ import { createContext, useCallback, useContext, useMemo, useState, type Dispatc
 // the manager's filters/selection, without writing them into a career save.
 type Memory = { values: Record<string, unknown>; set: (key: string, update: (previous: unknown) => unknown) => void };
 const Context = createContext<Memory | null>(null);
-export function WorkspaceMemory({ children }: { children: ReactNode }) {
+export function WorkspaceMemory({ children, scope = "" }: { children: ReactNode; scope?: string }) {
   const [values, setValues] = useState<Record<string, unknown>>({});
+  // Employment states: filters and selections belong to one employment -- a new club (or none) starts clean,
+  // so a former squad's selection can never resurface. Reset during render (no remount of the shell).
+  const [memoryScope, setMemoryScope] = useState(scope);
+  if (memoryScope !== scope) { setMemoryScope(scope); setValues({}); }
   const set = useCallback((key: string, update: (previous: unknown) => unknown) => {
     setValues(previous => ({ ...previous, [key]: update(previous[key]) }));
   }, []);

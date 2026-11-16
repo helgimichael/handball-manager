@@ -32,6 +32,12 @@ import { assistantRotationAtKickoff, engineRotationStrategy } from '@/lib/matchP
 import { engineSevenVSixMode, sevenVSixPolicyFor } from '@/lib/matchPlan/sevenVSix';
 import { defenceSystemKey, effectiveDefenceSpaces } from '@/lib/matchPlan/engineMatchPlan';
 import { currentTeamRoles } from '@/lib/career/teamRoles';
+import { boardReadiness, phaseMatrix } from '@/lib/matchPlan/boardReadiness';
+import { PhaseMatrix, ReadinessHeader } from '@/components/tactics/TacticsBoardHeader';
+import { BenchStrip, GuardBar, OverlayControl, PairingCourt, SaveStateChip } from '@/components/tactics/BoardTools';
+import { benchStrip, diffLineups, outsideByReadiness } from '@/lib/matchPlan/tacticsBoard';
+import { getZoneLabel as zoneLabelOf } from '@/lib/matchPlan/tacticsDiffWorkflow';
+import { activeSubstitutionPairs } from '@/lib/matchPlan/substitutionPairs';
 import {
   COURT_ORDER,
   DEFENCE_SPACE_LABEL,
@@ -107,6 +113,11 @@ export default function TacticsPage() {
   const [selected5v6Index, setSelected5v6Index] = useState<number>(0);
   const [dragOverSlot, setDragOverSlot] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
+  // TRN-02a: the assistant's proposal is previewed before it is applied, and an applied proposal can be undone.
+  const [proposal, setProposal] = useState<MatchPlan | null>(null);
+  const [undoPlan, setUndoPlan] = useState<MatchPlan | null>(null);
+  // TRN-02d: the attacker chosen on the pairing court, waiting for a defensive specialist.
+  const [pairAttacker, setPairAttacker] = useState('');
   const fixture = getNextPlayerFixture(career);
   const allSquad = getCareerSquad(career);
   const squad = allSquad.filter(p => isSelectableForMatch(career.playerStatuses, p.id));
@@ -250,6 +261,11 @@ export default function TacticsPage() {
   const opponentId = fixture.homeClubId === career.playerClubId ? fixture.awayClubId : fixture.homeClubId;
   const opponent = getClub(opponentId);
   const roles = currentTeamRoles(career);
+  // Arena Nights Phase 2 -- TRN-02 readiness header and phase × manpower switcher (read-only over the plan).
+  const readinessChips = boardReadiness(plan, roles, availableIds);
+  const strip = benchStrip(career, plan);
+  const playersById = new Map(allSquad.map(p => [p.id, p]));
+  const matrixCells = phaseMatrix(readinessChips);
 
   function startDragPlayer(e: DragEvent<HTMLElement>, playerId: string) {
     e.dataTransfer.setData(TACTICAL_DRAG_PLAYER_MIME, playerId);
@@ -1159,6 +1175,7 @@ export default function TacticsPage() {
       {heading}
       {notice && <p className="hm-panel-body coach-tactics-notice" role="status">{notice}</p>}
       <PlanSummary career={career} plan={plan} squad={allSquad} />
+      <SaveStateChip />
       {manual && (
         <div className="hm-panel-body coach-lineup-status" role={manualIssues.length ? 'alert' : 'status'} data-complete={manualIssues.length === 0}>
           <strong>Startsju {selectedStarters}/7 · Matchtrupp {plan.squad.players.length}/{MATCH_SQUAD_MAX_PLAYERS}</strong>{' '}
@@ -1170,10 +1187,7 @@ export default function TacticsPage() {
             className="hm-btn hm-btn-sm hm-btn-primary"
             onClick={() => {
               const auto = buildDefaultMatchPlan(buildInitialMatchSquad(squad, fixture.id, career.playerClubId), career.tactics[career.playerClubId], career.playerMatchDefaults);
-              if (auto.ok && auto.plan) {
-                save(auto.plan);
-                setNotice('Assisterande tränaren har fyllt i startsju och 16-mannatrupp.');
-              }
+              if (auto.ok && auto.plan) { setProposal(auto.plan); setNotice(null); }
             }}
           >
             Assistentens förslag
@@ -1187,6 +1201,17 @@ export default function TacticsPage() {
           )}
         </div>
       )}
+      {/* TRN-02a: inline guard bar -- names the problem, previews the assistant's fix as highlighted places, applies, undoes. */}
+      <GuardBar
+        issues={proposal ? [] : manualIssues}
+        preview={proposal ? diffLineups(career.matchPlans[fixture.id] ?? carried?.plan ?? plan, sharedStartingSeven(proposal)) : null}
+        nameOf={nameOf}
+        onPreview={() => { const auto = buildDefaultMatchPlan(buildInitialMatchSquad(squad, fixture.id, career.playerClubId), career.tactics[career.playerClubId], career.playerMatchDefaults); if (auto.ok && auto.plan) setProposal(auto.plan); }}
+        onApply={() => { if (!proposal) return; setUndoPlan(career.matchPlans[fixture.id] ?? plan); save(proposal); setProposal(null); setNotice('Assisterande tränaren har fyllt i startsju och 16-mannatrupp.'); }}
+        onCancel={() => setProposal(null)}
+        undo={!!undoPlan}
+        onUndo={() => { if (undoPlan) save(undoPlan); setUndoPlan(null); setNotice('Förslaget är ångrat. Den tidigare uttagningen gäller.'); }}
+      />
       <div className="coach-fixture-strip">
         <div>
           <ClubCrest shortName={own?.shortName ?? 'HM'} primaryColor={own?.primaryColor ?? ''} clubId={career.playerClubId} size={42} />
@@ -1253,154 +1278,15 @@ export default function TacticsPage() {
             )}
           </header>
 
-          {/* Visual Mode Selector: ENERGY | SUITABILITY | LAST_MATCH | LAST_5_MATCHES */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              flexWrap: 'wrap',
-              gap: 10,
-              padding: '8px 12px',
-              background: 'rgba(255,255,255,0.04)',
-              border: '1px solid rgba(255,255,255,0.08)',
-              borderRadius: 6,
-              marginBottom: 10,
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-              <span style={{ fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--hm-text-muted)' }}>
-                Taktikvisning:
-              </span>
-              <div className="hm-btn-group" role="radiogroup" aria-label="Visningsläge för spelare på planen">
-                <button
-                  type="button"
-                  className={`hm-btn hm-btn-xs ${visualMode === 'ENERGY' ? 'hm-btn-primary' : ''}`}
-                  aria-checked={visualMode === 'ENERGY'}
-                  onClick={() => setVisualMode('ENERGY')}
-                >
-                  ⚡ Energi
-                </button>
-                <button
-                  type="button"
-                  className={`hm-btn hm-btn-xs ${visualMode === 'SUITABILITY' ? 'hm-btn-primary' : ''}`}
-                  aria-checked={visualMode === 'SUITABILITY'}
-                  onClick={() => setVisualMode('SUITABILITY')}
-                >
-                  🎯 Lämplighet
-                </button>
-                <button
-                  type="button"
-                  className={`hm-btn hm-btn-xs ${visualMode === 'LAST_MATCH' ? 'hm-btn-primary' : ''}`}
-                  aria-checked={visualMode === 'LAST_MATCH'}
-                  onClick={() => setVisualMode('LAST_MATCH')}
-                >
-                  ⭐ Senaste match
-                </button>
-                <button
-                  type="button"
-                  className={`hm-btn hm-btn-xs ${visualMode === 'LAST_5_MATCHES' ? 'hm-btn-primary' : ''}`}
-                  aria-checked={visualMode === 'LAST_5_MATCHES'}
-                  onClick={() => setVisualMode('LAST_5_MATCHES')}
-                >
-                  📈 Form (5 matcher)
-                </button>
-              </div>
-            </div>
-            <small className="hm-text-muted" style={{ fontSize: '11px' }}>
-              {visualMode === 'ENERGY' && 'Visar dagsaktuell energinivå och ork'}
-              {visualMode === 'SUITABILITY' && 'Visar hur väl spelaren passar rollen (naturlig vs sekundär/ovan)'}
-              {visualMode === 'LAST_MATCH' && 'Visar matchbetyg från spelarens senaste genomförda framträdande'}
-              {visualMode === 'LAST_5_MATCHES' && 'Visar snittbetyg över de senaste 5 spelade matcherna'}
-            </small>
-          </div>
+          {/* TRN-02e: segmented overlay control with a legend of the exact chip thresholds. */}
+          <OverlayControl value={visualMode} onChange={setVisualMode} />
 
-          <div className="coach-court-mode-bar">
-            {/* Primary Dual Lineup Switch: ATTACK | DEFENCE */}
-            <div className="coach-lineup-dual-switch" role="tablist" aria-label="Primär uppställning">
-              <button
-                type="button"
-                role="tab"
-                aria-selected={courtMode === 'ATTACK_6V6'}
-                className="coach-dual-tab coach-dual-tab-attack"
-                data-active={courtMode === 'ATTACK_6V6'}
-                onClick={() => setCourtMode('ATTACK_6V6')}
-              >
-                <span className="coach-dual-icon">⚔️</span>
-                <div className="coach-dual-content">
-                  <strong>ANFALL (6v6)</strong>
-                  <small>Startsjua & anfallsroller</small>
-                </div>
-                {diff.attackOnlyPlayers.length > 0 ? (
-                  <span className="coach-dual-badge coach-dual-badge-spec">
-                    {diff.attackOnlyPlayers.length} vilar i försvar
-                  </span>
-                ) : (
-                  <span className="coach-dual-badge coach-dual-badge-twoway">6 båda vägar</span>
-                )}
-              </button>
-              <button
-                type="button"
-                role="tab"
-                aria-selected={courtMode === 'DEFENCE_6V6'}
-                className="coach-dual-tab coach-dual-tab-defence"
-                data-active={courtMode === 'DEFENCE_6V6'}
-                onClick={() => setCourtMode('DEFENCE_6V6')}
-              >
-                <span className="coach-dual-icon">🛡️</span>
-                <div className="coach-dual-content">
-                  <strong>FÖRSVAR (6v6)</strong>
-                  <small>{defKey} uppställning & byten</small>
-                </div>
-                {diff.activePairs.length > 0 ? (
-                  <span className="coach-dual-badge coach-dual-badge-spec">
-                    {diff.activePairs.length} specialist{diff.activePairs.length > 1 ? 'er' : ''}
-                  </span>
-                ) : (
-                  <span className="coach-dual-badge coach-dual-badge-twoway">Alla 6 båda vägar</span>
-                )}
-              </button>
-            </div>
-
-            {/* Special Situations */}
-            <div className="coach-situation-row">
-              <span className="coach-situation-label">Specialsituationer:</span>
-              <div className="coach-situation-tabs" role="tablist" aria-label="Specialsituationer">
-                <button
-                  type="button"
-                  role="tab"
-                  aria-selected={courtMode === 'ATTACK_6V5'}
-                  className="coach-situation-tab"
-                  data-active={courtMode === 'ATTACK_6V5'}
-                  onClick={() => setCourtMode('ATTACK_6V5')}
-                >
-                  <strong>6 mot 5</strong>
-                  <small>Numerärt överläge</small>
-                </button>
-                <button
-                  type="button"
-                  role="tab"
-                  aria-selected={courtMode === 'DEFENCE_5V6'}
-                  className="coach-situation-tab"
-                  data-active={courtMode === 'DEFENCE_5V6'}
-                  onClick={() => setCourtMode('DEFENCE_5V6')}
-                >
-                  <strong>5 mot 6</strong>
-                  <small>Numerärt underläge</small>
-                </button>
-                <button
-                  type="button"
-                  role="tab"
-                  aria-selected={courtMode === 'ATTACK_7V6'}
-                  className="coach-situation-tab"
-                  data-active={courtMode === 'ATTACK_7V6'}
-                  onClick={() => setCourtMode('ATTACK_7V6')}
-                >
-                  <strong>7 mot 6</strong>
-                  <small>Spel med tomt mål</small>
-                </button>
-              </div>
-            </div>
+          <div className="coach-court-mode-bar tb-board-bar" data-phase={courtMode.startsWith('DEFENCE') ? 'DEFENCE' : courtMode === 'EXCHANGES' ? 'EXCHANGES' : 'ATTACK'}>
+            <ReadinessHeader chips={readinessChips} onMode={setCourtMode} />
+            <PhaseMatrix cells={matrixCells} active={courtMode} onMode={setCourtMode} badges={{
+              ATTACK_6V6: diff.attackOnlyPlayers.length > 0 ? `${diff.attackOnlyPlayers.length} vilar i försvar` : '6 båda vägar',
+              DEFENCE_6V6: diff.activePairs.length > 0 ? `${defKey} · ${diff.activePairs.length} specialist${diff.activePairs.length > 1 ? 'er' : ''}` : `${defKey} · alla 6 båda vägar`,
+            }} />
           </div>
 
           {/* Derived Exchange Banner (Utväxlingsbalk) */}
@@ -1597,7 +1483,21 @@ export default function TacticsPage() {
             </div>
           </div>
 
-          {/* Diff & Exchange Overview (Unified Workspace) */}
+          {/* TRN-02d: pairing lines on court, then the existing diff overview. */}
+          {courtMode === 'EXCHANGES' && (
+            <PairingCourt
+              attackers={plan.attackStartingUnit.slots.filter(sl => sl.position !== 'GK' && sl.playerId).map(sl => ({ playerId: sl.playerId, position: sl.position }))}
+              pairs={activeSubstitutionPairs(plan)}
+              zoneOf={id => defSpaces[id]}
+              zoneLabel={z => zoneLabelOf(z, defKey)}
+              players={playersById}
+              selectedAttacker={pairAttacker}
+              onSelectAttacker={setPairAttacker}
+              bench={squad.filter(p => squadIds.has(p.id) && !startingIds.has(p.id) && p.position !== 'MV')}
+              onPair={(a, d) => assignExchangeOnCourt(a, d)}
+              onRemove={a => assignExchangeOnCourt(a, '')}
+            />
+          )}
           {courtMode === 'EXCHANGES' && (
             <TacticsDiffManager
               plan={plan}
@@ -1606,6 +1506,19 @@ export default function TacticsPage() {
               onSelectCourtMode={setCourtMode}
             />
           )}
+          {/* TRN-02i: the 16 match-squad places under the court and the "Ej uttagna" drawer. */}
+          <BenchStrip
+            slots={strip.slots}
+            registered={strip.registered}
+            activeLabel={activePosition === 'GK' ? 'MV' : activePosition}
+            players={playersById}
+            onPlace={id => assignStarterAtPosition(activePosition, id)}
+            onRemove={id => save(current => removePlayerFromSquad(current, id))}
+            onDragStart={startDragPlayer}
+            outside={outsideByReadiness(career, plan, allSquad)}
+            onAdd={id => { const pl = allSquad.find(x => x.id === id); if (pl) save(current => addPlayerToSquad(current, id, pl.position === 'MV' ? 'GK' : pl.position)); }}
+            full={plan.squad.players.length >= MATCH_SQUAD_MAX_PLAYERS}
+          />
         </section>
 
         <aside className="coach-plan-rail">

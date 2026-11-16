@@ -1,349 +1,165 @@
 "use client";
-import ClubContext from "@/components/manager/ClubContext";
-import { ClubHero, PlayerCell } from "@/components/game/Identity";
-
-// HM-UX-0.3: universal club profile for any club that ISN'T the
-// manager's own (ClubLink routes the manager's own club to the
-// existing /career/club workflow instead -- this page redirects there
-// too, if reached directly). Shows only data this career already has
-// real access to: identity/name/competition (game-data's Club record),
-// squad (getCareerClubSquad -- real roster where imported, otherwise
-// an honest "no roster data" message, never a fabricated squad),
-// staff (the same non-editor-gated staff-snapshot endpoint Staff's own
-// page already uses), fixtures/results already in career state, and
-// this club's live table position. No new data-loading work, no
-// speculative content.
-import { useEffect, useState } from "react";
+// Arena Nights CLB-04 C "Peek-first Scout Card": most lookups end in the club Peek (crest, table, form, next game,
+// head-to-head, knowledge); this full page is the opponent's portrait. Who they are (a headline sentence from the
+// table and form) -> how they play (identity in words, coach philosophy as quotes; CLB-04a B) -> what you don't
+// know yet (fogged lines that lead to "Scouta klubben"). Then their story (CLB-02a B), squad and fixtures.
+//
+// HM-UX-0.3 rules kept: the manager's own club redirects to /career/club; public facts (name, table, squad names,
+// staff, fixtures/results) stay ungated; identity and coach claims pass through resolveClubVisibility
+// (HM-DATA-ALLSVENSKAN-1.1B Part 13) and are rendered with presentClaim, never raw keys. No ratings are shown for a
+// club the manager does not run.
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import { getClub, positionLabel } from "@/lib/game-data";
+import ClubCrest from "@/components/ClubCrest";
+import FormDots from "@/components/FormDots";
+import { PlayerCell, clubColorVars } from "@/components/game/Identity";
+import { ScoutAssignButton } from "@/components/manager/ScoutAssignButton";
+import { ClubStory } from "@/components/club/ClubStory";
+import { ClubLink } from "@/components/entityLinks";
+import { ENVIRONMENTS } from "@/components/clubhq/environments";
+import { COMPETITIONS, getClub, positionLabel } from "@/lib/game-data";
 import { playerAgeAtDate } from "@/lib/development/developmentIntegration";
 import { useCareer } from "@/lib/career/CareerContext";
+import { canAccessClubInternals } from "@/lib/manager/employment";
 import { getCareerClubSquad } from "@/lib/career/careerWorld";
-import { getLiveStandings } from "@/lib/career/standings";
 import { clubCompetitionId } from "@/lib/career/competitionMembership";
-import type { ClubIdentityProfile, CoachIdentityProfile, IdentityClaim } from "@/lib/identity";
-import { presentClaim } from "@/lib/identity/presentation";
-import { STAFF_ROLE_LABEL } from "@/lib/staff/labels";
-import { ClubLink } from "@/components/entityLinks";
+import type { ClubIdentityProfile, CoachIdentityProfile } from "@/lib/identity";
 import { getClubKnowledgePct } from "@/lib/knowledge/knowledgeIntegration";
 import { resolveClubVisibility } from "@/lib/knowledge/clubVisibility";
-import { KNOWLEDGE_TIER_LABEL_SV } from "@/lib/knowledge/types";
+import { knowledgeTier, KNOWLEDGE_TIER_LABEL_SV } from "@/lib/knowledge/types";
 import { getClubPartnerships, getPermanentBTeamParentClubId } from "@/lib/career/clubPartnerships";
-import { svOrdinal } from "@/lib/format/ordinal";
-import { fixtureHref, matchReportHref } from '@/lib/career/fixtureRoutes';
+import { fixtureHref, matchReportHref } from "@/lib/career/fixtureRoutes";
+import { clubPortrait, type PortraitLine } from "@/lib/club/clubPortrait";
+import { STAFF_ROLE_LABEL } from "@/lib/staff/labels";
 
-const CLUB_IDENTITY_DOMAIN_LABELS: Record<keyof Omit<ClubIdentityProfile, "clubId" | "seasonReference">, string> = {
-  structuralIdentity: "Struktur & styrning",
-  cultureIdentity: "Kultur",
-  tacticalHeritage: "Taktiskt arv",
-  developmentIdentity: "Utveckling",
-  recruitmentIdentity: "Rekrytering",
-  financialStrategicIdentity: "Ekonomisk inriktning",
-  supporterEnvironmentIdentity: "Supportermiljö",
-};
-
-const COACH_CLAIM_LABELS: Record<keyof Omit<CoachIdentityProfile, "personId">, string> = {
-  coachingStyleClaims: "Tränarstil",
-  tacticalPreferenceClaims: "Taktiska preferenser",
-  communicationLeadershipClaims: "Kommunikation & ledarskap",
-  developmentClaims: "Spelarutveckling",
-  adaptabilityClaims: "Anpassningsförmåga",
-  cultureBuildingClaims: "Kulturbygge",
-};
-
-// HM-DATA-ALLSVENSKAN-1.2: every claim is rendered through the
-// presentation layer (lib/identity/presentation.ts) -- never the raw
-// machine key/enum value. The canonical claim (key, value, evidenceClass,
-// sourceRefs, ...) is untouched; this is a read-only, additive
-// translation for normal game mode. Evidence-class provenance is
-// intentionally not shown here (not required in normal game mode --
-// only Editor Mode/debug surfaces need it).
-function ClaimRow({ claim }: { claim: IdentityClaim }) {
-  return (
-    <div className="hm-text-xs" style={{ padding: "4px 0", borderBottom: "1px solid var(--hm-border-subtle, #2a2d34)" }}>
-      {presentClaim(claim)}
-    </div>
-  );
-}
+type Identity = { clubIdentity: ClubIdentityProfile | null; coachIdentity: (CoachIdentityProfile & { personId: string }) | null };
 
 export default function ClubProfilePage() {
   const router = useRouter();
   const params = useParams<{ clubId: string }>();
   const { career } = useCareer();
   const club = getClub(params.clubId);
-  const [identity, setIdentity] = useState<{ clubIdentity: ClubIdentityProfile | null; coachIdentity: (CoachIdentityProfile & { personId: string }) | null } | null>(null);
+  const [identity, setIdentity] = useState<Identity | null>(null);
+  // Employment states: only the club he runs opens as his own house; a former club shows its public portrait.
+  const isOwnClub = canAccessClubInternals(career, params.clubId);
 
-  const isOwnClub = params.clubId === career.playerClubId;
-
-  useEffect(() => {
-    if (isOwnClub) {
-      router.replace("/career/club");
-    }
-  }, [isOwnClub, router]);
-
+  useEffect(() => { if (isOwnClub) router.replace("/career/club"); }, [isOwnClub, router]);
   useEffect(() => {
     if (!club || isOwnClub) return;
     let cancelled = false;
     fetch(`/api/game-world/club-identity-snapshot?clubId=${encodeURIComponent(club.id)}&asOfDate=${encodeURIComponent(career.gameDate)}`)
       .then((res) => res.json())
-      .then((data) => {
-        if (!cancelled) setIdentity({ clubIdentity: data.clubIdentity ?? null, coachIdentity: data.coachIdentity ?? null });
-      })
-      .catch(() => {
-        if (!cancelled) setIdentity({ clubIdentity: null, coachIdentity: null });
-      });
-    return () => {
-      cancelled = true;
-    };
+      .then((data) => { if (!cancelled) setIdentity({ clubIdentity: data.clubIdentity ?? null, coachIdentity: data.coachIdentity ?? null }); })
+      .catch(() => { if (!cancelled) setIdentity({ clubIdentity: null, coachIdentity: null }); });
+    return () => { cancelled = true; };
   }, [club, isOwnClub, career.gameDate]);
 
-  if (!club) {
-    return (
-      <div className="hm-panel">
-        <div className="hm-panel-body hm-text-muted">Klubben hittades inte.</div>
-      </div>
-    );
-  }
-  if (isOwnClub) {
-    return null; // redirecting
-  }
+  const knowledgePct = club ? getClubKnowledgePct(career, club.id) : 0;
+  const visibility = useMemo(() => (identity ? resolveClubVisibility(identity.clubIdentity, identity.coachIdentity, knowledgePct) : null), [identity, knowledgePct]);
+  const portrait = useMemo(() => (club && !isOwnClub ? clubPortrait(career, club.id, visibility, { club: !!identity?.clubIdentity, coach: !!identity?.coachIdentity }) : null), [career, club, isOwnClub, visibility, identity]);
+
+  if (!club) return <div className="hm-panel"><div className="hm-panel-body hm-text-muted">Klubben hittades inte. <Link href="/career/competitions">Till tävlingarna →</Link></div></div>;
+  if (isOwnClub || !portrait) return null; // redirecting
 
   const squad = getCareerClubSquad(career, club.id);
   const competitionId = clubCompetitionId(career, club.id) ?? club.competitionId;
-  const table = career.competitionId === competitionId ? getLiveStandings(career) : [];
-  const tableRow = table.find((r) => r.clubId === club.id);
-  const tablePosition = tableRow ? table.indexOf(tableRow) + 1 : null;
-
-  const fixtures = career.fixtures.filter((f) => f.homeClubId === club.id || f.awayClubId === club.id).sort((a, b) => (a.date < b.date ? -1 : 1));
-  // HM-STAFF-CAREER-1.0: reads the same career-persistent, whole-
-  // competition staffRoster the manager's own Staff page reads --
-  // resolved once at career creation for every club (staffCareerIntegration.ts),
-  // so this is real, career-tracked staff (moves on a completed
-  // recruitment), not a fresh per-visit fetch. A club whose staff hasn't
-  // been loaded yet (an old save mid-top-up) simply shows an empty list
-  // until CareerContext's own async top-up completes.
+  const competition = COMPETITIONS.find((c) => c.id === competitionId);
+  const upcoming = career.fixtures.filter((f) => (f.homeClubId === club.id || f.awayClubId === club.id) && !career.results[f.id]).sort((a, b) => a.date.localeCompare(b.date));
   const staffRoster = career.staffRoster[club.id] ?? [];
-
-  // HM-DATA-ALLSVENSKAN-1.1B Part 13: TRUE WORLD STATE -> MANAGER
-  // KNOWLEDGE -> PLAYER-FACING VIEW, for the club/coach identity claims
-  // specifically. Public facts above (name, city, table, squad names,
-  // staff roster, fixtures/results) stay UNGATED, exactly as before --
-  // only the deeper qualitative claims below (tactical heritage, coach
-  // philosophy, internal strengths/weaknesses, financial-strategic
-  // identity, ...) pass through resolveClubVisibility.
-  const clubKnowledgePct = getClubKnowledgePct(career, club.id);
-  const visibility = identity ? resolveClubVisibility(identity.clubIdentity, identity.coachIdentity, clubKnowledgePct) : null;
-
-  // HM-CLUB-PARTNERSHIPS-1.0: a permanent B-team club or a club
-  // exclusively bound to a DEVELOPMENT_PARTNERSHIP is visibly flagged
-  // here -- the same relation data other managers would see reflected
-  // in their own inability to select this club as a partner.
+  const tier = knowledgeTier(knowledgePct);
   const permanentParentClubId = getPermanentBTeamParentClubId(club.id);
   const activeDevelopmentPartner = getClubPartnerships(career, club.id).find((p) => p.type === "DEVELOPMENT_PARTNERSHIP" && p.status === "ACTIVE");
+  const h = portrait.h2h;
+  const loading = identity === null;
 
   return (
-    <div className="hm-world-page">
-      <ClubHero clubId={club.id} career={career}>
-        <button type="button" className="hm-btn hm-btn-sm" onClick={() => router.back()}>Tillbaka</button>
-      </ClubHero>
-      <section className="hm-world-facts" aria-label="Klubbens säsong">
-        <div><small>Tabellplacering</small><strong>{tablePosition ? `${svOrdinal(tablePosition)}` : "—"}</strong></div>
-        <div><small>Poäng</small><strong>{tableRow?.points ?? "—"}</strong></div>
-        <div><small>Trupp</small><strong>{squad.length}</strong></div>
-        <div><small>Personal</small><strong>{staffRoster.length}</strong></div>
-      </section>
-      {permanentParentClubId ? <div className="hm-world-note">Permanent B-lag till {getClub(permanentParentClubId)?.name ?? permanentParentClubId} -- kan inte väljas som samarbetsklubb.</div> : activeDevelopmentPartner ? <div className="hm-world-note">Exklusivt samarbete med {getClub(activeDevelopmentPartner.clubAId)?.name ?? activeDevelopmentPartner.clubAId} -- inte tillgänglig för andra klubbar.</div> : null}
-      <div className="hm-world-split">
-        <div className="hm-world-main">
-          <ClubContext clubId={club.id} />
-                <div className="hm-panel">
-        <div className="hm-panel-header">
-          <span className="hm-panel-title">Trupp</span>
-        </div>
-        {squad.length === 0 ? (
-          <div className="hm-panel-body hm-text-muted">Ingen truppdata tillgänglig för denna klubb ännu.</div>
-        ) : (
-          <div className="hm-scroll-x">
-            <table className="hm-table">
-              <thead>
-                <tr>
-                  <th>Nr</th>
-                  <th>Spelare</th>
-                  <th>Pos</th>
-                  <th>Ålder</th>
-                </tr>
-              </thead>
-              <tbody>
-                {squad.map((p) => (
-                  <tr key={p.id}>
-                    <td>
-                      <span className="hm-shirt-number">{p.shirtNumber ?? "–"}</span>
-                    </td>
-                    <td className="hm-td-strong">
-                      <PlayerCell player={p} />
-                    </td>
-                    <td title={positionLabel(p.position)}>{p.position}</td>
-                    <td>{playerAgeAtDate(p.dateOfBirth, p.birthYear, career.gameDate) ?? "–"}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+    <div className="cp-page" style={clubColorVars(club)}>
+      <nav className="cp-back" aria-label="Tillbaka"><Link href={competitionId ? `/career/competitions/${encodeURIComponent(competitionId)}` : "/career/competitions"}>← {competition?.name ?? "Tävlingarna"}</Link></nav>
+      <div className="cp-top">
+        <header className="cp-portrait xp-photo-hero" style={ENVIRONMENTS["arena-club"].backdropStyle}>
+          <ClubCrest shortName={club.shortName} primaryColor={club.primaryColor} clubId={club.id} size={96} />
+          <div className="cp-portrait-copy">
+            <small>{[club.city, competition?.name, club.founded ? `Grundad ${club.founded}` : null].filter(Boolean).join(" · ")}</small>
+            <h1>{club.name}</h1>
+            <p className="cp-headline">{portrait.headline}</p>
+            {portrait.standfirst ? <p className="cp-standfirst">{portrait.standfirst}</p> : !loading && <p className="cp-standfirst cp-fog">Hur de spelar vet du inte än.</p>}
+            <div className="cp-form"><span>Senaste fem</span><FormDots results={(career.clubForm[club.id] ?? []).slice(-5)} /></div>
           </div>
-        )}
-      </div>
-
-
-                <div className="hm-panel">
-        <div className="hm-panel-header">
-          <span className="hm-panel-title">Matcher</span>
-          <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>{fixtures.length} matcher</span>
-        </div>
-        {fixtures.length === 0 ? (
-          <div className="hm-panel-body hm-text-muted">Inga matcher registrerade för denna klubb ännu.</div>
-        ) : (
-          <div className="hm-scroll-x">
-            <table className="hm-table">
-              <thead>
-                <tr>
-                  <th>Omg</th>
-                  <th>Datum</th>
-                  <th>Hemma / Borta</th>
-                  <th>Motstånd</th>
-                  <th>Resultat</th>
-                </tr>
-              </thead>
-              <tbody>
-                {fixtures.map((f) => {
-                  const home = f.homeClubId === club.id;
-                  const opponentId = home ? f.awayClubId : f.homeClubId;
-                  const opponent = getClub(opponentId);
-                  const result = career.results[f.id];
-                  const gf = result ? (home ? result.homeGoals : result.awayGoals) : undefined;
-                  const ga = result ? (home ? result.awayGoals : result.homeGoals) : undefined;
-                  return (
-                    <tr key={f.id}>
-                      <td>{f.round}</td>
-                      <td>{new Date(f.date).toLocaleDateString("sv-SE", { day: "2-digit", month: "2-digit" })}</td>
-                      <td>{home ? "Hemma" : "Borta"}</td>
-                      <td className="hm-td-strong">{opponent ? <ClubLink clubId={opponent.id}>{opponent.name}</ClubLink> : opponentId}</td>
-                      <td>{result ? <Link className="hm-result-link" href={matchReportHref(f.id)}>{gf}–{ga}</Link> : <Link href={fixtureHref(f.id)}>Förhandsvisa →</Link>}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+        </header>
+        <aside className="cp-scout" aria-label="Snabbfakta och kännedom">
+          <div className="cp-h2h">
+            <small>Inbördes mot er</small>
+            <strong>{h.played ? `${h.won}–${h.drawn}–${h.lost}` : "Inga möten"}</strong>
+            <span>{h.played ? `${h.goalsFor}–${h.goalsAgainst} i mål på ${h.played} ${h.played === 1 ? "match" : "matcher"}` : "Ni har inte mötts i din tid."}</span>
+            {h.recent.length > 0 && <ol aria-label="Senaste mötena">{h.recent.map((m) => <li key={m.fixtureId} data-outcome={m.outcome}><Link href={matchReportHref(m.fixtureId)}>{m.goalsFor}–{m.goalsAgainst}</Link></li>)}</ol>}
+            {h.next && <Link href={fixtureHref(h.next.fixtureId)}>Nästa möte {h.next.date}, {h.next.home ? "hemma" : "borta"} →</Link>}
           </div>
-        )}
-      </div>
-
-        </div>
-        <aside className="hm-world-rail" aria-label="Organisation och klubbkännedom">
-                <div className="hm-panel">
-        <div className="hm-panel-header">
-          <span className="hm-panel-title">Personal</span>
-        </div>
-        {staffRoster.length === 0 ? (
-          <div className="hm-panel-body hm-text-muted">Ingen personaldata tillgänglig för denna klubb ännu.</div>
-        ) : (
-          <table className="hm-table">
-            <thead>
-              <tr>
-                <th>Namn</th>
-                <th>Roll</th>
-              </tr>
-            </thead>
-            <tbody>
-              {staffRoster.map((m) => (
-                <tr key={m.id}>
-                  <td className="hm-td-strong">
-                    <Link href={`/career/staff/${encodeURIComponent(m.id)}`}>{m.displayName}</Link>
-                  </td>
-                  <td>{m.roles.length > 0 ? m.roles.map((r) => STAFF_ROLE_LABEL[r]).join(" + ") : (m.officialRoleLabel ?? "—")}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-      </div>
-
-
-                <div className="hm-panel">
-        <div className="hm-panel-header">
-          <span className="hm-panel-title">Klubbidentitet</span>
-          {visibility ? <span className="hm-badge hm-badge-neutral">{KNOWLEDGE_TIER_LABEL_SV[visibility.tier]}</span> : null}
-        </div>
-        {identity === null ? (
-          <div className="hm-panel-body hm-text-muted">Läser in…</div>
-        ) : !identity.clubIdentity ? (
-          <div className="hm-panel-body hm-text-muted">Ingen klubbidentitetsdata tillgänglig för denna klubb ännu.</div>
-        ) : !visibility?.clubIdentity || Object.values(visibility.clubIdentity).every((claims) => Array.isArray(claims) && claims.length === 0) ? (
-          <div className="hm-panel-body hm-text-muted">
-            För lite kännedom om klubben för djupare insikter ännu. Scouting och möten mot klubben ökar kännedomen över tid.
+          <div className="cp-knowledge" data-tier={tier}>
+            <small>Kännedom om klubben</small>
+            <strong>{KNOWLEDGE_TIER_LABEL_SV[tier]}</strong>
+            <div className="cp-knowledge-meter" role="meter" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(knowledgePct)} aria-label="Kännedom"><i style={{ width: `${Math.round(knowledgePct)}%` }} /></div>
+            {portrait.hidden > 0 && <span>{portrait.hidden} uppgifter till kräver bättre kännedom.</span>}
+            <ScoutAssignButton kind="CLUB" targetId={club.id} label="Scouta klubben" />
           </div>
-        ) : (
-          <>
-            <div className="hm-panel-body" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
-              {(Object.keys(CLUB_IDENTITY_DOMAIN_LABELS) as (keyof typeof CLUB_IDENTITY_DOMAIN_LABELS)[])
-                .filter((field) => visibility.clubIdentity![field].length > 0)
-                .map((field) => (
-                  <div key={field}>
-                    <div className="hm-eyebrow">{CLUB_IDENTITY_DOMAIN_LABELS[field]}</div>
-                    {visibility.clubIdentity![field].map((claim) => (
-                      <ClaimRow key={claim.id} claim={claim} />
-                    ))}
-                  </div>
-                ))}
-            </div>
-            {visibility.hiddenClubClaimCount > 0 ? (
-              <div className="hm-panel-body hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", paddingTop: 0 }}>
-                {visibility.hiddenClubClaimCount} till, kräver bättre kännedom om klubben.
-              </div>
-            ) : null}
-          </>
-        )}
-      </div>
-
-
-                <div className="hm-panel">
-        <div className="hm-panel-header">
-          <span className="hm-panel-title">Tränarfilosofi</span>
-          {visibility ? <span className="hm-badge hm-badge-neutral">{KNOWLEDGE_TIER_LABEL_SV[visibility.tier]}</span> : null}
-        </div>
-        {identity === null ? (
-          <div className="hm-panel-body hm-text-muted">Läser in…</div>
-        ) : !identity.coachIdentity ? (
-          <div className="hm-panel-body hm-text-muted">Ingen bedömd tränarfilosofi tillgänglig för nuvarande huvudtränare.</div>
-        ) : !visibility?.coachIdentity || Object.values(visibility.coachIdentity).every((claims) => Array.isArray(claims) && claims.length === 0) ? (
-          <div className="hm-panel-body hm-text-muted">
-            För lite kännedom om tränaren för en bedömd filosofi ännu. Kräver minst måttlig kännedom om klubben.
-          </div>
-        ) : (
-          <>
-            <div className="hm-panel-body" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
-              {(Object.keys(COACH_CLAIM_LABELS) as (keyof typeof COACH_CLAIM_LABELS)[])
-                .filter((field) => visibility.coachIdentity![field].length > 0)
-                .map((field) => (
-                  <div key={field}>
-                    <div className="hm-eyebrow">{COACH_CLAIM_LABELS[field]}</div>
-                    {visibility.coachIdentity![field].map((claim) => (
-                      <ClaimRow key={claim.id} claim={claim} />
-                    ))}
-                  </div>
-                ))}
-            </div>
-            {visibility.hiddenCoachClaimCount > 0 ? (
-              <div className="hm-panel-body hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", paddingTop: 0 }}>
-                {visibility.hiddenCoachClaimCount} till, kräver bättre kännedom om klubben.
-              </div>
-            ) : null}
-          </>
-        )}
-      </div>
-
-
         </aside>
+      </div>
+      {permanentParentClubId ? <p className="hm-world-note">Permanent B-lag till {getClub(permanentParentClubId)?.name ?? permanentParentClubId}. Kan inte väljas som samarbetsklubb.</p> : activeDevelopmentPartner ? <p className="hm-world-note">Exklusivt samarbete med {getClub(activeDevelopmentPartner.clubAId)?.name ?? activeDevelopmentPartner.clubAId}. Inte tillgänglig för andra klubbar.</p> : null}
+
+      <section className="cp-words" aria-label="Klubben och tränaren i ord">
+        <div className="cp-col">
+          <h2>Klubben</h2>
+          {loading ? <p className="cp-muted">Läser in…</p> : portrait.noIdentityData ? <p className="cp-muted">Ingen klubbidentitet finns registrerad för klubben ännu.</p> : <Lines lines={portrait.identity} />}
+        </div>
+        <div className="cp-col">
+          <h2>Tränaren</h2>
+          {loading ? <p className="cp-muted">Läser in…</p> : portrait.noCoachData ? <p className="cp-muted">Ingen bedömd tränarfilosofi för nuvarande huvudtränare.</p> : <Quotes lines={portrait.coach} />}
+        </div>
+      </section>
+
+      <ClubStory clubId={club.id} limit={4} />
+
+      <div className="cp-grid">
+        <section className="cp-panel" aria-labelledby="cp-squad">
+          <header><h2 id="cp-squad">Trupp</h2><small>{squad.length} spelare</small></header>
+          {squad.length === 0 ? <p className="cp-muted">Ingen truppdata tillgänglig för klubben ännu.</p> : (
+            <ul className="cp-squad">{squad.map((p) => (
+              <li key={p.id}><span className="hm-shirt-number">{p.shirtNumber ?? "–"}</span><PlayerCell player={p} /><abbr title={positionLabel(p.position)}>{p.position}</abbr><span className="cp-age">{playerAgeAtDate(p.dateOfBirth, p.birthYear, career.gameDate) ?? "–"} år</span></li>
+            ))}</ul>
+          )}
+        </section>
+        <section className="cp-panel" aria-labelledby="cp-fixtures">
+          <header><h2 id="cp-fixtures">Kommande matcher</h2><small>{upcoming.length} kvar</small></header>
+          {upcoming.length === 0 ? <p className="cp-muted">Inga fler matcher inbokade. Spelade matcher finns i berättelsen ovan.</p> : (
+            <ul className="cp-fixtures">{upcoming.slice(0, 8).map((f) => { const home = f.homeClubId === club.id; const opp = home ? f.awayClubId : f.homeClubId; return (
+              <li key={f.id}><time>{f.date}</time><span>{home ? "Hemma" : "Borta"} mot <ClubLink clubId={opp}>{getClub(opp)?.shortName ?? opp}</ClubLink></span><Link href={fixtureHref(f.id)}>Förhandsvisa →</Link></li>
+            ); })}</ul>
+          )}
+          <h3 className="cp-sub">Ledarstab</h3>
+          {staffRoster.length === 0 ? <p className="cp-muted">Ingen personaldata tillgänglig för klubben ännu.</p> : (
+            <ul className="cp-staff">{staffRoster.map((m) => <li key={m.id}><Link href={`/career/staff/${encodeURIComponent(m.id)}`}>{m.displayName}</Link><small>{m.roles.length > 0 ? m.roles.map((r) => STAFF_ROLE_LABEL[r]).join(" + ") : (m.officialRoleLabel ?? "—")}</small></li>)}</ul>
+          )}
+        </section>
       </div>
     </div>
   );
+}
+
+/** CLB-04a B: one line per domain in words; a domain you don't know yet is a fogged line that leads to scouting. */
+function Lines({ lines }: { lines: PortraitLine[] }) {
+  return <dl className="cp-lines">{lines.map((l) => (
+    <div key={l.key} data-known={l.known}>
+      <dt>{l.label}</dt>
+      <dd>{l.known ? l.sentences.join(" ") : <Link className="cp-fog" href="/career/scouting">Okänt – scouta för att veta mer</Link>}</dd>
+    </div>
+  ))}</dl>;
+}
+
+function Quotes({ lines }: { lines: PortraitLine[] }) {
+  const known = lines.filter((l) => l.known);
+  const unknown = lines.filter((l) => !l.known);
+  return <>
+    {known.map((l) => <blockquote key={l.key} className="cp-quote"><p>{l.sentences.join(" · ")}</p><footer>{l.label}</footer></blockquote>)}
+    {unknown.length > 0 && <p className="cp-fog-row"><span className="cp-fog">{unknown.map((l) => l.label).join(" · ")}</span> <Link href="/career/scouting">Okänt – scouta för att veta mer →</Link></p>}
+  </>;
 }

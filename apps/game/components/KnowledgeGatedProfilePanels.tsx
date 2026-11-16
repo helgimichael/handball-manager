@@ -1,96 +1,66 @@
-// HM-DATA-ALLSVENSKAN-1.1B Part 12: the EXTERNAL-player counterpart to
-// GameplayProfilePanels.tsx -- for a player at any club other than the
-// manager's own, raw CA/PA and the full 1-20 attribute grid are NEVER
-// rendered, regardless of knowledge level. This panel renders only what
-// lib/knowledge/playerVisibility.ts's resolver actually resolved: a
-// fuzzy ability/potential star RANGE, and (once known well enough) an
-// archetype plus a short strengths/weaknesses list drawn from real
-// attribute names -- never invented, never the raw 1-20 value.
-import type { PlayerVisibleView, StarRange } from "@/lib/knowledge/playerVisibility";
+'use client';
+// HM-DATA-ALLSVENSKAN-1.1B Part 12: the EXTERNAL-player counterpart to GameplayProfilePanels.tsx -- for a player
+// at any club other than the manager's own, raw CA/PA and the full 1-20 attribute grid are NEVER rendered,
+// regardless of knowledge level. These panels render only what lib/knowledge/playerVisibility.ts resolved.
+// Arena Nights SQD-02l (A) "Tightening range bars": ability and potential as range bars on the star scale (the
+// band is as wide as the knowledge tier leaves it), strengths/weaknesses as chips, and an inline "Scouta nu".
+import Link from "next/link";
+import type { PlayerVisibleView } from "@/lib/knowledge/playerVisibility";
 import { KNOWLEDGE_TIER_LABEL_SV } from "@/lib/knowledge/types";
-import StarRating from "@/components/StarRating";
+import { RANGE_TIER_HINT_SV } from "@/lib/players/rangeBar";
+import { StarRangeBar } from "@/components/players/RangeBar";
 
-function starRangeLabel(range: StarRange): string {
-  return range.min === range.max ? "★".repeat(range.min) + "☆".repeat(5 - range.min) : `${range.min}–${range.max} ★`;
+function ScoutCta({ playerId, hasOwnScout }: { playerId?: string; hasOwnScout?: boolean }) {
+  if (!playerId) return null;
+  if (hasOwnScout === false) return <p className="kg-hint">Din klubb har ingen scout anställd -- anställ en scout för att lära känna spelaren bättre. <Link href="/career/staff">Stab →</Link></p>;
+  return <Link className="hm-btn hm-btn-sm hm-btn-primary kg-cta" href={`/career/scouting?target=${encodeURIComponent(playerId)}`}>Scouta nu</Link>;
 }
 
-/** Right-column panel replacement for GameplayAbilityPanel, gated by knowledge. */
-export function KnowledgeGatedAbilityPanel({ view }: { view: PlayerVisibleView }) {
+function Chips({ title, items, tone }: { title: string; items: string[] | null; tone: "pos" | "neg" }) {
+  return <div className="kg-chips"><span className="kg-chips-title">{title}</span>{items === null ? <span className="hm-text-muted">Kräver måttlig kännedom</span> : items.length === 0 ? <span className="hm-text-muted">—</span> : items.map((i) => <span key={i} className="kg-chip" data-tone={tone}>{i}</span>)}</div>;
+}
+
+/** Ability / potential as tightening range bars + archetype + scout CTA. */
+export function KnowledgeGatedAbilityPanel({ view, playerId, hasOwnScout }: { view: PlayerVisibleView; playerId?: string; hasOwnScout?: boolean }) {
   return (
-    <div className="hm-panel">
+    <section className="hm-panel kg-panel" aria-label="Bedömd förmåga">
       <div className="hm-panel-header">
         <span className="hm-panel-title">Förmåga</span>
-        <span className="hm-badge hm-badge-neutral">{KNOWLEDGE_TIER_LABEL_SV[view.tier]}</span>
+        <span className="hm-badge hm-badge-neutral" data-tier={view.tier}>{KNOWLEDGE_TIER_LABEL_SV[view.tier]}</span>
       </div>
-      <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <span className="hm-text-secondary" style={{ fontSize: "var(--hm-text-xs)" }}>Nuvarande nivå</span>
-          {view.abilityRange.min === view.abilityRange.max ? (
-            <StarRating stars={view.abilityRange.min} title="Uppskattad nuvarande nivå" />
-          ) : (
-            <span style={{ fontWeight: 700 }}>{starRangeLabel(view.abilityRange)}</span>
-          )}
+      <div className="hm-panel-body kg-body">
+        <div className="hm-range-stack">
+          <StarRangeBar label="Nuvarande nivå" range={view.abilityRange} />
+          <StarRangeBar label="Potential" range={view.potentialRange} unknownText="Okänd ännu" />
         </div>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <span className="hm-text-secondary" style={{ fontSize: "var(--hm-text-xs)" }}>Potential</span>
-          {view.potentialRange === null ? (
-            <span className="hm-text-muted">Okänd</span>
-          ) : view.potentialRange.min === view.potentialRange.max ? (
-            <StarRating stars={view.potentialRange.min} title="Uppskattad potential" />
-          ) : (
-            <span style={{ fontWeight: 700 }}>{starRangeLabel(view.potentialRange)}</span>
-          )}
-        </div>
-        <div className="hm-divider" />
-        <div style={{ display: "flex", justifyContent: "space-between", fontSize: "var(--hm-text-xs)" }}>
-          <span className="hm-text-muted">Spelartyp</span>
-          <span style={{ fontWeight: 600 }}>{view.archetype ?? "Okänd"}</span>
-        </div>
-        <p className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", margin: 0, lineHeight: 1.5 }}>
-          Baserat på klubbens/managerens nuvarande kännedom om spelaren -- ökar med scouting och observation.
-        </p>
+        <p className="kg-hint">{RANGE_TIER_HINT_SV[view.tier]}</p>
+        <div className="kg-facts"><span>Spelartyp</span><b>{view.archetype ?? "Okänd"}</b></div>
+        <ScoutCta playerId={playerId} hasOwnScout={hasOwnScout} />
       </div>
-    </div>
+    </section>
   );
 }
 
-/** Left-column panel replacement for GameplayAttributesPanel -- never the full attribute grid for an external player. */
-export function KnowledgeGatedAttributesPanel({ view }: { view: PlayerVisibleView }) {
+/** Strengths and weaknesses as chips -- never the full attribute grid for an external player. */
+export function KnowledgeGatedAttributesPanel({ view, playerId, hasOwnScout }: { view: PlayerVisibleView; playerId?: string; hasOwnScout?: boolean }) {
   return (
-    <div className="hm-panel">
+    <section className="hm-panel kg-panel" aria-label="Bedömda egenskaper">
       <div className="hm-panel-header">
         <span className="hm-panel-title">Egenskaper</span>
-        <span className="hm-badge hm-badge-neutral">{KNOWLEDGE_TIER_LABEL_SV[view.tier]}</span>
+        <span className="hm-badge hm-badge-neutral" data-tier={view.tier}>{KNOWLEDGE_TIER_LABEL_SV[view.tier]}</span>
       </div>
-      <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+      <div className="hm-panel-body kg-body">
         {view.strengths === null || view.weaknesses === null ? (
-          <p className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", margin: 0, lineHeight: 1.5 }}>
-            För lite kännedom om spelaren för en detaljerad bedömning. Scouta eller möt klubben för att lära känna spelaren bättre.
-          </p>
+          <p className="kg-hint">För lite kännedom om spelaren för en detaljerad bedömning. Scouta eller möt klubben för att lära känna spelaren bättre.</p>
         ) : (
           <>
-            <StrengthWeaknessList title="Styrkor" items={view.strengths} />
-            <StrengthWeaknessList title="Svagheter" items={view.weaknesses} />
+            <Chips title="Styrkor" items={view.strengths} tone="pos" />
+            <Chips title="Svagheter" items={view.weaknesses} tone="neg" />
           </>
         )}
+        <p className="kg-hint">Externa spelares 1–20-värden visas aldrig -- bara det scoutingen kan säga.</p>
+        <ScoutCta playerId={playerId} hasOwnScout={hasOwnScout} />
       </div>
-    </div>
-  );
-}
-
-function StrengthWeaknessList({ title, items }: { title: string; items: string[] }) {
-  return (
-    <div>
-      <div className="hm-eyebrow" style={{ marginBottom: 4 }}>{title}</div>
-      {items.length === 0 ? (
-        <p className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", margin: 0 }}>—</p>
-      ) : (
-        items.map((item) => (
-          <div key={item} className="hm-stat-row">
-            <span className="hm-stat-label">{item}</span>
-          </div>
-        ))
-      )}
-    </div>
+    </section>
   );
 }

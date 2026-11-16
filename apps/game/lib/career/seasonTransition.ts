@@ -15,6 +15,8 @@ import { recordSeasonQuietly } from '../manager/managerCareer';
 import { emptyMatchFitnessLedger, PRESEASON_MATCH_FITNESS } from '../players/matchFitness';
 import { progressCareerQualifications, QUALIFICATION_SCHEDULING_BLOCKER_CODES } from '../competition/transition/careerQualifications';
 import { careerQualificationEvidence } from '../competition/transition/careerQualificationEvidence';
+import { resolveParentPriority, type ParentPriorityMove } from '../competition/transition/parentPriority';
+import { continuityRegionAllows, continuityRegionalLeague, hasValidCompetitionRegistrations } from '../competition/transition/gameContinuity';
 
 export type SeasonTransitionEvidence = Pick<PlannerInput, 'eligibility' | 'qualificationResults' | 'qualificationFixtures' | 'externalEntrants' | 'groupAllocations'> & {
   readonly rankingDecisions?: Readonly<Record<string, readonly RankingDecision[]>>;
@@ -111,8 +113,9 @@ export function attemptSeasonTransition(input: CareerState, request?: SeasonTran
       for (const limitation of nextRules.limitations) fail(limitation.code, nextRules.id, limitation.message);
     }
     if (!preview.canGenerateNextSeason || blockers.length || !nextProfile) return blocked();
-    const membership = { ...input.competitionMembership };
+    let membership: Record<string, string> = { ...input.competitionMembership };
     const seen = new Set<string>();
+    const confirmed: { id: string; competitionId: string; tier: number }[] = [];
     for (const league of preview.leagues) {
       const definition = rules.leagues.find((l) => l.id === league.competitionId)!;
       if (!COMPETITIONS.some((c) => c.id === league.competitionId) || league.confirmedNextClubIds.length !== definition.size) fail('INVALID_TARGET_SIZE', league.competitionId, 'Target competition must exist and have exactly its defined size.');
@@ -120,8 +123,7 @@ export function attemptSeasonTransition(input: CareerState, request?: SeasonTran
         if (!canonical.has(id) || seen.has(id)) fail('INVALID_TARGET_CLUB', id, 'Each target member must be a unique canonical club.');
         if (getClub(id)?.dataSource === 'IDENTITY_ONLY' && !input.worldSquads[id]?.length && !(rules.provenance === 'GAME_CONTINUITY' && clubCompetitionId(input,id)?.startsWith('se_division2_') && rules.families.find(f=>f.id===definition.familyId)?.tier===3)) fail('TARGET_SQUAD_COVERAGE_REQUIRED',id,'Identity-only club requires a supplied squad before entering an active league.');
         const tier = rules.families.find(f => f.id === definition.familyId)!.tier;
-        const cooperation = cooperationEligibility(input,id,tier,input.gameDate);
-        if (!cooperation.eligible) fail('COOPERATION_TARGET_INELIGIBLE',id,cooperation.reasons.join(' | '));
+        confirmed.push({ id, competitionId: league.competitionId, tier });
         seen.add(id);
         membership[id] = league.competitionId;
       }
@@ -131,6 +133,20 @@ export function attemptSeasonTransition(input: CareerState, request?: SeasonTran
       if (exit) membership[club.id] = exit.toCompetitionId!;
       else fail('BOUNDARY_DESTINATION_REQUIRED',club.id,'Departing club needs a supported canonical pool destination.');
     }
+    // Club Identity C4: "the A-team always has priority, the B-team must adapt" -- resolved on the sporting outcome,
+    // before anything is committed (planner, eligibility evidence and qualification series stay untouched).
+    const allocation = resolveParentPriority({ state: input, rules, membership, current: (id) => clubCompetitionId(input, id), rankings: preview.proposal.rankings,
+      eligibility: snapshot.eligibility, regionalLeague: continuityRegionalLeague, regionAllows: continuityRegionAllows, registrationValid: (id) => hasValidCompetitionRegistrations(input, id), date: input.gameDate });
+    blockers.push(...allocation.blockers);
+    membership = allocation.membership;
+    const parentPriority: ParentPriorityMove[] = allocation.moves;
+    // The unchanged cooperation rule for every club that keeps its planned place, and for every replacement.
+    for (const c of confirmed) if (membership[c.id] === c.competitionId) {
+      const cooperation = cooperationEligibility(input,c.id,c.tier,input.gameDate);
+      if (!cooperation.eligible) fail('COOPERATION_TARGET_INELIGIBLE',c.id,cooperation.reasons.join(' | '));
+    }
+    seen.clear();
+    for (const [id, competitionId] of Object.entries(membership)) if (modeled.has(competitionId) && canonical.has(id)) seen.add(id);
     if (!seen.has(input.playerClubId) && !rules.boundaryLeagues?.some(b => b.id === membership[input.playerClubId])) fail('MANAGER_DESTINATION_MISSING', input.playerClubId, 'The managed club needs a validated next-season league.');
     for (const league of rules.leagues) if (CLUBS.filter((c) => (membership[c.id] ?? c.competitionId) === league.id).length !== league.size) fail('INVALID_TARGET_SIZE', league.id, 'Merged world membership does not match the validated size.');
     if (blockers.length) return blocked();
@@ -140,8 +156,10 @@ export function attemptSeasonTransition(input: CareerState, request?: SeasonTran
     const claims = [...preview.proposal.directPromotions, ...preview.proposal.directRelegations, ...preview.proposal.qualificationMovements, ...preview.proposal.remaining];
     const outcome = state.seasonOutcome?.seasonId === state.seasonId ? {
       ...state.seasonOutcome, nextMembership: Object.fromEntries([...seen].sort().map((id) => [id, membership[id]])),
-      promoted: claims.filter((c) => c.kind === 'PROMOTION').map((c) => c.clubId).sort(),
-      relegated: claims.filter((c) => c.kind === 'RELEGATION').map((c) => c.clubId).sort(),
+      // After A-team priority: a refused promotion is not a promotion; a displaced B-team is relegated; a replacement is promoted.
+      promoted: [...new Set([...claims.filter((c) => c.kind === 'PROMOTION' && !parentPriority.some((m) => m.clubId === c.clubId)).map((c) => c.clubId), ...parentPriority.flatMap((m) => m.replacement ? [m.replacement.clubId] : [])])].sort(),
+      relegated: [...new Set([...claims.filter((c) => c.kind === 'RELEGATION').map((c) => c.clubId), ...parentPriority.filter((m) => m.kind !== 'RE_ENTRY' && membership[m.clubId] !== clubCompetitionId(input, m.clubId)).map((m) => m.clubId)])].sort(),
+      ...(parentPriority.length ? { parentPriority } : {}),
     } : undefined;
     const tables = Object.fromEntries(rules.leagues.map((l) => {
       const rows = snapshot.standings.find((t) => t.competitionId === l.id)!.rows;
@@ -169,7 +187,7 @@ export function attemptSeasonTransition(input: CareerState, request?: SeasonTran
     for (const league of rules.leagues) {
       const fixtures = next.fixtures.filter((f) => f.competitionId === league.id);
       const pairs = new Set(fixtures.map((f) => JSON.stringify([f.homeClubId, f.awayClubId])));
-      const ids = preview.leagues.find((l) => l.competitionId === league.id)!.confirmedNextClubIds;
+      const ids = Object.entries(membership).filter(([, c]) => c === league.id).map(([id]) => id);
       if (fixtures.length !== league.size * (league.size - 1) || pairs.size !== fixtures.length || !ids.every((h) => ids.every((a) => h === a || pairs.has(JSON.stringify([h,a]))))) fail('INCOMPLETE_GENERATED_CALENDAR', league.id, 'Every league requires exactly one home and away fixture per opponent.');
     }
     return blockers.length ? blocked() : { status: 'APPLIED', state: next, blockers: [], preview, receipt: newReceipt };

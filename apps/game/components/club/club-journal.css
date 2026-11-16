@@ -1,0 +1,145 @@
+/* Arena Nights Phase 3 -- Club Journal (CLB-02 C), KPI trio (CLB-02b A), depth court (SQD-01f B). */
+.cj-journal { display: grid; gap: 18px; }
+.cj-kicker { margin: 0; font: 600 12px/1.4 var(--arena-font-ui, inherit); letter-spacing: .14em; text-transform: uppercase; color: var(--arena-muted); }
+.cj-section h2 { margin: 0 0 10px; font: 800 18px/1.1 var(--arena-font-display, inherit); text-transform: uppercase; letter-spacing: .02em; color: var(--arena-ink); }
+
+/* History strip */
+.cj-history { position: relative; margin: 0; height: 132px; padding: 0 12px; border-radius: 8px; background: linear-gradient(180deg, color-mix(in srgb, var(--club-neon) 8%, var(--arena-solid-1)), var(--arena-solid-1)); border: 1px solid var(--arena-line, #263041); }
+.cj-history svg { position: absolute; inset: 14px 12px 34px; width: calc(100% - 24px); height: calc(100% - 48px); }
+.cj-history .cj-grid { stroke: color-mix(in srgb, var(--arena-gold) 40%, transparent); stroke-dasharray: 2 2; vector-effect: non-scaling-stroke; }
+.cj-history .cj-trend { fill: none; stroke: var(--club-neon); stroke-width: 2; vector-effect: non-scaling-stroke; }
+.cj-history ol { position: absolute; inset: 14px 12px 34px; margin: 0; padding: 0; list-style: none; }
+.cj-history li { position: absolute; transform: translate(-50%, -50%); display: grid; justify-items: center; gap: 2px; }
+.cj-history li b { display: grid; place-items: center; min-width: 34px; height: 24px; padding: 0 6px; border-radius: 12px; background: var(--arena-solid-3); color: var(--arena-ink); font: 800 12px/1 var(--arena-font-display, inherit); border: 1px solid var(--arena-line, #263041); }
+.cj-history li[data-current] b { background: var(--club-neon); color: var(--club-neon-ink, #05070b); border-color: var(--club-neon); box-shadow: 0 0 14px color-mix(in srgb, var(--club-neon) 55%, transparent); }
+.cj-history li[data-top] b { border-color: var(--arena-gold); }
+.cj-history li small { font-size: 10px; color: var(--arena-faint); white-space: nowrap; }
+.cj-history figcaption { position: absolute; left: 12px; bottom: 8px; font-size: 11px; color: var(--arena-muted); }
+
+/* Briefs */
+.cj-briefs { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 10px; }
+.cj-briefs li { display: grid; gap: 4px; align-content: start; padding: 12px 14px; border-radius: 8px; background: var(--arena-solid-1); border: 1px solid var(--arena-line, #263041); border-top: 3px solid var(--arena-faint); }
+.cj-briefs li[data-tone="bad"] { border-top-color: var(--arena-neg); background: color-mix(in srgb, var(--arena-neg) 8%, var(--arena-solid-1)); }
+.cj-briefs li[data-tone="warn"] { border-top-color: var(--arena-warn); }
+.cj-briefs li[data-tone="good"] { border-top-color: var(--arena-pos); }
+.cj-briefs small { font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--arena-faint); }
+.cj-briefs strong { font-size: 15px; line-height: 1.25; color: var(--arena-ink); }
+.cj-briefs span { font-size: 12px; color: var(--arena-muted); }
+.cj-briefs a { margin-top: 4px; font-size: 12px; font-weight: 700; color: var(--club-neon); text-decoration: none; }
+.cj-briefs a:hover { text-decoration: underline; }
+
+/* Depth court */
+.cj-depth { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+.cj-depth-court { position: relative; aspect-ratio: 16 / 10; border-radius: 8px; background: radial-gradient(ellipse at 50% 110%, color-mix(in srgb, var(--club-neon) 14%, transparent), transparent 60%), var(--arena-solid-2); overflow: hidden; }
+.cj-depth-court svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.cj-depth-court .cj-line { fill: none; stroke: color-mix(in srgb, var(--arena-ink) 35%, transparent); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+.cj-depth-court .cj-dashed { stroke-dasharray: 5 4; }
+.cj-depth-court .cj-frame { fill: none; stroke: color-mix(in srgb, var(--arena-ink) 18%, transparent); vector-effect: non-scaling-stroke; }
+.cj-spot { position: absolute; transform: translate(-50%, -50%); display: grid; justify-items: center; gap: 1px; min-width: 52px; padding: 6px 8px; border-radius: 10px; border: 1px solid var(--arena-line, #263041); background: var(--arena-solid-1); color: var(--arena-ink); cursor: pointer; font: inherit; }
+.cj-spot b { font: 800 13px/1 var(--arena-font-display, inherit); }
+.cj-spot span { font-size: 12px; font-variant-numeric: tabular-nums; }
+.cj-spot i { position: absolute; top: -7px; right: -7px; font-style: normal; font-size: 10px; font-weight: 800; padding: 1px 5px; border-radius: 8px; background: var(--arena-info); color: #fff; }
+.cj-spot[data-tone="good"] { border-color: var(--arena-pos); box-shadow: inset 0 -3px 0 var(--arena-pos); }
+.cj-spot[data-tone="warn"] { border-color: var(--arena-warn); box-shadow: inset 0 -3px 0 var(--arena-warn); }
+.cj-spot[data-tone="bad"] { border-color: var(--arena-neg); box-shadow: inset 0 -3px 0 var(--arena-neg), 0 0 12px color-mix(in srgb, var(--arena-neg) 40%, transparent); }
+.cj-spot[data-active] { outline: 2px solid var(--club-neon); outline-offset: 2px; }
+.cj-spot:focus-visible { outline: 2px solid var(--club-neon); outline-offset: 2px; }
+.cj-depth-side { display: grid; gap: 8px; font-size: 13px; color: var(--arena-muted); }
+.cj-depth-side strong { color: var(--arena-ink); font-size: 15px; }
+.cj-depth-side ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.cj-depth-side li { display: flex; gap: 8px; align-items: baseline; }
+.cj-depth-side li a { color: var(--arena-ink); text-decoration: none; }
+.cj-depth-side li[data-available="false"] a { color: var(--arena-faint); text-decoration: line-through; }
+.cj-depth-side li small { color: var(--arena-neg); font-size: 11px; }
+.cj-depth-side p { margin: 0; }
+.cj-depth-legend li::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--arena-info); flex: none; transform: translateY(1px); }
+.cj-depth-legend li[data-tone="good"]::before { background: var(--arena-pos); }
+.cj-depth-legend li[data-tone="warn"]::before { background: var(--arena-warn); }
+.cj-depth-legend li[data-tone="bad"]::before { background: var(--arena-neg); }
+
+/* Rail: board meter + KPI trio + revenue mix */
+.cj-rail { display: grid; gap: 12px; }
+.cj-board, .cj-kpis { display: grid; gap: 8px; padding: 14px; border-radius: 8px; background: var(--arena-solid-1); border: 1px solid var(--arena-line, #263041); }
+.cj-board header, .cj-kpis header { display: flex; justify-content: space-between; align-items: baseline; grid-column: 1 / -1; }
+.cj-board header small, .cj-kpis header small { font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--arena-faint); }
+.cj-board header a, .cj-kpis header a { font-size: 12px; color: var(--club-neon); text-decoration: none; }
+.cj-meter { height: 8px; border-radius: 4px; background: var(--arena-solid-3); overflow: hidden; }
+.cj-meter i { display: block; height: 100%; background: var(--arena-pos); transition: width 400ms cubic-bezier(.2, .8, .2, 1); }
+.cj-meter i[data-tone="warn"] { background: var(--arena-warn); }
+.cj-meter i[data-tone="bad"] { background: var(--arena-neg); }
+.cj-board p { margin: 0; font-size: 12px; color: var(--arena-muted); }
+.cj-board p b { font-size: 18px; color: var(--arena-ink); }
+.cj-board ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.cj-board li { display: grid; gap: 1px; padding-left: 10px; border-left: 3px solid var(--arena-faint); font-size: 12px; color: var(--arena-ink); }
+.cj-board li small { color: var(--arena-muted); font-size: 11px; }
+.cj-board li[data-status="ON_TRACK"], .cj-board li[data-status="MET"] { border-left-color: var(--arena-pos); }
+.cj-board li[data-status="AT_RISK"], .cj-board li[data-status="PARTLY_MET"] { border-left-color: var(--arena-warn); }
+.cj-board li[data-status="FAILED"] { border-left-color: var(--arena-neg); }
+.cj-kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.cj-kpis > div { display: grid; gap: 2px; }
+.cj-kpis > div small { font-size: 10px; color: var(--arena-faint); }
+.cj-kpis > div strong { font: 800 15px/1.1 var(--arena-font-display, inherit); color: var(--arena-ink); font-variant-numeric: tabular-nums; }
+.cj-kpis > div[data-tone="bad"] strong { color: var(--arena-neg); }
+.cj-mix { grid-column: 1 / -1; margin: 4px 0 0; display: grid; gap: 6px; }
+.cj-mix > div { display: flex; height: 10px; border-radius: 5px; overflow: hidden; gap: 2px; }
+.cj-mix i[data-i="0"], .cj-mix span[data-i="0"]::before { background: var(--club-neon); }
+.cj-mix i[data-i="1"], .cj-mix span[data-i="1"]::before { background: var(--arena-info); }
+.cj-mix i[data-i="2"], .cj-mix span[data-i="2"]::before { background: var(--arena-gold); }
+.cj-mix i[data-i="3"], .cj-mix span[data-i="3"]::before { background: var(--arena-pos); }
+.cj-mix i[data-i="4"], .cj-mix span[data-i="4"]::before { background: var(--arena-faint); }
+.cj-mix figcaption { display: flex; flex-wrap: wrap; gap: 4px 10px; font-size: 11px; color: var(--arena-muted); }
+.cj-mix span::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 4px; }
+.cj-note { grid-column: 1 / -1; margin: 0; font-size: 11px; color: var(--arena-faint); }
+.cj-more > summary { cursor: pointer; padding: 8px 2px; font-size: 12px; font-weight: 700; color: var(--arena-muted); }
+
+@media (max-width: 760px) {
+  .cj-depth { grid-template-columns: 1fr; }
+  .cj-spot { min-width: 44px; padding: 4px 6px; }
+  .cj-history li small { display: none; }
+  .cj-history li[data-current] small { display: block; }
+}
+@media (prefers-reduced-motion: reduce) { .cj-meter i { transition: none; } }
+.cj-squad-depth { display: grid; gap: 10px; padding: 14px; border-radius: 8px; background: var(--arena-solid-1); border: 1px solid var(--arena-line, #263041); }
+.cj-squad-depth header { display: flex; justify-content: space-between; align-items: baseline; }
+.cj-squad-depth h2 { margin: 0; font: 800 16px/1 var(--arena-font-display, inherit); text-transform: uppercase; color: var(--arena-ink); }
+.cj-squad-depth header a { font-size: 12px; color: var(--club-neon); text-decoration: none; }
+.cj-squad-depth .cj-depth-court { max-height: 260px; aspect-ratio: auto; height: 220px; }
+.cj-history[data-single] { height: 84px; }
+.cj-history[data-single] svg { display: none; }
+.cj-history[data-single] li { left: auto !important; right: 16px; top: 38% !important; transform: translateY(-50%); }
+.cj-history[data-single] figcaption { top: 50%; bottom: auto; transform: translateY(-50%); max-width: 70%; font-size: 12px; }
+
+/* Arena Nights Phase 3 -- CMP-01a A annotated standings */
+.hm-league-table tr[data-zone] td:first-child { box-shadow: inset 4px 0 0 var(--arena-faint); }
+.hm-league-table tr[data-zone="pos"] td:first-child { box-shadow: inset 4px 0 0 var(--arena-pos); }
+.hm-league-table tr[data-zone="info"] td:first-child { box-shadow: inset 4px 0 0 var(--arena-info); }
+.hm-league-table tr[data-zone="warn"] td:first-child { box-shadow: inset 4px 0 0 var(--arena-warn); }
+.hm-league-table tr[data-zone="neg"] td:first-child { box-shadow: inset 4px 0 0 var(--arena-neg); }
+.hm-league-table tr[data-zone-start] td { border-top: 1px dashed color-mix(in srgb, var(--arena-ink) 25%, transparent); }
+.cz-pos { white-space: nowrap; }
+.cz-pos i { margin-left: 6px; font-style: normal; font-size: 10px; font-weight: 700; }
+.cz-pos i[data-dir="up"] { color: var(--arena-pos); }
+.cz-pos i[data-dir="down"] { color: var(--arena-neg); }
+.cz-zone { margin-left: 8px; font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: 1px 6px; border-radius: 4px; background: var(--arena-solid-3); color: var(--arena-ink); }
+.cz-zone[data-tone="pos"] { background: color-mix(in srgb, var(--arena-pos) 25%, transparent); }
+.cz-zone[data-tone="info"] { background: color-mix(in srgb, var(--arena-info) 25%, transparent); }
+.cz-zone[data-tone="warn"] { background: color-mix(in srgb, var(--arena-warn) 25%, transparent); }
+.cz-zone[data-tone="neg"] { background: color-mix(in srgb, var(--arena-neg) 25%, transparent); }
+.cz-gap { margin-left: 8px; font-size: 10px; color: var(--arena-faint); font-variant-numeric: tabular-nums; }
+.cz-legend { list-style: none; display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 10px 0 0; padding: 0; font-size: 11px; color: var(--arena-muted); }
+.cz-legend li::before { content: ""; display: inline-block; width: 4px; height: 12px; margin-right: 6px; vertical-align: -2px; background: var(--arena-faint); }
+.cz-legend li[data-tone="pos"]::before { background: var(--arena-pos); }
+.cz-legend li[data-tone="info"]::before { background: var(--arena-info); }
+.cz-legend li[data-tone="warn"]::before { background: var(--arena-warn); }
+.cz-legend li[data-tone="neg"]::before { background: var(--arena-neg); }
+
+/* Arena Nights Phase 3 -- WLD-01 C (partial): pinned "Att göra" tray in the inbox */
+.nw-todo { display: grid; gap: 8px; margin-bottom: 14px; padding: 12px 14px; border-radius: 8px; background: color-mix(in srgb, var(--club-neon) 6%, var(--arena-solid-1)); border: 1px solid var(--arena-line, #263041); border-left: 4px solid var(--club-neon); }
+.nw-todo h2 { margin: 0; display: flex; gap: 8px; align-items: baseline; font: 800 14px/1 var(--arena-font-display, inherit); text-transform: uppercase; letter-spacing: .06em; color: var(--arena-ink); }
+.nw-todo h2 span { font-size: 12px; padding: 2px 7px; border-radius: 10px; background: var(--club-neon); color: var(--club-neon-ink, #05070b); }
+.nw-todo ol { list-style: none; margin: 0; padding: 0; display: flex; gap: 8px; overflow-x: auto; scrollbar-width: thin; }
+.nw-todo li button { display: grid; gap: 2px; min-width: 220px; max-width: 300px; text-align: left; padding: 8px 10px; border-radius: 6px; border: 1px solid var(--arena-line, #263041); background: var(--arena-solid-2); color: var(--arena-ink); cursor: pointer; font: inherit; }
+.nw-todo li button[aria-pressed="true"] { border-color: var(--club-neon); }
+.nw-todo li small { font-size: 10px; color: var(--arena-faint); text-transform: uppercase; letter-spacing: .08em; }
+.nw-todo li strong { font-size: 13px; line-height: 1.25; }
+.nw-todo p { margin: 0; font-size: 12px; color: var(--arena-muted); }

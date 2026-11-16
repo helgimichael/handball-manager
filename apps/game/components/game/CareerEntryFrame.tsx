@@ -1,15 +1,20 @@
 import Link from 'next/link';
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
+import { clubVisualIdentity } from '@/lib/game-data';
+import { clubIdentityStyle } from '@/lib/career/activeClubIdentity';
 
 /** Entry scenes share the game's chrome; career state still belongs to its existing flows. */
-export default function CareerEntryFrame({ label, rail, context, footer, children }: {
+/** ENT-03 "living club card" (Arena adaptation): once a club is chosen, the whole wizard takes on that club's identity. */
+export default function CareerEntryFrame({ label, rail, context, footer, children, clubId }: {
   label: string;
+  clubId?: string;
   rail: ReactNode;
   context: ReactNode;
   footer: ReactNode;
   children: ReactNode;
 }) {
-  return <main className="career-entry" aria-labelledby="career-entry-heading">
+  const identity = clubId ? clubIdentityStyle(clubVisualIdentity(clubId)) : undefined;
+  return <main className="career-entry" aria-labelledby="career-entry-heading" data-club-identity={identity?.dataIdentity} style={identity?.style as CSSProperties | undefined}>
     <header className="career-entry-top">
       <Link className="career-entry-brand" href="/" aria-label="Handball Manager · huvudmenyn"><span>HM</span><strong>HANDBALL<br />MANAGER</strong></Link>
       <div className="career-entry-top-context"><span>{label}</span><small>Sju positioner. Ett lag. Din karriär.</small></div>

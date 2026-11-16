@@ -55,10 +55,93 @@ export type Competition = {
   officialName?: string;
   /** Free-text note on source confidence -- see World Data verification. */
   sourceNote: string;
+  /** Club Identity S6: this competition id models the same real league as `canonicalCompetitionId`. Metadata only: stored ids are never rewritten. */
+  canonicalCompetitionId?: string;
+  /** Club Identity C4: a boundary that exists only so a B-team can give way to its A-team (Division 3). Never simulated, never offered in New Game. */
+  outsideCareerWorld?: boolean;
 };
 
-export type Club = {
+/** Club Identity C1: a season label "YYYY/YY" (e.g. "2026/27"). Lexicographic order equals chronological order. */
+export type SeasonLabel = string;
+
+/** Club Identity C1: lifecycle of a club record. A retired record is a tombstone: never deleted, never reused, never playable. */
+export type ClubStatus = "active" | "retired";
+
+/** Club Identity C1/C4: a real-world, season-bounded relation from a child team to its parent club. Static fact (layer 1), never a career agreement. */
+export type ClubRelationKind =
+  | "SECOND_TEAM"
+  | "SAME_CLUB_SECOND_TEAM"
+  | "SECOND_TEAM_UNDER_PARTNER_ASSOCIATION"
+  | "U_TEAM"
+  | "U_TEAM_UNDER_PARTNER_LICENCE"
+  | "PARTNER_ASSOCIATION_WITH_SHARED_PLAYERS"
+  | "ACADEMY"
+  /** Informational only: never a B team, never a cooperation (F29). */
+  | "YOUTH_LINK";
+
+export type ClubRelation = {
+  parentClubId: string;
+  relation: ClubRelationKind;
+  relationConfidence: "FULL" | "MAJORITY" | "PARTIAL" | "PROBABLE";
+  validFrom: SeasonLabel;
+  /** Last season the relation held in the real world; absent = still current. */
+  validTo?: SeasonLabel;
+  evidence: string;
+};
+
+/** Club Identity C1/C3: real-world league per season. Append-only: earlier seasons are never rewritten. */
+export type ClubCompetitionHistoryEntry = {
+  competitionId: string;
+  validFrom: SeasonLabel;
+  validTo?: SeasonLabel;
+  source: string;
+};
+
+/** Club Identity C1: the static identity layer (MIGRATION-STRATEGY §1.2). Every field is optional so every existing record stays valid. */
+export type ClubIdentityFields = {
+  /** Stable real-world identity slug (e.g. "es-bidasoa-irun"). Defaults to `id`. Never stored in saves. */
+  canonicalId?: string;
+  /** Required when the id text names another club (F01-F05): ids are storage keys, not labels. */
+  legacyIdNote?: string;
+  /** Default "active". */
+  status?: ClubStatus;
+  retiredReason?: string;
+  /** Informational only (never triggers a merge, L10). */
+  duplicateOf?: string;
+  /** Search/import matching only, never display. */
+  aliases?: readonly string[];
+  /** Season-bounded former names (T8). */
+  historicalNames?: readonly { name: string; shortName?: string; validFrom?: SeasonLabel; validTo?: SeasonLabel }[];
+  /** Real-world league per season; the career resolver (career/competitionMembership.ts) is the only reader. */
+  competitionHistory?: readonly ClubCompetitionHistoryEntry[];
+  /** Real-world parent relations (layer 1). Career agreements live in CareerState.clubPartnerships. */
+  relations?: readonly ClubRelation[];
+  /** The association that holds the league licence, when it differs from the playing team's parent (HK Cliff). */
+  licenceHolderAssociation?: { name: string; shfClubId?: string };
+  externalIds?: {
+    shfClubId?: string;
+    /** Season -> Profixio team registration id (S5). Never a club key on its own. */
+    profixioTeam?: Readonly<Record<SeasonLabel, string>>;
+    wikipedia?: string;
+  };
+  /** A real club whose tier assignment is uncertain (F21). */
+  approximate?: boolean;
+  /** Free-text identity note for tools (F12 "not the pre-2021 club"). */
+  identityNote?: string;
+  /** Data epoch that introduced the record. Absent = present in the legacy v8 world every existing career started from. */
+  addedInWorld?: string;
+  /** Last season the record is a live member of the world (tombstones). */
+  validTo?: SeasonLabel;
+};
+
+export type Club = ClubIdentityFields & {
   id: string;
+  /**
+   * Club Identity C3: FROZEN legacy baseline -- the league this club had in the
+   * v8 world every existing career started from. Never edit it to follow
+   * real-world league changes: append to `competitionHistory` instead, and read
+   * leagues through career/competitionMembership.ts. A snapshot test enforces this.
+   */
   competitionId: string;
   name: string;
   shortName: string;
@@ -86,9 +169,11 @@ export type Club = {
    * pass, not something to invent.
    */
   academyQuality?: number;
-  /** Hex accent used for crest placeholder + club chrome. */
+  /** Club Identity C5: the club's own mark colours from the Club Identity Registry (crest colours when documented, else home kit), or a neutral placeholder. Never the neon accent, never a parent's colours. */
   primaryColor: string;
   secondaryColor: string;
+  /** Club Identity C5: "REGISTRY" when the colours are registry evidence, "PLACEHOLDER" for the neutral grey that claims nothing. */
+  colourSource?: "REGISTRY" | "PLACEHOLDER";
 };
 
 // HM-DATA-ALLSVENSKAN-1.1B Part 10: "PV" (Pivot) was audited and removed

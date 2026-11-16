@@ -1,0 +1,285 @@
+/* =====================================================================
+   HM Experience 2027 — Identity themes (semantic token contract)
+   Every prototype component uses ONLY these tokens.
+   data-theme: a = Tactical Clarity, b = Arena Nights, c = Paper & Floodlight
+   data-mode : light | dark (A), flood (C moments)
+   ===================================================================== */
+
+:root,
+[data-theme="a"] {
+  --bg: #f5f6f8;
+  --bg-2: #eef0f4;
+  --surface: #ffffff;
+  --surface-2: #f8f9fb;
+  --raised: #ffffff;
+  --ink: #0e1726;
+  --ink-2: #2a3445;
+  --muted: #5b6576;
+  --faint: #8a93a3;
+  --line: #e3e7ed;
+  --line-strong: #c9d0db;
+  --accent: #2257f5;
+  --accent-ink: #ffffff;
+  --accent-soft: rgba(34, 87, 245, 0.09);
+  --club: #1b2a4a;
+  --club-2: #f08a24;
+  --pos: #12a150;
+  --neg: #e5484d;
+  --warn: #d98a00;
+  --info: #2b7bd6;
+  --gold: #c99218;
+  --pos-soft: rgba(18, 161, 80, 0.1);
+  --neg-soft: rgba(229, 72, 77, 0.1);
+  --warn-soft: rgba(217, 138, 0, 0.12);
+
+  --font-ui: "Inter", "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+  --font-display: "Inter", "Segoe UI Variable Display", "Segoe UI", system-ui, sans-serif;
+  --font-num: "JetBrains Mono", "Cascadia Mono", Consolas, monospace;
+  --font-editorial: "Inter", system-ui, sans-serif;
+  --display-transform: none;
+  --display-weight: 700;
+  --display-tracking: -0.02em;
+  --display-style: normal;
+  --kicker-tracking: 0.04em;
+
+  --radius: 8px;
+  --radius-lg: 12px;
+  --radius-pill: 999px;
+  --shadow: 0 1px 2px rgba(14, 23, 38, 0.05), 0 0 0 1px var(--line);
+  --shadow-lg: 0 12px 32px rgba(14, 23, 38, 0.14), 0 0 0 1px var(--line);
+  --card-border: 1px solid var(--line);
+  --card-bg: var(--surface);
+  --hero-bg: linear-gradient(135deg, #ffffff 0%, #f2f5fb 100%);
+  --hero-ink: var(--ink);
+  --nav-bg: #ffffff;
+  --nav-ink: #2a3445;
+  --nav-active: var(--accent-soft);
+  --nav-active-ink: var(--accent);
+  --chip-bg: #eef1f6;
+
+  --attr-1: #e7ecf6;
+  --attr-2: #c3d1f4;
+  --attr-3: #8eaaf1;
+  --attr-4: #4f78ef;
+  --attr-5: #1f4fd9;
+  --data-1: #2257f5;
+  --data-2: #12a150;
+  --data-3: #f08a24;
+  --data-4: #8b5cf6;
+  --data-5: #e5484d;
+  --data-6: #14b8c4;
+  --court-floor: #e9eef7;
+  --court-zone: #d5dff2;
+  --court-line: #8aa0c8;
+  --photo-filter: grayscale(0.15) contrast(1.02);
+  --photo-overlay: linear-gradient(180deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.92) 100%);
+  color-scheme: light;
+}
+
+[data-theme="a"][data-mode="dark"] {
+  --bg: #0c0f14;
+  --bg-2: #10141b;
+  --surface: #141922;
+  --surface-2: #181e29;
+  --raised: #1b2230;
+  --ink: #e8ecf2;
+  --ink-2: #c5ccd8;
+  --muted: #8c96a6;
+  --faint: #667082;
+  --line: #232a36;
+  --line-strong: #323b4a;
+  --accent: #5b84ff;
+  --accent-soft: rgba(91, 132, 255, 0.14);
+  --chip-bg: #1c2330;
+  --nav-bg: #10141b;
+  --nav-ink: #c5ccd8;
+  --hero-bg: linear-gradient(135deg, #141922 0%, #10161f 100%);
+  --attr-1: #1a2233;
+  --attr-2: #20345f;
+  --attr-3: #2d4f9c;
+  --attr-4: #4a74e8;
+  --attr-5: #7f9dff;
+  --court-floor: #121a28;
+  --court-zone: #1a2840;
+  --court-line: #3c5584;
+  --photo-overlay: linear-gradient(180deg, rgba(20,25,34,0) 30%, rgba(20,25,34,0.95) 100%);
+  color-scheme: dark;
+}
+
+/* ---------------------------------------------------------------- B */
+[data-theme="b"] {
+  --bg: #070b12;
+  --bg-2: #0b111c;
+  --surface: rgba(255, 255, 255, 0.045);
+  --surface-2: rgba(255, 255, 255, 0.07);
+  --raised: #111a2b;
+  --ink: #f4f6fa;
+  --ink-2: #d5dbe6;
+  --muted: #9aa6b8;
+  --faint: #6c7890;
+  --line: rgba(255, 255, 255, 0.1);
+  --line-strong: rgba(255, 255, 255, 0.2);
+  /* Club Identity System: --club-neon is set per active club (K.applyClub); default = clubless orange */
+  --club-neon: #ff7a1a;
+  --accent: var(--club-neon);
+  --accent-ink: #061018;
+  --accent-soft: color-mix(in srgb, var(--club-neon) 16%, transparent);
+  --accent-line: color-mix(in srgb, var(--club-neon) 55%, transparent);
+  --glow: 0 0 22px color-mix(in srgb, var(--club-neon) 42%, transparent);
+  --club: var(--club-primary, #14284b);
+  --club-2: color-mix(in srgb, var(--club-neon) 62%, #ffffff);
+  --pos: #2bd98a;
+  --neg: #ff5a6a;
+  --warn: #ffb020;
+  --info: #4fb3ff;
+  --gold: #ffc531;
+  --pos-soft: rgba(43, 217, 138, 0.14);
+  --neg-soft: rgba(255, 90, 106, 0.14);
+  --warn-soft: rgba(255, 176, 32, 0.14);
+
+  --font-ui: "Barlow", "Segoe UI", system-ui, sans-serif;
+  --font-display: "Barlow Condensed", "Bahnschrift Condensed", "Arial Narrow", sans-serif;
+  --font-num: "Barlow Condensed", "Bahnschrift Condensed", "Arial Narrow", sans-serif;
+  --font-editorial: "Barlow", system-ui, sans-serif;
+  --display-transform: uppercase;
+  --display-weight: 800;
+  --display-tracking: 0.01em;
+  --display-style: italic;
+  --kicker-tracking: 0.18em;
+
+  --radius: 14px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+  --shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 0 0 1px rgba(255,255,255,0.08);
+  --shadow-lg: 0 30px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08);
+  --card-border: 1px solid rgba(255, 255, 255, 0.09);
+  --card-bg: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.025));
+  --hero-bg: radial-gradient(120% 140% at 80% 0%, color-mix(in srgb, var(--club-neon) 30%, transparent) 0%, rgba(7,11,18,0) 55%), linear-gradient(180deg, #101a2e 0%, #070b12 100%);
+  --hero-ink: #ffffff;
+  --nav-bg: rgba(7, 11, 18, 0.85);
+  --nav-ink: #c9d2e0;
+  --nav-active: rgba(255, 255, 255, 0.08);
+  --nav-active-ink: #ffffff;
+  --chip-bg: rgba(255, 255, 255, 0.08);
+
+  --attr-1: rgba(255,255,255,0.08);
+  --attr-2: color-mix(in srgb, var(--club-neon) 22%, #111a2b);
+  --attr-3: color-mix(in srgb, var(--club-neon) 45%, #111a2b);
+  --attr-4: color-mix(in srgb, var(--club-neon) 78%, #111a2b);
+  --attr-5: var(--club-neon);
+  --data-1: var(--club-neon);
+  --data-2: #2bd98a;
+  --data-3: #ffc531;
+  --data-4: #4fb3ff;
+  --data-5: #c084fc;
+  --data-6: #ff8fab;
+  --court-floor: #0f2f5a;
+  --court-zone: #174a86;
+  --court-line: rgba(255, 255, 255, 0.55);
+  --photo-filter: saturate(1.1) contrast(1.08);
+  --photo-overlay: linear-gradient(180deg, rgba(7,11,18,0.1) 0%, rgba(7,11,18,0.55) 55%, #070b12 100%);
+  color-scheme: dark;
+}
+
+/* ---------------------------------------------------------------- C */
+[data-theme="c"] {
+  --bg: #f3f1ea;
+  --bg-2: #ebe8df;
+  --surface: #fbfaf6;
+  --surface-2: #f6f4ee;
+  --raised: #ffffff;
+  --ink: #131b26;
+  --ink-2: #2e3b4e;
+  --muted: #5a6675;
+  --faint: #8a8f97;
+  --line: #dcd8cc;
+  --line-strong: #131b26;
+  --accent: #c84320;
+  --accent-ink: #fffaf5;
+  --accent-soft: rgba(200, 67, 32, 0.1);
+  --club: #0f1b2d;
+  --club-2: #c99218;
+  --pos: #1e7045;
+  --neg: #b42828;
+  --warn: #a86814;
+  --info: #1d5b8c;
+  --gold: #c99218;
+  --pos-soft: rgba(30, 112, 69, 0.1);
+  --neg-soft: rgba(180, 40, 40, 0.1);
+  --warn-soft: rgba(168, 104, 20, 0.12);
+
+  --font-ui: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --font-display: "Saira Condensed", "Bahnschrift SemiCondensed", "Arial Narrow", sans-serif;
+  --font-num: "IBM Plex Mono", "Cascadia Mono", Consolas, monospace;
+  --font-editorial: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --display-transform: uppercase;
+  --display-weight: 700;
+  --display-tracking: 0;
+  --display-style: normal;
+  --kicker-tracking: 0.14em;
+
+  --radius: 4px;
+  --radius-lg: 6px;
+  --radius-pill: 999px;
+  --shadow: none;
+  --shadow-lg: 0 18px 40px rgba(19, 27, 38, 0.18);
+  --card-border: 0;
+  --card-bg: transparent;
+  --hero-bg: #0f1b2d;
+  --hero-ink: #f3f1ea;
+  --nav-bg: #0f1b2d;
+  --nav-ink: #c9cfd8;
+  --nav-active: rgba(243, 241, 234, 0.1);
+  --nav-active-ink: #ffffff;
+  --chip-bg: #e8e5dc;
+
+  --attr-1: #e8e5dc;
+  --attr-2: #e3c9b4;
+  --attr-3: #d99a74;
+  --attr-4: #c84320;
+  --attr-5: #8f2a10;
+  --data-1: #0f1b2d;
+  --data-2: #c84320;
+  --data-3: #1e7045;
+  --data-4: #c99218;
+  --data-5: #1d5b8c;
+  --data-6: #7a5a9e;
+  --court-floor: #e6dccb;
+  --court-zone: #d9c7a8;
+  --court-line: #7d6a4f;
+  --photo-filter: sepia(0.12) contrast(1.05) saturate(0.9);
+  --photo-overlay: linear-gradient(180deg, rgba(15,27,45,0) 40%, rgba(15,27,45,0.85) 100%);
+  color-scheme: light;
+}
+
+/* Floodlight = C's "moment" mode */
+[data-theme="c"][data-mode="flood"],
+[data-theme="c"] .flood {
+  --bg: #0b1220;
+  --bg-2: #0e1729;
+  --surface: #121b2c;
+  --surface-2: #17223a;
+  --raised: #1a2540;
+  --ink: #f1eee6;
+  --ink-2: #d8d4ca;
+  --muted: #9ba6b5;
+  --faint: #6f7a8c;
+  --line: rgba(241, 238, 230, 0.12);
+  --line-strong: rgba(241, 238, 230, 0.45);
+  --accent: #ff6a3d;
+  --accent-soft: rgba(255, 106, 61, 0.16);
+  --pos: #3ddc97;
+  --neg: #ff6b6b;
+  --gold: #f2c14e;
+  --chip-bg: rgba(241, 238, 230, 0.08);
+  --attr-1: rgba(241,238,230,0.08);
+  --court-floor: #12305a;
+  --court-zone: #1b4378;
+  --court-line: rgba(241, 238, 230, 0.6);
+  --photo-overlay: linear-gradient(180deg, rgba(11,18,32,0.05) 0%, rgba(11,18,32,0.6) 60%, #0b1220 100%);
+  color-scheme: dark;
+}
+
+/* Density modes (global decision G6) */
+:root { --pad: 16px; --gap: 16px; --row: 40px; --fs: 14px; }
+:root[data-density="compact"] { --pad: 10px; --gap: 10px; --row: 30px; --fs: 12.5px; }

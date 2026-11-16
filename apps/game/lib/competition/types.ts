@@ -45,6 +45,8 @@ export interface SeasonAward {
 
 export interface SeasonOutcome {
   seasonId: string;
+  /** Club Identity C4: B-teams that gave way to their A-teams at this season's transition, with the clubs that took their places. */
+  parentPriority?: import('./transition/parentPriority').ParentPriorityMove[];
   phase: SeasonPhase;
   /** Whether both Swedish tiers have a calendar this season (older saves: only the manager's league). */
   bothTiersSimulated: boolean;

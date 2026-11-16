@@ -1,0 +1,188 @@
+/* Arena Nights SYS-02..06 -- the internal Dev shell: neutral grey, dense, monospace numbers,
+   a visible DEV badge. Deliberately NOT the club-themed player product. Desktop only. */
+
+.hm-dev, .hm-dev-corner {
+  --dev-bg: #141619;
+  --dev-surface: #1b1e22;
+  --dev-surface-2: #23272c;
+  --dev-surface-3: #2c3137;
+  --dev-line: #343a41;
+  --dev-line-strong: #4a525b;
+  --dev-ink: #e4e7eb;
+  --dev-muted: #98a0aa;
+  --dev-faint: #6d757f;
+  --dev-flag: #f0b93a;
+  --dev-flag-ink: var(--club-neon-ink, #05070b);
+  --dev-pos: #5fc48a;
+  --dev-neg: #ef7a6c;
+  --dev-warn: #f0b93a;
+  --dev-info: #6fb2f2;
+  --dev-dirty: rgba(240, 185, 58, 0.16);
+  --dev-mono: var(--hm-font-mono, ui-monospace, "SFMono-Regular", Consolas, monospace);
+}
+.hm-dev {
+  min-height: 100vh;
+  background-color: var(--dev-bg);
+  color: var(--dev-ink);
+  font: 13px/1.45 var(--hm-font-sans, system-ui, sans-serif);
+}
+
+/* Players never get the alpha feedback button inside internal tools (SYS-03). */
+body:has(.hm-dev) .alpha-feedback-trigger { display: none; }
+
+.hm-dev-ribbon {
+  position: sticky; top: 0; z-index: 50;
+  display: flex; align-items: center; gap: 16px;
+  min-height: 44px; padding: 0 16px;
+  background-color: var(--dev-surface);
+  border-bottom: 1px solid var(--dev-line);
+  background-image: repeating-linear-gradient(135deg, rgba(240, 185, 58, 0.18) 0 6px, transparent 6px 12px);
+  background-size: 100% 3px; background-repeat: no-repeat; background-position: top left;
+}
+.hm-dev-brand { display: inline-flex; align-items: center; gap: 8px; color: var(--dev-ink); text-decoration: none; font-weight: 700; white-space: nowrap; }
+.hm-dev-badge {
+  display: inline-block; padding: 1px 6px; border-radius: 3px;
+  background-color: var(--dev-flag); color: var(--dev-flag-ink);
+  font: 700 11px/1.5 var(--dev-mono); letter-spacing: 0.08em;
+}
+.hm-dev-nav { display: flex; gap: 2px; overflow-x: auto; flex: 1 1 auto; min-width: 0; }
+.hm-dev-nav-link {
+  padding: 6px 9px; border-radius: 4px; color: var(--dev-muted); text-decoration: none; white-space: nowrap;
+}
+.hm-dev-nav-link:hover { color: var(--dev-ink); background-color: var(--dev-surface-2); }
+.hm-dev-nav-link[aria-current="page"] { color: var(--dev-ink); background-color: var(--dev-surface-3); box-shadow: inset 0 -2px 0 var(--dev-flag); }
+.hm-dev-ribbon-end { display: flex; align-items: center; gap: 8px; }
+.hm-dev-toggle, .hm-dev-exit, .hm-dev-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 10px; border-radius: 4px; cursor: pointer;
+  background-color: var(--dev-surface-2); color: var(--dev-ink);
+  border: 1px solid var(--dev-line-strong); font: inherit; text-decoration: none; white-space: nowrap;
+}
+.hm-dev-toggle:hover, .hm-dev-exit:hover, .hm-dev-btn:hover:not(:disabled) { background-color: var(--dev-surface-3); }
+.hm-dev-toggle[aria-pressed="true"] { border-color: var(--dev-flag); }
+.hm-dev-toggle[aria-pressed="true"] b { color: var(--dev-flag); }
+.hm-dev-btn:disabled, .hm-dev-toggle:disabled { opacity: 0.5; cursor: default; }
+.hm-dev-btn--primary { background-color: var(--dev-flag); color: var(--dev-flag-ink); border-color: var(--dev-flag); font-weight: 700; }
+.hm-dev-btn--primary:hover:not(:disabled) { background-color: var(--dev-flag); filter: brightness(1.08); }
+.hm-dev-btn--danger { border-color: var(--dev-neg); color: var(--dev-neg); }
+.hm-dev-btn--sm { padding: 3px 7px; font-size: 12px; }
+.hm-dev :focus-visible { outline: 2px solid var(--dev-flag); outline-offset: 1px; }
+
+.hm-dev-body { padding: 20px 24px 48px; max-width: 1680px; margin: 0 auto; }
+.hm-dev-desktop-only { display: none; }
+
+.hm-dev-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+.hm-dev-eyebrow { color: var(--dev-muted); font: 600 11px/1.4 var(--dev-mono); letter-spacing: 0.1em; text-transform: uppercase; }
+.hm-dev-title { margin: 2px 0 0; font-size: 20px; font-weight: 700; color: var(--dev-ink); }
+.hm-dev-note { margin: 4px 0 0; color: var(--dev-muted); max-width: 80ch; }
+.hm-dev-head-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.hm-dev-panel { background-color: var(--dev-surface); border: 1px solid var(--dev-line); border-radius: 6px; min-width: 0; }
+.hm-dev-panel + .hm-dev-panel { margin-top: 12px; }
+.hm-dev-panel-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 12px; border-bottom: 1px solid var(--dev-line); }
+.hm-dev-panel-title { font: 700 11px/1.4 var(--dev-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--dev-muted); }
+.hm-dev-panel-body { padding: 12px; }
+
+/* Column splits (12-column intent from the spec). */
+.hm-dev-split { display: grid; gap: 12px; align-items: start; grid-template-columns: minmax(0, 9fr) minmax(260px, 3fr); }
+.hm-dev-split--3-9 { grid-template-columns: minmax(220px, 3fr) minmax(0, 9fr); }
+.hm-dev-split--8-4 { grid-template-columns: minmax(0, 8fr) minmax(240px, 4fr); }
+.hm-dev-split--6-6 { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.hm-dev-sticky { position: sticky; top: 56px; }
+
+.hm-dev-num { font-family: var(--dev-mono); font-variant-numeric: tabular-nums; }
+.hm-dev-muted { color: var(--dev-muted); }
+.hm-dev-pos { color: var(--dev-pos); }
+.hm-dev-neg { color: var(--dev-neg); }
+.hm-dev-warn { color: var(--dev-warn); }
+.hm-dev-kbd { display: inline-block; min-width: 18px; padding: 0 4px; border: 1px solid var(--dev-line-strong); border-bottom-width: 2px; border-radius: 3px; font: 11px/16px var(--dev-mono); text-align: center; color: var(--dev-muted); }
+
+.hm-dev-table-wrap { overflow: auto; max-height: calc(100vh - 220px); }
+.hm-dev-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 12px; }
+.hm-dev-table th, .hm-dev-table td { padding: 5px 8px; border-bottom: 1px solid var(--dev-line); text-align: left; white-space: nowrap; }
+.hm-dev-table thead th { position: sticky; top: 0; z-index: 2; background-color: var(--dev-surface-2); color: var(--dev-muted); font: 600 11px/1.4 var(--dev-mono); text-transform: uppercase; letter-spacing: 0.04em; }
+.hm-dev-table tbody tr:hover td { background-color: var(--dev-surface-2); }
+.hm-dev-table td.hm-dev-num, .hm-dev-table th.hm-dev-num { text-align: right; }
+.hm-dev-table .hm-dev-sticky-col { position: sticky; left: 0; z-index: 1; background-color: var(--dev-surface); }
+.hm-dev-table thead .hm-dev-sticky-col { z-index: 3; background-color: var(--dev-surface-2); }
+.hm-dev-dirty, .hm-dev-table td.hm-dev-dirty { background-color: var(--dev-dirty); box-shadow: inset 2px 0 0 var(--dev-flag); }
+.hm-dev-diff { color: var(--dev-warn); font-weight: 700; }
+
+.hm-dev-input, .hm-dev select, .hm-dev input[type="text"], .hm-dev input[type="number"], .hm-dev input[type="search"], .hm-dev textarea {
+  background-color: var(--dev-bg); color: var(--dev-ink); border: 1px solid var(--dev-line-strong); border-radius: 4px; padding: 4px 6px; font: inherit;
+}
+.hm-dev input[type="number"] { font-family: var(--dev-mono); font-variant-numeric: tabular-nums; }
+
+.hm-dev-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.hm-dev-chip { padding: 3px 9px; border-radius: 999px; border: 1px solid var(--dev-line-strong); background-color: transparent; color: var(--dev-muted); cursor: pointer; font: inherit; }
+.hm-dev-chip[aria-pressed="true"] { color: var(--dev-ink); border-color: var(--dev-flag); background-color: var(--dev-surface-3); }
+
+.hm-dev-savebar {
+  position: sticky; bottom: 0; z-index: 20; margin-top: 12px;
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  padding: 10px 14px; border: 1px solid var(--dev-flag); border-radius: 6px;
+  background-color: var(--dev-surface-2); box-shadow: 0 -6px 18px rgba(0, 0, 0, 0.35);
+}
+.hm-dev-savebar-spacer { flex: 1 1 auto; }
+
+.hm-dev-empty { padding: 20px; color: var(--dev-muted); text-align: center; }
+.hm-dev-alert { padding: 8px 12px; border-radius: 4px; border: 1px solid var(--dev-neg); color: var(--dev-neg); background-color: rgba(239, 122, 108, 0.08); }
+.hm-dev-ok { padding: 8px 12px; border-radius: 4px; border: 1px solid var(--dev-pos); color: var(--dev-pos); background-color: rgba(95, 196, 138, 0.08); }
+
+.hm-dev details > summary { cursor: pointer; list-style: none; }
+.hm-dev details > summary::-webkit-details-marker { display: none; }
+.hm-dev details > summary::before { content: "▸"; display: inline-block; width: 1em; color: var(--dev-muted); }
+.hm-dev details[open] > summary::before { content: "▾"; }
+
+/* Console home (SYS-02). */
+.hm-dev-tools { list-style: none; margin: 0; padding: 0; }
+.hm-dev-tool-group + .hm-dev-tool-group { border-top: 1px solid var(--dev-line); }
+.hm-dev-tool-group-label { padding: 10px 12px 4px; }
+.hm-dev-tool {
+  display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; align-items: center; gap: 12px;
+  padding: 9px 12px; color: var(--dev-ink); text-decoration: none; border-radius: 4px; margin: 0 4px 2px;
+}
+.hm-dev-tool:hover, .hm-dev-tool:focus-visible { background-color: var(--dev-surface-2); }
+.hm-dev-tool-name { font-weight: 700; }
+.hm-dev-tool-desc { color: var(--dev-muted); font-size: 12px; }
+.hm-dev-tool-count { color: var(--dev-muted); font-family: var(--dev-mono); font-variant-numeric: tabular-nums; }
+.hm-dev-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background-color: var(--dev-line); }
+.hm-dev-stat { padding: 12px; background-color: var(--dev-surface); }
+.hm-dev-stat-value { font: 700 22px/1.2 var(--dev-mono); font-variant-numeric: tabular-nums; }
+
+/* Global DEV ribbon (SYS-06), rendered by app/EditorModeWidget.tsx outside dev routes. */
+.hm-dev-corner { position: fixed; right: 0; bottom: 0; z-index: 9999; font: 12px/1.4 var(--hm-font-sans, system-ui, sans-serif); }
+.hm-dev-corner-tab {
+  display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px 4px 12px; cursor: pointer;
+  background-color: var(--dev-surface); color: var(--dev-ink); border: 1px solid var(--dev-flag); border-right: 0; border-bottom: 0; border-radius: 6px 0 0 0;
+  font: 700 11px/1.5 var(--dev-mono); letter-spacing: 0.08em;
+}
+.hm-dev-corner-tab .hm-dev-corner-dot { width: 7px; height: 7px; border-radius: 50%; background-color: var(--dev-faint); }
+.hm-dev-corner-tab[data-on="true"] .hm-dev-corner-dot { background-color: var(--dev-flag); }
+.hm-dev-corner-menu {
+  position: absolute; right: 8px; bottom: calc(100% + 6px); width: 260px; padding: 6px;
+  background-color: var(--dev-surface); color: var(--dev-ink); border: 1px solid var(--dev-line-strong); border-radius: 6px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+.hm-dev-corner-menu a, .hm-dev-corner-menu button {
+  display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 6px 8px; border: 0; border-radius: 4px;
+  background-color: transparent; color: var(--dev-ink); font: inherit; text-align: left; text-decoration: none; cursor: pointer;
+}
+.hm-dev-corner-menu a:hover, .hm-dev-corner-menu button:hover { background-color: var(--dev-surface-3); }
+.hm-dev-corner-menu hr { border: 0; border-top: 1px solid var(--dev-line); margin: 4px 0; }
+.hm-dev-corner-menu small { color: var(--dev-muted); }
+
+@media (max-width: 1279px) {
+  .hm-dev-split, .hm-dev-split--8-4 { grid-template-columns: minmax(0, 2fr) minmax(240px, 1fr); }
+  .hm-dev-body { padding: 16px; }
+}
+
+/* Spec (all SYS surfaces): mobile not supported -> desktop-only notice instead of the tool. */
+@media (max-width: 899px) {
+  .hm-dev-body, .hm-dev-nav, .hm-dev-ribbon-end { display: none; }
+  .hm-dev-desktop-only {
+    display: flex; flex-direction: column; align-items: flex-start; gap: 8px;
+    margin: 32px 16px; padding: 16px; border: 1px solid var(--dev-line); border-radius: 6px; background-color: var(--dev-surface);
+  }
+  .hm-dev-desktop-only p { margin: 0; color: var(--dev-muted); }
+  .hm-dev-corner { display: none; }
+}

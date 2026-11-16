@@ -1,0 +1,291 @@
+[
+ {
+  "id": "se_club_anderstorps_sk",
+  "name": "Anderstorps SK",
+  "shortName": "Anderstorp",
+  "city": null,
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_sodra",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "orange",
+   "secondary": "black",
+   "trim": null,
+   "description": "Orange shirt, black shorts, black socks; all-black second kit.",
+   "sources": [
+    "https://sv.wikipedia.org/wiki/Anderstorps_SK"
+   ],
+   "notes": "Single Wikipedia source with no season stated.",
+   "review": []
+  }
+ },
+ {
+  "id": "se_club_eslovs_hk",
+  "name": "Eslövs HK",
+  "shortName": "Eslöv",
+  "city": null,
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_sodra",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "black",
+   "secondary": null,
+   "trim": null,
+   "description": "New merged club (Eslövs HF + Eslövs IK) introduced a black match kit for 2025/26, replacing the old yellow shirts.",
+   "sources": [
+    "https://www.skd.se/artikel/sista-matchen-i-gult-eslovs-hks-cuppremiar-dubbelt-historisk",
+    "https://www.skd.se/2025-07-25/skanskan-avslojar-sa-ser-eslovs-hk-ut-pa-planen-i-host/"
+   ],
+   "notes": "The legacy club colours were black-yellow (Eslövs HF) and white-green (Eslövs IK). The accent colour of the new black kit is not documented in text. The yellow-to-black swap is reported for the club's first competitive match (women's cup game).",
+   "review": [
+    "monochrome shirt without documented accent colour → ice-silver neon",
+    "Black primary with no documented accent colour; check new kit (possibly yellow or green trim)."
+   ]
+  }
+ },
+ {
+  "id": "se_club_hk_country",
+  "name": "HK Country",
+  "shortName": "Country",
+  "city": null,
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_sodra",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "red",
+   "secondary": "black",
+   "trim": null,
+   "description": "Red shirt with black stripe/shoulder pattern, black shorts; white second kit with black shoulders.",
+   "sources": [
+    "https://sv.wikipedia.org/wiki/HK_Country"
+   ],
+   "notes": "The exact stripe layout of the current shirt is unknown; the pattern comes from the Wikipedia kit template.",
+   "review": []
+  }
+ },
+ {
+  "id": "se_club_hk_s_hof",
+  "name": "HK S-hof",
+  "shortName": "S-hof",
+  "city": null,
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_sodra",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "UNCERTAIN",
+   "primary": null,
+   "secondary": null,
+   "trim": null,
+   "description": "IK Sävehof's men's farm/B team; no evidence found of its own shirt colour.",
+   "sources": [
+    "https://savehof.se/?s=S-hof",
+    "https://en.wikipedia.org/wiki/IK_Sävehof"
+   ],
+   "notes": "The parent club colours are black and yellow ('#gulsvartmagi' on savehof.se), but no source shows S-hof playing in the Sävehof kit. Colours are left null per the brief.",
+   "review": [
+    "B team; no evidence it plays in the parent Sävehof (black/yellow) kit."
+   ]
+  }
+ },
+ {
+  "id": "se_club_hk_onnerediterna",
+  "name": "HK Önnerediterna",
+  "shortName": "Önnerediterna",
+  "city": null,
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_sodra",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "UNCERTAIN",
+   "primary": null,
+   "secondary": null,
+   "trim": null,
+   "description": "Önnereds HK's U-team/farm team ('U-lag Herr / HK Önnerediterna'); no shirt colour evidence found.",
+   "sources": [
+    "https://www.svenskalag.se/onneredshk-u-lagherr-hkonnerediterna",
+    "https://en.wikipedia.org/wiki/Önnereds_HK"
+   ],
+   "notes": "The parent club plays in green with black shorts, but no evidence shows Önnerediterna wearing the parent kit. Colours are left null per the brief.",
+   "review": [
+    "B team; no evidence it plays in the parent Önnereds HK (green/black) kit."
+   ]
+  }
+ },
+ {
+  "id": "se_club_hp_alingsas",
+  "name": "HP Alingsås",
+  "shortName": "HP Alingsås",
+  "city": null,
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_sodra",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "UNCERTAIN",
+   "primary": null,
+   "secondary": null,
+   "trim": null,
+   "description": "Farm team of Alingsås HK in Division 1 Södra; no shirt colour evidence found.",
+   "sources": [
+    "https://skanesport.se/2026/11/06/eslovs-hk-slog-topplaget-nu-vantar-svarbedomt-motstand-i-alingsas/",
+    "https://en.wikipedia.org/wiki/Alingsås_HK"
+   ],
+   "notes": "The parent club plays in blue, but no evidence shows HP Alingsås wearing the parent kit. Colours are left null per the brief.",
+   "review": [
+    "B team; no evidence it plays in the parent Alingsås HK (blue) kit."
+   ]
+  }
+ },
+ {
+  "id": "se_club_hp_warta",
+  "name": "HP Warta",
+  "shortName": "Warta",
+  "city": null,
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_sodra",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "UNCERTAIN",
+   "primary": "white",
+   "secondary": "black",
+   "trim": null,
+   "description": "Swedish Wikipedia says home games are played in white shirts and black shorts; English Wikipedia's home kit is all black.",
+   "sources": [
+    "https://sv.wikipedia.org/wiki/HP_Warta",
+    "https://en.wikipedia.org/wiki/HP_Warta"
+   ],
+   "notes": "The two Wikipedias conflict on whether home is white or black. The club is clearly black and white, with no documented accent colour.",
+   "review": [
+    "Conflicting white vs black home shirt; no documented accent colour.",
+    "monochrome shirt without documented accent colour → ice-silver neon"
+   ]
+  }
+ },
+ {
+  "id": "se_club_if_kristianstad",
+  "name": "IF Kristianstad",
+  "shortName": "IF Kristianstad",
+  "city": null,
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_sodra",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "UNCERTAIN",
+   "primary": null,
+   "secondary": null,
+   "trim": null,
+   "description": "Development team of IFK Kristianstad in Division 1 Södra; no shirt colour evidence found.",
+   "sources": [
+    "https://skanesport.se/sporter/handboll/if-kristianstad/",
+    "https://sv.wikipedia.org/wiki/IFK_Kristianstad"
+   ],
+   "notes": "The parent club plays in orange (crest is blue/white, so the crest differs), but no evidence shows IF Kristianstad wearing the parent kit. Colours are left null per the brief.",
+   "review": [
+    "B team; no evidence it plays in the parent IFK Kristianstad (orange) kit."
+   ]
+  }
+ },
+ {
+  "id": "se_club_ik_lagan",
+  "name": "IK Lågan",
+  "shortName": "Lågan",
+  "city": null,
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_sodra",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "blue",
+   "secondary": "black",
+   "trim": null,
+   "description": "Blue shirts and black shorts.",
+   "sources": [
+    "https://sv.wikipedia.org/wiki/IK_Lågan"
+   ],
+   "notes": "Club from Hörby, Skåne. The official site (iklagan.com) lists Hummel as a sponsor but no kit colours.",
+   "review": []
+  }
+ },
+ {
+  "id": "se_club_karra_hf",
+  "name": "Kärra HF",
+  "shortName": "Kärra",
+  "city": null,
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_sodra",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "yellow",
+   "secondary": "black",
+   "trim": null,
+   "description": "Yellow shirt, black shorts, black socks; all-black second kit.",
+   "sources": [
+    "https://sv.wikipedia.org/wiki/Kärra_HF",
+    "https://results.partillecup.com/2023/teams/42137459"
+   ],
+   "notes": "Another 2023 youth entry lists Yellow / Red, but most of the evidence points to yellow and black.",
+   "review": []
+  }
+ },
+ {
+  "id": "se_club_vinslovs_hk",
+  "name": "Vinslövs HK",
+  "shortName": "Vinslöv",
+  "city": null,
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_sodra",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "UNKNOWN",
+   "primary": null,
+   "secondary": null,
+   "trim": null,
+   "description": "No textual evidence of the home shirt colour found.",
+   "sources": [
+    "https://www.vinslovshk.se/"
+   ],
+   "notes": "The yellow/red emoji hint is too weak to record. The sv Wikipedia article has no kit data.",
+   "review": [
+    "No colour evidence beyond yellow/red heart emojis on the club site."
+   ]
+  }
+ },
+ {
+  "id": "se_club_ahus_handboll",
+  "name": "Åhus Handboll",
+  "shortName": "Åhus",
+  "city": null,
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_sodra",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "UNKNOWN",
+   "primary": null,
+   "secondary": null,
+   "trim": null,
+   "description": "No textual evidence of the home shirt colour found.",
+   "sources": [
+    "https://www.ahushandboll.com/start/?ID=111093"
+   ],
+   "notes": "The red/blue emoji hint is too weak to record.",
+   "review": [
+    "No colour evidence beyond red/blue heart emojis on the club site."
+   ]
+  }
+ }
+]

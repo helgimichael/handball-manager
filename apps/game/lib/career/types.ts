@@ -550,6 +550,14 @@ export type CareerState = {
   budgetPlans?: Record<string, BudgetPlan>;
   /** HM-ALPHA3-M03: competition membership after promotion/relegation, keyed by club id. Absent = the static league in lib/game-data. Read through lib/career/competitionMembership.ts. */
   competitionMembership?: Record<string, string>;
+  /**
+   * Club Identity C3: the static club-world data epoch this career started from
+   * (game-data CLUB_WORLD_EPOCH). ABSENT = a legacy v8 career: its start season
+   * keeps the frozen v8 leagues and real-world corrections reach it from its next
+   * season. Never backfilled -- absence is the marker. Read through
+   * career/competitionMembership.ts.
+   */
+  clubWorldBaseline?: string;
   /** HM-ALPHA3-M03: SM-slutspel, kval and Svenska cupen ties of the current season (lib/competition). */
   competitionTies?: Record<string, CompetitionTie>;
   /** HM-ALPHA3-M03: the current season's competitive state -- phase, winners, promotion/relegation, awards. */

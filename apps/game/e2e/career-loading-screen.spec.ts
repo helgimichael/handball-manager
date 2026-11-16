@@ -2,6 +2,7 @@ import { test, expect, type Page } from '@playwright/test';
 import { createHash } from 'node:crypto';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
+import { enterCareerAfterLoad, newGameToManagerStep } from './matchPrep';
 
 const baseline = process.env.HM_LOADING_BASELINE === '1';
 const base = process.env.HM_QA_URL ?? 'http://127.0.0.1:3019';
@@ -13,11 +14,14 @@ test.beforeAll(() => { mkdirSync(raw, { recursive: true }); mkdirSync(shots, { r
 
 async function setup(page: Page, club = 'Alingsås HK') {
   await page.goto(`${base}/new-game`);
-  for (let step = 0; step < 3; step++) await page.getByRole('button', { name: 'Nästa →', exact: true }).click();
+  // ENT-03 C: the club wall is the first step (nations/leagues live in the 'Världen' drawer).
+  await expect(page.getByRole('heading', { name: 'Välj din hemmaplan.', exact: true })).toBeVisible({ timeout: 60000 });
   await page.getByRole('radio', { name: club, exact: true }).check();
-  await page.getByRole('button', { name: 'Nästa →', exact: true }).click();
+  await newGameToManagerStep(page);
   await expect(page.getByRole('button', { name: 'Nästa →', exact: true })).toBeDisabled();
   await page.getByPlaceholder('För- och efternamn').fill('Loading QA');
+  await page.getByRole('combobox', { name: 'Nationalitet', exact: true }).selectOption('SWE');
+  await page.getByRole('textbox', { name: 'Födelsedatum', exact: true }).fill('1985-04-12');
   await page.getByRole('button', { name: 'Nästa →', exact: true }).click();
 }
 
@@ -128,6 +132,7 @@ test('real New Game: immediate feedback, duplicate guard, canonical save, succes
   } else await page.getByRole('button', { name: 'STARTA KARRIÄR', exact: true }).click();
 
   await page.waitForURL('**/career', { timeout: 90000 });
+  await enterCareerAfterLoad(page);
   await expect(page.locator('.hm-shell')).toBeVisible({ timeout: 120000 });
   await expect(page.locator('main')).toContainText('Alingsås');
   await page.getByRole('button', { name: 'Spara', exact: true }).click();
@@ -208,6 +213,7 @@ test('provider failure after setup persisted: keep one save, recover through mai
   await page.waitForURL(base + '/');
   expect(await saves(page)).toHaveLength(1);
   await page.getByRole('button', { name: /^FORTSÄTT/ }).click();
+  await enterCareerAfterLoad(page);
   await expect(page.locator('.hm-shell')).toBeVisible({ timeout: 120000 });
   const resumed = await saves(page);
   expect(resumed).toHaveLength(1);
@@ -228,6 +234,7 @@ test('normal live New Game: no snapshot, clock or ID overrides; save and refresh
   });
   expect(immediate).toContain('BYGGER DIN HANDBOLLSVÄRLD…');
   expect(immediate).toContain('IFK Tumba HK');
+  await enterCareerAfterLoad(page);
   await expect(page.locator('.hm-shell')).toBeVisible({ timeout: 120000 });
   await expect(page.locator('main')).toContainText('Tumba');
   await page.getByRole('button', { name: 'Spara', exact: true }).click();

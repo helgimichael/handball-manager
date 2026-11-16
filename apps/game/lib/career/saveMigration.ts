@@ -28,6 +28,7 @@ import { getCareerClubSquad } from "./careerWorld";
 import { EUR_TO_SEK_REFERENCE_RATE } from "../economy/currency";
 import type { PlayerContract } from "../economy/types";
 import { seedPermanentBTeamPartnerships } from "./clubPartnerships";
+import { reconcileStaticRelationPartnerships, seedStaticRelationPartnerships } from "./staticRelationPartnerships";
 import { seedScoutPool } from "../staff/scoutPool";
 import { ensureQualificationOpponentSquads } from "./promotionSquads";
 
@@ -415,6 +416,9 @@ export function migrateCareerState(career: CareerState): CareerState {
     next = { ...next, clubPartnerships: {} };
   }
   next = seedPermanentBTeamPartnerships(next, next.seasonStartDate);
+  // Club Identity C4 (D9): real-world relations become agreements from the NEXT season start (never the season in
+  // progress); a relation that ended in reality ends its seeded agreement at that season's close. Additive, idempotent.
+  next = reconcileStaticRelationPartnerships(seedStaticRelationPartnerships(next, "NEXT_SEASON"));
 
   // HM-STAFF-SCOUT-POOL-1.0: additive -- an existing career simply never
   // had the scout source pool yet. `scoutPoolSource`/`scoutMarket`

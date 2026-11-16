@@ -1,0 +1,772 @@
+[
+ {
+  "id": "se_div2_team_1587217",
+  "name": "Borlänge HK",
+  "status": "VERIFIED",
+  "confidence": 0.9,
+  "primary": "white",
+  "primaryMeasured": "#E5D9C2",
+  "secondary": "red",
+  "secondaryMeasured": "#7A1A16",
+  "accent": "red",
+  "accentMeasured": null,
+  "pattern": "sleeves",
+  "crest": {
+   "primary": "red",
+   "secondary": "white",
+   "note": "B-HK crest red with white letters and gold border; shirt is mainly white"
+  },
+  "description": "White shirt with red sleeves/shoulders and side panels, red shorts.",
+  "team": "men-A",
+  "homeKit": true,
+  "season": "2026/27",
+  "photoDate": "2026-11-08",
+  "evidence": [
+   {
+    "url": "https://borlangehk.se/",
+    "type": "official-match-photo",
+    "date": "2026-11-08",
+    "screenshot": "evidence/se_div2_team_1587217-3.jpg",
+    "observation": "Club match report 'Referat Mantorp' (Herrlaget, home win 31-26 vs Mantorps IF HF, 2026-11-08): men's players in white shirts with red sleeves and red shorts"
+   },
+   {
+    "url": "https://borlangehk.se/lag/herrar-senior/",
+    "type": "official-team-photo",
+    "date": null,
+    "screenshot": "evidence/se_div2_team_1587217-1.jpg",
+    "observation": "Herrar Senior team photo (page states season 26/27, Herr Mitt 2): outfield players in white shirts with red sleeves/side panels; GKs black"
+   },
+   {
+    "url": "https://borlangehk.se/",
+    "type": "official-team-photo",
+    "date": null,
+    "screenshot": "evidence/se_div2_team_1587217-2.jpg",
+    "observation": "Homepage banner shows the women's team in the same white/red design"
+   }
+  ],
+  "womenDiffer": false,
+  "notes": "Resolves the prior red-vs-white wiki conflict: home shirt is white, red is the trim colour. Red measured in shadow (true red brighter). White sample slightly warm from hall lighting.",
+  "reviewReason": null
+ },
+ {
+  "id": "se_div2_team_1583225",
+  "name": "Eksjö BK",
+  "status": "PROBABLE",
+  "confidence": 0.8,
+  "primary": "green",
+  "primaryMeasured": "#1A6A2D",
+  "secondary": "white",
+  "secondaryMeasured": null,
+  "accent": "black",
+  "accentMeasured": null,
+  "pattern": "solid",
+  "crest": {
+   "primary": "green",
+   "secondary": "white",
+   "note": "Green/white crest; matches shirt"
+  },
+  "description": "Green shirt with white trim/logos, black shorts.",
+  "team": "men-A",
+  "homeKit": null,
+  "season": null,
+  "photoDate": null,
+  "evidence": [
+   {
+    "url": "https://www.laget.se/EKSJOBKHERR",
+    "type": "official-team-photo",
+    "date": null,
+    "screenshot": "evidence/se_div2_team_1583225-1.jpg",
+    "observation": "Team photo on Eksjö BK Herr page (laget.se): outfield players in green shirts with white details and black shorts; undated"
+   },
+   {
+    "url": "https://www.laget.se/EKSJOBKHERR",
+    "type": "official-social",
+    "date": null,
+    "screenshot": "evidence/se_div2_team_1583225-2.jpg",
+    "observation": "Herr page branding fully green with green/white crest"
+   }
+  ],
+  "womenDiffer": null,
+  "notes": "Photo date and home/away not stated; no match photo found.",
+  "reviewReason": "Undated team photo; home status not confirmed by a match photo."
+ },
+ {
+  "id": "se_div2_team_1585081",
+  "name": "HK Erping",
+  "status": "PROBABLE",
+  "confidence": 0.8,
+  "primary": "white",
+  "primaryMeasured": "#AFACAA",
+  "secondary": "red",
+  "secondaryMeasured": "#E83E41",
+  "accent": "red",
+  "accentMeasured": null,
+  "pattern": "sleeves",
+  "crest": {
+   "primary": "red",
+   "secondary": "white",
+   "note": "RP IF Linköping crest: red shield, white/silver 'RP', black lion"
+  },
+  "description": "White shirt with red shoulders/sleeves, red shorts.",
+  "team": "men-B",
+  "homeKit": null,
+  "season": null,
+  "photoDate": null,
+  "evidence": [
+   {
+    "url": "https://www.rpif.se/rpif-herru",
+    "type": "official-team-photo",
+    "date": null,
+    "screenshot": "evidence/se_div2_team_1585081-1.jpg",
+    "observation": "HK eRPing is RP IF Linköping's 'Herr U' team (Herr 2 Mitt). Team photo on the Herr U page: players in white shirts with red shoulders, red shorts"
+   },
+   {
+    "url": "https://www.rpif.se/rpif-herru",
+    "type": "official-social",
+    "date": null,
+    "screenshot": "evidence/se_div2_team_1585081-2.jpg",
+    "observation": "Herr U graphic 'HK eRPing vs Mantorps IF HF' confirms identity; RP crest red/white"
+   }
+  ],
+  "womenDiffer": null,
+  "notes": "RP IF Linköping's second (U) team; RP IF Herr A plays Herr 1. White measured in shade.",
+  "reviewReason": "Team photo undated; home status not confirmed. Second team of RP IF Linköping."
+ },
+ {
+  "id": "se_div2_team_1575788",
+  "name": "HK Lif Blå",
+  "status": "PROBABLE",
+  "confidence": 0.8,
+  "primary": "orange",
+  "primaryMeasured": "#F29138",
+  "secondary": "royal-blue",
+  "secondaryMeasured": "#303E8D",
+  "accent": "blue",
+  "accentMeasured": null,
+  "pattern": "sleeves",
+  "crest": {
+   "primary": "orange",
+   "secondary": "blue",
+   "note": "Parent LIF Lindesberg orange/blue"
+  },
+  "description": "Orange shirt with royal-blue shoulders/side panels, blue shorts.",
+  "team": "men-B",
+  "homeKit": null,
+  "season": null,
+  "photoDate": null,
+  "evidence": [
+   {
+    "url": "https://www.svenskalag.se/liflindesberg-hklifbla-herrjun",
+    "type": "official-team-photo",
+    "date": null,
+    "screenshot": "evidence/se_div2_team_1575788-1.jpg",
+    "observation": "Image titled 'LIF Lindesberg - LIF Blå' on the HK LIF Blå/Herr Jun team page: squad in orange shirts with royal-blue shoulder/side panels and blue shorts"
+   }
+  ],
+  "womenDiffer": null,
+  "notes": "Image of this team itself (not inherited from the parent). Page is shared with herrjunior; the photo title names LIF Blå. Season not stated.",
+  "reviewReason": "Team photo undated; shared Blå/junior page; no match photo."
+ },
+ {
+  "id": "se_div2_team_1579109",
+  "name": "IFK Nyköping",
+  "status": "PROBABLE",
+  "confidence": 0.7,
+  "primary": "white",
+  "primaryMeasured": "#BCBBB8",
+  "secondary": "blue",
+  "secondaryMeasured": "#022D66",
+  "accent": "blue",
+  "accentMeasured": null,
+  "pattern": "solid",
+  "crest": {
+   "primary": "blue",
+   "secondary": "white",
+   "note": "IFK star crest blue/white"
+  },
+  "description": "White shirt with blue sponsor print, blue shorts.",
+  "team": "men-A",
+  "homeKit": null,
+  "season": null,
+  "photoDate": null,
+  "evidence": [
+   {
+    "url": "https://www.svenskalag.se/ifknykoping-handboll-herrar/truppen",
+    "type": "official-team-photo",
+    "date": null,
+    "screenshot": "evidence/se_div2_team_1579109-1.jpg",
+    "observation": "Herrar squad photo: outfield players in white shirts and blue shorts, GKs red"
+   },
+   {
+    "url": "https://www.svenskalag.se/ifknykoping-handboll-herrar/bildgalleri",
+    "type": "official-social",
+    "date": null,
+    "screenshot": "evidence/se_div2_team_1579109-2.jpg",
+    "observation": "Gallery empty; header shows blue/white crest"
+   }
+  ],
+  "womenDiffer": null,
+  "notes": "Prior said blue shirt (youth Partille). Senior team photo shows a white shirt with blue shorts. Blue shorts measured dark (#022D66).",
+  "reviewReason": "Shirt is white, not the prior's blue; undated team photo and no match photo to confirm the home kit."
+ },
+ {
+  "id": "se_div2_team_1575015",
+  "name": "Ludvika HF Herr",
+  "status": "PROBABLE",
+  "confidence": 0.75,
+  "primary": "black",
+  "primaryMeasured": "#0D0B0C",
+  "secondary": "green",
+  "secondaryMeasured": "#2A5C50",
+  "accent": "green",
+  "accentMeasured": null,
+  "pattern": "sleeves",
+  "crest": {
+   "primary": "green",
+   "secondary": "white",
+   "note": "LHF crest green/white; shirt is black with green shoulder trim"
+  },
+  "description": "Black shirt with green shoulder/raglan trim, black shorts.",
+  "team": "men-A",
+  "homeKit": null,
+  "season": "2024/25",
+  "photoDate": null,
+  "evidence": [
+   {
+    "url": "https://www.laget.se/LudvikaHF-Herr/News/7736658/Lagbild-2024-2025",
+    "type": "official-team-photo",
+    "date": "2024/25",
+    "screenshot": "evidence/se_div2_team_1575015-1.jpg",
+    "observation": "'Lagbild 2024-2025' men's team: black shirts with green shoulder stripes, black shorts"
+   },
+   {
+    "url": "https://www.laget.se/LudvikaHF-Herr/Picture/2001528",
+    "type": "official-team-photo",
+    "date": null,
+    "screenshot": "evidence/se_div2_team_1575015-2.jpg",
+    "observation": "Lagbilder album: three team photos, all black shirts with green trim"
+   }
+  ],
+  "womenDiffer": null,
+  "notes": "Prior 'green' came from a youth Partille registration. Men's team photos show black with green. Neon accent should be green.",
+  "reviewReason": "Photos are from 2024/25; no current-season match photo; black primary differs from the green crest."
+ },
+ {
+  "id": "se_div2_team_1574743",
+  "name": "Mantorps IF HF",
+  "status": "VERIFIED",
+  "confidence": 0.9,
+  "primary": "white",
+  "primaryMeasured": "#CEBEBD",
+  "secondary": "green",
+  "secondaryMeasured": "#18936F",
+  "accent": "green",
+  "accentMeasured": null,
+  "pattern": "sleeves",
+  "crest": {
+   "primary": "green",
+   "secondary": "white",
+   "note": "Green shield with white 'MIF'"
+  },
+  "description": "White shirt with green raglan sleeves/shoulders, green shorts.",
+  "team": "men-A",
+  "homeKit": true,
+  "season": "2026/27",
+  "photoDate": "2026-10-17",
+  "evidence": [
+   {
+    "url": "https://www.mantorphandboll.com/mantorphandboll-herr",
+    "type": "official-social",
+    "date": "2026-10-17",
+    "screenshot": "evidence/se_div2_team_1574743-2.jpg",
+    "observation": "Official home-match graphic 'Mantorps IF - VästeråsIrsta HK, 17 okt, Klämman Arena': player in white shirt with green sleeves"
+   },
+   {
+    "url": "https://www.mantorphandboll.com/mantorphandboll-herr",
+    "type": "official-team-photo",
+    "date": null,
+    "screenshot": "evidence/se_div2_team_1574743-1.jpg",
+    "observation": "'Mantorps IF HF - Herr' squad photo: white shirts with green shoulders and green shorts"
+   }
+  ],
+  "womenDiffer": null,
+  "notes": "White sample slightly pink from background reflection.",
+  "reviewReason": null
+ },
+ {
+  "id": "se_div2_team_1584203",
+  "name": "Norrköpings HK",
+  "status": "PROBABLE",
+  "confidence": 0.85,
+  "primary": "green",
+  "primaryMeasured": "#499D85",
+  "secondary": "white",
+  "secondaryMeasured": null,
+  "accent": "black",
+  "accentMeasured": null,
+  "pattern": "solid",
+  "crest": {
+   "primary": "green",
+   "secondary": "white",
+   "note": "Winged HNK crest green/white"
+  },
+  "description": "Green (slightly teal) shirt with white logos, black shorts.",
+  "team": "men-A",
+  "homeKit": null,
+  "season": null,
+  "photoDate": null,
+  "evidence": [
+   {
+    "url": "https://www.norrkopingshk.se/norrkopingshk-norrkopingshk/truppen",
+    "type": "official-team-photo",
+    "date": null,
+    "screenshot": "evidence/se_div2_team_1584203-1.jpg",
+    "observation": "Senior men's squad photo: green shirts with white logos, black shorts; GKs light blue"
+   },
+   {
+    "url": "https://www.norrkopingshk.se/",
+    "type": "official-social",
+    "date": "2026-10-03",
+    "screenshot": "evidence/se_div2_team_1584203-2.jpg",
+    "observation": "Home-premiere graphic NHK - Vetlanda HF 3/10: home players in green (stylised image)"
+   }
+  ],
+  "womenDiffer": null,
+  "notes": "Prior said white primary (youth). Senior evidence shows green. Green has a teal tinge (#499D85).",
+  "reviewReason": "Team photo undated; the poster is a stylised graphic, not a plain match photo."
+ },
+ {
+  "id": "se_div2_team_1584878",
+  "name": "Vetlanda HF",
+  "status": "VERIFIED",
+  "confidence": 0.85,
+  "primary": "royal-blue",
+  "primaryMeasured": "#043488",
+  "secondary": "black",
+  "secondaryMeasured": "#2B2224",
+  "accent": "white",
+  "accentMeasured": null,
+  "pattern": "sleeves",
+  "crest": {
+   "primary": "navy",
+   "secondary": "white",
+   "note": "VHF crest navy/white"
+  },
+  "description": "Royal-blue shirt with black shoulders/sleeves, black shorts.",
+  "team": "men-A",
+  "homeKit": true,
+  "season": "2026/27",
+  "photoDate": "2026-11-07",
+  "evidence": [
+   {
+    "url": "https://www.instagram.com/p/Ddr6O53scY-/",
+    "type": "official-social",
+    "date": "2026-11-07",
+    "screenshot": "evidence/se_div2_team_1584878-1.jpg",
+    "observation": "Club account vetlandahfherr result post 'Vetlanda HF 33-26 Ludvika HF, Herr 2 Mitt, Norrgårdshallen 7 november': home team lined up in blue shirts with dark sleeves and black shorts; red = GKs"
+   },
+   {
+    "url": "https://www.instagram.com/vetlandahfherr/",
+    "type": "official-social",
+    "date": "2026",
+    "screenshot": "evidence/se_div2_team_1584878-2.jpg",
+    "observation": "Player #18 in blue shirt with black shoulders, VHF crest, black shorts (clear colour sample)"
+   },
+   {
+    "url": "https://www.instagram.com/vetlandahfherr/",
+    "type": "official-social",
+    "date": "2026",
+    "screenshot": "evidence/se_div2_team_1584878-3.jpg",
+    "observation": "Grid of the club's 2026/27 men's posts"
+   }
+  ],
+  "womenDiffer": null,
+  "notes": "Instagram images were viewable without logging in. The laget.se herr page has no albums.",
+  "reviewReason": null
+ },
+ {
+  "id": "se_div2_team_1578886",
+  "name": "VästeråsIrsta HK",
+  "status": "UNKNOWN",
+  "confidence": 0.0,
+  "primary": null,
+  "primaryMeasured": null,
+  "secondary": null,
+  "secondaryMeasured": null,
+  "accent": null,
+  "accentMeasured": null,
+  "pattern": "unknown",
+  "crest": {
+   "primary": "black",
+   "secondary": "white",
+   "note": "Shown with the VästeråsIrsta HF crest (black/white striped shield) on the opponent's match graphic"
+  },
+  "description": null,
+  "team": "unknown",
+  "homeKit": null,
+  "season": null,
+  "photoDate": null,
+  "evidence": [
+   {
+    "url": "https://www.vasterasirsta.se/match/?ID=324746",
+    "type": "text",
+    "date": "2026",
+    "screenshot": null,
+    "observation": "VästeråsIrsta HK = VästeråsIrsta HF's 'Herrutveckling' development team (Herr 2 Mitt 2026/27). The team page has no news, photos or squad image"
+   },
+   {
+    "url": "https://www.mantorphandboll.com/mantorphandboll-herr",
+    "type": "official-social",
+    "date": "2026-10-17",
+    "screenshot": "evidence/se_div2_team_1574743-2.jpg",
+    "observation": "Mantorp match graphic shows only the VästeråsIrsta HF crest, no kit"
+   }
+  ],
+  "womenDiffer": null,
+  "notes": "Development team; the parent HF kit is not inherited, per the brief. Tried the club site and web search.",
+  "reviewReason": "No image of the development team found."
+ },
+ {
+  "id": "se_div2_team_1582839",
+  "name": "Backa HK",
+  "status": "VERIFIED",
+  "confidence": 0.85,
+  "primary": "red",
+  "primaryMeasured": "#DA4E57",
+  "secondary": "red",
+  "secondaryMeasured": null,
+  "accent": "white",
+  "accentMeasured": null,
+  "pattern": "solid",
+  "crest": {
+   "primary": "red",
+   "secondary": "white",
+   "note": "Red crest (laget fallback colour F50B13)"
+  },
+  "description": "Red shirt with small white details, red shorts.",
+  "team": "men-A",
+  "homeKit": null,
+  "season": "2026/27",
+  "photoDate": "2026",
+  "evidence": [
+   {
+    "url": "https://www.laget.se/backahkherrar/Picture/2581440",
+    "type": "official-team-photo",
+    "date": "2026",
+    "screenshot": "evidence/se_div2_team_1582839-1.jpg",
+    "observation": "Backa HK Herrar album 'Fotografering 2026': squad in all-red shirts and shorts, GKs light grey-blue"
+   },
+   {
+    "url": "https://www.laget.se/backahkherrar/News/8060951/Backa-HK-Herr-klara-for-fortsatt-spel-i-div-2",
+    "type": "press-photo",
+    "date": "2025",
+    "screenshot": "evidence/se_div2_team_1582839-2.jpg",
+    "observation": "Qualifier photo (manganfoto): team in red shirts/red shorts vs team in black shirts/red shorts; consistent"
+   }
+  ],
+  "womenDiffer": null,
+  "notes": "Red measured under studio light (#DA4E57). Home/away not stated, but the official 2026 squad photo shows a single red kit.",
+  "reviewReason": null
+ },
+ {
+  "id": "se_div2_team_1580934",
+  "name": "Fjärås HK",
+  "status": "UNKNOWN",
+  "confidence": 0.0,
+  "primary": null,
+  "primaryMeasured": null,
+  "secondary": null,
+  "secondaryMeasured": null,
+  "accent": null,
+  "accentMeasured": null,
+  "pattern": "unknown",
+  "crest": {
+   "primary": null,
+   "secondary": null,
+   "note": "Not seen"
+  },
+  "description": null,
+  "team": "unknown",
+  "homeKit": null,
+  "season": null,
+  "photoDate": null,
+  "evidence": [
+   {
+    "url": "https://www.kungsbackaposten.se/om/fjaras-hk-herr",
+    "type": "text",
+    "date": "2026",
+    "screenshot": null,
+    "observation": "Press tag page: auto-generated texts only, no photos"
+   },
+   {
+    "url": "https://www.hkaranas.se/grupp/?ID=619319",
+    "type": "text",
+    "date": null,
+    "screenshot": null,
+    "observation": "Search lists an 'HK Fjärås Herr (div 2 väst)' group on the HK Aranäs site; URL now returns 404"
+   },
+   {
+    "url": "https://www.fjarashk.se",
+    "type": "text",
+    "date": null,
+    "screenshot": null,
+    "observation": "Domain does not resolve"
+   }
+  ],
+  "womenDiffer": null,
+  "notes": "No club website or image found.",
+  "reviewReason": "No visual evidence found."
+ },
+ {
+  "id": "se_div2_team_1570589",
+  "name": "HB 78 Jönköping",
+  "status": "UNKNOWN",
+  "confidence": 0.0,
+  "primary": null,
+  "primaryMeasured": null,
+  "secondary": null,
+  "secondaryMeasured": null,
+  "accent": null,
+  "accentMeasured": null,
+  "pattern": "unknown",
+  "crest": {
+   "primary": null,
+   "secondary": null,
+   "note": "Not seen"
+  },
+  "description": null,
+  "team": "unknown",
+  "homeKit": null,
+  "season": null,
+  "photoDate": null,
+  "evidence": [
+   {
+    "url": "https://www.jp.se/organisation/b9c77bd6-7298-496d-bfee-d98da300d0cf",
+    "type": "text",
+    "date": "2026",
+    "screenshot": null,
+    "observation": "Jönköpings-Posten: auto-generated match texts without photos"
+   },
+   {
+    "url": "https://www.laget.se/HB78",
+    "type": "text",
+    "date": null,
+    "screenshot": null,
+    "observation": "404; no laget/svenskalag club site found via search"
+   }
+  ],
+  "womenDiffer": null,
+  "notes": "Club plays Herr 2 Väst and women's div 2; no web presence with photos found.",
+  "reviewReason": "No visual evidence found."
+ },
+ {
+  "id": "se_div2_team_1581244",
+  "name": "HK Skövde",
+  "status": "PROBABLE",
+  "confidence": 0.6,
+  "primary": "royal-blue",
+  "primaryMeasured": "#043FCD",
+  "secondary": "white",
+  "secondaryMeasured": null,
+  "accent": "white",
+  "accentMeasured": null,
+  "pattern": "solid",
+  "crest": {
+   "primary": "blue",
+   "secondary": "white",
+   "note": "IFK Skövde crest blue/white on the shirt"
+  },
+  "description": "Royal-blue shirt with white trim, blue shorts.",
+  "team": "men-B",
+  "homeKit": null,
+  "season": "2023/24",
+  "photoDate": "2024-01-28",
+  "evidence": [
+   {
+    "url": "https://ifkskovdehandboll.com/premiar-ocksa-for-utvecklingslaget/",
+    "type": "official-match-photo",
+    "date": "2024-01-28",
+    "screenshot": "evidence/se_div2_team_1581244-1.jpg",
+    "observation": "HK Skövde is IFK Skövde HK's development team. Featured image of the club article on the development team: player in a royal-blue IFK shirt and blue shorts in a small-hall match"
+   },
+   {
+    "url": "https://www.profixio.com/app/league/registrations/26072",
+    "type": "text",
+    "date": "2026",
+    "screenshot": null,
+    "observation": "Club registration 'HK Skövde' with kansli@ifkskovdehandboll.com"
+   }
+  ],
+  "womenDiffer": null,
+  "notes": "Image is not captioned as an HK Skövde match and is dated Jan 2024. Not to be confused with Skövde HF.",
+  "reviewReason": "Old photo, not explicitly captioned as the development team; home status unconfirmed."
+ },
+ {
+  "id": "se_div2_team_1575715",
+  "name": "HK Varberg 09",
+  "status": "UNKNOWN",
+  "confidence": 0.0,
+  "primary": null,
+  "primaryMeasured": null,
+  "secondary": null,
+  "secondaryMeasured": null,
+  "accent": null,
+  "accentMeasured": null,
+  "pattern": "unknown",
+  "crest": {
+   "primary": null,
+   "secondary": null,
+   "note": "Not seen clearly"
+  },
+  "description": null,
+  "team": "unknown",
+  "homeKit": null,
+  "season": null,
+  "photoDate": null,
+  "evidence": [
+   {
+    "url": "https://hkvarberg.myclub.se/herr-u/",
+    "type": "text",
+    "date": "2026",
+    "screenshot": null,
+    "observation": "HK Varberg 09 = HK Varberg's development team (Div 2 Väst 2026/27); team page has no photos"
+   },
+   {
+    "url": "https://varbergsnytt.se/sport/hk-varberg-09-handboll-i-varbergs-idrottshall-20148",
+    "type": "press-photo",
+    "date": "2026-02-16",
+    "screenshot": null,
+    "observation": "Press article shows only a scoreboard graphic, no match photo"
+   }
+  ],
+  "womenDiffer": null,
+  "notes": "Development team; the parent HK Varberg kit is not inherited, per the brief.",
+  "reviewReason": "No image of the development team found."
+ },
+ {
+  "id": "se_div2_team_1578882",
+  "name": "IF Hellton Karlstad",
+  "status": "PROBABLE",
+  "confidence": 0.8,
+  "primary": "red",
+  "primaryMeasured": "#6A0815",
+  "secondary": "white",
+  "secondaryMeasured": null,
+  "accent": "gold",
+  "accentMeasured": null,
+  "pattern": "solid",
+  "crest": {
+   "primary": "red",
+   "secondary": "white",
+   "note": "Red shield with white cross and gold laurel"
+  },
+  "description": "Red shirt with white details and a cream collar.",
+  "team": "men-A",
+  "homeKit": true,
+  "season": "2025/26",
+  "photoDate": "2025-10-12",
+  "evidence": [
+   {
+    "url": "https://www.laget.se/IFHelltonHerr",
+    "type": "official-social",
+    "date": "2025-10-12",
+    "screenshot": "evidence/se_div2_team_1578882-1.jpg",
+    "observation": "Herr A home-match graphic 'IF Hellton - Uddevalla HK, Sundsta sporthall 12.10.2025': player in a red shirt"
+   },
+   {
+    "url": "https://www.laget.se/IfHelltonherr/News/7958675/Seriepremiar-mot-Skara-HK-",
+    "type": "official-match-photo",
+    "date": "2025-10",
+    "screenshot": "evidence/se_div2_team_1578882-2.jpg",
+    "observation": "Away premiere at Skara: one team in yellow/red shorts (Skara, home) and one in white/black (Hellton away kit, inferred)"
+   }
+  ],
+  "womenDiffer": null,
+  "notes": "Red measured dark (#6A0815) because the graphic has a dark-red grade; the real shirt is a mid red. Away kit appears white/black.",
+  "reviewReason": "Single 2025/26 graphic; no current-season plain match photo; measured red is darker than the real shirt."
+ },
+ {
+  "id": "se_div2_team_1574211",
+  "name": "IK Baltichov",
+  "status": "PROBABLE",
+  "confidence": 0.65,
+  "primary": "white",
+  "primaryMeasured": "#B0A18E",
+  "secondary": "blue",
+  "secondaryMeasured": "#0B162B",
+  "accent": "blue",
+  "accentMeasured": null,
+  "pattern": "solid",
+  "crest": {
+   "primary": "blue",
+   "secondary": "white",
+   "note": "Blue/white shield"
+  },
+  "description": "White shirt with blue collar and sleeve cuffs plus sponsor logos; black shorts in the photos.",
+  "team": "men-A",
+  "homeKit": null,
+  "season": "2026/27",
+  "photoDate": "2026",
+  "evidence": [
+   {
+    "url": "https://ikbaltichov.web.sportadmin.se/start/?ID=493148",
+    "type": "official-social",
+    "date": "2026",
+    "screenshot": "evidence/se_div2_team_1574211-1.jpg",
+    "observation": "Herrlaget page signing photos: several players in white match shirts with blue cuffs/collar and sponsors; officials in blue tops"
+   }
+  ],
+  "womenDiffer": null,
+  "notes": "No match photo; signing photos only. Blue shirts worn by staff could be an alternative kit. White measured warm under indoor light; the cuff measured very dark navy at low resolution.",
+  "reviewReason": "No match photo; home kit not confirmed."
+ },
+ {
+  "id": "se_div2_team_1586623",
+  "name": "Skara HK",
+  "status": "PROBABLE",
+  "confidence": 0.65,
+  "primary": "yellow",
+  "primaryMeasured": "#B08220",
+  "secondary": "red",
+  "secondaryMeasured": "#5F1016",
+  "accent": "red",
+  "accentMeasured": null,
+  "pattern": "solid",
+  "crest": {
+   "primary": "red",
+   "secondary": "yellow",
+   "note": "Red shield with yellow 'SHK' on a yellow roundel"
+  },
+  "description": "Yellow shirt with red details, red shorts.",
+  "team": "men-A",
+  "homeKit": true,
+  "season": "2025/26",
+  "photoDate": "2025-10",
+  "evidence": [
+   {
+    "url": "https://www.laget.se/IfHelltonherr/News/7958675/Seriepremiar-mot-Skara-HK-",
+    "type": "official-match-photo",
+    "date": "2025-10",
+    "screenshot": "evidence/se_div2_team_1586623-1.jpg",
+    "observation": "Opponent's report of the Skara HK home premiere vs IF Hellton: team in yellow shirts/red shorts (Skara, matches the crest; Hellton plays at home in red)"
+   },
+   {
+    "url": "https://skarahk.web.sportadmin.se/start/?ID=31615",
+    "type": "official-team-photo",
+    "date": "2026-09-06",
+    "screenshot": "evidence/se_div2_team_1586623-2.jpg",
+    "observation": "SEIF Cup (Denmark), Sept 2026: two Skara senior squads, one in yellow/red shorts and one in red/red"
+   },
+   {
+    "url": "https://skarahk.web.sportadmin.se/start/?ID=31615",
+    "type": "official-social",
+    "date": null,
+    "screenshot": "evidence/se_div2_team_1586623-3.jpg",
+    "observation": "Club crest red/yellow"
+   }
+  ],
+  "womenDiffer": null,
+  "notes": "Skara uses both yellow and red kits; yellow as home is inferred from the home match photo. Yellow measured dull (#B08220) from a small, dim photo; the real shade is a bright yellow.",
+  "reviewReason": "Two kits (yellow and red) in use; home attribution inferred from a small opponent photo."
+ }
+]

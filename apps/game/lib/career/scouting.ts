@@ -72,6 +72,22 @@ export interface ScoutingAssignment {
   discoveredPlayerIds: string[];
 }
 
+/**
+ * HM-M6.0: an assignment id never used before in this career. The format is
+ * unchanged (`<prefix><n>`, n starting at the number of stored
+ * assignments); n moves on past any id still held by an assignment, its
+ * report (`report-<id>`) or its discoveries (`discovery-<id>-...`). Ids
+ * carry the start date, and rollover compaction only drops records more
+ * than RECENT_DAYS old, so a pruned id cannot come back either.
+ */
+function unusedAssignmentId(state: CareerState, prefix: string): string {
+  const discoveryKeys = Object.keys(state.scoutDiscoveries ?? {});
+  const taken = (id: string) => Boolean(state.scoutingAssignments[id] || state.scoutReports?.[`report-${id}`] || discoveryKeys.some((k) => k.startsWith(`discovery-${id}-`)));
+  let n = Object.keys(state.scoutingAssignments).length;
+  while (taken(`${prefix}${n}`)) n++;
+  return `${prefix}${n}`;
+}
+
 export interface ScoutReport {
   id: string;
   assignmentId: string;
@@ -92,7 +108,7 @@ export interface ScoutReport {
 
 export { NEUTRAL_SUITABILITY, weightedSuitability, computeBroadAssignmentSuitability } from "./scoutSuitability";
 import { NEUTRAL_SUITABILITY, weightedSuitability, computeBroadAssignmentSuitability } from "./scoutSuitability";
-import { runDiscoveryCycle, type ScoutDiscovery } from "./scoutDiscovery";
+import { assignmentNation, runDiscoveryCycle, type ScoutDiscovery } from "./scoutDiscovery";
 import { recruitmentDepartmentFactor } from "../staff/organisation";
 
 /** Points of knowledge one completed assignment adds for a NEUTRAL-suitability scout. A weak scout contributes meaningfully less, an elite one meaningfully more (qualityMultiplier below). setPlayerKnowledgePct's own clamp to [0,100] is the natural diminishing-returns ceiling near full knowledge -- no separate curve needed. */
@@ -205,7 +221,7 @@ export function createScoutingAssignment(state: CareerState, scoutStaffId: strin
   const ctx = resolveAssignmentContext(state, targetPlayerId, targetClubId, scout.clubId, startDate);
   const suitability = computeScoutAssignmentSuitability(scout, ctx);
   const durationDays = assignmentDurationDays(suitability);
-  const id = `scout-${scoutStaffId}-${targetPlayerId}-${startDate}-${Object.keys(state.scoutingAssignments).length}`;
+  const id = unusedAssignmentId(state, `scout-${scoutStaffId}-${targetPlayerId}-${startDate}-`);
   const assignment: ScoutingAssignment = {
     id,
     scoutStaffId,
@@ -316,15 +332,12 @@ export function createBroadScoutingAssignment(
     return { ok: false, state, assignment: null, errors: ["Denna scout har redan ett pågående uppdrag med samma inriktning."] };
   }
 
-  const geographyAttr: StaffAttribute =
-    assignmentType === "REGION" || assignmentType === "COMPETITION"
-      ? scope.targetNation && scope.targetNation !== clubNation(scout.clubId)
-        ? "INTERNATIONAL_KNOWLEDGE"
-        : "REGIONAL_KNOWLEDGE"
-      : "REGIONAL_KNOWLEDGE";
+  // HM-M6.0 (G-B1): a league abroad is international work too (its nation comes from the competition).
+  const nation = assignmentNation({ assignmentType, targetNation: scope.targetNation ?? "", targetCompetitionId: scope.targetCompetitionId ?? "" });
+  const geographyAttr: StaffAttribute = nation && nation !== clubNation(scout.clubId) ? "INTERNATIONAL_KNOWLEDGE" : "REGIONAL_KNOWLEDGE";
   const suitability = computeBroadAssignmentSuitability(scout, assignmentType, geographyAttr, scope.targetPosition);
   const cycleDays = broadCycleLengthDays(suitability);
-  const id = `broad-${assignmentType}-${scoutStaffId}-${startDate}-${Object.keys(state.scoutingAssignments).length}`;
+  const id = unusedAssignmentId(state, `broad-${assignmentType}-${scoutStaffId}-${startDate}-`);
   const assignment: ScoutingAssignment = {
     id,
     scoutStaffId,

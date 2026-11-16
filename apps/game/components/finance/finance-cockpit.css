@@ -1,0 +1,120 @@
+/* Arena Nights -- Finance Cockpit (CLB-06 A): KPI strip, cash line + action cards (CLB-06a A), the budget
+   reallocation (CLB-06c A) and the Detaljer accordion (CLB-06b/d/e/f). Solid dark surfaces, tabular figures. */
+.fx-page { gap: 16px; }
+.fx-h { margin: 0; font: 800 20px/1.1 var(--arena-font-display); text-transform: uppercase; letter-spacing: .02em; color: var(--arena-ink); }
+.fx-band { grid-template-columns: minmax(0, 1fr); }
+
+.fx-kpis { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.fx-kpi { display: grid; gap: 4px; align-content: start; padding: 14px 16px; border-radius: 8px; background: var(--arena-solid-1); border: 1px solid var(--arena-line); border-top: 3px solid var(--arena-faint); min-width: 0; }
+.fx-kpi[data-tone="good"] { border-top-color: var(--arena-pos); }
+.fx-kpi[data-tone="warn"] { border-top-color: var(--arena-warn); }
+.fx-kpi[data-tone="bad"] { border-top-color: var(--arena-neg); }
+.fx-kpi small { font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--arena-faint); }
+.fx-kpi strong { font: 800 clamp(24px, 2.2vw, 34px)/1 var(--arena-font-display); font-variant-numeric: tabular-nums; color: var(--arena-ink); white-space: nowrap; }
+.fx-kpi span { font-size: 12px; color: var(--arena-muted); }
+.fx-kpi-bar { display: block; height: 5px; border-radius: 3px; background: var(--arena-solid-3); overflow: hidden; }
+.fx-kpi-bar b { display: block; height: 100%; background: var(--club-neon); }
+.fx-kpi[data-tone="bad"] .fx-kpi-bar b { background: var(--arena-neg); }
+
+.fx-cockpit { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 12px; align-items: start; }
+.fx-panel { display: grid; gap: 10px; padding: 16px 18px; border-radius: 8px; background: var(--arena-solid-1); border: 1px solid var(--arena-line); min-width: 0; }
+.fx-panel > header h2 { margin: 4px 0 0; font: 800 20px/1.1 var(--arena-font-display); text-transform: uppercase; color: var(--arena-ink); }
+.fx-actions ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.fx-actions li { display: grid; gap: 4px; padding: 10px 12px; border-radius: 6px; background: var(--arena-solid-2); border-left: 3px solid var(--arena-info); }
+.fx-actions li[data-tone="bad"] { border-left-color: var(--arena-neg); background: color-mix(in srgb, var(--arena-neg) 8%, var(--arena-solid-2)); }
+.fx-actions li[data-tone="warn"] { border-left-color: var(--arena-warn); }
+.fx-actions li small { font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--arena-faint); }
+.fx-actions li strong { font-size: 14px; color: var(--arena-ink); }
+.fx-actions li p { margin: 0; font-size: 12.5px; line-height: 1.45; color: var(--arena-muted); }
+.fx-actions li .hm-btn { justify-self: start; margin-top: 2px; }
+.fx-season { grid-column: 1 / -1; margin: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.fx-season > div { padding: 8px 12px; border-radius: 6px; background: var(--arena-solid-1); border: 1px solid var(--arena-line); }
+.fx-season dt { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--arena-faint); }
+.fx-season dd { margin: 2px 0 0; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--arena-ink); }
+.fc-band-area { fill: color-mix(in srgb, var(--arena-warn) 14%, transparent); stroke: none; }
+.fc-legend [data-kind="band"]::before { height: 10px; border: 0; background: color-mix(in srgb, var(--arena-warn) 30%, transparent); vertical-align: -1px; }
+
+.fx-budget { display: grid; gap: 10px; scroll-margin-top: 80px; padding: 16px 18px; border-radius: 8px; background: var(--arena-solid-1); border: 1px solid var(--arena-line); border-top: 3px solid var(--club-neon); }
+.fx-budget-grid { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+.fx-sliders { display: grid; gap: 10px; }
+.fx-slider { display: grid; gap: 8px; padding: 12px 14px; border-radius: 6px; background: var(--arena-solid-2); }
+.fx-slider[data-locked] { opacity: .85; }
+.fx-slider-head { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; font-size: 13px; color: var(--arena-ink); }
+.fx-slider-head span { font-variant-numeric: tabular-nums; color: var(--arena-muted); }
+.fx-track { position: relative; padding: 6px 0; }
+.fx-track input[type="range"] { width: 100%; accent-color: var(--club-neon); }
+.fx-track input[type="range"]:focus-visible { outline: 2px solid var(--club-neon); outline-offset: 4px; }
+.fx-mark { position: absolute; top: 0; bottom: 0; width: 2px; margin-left: -1px; background: var(--arena-ink-2); pointer-events: none; }
+.fx-mark[data-mark="plan"] { background: var(--arena-gold); }
+.fx-track-scale { display: flex; justify-content: space-between; gap: 10px; font-size: 11px; color: var(--arena-muted); }
+.fx-steppers { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.fx-margin { display: grid; gap: 8px; padding: 12px 14px; border-radius: 6px; background: var(--arena-solid-2); }
+.fx-margin > small { font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--arena-faint); }
+.fx-margin > strong { font: 800 22px/1 var(--arena-font-display); font-variant-numeric: tabular-nums; color: var(--arena-ink); }
+.fx-margin dl { margin: 0; display: grid; gap: 6px; }
+.fx-margin dl > div { display: flex; justify-content: space-between; gap: 8px; font-size: 13px; }
+.fx-margin dt { color: var(--arena-muted); }
+.fx-margin dd { margin: 0; display: grid; justify-items: end; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--arena-ink); }
+.fx-margin dd small { font-size: 11px; font-weight: 500; color: var(--arena-faint); }
+.fx-preview { margin: 0; padding: 8px 10px; border-radius: 6px; font-size: 12.5px; line-height: 1.45; background: color-mix(in srgb, var(--club-neon) 10%, transparent); color: var(--arena-ink); }
+
+.fx-details { display: grid; gap: 8px; }
+.fx-detail { border-radius: 8px; background: var(--arena-solid-1); border: 1px solid var(--arena-line); scroll-margin-top: 80px; }
+.fx-detail > summary { cursor: pointer; padding: 12px 16px; font: 800 15px/1.1 var(--arena-font-display); text-transform: uppercase; letter-spacing: .03em; color: var(--arena-ink); }
+.fx-detail > summary:focus-visible { outline: 2px solid var(--club-neon); outline-offset: -2px; }
+.fx-detail-body { display: grid; gap: 14px; padding: 4px 16px 16px; }
+.fx-detail-body h3 { margin: 0 0 8px; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--arena-faint); }
+.fx-two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.fx-flows { display: grid; gap: 16px; }
+.fx-gauges { list-style: none; margin: 0; padding: 0 0 4px; display: flex; gap: 8px; overflow-x: auto; scrollbar-width: thin; }
+.fx-gauges li { flex: none; }
+.fx-gauges a { display: grid; justify-items: center; gap: 4px; width: 84px; padding: 8px 6px; border-radius: 6px; background: var(--arena-solid-2); border: 1px solid var(--arena-line); color: var(--arena-ink); text-decoration: none; }
+.fx-gauges li[data-derby] a { border-color: var(--club-neon); box-shadow: 0 0 10px color-mix(in srgb, var(--club-neon) 30%, transparent); }
+.fx-gauges a:focus-visible, .fx-gauges a:hover { outline: 2px solid var(--club-neon); outline-offset: 1px; }
+.fx-gauge { position: relative; display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; background-image: conic-gradient(var(--arena-pos) var(--fill), var(--arena-solid-3) 0); }
+.fx-gauge::before { content: ""; position: absolute; inset: 6px; border-radius: 50%; background: var(--arena-solid-2); }
+.fx-gauge b { position: relative; font-size: 12px; font-variant-numeric: tabular-nums; }
+.fx-gauges small { font-size: 11px; color: var(--arena-muted); text-align: center; }
+.fx-gauge-detail { font-size: 10.5px; color: var(--arena-faint); font-variant-numeric: tabular-nums; opacity: 0; transition: opacity 140ms; }
+.fx-gauges a:is(:hover, :focus-visible) .fx-gauge-detail { opacity: 1; }
+@media (hover: none) { .fx-gauge-detail { opacity: 1; } }
+.fx-ledger { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.fx-ledger > li > button { width: 100%; display: grid; grid-template-columns: minmax(0, 1fr) 64px 110px 90px; gap: 10px; align-items: center; padding: 9px 12px; border-radius: 6px; border: 1px solid var(--arena-line); background: var(--arena-solid-2); color: var(--arena-ink); font: inherit; font-size: 13px; text-align: left; cursor: pointer; }
+.fx-ledger > li > button[aria-expanded="true"] { border-color: var(--club-neon); }
+.fx-ledger > li > button:focus-visible { outline: 2px solid var(--club-neon); outline-offset: 1px; }
+.fx-ledger b, .fx-ledger small { font-variant-numeric: tabular-nums; text-align: right; }
+.fx-ledger small { color: var(--arena-muted); }
+.fx-spark { width: 60px; height: 20px; }
+.fx-spark polyline { fill: none; stroke: var(--club-neon); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+.fx-statement { padding: 8px 4px 4px; overflow-x: auto; }
+.fx-wages { display: grid; gap: 10px; }
+.fx-links { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; }
+.fx-forecast { display: grid; gap: 12px; }
+.fx-assume { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+.fx-assume li { padding: 6px 10px; border-left: 3px solid var(--arena-info); font-size: 13px; line-height: 1.5; color: var(--arena-ink-2); }
+.fx-assume li[data-kind="estimate"] { border-left-color: var(--arena-warn); }
+.fx-assume li[data-kind="cost"] { border-left-color: var(--arena-neg); }
+.fx-assume li[data-kind="excluded"] { border-left-color: var(--arena-faint); }
+.fx-assume li[data-kind="bridge"] { border-left-color: var(--arena-gold); }
+.fx-subdetail > summary { cursor: pointer; font-weight: 700; font-size: 13px; color: var(--arena-ink); }
+.fx-forecast-months { list-style: none; margin: 8px 0; padding: 0; display: grid; gap: 4px; }
+.fx-forecast-months li { display: grid; grid-template-columns: 120px minmax(0, 1.4fr) minmax(0, 1.2fr) minmax(0, .9fr) 90px; gap: 8px; align-items: baseline; padding: 6px 10px; border-radius: 4px; background: var(--arena-solid-2); font-size: 12.5px; font-variant-numeric: tabular-nums; color: var(--arena-ink-2); }
+.fx-forecast-months em { color: var(--arena-warn); }
+.fx-forecast-months strong { text-align: right; color: var(--arena-ink); }
+
+@media (max-width: 1100px) {
+  .fx-cockpit, .fx-budget-grid { grid-template-columns: minmax(0, 1fr); }
+  .fx-forecast-months li { grid-template-columns: minmax(0, 1fr) auto; }
+  .fx-forecast-months li > span { grid-column: 1 / -1; }
+}
+@media (max-width: 760px) {
+  .fx-kpis { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 10px; padding-bottom: 4px; }
+  .fx-kpi { flex: 0 0 82%; scroll-snap-align: start; }
+  .fx-season { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .fx-two { grid-template-columns: minmax(0, 1fr); }
+  .fx-ledger > li > button { grid-template-columns: minmax(0, 1fr) auto; }
+  .fx-ledger .fx-spark, .fx-ledger small { display: none; }
+  .fx-track input[type="range"] { display: none; }
+  .fx-track .fx-mark { display: none; }
+  .fx-steppers .hm-btn { min-height: 44px; flex: 1; }
+}

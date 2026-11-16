@@ -1,0 +1,46 @@
+/* Arena Nights SYS-02a/02b -- player calibration editors (inside the Dev shell, components/dev/dev.css). */
+
+.hm-dev input[type="date"] {
+  background-color: var(--dev-bg); color: var(--dev-ink); border: 1px solid var(--dev-line-strong);
+  border-radius: 4px; padding: 3px 5px; font: inherit; font-family: var(--dev-mono); color-scheme: dark;
+}
+.hm-dev .ed-invalid, .hm-dev input.ed-invalid { border-color: var(--dev-neg); box-shadow: inset 0 0 0 1px var(--dev-neg); }
+.ed-num { width: 60px; }
+.ed-date { width: 132px; }
+.ed-tags { min-width: 150px; }
+
+.ed-filters { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; }
+.ed-filter { display: flex; flex-direction: column; gap: 3px; font: 600 11px/1.4 var(--dev-mono); letter-spacing: 0.04em; text-transform: uppercase; color: var(--dev-muted); }
+.ed-filter--grow { flex: 1 1 220px; }
+.ed-filter-count { margin-left: auto; color: var(--dev-muted); }
+
+.hm-dev .hm-sort-button { background-color: transparent; border: 0; padding: 0; color: inherit; font: inherit; cursor: pointer; text-transform: inherit; letter-spacing: inherit; }
+.ed-name { display: inline-flex; align-items: center; gap: 6px; }
+.ed-name a { color: var(--dev-ink); font-weight: 700; text-decoration: none; }
+.ed-name a:hover { text-decoration: underline; }
+.ed-mark { display: inline-block; width: 12px; text-align: center; font-weight: 700; }
+.ed-mark--dirty { color: var(--dev-flag); }
+.ed-mark--error { color: var(--dev-neg); }
+.ed-mark--saved { color: var(--dev-pos); }
+.ed-stars { display: flex; flex-direction: column; gap: 2px; }
+.ed-rowerr { margin-top: 2px; max-width: 180px; white-space: normal; color: var(--dev-neg); font-size: 11px; }
+.ed-id { font: 10px/1.4 var(--dev-mono); color: var(--dev-faint); }
+.ed-footnote { margin: 10px 0 0; color: var(--dev-muted); font-size: 12px; max-width: 110ch; }
+.ed-failed { color: var(--dev-neg); font-weight: 700; }
+
+/* SYS-02b diff-first detail. */
+.ed-fields { display: grid; grid-template-columns: minmax(130px, 1fr) minmax(0, 2fr); gap: 0; }
+.ed-fields > * { padding: 6px 12px; border-bottom: 1px solid var(--dev-line); min-width: 0; }
+.ed-fields dt { color: var(--dev-muted); }
+.ed-fields dd { margin: 0; overflow-wrap: anywhere; }
+.ed-fields .hm-dev-dirty { background-color: var(--dev-dirty); }
+.ed-form { display: flex; flex-direction: column; }
+.ed-form-row { display: grid; grid-template-columns: minmax(130px, 1fr) minmax(0, 2fr); align-items: center; gap: 8px; padding: 5px 12px; border-bottom: 1px solid var(--dev-line); }
+.ed-form-row > span { color: var(--dev-muted); }
+.ed-form-row input:not([type="checkbox"]), .ed-form-row select { width: 100%; }
+.ed-checks { display: flex; flex-wrap: wrap; gap: 8px; }
+.ed-checks label { display: inline-flex; align-items: center; gap: 4px; }
+.ed-section-label { padding: 8px 12px 4px; }
+.ed-diff-table td:nth-child(3) { color: var(--dev-faint); }
+.ed-diff-old { color: var(--dev-muted); text-decoration: line-through; }
+.ed-confirm { border-color: var(--dev-flag); }

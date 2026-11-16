@@ -14,6 +14,16 @@ import type { Competition } from "./types";
 export const COMPETITIONS: readonly Competition[] = [
   ...SWEDISH_DIVISION_2_COMPETITIONS,
   {
+    // Club Identity C4 ("the A-team always has priority"): when an A-team arrives in Division 2, its
+    // B-team gives way to Division 3. Division 3 is not simulated; it is a boundary, not a league.
+    id: "se_division3",
+    nation: "SWE",
+    tier: 2,
+    name: "Division 3",
+    outsideCareerWorld: true,
+    sourceNote: "Not simulated. Boundary below Division 2 used only for a B-team displaced by its A-team (Club Identity C4).",
+  },
+  {
     // HM-DATA-0.2: aligned to the real-world database's own competitionId
     // (data/real-world/sweden/2026-27/handbollsligan/*/roster-*.json),
     // rather than the earlier placeholder "swe-1".
@@ -129,9 +139,12 @@ export const COMPETITIONS: readonly Competition[] = [
     id: "hun-2",
     nation: "HUN",
     tier: 2,
-    name: "NB II",
-    officialName: "Nemzeti Bajnokság II",
-    sourceNote: "Verified: Wikipedia (2025–26 Nemzeti Bajnokság II).",
+    name: "NB I/B",
+    officialName: "Nemzeti Bajnokság I/B",
+    // Club Identity S6/T5: Hungary's men's second tier is NB I/B, the same real league as int-hun-2b
+    // (kept canonical because it is in the world pool). Both ids stay valid; nothing stored is rewritten.
+    canonicalCompetitionId: "int-hun-2b",
+    sourceNote: "Corrected (Club Identity S6): formerly labelled NB II. Its clubs play NB I/B (Wikipedia Eger-Eszterházy SzSE; Sofascore NB I/B 2025/26). Alias of int-hun-2b.",
   },
   {
     id: "svn-1",
@@ -189,7 +202,7 @@ export const COMPETITIONS: readonly Competition[] = [
     nation: "HUN",
     tier: 2,
     name: "NB I/B",
-    sourceNote: "HM-WORLD-PLAYER-POOL-1.0: Hungary's reserve/development tier feeding NB I -- distinct from the pre-existing hun-2 (NB II). From the international player pool source workbook (research snapshot 2026-08-27). Non-playable.",
+    sourceNote: "HM-WORLD-PLAYER-POOL-1.0: Hungary's second tier feeding NB I. From the international player pool source workbook (research snapshot 2026-08-27). Non-playable. Club Identity S6: canonical id for NB I/B; hun-2 is an alias of the same league.",
   },
   {
     id: "int-ita-1",

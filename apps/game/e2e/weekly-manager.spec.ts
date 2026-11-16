@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { enterCareerAfterLoad, newGameToManagerStep } from './matchPrep';
 const base=process.env.HM_QA_URL??'http://localhost:8795';
 
 test('weekly office links existing training, persists edits and shows daily Continue feedback',async({page})=>{
@@ -10,7 +11,7 @@ test('weekly office links existing training, persists edits and shows daily Cont
   await page.addInitScript(()=>{localStorage.setItem('hm_alpha_authorized','true');localStorage.setItem('hm_alpha_access_code','HBL-ALPHA-2026');});
   await page.setViewportSize({width:1600,height:1000});
   await page.goto(`${base}/new-game`);
-  for(let i=0;i<4;i++)await page.getByRole('button',{name:'N\u00e4sta \u2192',exact:true}).click();
+  await newGameToManagerStep(page);
   await page.getByPlaceholder('F\u00f6r- och efternamn').fill('Weekly Manager QA');
   await page.getByRole('combobox',{name:'Nationalitet',exact:true}).selectOption('SWE');
   await page.getByLabel('F\u00f6delsedatum',{exact:true}).fill('1985-01-15');
@@ -18,6 +19,7 @@ test('weekly office links existing training, persists edits and shows daily Cont
   await page.getByRole('radio',{name:'8 veckor f\u00f6re seriestart',exact:true}).check();
   await page.getByRole('button',{name:'STARTA KARRI\u00c4R',exact:true}).click();
   await page.waitForURL('**/career',{timeout:90000});
+  await enterCareerAfterLoad(page);
   const panel=page.locator('#weekly-manager');
   await expect(panel.getByRole('heading',{name:'Veckans managerplan'})).toBeVisible();
   await expect(panel.locator('time[datetime]')).toHaveCount(7);
@@ -39,10 +41,12 @@ test('weekly office links existing training, persists edits and shows daily Cont
   // The initial day starts unprocessed. An important event may stop Continue
   // on that same date; verify the completed tick rather than demanding a skip.
   await expect(page.locator('.game-progression-notice')).toBeVisible({timeout:30000});
-  await page.getByRole('link',{name:'Kontoret',exact:true}).click();
+  // ENT-09: the 'Kontoret' breadcrumb link is gone (real hub breadcrumb); the office home is the hub rail's 'Idag'.
+  const office=page.getByRole('navigation',{name:'Hubbar',exact:true}).getByRole('link',{name:'Idag',exact:true});
+  await office.click();
   await panel.locator('a.game-week-line').first().click();
   await expect(page.getByRole('combobox',{name:`Dagtyp ${date}`,exact:true})).toBeDisabled();
-  await page.getByRole('link',{name:'Kontoret',exact:true}).click();
+  await office.click();
   await expect(panel.getByRole('heading',{name:'Senaste \u00e5terkopplingen',exact:true})).toBeVisible();
   if(process.env.HM_QA_SCREENSHOT_DIR)await panel.screenshot({path:`${process.env.HM_QA_SCREENSHOT_DIR}/weekly-manager.png`});
   expect(errors).toEqual([]);

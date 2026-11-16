@@ -1,0 +1,226 @@
+[
+ {
+  "id": "se_club_alingsas_hk",
+  "name": "Alingsås HK",
+  "shortName": "Alingsås",
+  "city": "Alingsås",
+  "tier": "SE-1 Handbollsligan",
+  "competitionId": "se_handbollsligan_herr"
+ },
+ {
+  "id": "se_club_amo_hk",
+  "name": "Amo HK",
+  "shortName": "Amo",
+  "city": "Alstermo",
+  "tier": "SE-1 Handbollsligan",
+  "competitionId": "se_handbollsligan_herr"
+ },
+ {
+  "id": "se_club_hammarby_if_hf",
+  "name": "Hammarby IF HF",
+  "shortName": "Hammarby",
+  "city": "Stockholm",
+  "tier": "SE-1 Handbollsligan",
+  "competitionId": "se_handbollsligan_herr"
+ },
+ {
+  "id": "se_club_hf_karlskrona",
+  "name": "HF Karlskrona",
+  "shortName": "Karlskrona",
+  "city": "Karlskrona",
+  "tier": "SE-1 Handbollsligan",
+  "competitionId": "se_handbollsligan_herr"
+ },
+ {
+  "id": "se_club_hk_malmo",
+  "name": "HK Malmö",
+  "shortName": "Malmö",
+  "city": "Malmö",
+  "tier": "SE-1 Handbollsligan",
+  "competitionId": "se_handbollsligan_herr"
+ },
+ {
+  "id": "se_club_if_hallby_hk",
+  "name": "IF Hallby HK",
+  "shortName": "Hallby",
+  "city": "Jönköping",
+  "tier": "SE-1 Handbollsligan",
+  "competitionId": "se_handbollsligan_herr"
+ },
+ {
+  "id": "se_club_ifk_kristianstad",
+  "name": "IFK Kristianstad",
+  "shortName": "Kristianstad",
+  "city": "Kristianstad",
+  "tier": "SE-1 Handbollsligan",
+  "competitionId": "se_handbollsligan_herr"
+ },
+ {
+  "id": "se_club_ifk_skovde_hk",
+  "name": "IFK Skövde HK",
+  "shortName": "Skövde",
+  "city": "Skövde",
+  "tier": "SE-1 Handbollsligan",
+  "competitionId": "se_handbollsligan_herr"
+ },
+ {
+  "id": "se_club_ik_savehof",
+  "name": "IK Sävehof",
+  "shortName": "Sävehof",
+  "city": "Göteborg",
+  "tier": "SE-1 Handbollsligan",
+  "competitionId": "se_handbollsligan_herr"
+ },
+ {
+  "id": "se_club_lugi_hf",
+  "name": "Lugi HF",
+  "shortName": "Lugi",
+  "city": "Lund",
+  "tier": "SE-1 Handbollsligan",
+  "competitionId": "se_handbollsligan_herr"
+ },
+ {
+  "id": "se_club_ov_helsingborg",
+  "name": "OV Helsingborg",
+  "shortName": "OV Helsingborg",
+  "city": "Helsingborg",
+  "tier": "SE-1 Handbollsligan",
+  "competitionId": "se_handbollsligan_herr"
+ },
+ {
+  "id": "se_club_skanela_if",
+  "name": "Skånela IF",
+  "shortName": "Skånela",
+  "city": "Sigtuna",
+  "tier": "SE-1 Handbollsligan",
+  "competitionId": "se_handbollsligan_herr"
+ },
+ {
+  "id": "se_club_ystads_if_hf",
+  "name": "Ystads IF HF",
+  "shortName": "Ystad",
+  "city": "Ystad",
+  "tier": "SE-1 Handbollsligan",
+  "competitionId": "se_handbollsligan_herr"
+ },
+ {
+  "id": "se_club_onnereds_hk",
+  "name": "Önnereds HK",
+  "shortName": "Önnered",
+  "city": "Göteborg",
+  "tier": "SE-1 Handbollsligan",
+  "competitionId": "se_handbollsligan_herr"
+ },
+ {
+  "id": "swe2-aranas",
+  "name": "HK Aranäs",
+  "shortName": "Aranäs",
+  "city": "Kungsbacka",
+  "tier": "SE-2 Allsvenskan",
+  "competitionId": "swe-2"
+ },
+ {
+  "id": "swe2-drott",
+  "name": "HK Drott Halmstad",
+  "shortName": "Drott",
+  "city": "Halmstad",
+  "tier": "SE-2 Allsvenskan",
+  "competitionId": "swe-2"
+ },
+ {
+  "id": "swe2-guif",
+  "name": "Eskilstuna Guif IF",
+  "shortName": "Guif",
+  "city": "Eskilstuna",
+  "tier": "SE-2 Allsvenskan",
+  "competitionId": "swe-2"
+ },
+ {
+  "id": "swe2-h43lund",
+  "name": "H43 Lund HF",
+  "shortName": "H43",
+  "city": "Lund",
+  "tier": "SE-2 Allsvenskan",
+  "competitionId": "swe-2"
+ },
+ {
+  "id": "swe2-huddinge",
+  "name": "Huddinge HK",
+  "shortName": "Huddinge",
+  "city": "Huddinge",
+  "tier": "SE-2 Allsvenskan",
+  "competitionId": "swe-2"
+ },
+ {
+  "id": "swe2-kroppskultur",
+  "name": "GF Kroppskultur",
+  "shortName": "Kropps",
+  "city": "Uddevalla",
+  "tier": "SE-2 Allsvenskan",
+  "competitionId": "swe-2"
+ },
+ {
+  "id": "swe2-kungalv",
+  "name": "Kungälvs HK",
+  "shortName": "Kungälv",
+  "city": "Kungälv",
+  "tier": "SE-2 Allsvenskan",
+  "competitionId": "swe-2"
+ },
+ {
+  "id": "swe2-redbergslid",
+  "name": "Redbergslids IK",
+  "shortName": "Redbergslid",
+  "city": "Göteborg",
+  "tier": "SE-2 Allsvenskan",
+  "competitionId": "swe-2"
+ },
+ {
+  "id": "swe2-torslanda",
+  "name": "HK Torslanda Elit",
+  "shortName": "Torslanda",
+  "city": "Göteborg",
+  "tier": "SE-2 Allsvenskan",
+  "competitionId": "swe-2"
+ },
+ {
+  "id": "swe2-tumba",
+  "name": "IFK Tumba HK",
+  "shortName": "IFK Tumba",
+  "city": "Tumba",
+  "tier": "SE-2 Allsvenskan",
+  "competitionId": "swe-2"
+ },
+ {
+  "id": "swe2-tyreso",
+  "name": "Tyresö Handboll",
+  "shortName": "Tyresö",
+  "city": "Tyresö",
+  "tier": "SE-2 Allsvenskan",
+  "competitionId": "swe-2"
+ },
+ {
+  "id": "swe2-varberg",
+  "name": "HK Varberg",
+  "shortName": "Varberg",
+  "city": "Varberg",
+  "tier": "SE-2 Allsvenskan",
+  "competitionId": "swe-2"
+ },
+ {
+  "id": "swe2-vasterasirsta",
+  "name": "VästeråsIrsta HF",
+  "shortName": "V.Irsta",
+  "city": "Västerås",
+  "tier": "SE-2 Allsvenskan",
+  "competitionId": "swe-2"
+ },
+ {
+  "id": "swe2-ystad2",
+  "name": "IFK Ystad HK",
+  "shortName": "IFK Ystad",
+  "city": "Ystad",
+  "tier": "SE-2 Allsvenskan",
+  "competitionId": "swe-2"
+ }
+]

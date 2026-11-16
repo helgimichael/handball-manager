@@ -1,0 +1,96 @@
+/* Arena Nights 231 -- WLD-06 Calendar List View, WLD-06b calendar chips,
+   WLD-06a pre-season board. Dense rows on solid dark surfaces, tabular
+   figures, club neon only for selection, focus and the pinned next match. */
+.sc-list { display: grid; gap: 14px; min-width: 0; }
+.sc-list .hm-cal-views { justify-self: start; margin: 0; }
+
+/* Chips: time (single) + competition (multi, counted). */
+.sc-chips { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; }
+.sc-chip-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.sc-chip-row button { display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 4px 12px; border-radius: 16px; border: 1px solid var(--arena-line); background: transparent; color: var(--arena-ink-2); font: 600 12.5px/1 var(--arena-font-ui, inherit); cursor: pointer; }
+.sc-chip-row button span { font-size: 11px; color: var(--arena-faint); font-variant-numeric: tabular-nums; }
+.sc-chip-row button[aria-checked="true"], .sc-chip-row button[aria-pressed="true"] { border-color: var(--club-neon); background: var(--arena-solid-2); color: var(--arena-ink); }
+.sc-chip-row button[aria-pressed="true"] span { color: var(--club-neon); }
+.sc-chip-row button:focus-visible, .sc-days button:focus-visible { outline: 2px solid var(--club-neon); outline-offset: 2px; }
+.sc-chip-row .sc-chip-clear { border-style: dashed; color: var(--arena-muted); }
+
+/* Agenda */
+.sc-next { display: grid; gap: 6px; }
+.sc-agenda, .sc-agenda ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.sc-agenda { gap: 16px; }
+.sc-month { margin: 0 0 2px; font: 800 12px/1 var(--arena-font-display, inherit); text-transform: uppercase; letter-spacing: .1em; color: var(--arena-faint); border-bottom: 1px solid var(--arena-line); padding-bottom: 6px; }
+.sc-fixture { display: grid; grid-template-columns: 92px minmax(0, 1fr) 110px minmax(150px, auto); gap: 12px; align-items: center; padding: 10px 14px; border-radius: 6px; background: var(--arena-solid-1); border: 1px solid var(--arena-line); border-left: 4px solid var(--arena-line-strong, var(--arena-line)); min-width: 0; }
+.sc-fixture[data-clickable] { cursor: pointer; }
+.sc-fixture[data-clickable]:hover { background: var(--arena-solid-2); }
+.sc-fixture[data-outcome="W"] { border-left-color: var(--arena-pos); }
+.sc-fixture[data-outcome="D"] { border-left-color: var(--arena-warn); }
+.sc-fixture[data-outcome="L"] { border-left-color: var(--arena-neg); }
+.sc-fixture[data-pinned] { padding: 14px 16px; border-color: var(--club-neon); border-left-color: var(--club-neon); box-shadow: 0 0 22px -12px var(--club-neon); }
+.sc-date { display: grid; gap: 2px; font-variant-numeric: tabular-nums; }
+.sc-date b { font-size: 13px; color: var(--arena-ink); text-transform: capitalize; }
+.sc-date small { font-size: 11px; color: var(--arena-faint); }
+.sc-teams { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.sc-teams > div { display: grid; gap: 2px; min-width: 0; }
+.sc-opp { font-weight: 700; font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sc-fixture[data-pinned] .sc-opp { font-size: 17px; }
+.sc-teams small { font-size: 11.5px; color: var(--arena-muted); }
+.sc-type[data-type="CUP"], .sc-type[data-type="PLAYOFF"], .sc-type[data-type="QUALIFIER"] { color: var(--arena-warn); }
+.sc-type[data-type="FRIENDLY"] { color: var(--arena-info); }
+.sc-result { display: grid; justify-items: start; }
+.sc-result a { display: grid; gap: 1px; color: inherit; text-decoration: none; }
+.sc-score { font: 400 22px/1 var(--arena-font-display, inherit); color: var(--arena-ink); font-variant-numeric: tabular-nums; }
+.sc-result small { font-size: 11px; color: var(--arena-muted); }
+.sc-fixture[data-outcome="W"] .sc-result small { color: var(--arena-pos); }
+.sc-fixture[data-outcome="L"] .sc-result small { color: var(--arena-neg); }
+.sc-fixture[data-next] .sc-result small { color: var(--club-neon); font-weight: 700; }
+.sc-go { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end; font-size: 12.5px; }
+.sc-go > a:not(.hm-btn) { color: var(--arena-ink-2); }
+.sc-empty { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+
+/* Pre-season board + booking drawer */
+.sc-preseason { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; align-items: start; }
+.sc-preseason[data-drawer] { grid-template-columns: minmax(0, 8fr) minmax(300px, 4fr); }
+.sc-board { display: grid; gap: 10px; padding: 14px 16px; border-radius: 8px; background: var(--arena-solid-1); border: 1px solid var(--arena-line); border-top: 3px solid var(--arena-warn); min-width: 0; }
+.sc-board header h2 { margin: 0; font: 400 24px/1 var(--arena-font-display, inherit); text-transform: uppercase; color: var(--arena-ink); }
+.sc-board header p { margin: 4px 0 0; font-size: 13px; color: var(--arena-muted); }
+.sc-weeks, .sc-days { list-style: none; margin: 0; padding: 0; }
+.sc-weeks { display: grid; gap: 8px; }
+.sc-weeks > li { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 10px; align-items: start; }
+.sc-week-label { font-size: 11px; color: var(--arena-faint); text-transform: uppercase; letter-spacing: .06em; padding-top: 8px; }
+.sc-days { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
+.sc-days > li > button, .sc-days > li > div { display: grid; gap: 3px; width: 100%; min-height: 58px; box-sizing: border-box; padding: 6px 8px; border-radius: 5px; text-align: left; font: inherit; }
+.sc-days > li > button { border: 1px dashed var(--arena-line-strong, var(--arena-line)); background: transparent; color: var(--arena-muted); cursor: pointer; }
+.sc-days > li > button:hover, .sc-days > li > button[aria-pressed="true"] { border-style: solid; border-color: var(--club-neon); color: var(--arena-ink); background: var(--arena-solid-2); }
+.sc-days > li > div { border: 1px solid var(--arena-line); background: var(--arena-solid-2); color: var(--arena-ink-2); }
+.sc-days time { font-size: 11px; font-weight: 700; color: var(--arena-ink); text-transform: capitalize; font-variant-numeric: tabular-nums; }
+.sc-days span { font-size: 11px; line-height: 1.25; overflow-wrap: anywhere; }
+.sc-days span[data-kind="FRIENDLY"] { color: var(--arena-info); }
+.sc-days span[data-kind="CAMP"], .sc-days span[data-kind="TRIP"], .sc-days span[data-kind="TOURNAMENT"] { color: var(--arena-warn); }
+.sc-days span[data-kind="LEAGUE"], .sc-days span[data-kind="CUP"], .sc-days span[data-kind="QUALIFIER"], .sc-days span[data-kind="PLAYOFF"] { color: var(--arena-ink); font-weight: 700; }
+.sc-drawer { position: sticky; top: 12px; display: grid; gap: 10px; padding: 12px 14px; border-radius: 8px; background: var(--arena-solid-1); border: 1px solid var(--club-neon); min-width: 0; max-height: calc(100vh - 24px); overflow-y: auto; }
+.sc-drawer > header { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.sc-drawer > header strong { font-size: 14px; color: var(--arena-ink); text-transform: capitalize; }
+.sc-drawer .hm-plan-grid { grid-template-columns: minmax(0, 1fr); }
+
+@media (max-width: 1100px) {
+  .sc-preseason[data-drawer] { grid-template-columns: minmax(0, 1fr); }
+  .sc-drawer { position: static; max-height: none; }
+  .sc-fixture { grid-template-columns: 84px minmax(0, 1fr) 96px; }
+  .sc-go { grid-column: 1 / -1; justify-content: flex-start; }
+}
+@media (max-width: 700px) {
+  /* Agenda cards on the phone. */
+  .sc-fixture { grid-template-columns: minmax(0, 1fr) auto; gap: 6px 10px; }
+  .sc-date { grid-column: 1 / -1; display: flex; gap: 8px; align-items: baseline; }
+  .sc-teams { grid-column: 1; }
+  .sc-result { grid-column: 2; justify-items: end; }
+  .sc-chips { flex-direction: column; align-items: stretch; }
+  .sc-chip-row { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: thin; padding-bottom: 2px; }
+  .sc-chip-row button { flex: none; }
+  /* Slot list: one day per row; the booking form full screen. */
+  .sc-weeks > li { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .sc-week-label { padding-top: 0; }
+  .sc-days { grid-template-columns: minmax(0, 1fr); }
+  .sc-days > li > button, .sc-days > li > div { min-height: 0; grid-template-columns: 90px minmax(0, 1fr); align-items: baseline; }
+  .sc-drawer { position: fixed; inset: 0; z-index: 60; border-radius: 0; max-height: none; }
+}

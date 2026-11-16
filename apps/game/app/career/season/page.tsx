@@ -5,7 +5,16 @@
 // Svenska cupen, important fixtures, awards and, once the season is
 // decided, its Moment. Each competition carries its own identity
 // (components/season/CompetitionMark.tsx).
+// Arena Nights MGR-03 B "Path to Gold": your projected route first, then
+// the competitions as tabs; MGR-03a ghost SM bracket all season; MGR-03b gala
+// sequence once the season is complete.
 import Link from "next/link";
+import { useMemo, useState } from "react";
+import { PathToGold } from "@/components/season/PathToGold";
+import { GhostBracket } from "@/components/season/GhostBracket";
+import { GalaSequence } from "@/components/season/GalaSequence";
+import { buildSeasonPath, ghostBracket } from "@/lib/manager/seasonPath";
+import { buildGalaSequence } from "@/lib/manager/galaSequence";
 import { MomentHero, EventCard } from "@/components/experience/Moment";
 import { RouteLine, Stat } from "@/components/experience/primitives";
 import { CourtBackdrop } from "@/components/experience/CourtBackdrop";
@@ -14,6 +23,7 @@ import { CompetitionMark, competitionKeyOf, competitionStyle, COMPETITION_IDENTI
 import { BracketGrid, Crest, TieCard, clubName as name, tieStatus } from "@/components/season/Knockout";
 import { TROPHY_MOMENT_BACKDROP, TROPHY_STILL } from "@/components/season/seasonAssets";
 import { useCareer } from "@/lib/career/CareerContext";
+import { activeClubId } from "@/lib/manager/employment";
 import { getCareerPlayer } from "@/lib/career/careerWorld";
 import { formatGameDate } from "@/lib/career/dateUtils";
 import type { CareerState } from "@/lib/career/types";
@@ -41,74 +51,114 @@ function SectionHead({ competition, eyebrow, title, id, aside }: { competition: 
   );
 }
 
+type SeasonTab = "tables" | "sm" | "kval" | "cup" | "matches" | "gala" | "rules";
+
 export default function SeasonPage() {
   const { career } = useCareer();
   const outcome = career.seasonOutcome;
   const ties = Object.values(career.competitionTies ?? {});
-  const me = career.playerClubId;
+  const me = (activeClubId(career) ?? "");
   const leagues = [HANDBOLLSLIGAN, ALLSVENSKAN].filter((c) => hasLeagueCalendar(career, c));
   const upcoming = career.fixtures.filter((f) => !career.results[f.id] && (f.homeClubId === me || f.awayClubId === me || f.stage)).sort((a, b) => a.date.localeCompare(b.date)).slice(0, 6);
   const smTies = ties.filter((t) => t.competitionId === SM_SLUTSPEL);
   const kvalTies = ties.filter((t) => t.competitionId === KVAL_HBL || t.competitionId === KVAL_ALLSVENSKAN);
   const cupTies = ties.filter((t) => t.competitionId === SVENSKA_CUPEN);
+  const { path, bracket, gala } = useMemo(() => {
+    const tables: Record<string, ReturnType<typeof competitionTable>> = {};
+    for (const c of new Set([career.competitionId, ...[HANDBOLLSLIGAN, ALLSVENSKAN].filter((x) => hasLeagueCalendar(career, x))])) tables[c] = competitionTable(career, c);
+    const allTies = Object.values(career.competitionTies ?? {});
+    const input = { me: (activeClubId(career) ?? ""), competitionId: career.competitionId, phase: career.seasonOutcome?.phase, tables, ties: allTies };
+    return { path: buildSeasonPath(input), bracket: ghostBracket(input), gala: buildGalaSequence(career.seasonOutcome, (activeClubId(career) ?? ""), career.competitionId) };
+  }, [career]);
+  const tabs: { id: SeasonTab; label: string }[] = [
+    { id: "tables", label: "Tabeller" },
+    ...(bracket ? [{ id: "sm" as const, label: smTies.length ? "SM-slutspel" : "SM-slutspel · prognos" }] : []),
+    ...(kvalTies.length ? [{ id: "kval" as const, label: "Kval" }] : []),
+    ...(cupTies.length ? [{ id: "cup" as const, label: "Svenska cupen" }] : []),
+    { id: "matches", label: "Viktiga matcher" },
+    ...(outcome?.phase === "COMPLETE" && outcome.awards.length > 0 ? [{ id: "gala" as const, label: "Galan" }] : []),
+    { id: "rules", label: "Regler" },
+  ];
+  const defaultTab: SeasonTab = outcome?.phase === "POSTSEASON" && smTies.length ? "sm" : "tables";
+  const [picked, setTab] = useState<SeasonTab | null>(null);
+  const tab = picked && tabs.some((t) => t.id === picked) ? picked : defaultTab;
 
   return (
     <div className="ss-page">
       <SeasonHero career={career} />
       {outcome?.phase === "COMPLETE" && <SeasonVerdict career={career} />}
+      {gala && <GalaSequence career={career} gala={gala} />}
+      <PathToGold career={career} path={path} bracket={bracket} />
       {outcome?.phase !== "COMPLETE" && <NextStep career={career} />}
-      {outcome?.phase === "COMPLETE" && outcome.awards.length > 0 && <Awards career={career} />}
 
-      <Movement career={career} leagues={leagues} />
+      <div className="bd-tabs pg-tabs" role="tablist" aria-label="Säsongens tävlingar">
+        {tabs.map((t) => <button key={t.id} type="button" role="tab" aria-selected={tab === t.id} aria-controls="pg-panel" onClick={() => setTab(t.id)}>{t.label}</button>)}
+      </div>
 
-      {smTies.length > 0 && (
-        <section className="ss-section" data-comp="SM" style={competitionStyle("SM")} aria-labelledby="sm-title">
-          <SectionHead competition="SM" eyebrow="Plats 1–8 i Handbollsligan · bäst av fem · högre placerat lag har hemmaplan i match 1, 3 och 5" title="SM-slutspel" id="sm-title" aside={<Champion tie={smTies.find((t) => t.key === "F")} label="Svenska mästare" />} />
-          <BracketGrid career={career} ties={smTies} rounds={[["QF1", "QF2", "QF3", "QF4"], ["SF1", "SF2"], ["F"]]} roundLabels={["Kvartsfinal", "Semifinal", "Final"]} />
-          <p className="ss-note">Siffran bredvid laget är vunna matcher. Resultaten under varje möte visas med det högre placerade laget först; <em>fl</em> = avgjord i förlängning, <em>str</em> = avgjord på straffkast.</p>
-        </section>
-      )}
+      <div id="pg-panel" role="tabpanel" className="pg-panel">
+        {tab === "tables" && <>
+          <section className="ss-section" data-comp="HBL" style={competitionStyle("HBL")} aria-labelledby="tables-title">
+            <SectionHead competition={competitionKeyOf(career.competitionId)} eyebrow={`Grundserien · ${career.seasonId}`} title="Tabellerna" id="tables-title" />
+            <div className="ss-tables">{leagues.map((c) => <LeagueTable key={c} career={career} competitionId={c} />)}</div>
+            <p className="ss-note">Lika poäng skiljs åt på målskillnad, gjorda mål och sedan inbördes möten (TB §2:7). Zonerna följer SHF:s tävlingshandbok 2026/27.</p>
+          </section>
+          <Movement career={career} leagues={leagues} />
+        </>}
 
-      {kvalTies.length > 0 && (
-        <section className="ss-section" data-comp="KVAL" style={competitionStyle("KVAL")} aria-labelledby="kval-title">
-          <SectionHead competition="KVAL" eyebrow="Bäst av fem till Handbollsligan · bäst av tre till Allsvenskan" title="Kval" id="kval-title" />
-          {[KVAL_HBL, KVAL_ALLSVENSKAN].map((c) => { const list = kvalTies.filter((t) => t.competitionId === c).sort((a, b) => a.key.localeCompare(b.key)); return list.length ? (
-            <div key={c} className="ss-kval-group">
-              <h3 className="ss-round-label">{c === KVAL_HBL ? "Om en plats i Handbollsligan" : "Om en plats i Allsvenskan"}</h3>
-              <div className="ss-ties">{list.map((t) => <TieCard key={t.id} career={career} tie={t} />)}</div>
-            </div>
-          ) : null; })}
-        </section>
-      )}
-
-      {cupTies.length > 0 && <Cup career={career} ties={cupTies} />}
-
-      <section className="ss-section" data-comp="HBL" style={competitionStyle("HBL")} aria-labelledby="tables-title">
-        <SectionHead competition={competitionKeyOf(career.competitionId)} eyebrow={`Grundserien · ${career.seasonId}`} title="Tabellerna" id="tables-title" />
-        <div className="ss-tables">{leagues.map((c) => <LeagueTable key={c} career={career} competitionId={c} />)}</div>
-        <p className="ss-note">Lika poäng skiljs åt på målskillnad, gjorda mål och sedan inbördes möten (TB §2:7). Zonerna följer SHF:s tävlingshandbok 2026/27.</p>
-      </section>
-
-      <section className="ss-section" aria-labelledby="next-title">
-        <header className="ss-section-head"><div><span className="xp-eyebrow">Kommande</span><h2 id="next-title">Viktiga matcher</h2></div></header>
-        {upcoming.length === 0 ? <p className="hm-text-muted">Inga fler matcher den här säsongen.</p> : (
-          <ul className="ss-fixtures">{upcoming.map((f) => { const key = f.type === "PLAYOFF" ? "SM" : f.type === "QUALIFIER" ? "KVAL" : f.type === "CUP" ? "CUP" : competitionKeyOf(f.competitionId); return (
-            <li key={f.id} data-own={f.homeClubId === me || f.awayClubId === me} style={competitionStyle(key)}>
-              <time dateTime={f.date}>{formatGameDate(f.date)}</time>
-              <span className="ss-fixture-teams"><Crest id={f.homeClubId} />{name(f.homeClubId)} – {name(f.awayClubId)}<Crest id={f.awayClubId} /></span>
-              <span className="ss-comp-pill"><CompetitionMark competition={key} size={18} />{f.type === "PLAYOFF" ? `SM-slutspel · match ${f.stage?.game}` : f.type === "QUALIFIER" ? `Kval · match ${f.stage?.game}` : f.type === "CUP" ? "Svenska cupen" : LEAGUE_NAME(f.competitionId)}</span>
-            </li>
-          ); })}</ul>
+        {tab === "sm" && bracket && (
+          <section className="ss-section" data-comp="SM" style={competitionStyle("SM")} aria-labelledby="sm-title">
+            <SectionHead competition="SM" eyebrow="Plats 1–8 i Handbollsligan · bäst av fem · högre placerat lag har hemmaplan i match 1, 3 och 5" title="SM-slutspel" id="sm-title" aside={<Champion tie={smTies.find((t) => t.key === "F")} label="Svenska mästare" />} />
+            {smTies.length > 0 && !bracket.hypothetical ? (
+              <>
+                <BracketGrid career={career} ties={smTies} rounds={[["QF1", "QF2", "QF3", "QF4"], ["SF1", "SF2"], ["F"]]} roundLabels={["Kvartsfinal", "Semifinal", "Final"]} />
+                <p className="ss-note">Siffran bredvid laget är vunna matcher. Resultaten under varje möte visas med det högre placerade laget först; <em>fl</em> = avgjord i förlängning, <em>str</em> = avgjord på straffkast.</p>
+              </>
+            ) : <GhostBracket career={career} bracket={bracket} />}
+          </section>
         )}
-      </section>
 
-      <section className="ss-section ss-sources" aria-labelledby="rules-title">
-        <header className="ss-section-head"><div><span className="xp-eyebrow">Regler och källor</span><h2 id="rules-title">Så avgörs säsongen</h2></div></header>
-        <ul>
-          <li><b>Verifierat:</b> 14 lag i Handbollsligan/Allsvenskan och 12 i varje Division 1-grupp, 2–1–0 poäng, tabellordning ({LEAGUE_RULES.tiebreakProvenance.verified ? LEAGUE_RULES.tiebreakProvenance.source : ""}). SM-slutspel för plats 1–8, alla omgångar bäst av fem ({SM_SLUTSPEL_RULES.provenance.verified ? SM_SLUTSPEL_RULES.provenance.source : ""}). Kval och uppflyttning enligt tävlingshandboken §3:3. Oavgjort i slutspel och kval: 2×5 min förlängning två gånger, sedan straffkastning (THB §2:13).</li>
-          <li><b>Antaganden:</b> {SHOOTOUT_ASSUMPTION.verified ? "" : SHOOTOUT_ASSUMPTION.assumption} {CUP_RULES.assumptions.verified ? "" : CUP_RULES.assumptions.assumption} {PLAYOFF_BONUS_PROVENANCE.verified ? "" : PLAYOFF_BONUS_PROVENANCE.assumption}</li>
-        </ul>
-      </section>
+        {tab === "kval" && kvalTies.length > 0 && (
+          <section className="ss-section" data-comp="KVAL" style={competitionStyle("KVAL")} aria-labelledby="kval-title">
+            <SectionHead competition="KVAL" eyebrow="Bäst av fem till Handbollsligan · bäst av tre till Allsvenskan" title="Kval" id="kval-title" />
+            {[KVAL_HBL, KVAL_ALLSVENSKAN].map((c) => { const list = kvalTies.filter((t) => t.competitionId === c).sort((a, b) => a.key.localeCompare(b.key)); return list.length ? (
+              <div key={c} className="ss-kval-group">
+                <h3 className="ss-round-label">{c === KVAL_HBL ? "Om en plats i Handbollsligan" : "Om en plats i Allsvenskan"}</h3>
+                <div className="ss-ties">{list.map((t) => <TieCard key={t.id} career={career} tie={t} />)}</div>
+              </div>
+            ) : null; })}
+          </section>
+        )}
+
+        {tab === "cup" && cupTies.length > 0 && <Cup career={career} ties={cupTies} />}
+
+        {tab === "matches" && (
+          <section className="ss-section" aria-labelledby="next-title">
+            <header className="ss-section-head"><div><span className="xp-eyebrow">Kommande</span><h2 id="next-title">Viktiga matcher</h2></div></header>
+            {upcoming.length === 0 ? <p className="hm-text-muted">Inga fler matcher den här säsongen. <Link href="/career/history">Tidigare säsonger finns i säsongsböckerna →</Link></p> : (
+              <ul className="ss-fixtures">{upcoming.map((f) => { const key = f.type === "PLAYOFF" ? "SM" : f.type === "QUALIFIER" ? "KVAL" : f.type === "CUP" ? "CUP" : competitionKeyOf(f.competitionId); return (
+                <li key={f.id} data-own={f.homeClubId === me || f.awayClubId === me} style={competitionStyle(key)}>
+                  <time dateTime={f.date}>{formatGameDate(f.date)}</time>
+                  <span className="ss-fixture-teams"><Crest id={f.homeClubId} />{name(f.homeClubId)} – {name(f.awayClubId)}<Crest id={f.awayClubId} /></span>
+                  <span className="ss-comp-pill"><CompetitionMark competition={key} size={18} />{f.type === "PLAYOFF" ? `SM-slutspel · match ${f.stage?.game}` : f.type === "QUALIFIER" ? `Kval · match ${f.stage?.game}` : f.type === "CUP" ? "Svenska cupen" : LEAGUE_NAME(f.competitionId)}</span>
+                </li>
+              ); })}</ul>
+            )}
+          </section>
+        )}
+
+        {tab === "gala" && outcome?.phase === "COMPLETE" && outcome.awards.length > 0 && <Awards career={career} />}
+
+        {tab === "rules" && (
+          <section className="ss-section ss-sources" aria-labelledby="rules-title">
+            <header className="ss-section-head"><div><span className="xp-eyebrow">Regler och källor</span><h2 id="rules-title">Så avgörs säsongen</h2></div></header>
+            <ul>
+              <li><b>Verifierat:</b> 14 lag i Handbollsligan/Allsvenskan och 12 i varje Division 1-grupp, 2–1–0 poäng, tabellordning ({LEAGUE_RULES.tiebreakProvenance.verified ? LEAGUE_RULES.tiebreakProvenance.source : ""}). SM-slutspel för plats 1–8, alla omgångar bäst av fem ({SM_SLUTSPEL_RULES.provenance.verified ? SM_SLUTSPEL_RULES.provenance.source : ""}). Kval och uppflyttning enligt tävlingshandboken §3:3. Oavgjort i slutspel och kval: 2×5 min förlängning två gånger, sedan straffkastning (THB §2:13).</li>
+              <li><b>Antaganden:</b> {SHOOTOUT_ASSUMPTION.verified ? "" : SHOOTOUT_ASSUMPTION.assumption} {CUP_RULES.assumptions.verified ? "" : CUP_RULES.assumptions.assumption} {PLAYOFF_BONUS_PROVENANCE.verified ? "" : PLAYOFF_BONUS_PROVENANCE.assumption}</li>
+              <li><b>Prognoser:</b> Vägen till guld och slutspelsträdet före slutspelet visar vad som skulle hända om grundserien slutade i dag. De byts mot de riktiga mötena så fort de är lottade.</li>
+            </ul>
+          </section>
+        )}
+      </div>
     </div>
   );
 }
@@ -119,14 +169,14 @@ function Champion({ tie, label }: { tie?: CompetitionTie; label: string }) {
 }
 
 function myOpenTie(career: CareerState) {
-  const me = career.playerClubId;
+  const me = (activeClubId(career) ?? "");
   const mine = Object.values(career.competitionTies ?? {}).filter((t) => t.competitionId !== SVENSKA_CUPEN && (t.highClubId === me || t.lowClubId === me));
   return { open: mine.find((t) => !t.winnerClubId), last: mine.filter((t) => t.winnerClubId).sort((a, b) => b.fixtureIds.length - a.fixtureIds.length).at(-1), all: mine };
 }
 
 function SeasonHero({ career }: { career: CareerState }) {
   const o = career.seasonOutcome;
-  const me = career.playerClubId;
+  const me = (activeClubId(career) ?? "");
   const table = competitionTable(career, career.competitionId);
   const position = table.findIndex((r) => r.clubId === me) + 1;
   const row = table.find((r) => r.clubId === me);
@@ -164,7 +214,7 @@ function SeasonHero({ career }: { career: CareerState }) {
 
 /** "What happens next" for the manager's club, in one panel. */
 function NextStep({ career }: { career: CareerState }) {
-  const me = career.playerClubId;
+  const me = (activeClubId(career) ?? "");
   const o = career.seasonOutcome;
   const ties = Object.values(career.competitionTies ?? {});
   const { open, all } = myOpenTie(career);
@@ -285,7 +335,7 @@ function SeasonVerdict({ career }: { career: CareerState }) {
   return (
     <section className="ss-verdict" aria-label="Säsongens facit">
       {items.filter((i) => i.club).map((i) => (
-        <div key={i.label} className="ss-verdict-item" data-mine={i.club === career.playerClubId} style={competitionStyle(i.comp)}>
+        <div key={i.label} className="ss-verdict-item" data-mine={i.club === (activeClubId(career) ?? "")} style={competitionStyle(i.comp)}>
           <CompetitionMark competition={i.comp} size={30} />
           <span><small>{i.label}</small><b>{name(i.club)}</b></span>
           <Crest id={i.club} size={34} />
@@ -304,7 +354,7 @@ function LeagueTable({ career, competitionId }: { career: CareerState; competiti
       <h3><CompetitionMark competition={key} size={24} />{LEAGUE_NAME(competitionId)}</h3>
       <table className="hm-table ss-table">
         <thead><tr><th>#</th><th>Lag</th><th className="hm-table-num">M</th><th className="hm-table-num">+/−</th><th className="hm-table-num">P</th></tr></thead>
-        <tbody>{table.map((r, i) => { const z = zoneOf?.(i + 1); const nz = zoneOf?.(i + 2); return <tr key={r.clubId} data-zone={z?.zone} data-own={r.clubId === career.playerClubId} data-cut={!!nz && nz.zone !== z?.zone || (!nz && !!z && i < table.length - 1)}><td title={z?.label}>{i + 1}</td><td><Link href={`/career/clubs/${encodeURIComponent(r.clubId)}`} className="ss-club"><Crest id={r.clubId} />{name(r.clubId)}</Link></td><td className="hm-table-num">{r.played}</td><td className="hm-table-num">{r.goalDifference > 0 ? `+${r.goalDifference}` : r.goalDifference}</td><td className="hm-table-num"><b>{r.points}</b></td></tr>; })}</tbody>
+        <tbody>{table.map((r, i) => { const z = zoneOf?.(i + 1); const nz = zoneOf?.(i + 2); return <tr key={r.clubId} data-zone={z?.zone} data-own={r.clubId === (activeClubId(career) ?? "")} data-cut={!!nz && nz.zone !== z?.zone || (!nz && !!z && i < table.length - 1)}><td title={z?.label}>{i + 1}</td><td><Link href={`/career/clubs/${encodeURIComponent(r.clubId)}`} className="ss-club"><Crest id={r.clubId} />{name(r.clubId)}</Link></td><td className="hm-table-num">{r.played}</td><td className="hm-table-num">{r.goalDifference > 0 ? `+${r.goalDifference}` : r.goalDifference}</td><td className="hm-table-num"><b>{r.points}</b></td></tr>; })}</tbody>
       </table>
       <ul className="ss-legend">{competitionId === HANDBOLLSLIGAN ? <><li data-zone="playoff">1–8 SM-slutspel</li><li data-zone="kval">11–13 Kval</li><li data-zone="down">14 Nedflyttning</li></> : <><li data-zone="up">1 Uppflyttning</li><li data-zone="kval-up">2–4 Kval uppåt</li><li data-zone="kval">11–12 Kval nedåt</li><li data-zone="down">13–14 Nedflyttning</li></>}</ul>
     </div>
@@ -314,7 +364,7 @@ function LeagueTable({ career, competitionId }: { career: CareerState; competiti
 function Cup({ career, ties }: { career: CareerState; ties: CompetitionTie[] }) {
   const groups = ties.filter((t) => t.stage === "CUP_GROUP").sort((a, b) => a.key.localeCompare(b.key));
   const byKey = (k: string) => ties.find((t) => t.key === k);
-  const me = career.playerClubId;
+  const me = (activeClubId(career) ?? "");
   const myGroup = groups.find((g) => g.clubIds?.includes(me));
   return (
     <section className="ss-section" data-comp="CUP" style={competitionStyle("CUP")} aria-labelledby="cup-title">

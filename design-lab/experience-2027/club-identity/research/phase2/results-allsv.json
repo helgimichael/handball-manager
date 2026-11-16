@@ -1,0 +1,280 @@
+[
+ {
+  "id": "swe2-aranas", "name": "HK Aranäs",
+  "status": "VERIFIED", "confidence": 0.9,
+  "primary": "navy", "primaryMeasured": "#02163C",
+  "secondary": "white", "secondaryMeasured": null,
+  "accent": "royal-blue", "accentMeasured": null,
+  "pattern": "solid",
+  "crest": { "primary": "royal-blue", "secondary": "yellow", "note": "Round blue crest with yellow details; club colours navy/yellow. Yellow does not appear on the 2026/27 men's shirt." },
+  "description": "Dark navy Puma shirt with white sponsor text and lighter royal-blue cuff trim; navy shorts.",
+  "team": "men-A", "homeKit": true, "season": "2026/27", "photoDate": "2026-09-26",
+  "evidence": [
+   { "url": "https://www.hkaranas.se/nyheter/?ID=272332&NID=1364748", "type": "official-match-photo", "date": "2026-09-26",
+     "screenshot": "evidence/swe2-aranas-2.jpg", "observation": "Club report 'Seger i hemmapremiären' (men's home premiere, 34-31). Aranäs player #13 in a navy shirt with white text; the opponent (HK Torslanda crest) wears white with blue trim. Measured from the chest area." },
+   { "url": "https://www.hkaranas.se/nyheter/?ID=272332&NID=1366213", "type": "official-match-photo", "date": "2026-10-02",
+     "screenshot": "evidence/swe2-aranas-3.jpg", "observation": "Men's home match vs Redbergslid (32-33): Aranäs again in navy with white text at home." },
+   { "url": "https://www.hkaranas.se/start/?ID=272331", "type": "official-team-photo", "date": "2026",
+     "screenshot": "evidence/swe2-aranas-1.jpg", "observation": "'ARANÄS HERR 2026/2027' squad photo: the whole squad in dark navy shirts (the photo is colour-graded with a teal tint, so it was not used for the hex)." },
+   { "url": "https://www.hkaranas.se/", "type": "official-social", "date": "2026-11-10",
+     "screenshot": "evidence/swe2-aranas-4.jpg", "observation": "Homepage thumbnail of a team celebration in white shirts with blue; the team is not labelled (probably the women's team). Too small to measure reliably." }
+  ],
+  "womenDiffer": null,
+  "notes": "This reverses the prior PROBABLE white (from Wikipedia and youth data). In the 2026/27 season the men's home shirt is navy, shown in two official home-match photos plus the official squad photo. White with blue probably remains a club or alternative kit, and the homepage thumbnail suggests other teams use white, but the women's kit was not confirmed.",
+  "reviewReason": null
+ },
+ {
+  "id": "swe2-drott", "name": "HK Drott Halmstad",
+  "status": "VERIFIED", "confidence": 0.9,
+  "primary": "white", "primaryMeasured": "#E0E2E9",
+  "secondary": "red", "secondaryMeasured": null,
+  "accent": "black", "accentMeasured": null,
+  "pattern": "other",
+  "crest": { "primary": "red", "secondary": "white", "note": "The crest is red and white with a gold crown, star and wreath. The red on the shirt matches the crest." },
+  "description": "White Craft shirt; the collar has a black inner and a red outer ring, with a red side panel and a red/white stripe on the sleeve cuff.",
+  "team": "men-A", "homeKit": true, "season": "2026/27", "photoDate": "2026-07-27",
+  "evidence": [
+   { "url": "https://www.hkdrott.se/nyheter/2541287/arets-laguppstallning-herrar", "type": "official-team-photo", "date": "2026-07-27",
+     "screenshot": "evidence/swe2-drott-1.jpg", "observation": "Official 'HK DROTT HERR Laguppställning 2026/2027' graphic built on a match photo of #91 in the white 2026/27 Craft shirt with red/black collar and red side panel. The white was measured on the chest (#E0E2E9; a shaded area gives #CFD0DA). The red trim areas were too small to measure cleanly." }
+  ],
+  "womenDiffer": null,
+  "notes": "Consistent with the prior result. The red accent is now visually confirmed on the home shirt itself (collar, side panel, cuffs), not just as the textfärg. Away kit not observed this session.",
+  "reviewReason": null
+ },
+ {
+  "id": "swe2-guif", "name": "Eskilstuna Guif IF",
+  "status": "VERIFIED", "confidence": 0.92,
+  "primary": "red", "primaryMeasured": "#D33227",
+  "secondary": "dark-red", "secondaryMeasured": "#3E060C",
+  "accent": "dark-red", "accentMeasured": null,
+  "pattern": "other",
+  "crest": { "primary": "red", "secondary": "white", "note": "Round red/white 'GUIF' crest; the colours match the shirt." },
+  "description": "Red hummel shirt with dark-red (maroon) chevrons, collar and cuffs; dark-red/maroon shorts.",
+  "team": "men-A", "homeKit": true, "season": "2026/27 (shop); match photo from an earlier season", "photoDate": null,
+  "evidence": [
+   { "url": "https://www.guif.nu/nyhet/2023/klassikermote-vantar-obesegrade-guif-tar-emot-redbergslid/", "type": "official-match-photo", "date": "2026-10-30",
+     "screenshot": "evidence/swe2-guif-1.jpg", "observation": "Club preview of the men's home game vs Redbergslid, using a men's A-team celebration photo: red hummel shirts with dark-red chevrons and dark-red shorts. The sponsor layout ('logistik') differs from the 2026/27 shop shirt, so the photo is probably from an earlier season." },
+   { "url": "https://shop.guif.nu/product/2026-2027-match-hemma", "type": "shop-product", "date": "2026-11-13",
+     "screenshot": "evidence/swe2-guif-2.jpg", "observation": "'2026/2027 Match - Hemma' product: red hummel shirt (#B61F34 in the studio shot) with dark-red collar, cuffs and side panels, Sparbanken Mälardalen/Maxi/KFAST sponsors." }
+  ],
+  "womenDiffer": null,
+  "notes": "Club match photo of the men's team plus the official 2026/27 home-shirt product agree on red with dark-red trim. The shorts are dark red/maroon in the match photo, not black as in sv-wiki. The match photo is not from 2026/27 (different sponsors).",
+  "reviewReason": null
+ },
+ {
+  "id": "swe2-h43lund", "name": "H43 Lund HF",
+  "status": "PROBABLE", "confidence": 0.75,
+  "primary": "royal-blue", "primaryMeasured": "#083599",
+  "secondary": "white", "secondaryMeasured": null,
+  "accent": "white", "accentMeasured": null,
+  "pattern": "solid",
+  "crest": { "primary": "royal-blue", "secondary": "white", "note": "Blue/white 'H 43 LUND' crest; matches the shirt." },
+  "description": "Royal-blue hummel shirts with white chevrons and logos, blue shorts (club composite image).",
+  "team": "unknown", "homeKit": true, "season": "2026/27 (site artwork)", "photoDate": null,
+  "evidence": [
+   { "url": "https://www.h43lund.se/", "type": "official-social", "date": "2026-11-13",
+     "screenshot": "evidence/swe2-h43lund-2.jpg", "observation": "Homepage hero composite: adult men (upper left), women and youth players all in royal-blue hummel shirts and blue shorts. The image is heavily blue-graded, so the hex is approximate and the men in it are not certainly the current A-team." },
+   { "url": "https://www.h43lund.se/l/valkommen-till-h43-lund-tobias-lovet-linde/", "type": "official-team-photo", "date": "2026-11-05",
+     "screenshot": "evidence/swe2-h43lund-1.jpg", "observation": "Development-team coach in a blue hummel H43 shirt with Sparbanken Skåne sponsor (#163765 measured, studio light). It is not a men's A-team match shirt." }
+  ],
+  "womenDiffer": false,
+  "notes": "h43.se does not resolve; the official site is h43lund.se. The Herrar A and Herrtruppen pages have no photos, the shop page is empty, and news posts are graphics only (e.g. the Svenska Cupen derby poster). No men's A-team match photo was found. Every visual source shows blue, so blue is consistent with the sv-wiki prior.",
+  "reviewReason": "No men's A-team match or squad photo; colour from the club's blue-graded composite artwork only."
+ },
+ {
+  "id": "swe2-huddinge", "name": "Huddinge HK",
+  "status": "VERIFIED", "confidence": 0.88,
+  "primary": "royal-blue", "primaryMeasured": "#2E49B8",
+  "secondary": "white", "secondaryMeasured": null,
+  "accent": "white", "accentMeasured": null,
+  "pattern": "solid",
+  "crest": { "primary": "navy", "secondary": "white", "note": "Round navy/white 'HK' monogram crest; darker than the royal-blue shirt." },
+  "description": "Royal-blue adidas shirt with white three-stripe shoulders and white numbers; royal-blue shorts.",
+  "team": "men-A", "homeKit": true, "season": "2025/26 or 2026/27", "photoDate": null,
+  "evidence": [
+   { "url": "https://www.svenskalag.se/huddingehk-herrallsvenskan/truppen", "type": "official-team-photo", "date": "2026-11-13",
+     "screenshot": "evidence/swe2-huddinge-1.jpg", "observation": "Official Herr Allsvenskan squad photo: royal-blue adidas shirts and shorts; goalkeeper in black. Most shirt numbers (6, 8, 10, 11, 14, 19, 22, 24, 25, 27, 30, 44) match the current listed roster." }
+  ],
+  "womenDiffer": null,
+  "notes": "Blue confirms the prior; measured royal-blue rather than navy. The derby news item had a graphic poster only.",
+  "reviewReason": null
+ },
+ {
+  "id": "swe2-kroppskultur", "name": "GF Kroppskultur",
+  "status": "VERIFIED", "confidence": 0.85,
+  "primary": "green", "primaryMeasured": "#1D7F77",
+  "secondary": "white", "secondaryMeasured": null,
+  "accent": "white", "accentMeasured": null,
+  "pattern": "other",
+  "crest": { "primary": "green", "secondary": "white", "note": "Round green/white GFK crest; matches the shirt." },
+  "description": "Green hummel shirt with an all-over white star pattern and white chevrons; green shorts.",
+  "team": "men-A", "homeKit": true, "season": "2026/27", "photoDate": null,
+  "evidence": [
+   { "url": "https://www.kroppskultur.com/grupp/?ID=488197", "type": "official-team-photo", "date": "2026-11-13",
+     "screenshot": "evidence/swe2-kroppskultur-1.jpg", "observation": "Official HERR 'Truppen' squad photo: green star-patterned hummel shirts and green shorts. Shirt numbers match the current listed roster (1, 3, 4, 5, 7, 9, 11, 13, 15, 17, 19, 20, 21, 23, 24, 33)." },
+   { "url": "https://www.kroppskultur.com/", "type": "official-social", "date": "2026-11-13",
+     "screenshot": null, "observation": "Homepage hero: the mascot and young fans in the same green star-pattern shirt." }
+  ],
+  "womenDiffer": null,
+  "notes": "The official site is kroppskultur.com (the laget.se link is dead). The measured hue is teal-leaning (#1D7F77, hue ~175°). The studio photo on a white backdrop seems to have a cyan cast; the Kungälv squad photo, in the same style, shifts the same way. Shirt colour reads as green, and the club colour is #0D8548. The men's Bildgalleri is empty.",
+  "reviewReason": null
+ },
+ {
+  "id": "swe2-kungalv", "name": "Kungälvs HK",
+  "status": "VERIFIED", "confidence": 0.9,
+  "primary": "green", "primaryMeasured": "#219770",
+  "secondary": "black", "secondaryMeasured": "#1A1815",
+  "accent": "white", "accentMeasured": null,
+  "pattern": "solid",
+  "crest": { "primary": "green", "secondary": "white", "note": "Green/white KHK shield crest with 1970; matches the shirt." },
+  "description": "Green adidas shirt with white collar and white three-stripe shoulders; black shorts.",
+  "team": "men-A", "homeKit": true, "season": "2026/27", "photoDate": null,
+  "evidence": [
+   { "url": "https://kungalvhk.web.sportadmin.se/start/?ID=566266", "type": "official-team-photo", "date": "2026-11-13",
+     "screenshot": "evidence/swe2-kungalv-1.jpg", "observation": "Official 'Herrseniorer A' squad photo: green adidas shirts with white trim and black shorts; goalkeepers in red. Numbers 1 and 8 match the current listed roster." }
+  ],
+  "womenDiffer": null,
+  "notes": "The official site is kungalvhk.se (khk.se is Karlskrona's hockey club). Green with black shorts confirms the prior. The studio photo has a slight cyan cast; a shadowed area measures #219770, a brighter area #3EBD99.",
+  "reviewReason": null
+ },
+ {
+  "id": "swe2-redbergslid", "name": "Redbergslids IK",
+  "status": "VERIFIED", "confidence": 0.9,
+  "primary": "white", "primaryMeasured": "#D1D4DB",
+  "secondary": "royal-blue", "secondaryMeasured": "#4972B3",
+  "accent": "royal-blue", "accentMeasured": "#4972B3",
+  "pattern": "solid",
+  "crest": { "primary": "royal-blue", "secondary": "gold", "note": "Blue shield with a white diagonal 'RIK' band inside a gold wreath with two gold stars. The crest is blue/gold, but the shirt is white with blue." },
+  "description": "White hummel shirt with royal-blue collar, cuffs and chevrons; white shorts with blue trim.",
+  "team": "men-A", "homeKit": true, "season": "2025/26 (squad photo); 2026/27 (match photo)", "photoDate": "2026-11-07",
+  "evidence": [
+   { "url": "https://www.redbergslid.se/laget/", "type": "official-team-photo", "date": "2026-01",
+     "screenshot": "evidence/swe2-redbergslid-2.jpg", "observation": "Official 'Lagbild herrar 25-26': the squad in white shirts with blue trim and white shorts; goalkeepers in maroon." },
+   { "url": "https://www.redbergslid.se/stark-insats-gav-tva-poang-mot-ifk-ystad-borta/", "type": "official-match-photo", "date": "2026-11-07",
+     "screenshot": "evidence/swe2-redbergslid-1.jpg", "observation": "Men's match at IFK Ystad (away): #18 in a white shirt with royal-blue trim and white shorts. The blue trim was measured on the shorts (#4972B3)." }
+  ],
+  "womenDiffer": null,
+  "notes": "The 2026/27 match photo is from an away game, but Ystad plays in red. RIK also wore white at Aranäs (Aranäs in navy). Together with the official squad photo, this confirms white as the first-choice shirt. Blue is now confirmed on the shirt itself.",
+  "reviewReason": null
+ },
+ {
+  "id": "swe2-torslanda", "name": "HK Torslanda Elit",
+  "status": "UNCERTAIN", "confidence": 0.35,
+  "primary": null, "primaryMeasured": null,
+  "secondary": null, "secondaryMeasured": null,
+  "accent": null, "accentMeasured": null,
+  "pattern": "unknown",
+  "crest": { "primary": "red", "secondary": "royal-blue", "note": "Shield split red (left) and blue (right) with a white 'Torslanda HK' band and a football, inside a silver wreath." },
+  "description": "Men's A-team seen only in an away game: white shirt with royal-blue collar/trim and blue shorts. Home shirt not seen.",
+  "team": "men-A", "homeKit": false, "season": "2026/27", "photoDate": "2026-09-26",
+  "evidence": [
+   { "url": "https://www.hkaranas.se/nyheter/?ID=272332&NID=1364748", "type": "official-match-photo", "date": "2026-09-26",
+     "screenshot": "evidence/swe2-aranas-2.jpg", "observation": "HK Aranäs home premiere vs Torslanda (the Torslanda crest is on the score graphic and the shirt): a Torslanda player (#14) in a white shirt with royal-blue collar and blue shorts. The white area measures about #C0C4D0. This was Torslanda's away game." },
+   { "url": "https://www.svenskalag.se/torslandahk-hs", "type": "text", "date": "2026-11-13",
+     "screenshot": "evidence/swe2-torslanda-1.jpg", "observation": "Old Torslanda HK svenskalag site, dormant since 2019/20: the HS page is a placeholder with no team photos. The crest is red/blue." }
+  ],
+  "womenDiffer": null,
+  "notes": "No current club website was found (hktorslanda.se/.com and torslandahk.se do not resolve; the sportadmin subdomains redirect away). Youth teams register blue/blue at Partille Cup. White/blue at Aranäs shows the away or change kit only. The home shirt could be blue or red/blue, but nothing confirms either.",
+  "reviewReason": "Home shirt never observed; only an away white/blue kit and the red/blue crest are documented."
+ },
+ {
+  "id": "swe2-tumba", "name": "IFK Tumba HK",
+  "status": "VERIFIED", "confidence": 0.92,
+  "primary": "blue", "primaryMeasured": "#3C7BC4",
+  "secondary": "white", "secondaryMeasured": null,
+  "accent": "white", "accentMeasured": null,
+  "pattern": "other",
+  "crest": { "primary": "navy", "secondary": "white", "note": "Navy shield with white 'IFK TUMBA' band and star; darker than the mid-blue shirt." },
+  "description": "Mid/royal-blue shirt with a darker tonal blue pattern, white numbers and sponsors; black shorts.",
+  "team": "men-A", "homeKit": true, "season": "2026/27", "photoDate": null,
+  "evidence": [
+   { "url": "https://www.svenskalag.se/tumbahandboll-herr/truppen", "type": "official-team-photo", "date": "2026-11-13",
+     "screenshot": "evidence/swe2-tumba-1.jpg", "observation": "Official Herr Allsvenskan 'Truppen' squad photo: blue patterned shirts with white numbers and black shorts; goalkeepers in yellow. Shirt numbers (2, 6, 7, 8, 15, 17, 20, 22, 23, 24, 26, 34, 46, 71, 74, 78, 95) match the current roster list. The blue measures #3C7BC4 in good light and #225BA9 in shade." },
+   { "url": "https://www.svenskalag.se/tumbahandboll-damallsvenskan/truppen", "type": "official-team-photo", "date": "2025",
+     "screenshot": "evidence/swe2-tumba-2.jpg", "observation": "Women's 'Dam Div 1 Säsongen 2025-2026' squad photo: also blue shirts, so the colours match the men's." }
+  ],
+  "womenDiffer": false,
+  "notes": "The men's A-team page has the squad photo the prior lacked, which upgrades the result from PROBABLE. Men's match reports use graphic headers, not photos. The shirt is blue, not navy, and the crest is navier than the shirt.",
+  "reviewReason": null
+ },
+ {
+  "id": "swe2-tyreso", "name": "Tyresö Handboll",
+  "status": "VERIFIED", "confidence": 0.93,
+  "primary": "red", "primaryMeasured": "#D11C24",
+  "secondary": "yellow", "secondaryMeasured": "#C5A842",
+  "accent": "yellow", "accentMeasured": "#C5A842",
+  "pattern": "solid",
+  "crest": { "primary": "yellow", "secondary": "red", "note": "Round yellow crest with red band 'TYRESÖ HANDBOLL 11-11-11'. The crest is mainly yellow; the shirt is red with yellow trim." },
+  "description": "Red adidas shirt with yellow collar and yellow three-stripe shoulders; red shorts.",
+  "team": "men-A", "homeKit": true, "season": "2026/27", "photoDate": null,
+  "evidence": [
+   { "url": "https://www.tyresohandboll.se/start/?ID=324937", "type": "official-team-photo", "date": "2026",
+     "screenshot": "evidence/swe2-tyreso-1.jpg", "observation": "Official 'Tyresö Handboll HA Säsongen 2026-2027' squad photo: red shirts with yellow collar and shoulder stripes, red shorts; goalkeepers in beige. The yellow hex comes from the crest in the photo, because the stripes are too thin to measure." },
+   { "url": "https://www.tyresohandboll.se/", "type": "official-social", "date": "2026-11-13",
+     "screenshot": "evidence/swe2-tyreso-2.jpg", "observation": "Site header photo of senior men celebrating in red/yellow shirts." }
+  ],
+  "womenDiffer": null,
+  "notes": "This reverses the prior UNCERTAIN black, which came from a Lännasport shop listing only. The black Squadra 25 'Matchtröja Herr' is probably an away or alternative kit. Wikipedia's red/yellow was right.",
+  "reviewReason": null
+ },
+ {
+  "id": "swe2-varberg", "name": "HK Varberg",
+  "status": "PROBABLE", "confidence": 0.7,
+  "primary": "dark-green", "primaryMeasured": "#06574C",
+  "secondary": "white", "secondaryMeasured": null,
+  "accent": "white", "accentMeasured": null,
+  "pattern": "solid",
+  "crest": { "primary": "dark-green", "secondary": "white", "note": "Round dark-green/white crest with a handball player, 'HK VARBERG HANDBOLL 1973'; matches the shirt." },
+  "description": "Dark-green hummel shirt with white collar, cuffs and chevrons (Jan 2024 player photo).",
+  "team": "men-A", "homeKit": true, "season": "2023/24", "photoDate": "2024-01-17",
+  "evidence": [
+   { "url": "https://hkvarberg.myclub.se/site_node/7751/nyheter/triumf-i-tyreso/", "type": "official-team-photo", "date": "2024-01-17",
+     "screenshot": "evidence/swe2-varberg-1.jpg", "observation": "Men's A news thumbnail (240px) of player #2 in a dark-green hummel shirt with white collar/cuffs and Varbergs Sparbank/Wiken sponsors. The image is small and on a green background." },
+   { "url": "https://hkvarberg.myclub.se/menu/pages/27089/", "type": "text", "date": "2026-11-13",
+     "screenshot": null, "observation": "'Spelartruppen 2026/2027' is a text table only, with no photo." }
+  ],
+  "womenDiffer": null,
+  "notes": "The official site is hkvarberg.myclub.se. No 2026/27 men's photo was found: the press and squad pages are text, and match posters are graphics. Green confirms the prior (youth green/green), and the shade is dark green. The hex is from a small thumbnail and is teal-leaning.",
+  "reviewReason": "Only a January 2024 thumbnail of a men's player; no current-season men's image."
+ },
+ {
+  "id": "swe2-vasterasirsta", "name": "VästeråsIrsta HF",
+  "status": "VERIFIED", "confidence": 0.85,
+  "primary": "black", "primaryMeasured": "#222121",
+  "secondary": "white", "secondaryMeasured": null,
+  "accent": "white", "accentMeasured": null,
+  "pattern": "solid",
+  "crest": { "primary": "black", "secondary": "white", "note": "Black/white vertically striped pennant crest with a handball; matches the shirt." },
+  "description": "Black Kempa shirt with white numbers, sponsor text and white crest; black shorts.",
+  "team": "men-A", "homeKit": true, "season": "2026/27", "photoDate": "2026-11-02",
+  "evidence": [
+   { "url": "https://www.vasterasirsta.se/grupp/?ID=333450", "type": "official-team-photo", "date": "2026",
+     "screenshot": "evidence/swe2-vasterasirsta-2.jpg", "observation": "Official 'VästeråsIrsta HF Herr Säsongen 2026-2027' squad photo: black shirts with white text and black shorts; goalkeepers in red." },
+   { "url": "https://www.vasterasirsta.se/", "type": "official-match-photo", "date": "2026-11-02",
+     "screenshot": "evidence/swe2-vasterasirsta-1.jpg", "observation": "'Hemmamatch mot IFK Ystad' slide: men's #31 in the black Kempa shirt in a match; the opponent in the background wears white. The venue (home or away) is not stated." }
+  ],
+  "womenDiffer": null,
+  "notes": "This reverses the prior white ('vitsvart' came from a women's-team post). The men's 2026/27 first kit in the official squad photo and on the home-match promotion is black with white. Red appears only in small sponsor logos and the goalkeeper kit, so it is not a shirt accent. The women's kit was not checked.",
+  "reviewReason": null
+ },
+ {
+  "id": "swe2-ystad2", "name": "IFK Ystad HK",
+  "status": "VERIFIED", "confidence": 0.9,
+  "primary": "red", "primaryMeasured": "#B91A27",
+  "secondary": "black", "secondaryMeasured": "#301A17",
+  "accent": "black", "accentMeasured": null,
+  "pattern": "sleeves",
+  "crest": { "primary": "red", "secondary": "white", "note": "Red/white 'IFK' monogram crest with black outline; matches the shirt's red." },
+  "description": "Red shirt with black sleeves and shoulders (patterned black yoke); black shorts.",
+  "team": "men-A", "homeKit": true, "season": "2026/27", "photoDate": "2026-11-07",
+  "evidence": [
+   { "url": "https://www.ifkystad.se/grupp/?ID=271937", "type": "official-team-photo", "date": "2026",
+     "screenshot": "evidence/swe2-ystad2-1.jpg", "observation": "Official Elitlaget 'Truppen' squad photo: red shirts with black sleeves and shoulders, black shorts; goalkeepers in orange. Numbers 13, 20 and 29 match the listed roster." },
+   { "url": "https://www.ifkystad.se/", "type": "official-match-photo", "date": "2026-11-07",
+     "screenshot": "evidence/swe2-ystad2-2.jpg", "observation": "Match report graphic for IFK Ystad vs Redbergslid (home, 7 Nov 2026), over a photo of players in red shirts (red-tinted). The same match from RIK's side shows RIK in white, which is consistent with Ystad in red at home." }
+  ],
+  "womenDiffer": null,
+  "notes": "Red/black confirms the prior; the black is on the sleeves and yoke rather than only the shorts.",
+  "reviewReason": null
+ }
+]

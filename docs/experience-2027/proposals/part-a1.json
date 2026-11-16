@@ -1,0 +1,4831 @@
+[
+  {
+    "id": "ENT-01",
+    "protoKey": null,
+    "current": "A plain centred card ('Tidig testversion' / 'Handball Manager Alpha') with one code input blocks every route; the default code ships in the client bundle, so the gate is cosmetic.",
+    "recommendation": "A",
+    "reason": "The gate should disappear for public builds; while it exists it should cost one tap and already feel like the game. Folding it into the arena splash keeps the first impression branded without building a second title screen.",
+    "dependencies": [
+      "Env flag for alpha gate",
+      "ENT-02 backdrop asset"
+    ],
+    "priority": "P2",
+    "alternatives": [
+      {
+        "key": "A",
+        "name": "Ticket at the turnstile",
+        "concept": "The gate becomes the first frame of the title screen: dimmed arena backdrop, wordmark, and a small 'Ange testkod' ticket stub that tears away on success and reveals ENT-02 underneath.",
+        "layout": "Full-bleed ENT-02 backdrop blurred at 60%; centred ticket card (360px) with code field, Lås upp button and a one-line explanation of the alpha + where codes come from.",
+        "hierarchy": "1) Wordmark 2) code field 3) what the alpha is / how to get a code.",
+        "interactions": "Autofocus field, Enter submits, inline error (role=alert kept), success = ticket tear (200 ms, crossfade under reduced motion) into the title screen.",
+        "navigation": "Wraps the root layout as today; hands straight to ENT-02 with no reload. Env-gated wrapper so public builds skip it entirely.",
+        "desktop": "Ticket centred over blurred arena; title-screen buttons visible but inert behind it.",
+        "mobile": "Ticket docks to bottom third as a sheet so the keyboard does not cover the field; wordmark stays on top.",
+        "pros": [
+          "First impression is the product, not a form",
+          "Zero extra screens",
+          "Keeps current accessibility semantics"
+        ],
+        "cons": [
+          "Still a client-side cosmetic gate unless moved server-side"
+        ],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-02"
+        ],
+        "directions": [
+          "b",
+          "c"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "Blurred arena backdrop + wordmark|12|media"
+            ],
+            [
+              "Ticket: code field + Lås upp|4|form",
+              "About the alpha|4|panel"
+            ]
+          ],
+          "m": [
+            "Wordmark|hero",
+            "Bottom sheet: code field + Lås upp|form",
+            "About the alpha|panel"
+          ]
+        }
+      },
+      {
+        "key": "B",
+        "name": "Tester welcome letter",
+        "concept": "An editorial 'letter to testers' page: what is being tested this build, known issues, how feedback works, and the code field as the signature line.",
+        "layout": "Two columns: left letter (kicker, headline, 3 short paragraphs, known-issues list); right code card + feedback promise.",
+        "hierarchy": "1) Headline 2) code field 3) known issues.",
+        "interactions": "Code submit; collapsible known-issues; link to feedback (ENT-11).",
+        "navigation": "On success goes to ENT-02; content of the letter re-openable from ENT-11 help menu.",
+        "desktop": "Paper surface, 2-column letter.",
+        "mobile": "Single column, code card first, letter below.",
+        "pros": [
+          "Sets tester expectations",
+          "Reduces duplicate bug reports"
+        ],
+        "cons": [
+          "Adds reading before play",
+          "Needs per-build copy maintenance"
+        ],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-02",
+          "ENT-11"
+        ],
+        "directions": [
+          "c",
+          "a"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "Letter: what this build tests|8|panel",
+              "Code card|4|form"
+            ],
+            [
+              "Known issues|8|list",
+              "Feedback promise|4|panel"
+            ]
+          ],
+          "m": [
+            "Code card|form",
+            "Letter|panel",
+            "Known issues|list"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "ENT-02",
+    "protoKey": "entry",
+    "current": "Two-column hero: tagline, big HANDBALL MANAGER wordmark and a row of 12 procedural crests on the left; four large text buttons (NYTT SPEL / FORTSÄTT / LADDA SPEL / INSTÄLLNINGAR) on the right over a faint SVG court outline; internal 'GAME EXPERIENCE v2' footer.",
+    "recommendation": "C",
+    "reason": "Most sessions start here with an existing career, so the title screen should be about *your* club's current story, not a generic menu. Journal Cover makes Continue the hero with real state (week, next fixture, last result) while degrading gracefully to a new-player welcome; Arena Title is the stronger pick if the owner chooses identity B.",
+    "dependencies": [
+      "G1 base identity",
+      "Save summary metadata (club, season, next fixture, last result)",
+      "ENT-04",
+      "Club colour tokens (--club/--club-2)"
+    ],
+    "priority": "P0",
+    "alternatives": [
+      {
+        "key": "A",
+        "name": "Career Library",
+        "concept": "The title screen *is* your shelf of careers: the most recent save is a large 'resume' card, other saves are smaller cards, and New Game is the last card in the row. Menu items shrink to a quiet top-right utility row.",
+        "layout": "Top utility row (wordmark left; Inställningar, Ladda fil right). Main: hero resume card (8 cols: crest, club, 'Säsong 2026/27 · Omg 12', table position, last result, next fixture) + 'what happened since you left' list (4 cols). Below: card row of other saves + '+ Ny karriär' card.",
+        "hierarchy": "1) Fortsätt as Tumba HK (resume card) 2) since-you-left digest 3) other careers / new career.",
+        "interactions": "Enter = Fortsätt; arrow keys move across save cards; hover on a card shows mini season chart; '…' on a card opens Ladda / Exportera / Ta bort (routes to ENT-04a pattern).",
+        "navigation": "Replaces most of ENT-04 for players with ≤4 saves; \"Alla karriärer\" link to ENT-04 for more. New-game card → ENT-03, Fortsätt → DSH-01.",
+        "desktop": "Light, dense, keyboard-first; 12-col grid, no imagery beyond crests and a position sparkline.",
+        "mobile": "Resume card fills first screen with a thumb-zone 'Fortsätt' button; other saves as a horizontal snap row; utility row collapses to a ⋯ menu.",
+        "pros": [
+          "Fastest path back into the game (one key)",
+          "Shows real state, kills the \"which save was that?\" problem",
+          "Removes the need to visit Load Game for most players"
+        ],
+        "cons": [
+          "Least atmospheric first impression for new players",
+          "Needs save metadata (last result, position) cached at save time — needs new data: save-summary snapshot"
+        ],
+        "complexity": "M",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-04",
+          "ENT-03",
+          "DSH-01"
+        ],
+        "directions": [
+          "a"
+        ],
+        "patterns": [
+          "Continue button as heartbeat"
+        ],
+        "wire": {
+          "d": [
+            [
+              "Wordmark|3|nav",
+              "Utility: Inställningar · Ladda fil|9|nav"
+            ],
+            [
+              "Resume card: club, season, next match|8|hero",
+              "Since you left|4|list"
+            ],
+            [
+              "Other careers|9|cards",
+              "+ Ny karriär|3|cta"
+            ]
+          ],
+          "m": [
+            "Wordmark + ⋯|nav",
+            "Resume card|hero",
+            "Fortsätt (sticky)|cta",
+            "Other careers (swipe)|cards",
+            "+ Ny karriär|cta"
+          ]
+        }
+      },
+      {
+        "key": "B",
+        "name": "Arena Title",
+        "concept": "A cinematic broadcast opener: the last-played club's arena photograph in floodlight, its crest flying in, club colours tinting the light beams; menu is a broadcast lower-third. New players see a neutral Swedish handball arena and a crest wall of all playable clubs.",
+        "layout": "Full-bleed arena media; bottom-left lower-third with wordmark + club line; right edge vertical menu of 4 broadcast tabs (angled corners); ticker along the bottom with since-you-left headlines.",
+        "hierarchy": "1) Arena + crest (emotion) 2) FORTSÄTT tab with club name 3) ticker news.",
+        "interactions": "Ambient light sweep (paused under reduced motion); hover on menu tab previews (e.g. hovering Ladda spel fans out save crests); click Fortsätt triggers a camera push-in to DSH-01.",
+        "navigation": "Same 4 destinations as today; Fortsätt → DSH-01 with shared-element crest; Ladda → ENT-04 Arena variant.",
+        "desktop": "Video-game title feel; 16:9 hero, menu on the right third.",
+        "mobile": "Portrait crop of arena with crest centred; menu as stacked full-width broadcast bars at the bottom; ticker hidden.",
+        "pros": [
+          "Strongest emotional pull and screenshot value",
+          "Uses existing environment photography",
+          "Club colours make it personal immediately"
+        ],
+        "cons": [
+          "Asset hungry (per-club arena imagery needed for full effect — needs new data: arena image per club or fallback set)",
+          "Highest motion cost",
+          "Since-you-left content is secondary"
+        ],
+        "complexity": "L",
+        "perf": "High",
+        "worksWith": [
+          "ENT-04",
+          "ENT-03",
+          "DSH-01",
+          "ENT-12"
+        ],
+        "directions": [
+          "b"
+        ],
+        "patterns": [
+          "Broadcast camera / view switcher"
+        ],
+        "wire": {
+          "d": [
+            [
+              "Full-bleed arena + crest fly-in|12|media"
+            ],
+            [
+              "Lower-third: wordmark + club|7|hero",
+              "Menu tabs: Fortsätt / Nytt / Ladda / Inställningar|5|nav"
+            ],
+            [
+              "Ticker: since you left|12|timeline"
+            ]
+          ],
+          "m": [
+            "Arena portrait + crest|media",
+            "Wordmark|hero",
+            "Fortsätt bar|cta",
+            "Nytt spel · Ladda · Inställningar|nav"
+          ]
+        }
+      },
+      {
+        "key": "C",
+        "name": "Journal Cover",
+        "concept": "The title screen is the cover of your club's journal for this week: masthead 'HANDBALL MANAGER', issue line 'Vecka 12 · 2026/27', a lead headline generated from state ('Tumba reser till Kristianstad efter tre raka segrar'), a framed arena photo, and Fortsätt as the cover's call to action. No save → cover welcomes you: 'Välj din klubb. Skriv din historia.'",
+        "layout": "Masthead row; main split 7/5: left lead headline + standfirst + Fortsätt CTA, right framed photo with crest stamp; bottom strip of three briefs (last result, table position, next fixture) and a quiet menu line (Ny karriär · Alla karriärer · Inställningar).",
+        "hierarchy": "1) Headline about your club 2) Fortsätt 3) briefs and secondary menu.",
+        "interactions": "Fortsätt primary; 'Byt karriär' opens a small cover-flip of other saves (each save is a cover); paper→floodlight dim on Fortsätt as the transition into the career.",
+        "navigation": "Fortsätt → DSH-01 (Today's Paper continues the metaphor); Alla karriärer → ENT-04; Ny karriär → ENT-03.",
+        "desktop": "Paper surface, editorial grid, one curated photo.",
+        "mobile": "Vertical cover: masthead, photo, headline, Fortsätt pinned at the bottom; briefs as a 3-item list; menu line under it.",
+        "pros": [
+          "Answers 'where was I?' in one sentence",
+          "Continuity with existing paper/navy/signal identity",
+          "Cheaper than B (one photo, no motion system)",
+          "Distinctive — no competitor uses a cover"
+        ],
+        "cons": [
+          "Headline generation needs good copy templates",
+          "needs new data: save-summary snapshot (last result, position, next fixture) readable without opening the full save"
+        ],
+        "complexity": "M",
+        "perf": "Low",
+        "worksWith": [
+          "DSH-01",
+          "ENT-04",
+          "ENT-03"
+        ],
+        "directions": [
+          "c"
+        ],
+        "patterns": [
+          "Continue button as heartbeat",
+          "Era- or tier-skinned news"
+        ],
+        "wire": {
+          "d": [
+            [
+              "Masthead + issue line|12|nav"
+            ],
+            [
+              "Lead headline + standfirst + Fortsätt|7|hero",
+              "Framed arena photo + crest|5|media"
+            ],
+            [
+              "Briefs: last result · position · next match|9|cards",
+              "Ny karriär · Alla · Inställningar|3|nav"
+            ]
+          ],
+          "m": [
+            "Masthead|nav",
+            "Photo + crest|media",
+            "Headline|hero",
+            "Briefs|list",
+            "Fortsätt (sticky)|cta",
+            "Menu line|nav"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "ENT-03",
+    "protoKey": null,
+    "current": "Six-step CareerEntryFrame (Nationer → Ligor → Databas → Klubb → Manager → Starta) with a numbered left rail, choice-card grids in the centre, a live context column (126px crest, club facts, manager pass, world counters) and a sticky Back/Next footer.",
+    "recommendation": "C",
+    "reason": "Club choice is how the player identifies with their club, so it must come first and feel like a decision, not step 4 of a database wizard. 'Club first, contract last' collapses the six steps into three emotional beats (club → manager → signing) while keeping the world configuration available as an advanced drawer.",
+    "dependencies": [
+      "ENT-03d",
+      "ENT-03e",
+      "ENT-03f",
+      "ENT-12",
+      "Club preseason context (predicted, expectation, strengthVsLeague, economyLabel)",
+      "G1 base identity"
+    ],
+    "priority": "P0",
+    "alternatives": [
+      {
+        "key": "A",
+        "name": "Single-screen Setup Console",
+        "concept": "Everything on one scrollable page with a sticky summary: a club table you can sort by Förhandstips, Truppstyrka, Ekonomi; inline manager fields; preseason segmented control; Starta karriär in the summary bar. Power users finish in 30 seconds.",
+        "layout": "Left 8 cols: sortable club table (crest, club, serie, ort, arena, tips, förväntan, styrka ±, ekonomi). Right 4 cols sticky: selected club card + manager fields + preseason segmented control + Starta. 'Världen' (nations/leagues) collapsed above the table.",
+        "hierarchy": "1) Club table 2) selected club summary 3) manager + start.",
+        "interactions": "Sort/filter the table; arrow keys move selection, summary updates live; Världen drawer for nations/leagues with a live count of playable clubs.",
+        "navigation": "From ENT-02; Starta → ENT-12 → DSH-01. No step rail.",
+        "desktop": "Dense, fast, one screen.",
+        "mobile": "Club list as ranked cards (crest, name, tips, styrka); a bottom sheet holds manager + preseason + Starta once a club is picked.",
+        "pros": [
+          "Fastest setup",
+          "Comparing clubs on real numbers is easy",
+          "Removes the empty Databas step"
+        ],
+        "cons": [
+          "No ceremony — the club choice feels like a filter result",
+          "Manager identity becomes an afterthought"
+        ],
+        "complexity": "M",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-03d",
+          "ENT-12",
+          "DSH-01"
+        ],
+        "directions": [
+          "a"
+        ],
+        "patterns": [
+          "Density modes"
+        ],
+        "wire": {
+          "d": [
+            [
+              "Världen (collapsed)|12|panel"
+            ],
+            [
+              "Club table|8|table",
+              "Sticky: club card · manager · preseason · Starta|4|form"
+            ]
+          ],
+          "m": [
+            "Världen chip|nav",
+            "Club ranked cards|cards",
+            "Bottom sheet: manager + preseason + Starta|panel"
+          ]
+        }
+      },
+      {
+        "key": "B",
+        "name": "Draft Night",
+        "concept": "A broadcast \"choose your team\" sequence: a crest wall of every playable club in its own colours; selecting one swings the camera into that club's arena with a broadcast lower-third of facts; then a locker-room manager card; then a signing ceremony.",
+        "layout": "Step 1 full-bleed crest wall grouped Handbollsligan / Allsvenskan; Step 2 arena hero with club stats as broadcast graphics; Step 3 manager card on dark glass; Step 4 signing ceremony.",
+        "hierarchy": "1) Crests in club colours 2) selected club spotlight 3) proceed.",
+        "interactions": "Hover a crest lights it; click → spotlight transition; L/R to browse club spotlights; Välj klubben locks in; skippable motion.",
+        "navigation": "Linear 4 beats with a progress bug top-left; back always available; advanced world settings via gear icon.",
+        "desktop": "Immersive, 16:9 scenes.",
+        "mobile": "Swipeable full-screen club cards (one club per card, colour field + crest + 3 key facts); swipe up to select.",
+        "pros": [
+          "Maximum identification with the chosen club",
+          "Clubs differentiated by colour and arena at a glance"
+        ],
+        "cons": [
+          "Comparing clubs on numbers is harder",
+          "Needs arena imagery per club (needs new data: per-club arena photo or styled fallback)",
+          "Heavy motion"
+        ],
+        "complexity": "L",
+        "perf": "High",
+        "worksWith": [
+          "ENT-03d",
+          "ENT-03f",
+          "ENT-12"
+        ],
+        "directions": [
+          "b"
+        ],
+        "patterns": [
+          "Broadcast camera / view switcher"
+        ],
+        "wire": {
+          "d": [
+            [
+              "Progress bug|12|nav"
+            ],
+            [
+              "Crest wall: HBL / Allsvenskan|12|cards"
+            ],
+            [
+              "Club spotlight lower-third|8|hero",
+              "Key facts|4|panel"
+            ]
+          ],
+          "m": [
+            "Progress dots|nav",
+            "Swipe club cards|cards",
+            "Välj klubben|cta"
+          ]
+        }
+      },
+      {
+        "key": "C",
+        "name": "Club first, contract last",
+        "concept": "Three beats instead of six: 1 'Välj din hemmaplan' (club choice, with world settings as an advanced drawer), 2 'Vem är du?' (manager), 3 'Kontraktet' (preseason length + signing). The right context column becomes a growing club journal page that fills as you choose.",
+        "layout": "Top: 3-step progress line (Klubb · Manager · Kontrakt). Centre 8 cols: step content. Right 4 cols: living journal page (crest, club headline, facts, then manager byline, then mandate). Sticky footer Back / Next.",
+        "hierarchy": "1) The club decision 2) the journal page reflecting it 3) Next.",
+        "interactions": "Step 1 offers three lenses on the same clubs (ambition chips: Överleva / Utmana / Vinna; league toggle HBL/Allsvenskan); world settings drawer shows playable-club count; 'Signera' on step 3 triggers the ENT-03f signing moment.",
+        "navigation": "From ENT-02 Ny karriär; finishes into ENT-12 (club-themed loading) → DSH-01. Nations/leagues/Databas live in the drawer (ENT-03a/b/c merged).",
+        "desktop": "Paper three-zone frame kept (low migration cost) but with 3 steps and a richer right column.",
+        "mobile": "Step content full-width; the journal page becomes a collapsible header card showing crest + club name; footer CTA thumb-reachable.",
+        "pros": [
+          "Emotional choice first, chores hidden",
+          "Reuses CareerEntryFrame structure",
+          "Context column becomes a story, not a dl"
+        ],
+        "cons": [
+          "Advanced users must open the drawer to change nations",
+          "Journal headline copy needs templates"
+        ],
+        "complexity": "M",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-03d",
+          "ENT-03e",
+          "ENT-03f",
+          "ENT-12",
+          "DSH-01"
+        ],
+        "directions": [
+          "c",
+          "a"
+        ],
+        "patterns": [
+          "Scenario starts with 3 goals"
+        ],
+        "wire": {
+          "d": [
+            [
+              "Progress: Klubb · Manager · Kontrakt|12|nav"
+            ],
+            [
+              "Step content|8|cards",
+              "Living journal page|4|panel"
+            ],
+            [
+              "Back · hint · Next|12|cta"
+            ]
+          ],
+          "m": [
+            "Progress line|nav",
+            "Collapsible journal header|panel",
+            "Step content|cards",
+            "Sticky Next|cta"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "ENT-03a",
+    "protoKey": null,
+    "current": "Step 1 of the wizard: a grid of checkbox cards per nation (flag + code, name, '# ligor i urvalet', ✓ Vald / + Välj) plus a note card.",
+    "recommendation": "A",
+    "reason": "Only Swedish clubs are playable, so nation selection is a world-size setting, not a first decision. It belongs in an advanced 'Världen' drawer with sensible defaults.",
+    "dependencies": [
+      "ENT-03 restructure",
+      "ENT-03b"
+    ],
+    "priority": "P1",
+    "alternatives": [
+      {
+        "key": "A",
+        "name": "'Världen' advanced drawer",
+        "concept": "Nation selection moves into a right-side drawer opened from a 'Världen: 3 nationer · 5 ligor' chip on the club step; defaults pre-selected.",
+        "layout": "Drawer 420px: nation list with toggles and league count; footer shows simulated-world size (clubs, players).",
+        "hierarchy": "1) Defaults summary chip 2) nation toggles 3) world size.",
+        "interactions": "Toggle rows; Återställ standard; closing updates playable-club count on the club step.",
+        "navigation": "Opened from ENT-03d toolbar; never a step.",
+        "desktop": "Right drawer over the wizard.",
+        "mobile": "Full-height bottom sheet.",
+        "pros": [
+          "Removes a step",
+          "Keeps power-user control"
+        ],
+        "cons": [
+          "Less discoverable for players who care about world size"
+        ],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-03b",
+          "ENT-03d"
+        ],
+        "directions": [
+          "a",
+          "c"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "Club step (dimmed)|8|cards",
+              "Drawer: nations + world size|4|panel"
+            ]
+          ],
+          "m": [
+            "Bottom sheet: nation toggles|list",
+            "World size|panel"
+          ]
+        }
+      },
+      {
+        "key": "B",
+        "name": "World map selector",
+        "concept": "A stylised Europe map where nations light up when included; a counter shows leagues and clubs simulated.",
+        "layout": "Map 8 cols, selected list 4 cols.",
+        "hierarchy": "1) Map 2) counts.",
+        "interactions": "Click a country to toggle; hover shows its leagues.",
+        "navigation": "Inside the Världen drawer or as an optional screen.",
+        "desktop": "Map canvas.",
+        "mobile": "List fallback (map too small to tap reliably).",
+        "pros": [
+          "Visual sense of world scope"
+        ],
+        "cons": [
+          "Map asset for a low-stakes setting",
+          "Small countries hard to hit"
+        ],
+        "complexity": "M",
+        "perf": "Medium",
+        "worksWith": [
+          "ENT-03b"
+        ],
+        "directions": [
+          "b"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "Europe map|8|media",
+              "Selected nations|4|list"
+            ]
+          ],
+          "m": [
+            "Nation list|list"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "ENT-03b",
+    "protoKey": null,
+    "current": "Step 2: per-nation sections of league cards showing tier as a zero-padded number ('01'), club count and playable-club count; empty-state note when none is playable.",
+    "recommendation": "A",
+    "reason": "A pyramid makes the Swedish system (Handbollsligan over Allsvenskan, with kval between) legible and doubles as a teaching moment, while staying inside the advanced drawer.",
+    "dependencies": [
+      "ENT-03a drawer",
+      "Competition tier metadata"
+    ],
+    "priority": "P1",
+    "alternatives": [
+      {
+        "key": "A",
+        "name": "League pyramid",
+        "concept": "Each nation's leagues drawn as a stacked pyramid: Handbollsligan on top, Allsvenskan below, with kval arrows between tiers; playable tiers marked with a crest count.",
+        "layout": "One pyramid per nation, stacked; toggle on each tier row.",
+        "hierarchy": "1) Tier names 2) playable clubs 3) promotion/relegation links.",
+        "interactions": "Toggle a tier; hover the kval arrow explains promotion/relegation (glossary tooltip).",
+        "navigation": "Inside Världen drawer; changes update ENT-03d immediately.",
+        "desktop": "Pyramid in drawer.",
+        "mobile": "Stacked tier rows with indent by tier.",
+        "pros": [
+          "Teaches the league structure",
+          "Replaces bare tier numbers"
+        ],
+        "cons": [
+          "Needs promotion/relegation links per tier (exists for Sweden; other nations unverified)"
+        ],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-03a",
+          "ENT-03d"
+        ],
+        "directions": [
+          "a",
+          "c"
+        ],
+        "patterns": [
+          "In-game glossary",
+          "Nested lockable tooltips"
+        ],
+        "wire": {
+          "d": [
+            [
+              "Pyramid: Sverige|8|chart",
+              "Selection summary|4|panel"
+            ]
+          ],
+          "m": [
+            "Tier rows|list",
+            "Summary|panel"
+          ]
+        }
+      },
+      {
+        "key": "B",
+        "name": "Inline league chips on the club step",
+        "concept": "No league screen at all: league chips (Handbollsligan · Allsvenskan · +) sit above the club grid and filter it; adding non-Swedish leagues is in the Världen drawer.",
+        "layout": "Chip row above ENT-03d grid.",
+        "hierarchy": "1) Club grid 2) league filter.",
+        "interactions": "Toggle chips filters and includes leagues at once.",
+        "navigation": "Part of ENT-03d.",
+        "desktop": "Chip row.",
+        "mobile": "Horizontally scrolling chips.",
+        "pros": [
+          "Zero extra screens"
+        ],
+        "cons": [
+          "Conflates \"include in world\" with \"filter the list\""
+        ],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-03d"
+        ],
+        "directions": [
+          "a"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "League chips|12|nav"
+            ],
+            [
+              "Club grid|12|cards"
+            ]
+          ],
+          "m": [
+            "League chips|nav",
+            "Club cards|cards"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "ENT-03c",
+    "protoKey": null,
+    "current": "Step 3 'Databas': four MiniStat counters, the list of selected competitions and an explanatory note; asks nothing of the player.",
+    "recommendation": "A",
+    "reason": "A step with no decision should not exist. Its counts are useful as a footer of the world drawer.",
+    "dependencies": [
+      "ENT-03a drawer"
+    ],
+    "priority": "P1",
+    "alternatives": [
+      {
+        "key": "A",
+        "name": "Fold into drawer footer",
+        "concept": "Remove the step; the four counters (nationer, ligor, klubbar, spelare) become a one-line footer in the Världen drawer and a tooltip on the 'Världen' chip.",
+        "layout": "Single footer line.",
+        "hierarchy": "Tertiary.",
+        "interactions": "None beyond tooltip.",
+        "navigation": "Step removed from rail.",
+        "desktop": "Drawer footer.",
+        "mobile": "Sheet footer.",
+        "pros": [
+          "One fewer step"
+        ],
+        "cons": [
+          "Loses the \"this is a big world\" moment"
+        ],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-03a",
+          "ENT-03b"
+        ],
+        "directions": [
+          "a",
+          "c"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "Drawer content|12|panel"
+            ],
+            [
+              "Footer: 3 nationer · 5 ligor · 84 klubbar · 1 400 spelare|12|panel"
+            ]
+          ],
+          "m": [
+            "Sheet footer counts|panel"
+          ]
+        }
+      },
+      {
+        "key": "B",
+        "name": "World-building beat in the loading screen",
+        "concept": "Move the counters into ENT-12 while the world is generated ('Bygger 84 klubbar, 1 400 spelare…'), turning dead loading time into the summary.",
+        "layout": "Counters tick up on ENT-12.",
+        "hierarchy": "Secondary to club crest on ENT-12.",
+        "interactions": "Passive.",
+        "navigation": "Step removed.",
+        "desktop": "Counter strip on loading screen.",
+        "mobile": "Same strip, 2×2.",
+        "pros": [
+          "Uses waiting time",
+          "Keeps the scale moment"
+        ],
+        "cons": [
+          "Counts shown after the choice can no longer change"
+        ],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-12"
+        ],
+        "directions": [
+          "b",
+          "c"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "ENT-12 hero|12|hero"
+            ],
+            [
+              "Counters ticking|12|cards"
+            ]
+          ],
+          "m": [
+            "Loading hero|hero",
+            "Counters 2×2|cards"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "ENT-03d",
+    "protoKey": null,
+    "current": "Step 4: toolbar with count, a radio-card grid of ~30 near-identical text cards (48px crest, name, league, city · venue, heritage tag, 'Tips: 7:a · förväntan'), and a <details> list of non-playable clubs; the real differentiators (Truppstyrka mot serien, Ekonomi, Styrelsens förväntan) only appear in the right column after selection.",
+    "recommendation": "C",
+    "reason": "This is how the player identifies with their club. The ambition-led Club Wall puts club colour and identity first, shows the real differentiators on every tile, and frames the choice as a challenge type (Överleva / Utmana / Vinna) — the 'scenario with three goals' pattern built purely from existing preseason context.",
+    "dependencies": [
+      "Club preseason context (predicted, clubsInLeague, expectation, strengthVsLeague, economyLabel)",
+      "Club colours (primaryColor + secondary)",
+      "ENT-03 restructure",
+      "ClubCrest component"
+    ],
+    "priority": "P0",
+    "alternatives": [
+      {
+        "key": "A",
+        "name": "Comparison table + spotlight",
+        "concept": "A sortable club table with every differentiator as a column, inline bars for Truppstyrka ± and Ekonomi, and a spotlight card on the right for the selected row.",
+        "layout": "Table 8 cols (crest, klubb, serie, ort, arena · platser, tips x/14, förväntan, styrka ± bar, ekonomi); spotlight 4 cols (126px crest, heritage line, facts, Välj).",
+        "hierarchy": "1) Sorted table 2) selected spotlight 3) Välj.",
+        "interactions": "Sort any column; filter HBL/Allsvenskan; arrow keys + Enter; compare two clubs by shift-click (side-by-side spotlight).",
+        "navigation": "Next → ENT-03e.",
+        "desktop": "Dense table.",
+        "mobile": "Ranked cards with crest, name, tips and styrka bar; tap = spotlight bottom sheet.",
+        "pros": [
+          "Best for informed choice",
+          "All differentiators visible without clicking"
+        ],
+        "cons": [
+          "Feels like a spreadsheet at the most emotional moment"
+        ],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-03e",
+          "CLB-04"
+        ],
+        "directions": [
+          "a"
+        ],
+        "patterns": [
+          "Density modes",
+          "Bulk actions + notes on entities"
+        ],
+        "wire": {
+          "d": [
+            [
+              "Filters: serie · ambition|12|nav"
+            ],
+            [
+              "Club table|8|table",
+              "Spotlight card|4|panel"
+            ]
+          ],
+          "m": [
+            "Filter chips|nav",
+            "Ranked club cards|cards",
+            "Bottom sheet: spotlight + Välj|panel"
+          ]
+        }
+      },
+      {
+        "key": "B",
+        "name": "Map of Sweden",
+        "concept": "Clubs placed on a stylised map of Sweden as crest pins in club colours; clustering in Skåne, Stockholm, Göteborg tells the geography of Swedish handball. Selecting a pin opens a club postcard (arena, capacity, founded, heritage, tips).",
+        "layout": "Map 7 cols (tall), postcard 5 cols; league toggle overlay.",
+        "hierarchy": "1) Where in Sweden 2) the club postcard 3) Välj.",
+        "interactions": "Zoom into regions; pins filter by league; rivals within 50 km highlighted (derby hint).",
+        "navigation": "Next → ENT-03e.",
+        "desktop": "Map + postcard.",
+        "mobile": "Map as top half with region chips; postcards swipe horizontally beneath.",
+        "pros": [
+          "Strong local identity (home town)",
+          "Derby geography emerges naturally"
+        ],
+        "cons": [
+          "needs new data: club coordinates",
+          "Hard to compare strength/economy",
+          "Dense regions need clustering"
+        ],
+        "complexity": "L",
+        "perf": "Medium",
+        "worksWith": [
+          "ENT-03e",
+          "CLB-04"
+        ],
+        "directions": [
+          "b",
+          "c"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "Map of Sweden with crest pins|7|media",
+              "Club postcard|5|panel"
+            ]
+          ],
+          "m": [
+            "Region chips|nav",
+            "Map (half height)|media",
+            "Postcard swipe|cards",
+            "Välj|cta"
+          ]
+        }
+      },
+      {
+        "key": "C",
+        "name": "Club Wall by ambition",
+        "concept": "Every playable club is a colour tile (primary colour field, secondary stripe, crest, name, town) grouped by the challenge it offers — 'Vinna' (tipped top 3), 'Utmana' (mid-table, strength ≈ 0), 'Överleva' (tipped bottom / Allsvenskan climbers). Each tile shows three micro-meters: Förväntan, Truppstyrka ±, Ekonomi.",
+        "layout": "Top: ambition tabs + league toggle. Grid of colour tiles (4 per row desktop). Right 4 cols: living journal page that expands the selected club (heritage line, arena, founded, board expectation in a quote, Seriestart).",
+        "hierarchy": "1) Colour + crest (recognition) 2) ambition group (what kind of story) 3) micro-meters (informed choice).",
+        "interactions": "Hover tile = club colour floods the journal page header; click selects; 'Jämför' pins up to 3 tiles for a side-by-side; non-playable clubs shown greyed in an 'Övriga klubbar i världen' strip.",
+        "navigation": "Next → ENT-03e; the selected club's colours tint the rest of the wizard.",
+        "desktop": "Tile wall + journal column (CareerEntryFrame kept).",
+        "mobile": "Ambition tabs sticky; tiles 2 per row; tapping a tile expands it in place to show facts and a Välj button.",
+        "pros": [
+          "Club identity first, numbers second but present",
+          "Ambition framing cures blank-slate paralysis without new gameplay",
+          "Uses only existing context data"
+        ],
+        "cons": [
+          "Grouping thresholds need tuning",
+          "Club secondary colour may need curating for poor-contrast pairs"
+        ],
+        "complexity": "M",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-03",
+          "ENT-03e",
+          "ENT-03f",
+          "CLB-04"
+        ],
+        "directions": [
+          "c",
+          "b"
+        ],
+        "patterns": [
+          "Scenario starts with 3 goals",
+          "Hover cards for every entity"
+        ],
+        "wire": {
+          "d": [
+            [
+              "Ambition tabs: Vinna · Utmana · Överleva|8|nav",
+              "Serie toggle|4|nav"
+            ],
+            [
+              "Club colour tiles|8|cards",
+              "Journal page: selected club|4|panel"
+            ],
+            [
+              "Övriga klubbar i världen|12|list"
+            ]
+          ],
+          "m": [
+            "Ambition tabs (sticky)|nav",
+            "Colour tiles 2-up|cards",
+            "Expanded tile: facts + Välj|panel"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "ENT-03e",
+    "protoKey": null,
+    "current": "Step 5: three form fields (name, nationality select, date of birth) beside a 'Tränarbänken' pass card showing an initials monogram.",
+    "recommendation": "B",
+    "reason": "The manager pass is a strong existing metaphor; making it a credential the player fills in (with optional coaching philosophy as flavour) gives identity without inventing gameplay. A philosophy choice must stay cosmetic until a system exists.",
+    "dependencies": [
+      "ENT-03 restructure",
+      "Monogram/avatar component (G4 portrait strategy)"
+    ],
+    "priority": "P1",
+    "alternatives": [
+      {
+        "key": "A",
+        "name": "Plain form, live pass",
+        "concept": "Keep the three fields but make the pass card update live and larger; add a monogram colour taken from the chosen club.",
+        "layout": "Form 6 cols, pass 6 cols.",
+        "hierarchy": "1) Name 2) pass preview.",
+        "interactions": "Typing updates pass; nationality flag appears.",
+        "navigation": "→ ENT-03f.",
+        "desktop": "Side by side.",
+        "mobile": "Pass on top (compact), form below.",
+        "pros": [
+          "Minimal work",
+          "Fast"
+        ],
+        "cons": [
+          "Still identity-light"
+        ],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-03f",
+          "MGR-01"
+        ],
+        "directions": [
+          "a"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "Form: namn · nationalitet · född|6|form",
+              "Pass preview|6|panel"
+            ]
+          ],
+          "m": [
+            "Compact pass|panel",
+            "Form|form",
+            "Next|cta"
+          ]
+        }
+      },
+      {
+        "key": "B",
+        "name": "Accreditation pass",
+        "concept": "The manager fills in a sports-federation accreditation: photo slot (monogram or chosen avatar style), name, nationality, date of birth, and an optional 'Tränarfilosofi' line (e.g. 'Snabba omställningar', '6-0 och tålamod') printed on the pass as flavour text.",
+        "layout": "Large pass centred (credit-card ratio, club colours, lanyard), fields edit directly on the pass.",
+        "hierarchy": "1) The pass 2) name 3) optional philosophy.",
+        "interactions": "Click a field on the pass to edit in place; avatar style picker (monogram / silhouette variants); philosophy chosen from a short list or skipped.",
+        "navigation": "→ ENT-03f; the pass reappears in MGR-01 and the ENT-03f signing.",
+        "desktop": "Pass at 480px over the club-coloured background.",
+        "mobile": "Pass full-width, fields as stacked inputs under it.",
+        "pros": [
+          "Strong identity artefact reused later",
+          "No new gameplay required"
+        ],
+        "cons": [
+          "Philosophy is cosmetic — must be labelled so (needs new data: stored philosophy string)",
+          "Avatar choice depends on G4"
+        ],
+        "complexity": "M",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-03f",
+          "MGR-01"
+        ],
+        "directions": [
+          "b",
+          "c"
+        ],
+        "patterns": [
+          "Traits as personality"
+        ],
+        "wire": {
+          "d": [
+            [
+              "Accreditation pass (editable)|8|form",
+              "Avatar style + philosophy|4|panel"
+            ]
+          ],
+          "m": [
+            "Pass|form",
+            "Avatar style|panel",
+            "Next|cta"
+          ]
+        }
+      },
+      {
+        "key": "C",
+        "name": "Press release byline",
+        "concept": "The manager step is a draft press release from the chosen club: '[Klubben] presenterar [namn] som ny huvudtränare'. The player fills the blanks; a quote line is optional.",
+        "layout": "Editorial article 8 cols with inline fill-in fields; right 4 cols the club crest and date.",
+        "hierarchy": "1) Headline with your name 2) club 3) fields.",
+        "interactions": "Inline fields in text; preview toggles.",
+        "navigation": "→ ENT-03f; the release later seeds the first WLD-02 news item.",
+        "desktop": "Article column.",
+        "mobile": "Article full width; fields remain inline but larger.",
+        "pros": [
+          "Narrative continuity into Media",
+          "Tone fits identity C"
+        ],
+        "cons": [
+          "needs new data: first news item seeded from manager creation",
+          "Form fields in prose are less scannable"
+        ],
+        "complexity": "M",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-03f",
+          "WLD-02",
+          "MGR-01"
+        ],
+        "directions": [
+          "c"
+        ],
+        "patterns": [
+          "Era- or tier-skinned news"
+        ],
+        "wire": {
+          "d": [
+            [
+              "Press release with inline fields|8|form",
+              "Crest + date|4|panel"
+            ]
+          ],
+          "m": [
+            "Headline|hero",
+            "Inline fields|form",
+            "Next|cta"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "ENT-03f",
+    "protoKey": null,
+    "current": "Step 6: mandate banner ('Ditt uppdrag · 2026/27', manager name 'tar plats hos' club, 84px crest), radio grid of five preseason options with dates (8/6/4/2 weeks or first match) and a summary dl, then STARTA KARRIÄR.",
+    "recommendation": "B",
+    "reason": "The start of a career should be a moment. The signing ceremony uses the existing DEAL_SIGNED backdrop, keeps the preseason choice as a clear decision with dates, and makes STARTA a signature rather than a submit.",
+    "dependencies": [
+      "DEAL_SIGNED environment image",
+      "ENT-03e pass",
+      "ENT-12"
+    ],
+    "priority": "P1",
+    "alternatives": [
+      {
+        "key": "A",
+        "name": "Mandate summary",
+        "concept": "A clean confirmation: club + manager header, preseason as a horizontal timeline from today to Seriestart with the 5 options as stops, summary list, Starta.",
+        "layout": "Header 12; timeline 12; summary 8 + CTA 4.",
+        "hierarchy": "1) Timeline choice 2) summary 3) Starta.",
+        "interactions": "Drag/click stop on timeline; shows training weeks and friendlies window.",
+        "navigation": "→ ENT-12.",
+        "desktop": "Horizontal timeline.",
+        "mobile": "Vertical timeline list.",
+        "pros": [
+          "Preseason length becomes understandable in time"
+        ],
+        "cons": [
+          "Low ceremony"
+        ],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-12",
+          "WLD-06a"
+        ],
+        "directions": [
+          "a"
+        ],
+        "patterns": [
+          "Pre-season directive meeting"
+        ],
+        "wire": {
+          "d": [
+            [
+              "Club + manager header|12|hero"
+            ],
+            [
+              "Preseason timeline: 8v · 6v · 4v · 2v · första match|12|timeline"
+            ],
+            [
+              "Summary|8|panel",
+              "Starta karriär|4|cta"
+            ]
+          ],
+          "m": [
+            "Header|hero",
+            "Vertical timeline|timeline",
+            "Summary|panel",
+            "Starta|cta"
+          ]
+        }
+      },
+      {
+        "key": "B",
+        "name": "Signing ceremony",
+        "concept": "Floodlight moment on the DEAL_SIGNED backdrop: the contract document (club crest, 'Huvudtränare', season 2026/27, board expectation quote) with the preseason choice as a clause; the player signs by pressing and holding 'Signera' — then flash and crest stamp.",
+        "layout": "Full-bleed backdrop; centred contract card; clause section with 5 preseason radio chips and dates; signature line CTA.",
+        "hierarchy": "1) Contract with club 2) preseason clause 3) Signera.",
+        "interactions": "Press-and-hold to sign (keyboard: hold Enter / or plain click under reduced motion); stamp animation; skippable.",
+        "navigation": "→ ENT-12 themed with club colours.",
+        "desktop": "Cinematic card on photo.",
+        "mobile": "Contract scrolls; sticky signature bar at bottom.",
+        "pros": [
+          "Memorable start; reuses existing asset",
+          "Board expectation framed as stakes"
+        ],
+        "cons": [
+          "Hold-to-sign must have an accessible alternative"
+        ],
+        "complexity": "M",
+        "perf": "Medium",
+        "worksWith": [
+          "ENT-03e",
+          "ENT-12",
+          "CLB-05"
+        ],
+        "directions": [
+          "b",
+          "c"
+        ],
+        "patterns": [
+          "Pre-season directive meeting"
+        ],
+        "wire": {
+          "d": [
+            [
+              "DEAL_SIGNED backdrop|12|media"
+            ],
+            [
+              "Contract: club · role · expectation|8|panel",
+              "Preseason clause|4|form"
+            ],
+            [
+              "Signera (hold)|12|cta"
+            ]
+          ],
+          "m": [
+            "Backdrop strip|media",
+            "Contract|panel",
+            "Preseason chips|form",
+            "Sticky Signera|cta"
+          ]
+        }
+      },
+      {
+        "key": "C",
+        "name": "Board's first meeting",
+        "concept": "Framed as the first board meeting: the chair states expectation (from preseason context), budget label and a target; the manager answers by choosing preseason length ('Jag vill ha 6 veckor').",
+        "layout": "Dialogue column 8 (board portrait monogram + speech), response options 4.",
+        "hierarchy": "1) Board expectation 2) your answer.",
+        "interactions": "Choose a response = preseason option.",
+        "navigation": "→ ENT-12; meeting archived in CLB-05.",
+        "desktop": "Dialogue layout.",
+        "mobile": "Chat-like stack.",
+        "pros": [
+          "Sets season stakes as a ritual"
+        ],
+        "cons": [
+          "Risk of fake choice framing; must stay presentation only"
+        ],
+        "complexity": "M",
+        "perf": "Low",
+        "worksWith": [
+          "CLB-05",
+          "ENT-12"
+        ],
+        "directions": [
+          "c"
+        ],
+        "patterns": [
+          "Pre-season directive meeting",
+          "Staff as faces of systems"
+        ],
+        "wire": {
+          "d": [
+            [
+              "Board statement|8|panel",
+              "Your answer: preseason options|4|form"
+            ]
+          ],
+          "m": [
+            "Board statement|panel",
+            "Answer chips|form",
+            "Starta|cta"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "ENT-04",
+    "protoKey": "entry",
+    "current": "Same three-zone frame as New Game: rail with save count; a 6-column table (Manager, Klubb, Säsong, Speldatum as raw ISO, Senast spelad, actions); right context column with 126px crest, manager, facts and next match; delete is a two-step inline row.",
+    "recommendation": "C",
+    "reason": "Saves are careers, i.e. stories — cards with club colour, season progress and last result are far easier to recognise than a table row. Journal Cover keeps the B/C metaphor consistent with the title screen; Career Library (A) is the recommended fallback if the title screen goes A.",
+    "dependencies": [
+      "ENT-02 choice",
+      "Save-summary snapshot",
+      "ENT-04a",
+      "ENT-04b"
+    ],
+    "priority": "P1",
+    "alternatives": [
+      {
+        "key": "A",
+        "name": "Career Library",
+        "concept": "Saves as a sortable list of career rows with crest, club, manager, season progress bar (omgång 12/26), table position and last-played; selected row expands to a preview panel.",
+        "layout": "List 8 cols, preview 4 cols; toolbar with sort (Senast spelad / Klubb) and Importera fil.",
+        "hierarchy": "1) Most recent career 2) progress 3) actions.",
+        "interactions": "Arrow keys + Enter to load; ⋯ menu Exportera / Ta bort; drag a .json file anywhere to import.",
+        "navigation": "From ENT-02; Ladda → ENT-12 → DSH-01.",
+        "desktop": "List + preview.",
+        "mobile": "List rows only; tap = preview bottom sheet with Ladda.",
+        "pros": [
+          "Scales to many saves",
+          "Formatted dates and progress instead of ISO"
+        ],
+        "cons": [
+          "Little emotion"
+        ],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-02",
+          "ENT-04a",
+          "ENT-12"
+        ],
+        "directions": [
+          "a"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "Toolbar: sort · Importera|12|nav"
+            ],
+            [
+              "Career rows|8|list",
+              "Preview|4|panel"
+            ]
+          ],
+          "m": [
+            "Career rows|list",
+            "Bottom sheet: preview + Ladda|panel"
+          ]
+        }
+      },
+      {
+        "key": "B",
+        "name": "Arena Title",
+        "concept": "Saves as a carousel of club 'jerseys' / crest banners in club colours in a dark arena; centred card shows season, position, last result; Ladda is a broadcast button.",
+        "layout": "Horizontal carousel centred; info lower-third; actions row.",
+        "hierarchy": "1) Centred club 2) season state 3) Ladda.",
+        "interactions": "L/R arrows/swipe; Enter loads; hold Delete for ENT-04a.",
+        "navigation": "From ENT-02 Arena; → ENT-12.",
+        "desktop": "Carousel 3 visible.",
+        "mobile": "One full-width card per swipe.",
+        "pros": [
+          "Consistent with Arena title",
+          "Club colours make saves recognisable"
+        ],
+        "cons": [
+          "Poor for many saves",
+          "Hard to compare"
+        ],
+        "complexity": "M",
+        "perf": "Medium",
+        "worksWith": [
+          "ENT-02",
+          "ENT-12"
+        ],
+        "directions": [
+          "b"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "Save carousel|12|cards"
+            ],
+            [
+              "Lower-third: season state|8|hero",
+              "Ladda · ⋯|4|cta"
+            ]
+          ],
+          "m": [
+            "Swipe save card|cards",
+            "Ladda|cta"
+          ]
+        }
+      },
+      {
+        "key": "C",
+        "name": "Journal Cover",
+        "concept": "Each save is a journal cover on a shelf: masthead in club colours, the latest headline from that career, issue line ('Vecka 12 · 2026/27 · 3:a i HBL'). Select to open a spread with the last 5 results and next fixture.",
+        "layout": "Shelf grid of covers (3-4 per row); selected cover opens a right spread 5 cols.",
+        "hierarchy": "1) Covers (club colour + headline) 2) selected spread 3) Fortsätt karriären.",
+        "interactions": "Click cover → spread; Fortsätt; ⋯ Exportera / Ta bort (ENT-04a confirm with export offer); '+ Ny karriär' is a blank cover.",
+        "navigation": "From ENT-02; → ENT-12.",
+        "desktop": "Shelf + spread.",
+        "mobile": "Covers as a vertical list of half-height cards; spread as full-screen sheet.",
+        "pros": [
+          "Every save remembered by its story",
+          "Continuity with cover title screen"
+        ],
+        "cons": [
+          "needs new data: save-summary snapshot (latest headline, last results)"
+        ],
+        "complexity": "M",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-02",
+          "ENT-04a",
+          "ENT-12",
+          "DSH-01"
+        ],
+        "directions": [
+          "c"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "Shelf of covers|7|cards",
+              "Spread: last 5 · next match · Fortsätt|5|panel"
+            ]
+          ],
+          "m": [
+            "Cover cards|cards",
+            "Full-screen spread|panel",
+            "Fortsätt|cta"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "ENT-04a",
+    "protoKey": null,
+    "current": "An extra full-width table row with the question, club · date and two buttons (Behåll karriären / Ta bort karriären); deletion is permanent with no export prompt.",
+    "recommendation": "A",
+    "reason": "A permanent, unrecoverable delete deserves a real dialog that names what is lost and offers export first.",
+    "dependencies": [
+      "ENT-04",
+      "Export save function (exists in ENT-08b)"
+    ],
+    "priority": "P2",
+    "alternatives": [
+      {
+        "key": "A",
+        "name": "Consequence dialog with export",
+        "concept": "Modal that shows the club crest, season and play time, states 'Kan inte ångras', and offers 'Exportera först' as the primary safe action next to a destructive 'Ta bort'.",
+        "layout": "Small dialog: crest + summary, consequence line, buttons Exportera först · Behåll · Ta bort.",
+        "hierarchy": "1) What is deleted 2) Exportera först 3) Ta bort.",
+        "interactions": "Esc/Behåll closes; Ta bort requires typing club short name only for saves >1 season (optional).",
+        "navigation": "Returns to ENT-04.",
+        "desktop": "Centred dialog.",
+        "mobile": "Bottom sheet with stacked buttons, destructive last.",
+        "pros": [
+          "Prevents irreversible accidents"
+        ],
+        "cons": [
+          "One more click"
+        ],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-04"
+        ],
+        "directions": [
+          "a",
+          "b",
+          "c"
+        ],
+        "patterns": [
+          "Predictive consequence preview"
+        ],
+        "wire": {
+          "d": [
+            [
+              "Dialog: crest + summary + buttons|6|panel"
+            ]
+          ],
+          "m": [
+            "Bottom sheet: summary + buttons|panel"
+          ]
+        }
+      },
+      {
+        "key": "B",
+        "name": "Soft delete with undo",
+        "concept": "Deleting moves the save to 'Papperskorg' for 7 days with an Ångra toast; permanent deletion happens later or from the bin.",
+        "layout": "Toast + bin section at the bottom of ENT-04.",
+        "hierarchy": "1) Ångra toast.",
+        "interactions": "Ångra within toast; restore from bin.",
+        "navigation": "Bin visible in ENT-04.",
+        "desktop": "Toast bottom-left.",
+        "mobile": "Toast above bottom bar.",
+        "pros": [
+          "No modal friction",
+          "Recoverable"
+        ],
+        "cons": [
+          "needs new data: deletedAt flag on saves",
+          "Storage used longer"
+        ],
+        "complexity": "M",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-04"
+        ],
+        "directions": [
+          "a"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "Save list|12|list"
+            ],
+            [
+              "Papperskorg|12|list"
+            ]
+          ],
+          "m": [
+            "Save list|list",
+            "Toast: Ångra|panel"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "ENT-04b",
+    "protoKey": null,
+    "current": "Text blocks in the centre column (overline + heading + paragraph) for loading, empty and error; the context column swaps to matching copy; no skeletons.",
+    "recommendation": "A",
+    "reason": "Skeletons matching the chosen save layout remove layout jump; the empty state should be an invitation to the club choice, not a dead end.",
+    "dependencies": [
+      "ENT-04 layout choice",
+      "ENT-03"
+    ],
+    "priority": "P2",
+    "alternatives": [
+      {
+        "key": "A",
+        "name": "Skeleton saves + invitation",
+        "concept": "Loading = 3 skeleton save cards in final layout; empty = one large '+ Ny karriär' card with a teaser of the club wall (row of crests); error = card explaining IndexedDB in plain Swedish with Försök igen and Exportera-help link.",
+        "layout": "Same grid as ENT-04 final.",
+        "hierarchy": "Loading: shape; Empty: CTA; Error: cause + retry.",
+        "interactions": "Retry; Skapa en karriär.",
+        "navigation": "Empty → ENT-03.",
+        "desktop": "Grid skeletons.",
+        "mobile": "List skeletons.",
+        "pros": [
+          "No layout shift",
+          "Empty state sells the game"
+        ],
+        "cons": [],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-04",
+          "ENT-03"
+        ],
+        "directions": [
+          "a",
+          "c"
+        ],
+        "patterns": [
+          "Vague notifications"
+        ],
+        "wire": {
+          "d": [
+            [
+              "Skeleton save cards|12|cards"
+            ]
+          ],
+          "m": [
+            "Skeleton cards|cards"
+          ]
+        }
+      },
+      {
+        "key": "B",
+        "name": "Locker room states",
+        "concept": "Empty = empty locker room photo with 'Ingen har hängt upp sin tröja här än' and Ny karriär; error = dim arena with the error and retry.",
+        "layout": "Full-width media state.",
+        "hierarchy": "1) Image 2) message 3) CTA.",
+        "interactions": "CTA buttons.",
+        "navigation": "→ ENT-03.",
+        "desktop": "Media band.",
+        "mobile": "Portrait crop.",
+        "pros": [
+          "Atmospheric"
+        ],
+        "cons": [
+          "Asset need",
+          "Heavier for a rare state"
+        ],
+        "complexity": "S",
+        "perf": "Medium",
+        "worksWith": [
+          "ENT-04"
+        ],
+        "directions": [
+          "b"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "Empty locker room image + message|12|media"
+            ],
+            [
+              "Ny karriär|12|cta"
+            ]
+          ],
+          "m": [
+            "Image|media",
+            "Message + CTA|cta"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "ENT-05",
+    "protoKey": null,
+    "current": "A simple page with header and three plain sections: Valuta (EUR/SEK as link-styled radios), Matchhastighet select and an explanatory note; diverges from the in-career settings page (SYS-01).",
+    "recommendation": "A",
+    "reason": "One settings component used in and out of career removes the divergence and is the natural home for density, text size and reduced motion — accessibility settings that matter more than currency.",
+    "dependencies": [
+      "SYS-01",
+      "Density modes (G6)",
+      "Reduced-motion token"
+    ],
+    "priority": "P2",
+    "alternatives": [
+      {
+        "key": "A",
+        "name": "Unified settings panel",
+        "concept": "One settings component with sections Visning (density, textstorlek, rörelse, tema), Match (standardhastighet), Ekonomi (valuta with live sample amount), Data (export/import moved here); used on /settings and /career/settings.",
+        "layout": "Left section nav 3 cols, content 9 cols with grouped rows (label, control, live preview).",
+        "hierarchy": "1) Section 2) control 3) preview.",
+        "interactions": "Instant apply; reset per section; real radio inputs.",
+        "navigation": "Out of career from ENT-02; in career from user menu (ENT-08) — same component.",
+        "desktop": "Two-column settings.",
+        "mobile": "Section list → push detail.",
+        "pros": [
+          "One implementation",
+          "Accessibility settings added",
+          "Fixes link-as-radio semantics"
+        ],
+        "cons": [
+          "needs new data: persisted density/text-size/motion prefs"
+        ],
+        "complexity": "M",
+        "perf": "Low",
+        "worksWith": [
+          "SYS-01",
+          "ENT-02",
+          "ENT-08"
+        ],
+        "directions": [
+          "a",
+          "c"
+        ],
+        "patterns": [
+          "Density modes"
+        ],
+        "wire": {
+          "d": [
+            [
+              "Section nav|3|nav",
+              "Settings rows + live preview|9|form"
+            ]
+          ],
+          "m": [
+            "Section list|list",
+            "Detail rows|form"
+          ]
+        }
+      },
+      {
+        "key": "B",
+        "name": "Settings sheet over title",
+        "concept": "Settings open as a side sheet over the title screen instead of a separate page, so the arena/cover stays visible behind and changes (e.g. theme, density) preview live on it.",
+        "layout": "Right sheet 480px over ENT-02.",
+        "hierarchy": "1) Controls.",
+        "interactions": "Sheet open/close; live preview behind.",
+        "navigation": "No route change.",
+        "desktop": "Side sheet.",
+        "mobile": "Full-screen sheet.",
+        "pros": [
+          "Keeps atmosphere",
+          "Live preview of visual settings"
+        ],
+        "cons": [
+          "Different container than in-career page"
+        ],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-02"
+        ],
+        "directions": [
+          "b"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "Title screen (dimmed)|8|media",
+              "Settings sheet|4|form"
+            ]
+          ],
+          "m": [
+            "Full-screen sheet|form"
+          ]
+        }
+      },
+      {
+        "key": "C",
+        "name": "Manager's preferences card",
+        "concept": "Settings presented as a short 'så vill jag ha det' card with 4 plain-language toggles and an Avancerat expander.",
+        "layout": "Single column card.",
+        "hierarchy": "1) Top 4 toggles 2) Avancerat.",
+        "interactions": "Toggle, expand.",
+        "navigation": "Same route.",
+        "desktop": "Centred card.",
+        "mobile": "Full width.",
+        "pros": [
+          "Approachable"
+        ],
+        "cons": [
+          "Hides power settings"
+        ],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "SYS-01"
+        ],
+        "directions": [
+          "c"
+        ],
+        "patterns": [
+          "Settings sprawl"
+        ],
+        "wire": {
+          "d": [
+            [
+              "Preferences card|8|form"
+            ]
+          ],
+          "m": [
+            "Preferences card|form"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "ENT-06",
+    "protoKey": null,
+    "current": "STARKVIS portfolio navbar injected via shadow DOM (z-index 2147483000, 160px when revealed, 8px reveal edge) with 'Handball Manager · LAB', '← Tillbaka till Apps' and an app switcher in teal #00c2b3; initially visible.",
+    "recommendation": "A",
+    "reason": "Host chrome must never compete with the game. Hidden by default inside the career with one small escape hatch preserves immersion at near-zero cost.",
+    "dependencies": [
+      "Host shell config flag"
+    ],
+    "priority": "P1",
+    "alternatives": [
+      {
+        "key": "A",
+        "name": "Corner escape hatch",
+        "concept": "Inside /career and match routes the host shell is hidden; a 28px corner affordance (bottom-left, below feedback) reveals 'Tillbaka till Apps'. On ENT-02 it may stay as a slim 32px strip.",
+        "layout": "Corner pill; no reserved height.",
+        "hierarchy": "Tertiary.",
+        "interactions": "Click/hover pill reveals the existing panel.",
+        "navigation": "External Apps hub only.",
+        "desktop": "Corner pill.",
+        "mobile": "Item in the ⋯ menu instead of a pill.",
+        "pros": [
+          "Restores the game header",
+          "Trivial change"
+        ],
+        "cons": [
+          "Host discoverability drops"
+        ],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-08",
+          "ENT-11"
+        ],
+        "directions": [
+          "a",
+          "b",
+          "c"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "Game shell (unobstructed)|12|panel"
+            ],
+            [
+              "Corner pill|1|nav"
+            ]
+          ],
+          "m": [
+            "Game shell|panel",
+            "⋯ menu: Tillbaka till Apps|nav"
+          ]
+        }
+      },
+      {
+        "key": "B",
+        "name": "Merge into user menu",
+        "concept": "No host bar at all; 'Tillbaka till STARKVIS Apps' becomes the last item of the in-game user/overflow menu (with save, settings, feedback).",
+        "layout": "Menu item.",
+        "hierarchy": "Tertiary.",
+        "interactions": "Menu click.",
+        "navigation": "Overflow menu in ENT-08.",
+        "desktop": "Overflow menu.",
+        "mobile": "Drawer footer.",
+        "pros": [
+          "Cleanest"
+        ],
+        "cons": [
+          "Requires host to respect a no-inject flag"
+        ],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-08b",
+          "ENT-11"
+        ],
+        "directions": [
+          "a",
+          "b",
+          "c"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "Top bar with overflow menu|12|nav"
+            ]
+          ],
+          "m": [
+            "Drawer footer item|nav"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "ENT-07",
+    "protoKey": null,
+    "current": "Dark navy 232px sidebar with HM wordmark, club badge (64px crest + name + league) and one flat list of 27 links under six injected group labels ('Klubben' alone holds 11 unrelated items), reused icons, 12px labels / 9px group labels, inbox badge, and 'Sparade karriärer →' in the footer.",
+    "recommendation": "C",
+    "reason": "The hub model (6 hubs + in-hub tabs) is non-negotiable across all directions; the Week Spine + hub rail variant adds what a manager game lacks most — a visible game clock — and pairs with the Peek drawer to stop page-hopping. If C is not chosen, A's rail is the safe default.",
+    "dependencies": [
+      "G2 navigation model",
+      "Hub IA mapping of 27 routes → 6 hubs",
+      "ENT-08",
+      "ENT-10",
+      "WLD-05 calendar data",
+      "Peek drawer component",
+      "Command palette (ENT-08a)"
+    ],
+    "priority": "P0",
+    "alternatives": [
+      {
+        "key": "A",
+        "name": "Hub rail + tabs",
+        "concept": "A 64px icon+label rail with exactly six hubs — Idag, Laget, Klubben, Rekrytering, Tävling, Karriär — each with one distinct icon; hub pages carry a secondary tab row (e.g. Laget → Trupp · Taktik · Träning · Medicinskt · Kontrakt). Expands to 220px with labels on hover/pin.",
+        "layout": "Rail: crest at top (club colour ring), 6 hubs, spacer, Inkorg (badge), settings/user at bottom. Content area gets a hub header with tab row. Mapping: Idag = Hem, Inkorg, Kalender+Schema; Laget = Trupp, Taktik, Träning, Medicinskt, Kontrakt; Klubben = Klubbhuset, Klubb, Styrelsen, Ekonomi, Personal; Rekrytering = Spelarsök+Scouting, Rekrytering, Transfers; Tävling = Tävlingar, Säsongen, Svenska Cupen, Statistik, Analys; Karriär = Karriär, Historik, Media.",
+        "hierarchy": "1) Current hub (accent bar) 2) tab within hub 3) inbox badge.",
+        "interactions": "Keyboard 1–6 jumps to hubs; hover-expand; pin to keep expanded; badges per hub (e.g. Laget shows injury count).",
+        "navigation": "Every legacy route resolves to hub + tab; old URLs redirect; breadcrumb (ENT-09) shows hub › tab › entity.",
+        "desktop": "Collapsed 64px rail by default to give tables room; pinned 220px option.",
+        "mobile": "Becomes bottom tab bar (ENT-07a).",
+        "pros": [
+          "27 → 6 top-level items",
+          "Distinct icons regain meaning",
+          "Fastest to build on current stack"
+        ],
+        "cons": [
+          "Requires owner decisions on where ambiguous items live (Media, Analys)",
+          "Muscle memory reset for alpha testers"
+        ],
+        "complexity": "M",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-07a",
+          "ENT-08",
+          "ENT-09",
+          "DSH-01",
+          "CLB-01"
+        ],
+        "directions": [
+          "a"
+        ],
+        "patterns": [
+          "Inform vs navigate separation",
+          "Control panel per area",
+          "Command palette / global search"
+        ],
+        "wire": {
+          "d": [
+            [
+              "Hub rail (6 hubs)|1|nav",
+              "Hub header + tab row|11|nav"
+            ],
+            [
+              "Rail|1|nav",
+              "Page content|11|panel"
+            ]
+          ],
+          "m": [
+            "Top bar|nav",
+            "Page content|panel",
+            "Bottom tab bar|nav"
+          ]
+        }
+      },
+      {
+        "key": "B",
+        "name": "Top hub bar + full-bleed hubs",
+        "concept": "No sidebar. A broadcast-style top bar (crest, six hubs, Continue) and each hub opens a full-bleed hub landing (Laget = Locker room, Klubben = Clubhouse, Rekrytering = Scouting office, Tävling = Arena) with environment photography and stacked panels linking to sub-pages.",
+        "layout": "Top bar 64px; hub landing hero 320px with environment image; panels below; sub-pages keep a slim hub sub-nav.",
+        "hierarchy": "1) Hub hero (place) 2) panels (stories/status) 3) sub-page links.",
+        "interactions": "Hub transitions as camera moves (shared-element crest); hover hub shows dropdown of its sub-pages for experts.",
+        "navigation": "Two levels: hub landing → sub-page; Klubbhuset (CLB-01) becomes the Klubben landing rather than duplicating nav.",
+        "desktop": "Full width content, more horizontal room for tables.",
+        "mobile": "Bottom bar with central Continue; hubs as swipeable full-screen cards.",
+        "pros": [
+          "Strongest sense of place",
+          "Resolves Klubbhuset/sidebar duplication",
+          "Uses existing environment photography"
+        ],
+        "cons": [
+          "Extra click to deep pages unless dropdowns are used (FM26 tile-nav risk)",
+          "Asset and motion cost"
+        ],
+        "complexity": "L",
+        "perf": "High",
+        "worksWith": [
+          "ENT-08",
+          "CLB-01",
+          "DSH-01"
+        ],
+        "directions": [
+          "b"
+        ],
+        "patterns": [
+          "Inform vs navigate separation",
+          "Tiles as navigation and modal cards for routine lookups"
+        ],
+        "wire": {
+          "d": [
+            [
+              "Top bar: crest · 6 hubs · Continue|12|nav"
+            ],
+            [
+              "Hub hero: environment|12|media"
+            ],
+            [
+              "Stacked hub panels|12|cards"
+            ]
+          ],
+          "m": [
+            "Top bar (crest + date)|nav",
+            "Hub card stack|cards",
+            "Bottom bar with central Continue|nav"
+          ]
+        }
+      },
+      {
+        "key": "C",
+        "name": "Hub rail + Week Spine + Peek",
+        "concept": "The A rail (six hubs) plus a persistent Week Spine under the top bar: Mon–Sun with training, match, deadline and event pins and the next two fixtures. The Spine is the game clock — Continue advances along it — and any entity link opens the Peek drawer on the right instead of navigating.",
+        "layout": "Left rail 64/220px; top bar; Week Spine 56px full width (today highlighted, pins per day, next-match chip at right end); content; Peek drawer 420px overlays from the right when invoked.",
+        "hierarchy": "1) Today on the Spine + next pin 2) current hub/tab 3) content.",
+        "interactions": "Click a day = jump to WLD-05 day view; hover a pin = what happens (e.g. 'Lör · HBL omg 12 · IFK Kristianstad (B)'); Peek drawer opens from any player/club/staff/fixture chip with 'Öppna hela sidan'; 1–6 hub keys; ⌘K palette.",
+        "navigation": "Same hub mapping as A; the Spine links into WLD-05/WLD-06; Peek reduces navigation to SQD/CLB-04 pages for quick looks.",
+        "desktop": "Rail + Spine + content + optional Peek; Spine compresses to current week only at <1200px.",
+        "mobile": "Spine becomes a swipeable day strip under the top bar; bottom tab bar (ENT-07a); Peek becomes a bottom sheet.",
+        "pros": [
+          "Gives the game clock visual weight (biggest current gap)",
+          "Peek kills round-trips to profile pages",
+          "Continuity with existing paper identity"
+        ],
+        "cons": [
+          "Two shell components to build (Spine, Peek)",
+          "Vertical space cost of the Spine on short laptops"
+        ],
+        "complexity": "L",
+        "perf": "Medium",
+        "worksWith": [
+          "ENT-08",
+          "ENT-10",
+          "WLD-05",
+          "WLD-06",
+          "DSH-01",
+          "ENT-07a"
+        ],
+        "directions": [
+          "c",
+          "a"
+        ],
+        "patterns": [
+          "Continue button as heartbeat",
+          "Hover cards for every entity",
+          "Command palette / global search",
+          "Play menu as season state machine"
+        ],
+        "wire": {
+          "d": [
+            [
+              "Top bar|12|nav"
+            ],
+            [
+              "Week Spine: Mon–Sun pins + next match|12|timeline"
+            ],
+            [
+              "Hub rail|1|nav",
+              "Content|8|panel",
+              "Peek drawer|3|panel"
+            ]
+          ],
+          "m": [
+            "Top bar|nav",
+            "Day strip (swipe)|timeline",
+            "Content|panel",
+            "Bottom tab bar|nav",
+            "Bottom sheet: Peek|panel"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "ENT-07a",
+    "protoKey": null,
+    "current": "On ≤760px the same 27-item sidebar slides in from the left (min(84vw,300px)) with a scrim; it closes on navigation and Esc, duplicates the save controls in its footer, has no focus trap, and is the only phone navigation.",
+    "recommendation": "A",
+    "reason": "Phones need thumb navigation and a reachable heartbeat. A bottom tab bar with the hubs plus a docked Continue is the proven pattern and matches every direction's mobile principle.",
+    "dependencies": [
+      "ENT-07 hub IA",
+      "ENT-10 mobile Continue",
+      "Focus-trap utility"
+    ],
+    "priority": "P0",
+    "alternatives": [
+      {
+        "key": "A",
+        "name": "Bottom tabs + docked Continue",
+        "concept": "Bottom bar with Idag · Laget · Tävling · Marknad (Rekrytering) · Mer; a full-width Continue bar docks directly above it showing label + what's next ('Fortsätt » · Träning, 2 dagar till match'). 'Mer' opens a sheet with Klubben, Karriär, Inkorg, Inställningar, Spara.",
+        "layout": "Top bar 48px (crest, date, search icon); content; Continue bar 52px; tab bar 56px + safe-area.",
+        "hierarchy": "1) Continue 2) current tab 3) Mer.",
+        "interactions": "Tap tabs; long-press a tab = jump to its last-visited sub-page; Mer sheet with focus trap and swipe-to-close.",
+        "navigation": "Hubs as tabs; sub-pages via in-hub segmented control at top of page.",
+        "desktop": "n/a (desktop uses rail).",
+        "mobile": "Primary navigation; Continue always thumb-reachable.",
+        "pros": [
+          "Thumb ergonomics",
+          "Continue always visible",
+          "Fixes the 27-item scroll"
+        ],
+        "cons": [
+          "Five slots force Klubben into Mer (owner choice)"
+        ],
+        "complexity": "M",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-07",
+          "ENT-10",
+          "ENT-08b"
+        ],
+        "directions": [
+          "a",
+          "c"
+        ],
+        "patterns": [
+          "Continue button as heartbeat",
+          "Design per form factor"
+        ],
+        "wire": {
+          "d": [
+            [
+              "n/a desktop|12|panel"
+            ]
+          ],
+          "m": [
+            "Top bar|nav",
+            "Content|panel",
+            "Continue bar|cta",
+            "Bottom tabs: Idag · Laget · Tävling · Marknad · Mer|nav"
+          ]
+        }
+      },
+      {
+        "key": "B",
+        "name": "Central Continue FAB bar",
+        "concept": "Bottom bar with four hubs split around a raised circular Continue button in club colour (Idag · Laget · [Continue] · Marknad · Mer); label of the Continue state appears above it as a chip.",
+        "layout": "Bottom bar 64px with central 64px FAB.",
+        "hierarchy": "1) FAB 2) tabs.",
+        "interactions": "Tap FAB = Continue; long-press FAB = preview queue (ENT-10 next-up).",
+        "navigation": "Same hubs.",
+        "desktop": "n/a.",
+        "mobile": "Game-like, iconic.",
+        "pros": [
+          "Iconic heartbeat button",
+          "Club colour presence"
+        ],
+        "cons": [
+          "Small space for mutated labels (Presskonferens)"
+        ],
+        "complexity": "M",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-10",
+          "ENT-07"
+        ],
+        "directions": [
+          "b"
+        ],
+        "patterns": [
+          "Continue button as heartbeat"
+        ],
+        "wire": {
+          "d": [
+            [
+              "n/a desktop|12|panel"
+            ]
+          ],
+          "m": [
+            "Top bar|nav",
+            "Content|panel",
+            "Bottom bar with central Continue FAB|nav"
+          ]
+        }
+      },
+      {
+        "key": "C",
+        "name": "Today feed + hub sheet",
+        "concept": "Mobile opens on the Idag feed; navigation is a single 'Hubbar' button bottom-left opening a 2×3 grid sheet of hubs with status lines (Laget: 2 skadade), Continue bottom-right.",
+        "layout": "Feed; bottom bar with Hubbar + Continue.",
+        "hierarchy": "1) Feed 2) Continue 3) hubs.",
+        "interactions": "Sheet grid; swipe down to close.",
+        "navigation": "Hub grid → hub page.",
+        "desktop": "n/a.",
+        "mobile": "Morning-paper feel.",
+        "pros": [
+          "Status-rich hub picker"
+        ],
+        "cons": [
+          "One extra tap to any hub"
+        ],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "DSH-01",
+          "ENT-10"
+        ],
+        "directions": [
+          "c"
+        ],
+        "patterns": [
+          "Portal home"
+        ],
+        "wire": {
+          "d": [
+            [
+              "n/a desktop|12|panel"
+            ]
+          ],
+          "m": [
+            "Top bar|nav",
+            "Today feed|cards",
+            "Bottom bar: Hubbar · Continue|nav",
+            "Sheet: hub grid with status|cards"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "ENT-08",
+    "protoKey": null,
+    "current": "Top bar: club name / season and a small subline 'date · Nästa: date' on the left; a search input in the middle (hidden ≤760px); four small save/export/import buttons and the large orange contextual Continue button on the right.",
+    "recommendation": "C",
+    "reason": "The top bar should hold exactly three things of weight: where you are in time, how to find anything, and the heartbeat. The 'Matchday clock' gives the game date real presence with a countdown to the next match and pairs with the Week Spine; file management moves to an overflow menu.",
+    "dependencies": [
+      "ENT-08a palette",
+      "ENT-08b overflow",
+      "ENT-10",
+      "ENT-13",
+      "G2 navigation model"
+    ],
+    "priority": "P0",
+    "alternatives": [
+      {
+        "key": "A",
+        "name": "Command bar",
+        "concept": "Minimal 52px bar: breadcrumb-style location (Laget › Trupp) left, a wide '⌘K Sök spelare, klubbar, åtgärder' trigger centre, date chip and Continue right; save state as a small 'Sparat 12:04' indicator inside an overflow ⋯.",
+        "layout": "Location 3 · palette trigger 5 · date chip 2 · Continue 2.",
+        "hierarchy": "1) Continue 2) palette 3) date.",
+        "interactions": "⌘K/Ctrl-K opens palette; date chip click → WLD-05; ⋯ holds Spara, Spara och avsluta, Exportera, Importera.",
+        "navigation": "Replaces ENT-09 breadcrumb row (merged in).",
+        "desktop": "Single row.",
+        "mobile": "Location + search icon + date; Continue moves to bottom bar (ENT-07a).",
+        "pros": [
+          "Frees the most valuable real estate",
+          "Merges breadcrumb row"
+        ],
+        "cons": [
+          "Date still small"
+        ],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-08a",
+          "ENT-08b",
+          "ENT-09",
+          "ENT-10"
+        ],
+        "directions": [
+          "a"
+        ],
+        "patterns": [
+          "Command palette / global search",
+          "Continue button as heartbeat"
+        ],
+        "wire": {
+          "d": [
+            [
+              "Location|3|nav",
+              "Palette trigger|5|form",
+              "Date chip|2|panel",
+              "Continue|2|cta"
+            ]
+          ],
+          "m": [
+            "Location · search icon · date|nav"
+          ]
+        }
+      },
+      {
+        "key": "B",
+        "name": "Score-bug header",
+        "concept": "Broadcast score-bug as header: crest in club colours, club + 'HBL · 3:a', big condensed date ('LÖR 12 OKT'), next-match bug ('vs IFK K · om 2 dagar'), Continue as a glowing club-colour tab.",
+        "layout": "Crest block 3 · date block 3 · next-match bug 3 · Continue 3; search as icon.",
+        "hierarchy": "1) Date + next match 2) Continue 3) club.",
+        "interactions": "Next-match bug → match preview; ticker slide-down on new events.",
+        "navigation": "Top hub bar sits beneath or merges (ENT-07 B).",
+        "desktop": "Bold dark band.",
+        "mobile": "Crest + date + next-match bug; Continue in bottom bar.",
+        "pros": [
+          "Game clock and fixture become visible",
+          "Club colour presence"
+        ],
+        "cons": [
+          "Tall header",
+          "Less room for search"
+        ],
+        "complexity": "M",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-07",
+          "ENT-10",
+          "ENT-13"
+        ],
+        "directions": [
+          "b"
+        ],
+        "patterns": [
+          "Continue button as heartbeat"
+        ],
+        "wire": {
+          "d": [
+            [
+              "Crest + club + position|3|hero",
+              "Big date|3|panel",
+              "Next-match bug|3|panel",
+              "Continue|3|cta"
+            ]
+          ],
+          "m": [
+            "Crest · date · next-match bug|nav"
+          ]
+        }
+      },
+      {
+        "key": "C",
+        "name": "Matchday clock",
+        "concept": "The date becomes a calendar clock widget: day tile ('Tor 10 okt'), a ring or bar counting down to the next match ('2 dagar till IFK Kristianstad – borta'), with the Week Spine directly below. Continue sits right with its sublabel describing what will happen; search is a ⌘K field; files in ⋯.",
+        "layout": "Club mark 2 · clock widget 4 · palette field 3 · ⋯ 1 · Continue 2; Week Spine row below (ENT-07 C).",
+        "hierarchy": "1) Clock + countdown 2) Continue 3) search.",
+        "interactions": "Clock click → WLD-05; countdown turns to Floodlight styling on match day; ⋯ overflow for save/export/import; live state replaces countdown with ENT-13 pill.",
+        "navigation": "Owns the time display for the whole shell; ENT-09 folded into page headers.",
+        "desktop": "Paper top bar with one bold clock.",
+        "mobile": "Clock compact (day tile + countdown) with search icon; Continue in bottom dock.",
+        "pros": [
+          "The clock — core of a manager game — gets weight",
+          "Countdown builds matchday anticipation",
+          "Clear separation: time / find / act"
+        ],
+        "cons": [
+          "Needs next-fixture data in shell (already used in subline)"
+        ],
+        "complexity": "M",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-07",
+          "ENT-10",
+          "ENT-13",
+          "WLD-05",
+          "ENT-08a",
+          "ENT-08b"
+        ],
+        "directions": [
+          "c",
+          "a"
+        ],
+        "patterns": [
+          "Continue button as heartbeat",
+          "Command palette / global search"
+        ],
+        "wire": {
+          "d": [
+            [
+              "Club mark|2|nav",
+              "Clock: date + countdown to match|4|hero",
+              "Palette field|3|form",
+              "⋯|1|nav",
+              "Continue|2|cta"
+            ],
+            [
+              "Week Spine|12|timeline"
+            ]
+          ],
+          "m": [
+            "Club mark · clock · search icon|nav",
+            "Day strip|timeline"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "ENT-08a",
+    "protoKey": null,
+    "current": "Absolute dropdown under the header input, up to 12 text links (kind + name) after ≥2 characters; no crest/face, no arrow-key navigation, unavailable on mobile.",
+    "recommendation": "A",
+    "reason": "A command palette is a high-fit pattern, trivial in Next.js, and gives experts an escape hatch from any IA choice.",
+    "dependencies": [
+      "ENT-08",
+      "Search index over players/clubs/competitions/routes"
+    ],
+    "priority": "P1",
+    "alternatives": [
+      {
+        "key": "A",
+        "name": "Command palette (⌘K)",
+        "concept": "Centred palette: grouped results Spelare (avatar/monogram, position MV/VS/…, club), Klubbar (crest), Tävlingar, Sidor ('Gå till taktik') and Åtgärder ('Sätt upp 5-1 försvar', 'Förläng kontrakt…' → opens target). Recent items when empty.",
+        "layout": "Modal 640px; input; grouped list with icons; footer key hints.",
+        "hierarchy": "1) Top match 2) groups 3) hints.",
+        "interactions": "Arrows/Enter; Tab cycles groups; Shift+Enter opens in Peek drawer; prefixes (@ players, # clubs, > actions).",
+        "navigation": "Global; on mobile via search icon as full-screen sheet.",
+        "desktop": "Modal palette.",
+        "mobile": "Full-screen search sheet with recent + groups.",
+        "pros": [
+          "Expert speed",
+          "Works on mobile (currently missing)"
+        ],
+        "cons": [
+          "Action catalogue must be curated"
+        ],
+        "complexity": "M",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-08",
+          "CLB-04",
+          "ENT-07"
+        ],
+        "directions": [
+          "a",
+          "c"
+        ],
+        "patterns": [
+          "Command palette / global search",
+          "Hover cards for every entity"
+        ],
+        "wire": {
+          "d": [
+            [
+              "Palette input|8|form"
+            ],
+            [
+              "Grouped results|8|list"
+            ]
+          ],
+          "m": [
+            "Search sheet input|form",
+            "Recent|list",
+            "Grouped results|list"
+          ]
+        }
+      },
+      {
+        "key": "B",
+        "name": "Rich result cards",
+        "concept": "Dropdown stays inline but shows rich cards: player bust/monogram, position, age, CA band, club crest; hover a card shows the hover card.",
+        "layout": "Dropdown 480px with card rows.",
+        "hierarchy": "1) Faces/crests.",
+        "interactions": "Arrow keys; hover card.",
+        "navigation": "Inline from header.",
+        "desktop": "Dropdown.",
+        "mobile": "Full-screen sheet.",
+        "pros": [
+          "Visual recognition"
+        ],
+        "cons": [
+          "No actions/routes"
+        ],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-08"
+        ],
+        "directions": [
+          "b"
+        ],
+        "patterns": [
+          "Hover cards for every entity"
+        ],
+        "wire": {
+          "d": [
+            [
+              "Dropdown cards|6|cards"
+            ]
+          ],
+          "m": [
+            "Search sheet cards|cards"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "ENT-08b",
+    "protoKey": null,
+    "current": "Row of four small buttons in the header (Spara, Spara och avsluta, Exportera sparafil, Importera sparafil) with inline status text; import into a running career has no confirm; moved into the drawer footer on phones.",
+    "recommendation": "A",
+    "reason": "Autosave status belongs in the shell; file management belongs in a menu with a confirm for destructive import.",
+    "dependencies": [
+      "ENT-08",
+      "ENT-05/SYS-01 Data section"
+    ],
+    "priority": "P1",
+    "alternatives": [
+      {
+        "key": "A",
+        "name": "Autosave indicator + overflow",
+        "concept": "A quiet 'Sparat · 12:04' indicator (spinner while saving) beside a ⋯ menu: Spara nu, Spara och avsluta, Exportera säkerhetskopia, Importera… (confirm dialog explaining that the current career is replaced).",
+        "layout": "Indicator + menu in top bar right, left of Continue.",
+        "hierarchy": "Tertiary.",
+        "interactions": "Ctrl+S saves; import shows a consequence dialog with Exportera först.",
+        "navigation": "Menu also lists Inställningar, Feedback, Tillbaka till Apps.",
+        "desktop": "Indicator + ⋯.",
+        "mobile": "Inside 'Mer' sheet.",
+        "pros": [
+          "Header freed for Continue",
+          "Destructive import guarded"
+        ],
+        "cons": [],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-08",
+          "ENT-11",
+          "ENT-06",
+          "ENT-04a"
+        ],
+        "directions": [
+          "a",
+          "b",
+          "c"
+        ],
+        "patterns": [
+          "Predictive consequence preview"
+        ],
+        "wire": {
+          "d": [
+            [
+              "Sparat indicator|2|panel",
+              "⋯ menu|1|nav"
+            ]
+          ],
+          "m": [
+            "Mer sheet: save items|list"
+          ]
+        }
+      },
+      {
+        "key": "B",
+        "name": "Save as a diegetic \"kansliet\" drawer",
+        "concept": "Saves live in a 'Kansliet' drawer from the user menu showing save slots, last save time, export/import with explanations in game language ('Ta med karriären till en annan dator').",
+        "layout": "Right drawer.",
+        "hierarchy": "1) Current save state 2) actions.",
+        "interactions": "Drawer actions with confirms.",
+        "navigation": "From user menu.",
+        "desktop": "Drawer.",
+        "mobile": "Sheet.",
+        "pros": [
+          "Plain-language, less dev jargon"
+        ],
+        "cons": [
+          "More UI than needed"
+        ],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-08"
+        ],
+        "directions": [
+          "c"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "Drawer: save state + actions|4|panel"
+            ]
+          ],
+          "m": [
+            "Sheet: save state + actions|panel"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "ENT-09",
+    "protoKey": null,
+    "current": "Thin 11px muted row above every page: two ghost back/forward arrows, a two-level breadcrumb 'Kontoret / <section>' (fallback 'Detalj') and an unread-messages link duplicating the sidebar badge.",
+    "recommendation": "A",
+    "reason": "With hubs and tabs the breadcrumb only has value when it reflects real depth (hub › tab › entity). Folding it into the page header removes a row and the naming drift (Hem/Kontoret/MANAGERNS KONTOR).",
+    "dependencies": [
+      "ENT-07 hub IA",
+      "Route → hub/tab map"
+    ],
+    "priority": "P1",
+    "alternatives": [
+      {
+        "key": "A",
+        "name": "Real breadcrumb in page header",
+        "concept": "Remove the row; each page header shows a true path 'Laget › Trupp › Lindqvist' with the hub name matching the rail; back/forward arrows dropped (browser does it); unread count only on Inkorg.",
+        "layout": "Breadcrumb as kicker above page H1.",
+        "hierarchy": "Kicker.",
+        "interactions": "Click any crumb.",
+        "navigation": "Uses hub map.",
+        "desktop": "Kicker line.",
+        "mobile": "Only parent crumb as '‹ Trupp' back link.",
+        "pros": [
+          "Saves a row",
+          "Fixes naming drift"
+        ],
+        "cons": [],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-07",
+          "ENT-08"
+        ],
+        "directions": [
+          "a",
+          "c"
+        ],
+        "patterns": [
+          "Inform vs navigate separation"
+        ],
+        "wire": {
+          "d": [
+            [
+              "Kicker: Laget › Trupp › Lindqvist|12|nav"
+            ],
+            [
+              "Page H1 + tabs|12|nav"
+            ]
+          ],
+          "m": [
+            "‹ Trupp back link|nav",
+            "Page H1|hero"
+          ]
+        }
+      },
+      {
+        "key": "B",
+        "name": "Recent trail",
+        "concept": "Replace back/forward with a 'senast besökt' trail of the last 5 entities as chips (player faces, crests) for quick return.",
+        "layout": "Chip row under top bar.",
+        "hierarchy": "Tertiary.",
+        "interactions": "Click chip; Shift-click opens Peek.",
+        "navigation": "Session history.",
+        "desktop": "Chip row.",
+        "mobile": "Hidden; available in palette as recent.",
+        "pros": [
+          "Useful for comparison hopping (scouting/transfers)"
+        ],
+        "cons": [
+          "Another row of chrome"
+        ],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-08a"
+        ],
+        "directions": [
+          "a"
+        ],
+        "patterns": [
+          "Bookmarks + configurable landing"
+        ],
+        "wire": {
+          "d": [
+            [
+              "Recent chips|12|nav"
+            ]
+          ],
+          "m": [
+            "(in palette) Recent|list"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "ENT-09a",
+    "protoKey": null,
+    "current": "After Continue stops, an aside banner at the top of main shows a bold title, detail paragraph, one action link (e.g. 'Till matchen') and ×; it looks like a generic alert and competes with page heroes.",
+    "recommendation": "C",
+    "reason": "The notice answers 'why did time stop and what do I do now?' — the heartbeat's second half. Anchoring it to the Week Spine/clock as a typed event card keeps it in the same place every time, gives each stop reason its own visual identity, and lets it be resolved inline when possible.",
+    "dependencies": [
+      "ENT-10",
+      "ENT-10a",
+      "Stop-reason type taxonomy (match, board, press, transfer, injury, deadline)",
+      "WLD-01 inline actions"
+    ],
+    "priority": "P0",
+    "alternatives": [
+      {
+        "key": "A",
+        "name": "Next-action card",
+        "concept": "A compact card docked under the top bar right, aligned with Continue: event type icon, one-line title, one-line consequence, primary action ('Sätt laguppställning') and Senare. It stays until resolved or dismissed and its count appears on Continue.",
+        "layout": "Popover-like card 360px anchored to Continue.",
+        "hierarchy": "1) Title 2) action 3) dismiss.",
+        "interactions": "Primary action navigates or resolves inline; Senare collapses to a dot on Continue; Esc dismisses.",
+        "navigation": "Always anchored to Continue; links to WLD-01 for history.",
+        "desktop": "Anchored card.",
+        "mobile": "Card slides up above the Continue dock.",
+        "pros": [
+          "Spatially tied to cause (Continue)",
+          "Never competes with page hero"
+        ],
+        "cons": [
+          "Small; little room for imagery"
+        ],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-10",
+          "WLD-01"
+        ],
+        "directions": [
+          "a"
+        ],
+        "patterns": [
+          "Inbox as task queue",
+          "Continue button as heartbeat"
+        ],
+        "wire": {
+          "d": [
+            [
+              "Top bar|9|nav",
+              "Next-action card under Continue|3|panel"
+            ]
+          ],
+          "m": [
+            "Content|panel",
+            "Card above Continue dock|panel",
+            "Continue dock|cta"
+          ]
+        }
+      },
+      {
+        "key": "B",
+        "name": "Breaking-news lower third",
+        "concept": "A broadcast lower-third slides in at the bottom of the viewport: type-coloured tag ('MATCHDAG', 'STYRELSEN', 'TRANSFER'), headline, event image thumbnail from the environment set, action button.",
+        "layout": "Bottom band 96px across content area.",
+        "hierarchy": "1) Tag + headline 2) image 3) action.",
+        "interactions": "Auto-collapse to a tag chip after 8 s; click expands; multiple stops queue as a ticker.",
+        "navigation": "Action routes to target; ticker links to WLD-01.",
+        "desktop": "Lower-third band.",
+        "mobile": "Full-width card above the bottom bar, swipe to dismiss.",
+        "pros": [
+          "Event types instantly recognisable",
+          "Very game-like"
+        ],
+        "cons": [
+          "Can overlap tables at the bottom",
+          "Auto-collapse may hide important stops"
+        ],
+        "complexity": "M",
+        "perf": "Medium",
+        "worksWith": [
+          "ENT-10a",
+          "WLD-01"
+        ],
+        "directions": [
+          "b"
+        ],
+        "patterns": [
+          "Diegetic narrator"
+        ],
+        "wire": {
+          "d": [
+            [
+              "Page content|12|panel"
+            ],
+            [
+              "Lower-third: tag · headline · image · action|12|hero"
+            ]
+          ],
+          "m": [
+            "Content|panel",
+            "Swipeable event card|cards",
+            "Bottom bar|nav"
+          ]
+        }
+      },
+      {
+        "key": "C",
+        "name": "Spine pin + event card",
+        "concept": "The stop is a pin on today's slot in the Week Spine that expands into an event card directly beneath it: kicker by type ('Matchdag · HBL omg 12'), headline, the blocking reason in plain words ('Laguppställningen saknar mittnia'), and up to two actions — one resolves inline where possible. Dismissed cards stay as pins on the Spine.",
+        "layout": "Event card 480px dropping from the Spine at today's position; page content shifts down, not overlapped.",
+        "hierarchy": "1) Why time stopped 2) what to do 3) where it lives on the timeline.",
+        "interactions": "Primary action (inline or navigate); 'Visa i inkorg'; collapse to pin; multiple stops stack as numbered pins; keyboard: N cycles stops.",
+        "navigation": "Bridges ENT-10a (replay ends by \"landing\" the card on the Spine) and WLD-01.",
+        "desktop": "Card below Spine.",
+        "mobile": "Card expands from the day strip as a sheet; pin stays on strip.",
+        "pros": [
+          "Consistent location every time",
+          "Ties events to time — the core mental model",
+          "Inline resolution cuts round trips"
+        ],
+        "cons": [
+          "Depends on the Week Spine shell (ENT-07 C)",
+          "Inline resolution needs per-type handlers"
+        ],
+        "complexity": "M",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-07",
+          "ENT-08",
+          "ENT-10",
+          "ENT-10a",
+          "WLD-01",
+          "WLD-05"
+        ],
+        "directions": [
+          "c",
+          "a"
+        ],
+        "patterns": [
+          "Inbox as task queue",
+          "Continue button as heartbeat",
+          "Vague notifications"
+        ],
+        "wire": {
+          "d": [
+            [
+              "Week Spine with pin on today|12|timeline"
+            ],
+            [
+              "Event card: kicker · headline · reason · actions|6|panel",
+              "Page content|6|panel"
+            ]
+          ],
+          "m": [
+            "Day strip with pin|timeline",
+            "Event sheet|panel",
+            "Continue dock|cta"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "ENT-10",
+    "protoKey": null,
+    "current": "One primary orange button in the header whose label mutates (Fortsätt » / Förbered match / Starta match / Återgå till match / Presskonferens / Styrelsemöte · SVAR KRÄVS / Säsong klar); with a targetHref it silently navigates, otherwise it advances days, shows ENT-10a, then lands on the stop target with ENT-09a.",
+    "recommendation": "C",
+    "reason": "The heartbeat must make its own behaviour predictable: the player should know before pressing whether it will advance time or take them somewhere. 'Up-next queue' shows the queue and distinguishes 'go to' from 'advance' visually, using only existing ContinueActionKind states and calendar data.",
+    "dependencies": [
+      "ContinueActionKind (ADVANCE_DAY, PREPARE_MATCH, START_MATCH, RESUME_MATCH, PRESS_CONFERENCE, DECISION_BLOCKED, SEASON_COMPLETE)",
+      "ENT-10a",
+      "ENT-09a",
+      "WLD-05 calendar data",
+      "ENT-07a mobile dock"
+    ],
+    "priority": "P0",
+    "alternatives": [
+      {
+        "key": "A",
+        "name": "Stateful heartbeat button",
+        "concept": "Keep one button but give each ContinueActionKind a distinct visual state: ADVANCE_DAY = solid accent with » and 'till tor 10 okt'; navigate kinds = outlined with → and destination name; DECISION_BLOCKED = warning colour with count; SEASON_COMPLETE = gold, disabled with reason.",
+        "layout": "Button 200px with two lines (label + sublabel), state icon left.",
+        "hierarchy": "1) Label 2) sublabel = consequence.",
+        "interactions": "Space/Enter global shortcut (when no input focused); tooltip always explains blockReason.",
+        "navigation": "Same behaviour as today, but legible.",
+        "desktop": "Top-right.",
+        "mobile": "Docked bar (ENT-07a).",
+        "pros": [
+          "Small change, big clarity",
+          "No new data"
+        ],
+        "cons": [
+          "Still no queue preview"
+        ],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-08",
+          "ENT-07a"
+        ],
+        "directions": [
+          "a"
+        ],
+        "patterns": [
+          "Continue button as heartbeat",
+          "Play menu as season state machine"
+        ],
+        "wire": {
+          "d": [
+            [
+              "Top bar|10|nav",
+              "Stateful Continue|2|cta"
+            ]
+          ],
+          "m": [
+            "Continue dock: state + consequence|cta"
+          ]
+        }
+      },
+      {
+        "key": "B",
+        "name": "Matchweek countdown",
+        "concept": "Continue is a large club-coloured tab with a segmented progress ring of days to the next match; each press fills a segment; on match day it transforms into 'MATCHDAG' with crests.",
+        "layout": "Button 240px with ring and crest pair on match days.",
+        "hierarchy": "1) Ring/progress 2) label.",
+        "interactions": "Press = advance; ring animates; hold = advance to next stop (same engine call, just default).",
+        "navigation": "Same targets.",
+        "desktop": "Top hub bar right.",
+        "mobile": "Central FAB with ring (ENT-07a B).",
+        "pros": [
+          "Anticipation built into the control",
+          "Club colours"
+        ],
+        "cons": [
+          "Ring meaningless in long off-weeks/offseason"
+        ],
+        "complexity": "M",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-07a",
+          "ENT-13"
+        ],
+        "directions": [
+          "b"
+        ],
+        "patterns": [
+          "Continue button as heartbeat"
+        ],
+        "wire": {
+          "d": [
+            [
+              "Top hub bar|9|nav",
+              "Continue with day ring|3|cta"
+            ]
+          ],
+          "m": [
+            "Central FAB with ring|cta"
+          ]
+        }
+      },
+      {
+        "key": "C",
+        "name": "Up-next queue",
+        "concept": "Continue plus a 'Nästa' strip directly beneath it (or the Week Spine's right end): the next 3 things in order — 'Tor · Träning (taktik)', 'Fre · Transferfönster stänger', 'Lör · IFK Kristianstad (B)' — with a marker showing where Continue will stop. Navigate-type states show '→ Taktik' instead of '»' so it never surprises.",
+        "layout": "Button 200px + strip 3 items (desktop under top bar right / on Spine); expandable to full next-7-days list.",
+        "hierarchy": "1) Continue label + stop marker 2) next items 3) expand.",
+        "interactions": "Hover strip item = Peek of fixture/event; click opens WLD-05 at that day; blocked state lists the blocking tasks with inline 'Lös' links.",
+        "navigation": "Ties ENT-10 to ENT-09a (stop) and WLD-05 (calendar).",
+        "desktop": "Button + strip.",
+        "mobile": "Continue dock shows label + 'stannar: lör · match'; tap the dock's chevron for the queue sheet.",
+        "pros": [
+          "Predictable heartbeat (fixes the silent-navigation surprise)",
+          "Uses existing calendar data",
+          "Supports one-more-day loop"
+        ],
+        "cons": [
+          "Predicting exact stop requires a dry-run of stop rules (needs new data: projected stop reason without committing)"
+        ],
+        "complexity": "M",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-08",
+          "ENT-09a",
+          "ENT-10a",
+          "WLD-05",
+          "ENT-07"
+        ],
+        "directions": [
+          "c",
+          "a"
+        ],
+        "patterns": [
+          "Continue button as heartbeat",
+          "Play menu as season state machine",
+          "Predictive consequence preview"
+        ],
+        "wire": {
+          "d": [
+            [
+              "Top bar|9|nav",
+              "Continue|3|cta"
+            ],
+            [
+              "Spine|9|timeline",
+              "Nästa: 3 items + stop marker|3|list"
+            ]
+          ],
+          "m": [
+            "Content|panel",
+            "Continue dock: label + stop|cta",
+            "Bottom sheet: queue|list"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "ENT-10a",
+    "protoKey": null,
+    "current": "A modal <dialog> 'Världen går vidare.' replays an already committed advance: navy header with a crest that ignores the club colour, a date ticker, the last 12 day numbers revealing, training-day count, up to 5 highlight events, and a stop-reason card; skippable with 'Visa händelsen →' / Esc.",
+    "recommendation": "C",
+    "reason": "Time passing is the game's signature rhythm. Calendar-flip in paper mode for ordinary days, escalating to a Floodlight build-up only when the stop is a match, keeps the moment short for routine presses and big when it matters; it lands on the Spine so ENT-09a is the natural continuation.",
+    "dependencies": [
+      "ENT-10",
+      "ENT-09a",
+      "Club colour tokens",
+      "Event-type imagery set",
+      "Reduced-motion policy (G5)"
+    ],
+    "priority": "P0",
+    "alternatives": [
+      {
+        "key": "A",
+        "name": "Day ticker strip",
+        "concept": "No modal: the Week Spine/clock itself ticks forward day by day (≈120 ms per day) while a compact toast lists highlights; the page stays usable and the stop card appears at the end.",
+        "layout": "Inline ticker in the top bar clock + toast 320px.",
+        "hierarchy": "1) Date moving 2) highlights 3) stop.",
+        "interactions": "Click toast to skip; reduced motion = jump.",
+        "navigation": "Ends with ENT-09a.",
+        "desktop": "Inline.",
+        "mobile": "Clock in top bar ticks; toast above dock.",
+        "pros": [
+          "Fastest, non-blocking",
+          "Cheap"
+        ],
+        "cons": [
+          "Little drama for big events"
+        ],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-08",
+          "ENT-09a"
+        ],
+        "directions": [
+          "a"
+        ],
+        "patterns": [
+          "Continue button as heartbeat"
+        ],
+        "wire": {
+          "d": [
+            [
+              "Clock ticking|4|timeline",
+              "Page|8|panel"
+            ],
+            [
+              "Highlights toast|4|list"
+            ]
+          ],
+          "m": [
+            "Clock ticking|timeline",
+            "Toast|list"
+          ]
+        }
+      },
+      {
+        "key": "B",
+        "name": "Matchweek montage",
+        "concept": "Full-screen floodlight overlay: days as broadcast cards sweeping past with event photos (training ground, office, press room), club-coloured crest, and a build-up to the stop card (e.g. next opponent crest vs yours).",
+        "layout": "Full-screen; card track centre; stop card hero at end.",
+        "hierarchy": "1) Motion of time 2) event cards 3) stop hero.",
+        "interactions": "Skip (Esc/tap); auto-skip if only 1 day processed.",
+        "navigation": "Ends on target page.",
+        "desktop": "Full-screen.",
+        "mobile": "Portrait card stack.",
+        "pros": [
+          "Most cinematic",
+          "Club colours fixed"
+        ],
+        "cons": [
+          "Gets tiresome on frequent presses",
+          "Asset set per event type"
+        ],
+        "complexity": "L",
+        "perf": "High",
+        "worksWith": [
+          "ENT-09a",
+          "ENT-10"
+        ],
+        "directions": [
+          "b"
+        ],
+        "patterns": [
+          "Broadcast camera / view switcher"
+        ],
+        "wire": {
+          "d": [
+            [
+              "Full-screen floodlight track of day cards|12|media"
+            ],
+            [
+              "Stop hero|12|hero"
+            ]
+          ],
+          "m": [
+            "Day card stack|cards",
+            "Stop hero|hero"
+          ]
+        }
+      },
+      {
+        "key": "C",
+        "name": "Calendar flip → floodlight build-up",
+        "concept": "Paper-mode calendar page flips once per processed day with that day's one-line highlight ('Ons · Lindqvist tillbaka i träning'); the dialog header uses the club crest in true colours. If the stop is a match, the last flip dims the lights into a Floodlight 'Matchdag' card with both crests; other stops land as an event card that docks onto the Spine (ENT-09a).",
+        "layout": "Centred 560px dialog (not full-screen): calendar page left, highlights list right (≤5), stop card replaces the calendar at the end.",
+        "hierarchy": "1) Date flipping 2) highlights 3) stop.",
+        "interactions": "Esc/click skips to stop; duration scales with days (cap 1.5 s); reduced motion = crossfade list; single-day advance shows no dialog, only the Spine tick.",
+        "navigation": "Hands off to ENT-09a/Spine; match stop offers Förbered match directly.",
+        "desktop": "Centred dialog with page curl.",
+        "mobile": "Full-width sheet with vertical flip; highlights below.",
+        "pros": [
+          "Proportional drama (big only when match)",
+          "Fixes club colour",
+          "Clear handoff to the notice"
+        ],
+        "cons": [
+          "Two visual modes to maintain",
+          "Highlight copy quality matters"
+        ],
+        "complexity": "M",
+        "perf": "Medium",
+        "worksWith": [
+          "ENT-09a",
+          "ENT-10",
+          "ENT-07",
+          "ENT-08"
+        ],
+        "directions": [
+          "c",
+          "b"
+        ],
+        "patterns": [
+          "Continue button as heartbeat",
+          "Pre-match ritual sequence"
+        ],
+        "wire": {
+          "d": [
+            [
+              "Calendar page flipping|6|timeline",
+              "Day highlights|6|list"
+            ],
+            [
+              "Stop card / Matchdag floodlight|12|hero"
+            ]
+          ],
+          "m": [
+            "Calendar flip|timeline",
+            "Highlights|list",
+            "Stop card|hero"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "ENT-11",
+    "protoKey": null,
+    "current": "A fixed bottom-left floating 'Rapportera bugg / Feedback' button on every screen (incl. title and match) opens a native dialog with a description, 'Ladda ner sparafil (.json)', status message and an external feedback link.",
+    "recommendation": "A",
+    "reason": "Feedback is essential in alpha but should not float over the sidebar and the match; a help-menu entry with context capture serves testers better.",
+    "dependencies": [
+      "ENT-08b overflow menu",
+      "ENT-06"
+    ],
+    "priority": "P2",
+    "alternatives": [
+      {
+        "key": "A",
+        "name": "Help menu + context capture",
+        "concept": "Move to the ⋯/help menu ('Rapportera problem'); the dialog pre-fills route, game date, club and build, offers 'Bifoga sparfil' checkbox and keeps the external link.",
+        "layout": "Dialog: context summary chips, attach checkbox, open-form button.",
+        "hierarchy": "1) What gets sent 2) action.",
+        "interactions": "Shortcut F8 opens; copy context to clipboard.",
+        "navigation": "From overflow menu; on title screen from the menu line.",
+        "desktop": "Dialog.",
+        "mobile": "Sheet from Mer.",
+        "pros": [
+          "No overlay on game UI",
+          "Better reports"
+        ],
+        "cons": [
+          "Less visible to testers"
+        ],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-08b",
+          "ENT-06"
+        ],
+        "directions": [
+          "a",
+          "b",
+          "c"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "Dialog: context chips · attach · open form|6|form"
+            ]
+          ],
+          "m": [
+            "Sheet: context + actions|form"
+          ]
+        }
+      },
+      {
+        "key": "B",
+        "name": "Edge tab (alpha only)",
+        "concept": "Keep visibility for alpha but as a slim vertical 'Feedback' tab on the right edge, hidden in match and title; removed in public builds.",
+        "layout": "Right-edge tab 28px.",
+        "hierarchy": "Tertiary.",
+        "interactions": "Click opens the same dialog.",
+        "navigation": "Global except match/title.",
+        "desktop": "Edge tab.",
+        "mobile": "In Mer sheet.",
+        "pros": [
+          "Stays discoverable"
+        ],
+        "cons": [
+          "Still chrome on screen"
+        ],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-07"
+        ],
+        "directions": [
+          "a"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "Page|11|panel",
+              "Edge tab|1|nav"
+            ]
+          ],
+          "m": [
+            "Mer sheet item|nav"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "ENT-12",
+    "protoKey": null,
+    "current": "Full-screen state while a career is created or opened: brand mark, big uppercase H1 ('BYGGER DIN HANDBOLLSVÄRLD…' / 'ÖPPNAR DIN KARRIÄR…' / 'KUNDE INTE ÖPPNA KARRIÄREN'), 112px crest aside, elapsed seconds after 6 s, footer tagline.",
+    "recommendation": "C",
+    "reason": "Loading is the bridge between choosing a club and arriving at it. A club-themed handover that shows real club facts and rotating handball tips uses the wait productively; it must stay honest about progress and keep a clear failure path.",
+    "dependencies": [
+      "ENT-03f",
+      "ENT-02",
+      "Club colour tokens",
+      "Glossary tips (In-game glossary)"
+    ],
+    "priority": "P1",
+    "alternatives": [
+      {
+        "key": "A",
+        "name": "Progress checklist",
+        "concept": "Honest step list: 'Läser ligor ✓', 'Skapar 84 klubbar ✓', 'Genererar spelare…', 'Lägger upp schemat' with elapsed time; failure highlights the failed step with retry.",
+        "layout": "Centre column: crest, step list, timer.",
+        "hierarchy": "1) Current step 2) crest.",
+        "interactions": "Retry / Till huvudmenyn on failure.",
+        "navigation": "→ DSH-01.",
+        "desktop": "Centred.",
+        "mobile": "Same, full width.",
+        "pros": [
+          "Transparent",
+          "Debuggable failures"
+        ],
+        "cons": [
+          "needs new data: progress events from world builder"
+        ],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "DSH-01"
+        ],
+        "directions": [
+          "a"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "Crest + step list + timer|6|list"
+            ]
+          ],
+          "m": [
+            "Crest|hero",
+            "Step list|list"
+          ]
+        }
+      },
+      {
+        "key": "B",
+        "name": "Arena arrival",
+        "concept": "The club's arena photo fades up in floodlight with crest and 'Välkommen till [arena]'; capacity and founded year as broadcast stats; a light bar shows progress.",
+        "layout": "Full-bleed media + lower-third.",
+        "hierarchy": "1) Arena 2) welcome 3) progress.",
+        "interactions": "Passive; failure overlays a card.",
+        "navigation": "→ DSH-01 with shared crest.",
+        "desktop": "Full-bleed.",
+        "mobile": "Portrait crop.",
+        "pros": [
+          "Strong arrival emotion"
+        ],
+        "cons": [
+          "Per-club arena imagery (needs new data or fallback set)"
+        ],
+        "complexity": "M",
+        "perf": "Medium",
+        "worksWith": [
+          "ENT-03f",
+          "DSH-01"
+        ],
+        "directions": [
+          "b"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "Arena photo full-bleed|12|media"
+            ],
+            [
+              "Lower-third: welcome + stats + progress|12|hero"
+            ]
+          ],
+          "m": [
+            "Arena portrait|media",
+            "Welcome + progress|hero"
+          ]
+        }
+      },
+      {
+        "key": "C",
+        "name": "First-day handover",
+        "concept": "Paper page 'Första dagen på jobbet': club crest in true colours, three facts (Arena · platser, Förhandstips, Styrelsens förväntan) appearing one by one, and rotating handball tips ('7-mot-6: …') while loading; finishes with 'Gå in på kontoret' button rather than an auto-jump when loading took >3 s.",
+        "layout": "Two columns: left crest + headline + facts; right tip card; bottom progress line + CTA.",
+        "hierarchy": "1) Your club 2) facts 3) tip.",
+        "interactions": "Tip next/prev; CTA when ready; failure state keeps facts, shows reason + retry.",
+        "navigation": "→ DSH-01; for load-game uses save summary instead of preseason facts.",
+        "desktop": "Two columns.",
+        "mobile": "Single column; tip as swipe card.",
+        "pros": [
+          "Teaches handball while waiting",
+          "Reuses preseason context data"
+        ],
+        "cons": [
+          "Tip copy needed"
+        ],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-03f",
+          "ENT-04",
+          "DSH-01"
+        ],
+        "directions": [
+          "c"
+        ],
+        "patterns": [
+          "In-game glossary"
+        ],
+        "wire": {
+          "d": [
+            [
+              "Crest + headline + facts|7|hero",
+              "Handball tip|5|panel"
+            ],
+            [
+              "Progress line + Gå in på kontoret|12|cta"
+            ]
+          ],
+          "m": [
+            "Crest + headline|hero",
+            "Facts|list",
+            "Tip swipe|cards",
+            "CTA|cta"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "ENT-13",
+    "protoKey": null,
+    "current": "When away from a live match the header date subline becomes a 12px text line 'MATCH PÅGÅR · HAM 7–5 SKA · 13:00' and Continue becomes 'Återgå till match'.",
+    "recommendation": "A",
+    "reason": "A paused live match is the most important state in the shell; a persistent score pill makes it impossible to miss at minimal cost.",
+    "dependencies": [
+      "ENT-08",
+      "ENT-10 RESUME_MATCH"
+    ],
+    "priority": "P1",
+    "alternatives": [
+      {
+        "key": "A",
+        "name": "Live score pill",
+        "concept": "Persistent pill replacing the clock: pulsing live dot, two crests, score '7–5', clock '13:00', state (Paus / Timeout / Halvtid); click returns to match.",
+        "layout": "Pill 260px in top bar.",
+        "hierarchy": "1) Score 2) clock 3) live dot.",
+        "interactions": "Click returns; hover shows last 3 events.",
+        "navigation": "→ match-day route.",
+        "desktop": "Top bar centre-left.",
+        "mobile": "Pill above content; Continue dock says Återgå.",
+        "pros": [
+          "Impossible to miss",
+          "Tiny build"
+        ],
+        "cons": [],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-08",
+          "ENT-10"
+        ],
+        "directions": [
+          "a",
+          "c"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "Live pill: crests · score · clock|4|panel",
+              "Top bar rest|8|nav"
+            ]
+          ],
+          "m": [
+            "Live pill|panel"
+          ]
+        }
+      },
+      {
+        "key": "B",
+        "name": "Score bug overlay",
+        "concept": "Broadcast score bug pinned to the top-left of the content area in club colours, mirroring the match screen score bug.",
+        "layout": "Bug 200×48 floating.",
+        "hierarchy": "1) Score.",
+        "interactions": "Click returns.",
+        "navigation": "→ match-day.",
+        "desktop": "Floating bug.",
+        "mobile": "Under top bar.",
+        "pros": [
+          "Visual continuity with match screen"
+        ],
+        "cons": [
+          "Overlaps content"
+        ],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-08"
+        ],
+        "directions": [
+          "b"
+        ],
+        "patterns": [
+          "Broadcast camera / view switcher"
+        ],
+        "wire": {
+          "d": [
+            [
+              "Score bug|3|hero",
+              "Page|9|panel"
+            ]
+          ],
+          "m": [
+            "Score bug|hero",
+            "Page|panel"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "MED-01",
+    "protoKey": null,
+    "current": "EnvironmentBanner (medical-room photo, badge, metrics: active injuries, available x/y, rehab quality '1.00x'), a 7-column injuries table or empty scene, a 'Senaste återgångar' list, and a rail with the physio panel and next-selection note.",
+    "recommendation": "C",
+    "reason": "Medical is ultimately about availability for the next match. A return-to-play timeline aligned with the fixture list answers 'who can I pick on Saturday?' directly and makes the physio the face of the system.",
+    "dependencies": [
+      "Fixture list",
+      "Physio staff entity",
+      "ENT-07 hub mapping (Laget › Medicinskt)",
+      "MED-01a"
+    ],
+    "priority": "P2",
+    "alternatives": [
+      {
+        "key": "A",
+        "name": "Availability board",
+        "concept": "Squad grouped by position (MV, VS, VN, MN, HN, HS, M) with availability status per player for the next 3 fixtures; injured rows expand to rehab phase and expected return.",
+        "layout": "KPI strip (injured, available x/16, next match); position-grouped table 9 cols; physio rail 3 cols.",
+        "hierarchy": "1) Next match availability 2) injured detail 3) physio.",
+        "interactions": "Sort; expand row; open player in Peek.",
+        "navigation": "Laget › Medicinskt tab; links to squad and tactics.",
+        "desktop": "Table + rail.",
+        "mobile": "Position groups as collapsible lists with status dots.",
+        "pros": [
+          "Decision-relevant",
+          "Dense"
+        ],
+        "cons": [
+          "Less visual"
+        ],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "MED-01a",
+          "ENT-07"
+        ],
+        "directions": [
+          "a"
+        ],
+        "patterns": [
+          "Lists without decision-relevant columns",
+          "Hover cards for every entity"
+        ],
+        "wire": {
+          "d": [
+            [
+              "KPI strip|12|cards"
+            ],
+            [
+              "Availability by position|9|table",
+              "Physio rail|3|panel"
+            ]
+          ],
+          "m": [
+            "KPIs|cards",
+            "Position groups|list",
+            "Physio|panel"
+          ]
+        }
+      },
+      {
+        "key": "B",
+        "name": "Treatment room",
+        "concept": "The medical-room photo as a stage with injured players as cards on treatment beds: body-zone silhouette highlighting the injury, phase stepper, days to return; physio portrait card with a short advice line.",
+        "layout": "Hero room image; card row of injured players; physio card.",
+        "hierarchy": "1) Injured player cards 2) physio advice.",
+        "interactions": "Click card → player Peek; hover silhouette zone shows injury.",
+        "navigation": "Laget hub.",
+        "desktop": "Hero + cards.",
+        "mobile": "Swipe cards.",
+        "pros": [
+          "Humanises injuries",
+          "Staff as face of system"
+        ],
+        "cons": [
+          "needs new data: injury body-zone mapping"
+        ],
+        "complexity": "M",
+        "perf": "Medium",
+        "worksWith": [
+          "MED-01a"
+        ],
+        "directions": [
+          "b"
+        ],
+        "patterns": [
+          "Staff as faces of systems"
+        ],
+        "wire": {
+          "d": [
+            [
+              "Medical room hero|12|media"
+            ],
+            [
+              "Injured player cards|9|cards",
+              "Physio card|3|panel"
+            ]
+          ],
+          "m": [
+            "Room strip|media",
+            "Injury cards swipe|cards",
+            "Physio|panel"
+          ]
+        }
+      },
+      {
+        "key": "C",
+        "name": "Return-to-play timeline",
+        "concept": "A Gantt-style timeline: rows = injured players, columns = upcoming days with fixture markers (HBL omg 12, Cupen); each bar shows rehab phases ending at expected return, so you see exactly which matches each player misses. Physio's note above as a quote.",
+        "layout": "Physio quote 12; timeline 9 + availability for next match 3; recent returns list.",
+        "hierarchy": "1) Who misses which match 2) phases 3) recent returns.",
+        "interactions": "Hover bar = phase + confidence; click name = Peek; fixture marker click = match preview.",
+        "navigation": "Laget › Medicinskt; the same timeline appears compact in tactics/selection.",
+        "desktop": "Timeline.",
+        "mobile": "Each player a card with a mini bar and \"missar: lör, ons\".",
+        "pros": [
+          "Directly answers selection question",
+          "Uses existing return dates and fixtures"
+        ],
+        "cons": [
+          "Expected dates may imply false precision — show ranges"
+        ],
+        "complexity": "M",
+        "perf": "Low",
+        "worksWith": [
+          "MED-01a",
+          "WLD-05",
+          "WLD-06"
+        ],
+        "directions": [
+          "c",
+          "a"
+        ],
+        "patterns": [
+          "Staff as faces of systems",
+          "Predictive consequence preview"
+        ],
+        "wire": {
+          "d": [
+            [
+              "Physio quote|12|panel"
+            ],
+            [
+              "Return timeline with fixture markers|9|timeline",
+              "Next match availability|3|list"
+            ],
+            [
+              "Senaste återgångar|12|list"
+            ]
+          ],
+          "m": [
+            "Physio quote|panel",
+            "Player cards with mini bar|cards",
+            "Recent returns|list"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "MED-01a",
+    "protoKey": null,
+    "current": "Panel with a horizontally scrolling 7-column table (severity as text) or a SceneEmpty when nobody is injured.",
+    "recommendation": "A",
+    "reason": "A phase stepper plus progress bar makes rehab state readable without the scroll-x table; the empty state should celebrate a full squad.",
+    "dependencies": [
+      "MED-01"
+    ],
+    "priority": "P2",
+    "alternatives": [
+      {
+        "key": "A",
+        "name": "Rehab cards with phase stepper",
+        "concept": "Each injury a row-card: player chip (position, number), injury, severity badge (colour + text), 4-step phase stepper, progress bar, return range.",
+        "layout": "Vertical list of row-cards.",
+        "hierarchy": "1) Player + return 2) phase 3) severity.",
+        "interactions": "Click → Peek.",
+        "navigation": "Within MED-01.",
+        "desktop": "Row-cards 2 columns.",
+        "mobile": "Single column cards, no scroll-x.",
+        "pros": [
+          "No horizontal scroll",
+          "Phase legible"
+        ],
+        "cons": [],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "MED-01"
+        ],
+        "directions": [
+          "a",
+          "c"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "Rehab row-cards|12|cards"
+            ]
+          ],
+          "m": [
+            "Rehab cards|cards"
+          ]
+        }
+      },
+      {
+        "key": "B",
+        "name": "Empty state: 'Full trupp'",
+        "concept": "When no injuries: a positive state showing 16/16 tillgängliga with position chips all green and the physio's note.",
+        "layout": "Small celebratory panel.",
+        "hierarchy": "1) 16/16.",
+        "interactions": "None.",
+        "navigation": "Link to squad.",
+        "desktop": "Panel.",
+        "mobile": "Panel.",
+        "pros": [
+          "Reinforces good state"
+        ],
+        "cons": [
+          "Only the empty variant"
+        ],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "MED-01"
+        ],
+        "directions": [
+          "c",
+          "b"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "16/16 tillgängliga + position chips|12|panel"
+            ]
+          ],
+          "m": [
+            "16/16 panel|panel"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "SYS-01",
+    "protoKey": null,
+    "current": "Ink band with court backdrop, H1 and two stats; a ChoiceGroup with two currency option cards showing a sample amount; a rail with preview dl (transfer budget, wage budget, top wage, cash) and 'Bra att veta'; visually heavy for one setting and diverges from ENT-05.",
+    "recommendation": "A",
+    "reason": "One settings component in and out of career; keep the excellent live preview using the club's own figures, and add density/text size/motion.",
+    "dependencies": [
+      "ENT-05",
+      "Density modes (G6)"
+    ],
+    "priority": "P2",
+    "alternatives": [
+      {
+        "key": "A",
+        "name": "Unified settings (shared with ENT-05)",
+        "concept": "Same component as ENT-05 A; inside a career the Ekonomi section previews with the club's real budgets (keeps today's best idea).",
+        "layout": "Section nav 3 + rows 9.",
+        "hierarchy": "1) Section 2) control 3) live preview.",
+        "interactions": "Instant apply.",
+        "navigation": "From overflow/user menu; not a sidebar item.",
+        "desktop": "Two-column.",
+        "mobile": "List → detail.",
+        "pros": [
+          "One implementation",
+          "Removes a nav item"
+        ],
+        "cons": [],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-05",
+          "ENT-08b"
+        ],
+        "directions": [
+          "a",
+          "c"
+        ],
+        "patterns": [
+          "Settings sprawl",
+          "Density modes"
+        ],
+        "wire": {
+          "d": [
+            [
+              "Section nav|3|nav",
+              "Rows + preview|9|form"
+            ]
+          ],
+          "m": [
+            "Section list|list",
+            "Detail|form"
+          ]
+        }
+      },
+      {
+        "key": "B",
+        "name": "Quick settings popover",
+        "concept": "In-career settings as a popover from the user menu with the 4–5 toggles that matter mid-game (valuta, matchhastighet, densitet, rörelse) and a link to full settings.",
+        "layout": "Popover 320px.",
+        "hierarchy": "1) Toggles.",
+        "interactions": "Toggle inline.",
+        "navigation": "User menu.",
+        "desktop": "Popover.",
+        "mobile": "Sheet.",
+        "pros": [
+          "No page change mid-session"
+        ],
+        "cons": [
+          "Loses the budget preview"
+        ],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "ENT-08"
+        ],
+        "directions": [
+          "a",
+          "b"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "Popover toggles|4|form"
+            ]
+          ],
+          "m": [
+            "Sheet toggles|form"
+          ]
+        }
+      },
+      {
+        "key": "C",
+        "name": "Settings inside Karriär hub",
+        "concept": "Place settings as a tab in Karriär ('Spelet') with a manager-desk framing: currency preview shown as the club's budget sheet in the chosen currency.",
+        "layout": "Hub tab page with budget-sheet preview.",
+        "hierarchy": "1) Choice 2) budget sheet.",
+        "interactions": "Toggle; preview updates.",
+        "navigation": "Karriär › Spelet.",
+        "desktop": "Tab page.",
+        "mobile": "Single column.",
+        "pros": [
+          "Discoverable via hubs"
+        ],
+        "cons": [
+          "Settings are not really \"career\""
+        ],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "MGR-01",
+          "CLB-06"
+        ],
+        "directions": [
+          "c"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "Hub tabs|12|nav"
+            ],
+            [
+              "Choices|6|form",
+              "Budget sheet preview|6|table"
+            ]
+          ],
+          "m": [
+            "Choices|form",
+            "Preview|table"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "SYS-02",
+    "protoKey": null,
+    "current": "Single hm-panel with UTVECKLING badge, four count stats and two buttons (players, ratings), gated by HM_EDITOR_ENABLED (404 otherwise); inline max-width style.",
+    "recommendation": "A",
+    "reason": "Internal tool: keep it functional and clearly separated from the player product; the priority is gating and dev-only styling, not redesign.",
+    "dependencies": [
+      "Editor/lab env gate (HM_EDITOR_ENABLED pattern)"
+    ],
+    "priority": "P3",
+    "alternatives": [
+      {
+        "key": "A",
+        "name": "Dev console home",
+        "concept": "Unified \"Dev\" shell with its own grey theme and DEV ribbon; home lists tools (Spelare, Betyg, Court grid, Labs, CPU-rekrytering) with counts.",
+        "layout": "Tool list 8 + data stats 4.",
+        "hierarchy": "1) Tools 2) counts.",
+        "interactions": "Click tool; keyboard shortcuts.",
+        "navigation": "Hub for all SYS tools; never linked from player nav.",
+        "desktop": "Dense dev styling (monospace numbers, neutral grey), visible DEV badge.",
+        "mobile": "Not supported; show \"desktop only\" notice.",
+        "pros": [
+          "One gated home for all internal tools",
+          "Players never see it"
+        ],
+        "cons": [
+          "Small migration of routes"
+        ],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "SYS-02a",
+          "SYS-02c",
+          "SYS-03",
+          "SYS-04",
+          "SYS-05"
+        ],
+        "directions": [
+          "a"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "DEV ribbon|12|nav"
+            ],
+            [
+              "Tool list|8|list",
+              "Data counts|4|cards"
+            ]
+          ],
+          "m": [
+            "Desktop only notice|panel"
+          ]
+        }
+      },
+      {
+        "key": "B",
+        "name": "Keep as is, restyle only",
+        "concept": "Leave structure; replace inline styles with a dev theme class and add the DEV ribbon.",
+        "layout": "Unchanged.",
+        "hierarchy": "Unchanged.",
+        "interactions": "Unchanged.",
+        "navigation": "Unchanged.",
+        "desktop": "Same as A within dev console frame.",
+        "mobile": "Not supported.",
+        "pros": [
+          "Zero risk"
+        ],
+        "cons": [
+          "Tools stay scattered"
+        ],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "SYS-02a",
+          "SYS-02c",
+          "SYS-03",
+          "SYS-04",
+          "SYS-05"
+        ],
+        "directions": [
+          "a"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "Panel: stats + 2 buttons|8|panel"
+            ]
+          ],
+          "m": [
+            "Desktop only notice|panel"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "SYS-02a",
+    "protoKey": null,
+    "current": "Spreadsheet-like inline-editing table of every HBL + Allsvenskan player (714-line component).",
+    "recommendation": "A",
+    "reason": "Internal tool: keep it functional and clearly separated from the player product; the priority is gating and dev-only styling, not redesign.",
+    "dependencies": [
+      "Editor/lab env gate (HM_EDITOR_ENABLED pattern)"
+    ],
+    "priority": "P3",
+    "alternatives": [
+      {
+        "key": "A",
+        "name": "Keep spreadsheet, add dev affordances",
+        "concept": "Sticky header/columns, column filters, dirty-cell highlight and a batch Save bar; dev theme.",
+        "layout": "Filter bar + table + save bar.",
+        "hierarchy": "1) Dirty cells 2) save.",
+        "interactions": "Inline edit, Ctrl+S, undo.",
+        "navigation": "From SYS-02.",
+        "desktop": "Dense dev styling (monospace numbers, neutral grey), visible DEV badge.",
+        "mobile": "Not supported; show \"desktop only\" notice.",
+        "pros": [
+          "Faster calibration"
+        ],
+        "cons": [
+          "Some build effort"
+        ],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "SYS-02b"
+        ],
+        "directions": [
+          "a"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "Filters|12|nav"
+            ],
+            [
+              "Editable table|12|table"
+            ],
+            [
+              "Save bar|12|cta"
+            ]
+          ],
+          "m": [
+            "Desktop only notice|panel"
+          ]
+        }
+      },
+      {
+        "key": "B",
+        "name": "Split view",
+        "concept": "Table left, selected player detail right for context while editing.",
+        "layout": "Table 7 + detail 5.",
+        "hierarchy": "1) Row 2) detail.",
+        "interactions": "Select row to load detail.",
+        "navigation": "Combines with SYS-02b.",
+        "desktop": "Same as A within dev console frame.",
+        "mobile": "Not supported.",
+        "pros": [
+          "Less page hopping"
+        ],
+        "cons": [
+          "Narrower table"
+        ],
+        "complexity": "M",
+        "perf": "Low",
+        "worksWith": [
+          "SYS-02b"
+        ],
+        "directions": [
+          "a"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "Table|7|table",
+              "Detail|5|panel"
+            ]
+          ],
+          "m": [
+            "Desktop only notice|panel"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "SYS-02b",
+    "protoKey": null,
+    "current": "Detail page with hm-panels 'VERKLIG DATA', 'TRUPP', 'SPEL-DATA' and save.",
+    "recommendation": "A",
+    "reason": "Internal tool: keep it functional and clearly separated from the player product; the priority is gating and dev-only styling, not redesign.",
+    "dependencies": [
+      "Editor/lab env gate (HM_EDITOR_ENABLED pattern)"
+    ],
+    "priority": "P3",
+    "alternatives": [
+      {
+        "key": "A",
+        "name": "Diff-first detail",
+        "concept": "Real data vs game data side by side with differences highlighted; save shows a diff summary.",
+        "layout": "Two columns + diff list.",
+        "hierarchy": "1) Differences.",
+        "interactions": "Edit, save with diff confirm.",
+        "navigation": "From SYS-02a.",
+        "desktop": "Dense dev styling (monospace numbers, neutral grey), visible DEV badge.",
+        "mobile": "Not supported; show \"desktop only\" notice.",
+        "pros": [
+          "Fewer calibration mistakes"
+        ],
+        "cons": [],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "SYS-02a"
+        ],
+        "directions": [
+          "a"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "Real data|6|panel",
+              "Game data|6|form"
+            ],
+            [
+              "Diff summary + Save|12|cta"
+            ]
+          ],
+          "m": [
+            "Desktop only notice|panel"
+          ]
+        }
+      },
+      {
+        "key": "B",
+        "name": "Drawer in SYS-02a",
+        "concept": "No separate page: detail opens as a drawer over the bulk table.",
+        "layout": "Drawer 480px.",
+        "hierarchy": "1) Fields.",
+        "interactions": "Open/close drawer.",
+        "navigation": "Part of SYS-02a.",
+        "desktop": "Same as A within dev console frame.",
+        "mobile": "Not supported.",
+        "pros": [
+          "Context kept"
+        ],
+        "cons": [
+          "Long pages cramped"
+        ],
+        "complexity": "M",
+        "perf": "Low",
+        "worksWith": [
+          "SYS-02a"
+        ],
+        "directions": [
+          "a"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "Table|8|table",
+              "Drawer|4|form"
+            ]
+          ],
+          "m": [
+            "Desktop only notice|panel"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "SYS-02c",
+    "protoKey": null,
+    "current": "Club selector → roster with rating proposals and review status; mirrors the players editor layout.",
+    "recommendation": "A",
+    "reason": "Internal tool: keep it functional and clearly separated from the player product; the priority is gating and dev-only styling, not redesign.",
+    "dependencies": [
+      "Editor/lab env gate (HM_EDITOR_ENABLED pattern)"
+    ],
+    "priority": "P3",
+    "alternatives": [
+      {
+        "key": "A",
+        "name": "Review queue",
+        "concept": "Roster table with status filter (Ej granskad / Granskad / Låst) and progress per club.",
+        "layout": "Club list 3 + roster 9.",
+        "hierarchy": "1) Unreviewed count.",
+        "interactions": "Filter, open detail.",
+        "navigation": "From SYS-02.",
+        "desktop": "Dense dev styling (monospace numbers, neutral grey), visible DEV badge.",
+        "mobile": "Not supported; show \"desktop only\" notice.",
+        "pros": [
+          "Clear review progress"
+        ],
+        "cons": [],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "SYS-02d"
+        ],
+        "directions": [
+          "a"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "Club list + progress|3|list",
+              "Roster with status|9|table"
+            ]
+          ],
+          "m": [
+            "Desktop only notice|panel"
+          ]
+        }
+      },
+      {
+        "key": "B",
+        "name": "Kanban by status",
+        "concept": "Players as cards in columns by review status.",
+        "layout": "3 columns.",
+        "hierarchy": "1) Columns.",
+        "interactions": "Drag between statuses.",
+        "navigation": "From SYS-02.",
+        "desktop": "Same as A within dev console frame.",
+        "mobile": "Not supported.",
+        "pros": [
+          "Visual progress"
+        ],
+        "cons": [
+          "Drag status risky without confirm"
+        ],
+        "complexity": "M",
+        "perf": "Low",
+        "worksWith": [
+          "SYS-02d"
+        ],
+        "directions": [
+          "a"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "Ej granskad|4|cards",
+              "Granskad|4|cards",
+              "Låst|4|cards"
+            ]
+          ],
+          "m": [
+            "Desktop only notice|panel"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "SYS-02d",
+    "protoKey": null,
+    "current": "Long detail page: source proposal, CA estimate, generated attributes, overrides, LOCK (625 lines).",
+    "recommendation": "A",
+    "reason": "Internal tool: keep it functional and clearly separated from the player product; the priority is gating and dev-only styling, not redesign.",
+    "dependencies": [
+      "Editor/lab env gate (HM_EDITOR_ENABLED pattern)"
+    ],
+    "priority": "P3",
+    "alternatives": [
+      {
+        "key": "A",
+        "name": "Sectioned with sticky summary",
+        "concept": "Sticky summary (CA/PA, status, LOCK) at top; sections collapsible; overrides highlighted against generated values.",
+        "layout": "Sticky summary + sections.",
+        "hierarchy": "1) Status/CA 2) overrides.",
+        "interactions": "Edit, LOCK with confirm.",
+        "navigation": "From SYS-02c.",
+        "desktop": "Dense dev styling (monospace numbers, neutral grey), visible DEV badge.",
+        "mobile": "Not supported; show \"desktop only\" notice.",
+        "pros": [
+          "Less scrolling"
+        ],
+        "cons": [],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "SYS-02c"
+        ],
+        "directions": [
+          "a"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "Sticky summary|12|panel"
+            ],
+            [
+              "Attributes generated vs override|12|table"
+            ]
+          ],
+          "m": [
+            "Desktop only notice|panel"
+          ]
+        }
+      },
+      {
+        "key": "B",
+        "name": "Attribute grid compare",
+        "concept": "All 1–20 attributes as a grid with generated/override/source in each cell.",
+        "layout": "Grid.",
+        "hierarchy": "1) Changed cells.",
+        "interactions": "Click cell to override.",
+        "navigation": "From SYS-02c.",
+        "desktop": "Same as A within dev console frame.",
+        "mobile": "Not supported.",
+        "pros": [
+          "Fast overview"
+        ],
+        "cons": [
+          "Dense"
+        ],
+        "complexity": "M",
+        "perf": "Low",
+        "worksWith": [
+          "SYS-02c"
+        ],
+        "directions": [
+          "a"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "Attribute grid|12|table"
+            ]
+          ],
+          "m": [
+            "Desktop only notice|panel"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "SYS-02e",
+    "protoKey": null,
+    "current": "Court canvas for calibrating the canonical 40×20 m court grid with mode controls.",
+    "recommendation": "A",
+    "reason": "Internal tool: keep it functional and clearly separated from the player product; the priority is gating and dev-only styling, not redesign.",
+    "dependencies": [
+      "Editor/lab env gate (HM_EDITOR_ENABLED pattern)"
+    ],
+    "priority": "P3",
+    "alternatives": [
+      {
+        "key": "A",
+        "name": "Canvas + inspector",
+        "concept": "Court canvas 9 cols with inspector 3 cols (mode, coordinates, snap); dev theme.",
+        "layout": "Canvas + inspector.",
+        "hierarchy": "1) Court.",
+        "interactions": "Click/drag calibrate; keyboard nudge.",
+        "navigation": "From SYS-02.",
+        "desktop": "Dense dev styling (monospace numbers, neutral grey), visible DEV badge.",
+        "mobile": "Not supported; show \"desktop only\" notice.",
+        "pros": [
+          "Clear tool layout"
+        ],
+        "cons": [],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "SYS-04"
+        ],
+        "directions": [
+          "a"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "Court canvas|9|court",
+              "Inspector|3|panel"
+            ]
+          ],
+          "m": [
+            "Desktop only notice|panel"
+          ]
+        }
+      },
+      {
+        "key": "B",
+        "name": "Overlay toolbar",
+        "concept": "Full-width canvas with floating toolbar.",
+        "layout": "Canvas + floating toolbar.",
+        "hierarchy": "1) Court.",
+        "interactions": "Same.",
+        "navigation": "From SYS-02.",
+        "desktop": "Same as A within dev console frame.",
+        "mobile": "Not supported.",
+        "pros": [
+          "Max canvas"
+        ],
+        "cons": [
+          "Toolbar overlaps court"
+        ],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "SYS-04"
+        ],
+        "directions": [
+          "a"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "Court canvas full|12|court"
+            ]
+          ],
+          "m": [
+            "Desktop only notice|panel"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "SYS-03",
+    "protoKey": null,
+    "current": "Engine V2 labs index with dark 'HANDBALL ENGINE V2 · MILESTONE 1' headers and canvases; no env gate found, wrapped by the alpha gate and feedback button like the game.",
+    "recommendation": "A",
+    "reason": "Internal tool: keep it functional and clearly separated from the player product; the priority is gating and dev-only styling, not redesign.",
+    "dependencies": [
+      "Editor/lab env gate (HM_EDITOR_ENABLED pattern)"
+    ],
+    "priority": "P2",
+    "alternatives": [
+      {
+        "key": "A",
+        "name": "Gate under dev console",
+        "concept": "Move under the same env gate as /editor; list labs in the dev console; remove player feedback button there.",
+        "layout": "Lab list.",
+        "hierarchy": "1) Labs.",
+        "interactions": "Open lab.",
+        "navigation": "From SYS-02 dev home.",
+        "desktop": "Dense dev styling (monospace numbers, neutral grey), visible DEV badge.",
+        "mobile": "Not supported; show \"desktop only\" notice.",
+        "pros": [
+          "Not publicly reachable",
+          "Consistent dev shell"
+        ],
+        "cons": [],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "SYS-03a",
+          "SYS-03b",
+          "SYS-04"
+        ],
+        "directions": [
+          "a"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "DEV ribbon|12|nav"
+            ],
+            [
+              "Lab cards|12|cards"
+            ]
+          ],
+          "m": [
+            "Desktop only notice|panel"
+          ]
+        }
+      },
+      {
+        "key": "B",
+        "name": "Labs as tabs of one page",
+        "concept": "One /scenario-lab page with tabs Avkast · Omställning · Helmatch sharing a court canvas.",
+        "layout": "Tabs + canvas.",
+        "hierarchy": "1) Canvas.",
+        "interactions": "Switch tab.",
+        "navigation": "Self-contained.",
+        "desktop": "Same as A within dev console frame.",
+        "mobile": "Not supported.",
+        "pros": [
+          "Shared controls"
+        ],
+        "cons": [
+          "Refactor"
+        ],
+        "complexity": "M",
+        "perf": "Low",
+        "worksWith": [
+          "SYS-03a",
+          "SYS-03b",
+          "SYS-04"
+        ],
+        "directions": [
+          "a"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "Tabs|12|nav"
+            ],
+            [
+              "Court canvas|9|court",
+              "Controls|3|panel"
+            ]
+          ],
+          "m": [
+            "Desktop only notice|panel"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "SYS-03a",
+    "protoKey": null,
+    "current": "Possession & transition lab page.",
+    "recommendation": "A",
+    "reason": "Internal tool: keep it functional and clearly separated from the player product; the priority is gating and dev-only styling, not redesign.",
+    "dependencies": [
+      "Editor/lab env gate (HM_EDITOR_ENABLED pattern)"
+    ],
+    "priority": "P3",
+    "alternatives": [
+      {
+        "key": "A",
+        "name": "Dev shell lab",
+        "concept": "Same dev shell; canvas + run controls + snapshot list.",
+        "layout": "Canvas 9 + controls 3.",
+        "hierarchy": "1) Canvas.",
+        "interactions": "Run, step.",
+        "navigation": "From SYS-03.",
+        "desktop": "Dense dev styling (monospace numbers, neutral grey), visible DEV badge.",
+        "mobile": "Not supported; show \"desktop only\" notice.",
+        "pros": [
+          "Consistent"
+        ],
+        "cons": [],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "SYS-03"
+        ],
+        "directions": [
+          "a"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "Court canvas|9|court",
+              "Run controls + snapshots|3|panel"
+            ]
+          ],
+          "m": [
+            "Desktop only notice|panel"
+          ]
+        }
+      },
+      {
+        "key": "B",
+        "name": "Tab in SYS-03",
+        "concept": "Becomes a tab of the unified lab page.",
+        "layout": "Tab.",
+        "hierarchy": "1) Canvas.",
+        "interactions": "Run.",
+        "navigation": "SYS-03 B.",
+        "desktop": "Same as A within dev console frame.",
+        "mobile": "Not supported.",
+        "pros": [
+          "Less routing"
+        ],
+        "cons": [],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "SYS-03"
+        ],
+        "directions": [
+          "a"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "Tabs|12|nav"
+            ],
+            [
+              "Canvas|12|court"
+            ]
+          ],
+          "m": [
+            "Desktop only notice|panel"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "SYS-03b",
+    "protoKey": null,
+    "current": "Full-match human QA timeline lab with scrub.",
+    "recommendation": "A",
+    "reason": "Internal tool: keep it functional and clearly separated from the player product; the priority is gating and dev-only styling, not redesign.",
+    "dependencies": [
+      "Editor/lab env gate (HM_EDITOR_ENABLED pattern)"
+    ],
+    "priority": "P3",
+    "alternatives": [
+      {
+        "key": "A",
+        "name": "Timeline-first lab",
+        "concept": "Event timeline full width with scrubber; court canvas synced above.",
+        "layout": "Canvas 12 + timeline 12.",
+        "hierarchy": "1) Timeline position.",
+        "interactions": "Scrub, jump to event.",
+        "navigation": "From SYS-03.",
+        "desktop": "Dense dev styling (monospace numbers, neutral grey), visible DEV badge.",
+        "mobile": "Not supported; show \"desktop only\" notice.",
+        "pros": [
+          "Fast QA scanning"
+        ],
+        "cons": [],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "SYS-03",
+          "SYS-04"
+        ],
+        "directions": [
+          "a"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "Court canvas|12|court"
+            ],
+            [
+              "Event timeline + scrubber|12|timeline"
+            ]
+          ],
+          "m": [
+            "Desktop only notice|panel"
+          ]
+        }
+      },
+      {
+        "key": "B",
+        "name": "Tab in SYS-03",
+        "concept": "Becomes a tab of the unified lab page.",
+        "layout": "Tab.",
+        "hierarchy": "1) Timeline.",
+        "interactions": "Scrub.",
+        "navigation": "SYS-03 B.",
+        "desktop": "Same as A within dev console frame.",
+        "mobile": "Not supported.",
+        "pros": [
+          "Less routing"
+        ],
+        "cons": [],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "SYS-03",
+          "SYS-04"
+        ],
+        "directions": [
+          "a"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "Tabs|12|nav"
+            ],
+            [
+              "Timeline|12|timeline"
+            ]
+          ],
+          "m": [
+            "Desktop only notice|panel"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "SYS-04",
+    "protoKey": null,
+    "current": "Court renderer with rows of hm-btn toggles (fatigue, 7-vs-6, presets, speed) using inline styles; outside /career with no gate.",
+    "recommendation": "A",
+    "reason": "Internal tool: keep it functional and clearly separated from the player product; the priority is gating and dev-only styling, not redesign.",
+    "dependencies": [
+      "Editor/lab env gate (HM_EDITOR_ENABLED pattern)"
+    ],
+    "priority": "P2",
+    "alternatives": [
+      {
+        "key": "A",
+        "name": "Gated QA harness with control panel",
+        "concept": "Gate; group toggles into a right control panel (Scenario, Toggles, Speed) with a DEV ribbon.",
+        "layout": "Court 9 + control panel 3.",
+        "hierarchy": "1) Court 2) controls.",
+        "interactions": "Play/pause, presets, toggles.",
+        "navigation": "From dev console.",
+        "desktop": "Dense dev styling (monospace numbers, neutral grey), visible DEV badge.",
+        "mobile": "Not supported; show \"desktop only\" notice.",
+        "pros": [
+          "Not public",
+          "Clearer controls"
+        ],
+        "cons": [],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "SYS-03",
+          "SYS-02e"
+        ],
+        "directions": [
+          "a"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "Court renderer|9|court",
+              "Control panel|3|panel"
+            ]
+          ],
+          "m": [
+            "Desktop only notice|panel"
+          ]
+        }
+      },
+      {
+        "key": "B",
+        "name": "Merge into SYS-03 labs",
+        "concept": "Becomes the \"Match QA\" tab of the unified labs page.",
+        "layout": "Tab.",
+        "hierarchy": "1) Court.",
+        "interactions": "Same.",
+        "navigation": "SYS-03 B.",
+        "desktop": "Same as A within dev console frame.",
+        "mobile": "Not supported.",
+        "pros": [
+          "One lab home"
+        ],
+        "cons": [
+          "Different engine path may complicate"
+        ],
+        "complexity": "M",
+        "perf": "Low",
+        "worksWith": [
+          "SYS-03",
+          "SYS-02e"
+        ],
+        "directions": [
+          "a"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "Tabs|12|nav"
+            ],
+            [
+              "Court|12|court"
+            ]
+          ],
+          "m": [
+            "Desktop only notice|panel"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "SYS-05",
+    "protoKey": null,
+    "current": "Three hm-panels with tables (Positionsbehov, Aktiva/senaste pursuits, Beslutslogg) under the player-facing /career/club route without a gate; URL-only.",
+    "recommendation": "A",
+    "reason": "Internal tool: keep it functional and clearly separated from the player product; the priority is gating and dev-only styling, not redesign.",
+    "dependencies": [
+      "Editor/lab env gate (HM_EDITOR_ENABLED pattern)"
+    ],
+    "priority": "P2",
+    "alternatives": [
+      {
+        "key": "A",
+        "name": "Move under dev gate",
+        "concept": "Relocate to the dev console with the career context selector; same three tables in dev theme.",
+        "layout": "3 stacked tables.",
+        "hierarchy": "1) Decision log.",
+        "interactions": "Filter by club.",
+        "navigation": "Dev console.",
+        "desktop": "Dense dev styling (monospace numbers, neutral grey), visible DEV badge.",
+        "mobile": "Not supported; show \"desktop only\" notice.",
+        "pros": [
+          "Removes ungated debug from player route"
+        ],
+        "cons": [],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "CLB-02",
+          "CLB-04",
+          "SYS-06"
+        ],
+        "directions": [
+          "a"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "Positionsbehov|6|table",
+              "Pursuits|6|table"
+            ],
+            [
+              "Beslutslogg|12|table"
+            ]
+          ],
+          "m": [
+            "Desktop only notice|panel"
+          ]
+        }
+      },
+      {
+        "key": "B",
+        "name": "Dev overlay on club pages",
+        "concept": "Show the same data as a dev-only drawer on CLB-04 club pages when editor mode is on.",
+        "layout": "Drawer.",
+        "hierarchy": "1) Pursuits for this club.",
+        "interactions": "Toggle via SYS-06.",
+        "navigation": "From CLB-04 in editor mode.",
+        "desktop": "Same as A within dev console frame.",
+        "mobile": "Not supported.",
+        "pros": [
+          "In context"
+        ],
+        "cons": [
+          "Mixes dev UI into player pages"
+        ],
+        "complexity": "M",
+        "perf": "Low",
+        "worksWith": [
+          "CLB-02",
+          "CLB-04",
+          "SYS-06"
+        ],
+        "directions": [
+          "a"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "Club page|8|panel",
+              "Dev drawer|4|table"
+            ]
+          ],
+          "m": [
+            "Desktop only notice|panel"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "SYS-06",
+    "protoKey": null,
+    "current": "Small floating toggle + link to /editor, rendered only when /api/editor/status reports enabled; also adds an 'Editor' sidebar item.",
+    "recommendation": "A",
+    "reason": "Internal tool: keep it functional and clearly separated from the player product; the priority is gating and dev-only styling, not redesign.",
+    "dependencies": [
+      "Editor/lab env gate (HM_EDITOR_ENABLED pattern)"
+    ],
+    "priority": "P3",
+    "alternatives": [
+      {
+        "key": "A",
+        "name": "DEV ribbon toggle",
+        "concept": "Replace floating widget and sidebar item with a single DEV ribbon in a screen corner (toggle editor mode, open dev console).",
+        "layout": "Corner ribbon.",
+        "hierarchy": "Tertiary.",
+        "interactions": "Click ribbon menu.",
+        "navigation": "Links to SYS-02.",
+        "desktop": "Dense dev styling (monospace numbers, neutral grey), visible DEV badge.",
+        "mobile": "Not supported; show \"desktop only\" notice.",
+        "pros": [
+          "No sidebar pollution",
+          "Clearly dev-only"
+        ],
+        "cons": [],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "SYS-02",
+          "ENT-08a",
+          "ENT-07"
+        ],
+        "directions": [
+          "a"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "Page|11|panel",
+              "DEV ribbon|1|nav"
+            ]
+          ],
+          "m": [
+            "Desktop only notice|panel"
+          ]
+        }
+      },
+      {
+        "key": "B",
+        "name": "Palette commands",
+        "concept": "No visible widget; dev actions appear in the ⌘K palette (\">dev editor\") only when enabled.",
+        "layout": "None.",
+        "hierarchy": "Hidden.",
+        "interactions": "Palette.",
+        "navigation": "ENT-08a.",
+        "desktop": "Same as A within dev console frame.",
+        "mobile": "Not supported.",
+        "pros": [
+          "Zero chrome"
+        ],
+        "cons": [
+          "Undiscoverable for new devs"
+        ],
+        "complexity": "S",
+        "perf": "Low",
+        "worksWith": [
+          "SYS-02",
+          "ENT-08a",
+          "ENT-07"
+        ],
+        "directions": [
+          "a"
+        ],
+        "patterns": [],
+        "wire": {
+          "d": [
+            [
+              "Palette with dev group|8|list"
+            ]
+          ],
+          "m": [
+            "Desktop only notice|panel"
+          ]
+        }
+      }
+    ]
+  }
+]

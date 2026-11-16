@@ -10,6 +10,7 @@ import { defenceSystemKey, effectiveDefenceSpaces } from "@/lib/matchPlan/engine
 import { activeSubstitutionPairs } from '@/lib/matchPlan/substitutionPairs';
 import { currentTeamRoles, leadershipOf, MAX_PENALTY_TAKERS, setCaptaincy, setPenaltyTakers, STEADYING_LEADERSHIP } from "@/lib/career/teamRoles";
 import { matchFitnessOf } from "@/lib/players/matchFitness";
+import { moveInOrder, penaltyStatsThisSeason } from "@/lib/matchPlan/tacticsBoard";
 import { PlayerGlyph } from "@/components/game/Identity";
 import { NationFlag } from "@/components/game/NationFlag";
 
@@ -512,6 +513,8 @@ export function SpecialistSection({
   );
 }
 
+/** TRN-02g (A) "Ordered takers with stats": the 7 m order as a ranked list with this season's 7 m goals/attempts
+ *  (counted from stored SEVEN_M events) and up / down / remove; new takers are added from the outfield squad. */
 export function SetPieceSection({
   career,
   squad,
@@ -524,36 +527,52 @@ export function SetPieceSection({
   const roles = currentTeamRoles(career);
   const outfield = squad.filter((p) => p.position !== "MV");
   const byId = new Map(squad.map((p) => [p.id, p]));
-  const order = [...roles.penaltyTakers];
-  const set = (index: number, id: string) => {
-    const next = [...order];
-    next[index] = id;
-    updateCareer((s) => setPenaltyTakers(s, next.filter(Boolean)));
-  };
+  const order = roles.penaltyTakers.filter((id) => byId.has(id));
+  const stats = penaltyStatsThisSeason(career);
+  const line = (id: string) => { const s = stats[id]; return s?.attempts ? `${s.goals}/${s.attempts} på 7 m i år` : "Inga 7 m i år"; };
+  const apply = (next: string[]) => updateCareer((s) => setPenaltyTakers(s, next.filter(Boolean)));
+  const candidates = outfield.filter((p) => !order.includes(p.id)).sort((a, b) => (stats[b.id]?.attempts ?? 0) - (stats[a.id]?.attempts ?? 0) || a.lastName.localeCompare(b.lastName, "sv"));
   return (
     <Section
       id="plan-setpieces"
       title="Fasta situationer · 7-meter"
       lede="Straffläggarordningen gäller i varje match tills du ändrar den. Den första i ordningen som står på planen slår; annars nästa. Utan ordning väljer laget mittnian."
     >
-      <div className="hm-plan-grid">
-        {Array.from({ length: MAX_PENALTY_TAKERS }, (_, i) => (
+      {order.length === 0 ? <p className="hm-plan-note">Ingen ordning vald – laget låter mittnian slå.</p> : (
+        <ol className="tb-penalty-order" aria-label="7-metersordning">
+          {order.map((id, i) => {
+            const p = byId.get(id)!;
+            return (
+              <li key={id}>
+                <span className="tb-penalty-rank">{i + 1}</span>
+                <span className="tb-penalty-name"><strong>{p.firstName} {p.lastName}</strong><small>{p.position} · {line(id)}</small></span>
+                <span className="tb-penalty-actions">
+                  <button type="button" className="hm-btn hm-btn-xs" disabled={i === 0} onClick={() => apply(moveInOrder(order, i, -1))} aria-label={`Flytta upp ${p.lastName}`}>↑</button>
+                  <button type="button" className="hm-btn hm-btn-xs" disabled={i === order.length - 1} onClick={() => apply(moveInOrder(order, i, 1))} aria-label={`Flytta ned ${p.lastName}`}>↓</button>
+                  <button type="button" className="hm-btn hm-btn-xs hm-btn-ghost" onClick={() => apply(order.filter((x) => x !== id))} aria-label={`Ta bort ${p.lastName} ur ordningen`}>✕</button>
+                </span>
+              </li>
+            );
+          })}
+        </ol>
+      )}
+      {order.length < MAX_PENALTY_TAKERS && (
+        <div className="hm-plan-grid">
           <PlayerSelect
-            key={i}
-            badge={`7m #${i + 1}`}
-            player={order[i] ? byId.get(order[i]) : undefined}
-            label={i === 0 ? "Förstaval" : `Reserv ${i}`}
-            value={order[i] ?? ""}
-            emptyLabel={i === 0 ? "Lagets standard (mittnian)" : "Ingen"}
-            options={outfield.filter((p) => !order.includes(p.id) || order[i] === p.id)}
-            onChange={(id) => set(i, id)}
+            badge={`7m #${order.length + 1}`}
+            label={order.length === 0 ? "Förstaval" : `Lägg till reserv ${order.length}`}
+            value=""
+            emptyLabel="Välj spelare"
+            options={candidates}
+            onChange={(id) => id && apply([...order, id])}
           />
-        ))}
-      </div>
+        </div>
+      )}
     </Section>
   );
 }
 
+/** TRN-02h (A) "Single roles editor": captain, vice captain and the first 7 m taker in one place, each with its real effect. */
 export function LeadershipSection({
   career,
   squad,
@@ -567,10 +586,11 @@ export function LeadershipSection({
   const byId = new Map(squad.map((p) => [p.id, p]));
   const leadership = (id?: string) => (id ? leadershipOf(career, id) : null);
   const captainLeadership = leadership(roles.captainId);
+  const first = roles.penaltyTakers[0];
   return (
     <Section
       id="plan-leadership"
-      title="Ledarskap"
+      title="Ledarskap & roller"
       lede="Kapten och vice kapten gäller över matcher och säsonger. Effekterna är små och förklarade: utnämningen lyfter spelarens moral en tid, att frånta någon bindeln sänker den, och en kapten med starkt ledarskap dämpar lagets moraltapp i en förlustsvit."
     >
       <div className="hm-plan-grid">
@@ -592,16 +612,27 @@ export function LeadershipSection({
           options={squad.filter((p) => p.id !== roles.captainId)}
           onChange={(id) => updateCareer((s) => setCaptaincy(s, "VICE", id || null))}
         />
+        <PlayerSelect
+          badge="7m"
+          player={first ? byId.get(first) : undefined}
+          label="7 m · förstaval"
+          value={first ?? ""}
+          emptyLabel="Lagets standard (mittnian)"
+          options={squad.filter((p) => p.position !== "MV")}
+          onChange={(id) => updateCareer((s) => setPenaltyTakers(s, id ? [id, ...currentTeamRoles(s).penaltyTakers.filter((x) => x !== id)] : currentTeamRoles(s).penaltyTakers.slice(1)))}
+        />
       </div>
-      {roles.captainId && (
-        <p className="hm-plan-note">
-          {captainLeadership === null
-            ? "Kaptenens ledarskap är inte bedömt i spelardatan – utnämningen påverkar bara hans egen moral."
-            : captainLeadership >= STEADYING_LEADERSHIP
-            ? `Ledarskap ${Math.round(captainLeadership)}/20 – håller ihop gruppen i motgång.`
-            : `Ledarskap ${Math.round(captainLeadership)}/20 – för lågt för att dämpa lagets moraltapp i motgång (kräver ${STEADYING_LEADERSHIP}).`}
-        </p>
-      )}
+      <ul className="tb-role-effects">
+        <li><b>Kapten</b> {roles.captainId
+            ? captainLeadership === null
+              ? "Ledarskapet är inte bedömt i spelardatan – utnämningen påverkar bara spelarens egen moral."
+              : captainLeadership >= STEADYING_LEADERSHIP
+              ? `Ledarskap ${Math.round(captainLeadership)}/20 – håller ihop gruppen i motgång.`
+              : `Ledarskap ${Math.round(captainLeadership)}/20 – för lågt för att dämpa lagets moraltapp i motgång (kräver ${STEADYING_LEADERSHIP}).`
+            : "Ingen utsedd."}</li>
+        <li><b>Vice kapten</b> {roles.viceCaptainId ? "Utnämningen lyfter spelarens moral en tid." : "Ingen utsedd."}</li>
+        <li><b>7 m</b> {first ? "Slår först när han står på planen; annars nästa i ordningen nedan." : "Utan ordning slår mittnian."}</li>
+      </ul>
     </Section>
   );
 }

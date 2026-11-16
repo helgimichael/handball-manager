@@ -1,0 +1,27 @@
+/* Arena 231 -- loaded on every route (AlphaAccessGate): Visning preferences (motion, density, text size). */
+/* ENT-05 'Visning · Rörelse = Minska rörelse': this device stops animations and transitions everywhere. */
+html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-motion="reduced"] *::after {
+  animation-duration: .001ms !important; animation-iteration-count: 1 !important; animation-delay: 0s !important;
+  transition-duration: .001ms !important; scroll-behavior: auto !important;
+}
+
+/* ENT-05 / SYS-01 'Visning · Täthet = Kompakt': tighter rows and gutters in the shell and every .hm-table.
+   (The --hm-space-* tokens exist but no stylesheet uses them, so the real paddings are adjusted here.) */
+:root[data-density="compact"] .hm-table thead th { padding-top: 6px; padding-bottom: 6px; }
+:root[data-density="compact"] .hm-table tbody td { padding-top: 5px; padding-bottom: 5px; }
+:root[data-density="compact"] .hm-us-row { padding-top: 8px; padding-bottom: 8px; }
+@media (min-width: 761px) {
+  /* Rail links keep 40px+ touch targets on phones; desktop/tablet rail tightens. */
+  :root[data-density="compact"] .hm-rail { gap: 0; padding-top: 4px; padding-bottom: 4px; }
+  :root[data-density="compact"] .hm-rail-link { min-height: 34px; }
+  :root[data-density="compact"] .hm-main { padding-left: 16px; padding-right: 16px; }
+}
+
+/* ENT-05 / SYS-01 'Visning · Textstorlek = 112 % / 125 %'. The app sizes text in px, so root font-size would do
+   nothing, and zooming <html> would also scale every 100vw/100dvh rule (the shell height, drawers, dialogs) past
+   the viewport. Instead the reading surfaces are zoomed: the career content column (.hm-main, its own scroll
+   container inside the 100dvh shell) and the settings page. Rail, header and Week Spine keep their size.
+   Phones (≤760 px) keep the phone's own text size: their 100vw sheets would overflow when zoomed. */
+@media (min-width: 761px) {
+  :root[data-text-size] :is(.hm-main, .hm-settings-entry) { zoom: var(--hm-text-zoom, 1); }
+}

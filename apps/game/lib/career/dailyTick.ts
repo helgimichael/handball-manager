@@ -47,6 +47,7 @@ import {
   buildPlacementExpiredEvent,
   buildPlayerContractExpiredEvent,
   buildTransferNegotiationEvent,
+  buildClubEvent,
   type CareerEvent,
 } from "./careerEvents";
 import { progressContractExpiry } from "./contractExpiry";
@@ -239,6 +240,11 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
     const scouted = progressOpponentScouting(next, date, upcomingFixture ?? null);
     next = scouted.state;
     for (const report of scouted.completed) emit(buildOpponentScoutReportEvent(report.fixtureId, report.opponentClubId, report.staffName, report.reliabilityLabel, date));
+    // HM-M6.0 (G-D6): the delegated analyst left -- say so once instead of going quiet.
+    if (scouted.delegateLeft) {
+      const name = findStaffMember(next, scouted.delegateLeft)?.displayName ?? "Analytikern";
+      emit(buildClubEvent("STAFF_UPDATE", `opponent-analysis-unassigned:${scouted.delegateLeft}:${date}`, date, "IMPORTANT", "Motståndaranalysen saknar ansvarig", `${name} arbetar inte längre i klubben, så ingen analyserar kommande motståndare automatiskt. Välj en ny ansvarig under Analys.`, [{ route: "ANALYSIS_OPPONENT" }]));
+    }
   }
 
   // HM-SCOUTING-1.0: the REAL player-scouting loop -- advances every

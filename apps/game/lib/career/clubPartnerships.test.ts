@@ -89,8 +89,13 @@ function withDivision1Pool(state: CareerState): CareerState {
 
 test("fresh career seeds exactly the five canonical permanent AFFILIATED_B_TEAM relations", () => {
   const state = baseState();
-  const permanent = Object.values(state.clubPartnerships).filter((p) => p.type === "AFFILIATED_B_TEAM");
+  // Club Identity C4 (D9): a new career also holds the 11 Division 2 relation rows (separate seeder, evidence-tagged);
+  // the five canonical rows remain exactly as before.
+  const affiliated = Object.values(state.clubPartnerships).filter((p) => p.type === "AFFILIATED_B_TEAM");
+  const permanent = affiliated.filter((p) => !p.competitionRestriction);
   assert.equal(permanent.length, 5);
+  assert.equal(affiliated.length, 16);
+  assert.ok(affiliated.filter((p) => p.competitionRestriction).every((p) => p.competitionRestriction!.evidence.startsWith("Club Identity static relation:")));
   for (const pair of PERMANENT_B_TEAM_PAIRS) {
     const row = permanent.find((p) => p.clubAId === pair.clubAId && p.clubBId === pair.clubBId);
     assert.ok(row, `missing permanent relation ${pair.clubAId} -> ${pair.clubBId}`);
@@ -443,7 +448,11 @@ test("existing-save migration backfills the five permanent B-team relations for 
   delete (legacy as Record<string, unknown>).partnershipSearches;
 
   const migrated = migrateCareerState(legacy as CareerState);
-  const permanent = Object.values(migrated.clubPartnerships).filter((p) => p.type === "AFFILIATED_B_TEAM");
+  // Club Identity C4 (D9): the 11 Division 2 relation rows are added too, effective only from the next season start.
+  const affiliated = Object.values(migrated.clubPartnerships).filter((p) => p.type === "AFFILIATED_B_TEAM");
+  const permanent = affiliated.filter((p) => !p.competitionRestriction);
   assert.equal(permanent.length, 5);
+  assert.equal(affiliated.length, 16);
+  assert.ok(affiliated.filter((p) => p.competitionRestriction).every((p) => p.startDate === "2027-07-01"));
   assert.deepEqual(migrated.partnershipSearches, {});
 });

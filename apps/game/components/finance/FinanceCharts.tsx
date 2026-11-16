@@ -29,12 +29,14 @@ function useWidth<T extends HTMLElement>(fallback: number) {
 }
 
 /** Cash over time: closed months as a solid line, the projection dashed, zero and the overdraft limit as reference lines. */
-export function CashLineChart({ points, format, overdraftLimit, label }: { points: readonly CashPoint[]; format: (v: number) => string; overdraftLimit: number; label: string }) {
+/** `lows` (optional, aligned with `points`): the lower edge of a projection band per point -- e.g. the projection
+ *  without its estimated matchday income (Arena Nights CLB-06a/06f). Points without a low draw no band. */
+export function CashLineChart({ points, format, overdraftLimit, label, lows, bandLabel }: { points: readonly CashPoint[]; format: (v: number) => string; overdraftLimit: number; label: string; lows?: readonly (number | null | undefined)[]; bandLabel?: string }) {
   const [ref, W] = useWidth<HTMLElement>(760);
   if (points.length === 0) return <p className="hm-text-muted">Inga månader är bokförda ännu.</p>;
   const narrow = W < 520;
   const H = narrow ? 220 : 280, padL = narrow ? 58 : 78, padR = 16, padT = 22, padB = 34;
-  const raw = [...points.map((p) => p.value), 0, -overdraftLimit];
+  const raw = [...points.map((p) => p.value), ...(lows ?? []).filter((v): v is number => typeof v === "number"), 0, -overdraftLimit];
   const step = niceStep(Math.max(...raw) - Math.min(...raw) || 1, narrow ? 3 : 4);
   const max = Math.ceil(Math.max(...raw) / step) * step, min = Math.floor(Math.min(...raw) / step) * step;
   const span = max - min || 1;
@@ -55,6 +57,7 @@ export function CashLineChart({ points, format, overdraftLimit, label }: { point
         <line x1={padL} x2={W - padR} y1={y(0)} y2={y(0)} className="fc-zero" />
         <line x1={padL} x2={W - padR} y1={y(-overdraftLimit)} y2={y(-overdraftLimit)} className="fc-limit" />
         <text x={W - padR - 4} y={y(-overdraftLimit) - 6} className="fc-axis fc-limit-label" textAnchor="end">Kreditgräns</text>
+        {(() => { const band = points.map((p, i) => ({ i, value: p.value, low: lows?.[i] })).filter((p): p is { i: number; value: number; low: number } => typeof p.low === "number"); return band.length > 1 ? <path className="fc-band-area" d={`${path(band)} ${band.slice().reverse().map((p) => `L${x(p.i).toFixed(1)},${y(p.low).toFixed(1)}`).join(" ")} Z`}><title>{bandLabel ?? "Osäkerhet i prognosen"}</title></path> : null; })()}
         {actual.length > 0 && <path d={`${path(actual)} L${x(actual.at(-1)!.i)},${y(min)} L${x(actual[0]!.i)},${y(min)} Z`} className="fc-area" />}
         {actual.length > 1 && <path d={path(actual)} className="fc-line" />}
         {projected.length > 1 && <path d={path(projected)} className="fc-line fc-line-projected" />}
@@ -62,7 +65,7 @@ export function CashLineChart({ points, format, overdraftLimit, label }: { point
         {points.map((p, i) => <circle key={i} cx={x(i)} cy={y(p.value)} r={p.projected ? 3 : 4.5} className={p.projected ? "fc-dot fc-dot-projected" : "fc-dot"} data-negative={p.value < 0}><title>{`${p.label}: ${format(p.value)}${p.projected ? " (prognos)" : " (bokfört)"}`}</title></circle>)}
         {points.map((p, i) => (i % labelEvery === 0 || i === points.length - 1) && <text key={`l${i}`} x={x(i)} y={H - 10} className="fc-axis" textAnchor={i === 0 ? "start" : i === points.length - 1 ? "end" : "middle"}>{p.label}</text>)}
       </svg>
-      <figcaption className="fc-legend">{actual.length > 0 && <span data-kind="actual">Bokfört (stängda månader)</span>}{points.some((p) => p.projected) && <span data-kind="projected">Prognos (uppskattning)</span>}<span data-kind="limit">Kreditgräns {format(-overdraftLimit)}</span></figcaption>
+      <figcaption className="fc-legend">{actual.length > 0 && <span data-kind="actual">Bokfört (stängda månader)</span>}{points.some((p) => p.projected) && <span data-kind="projected">Prognos (uppskattning)</span>}{lows?.some((v) => typeof v === "number") && <span data-kind="band">{bandLabel ?? "Osäkerhet i prognosen"}</span>}<span data-kind="limit">Kreditgräns {format(-overdraftLimit)}</span></figcaption>
     </figure>
   );
 }

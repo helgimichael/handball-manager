@@ -1,0 +1,338 @@
+[
+ {
+  "id": "se_club_alingsas_hk",
+  "name": "Alingsås HK",
+  "shortName": "Alingsås",
+  "city": "Alingsås",
+  "tier": "SE-1 Handbollsligan",
+  "competitionId": "se_handbollsligan_herr",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "blue",
+   "secondary": "white",
+   "trim": null,
+   "description": "Blue shirt (en-wiki template adds a white upper panel), blue shorts.",
+   "sources": [
+    "https://en.wikipedia.org/w/index.php?title=Alingsås_HK&action=raw",
+    "https://sv.wikipedia.org/w/index.php?title=Alingsås_HK&action=raw"
+   ],
+   "notes": "No official shop/club text found (club domain guesses did not resolve). Hex values are generic template blues, not brand colours.",
+   "review": []
+  }
+ },
+ {
+  "id": "se_club_amo_hk",
+  "name": "Amo HK",
+  "shortName": "Amo",
+  "city": "Alstermo",
+  "tier": "SE-1 Handbollsligan",
+  "competitionId": "se_handbollsligan_herr",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "royal-blue",
+   "secondary": "black",
+   "trim": null,
+   "description": "Blue shirt, black shorts and socks; white away shirt.",
+   "sources": [
+    "https://sv.wikipedia.org/w/index.php?title=Amo_Handboll&action=raw"
+   ],
+   "notes": "Single source (sv Wikipedia). No official shop or club page found. Secondary = shorts colour.",
+   "review": [
+    "Only Wikipedia evidence; no official confirmation."
+   ]
+  }
+ },
+ {
+  "id": "se_club_hammarby_if_hf",
+  "name": "Hammarby IF HF",
+  "shortName": "Hammarby",
+  "city": "Stockholm",
+  "tier": "SE-1 Handbollsligan",
+  "competitionId": "se_handbollsligan_herr",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "VERIFIED",
+   "primary": "green",
+   "secondary": "white",
+   "trim": null,
+   "description": "Green shirt with thin white vertical stripes and green shorts, worn at home (Hammarby-Lugi 35-20, 11 Nov 2026). Green dominates.",
+   "sources": [
+    "https://www.hammarbyhandboll.se/hifhandboll_herr/match/20557017/lugi-hf#referat",
+    "https://www.hammarbyhandboll.se",
+    "https://en.wikipedia.org/w/index.php?title=Hammarby_IF_Handboll&action=raw",
+    "https://sv.wikipedia.org/w/index.php?title=Hammarby_IF_HF&action=raw"
+   ],
+   "notes": "Green/white confirmed officially, but whether green or white dominates differs between en and sv Wikipedia. Official Intersport 'HB matchtröja' product page states no colour. Visual check 2026-11-13: Official club website match report photo (Foto: Stephan Grahn), Hammarby-Lugi 11 Nov 2026: home player in green shirt with white pinstripes, green shorts.",
+   "review": []
+  }
+ },
+ {
+  "id": "se_club_hf_karlskrona",
+  "name": "HF Karlskrona",
+  "shortName": "Karlskrona",
+  "city": "Karlskrona",
+  "tier": "SE-1 Handbollsligan",
+  "competitionId": "se_handbollsligan_herr",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "black",
+   "secondary": "yellow",
+   "trim": "yellow",
+   "description": "Black shirt, black shorts; yellow away shirt. Club colours black and yellow.",
+   "sources": [
+    "https://en.wikipedia.org/w/index.php?title=HF_Karlskrona&action=raw"
+   ],
+   "notes": "Official site hfk.se links a Clubmate shop that did not render product data. Yellow accent comes from club colours / away kit, not a documented home-shirt trim.",
+   "review": [
+    "white/black home shirt: neon accent is documented as a club, away or dated colour — not confirmed as a home-shirt detail (owner decision)",
+    "Black primary; yellow accent from club colours only, no official shirt source."
+   ]
+  }
+ },
+ {
+  "id": "se_club_hk_malmo",
+  "name": "HK Malmö",
+  "shortName": "Malmö",
+  "city": "Malmö",
+  "tier": "SE-1 Handbollsligan",
+  "competitionId": "se_handbollsligan_herr",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "VERIFIED",
+   "primary": "black",
+   "secondary": "red",
+   "trim": "red",
+   "description": "Black shirt with red shoulders, red side panels and red numbers (home crowd, official homepage hero photo).",
+   "sources": [
+    "https://hkmalmo.se/",
+    "https://emporia.malmo.teamsportia.se/klubbshop-1/hk-malmo/select-player-shirt-ss-spain-v25-hk-malmo.html",
+    "https://en.wikipedia.org/w/index.php?title=HK_Malmö&action=raw"
+   ],
+   "notes": "Club shop (linked from hkmalmo.se) sells only a Black/White player shirt but does not label it home. Red trim from Wikipedia kit labelled 2010-11, so possibly outdated. Visual check 2026-11-13: Official club homepage hero photo: men's players in black shirts with red shoulders/side panels and red numbers. Confirms red as a home-shirt detail; photo undated.",
+   "review": []
+  }
+ },
+ {
+  "id": "se_club_if_hallby_hk",
+  "name": "IF Hallby HK",
+  "shortName": "Hallby",
+  "city": "Jönköping",
+  "tier": "SE-1 Handbollsligan",
+  "competitionId": "se_handbollsligan_herr",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "blue",
+   "secondary": null,
+   "trim": null,
+   "description": "Blue shirt, blue shorts (Kempa, 2020-).",
+   "sources": [
+    "https://en.wikipedia.org/w/index.php?title=IF_Hallby&action=raw"
+   ],
+   "notes": "Single Wikipedia source; sv Wikipedia has no kit data; club domain guess did not resolve.",
+   "review": [
+    "Only Wikipedia evidence; no accent colour documented."
+   ]
+  }
+ },
+ {
+  "id": "se_club_ifk_kristianstad",
+  "name": "IFK Kristianstad",
+  "shortName": "Kristianstad",
+  "city": "Kristianstad",
+  "tier": "SE-1 Handbollsligan",
+  "competitionId": "se_handbollsligan_herr",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "VERIFIED",
+   "primary": "orange",
+   "secondary": "white",
+   "trim": null,
+   "description": "Orange ('brandgul') shirt with thin white vertical pinstripes, worn at home in Kristianstad Arena (vs Amo HK, 12 Nov 2026). Crest is blue/white - crest differs from shirt.",
+   "sources": [
+    "https://ifkkristianstad.se/",
+    "https://en.wikipedia.org/w/index.php?title=IFK_Kristianstad&action=raw",
+    "https://old.eurohandball.com/article/031523/IFK+fans+get+ticket+as+chip+in+their+hand"
+   ],
+   "notes": "Club website text exposed no shop or kit description. Crest blue/white differs from shirt. Visual check 2026-11-13: Official club website, match report photo 'Stabil brandgul seger over Amo hemma i Kristianstad Arena' (12 Nov 2026): player in orange shirt with white pinstripes.",
+   "review": []
+  }
+ },
+ {
+  "id": "se_club_ifk_skovde_hk",
+  "name": "IFK Skövde HK",
+  "shortName": "Skövde",
+  "city": "Skövde",
+  "tier": "SE-1 Handbollsligan",
+  "competitionId": "se_handbollsligan_herr",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "blue",
+   "secondary": "white",
+   "trim": null,
+   "description": "Blue shirt, blue shorts; white away shirt.",
+   "sources": [
+    "https://en.wikipedia.org/w/index.php?title=IFK_Skövde&action=raw",
+    "https://sv.wikipedia.org/w/index.php?title=IFK_Skövde&action=raw"
+   ],
+   "notes": "Two consistent Wikipedia sources; no official shop found.",
+   "review": []
+  }
+ },
+ {
+  "id": "se_club_ik_savehof",
+  "name": "IK Sävehof",
+  "shortName": "Sävehof",
+  "city": "Göteborg",
+  "tier": "SE-1 Handbollsligan",
+  "competitionId": "se_handbollsligan_herr",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "VERIFIED",
+   "primary": "yellow",
+   "secondary": "black",
+   "trim": "black",
+   "description": "Yellow shirt with black shoulders/side detailing ('gulsvart'), worn by the men's team at home (vs HF Karlskrona, 11 Nov 2026). Yellow dominates.",
+   "sources": [
+    "https://savehof.se/",
+    "https://en.wikipedia.org/w/index.php?title=IK_Sävehof&action=raw",
+    "https://sv.wikipedia.org/w/index.php?title=IK_Sävehof&action=raw",
+    "https://savehof.se"
+   ],
+   "notes": "Yellow/black certain (official 'gulsvart'), but which colour dominates the home shirt conflicts between sources. Stadium club shop returned HTTP 429. Visual check 2026-11-13: Official club website news photo 'Tva poang hemma mot Karlskrona' (11 Nov 2026): men's player in a yellow shirt with black shoulders. Resolves the earlier black-vs-yellow conflict. (changed from black → yellow)",
+   "review": []
+  }
+ },
+ {
+  "id": "se_club_lugi_hf",
+  "name": "Lugi HF",
+  "shortName": "Lugi",
+  "city": "Lund",
+  "tier": "SE-1 Handbollsligan",
+  "competitionId": "se_handbollsligan_herr",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "wine",
+   "secondary": "black",
+   "trim": "white",
+   "description": "Wine-red (vinröd) shirt, black shorts (Puma).",
+   "sources": [
+    "https://www.lugihandboll.se",
+    "https://en.wikipedia.org/w/index.php?title=Lugi_HF&action=raw"
+   ],
+   "notes": "Official site confirms wine red as club colour but not explicitly the shirt; Wikipedia hex 71002E.",
+   "review": []
+  }
+ },
+ {
+  "id": "se_club_ov_helsingborg",
+  "name": "OV Helsingborg",
+  "shortName": "OV Helsingborg",
+  "city": "Helsingborg",
+  "tier": "SE-1 Handbollsligan",
+  "competitionId": "se_handbollsligan_herr",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "green",
+   "secondary": "white",
+   "trim": null,
+   "description": "Green shirt with white details (adidas, 2020-); white away.",
+   "sources": [
+    "https://en.wikipedia.org/w/index.php?title=OV_Helsingborg_HK&action=raw",
+    "https://sv.wikipedia.org/w/index.php?title=OV_Helsingborg&action=raw",
+    "https://ovhelsingborg.myclub.se"
+   ],
+   "notes": "Club shop at team.intersport.se/ov-helsingborg not checked in detail.",
+   "review": []
+  }
+ },
+ {
+  "id": "se_club_skanela_if",
+  "name": "Skånela IF",
+  "shortName": "Skånela",
+  "city": "Sigtuna",
+  "tier": "SE-1 Handbollsligan",
+  "competitionId": "se_handbollsligan_herr",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "red",
+   "secondary": "black",
+   "trim": "white",
+   "description": "Red shirt (hummel), black shorts; white away.",
+   "sources": [
+    "https://sv.wikipedia.org/w/index.php?title=Skånela_IF&action=raw",
+    "https://en.wikipedia.org/w/index.php?title=Skånela_IF&action=raw"
+   ],
+   "notes": "No official shop/club text found (domain guess failed).",
+   "review": []
+  }
+ },
+ {
+  "id": "se_club_ystads_if_hf",
+  "name": "Ystads IF HF",
+  "shortName": "Ystad",
+  "city": "Ystad",
+  "tier": "SE-1 Handbollsligan",
+  "competitionId": "se_handbollsligan_herr",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "white",
+   "secondary": "blue",
+   "trim": "yellow",
+   "description": "White shirt with blue details, blue shorts; blue away. Club colours blue and yellow.",
+   "sources": [
+    "https://sv.wikipedia.org/w/index.php?title=Ystads_IF_HF&action=raw",
+    "https://en.wikipedia.org/w/index.php?title=Ystads_IF&action=raw"
+   ],
+   "notes": "Club shop (ystad.teamsportia.se) lists Adidas Tabela 23 jerseys without colour. Blue accent documented; yellow is club colour2, not confirmed on shirt.",
+   "review": [
+    "white/black home shirt: neon accent is documented as a club, away or dated colour — not confirmed as a home-shirt detail (owner decision)",
+    "White primary; accent from Wikipedia only, no official shirt source."
+   ]
+  }
+ },
+ {
+  "id": "se_club_onnereds_hk",
+  "name": "Önnereds HK",
+  "shortName": "Önnered",
+  "city": "Göteborg",
+  "tier": "SE-1 Handbollsligan",
+  "competitionId": "se_handbollsligan_herr",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "green",
+   "secondary": "black",
+   "trim": null,
+   "description": "Green shirt, black shorts; white away.",
+   "sources": [
+    "https://en.wikipedia.org/w/index.php?title=Önnereds_HK&action=raw",
+    "https://sv.wikipedia.org/w/index.php?title=Önnereds_HK&action=raw"
+   ],
+   "notes": "Klubbhuset club shop has a 'Matchtröjor' category but no listed products.",
+   "review": []
+  }
+ }
+]

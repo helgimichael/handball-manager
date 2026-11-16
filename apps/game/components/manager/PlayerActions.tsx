@@ -1,13 +1,16 @@
 'use client';
 import Link from 'next/link';
 import { useCareer } from '@/lib/career/CareerContext';
+import { activeClubId } from "@/lib/manager/employment";
 import { isRetiredClubId } from '@/lib/career/playerLifecycle';
 import type { PlayerMock } from '@/lib/game-data';
 export default function PlayerActions({ player }: { player: PlayerMock }) {
   const { career, addToShortlist, removeFromShortlist } = useCareer();
-  const own = player.clubId === career.playerClubId;
+  const own = player.clubId === activeClubId(career);
   const listed = career.recruitmentTargets[player.id]?.shortlisted;
   const id = encodeURIComponent(player.id);
+  // Employment states: shortlists, scouting, bids and comparisons are club work -- without a club the profile is read-only.
+  if (!activeClubId(career)) return <div className="hm-actions hm-object-actions" data-testid="player-actions-no-club"><span className="hm-text-muted">Utan klubb kan du följa spelaren men inte agera.</span></div>;
   return <div className="hm-actions hm-object-actions">
     <Link className="hm-btn hm-btn-sm" href={`/career/compare?left=${id}`}>Jämför spelare</Link>
     {own ? <><Link className="hm-btn hm-btn-sm" href="/career/tactics">Matchtrupp & startsju</Link><Link className="hm-btn hm-btn-sm" href="/career/contracts">Kontraktsöversikt</Link><Link className="hm-btn hm-btn-sm" href="/career/training">Träning & belastning</Link></> : !isRetiredClubId(player.clubId) && <>

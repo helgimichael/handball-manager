@@ -125,6 +125,8 @@ function resolveBackend(): SaveStorageBackend {
 
 /** Test seam: swaps the backend and resets the once-per-process migration guard. Never called by app code. */
 export function __setSaveBackendForTests(next: SaveStorageBackend | null): void {
+  invalidateEnvelope();
+  newestPut.clear();
   backend = next;
   migrationPromise = null;
 }
@@ -209,6 +211,7 @@ async function runMigration(): Promise<LegacyMigrationOutcome> {
       continue;
     }
     await store.putSave(save);
+    invalidateEnvelope(save.saveId);
     written.push(save);
   }
 
@@ -301,6 +304,7 @@ export async function createSave(
   const careerState = initialize ? await initialize(save) : undefined;
   const complete = careerState ? { ...save, careerState, gameDate: careerState.gameDate } : save;
   await resolveBackend().putSave(complete);
+  invalidateEnvelope(complete.saveId);
   return complete;
 }
 
@@ -313,6 +317,7 @@ export async function touchSave(saveId: string): Promise<void> {
     return;
   }
   await store.putSave({ ...save, lastPlayedAt: new Date().toISOString() });
+  invalidateEnvelope(saveId);
 }
 
 export async function deleteSave(saveId: string): Promise<void> {
@@ -324,6 +329,8 @@ export async function deleteSave(saveId: string): Promise<void> {
   await deleteMatchArchives(saveId, [...(state?.matchArchiveIds ?? []), ...Object.keys(state?.matchArchives ?? {})]);
   await resolveBackend().deleteSave(saveId);
   careerWrites.delete(saveId);
+  invalidateEnvelope(saveId);
+  newestPut.delete(saveId);
   if (getActiveSaveId() === saveId) window.localStorage.removeItem(ACTIVE_SAVE_KEY);
 }
 
@@ -331,6 +338,42 @@ export async function deleteSave(saveId: string): Promise<void> {
 type SaveWaiter = { resolve: () => void; reject: (cause: unknown) => void };
 type CareerWriteQueue = { running: boolean; next?: { state: CareerState; waiters: SaveWaiter[] }; last?: Promise<void> };
 const careerWrites = new Map<string, CareerWriteQueue>();
+/**
+ * Stabilization (tactical autosave): the record this queue last wrote, per save. A career save is tens of MB, and
+ * re-reading it before every write left a long window in which a newer edit only waited in the queue -- and a
+ * reload in that window dropped it. With the cached envelope a write issues its put at once. Every other write
+ * path in this module invalidates the cache, so a stale envelope is never written back.
+ */
+const writtenEnvelopes = new Map<string, CareerSave>();
+/** Per save: the sequence number of the newest write that has issued its put. An older write never puts after it. */
+const newestPut = new Map<string, number>();
+let writeSequence = 0;
+function invalidateEnvelope(saveId?: string) {
+  if (saveId) writtenEnvelopes.delete(saveId);
+  else writtenEnvelopes.clear();
+}
+
+/**
+ * Stabilization (tactical autosave): the observable state of the ONE career write queue below, so the UI can
+ * say "Sparar…" / "Sparat" / "Inte sparat", guard a reload while a write is in flight, and offer a retry.
+ * SAVING: a snapshot is queued or being written. SAVED: the latest queued snapshot is committed.
+ * FAILED: the latest attempted snapshot did not commit (the in-memory career still holds every edit).
+ */
+export type CareerWriteStatus = { phase: "SAVING" | "SAVED" | "FAILED"; at: number; error?: string };
+const writeStatus = new Map<string, CareerWriteStatus>();
+const writeStatusListeners = new Set<(saveId: string, status: CareerWriteStatus) => void>();
+function setWriteStatus(saveId: string, status: CareerWriteStatus) {
+  writeStatus.set(saveId, status);
+  writeStatusListeners.forEach((listener) => listener(saveId, status));
+}
+export function getCareerWriteStatus(saveId: string): CareerWriteStatus | undefined {
+  return writeStatus.get(saveId);
+}
+export function subscribeCareerWriteStatus(listener: (saveId: string, status: CareerWriteStatus) => void): () => void {
+  writeStatusListeners.add(listener);
+  return () => { writeStatusListeners.delete(listener); };
+}
+
 export function saveCareerState(saveId: string, careerState: CareerState): Promise<void> {
   const queue = careerWrites.get(saveId) ?? { running: false };
   careerWrites.set(saveId, queue);
@@ -342,14 +385,22 @@ export function saveCareerState(saveId: string, careerState: CareerState): Promi
     queue.next = { state: careerState, waiters: [...(queue.next?.waiters ?? []), { resolve, reject }] };
   });
   queue.last = promise;
+  setWriteStatus(saveId, { phase: "SAVING", at: Date.now() });
   if (!queue.running) {
     queue.running = true;
     void (async () => {
       while (queue.next) {
         const pending = queue.next;
         queue.next = undefined;
-        try { await saveCareerStateNow(saveId, pending.state); pending.waiters.forEach(w => w.resolve()); }
-        catch (cause) { pending.waiters.forEach(w => w.reject(cause)); }
+        try {
+          await saveCareerStateNow(saveId, pending.state, ++writeSequence);
+          pending.waiters.forEach(w => w.resolve());
+          // Only the newest snapshot decides the status: a newer queued one keeps it SAVING.
+          if (!queue.next) setWriteStatus(saveId, { phase: "SAVED", at: Date.now() });
+        } catch (cause) {
+          pending.waiters.forEach(w => w.reject(cause));
+          if (!queue.next) setWriteStatus(saveId, { phase: "FAILED", at: Date.now(), error: cause instanceof Error ? cause.message : String(cause) });
+        }
       }
       queue.running = false;
     })();
@@ -357,12 +408,31 @@ export function saveCareerState(saveId: string, careerState: CareerState): Promi
   return promise;
 }
 export async function flushCareerSave(saveId: string): Promise<void> {
-  await careerWrites.get(saveId)?.last;
+  // Waits for the queued write to settle. Its failure was already reported to its own callers and via
+  // CareerWriteStatus; re-throwing it here would make every later read of this save fail with a stale error
+  // instead of returning the last committed state.
+  await careerWrites.get(saveId)?.last?.catch(() => undefined);
 }
-async function saveCareerStateNow(saveId: string, careerState: CareerState): Promise<void> {
+/**
+ * Stabilization (tactical autosave): called when the page is being hidden or unloaded. A snapshot still waiting
+ * behind a running write is written NOW instead of after it, so a reload or a closed tab cannot drop the newest
+ * edit. Its put is issued in this task (the envelope is cached), after the running write's put, so it lands last.
+ */
+export function flushCareerWritesOnExit(): void {
+  for (const [saveId, queue] of careerWrites) {
+    const pending = queue.next;
+    if (!pending) continue;
+    queue.next = undefined;
+    void saveCareerStateNow(saveId, pending.state, ++writeSequence).then(
+      () => { pending.waiters.forEach(w => w.resolve()); if (!queue.next) setWriteStatus(saveId, { phase: "SAVED", at: Date.now() }); },
+      (cause) => { pending.waiters.forEach(w => w.reject(cause)); if (!queue.next) setWriteStatus(saveId, { phase: "FAILED", at: Date.now(), error: cause instanceof Error ? cause.message : String(cause) }); },
+    );
+  }
+}
+async function saveCareerStateNow(saveId: string, careerState: CareerState, sequence: number): Promise<void> {
   await ensureLegacySavesMigrated();
   const store = resolveBackend();
-  const save = await store.getSave(saveId);
+  const save = writtenEnvelopes.get(saveId) ?? await store.getSave(saveId);
   if (!save) {
     return;
   }
@@ -373,7 +443,7 @@ async function saveCareerStateNow(saveId: string, careerState: CareerState): Pro
   const storedCareer = ids.length ? { ...withoutReplayPayloads(careerState), matchArchives: undefined, matchArchiveIds: ids,
     matchArchiveSummaries: { ...previous?.matchArchiveSummaries, ...careerArchiveSummaries(careerState) },
   } : careerState;
-  await store.putSave({
+  const record: CareerSave = {
     ...save,
     careerState: storedCareer,
     schemaVersion: CURRENT_SAVE_SCHEMA_VERSION,
@@ -381,7 +451,13 @@ async function saveCareerStateNow(saveId: string, careerState: CareerState): Pro
     clubId: careerState.playerClubId,
     gameDate: careerState.gameDate,
     lastPlayedAt: new Date().toISOString(),
-  });
+  };
+  // Never let an older snapshot put after a newer one (an exit flush can overtake the running write).
+  if ((newestPut.get(saveId) ?? 0) > sequence) return;
+  newestPut.set(saveId, sequence);
+  const put = store.putSave(record);
+  writtenEnvelopes.set(saveId, record);
+  try { await put; } catch (cause) { invalidateEnvelope(saveId); throw cause; }
 }
 
 // --- Active-save pointer (stays in localStorage: a single short id) ---
@@ -469,6 +545,7 @@ export async function importSaveFromJson(file: File): Promise<string> {
   const restored: CareerSave = { ...backup.save, saveId, lastPlayedAt: new Date().toISOString() };
   for (const archive of backupArchives(backup)) await storeMatchArchive(saveId, archive);
   await store.putSave(restored);
+  invalidateEnvelope(saveId);
   setActiveSaveId(saveId);
   return saveId;
 }

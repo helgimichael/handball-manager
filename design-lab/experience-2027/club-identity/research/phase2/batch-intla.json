@@ -1,0 +1,1117 @@
+[
+ {
+  "id": "int-hard",
+  "name": "ALPLA HC Hard",
+  "shortName": "HC Hard",
+  "city": null,
+  "tier": "International / world pool",
+  "competitionId": "int-aut-1",
+  "registrationUrl": null,
+  "worldPool": true,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "red",
+   "secondary": "white",
+   "trim": null,
+   "description": "Red shirt with white sleeves/details, red shorts.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Alpla_HC_Hard",
+    "https://de.wikipedia.org/wiki/Alpla_HC_Hard"
+   ],
+   "notes": "Two Wikipedias agree.",
+   "review": []
+  }
+ },
+ {
+  "id": "int-fivers",
+  "name": "Fivers Margareten",
+  "shortName": "Fivers",
+  "city": null,
+  "tier": "International / world pool",
+  "competitionId": "int-aut-1",
+  "registrationUrl": null,
+  "worldPool": true,
+  "prior": {
+   "status": "UNCERTAIN",
+   "primary": "red",
+   "secondary": "light-blue",
+   "trim": null,
+   "description": "en.wiki: red/light-blue hummel striped shirt; de.wiki: black kit, colours black-white.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Handballclub_Fivers_Margareten",
+    "https://de.wikipedia.org/wiki/Fivers_WAT_Margareten"
+   ],
+   "notes": "Wikipedias conflict; both templates old.",
+   "review": [
+    "Conflict: red/light-blue stripes (en.wiki) vs black (de.wiki)."
+   ]
+  }
+ },
+ {
+  "id": "int-h71",
+  "name": "H71",
+  "shortName": "H71",
+  "city": null,
+  "tier": "International / world pool",
+  "competitionId": "int-fro-1",
+  "registrationUrl": null,
+  "worldPool": true,
+  "prior": {
+   "status": "UNKNOWN",
+   "primary": null,
+   "secondary": null,
+   "trim": null,
+   "description": "No evidence found.",
+   "sources": [],
+   "notes": "No en/de/fo Wikipedia article found (H71 Hoyvík). Search budget exhausted before club site check.",
+   "review": [
+    "No kit evidence found."
+   ]
+  }
+ },
+ {
+  "id": "int-veszprem-academy",
+  "name": "Veszprém Handball Academy",
+  "shortName": "Veszprém Akadémia",
+  "city": null,
+  "tier": "International / world pool",
+  "competitionId": "int-hun-2b",
+  "registrationUrl": null,
+  "worldPool": true,
+  "prior": {
+   "status": "UNCERTAIN",
+   "primary": "red",
+   "secondary": "white",
+   "trim": null,
+   "description": "Assumed parent-club (Veszprém) red; no evidence that the academy team wears the parent kit.",
+   "sources": [
+    "https://hu.wikipedia.org/wiki/One_Veszprém_KC"
+   ],
+   "notes": "Colours are the parent club's; academy kit itself not documented.",
+   "review": [
+    "Academy team; parent kit use not evidenced."
+   ]
+  }
+ },
+ {
+  "id": "int-meran",
+  "name": "Black Devils Meran Alperia",
+  "shortName": "Meran",
+  "city": null,
+  "tier": "International / world pool",
+  "competitionId": "int-ita-1",
+  "registrationUrl": null,
+  "worldPool": true,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "black",
+   "secondary": "white",
+   "trim": null,
+   "description": "Black home shirt; away crimson.",
+   "sources": [
+    "https://it.wikipedia.org/wiki/Sport_Club_Meran_Handball"
+   ],
+   "notes": "Only documented contrast is white (club colour); crimson is away kit only.",
+   "review": [
+    "monochrome shirt without documented accent colour → ice-silver neon",
+    "Black primary; accent only from club colours (white), no documented shirt trim."
+   ]
+  }
+ },
+ {
+  "id": "int-cologno",
+  "name": "Metelli Cologne",
+  "shortName": "Cologne",
+  "city": null,
+  "tier": "International / world pool",
+  "competitionId": "int-ita-1",
+  "registrationUrl": null,
+  "worldPool": true,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "grey",
+   "secondary": "pink",
+   "trim": null,
+   "description": "Grey shirt with fuchsia/black sleeve detail, grey shorts.",
+   "sources": [
+    "https://it.wikipedia.org/wiki/Pallamano_Cologne"
+   ],
+   "notes": "Club is Pallamano Cologne (Brescia province, Italy), not Köln. Single Wikipedia source.",
+   "review": []
+  }
+ },
+ {
+  "id": "int-cassano",
+  "name": "Proger Cassano Magnago",
+  "shortName": "Cassano Magnago",
+  "city": null,
+  "tier": "International / world pool",
+  "competitionId": "int-ita-1",
+  "registrationUrl": null,
+  "worldPool": true,
+  "prior": {
+   "status": "UNCERTAIN",
+   "primary": "maroon",
+   "secondary": "white",
+   "trim": null,
+   "description": "Club colours white and amaranth; kit template shows white body with sash and amaranth sleeves/shorts.",
+   "sources": [
+    "https://it.wikipedia.org/wiki/Handball_Cassano_Magnago"
+   ],
+   "notes": "Template is internally inconsistent (white sash on white body); dominant shirt colour could be white or amaranth.",
+   "review": [
+    "Ambiguous kit template: white vs amaranth dominant."
+   ]
+  }
+ },
+ {
+  "id": "int-camerano",
+  "name": "Camerano",
+  "shortName": "Camerano",
+  "city": null,
+  "tier": "International / world pool",
+  "competitionId": "int-ita-2",
+  "registrationUrl": null,
+  "worldPool": true,
+  "prior": {
+   "status": "UNCERTAIN",
+   "primary": "grey",
+   "secondary": "black",
+   "trim": null,
+   "description": "Kit template: grey body, black sleeves and shorts; club colours stated as red-black.",
+   "sources": [
+    "https://it.wikipedia.org/wiki/Pallamano_Camerano"
+   ],
+   "notes": "Club colours (red-black) conflict with kit template (grey/black).",
+   "review": [
+    "Conflict between club colours red-black and grey kit template.",
+    "monochrome shirt without documented accent colour → ice-silver neon"
+   ]
+  }
+ },
+ {
+  "id": "int-paese",
+  "name": "Paese",
+  "shortName": "Paese",
+  "city": null,
+  "tier": "International / world pool",
+  "competitionId": "int-ita-2",
+  "registrationUrl": null,
+  "worldPool": true,
+  "prior": {
+   "status": "UNKNOWN",
+   "primary": null,
+   "secondary": null,
+   "trim": null,
+   "description": "No evidence found.",
+   "sources": [],
+   "notes": "No it.wikipedia article (Pallamano Paese missing). Search budget exhausted.",
+   "review": [
+    "No kit evidence found."
+   ]
+  }
+ },
+ {
+  "id": "int-fasano",
+  "name": "Serra Fasano",
+  "shortName": "Fasano",
+  "city": null,
+  "tier": "International / world pool",
+  "competitionId": "int-ita-2",
+  "registrationUrl": null,
+  "worldPool": true,
+  "prior": {
+   "status": "UNCERTAIN",
+   "primary": "white",
+   "secondary": "light-blue",
+   "trim": null,
+   "description": "Club colours white and light blue (Junior Fasano); shirt not documented.",
+   "sources": [
+    "https://it.wikipedia.org/wiki/Serie_A_Gold"
+   ],
+   "notes": "Only club colour statement; which colour is the shirt body is not known.",
+   "review": [
+    "Only club colours; shirt body colour unconfirmed.",
+    "white/black home shirt: neon accent is documented as a club, away or dated colour — not confirmed as a home-shirt detail (owner decision)"
+   ]
+  }
+ },
+ {
+  "id": "int-bevo",
+  "name": "Humby/Bevo HC",
+  "shortName": "Bevo",
+  "city": null,
+  "tier": "International / world pool",
+  "competitionId": "int-ned-1",
+  "registrationUrl": null,
+  "worldPool": true,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "yellow",
+   "secondary": "blue",
+   "trim": null,
+   "description": "Yellow shirt with blue upper/sleeves, blue shorts.",
+   "sources": [
+    "https://nl.wikipedia.org/wiki/Bevo_HC",
+    "https://en.wikipedia.org/wiki/Bevo_HC"
+   ],
+   "notes": "Two Wikipedias agree.",
+   "review": []
+  }
+ },
+ {
+  "id": "int-volendam",
+  "name": "KRAS/Volendam",
+  "shortName": "Volendam",
+  "city": null,
+  "tier": "International / world pool",
+  "competitionId": "int-ned-1",
+  "registrationUrl": null,
+  "worldPool": true,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "orange",
+   "secondary": "black",
+   "trim": null,
+   "description": "Orange shirt, black shorts.",
+   "sources": [
+    "https://nl.wikipedia.org/wiki/RKHV_Volendam",
+    "https://de.wikipedia.org/wiki/RKHV_Volendam"
+   ],
+   "notes": "Two Wikipedias agree.",
+   "review": []
+  }
+ },
+ {
+  "id": "int-aalsmeer",
+  "name": "RoyalFloraHolland/HV Aalsmeer",
+  "shortName": "Aalsmeer",
+  "city": null,
+  "tier": "International / world pool",
+  "competitionId": "int-ned-1",
+  "registrationUrl": null,
+  "worldPool": true,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "black",
+   "secondary": null,
+   "trim": "gold",
+   "description": "Black shirt with thin gold hoops on sleeve, black shorts; away gold.",
+   "sources": [
+    "https://nl.wikipedia.org/wiki/HV_Aalsmeer",
+    "https://en.wikipedia.org/wiki/HV_Aalsmeer"
+   ],
+   "notes": "Gold trim hex taken from away-kit body (FFD700) as the documented gold.",
+   "review": [
+    "white/black home shirt: neon accent is documented as a club, away or dated colour — not confirmed as a home-shirt detail (owner decision)"
+   ]
+  }
+ },
+ {
+  "id": "int-wisla-plock",
+  "name": "ORLEN Wisła Płock",
+  "shortName": "Wisła Płock",
+  "city": null,
+  "tier": "International / world pool",
+  "competitionId": "int-pol-1",
+  "registrationUrl": null,
+  "worldPool": true,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "blue",
+   "secondary": "white",
+   "trim": null,
+   "description": "Blue shirt (2025/26 template), dark navy shorts.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Wisła_Płock_(handball)"
+   ],
+   "notes": "Single Wikipedia source with current-season template.",
+   "review": []
+  }
+ },
+ {
+  "id": "int-sporting",
+  "name": "Sporting CP",
+  "shortName": "Sporting",
+  "city": null,
+  "tier": "International / world pool",
+  "competitionId": "int-por-1",
+  "registrationUrl": null,
+  "worldPool": true,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "green",
+   "secondary": "white",
+   "trim": null,
+   "description": "Green and white hooped shirt, black shorts.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Sporting_CP_(handball)"
+   ],
+   "notes": "Hoops inferred from Sporting's traditional pattern and the club-specific template; text does not state 'hoops' explicitly.",
+   "review": [
+    "Pattern (hoops) inferred, not stated; template from 2022/23."
+   ]
+  }
+ },
+ {
+  "id": "int-alduhail",
+  "name": "Al Duhail",
+  "shortName": "Al Duhail",
+  "city": null,
+  "tier": "International / world pool",
+  "competitionId": "int-qat-1",
+  "registrationUrl": null,
+  "worldPool": true,
+  "prior": {
+   "status": "UNCERTAIN",
+   "primary": "red",
+   "secondary": null,
+   "trim": null,
+   "description": "All-red kit per the club's football infobox (2023/24).",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Al_Duhail_SC"
+   ],
+   "notes": "Handball team kit not documented; football kit used as proxy.",
+   "review": [
+    "Only football kit evidence; handball home shirt unconfirmed."
+   ]
+  }
+ },
+ {
+  "id": "int-schaffhausen",
+  "name": "Kadetten Schaffhausen",
+  "shortName": "Kadetten",
+  "city": null,
+  "tier": "International / world pool",
+  "competitionId": "int-che-1",
+  "registrationUrl": null,
+  "worldPool": true,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "orange",
+   "secondary": "black",
+   "trim": null,
+   "description": "Orange shirt (Puma), black shorts.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Kadetten_Schaffhausen",
+    "https://de.wikipedia.org/wiki/Kadetten_Schaffhausen"
+   ],
+   "notes": "Two Wikipedias agree.",
+   "review": []
+  }
+ },
+ {
+  "id": "den1-aalborg",
+  "name": "Aalborg Håndbold",
+  "shortName": "Aalborg",
+  "city": "Aalborg",
+  "tier": "International / world pool",
+  "competitionId": "den-1",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "red",
+   "secondary": "white",
+   "trim": null,
+   "description": "Red shirt, white shorts.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Aalborg_H%C3%A5ndbold",
+    "https://aalborghaandbold.dk/category/nyhed/"
+   ],
+   "notes": "Hex values are Wikipedia template defaults, not brand hex. No shop listing found.",
+   "review": []
+  }
+ },
+ {
+  "id": "den1-bjerringbro",
+  "name": "Bjerringbro-Silkeborg",
+  "shortName": "BSH",
+  "city": "Silkeborg",
+  "tier": "International / world pool",
+  "competitionId": "den-1",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "black",
+   "secondary": "white",
+   "trim": null,
+   "description": "Black shirt with thin white side panels, black shorts.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Bjerringbro-Silkeborg_H%C3%A5ndbold"
+   ],
+   "notes": "Only Wikipedia evidence; no current shop listing found. Accent is white only.",
+   "review": [
+    "monochrome shirt without documented accent colour → ice-silver neon",
+    "Black primary; only documented accent is white (no colour accent)."
+   ]
+  }
+ },
+ {
+  "id": "den1-fredericia",
+  "name": "Fredericia HK",
+  "shortName": "Fredericia",
+  "city": "Fredericia",
+  "tier": "International / world pool",
+  "competitionId": "den-1",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "red",
+   "secondary": "black",
+   "trim": null,
+   "description": "Red shirt, black shorts.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Fredericia_HK"
+   ],
+   "notes": "Only Wikipedia evidence; searches returned FC Fredericia (football) instead.",
+   "review": []
+  }
+ },
+ {
+  "id": "den1-gog",
+  "name": "GOG Håndbold",
+  "shortName": "GOG",
+  "city": "Gudme/Ørbæk",
+  "tier": "International / world pool",
+  "competitionId": "den-1",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "yellow",
+   "secondary": "red",
+   "trim": null,
+   "description": "Yellow shirt with red details, red shorts.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/GOG_H%C3%A5ndbold",
+    "https://gog.dk/wp-content/uploads/2026/04/GOG-magasin.pdf"
+   ],
+   "notes": "Hex values are template defaults.",
+   "review": []
+  }
+ },
+ {
+  "id": "den1-grindsted",
+  "name": "Grindsted GIF",
+  "shortName": "Grindsted",
+  "city": "Grindsted",
+  "tier": "International / world pool",
+  "competitionId": "den-1",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "blue",
+   "secondary": "black",
+   "trim": null,
+   "description": "Blue shirt, black shorts.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Grindsted_GIF_H%C3%A5ndbold"
+   ],
+   "notes": "Only Wikipedia evidence. Club reported relegated after 2025/26.",
+   "review": []
+  }
+ },
+ {
+  "id": "den1-hoj",
+  "name": "HØJ Elite",
+  "shortName": "HØJ",
+  "city": "Hjørring",
+  "tier": "International / world pool",
+  "competitionId": "den-1",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "white",
+   "secondary": "red",
+   "trim": null,
+   "description": "White body with red sleeves, black shorts.",
+   "sources": [
+    "https://da.wikipedia.org/wiki/H%C3%98J_Elite",
+    "https://en.wikipedia.org/wiki/H%C3%98J_Elite"
+   ],
+   "notes": "Danish Wikipedia says club has men's and women's elite teams; men promoted to Herrehåndboldligaen and relegated after 2025/26. Club city in batch (Hjørring) not verified.",
+   "review": [
+    "Wikipedia only; white primary with red sleeves as accent."
+   ]
+  }
+ },
+ {
+  "id": "den1-morsthy",
+  "name": "Mors-Thy Håndbold",
+  "shortName": "Mors-Thy",
+  "city": "Nykøbing Mors",
+  "tier": "International / world pool",
+  "competitionId": "den-1",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "blue",
+   "secondary": "black",
+   "trim": null,
+   "description": "Blue shirt, black shorts.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Mors-Thy_H%C3%A5ndbold"
+   ],
+   "notes": "Only Wikipedia evidence.",
+   "review": []
+  }
+ },
+ {
+  "id": "den1-nordsjaelland",
+  "name": "Nordsjælland Håndbold",
+  "shortName": "Nordsjælland",
+  "city": "Helsingør",
+  "tier": "International / world pool",
+  "competitionId": "den-1",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "light-green",
+   "secondary": "black",
+   "trim": null,
+   "description": "Bright green shirt, black shorts.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Nordsj%C3%A6lland_H%C3%A5ndbold"
+   ],
+   "notes": "Only Wikipedia evidence.",
+   "review": []
+  }
+ },
+ {
+  "id": "den1-ribeesbjerg",
+  "name": "Ribe-Esbjerg HH",
+  "shortName": "Ribe-Esbjerg",
+  "city": "Esbjerg",
+  "tier": "International / world pool",
+  "competitionId": "den-1",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "navy",
+   "secondary": "black",
+   "trim": null,
+   "description": "Navy/blue shirt, black shorts.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Ribe-Esbjerg_HH"
+   ],
+   "notes": "Only Wikipedia evidence.",
+   "review": []
+  }
+ },
+ {
+  "id": "den1-skanderborg",
+  "name": "Skanderborg Aarhus",
+  "shortName": "Skanderborg AGF",
+  "city": "Aarhus",
+  "tier": "International / world pool",
+  "competitionId": "den-1",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "navy",
+   "secondary": "white",
+   "trim": null,
+   "description": "Navy shirt and shorts.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Skanderborg_AGF_H%C3%A5ndbold"
+   ],
+   "notes": "Merged club (Skanderborg + Aarhus/AGF). Pre-merger Skanderborg Håndbold page shows green 008000 / black, so kit identity changed with the merger.",
+   "review": [
+    "Wikipedia only; merged club, earlier green identity conflicts."
+   ]
+  }
+ },
+ {
+  "id": "den1-skjern",
+  "name": "Skjern Håndbold",
+  "shortName": "Skjern",
+  "city": "Skjern",
+  "tier": "International / world pool",
+  "competitionId": "den-1",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "green",
+   "secondary": "white",
+   "trim": "white",
+   "description": "Green shirt with white collar, black shorts.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Skjern_H%C3%A5ndbold"
+   ],
+   "notes": "Only Wikipedia evidence.",
+   "review": []
+  }
+ },
+ {
+  "id": "den1-sonderjyske",
+  "name": "SønderjyskE Håndbold",
+  "shortName": "SønderjyskE",
+  "city": "Aabenraa",
+  "tier": "International / world pool",
+  "competitionId": "den-1",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "sky-blue",
+   "secondary": "white",
+   "trim": "white",
+   "description": "Light/sky-blue shirt with white collar, light-blue shorts.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/S%C3%B8nderjyskE_Herreh%C3%A5ndbold"
+   ],
+   "notes": "Women's page shows the same kit. Only Wikipedia evidence; search budget ran out before shop check.",
+   "review": []
+  }
+ },
+ {
+  "id": "den1-tms",
+  "name": "TMS Ringsted",
+  "shortName": "TMS Ringsted",
+  "city": "Ringsted",
+  "tier": "International / world pool",
+  "competitionId": "den-1",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "green",
+   "secondary": "black",
+   "trim": null,
+   "description": "Green shirt, black shorts.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/TMS_Ringsted"
+   ],
+   "notes": "Only Wikipedia evidence.",
+   "review": []
+  }
+ },
+ {
+  "id": "den1-tth",
+  "name": "TTH Holstebro",
+  "shortName": "TTH Holstebro",
+  "city": "Holstebro",
+  "tier": "International / world pool",
+  "competitionId": "den-1",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "white",
+   "secondary": "black",
+   "trim": null,
+   "description": "White body with black sleeves, black shorts.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/TTH_Holstebro"
+   ],
+   "notes": "Only Wikipedia evidence.",
+   "review": [
+    "monochrome shirt without documented accent colour → ice-silver neon",
+    "White primary; only documented accent is black (no colour accent)."
+   ]
+  }
+ },
+ {
+  "id": "ger1-bergischer",
+  "name": "Bergischer HC",
+  "shortName": "Bergischer HC",
+  "city": "Bergisches Land",
+  "tier": "International / world pool",
+  "competitionId": "ger-1",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "royal-blue",
+   "secondary": "white",
+   "trim": null,
+   "description": "Royal-blue shirt with white horizontal band.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Bergischer_HC"
+   ],
+   "notes": "Only Wikipedia evidence.",
+   "review": []
+  }
+ },
+ {
+  "id": "ger1-fuchse",
+  "name": "Füchse Berlin",
+  "shortName": "Füchse Berlin",
+  "city": "Berlin",
+  "tier": "International / world pool",
+  "competitionId": "ger-1",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "green",
+   "secondary": "light-green",
+   "trim": null,
+   "description": "Green shirt (\"Power Green\" with \"Fresh Mint\" accents per PUMA 24/25 product name), green shorts.",
+   "sources": [
+    "https://www.decathlon.de/p/mp/fuchse-berlin-24-25-heimtrikot-herren-puma-power-green-fresh-mint/7af7b1ca-22ac-413a-ab34-6ec9b5796fc0/c9",
+    "https://en.wikipedia.org/wiki/F%C3%BCchse_Berlin"
+   ],
+   "notes": "No 2025/26 colour statement found; 24/25 retail listing plus Wikipedia agree on green. Secondary inferred from product colour name \"Fresh Mint\".",
+   "review": []
+  }
+ },
+ {
+  "id": "ger1-eisenach",
+  "name": "ThSV Eisenach",
+  "shortName": "Eisenach",
+  "city": "Eisenach",
+  "tier": "International / world pool",
+  "competitionId": "ger-1",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "blue",
+   "secondary": "white",
+   "trim": null,
+   "description": "Blue shirt with white shoulders, blue shorts.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/ThSV_Eisenach"
+   ],
+   "notes": "Only Wikipedia evidence.",
+   "review": []
+  }
+ },
+ {
+  "id": "ger1-erlangen",
+  "name": "HC Erlangen",
+  "shortName": "Erlangen",
+  "city": "Erlangen",
+  "tier": "International / world pool",
+  "competitionId": "ger-1",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "UNCERTAIN",
+   "primary": "black",
+   "secondary": "red",
+   "trim": null,
+   "description": "Black shirt (Erima-style patterned body), club colours black/red.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/HC_Erlangen"
+   ],
+   "notes": "Body colour only implied by pattern file name; red is a club colour, not confirmed as shirt trim.",
+   "review": [
+    "Black primary inferred from template pattern name; red accent is club colour only.",
+    "white/black home shirt: neon accent is documented as a club, away or dated colour — not confirmed as a home-shirt detail (owner decision)"
+   ]
+  }
+ },
+ {
+  "id": "ger1-flensburg",
+  "name": "SG Flensburg-Handewitt",
+  "shortName": "Flensburg",
+  "city": "Flensburg",
+  "tier": "International / world pool",
+  "competitionId": "ger-1",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "VERIFIED",
+   "primary": "red",
+   "secondary": "navy",
+   "trim": "navy",
+   "description": "Deep red (\"chili pepper\") shirt with navy detailing on collar, cuffs and side panels; flame graphic.",
+   "sources": [
+    "https://www.hummel.net/sgfh-25-26-home-jersey-s-s-chili-pepper/233577-3782.html",
+    "https://en.wikipedia.org/wiki/SG_Flensburg-Handewitt"
+   ],
+   "notes": "Conflict: Wikipedia template shows navy shirt (older kit). Manufacturer 25/26 listing says red base with navy; hummel page itself returned HTTP 429, evidence from search snippet and URL slug.",
+   "review": []
+  }
+ },
+ {
+  "id": "ger1-goppingen",
+  "name": "Frisch Auf Göppingen",
+  "shortName": "Göppingen",
+  "city": "Göppingen",
+  "tier": "International / world pool",
+  "competitionId": "ger-1",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "UNCERTAIN",
+   "primary": "green",
+   "secondary": "white",
+   "trim": null,
+   "description": "Club colours green/white; shirt body uses a hummel pattern whose colour is not stated.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Frisch_Auf_G%C3%B6ppingen"
+   ],
+   "notes": "Club programme mentions \"Heimtrikot 2025/26\" but no colour. Green is club colour, shirt colour not textually confirmed.",
+   "review": [
+    "Shirt colour not stated; only club colours known."
+   ]
+  }
+ },
+ {
+  "id": "ger1-gummersbach",
+  "name": "VfL Gummersbach",
+  "shortName": "Gummersbach",
+  "city": "Gummersbach",
+  "tier": "International / world pool",
+  "competitionId": "ger-1",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "blue",
+   "secondary": "white",
+   "trim": null,
+   "description": "Blue shirt and shorts.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/VfL_Gummersbach"
+   ],
+   "notes": "Club hall magazine 2025/26 mentions new PUMA partnership; no colour statement found.",
+   "review": []
+  }
+ },
+ {
+  "id": "ger1-hamburg",
+  "name": "HSV Hamburg",
+  "shortName": "HSV Hamburg",
+  "city": "Hamburg",
+  "tier": "International / world pool",
+  "competitionId": "ger-1",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "UNCERTAIN",
+   "primary": "red",
+   "secondary": "navy",
+   "trim": null,
+   "description": "PUMA Liga 21/22 template with red arms; club colours red/dark blue.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Handball_Sport_Verein_Hamburg"
+   ],
+   "notes": "Evidence is old (2021/22) and body colour only implied by pattern name. Search results dominated by football HSV.",
+   "review": [
+    "Old (2021/22) Wikipedia-only evidence."
+   ]
+  }
+ },
+ {
+  "id": "ger1-hannover",
+  "name": "TSV Hannover-Burgdorf",
+  "shortName": "Hannover-Burgdorf",
+  "city": "Hannover",
+  "tier": "International / world pool",
+  "competitionId": "ger-1",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "green",
+   "secondary": "white",
+   "trim": "white",
+   "description": "Rich green shirt with white accents on shoulders and sides, white shorts.",
+   "sources": [
+    "https://www.leinetal24.de/sport/handball/tsv-hanover-burgdorf-stellt-mit-politischen-gaesten-und-sponsoren-im-rahmen-der-finals-ihr-heimtrikot-vo-94415680.html",
+    "https://en.wikipedia.org/wiki/TSV_Hannover-Burgdorf"
+   ],
+   "notes": "News report of official 2026/27 home shirt launch.",
+   "review": []
+  }
+ },
+ {
+  "id": "ger1-kiel",
+  "name": "THW Kiel",
+  "shortName": "THW Kiel",
+  "city": "Kiel",
+  "tier": "International / world pool",
+  "competitionId": "ger-1",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "VERIFIED",
+   "primary": "white",
+   "secondary": "black",
+   "trim": "black",
+   "description": "White shirt with black details/stripe graphic (PUMA White-PUMA Black).",
+   "sources": [
+    "https://eu.puma.com/no/en/pd/thw-kiel-25-26-home-jersey-men/786978",
+    "https://en.wikipedia.org/wiki/THW_Kiel"
+   ],
+   "notes": "Retailer describes black-and-white stripe motif.",
+   "review": [
+    "monochrome shirt without documented accent colour → ice-silver neon",
+    "White primary; only documented accent is black (no colour accent)."
+   ]
+  }
+ },
+ {
+  "id": "ger1-leipzig",
+  "name": "SC DHfK Leipzig",
+  "shortName": "Leipzig",
+  "city": "Leipzig",
+  "tier": "International / world pool",
+  "competitionId": "ger-1",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "green",
+   "secondary": "white",
+   "trim": null,
+   "description": "Green shirt and shorts.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/SC_DHfK_Leipzig_Handball"
+   ],
+   "notes": "Only Wikipedia evidence. Club colour hex #004411 is darker than kit hex.",
+   "review": []
+  }
+ },
+ {
+  "id": "ger1-lemgo",
+  "name": "TBV Lemgo",
+  "shortName": "Lemgo",
+  "city": "Lemgo",
+  "tier": "International / world pool",
+  "competitionId": "ger-1",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "blue",
+   "secondary": "white",
+   "trim": null,
+   "description": "Blue shirt with white shoulders, blue shorts.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/TBV_Lemgo"
+   ],
+   "notes": "Only Wikipedia evidence; club colour hex #0873FD differs from kit hex.",
+   "review": []
+  }
+ },
+ {
+  "id": "ger1-magdeburg",
+  "name": "SC Magdeburg",
+  "shortName": "Magdeburg",
+  "city": "Magdeburg",
+  "tier": "International / world pool",
+  "competitionId": "ger-1",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "green",
+   "secondary": "red",
+   "trim": "red",
+   "description": "Green shirt with red accents on shoulders and sides.",
+   "sources": [
+    "https://www.volksstimme.de/sport/sc-magdeburg/neue-trikots-sc-magdeburg-ist-wieder-grun-rot-4089452",
+    "https://en.wikipedia.org/wiki/SC_Magdeburg"
+   ],
+   "notes": "Previous two seasons the home shirt was black.",
+   "review": []
+  }
+ },
+ {
+  "id": "ger1-melsungen",
+  "name": "MT Melsungen",
+  "shortName": "Melsungen",
+  "city": "Melsungen",
+  "tier": "International / world pool",
+  "competitionId": "ger-1",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "red",
+   "secondary": "white",
+   "trim": null,
+   "description": "Red shirt with white side arcs, red shorts.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/MT_Melsungen"
+   ],
+   "notes": "Only Wikipedia evidence.",
+   "review": []
+  }
+ },
+ {
+  "id": "ger1-minden",
+  "name": "GWD Minden",
+  "shortName": "Minden",
+  "city": "Minden",
+  "tier": "International / world pool",
+  "competitionId": "ger-1",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "green",
+   "secondary": "white",
+   "trim": null,
+   "description": "Green shirt with thin white sides, green shorts.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/GWD_Minden"
+   ],
+   "notes": "Only Wikipedia evidence.",
+   "review": []
+  }
+ },
+ {
+  "id": "ger1-rheinneckar",
+  "name": "Rhein-Neckar Löwen",
+  "shortName": "Rhein-Neckar",
+  "city": "Mannheim",
+  "tier": "International / world pool",
+  "competitionId": "ger-1",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "yellow",
+   "secondary": "navy",
+   "trim": "blue",
+   "description": "Yellow shirt with blue details, dark-blue shorts.",
+   "sources": [
+    "https://www.wochenblatt-reporter.de/kronau/imagepost/das-sind-sie-die-neuen-trikots-der-rhein-neckar-loewen_i12052",
+    "https://erima.de/corporate/uploads/2c8c877c73f69fce47ee87ae6f902626.pdf",
+    "https://en.wikipedia.org/wiki/Rhein-Neckar_L%C3%B6wen"
+   ],
+   "notes": "2025/26 specifically not found, but seasons either side agree.",
+   "review": []
+  }
+ },
+ {
+  "id": "ger1-stuttgart",
+  "name": "TVB Stuttgart",
+  "shortName": "Stuttgart",
+  "city": "Stuttgart",
+  "tier": "International / world pool",
+  "competitionId": "ger-1",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "UNCERTAIN",
+   "primary": "blue",
+   "secondary": "white",
+   "trim": null,
+   "description": "Template shows blue body with white shoulders; club colours listed white/blue.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/TVB_Stuttgart"
+   ],
+   "notes": "2026/27 shirt designed by studiokurbos (regional \"Maultaschen\" theme) but colours not stated in found text.",
+   "review": [
+    "Template body blue but colour1 listed as white; conflicting."
+   ]
+  }
+ }
+]

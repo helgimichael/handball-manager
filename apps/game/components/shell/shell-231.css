@@ -1,0 +1,133 @@
+/* ==========================================================================
+   Arena 231 -- shell surfaces: ENT-09 breadcrumb, ENT-09a spine pins + event card, ENT-13 live pill,
+   ENT-08b autosave indicator + overflow, ENT-10a calendar flip / floodlight overlay, ENT-11 feedback context.
+   Arena tokens only; club neon for selection, focus and own-club state.
+   ========================================================================== */
+
+/* ---------------------------------------------------------------- ENT-09 breadcrumb (kicker above the page) */
+.hm-crumbs { display: flex; align-items: center; gap: 10px; min-height: 28px; margin: 0 0 6px; }
+.hm-crumbs ol { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; list-style: none; margin: 0; padding: 0; font: 700 11px/1.3 var(--arena-font-ui); letter-spacing: .12em; text-transform: uppercase; }
+.hm-crumbs li { display: inline-flex; align-items: center; gap: 4px; color: var(--arena-muted); }
+.hm-crumbs li + li::before { content: "›"; color: var(--arena-faint); letter-spacing: 0; }
+.hm-crumbs a { color: var(--arena-muted); text-decoration: none; padding: 4px 0; }
+.hm-crumbs a:hover { color: var(--arena-ink); text-decoration: underline; text-decoration-color: var(--club-neon); text-underline-offset: 3px; }
+.hm-crumbs [aria-current="page"] { color: var(--arena-ink); }
+.hm-crumbs a:focus-visible { outline: 2px solid var(--club-neon); outline-offset: 2px; }
+.hm-crumbs-back { display: none; min-height: 40px; align-items: center; color: var(--arena-ink-2); font: 600 14px/1 var(--arena-font-ui); text-decoration: none; }
+@media (max-width: 760px) {
+  .hm-crumbs ol { display: none; }
+  .hm-crumbs-back { display: inline-flex; }
+  .hm-crumbs:not(:has(.hm-crumbs-back)) { display: none; }
+}
+
+/* ---------------------------------------------------------------- ENT-09a pins on the Spine + event card */
+.hm-spine-day { position: relative; }
+.hm-spine-alert { position: absolute; top: 3px; right: 4px; display: grid; place-items: center; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 8px; background: var(--club-neon); color: var(--club-neon-ink); font: 800 10px/1 var(--arena-font-ui); box-shadow: 0 0 10px color-mix(in srgb, var(--club-neon) 60%, transparent); }
+.hm-stop-pins { display: flex; flex-wrap: wrap; gap: 6px; padding: 6px 16px; background: var(--arena-bg-2); border-bottom: 1px solid var(--arena-line); }
+.hm-stop-pin { display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 3px 10px 3px 4px; background: var(--arena-solid-2); color: var(--arena-ink-2); border: 1px solid var(--arena-line); border-radius: 999px; font: 600 12px/1 var(--arena-font-ui); cursor: pointer; }
+.hm-stop-pin b { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--arena-solid-4); color: var(--arena-ink); font-size: 11px; }
+.hm-stop-pin[aria-expanded="true"] { border-color: var(--club-neon); color: var(--arena-ink); }
+.hm-stop-pin[aria-expanded="true"] b, .hm-stop-pin[data-kind="matchday"] b { background: var(--club-neon); color: var(--club-neon-ink); }
+.hm-stop-pin:focus-visible { outline: 2px solid var(--club-neon); outline-offset: 2px; }
+.game-progression-notice.hm-event-card { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 10px 18px; width: min(560px, calc(100% - 32px)); margin: 0 16px 0 clamp(16px, 18vw, 260px); padding: 14px 44px 14px 16px; background: var(--arena-solid-1); color: var(--arena-ink); border: 1px solid var(--arena-line-strong); border-top: 3px solid var(--club-neon); border-left: 0; border-radius: 0 0 6px 6px; box-shadow: 0 18px 40px rgb(0 0 0 / .45); }
+.game-progression-notice.hm-event-card::before { content: ""; position: absolute; top: -9px; left: 28px; border: 6px solid transparent; border-bottom-color: var(--club-neon); }
+.hm-event-card > div[role="status"] { display: grid; gap: 4px; min-width: 0; }
+.hm-event-kicker { font: 700 10px/1.3 var(--arena-font-ui); letter-spacing: .14em; text-transform: uppercase; color: var(--club-neon); }
+.hm-event-card strong { font: 700 17px/1.2 var(--arena-font-ui); }
+.hm-event-card p { margin: 0; font-size: 13px; line-height: 1.5; color: var(--arena-ink-2); }
+.hm-event-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+.hm-event-close.hm-btn { position: absolute; top: 6px; right: 6px; }
+.hm-event-card[data-kind="matchday"] { background-image: radial-gradient(80% 120% at 100% 0%, color-mix(in srgb, var(--club-neon) 18%, transparent), transparent 70%); }
+@media (prefers-reduced-motion: no-preference) {
+  .hm-event-card { animation: hm-card-drop 220ms cubic-bezier(.2, .8, .2, 1); }
+  @keyframes hm-card-drop { from { opacity: 0; transform: translateY(-8px); } }
+}
+@media (max-width: 760px) {
+  .hm-stop-pins { padding: 6px 12px; }
+  .game-progression-notice.hm-event-card { width: auto; margin: 0 8px; grid-template-columns: minmax(0, 1fr); border-radius: 0 0 10px 10px; }
+  .hm-event-actions .hm-btn { min-height: 40px; }
+}
+
+/* ---------------------------------------------------------------- ENT-13 live score pill */
+.hm-live-pill { display: inline-flex; align-items: center; gap: 8px; min-height: 36px; max-width: 280px; padding: 4px 12px; background: var(--arena-solid-2); color: var(--arena-ink); border: 1px solid color-mix(in srgb, var(--arena-neg) 55%, var(--arena-line-strong)); border-radius: 999px; text-decoration: none; font: 600 13px/1 var(--arena-font-ui); white-space: nowrap; }
+.hm-live-pill b { font: 800 18px/1 var(--arena-font-display); }
+.hm-live-pill small { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--arena-muted); }
+.hm-live-pill:hover { border-color: var(--arena-neg); }
+.hm-live-pill:focus-visible { outline: 2px solid var(--club-neon); outline-offset: 2px; }
+.hm-live-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--arena-neg); box-shadow: 0 0 8px var(--arena-neg); }
+@media (prefers-reduced-motion: no-preference) { .hm-live-dot { animation: hm-live-pulse 1.4s ease-in-out infinite; } @keyframes hm-live-pulse { 50% { opacity: .35; } } }
+.hm-live-pill-row { display: none; padding: 6px 12px; background: var(--arena-bg-2); border-bottom: 1px solid var(--arena-line); }
+@media (max-width: 760px) {
+  .hm-live-pill-header { display: none; }
+  .hm-live-pill-row { display: block; }
+  .hm-live-pill-row .hm-live-pill { max-width: none; width: 100%; justify-content: center; }
+}
+
+/* ---------------------------------------------------------------- ENT-08b autosave indicator + overflow */
+.game-save-control { align-items: center; }
+.game-save-indicator { display: inline-flex; align-items: center; gap: 6px; min-height: 30px; padding: 0 4px; font: 600 12px/1 var(--arena-font-ui); color: var(--arena-muted); white-space: nowrap; }
+.game-save-indicator b { color: var(--arena-pos); font-weight: 800; }
+.game-save-indicator[data-phase="FAILED"] { color: var(--arena-neg); }
+.game-save-spinner { width: 12px; height: 12px; border: 2px solid var(--arena-line-strong); border-top-color: var(--club-neon); border-radius: 50%; }
+@media (prefers-reduced-motion: no-preference) { .game-save-spinner { animation: hm-save-turn 900ms linear infinite; } @keyframes hm-save-turn { to { transform: rotate(360deg); } } }
+.game-save-more-menu hr { width: 100%; margin: 2px 0; border: 0; border-top: 1px solid var(--arena-line); }
+.game-save-more-menu kbd { margin-left: auto; font: 600 10px/1 var(--arena-font-ui); color: var(--arena-faint); border: 1px solid var(--arena-line); border-radius: 3px; padding: 2px 4px; }
+.game-save-more-menu .hm-btn { display: flex; gap: 8px; }
+.game-save-feedback { display: flex; align-items: flex-start; gap: 8px; }
+.game-save-feedback-close { background: none; border: 0; color: inherit; cursor: pointer; font-size: 16px; line-height: 1; padding: 0 2px; }
+:root[data-theme="arena"] .hm-header .game-save-control { max-width: none; flex-wrap: nowrap; }
+.hm-sidebar-save .game-save-control { display: grid; gap: 6px; }
+.hm-sidebar-save .game-save-indicator { justify-content: flex-start; }
+
+/* ---------------------------------------------------------------- ENT-10a calendar flip → floodlight */
+.game-world-advance.hm-advance { width: min(760px, calc(100vw - 32px)); background: var(--arena-solid-1); color: var(--arena-ink); border: 1px solid var(--arena-line-strong); border-top: 3px solid var(--club-neon); border-radius: 8px; overflow: hidden; }
+.game-world-advance.hm-advance > header { background: var(--arena-bg-2); color: var(--arena-ink); padding: 16px 20px; gap: 14px; }
+.game-world-advance.hm-advance > header .game-overline { color: var(--arena-muted); }
+.game-world-advance.hm-advance h2 { font: 700 30px/1.05 var(--arena-font-display); }
+.game-world-advance.hm-advance > header button { background: var(--club-neon); border-color: var(--club-neon); color: var(--club-neon-ink); }
+.hm-advance-body { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); min-height: 260px; }
+.hm-advance-calendar { display: grid; justify-items: start; align-content: center; gap: 10px; padding: 22px; perspective: 600px; }
+.hm-advance-page { display: grid; justify-items: center; width: 120px; padding: 8px 0 10px; background: var(--arena-solid-3); border: 1px solid var(--arena-line-strong); border-top: 14px solid var(--club-neon); border-radius: 6px; transform-origin: top center; }
+.hm-advance-page span { font: 700 11px/1.2 var(--arena-font-ui); letter-spacing: .12em; text-transform: uppercase; color: var(--arena-muted); }
+.hm-advance-page strong { font: 800 56px/1 var(--arena-font-display); color: var(--arena-ink); }
+.hm-advance-date { font: 700 18px/1.2 var(--arena-font-ui); }
+.hm-advance-line { margin: 0; font-size: 13px; color: var(--arena-ink-2); min-height: 1.4em; }
+.hm-advance-count { font-size: 11px; color: var(--arena-faint); }
+.hm-advance-highlights { padding: 22px; border-left: 1px solid var(--arena-line); background: var(--arena-bg-2); }
+.hm-advance-highlights ol { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 8px; }
+.hm-advance-highlights li { display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 8px; font-size: 12px; }
+.hm-advance-highlights time { color: var(--arena-faint); font-size: 11px; }
+.hm-advance-highlights li div { display: grid; gap: 2px; min-width: 0; }
+.hm-advance-highlights small { color: var(--club-neon); font-weight: 700; }
+.hm-advance-highlights p { font-size: 12px; color: var(--arena-muted); }
+.game-world-advance.hm-advance .game-advance-stop { background: var(--arena-solid-2); border-left: 4px solid var(--club-neon); color: var(--arena-ink); padding: 22px; }
+.game-world-advance.hm-advance .game-advance-stop h3 { font: 700 26px/1.1 var(--arena-font-display); }
+.game-world-advance.hm-advance .game-advance-stop p { color: var(--arena-ink-2); }
+.hm-advance-floodlight { background-color: var(--arena-bg) !important; background-image: radial-gradient(60% 80% at 50% 0%, color-mix(in srgb, var(--club-neon) 34%, transparent), transparent 70%), radial-gradient(40% 60% at 10% 0%, color-mix(in srgb, var(--arena-ink) 8%, transparent), transparent 70%), radial-gradient(40% 60% at 90% 0%, color-mix(in srgb, var(--arena-ink) 8%, transparent), transparent 70%); text-align: center; align-items: center; }
+.hm-advance-crests { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 12px; }
+.hm-advance-crests b { font: 700 14px/1 var(--arena-font-ui); color: var(--arena-muted); text-transform: uppercase; letter-spacing: .12em; }
+.game-world-advance.hm-advance > footer { border-top: 1px solid var(--arena-line); color: var(--arena-faint); padding: 10px 20px; }
+@media (prefers-reduced-motion: no-preference) {
+  .hm-advance-page { animation: hm-flip 220ms cubic-bezier(.3, .7, .3, 1); }
+  @keyframes hm-flip { from { transform: rotateX(-80deg); opacity: .2; } }
+  .hm-advance-floodlight { animation: hm-lights 520ms ease-out; }
+  @keyframes hm-lights { from { filter: brightness(.3); } }
+  .hm-advance-stopcard { animation: hm-card-drop 260ms cubic-bezier(.2, .8, .2, 1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hm-advance-calendar, .hm-advance-highlights li { transition: opacity 120ms; }
+}
+@media (max-width: 760px) {
+  .game-world-advance.hm-advance { width: 100vw; max-width: 100vw; margin: auto 0 0; border-radius: 12px 12px 0 0; max-height: 92dvh; overflow-y: auto; }
+  .hm-advance-body { grid-template-columns: minmax(0, 1fr); }
+  .hm-advance-highlights { border-left: 0; border-top: 1px solid var(--arena-line); }
+  .game-world-advance.hm-advance > footer span:last-child { display: none; }
+}
+
+/* ---------------------------------------------------------------- ENT-11 feedback context chips */
+.alpha-feedback-context { display: grid; gap: 10px; padding: 12px; background: var(--hm-surface-2, var(--arena-solid-2)); border-radius: 6px; }
+.alpha-feedback-context ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.alpha-feedback-context li { display: inline-grid; gap: 2px; padding: 6px 10px; border: 1px solid var(--arena-line-strong); border-radius: 4px; font-size: 12px; overflow-wrap: anywhere; }
+.alpha-feedback-context li small { font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--arena-faint); }
+.alpha-feedback-context .alpha-feedback-copied { margin: 0 !important; font-size: 12px; }
+.alpha-feedback-context .alpha-secondary { justify-self: start; }

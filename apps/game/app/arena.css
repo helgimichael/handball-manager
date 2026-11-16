@@ -1,0 +1,259 @@
+/* ==========================================================================
+   Club Identity C5 -- ARENA NIGHTS (owner decision G1 = B) in production.
+   Source of authority: design-lab/experience-2027/proto/themes.css [data-theme="b"]
+   and HM-EXPERIENCE-2027-ARENA-NIGHTS-AMENDMENT.md. Arena Nights is the visual
+   language (tokens, type, colour, depth, motion temperament); surface structure
+   stays with each surface's retained recommendation.
+   Activated by <html data-theme="arena"> (app/layout.tsx). Loaded last.
+   ========================================================================== */
+
+:root[data-theme="arena"] {
+  color-scheme: dark;
+  /* Arena foundation (proto/themes.css B) */
+  --arena-bg: #070b12;
+  --arena-bg-2: #0b111c;
+  --arena-raised: #111a2b;
+  --arena-solid-1: #0f1625;   /* dense tables / long-session surfaces: solid, no blur */
+  --arena-solid-2: #131c2e;
+  --arena-solid-3: #18233a;
+  --arena-solid-4: #1e2b46;
+  --arena-ink: #f4f6fa;
+  --arena-ink-2: #d5dbe6;
+  --arena-muted: #9aa6b8;
+  --arena-faint: #8590a6; /* Phase 2 polish: >= 4.8:1 on every Arena surface (was #6c7890, ~3.8-4.4:1) for the small uppercase labels */
+  --arena-line: rgba(255, 255, 255, 0.1);
+  --arena-line-strong: rgba(255, 255, 255, 0.2);
+  --arena-pos: #2bd98a;
+  --arena-neg: #ff5a6a;
+  --arena-warn: #ffb020;
+  --arena-info: #4fb3ff;
+  --arena-gold: #ffc531;
+  --club-neon: #ff7a1a; /* clubless / outside a career: the default orange (G11) */
+  --club-neon-ink: #061018;
+  --arena-font-ui: "Barlow", "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+  --arena-font-display: "Barlow Condensed", "Bahnschrift Condensed", "Bahnschrift SemiCondensed", "Arial Narrow", sans-serif;
+
+  /* Production paper tokens -> Arena (tokens.css + game.css) */
+  --game-paper: var(--arena-bg);
+  --game-paper-2: var(--arena-bg-2);
+  --game-paper-3: var(--arena-solid-2);
+  --game-card: var(--arena-solid-1);
+  --game-ink: var(--arena-ink);
+  --game-ink-soft: var(--arena-ink-2);
+  --game-muted: var(--arena-muted);
+  --game-navy: #0b111c;
+  --game-navy-2: #111a2b;
+  --game-navy-deep: #05080e;
+  --game-court: #12324a;
+  --game-gold: var(--arena-gold);
+  --game-green: var(--arena-pos);
+  --game-amber: var(--arena-warn);
+  --game-red: var(--arena-neg);
+  --game-crest-line: rgba(255, 255, 255, 0.35);
+  --game-crest-text: #f7f3ea;
+  --game-jersey-line: rgba(255, 255, 255, 0.4);
+  --game-font-display: var(--arena-font-display);
+  --game-font-sans: var(--arena-font-ui);
+  --hm-font-sans: var(--arena-font-ui);
+  --hm-font-condensed: var(--arena-font-display);
+  --hm-bg-base: var(--arena-bg);
+  --hm-bg-app: var(--arena-bg);
+  --hm-bg-sidebar: #05080e;
+  --hm-bg-header: rgba(7, 11, 18, 0.92);
+  --hm-surface-1: var(--arena-solid-1);
+  --hm-surface-2: var(--arena-solid-2);
+  --hm-surface-3: var(--arena-solid-3);
+  --hm-surface-4: var(--arena-solid-4);
+  --hm-surface: var(--arena-solid-1);
+  --hm-surface-hover: #172238;
+  --hm-surface-active: #1b2740;
+  --hm-border-subtle: rgba(255, 255, 255, 0.07);
+  --hm-border: var(--arena-line);
+  --hm-border-strong: var(--arena-line-strong);
+  --hm-text-primary: var(--arena-ink);
+  --hm-text-secondary: var(--arena-ink-2);
+  --hm-text-muted: var(--arena-muted);
+  --hm-text-faint: var(--arena-faint);
+  --hm-text-disabled: #5d6880;
+  --hm-positive: var(--arena-pos);
+  --hm-positive-bg: rgba(43, 217, 138, 0.14);
+  --hm-positive-border: rgba(43, 217, 138, 0.36);
+  --hm-positive-muted: rgba(43, 217, 138, 0.16);
+  --hm-warning: var(--arena-warn);
+  --hm-warning-bg: rgba(255, 176, 32, 0.14);
+  --hm-warning-border: rgba(255, 176, 32, 0.36);
+  --hm-warning-muted: rgba(255, 176, 32, 0.16);
+  --hm-negative: var(--arena-neg);
+  --hm-negative-bg: rgba(255, 90, 106, 0.14);
+  --hm-negative-border: rgba(255, 90, 106, 0.36);
+  --hm-negative-muted: rgba(255, 90, 106, 0.16);
+  --hm-info: var(--arena-info);
+  --hm-info-bg: rgba(79, 179, 255, 0.14);
+  --hm-info-border: rgba(79, 179, 255, 0.36);
+  --hm-gold: var(--arena-gold);
+  --hm-shadow-sm: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 0 0 1px rgba(255, 255, 255, 0.06);
+  --hm-shadow-md: 0 10px 24px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --hm-shadow-lg: 0 30px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --hm-radius-sm: 6px;
+  --hm-radius-md: 10px;
+  --hm-radius-lg: 14px;
+}
+
+/* Accent tokens resolve where --club-neon is set: the root (orange) and the career
+   shell (active club, set by GameShell from the Club Identity Registry). */
+:root[data-theme="arena"],
+:root[data-theme="arena"] .hm-shell,
+:root[data-theme="arena"] [data-club-identity] {
+  --accent: var(--club-neon);
+  --game-signal: var(--club-neon);
+  --game-signal-soft: color-mix(in srgb, var(--club-neon) 16%, transparent);
+  --hm-accent: var(--club-neon);
+  --hm-accent-strong: color-mix(in srgb, var(--club-neon) 78%, #ffffff);
+  --hm-accent-subtle: color-mix(in srgb, var(--club-neon) 16%, transparent);
+  --hm-accent-muted: color-mix(in srgb, var(--club-neon) 22%, transparent);
+  --hm-accent-border: color-mix(in srgb, var(--club-neon) 55%, transparent);
+  --hm-accent-text: var(--club-neon-ink);
+  --hm-border-accent: var(--club-neon);
+  --hm-surface-selected: color-mix(in srgb, var(--club-neon) 18%, var(--arena-solid-1));
+  --arena-glow: 0 0 22px color-mix(in srgb, var(--club-neon) 42%, transparent);
+  --arena-hero: radial-gradient(120% 140% at 85% 0%, color-mix(in srgb, var(--club-neon) 26%, transparent) 0%, rgba(7, 11, 18, 0) 55%), linear-gradient(180deg, #101a2e 0%, #070b12 100%);
+}
+
+/* ---------------------------------------------------------------- base */
+:root[data-theme="arena"] body {
+  background:
+    radial-gradient(90% 60% at 100% 0%, color-mix(in srgb, var(--club-neon) 8%, transparent) 0%, transparent 60%),
+    radial-gradient(70% 50% at 0% 100%, rgba(30, 60, 110, 0.18) 0%, transparent 60%),
+    var(--arena-bg);
+  background-attachment: fixed;
+  color: var(--arena-ink);
+  font-family: var(--arena-font-ui);
+}
+:root[data-theme="arena"] ::selection { background: color-mix(in srgb, var(--club-neon) 40%, transparent); color: #fff; }
+:root[data-theme="arena"] :focus-visible { outline-color: var(--club-neon); }
+:root[data-theme="arena"] a { color: inherit; }
+:root[data-theme="arena"] h1,
+:root[data-theme="arena"] h2,
+:root[data-theme="arena"] h3 { color: var(--arena-ink); }
+
+/* Display type: condensed, uppercase italic for titles and kickers (Arena B). */
+:root[data-theme="arena"] .hm-page-title,
+:root[data-theme="arena"] .game-home-heading h1,
+:root[data-theme="arena"] .game-club-heading h1,
+:root[data-theme="arena"] .game-person-heading h1,
+:root[data-theme="arena"] .hm-header-title-text,
+:root[data-theme="arena"] .hm-panel-title,
+:root[data-theme="arena"] .game-section-scene h1 {
+  font-family: var(--arena-font-display);
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+:root[data-theme="arena"] .game-overline,
+:root[data-theme="arena"] .hm-nav-group-label,
+:root[data-theme="arena"] .hm-kicker,
+:root[data-theme="arena"] .career-entry-overline { letter-spacing: 0.18em; }
+
+/* ---------------------------------------------------------------- shell & navigation */
+:root[data-theme="arena"] .hm-sidebar {
+  background: linear-gradient(180deg, #070b12 0%, #05080e 100%);
+  border-right: 1px solid var(--arena-line);
+}
+:root[data-theme="arena"] .hm-header {
+  background: rgba(7, 11, 18, 0.88);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--arena-line);
+  color: var(--arena-ink);
+}
+:root[data-theme="arena"] .hm-main,
+:root[data-theme="arena"] .hm-content { background: transparent; }
+:root[data-theme="arena"] .hm-nav-item { color: #c9d2e0; }
+:root[data-theme="arena"] .hm-nav-badge { background: var(--club-neon); color: var(--club-neon-ink); }
+
+/* ---------------------------------------------------------------- surfaces */
+:root[data-theme="arena"] .hm-panel,
+:root[data-theme="arena"] .hm-card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.02)), var(--arena-solid-1);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  color: var(--arena-ink);
+}
+:root[data-theme="arena"] .hm-table { color: var(--arena-ink-2); }
+:root[data-theme="arena"] .hm-table th { color: var(--arena-muted); background: var(--arena-solid-2); border-color: var(--arena-line); }
+:root[data-theme="arena"] .hm-table td { border-color: rgba(255, 255, 255, 0.06); }
+:root[data-theme="arena"] .hm-table tr:hover td { background: rgba(255, 255, 255, 0.03); }
+:root[data-theme="arena"] .hm-table tr[data-highlight="true"] td { background: color-mix(in srgb, var(--club-neon) 12%, transparent); }
+
+/* ---------------------------------------------------------------- controls */
+:root[data-theme="arena"] .hm-input,
+:root[data-theme="arena"] .hm-select,
+:root[data-theme="arena"] textarea,
+:root[data-theme="arena"] input[type="text"],
+:root[data-theme="arena"] input[type="date"],
+:root[data-theme="arena"] input[type="search"],
+:root[data-theme="arena"] select {
+  background: var(--arena-solid-2);
+  color: var(--arena-ink);
+  border: 1px solid var(--arena-line-strong);
+}
+:root[data-theme="arena"] .hm-btn {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--arena-ink);
+  border: 1px solid var(--arena-line-strong);
+}
+:root[data-theme="arena"] .hm-btn:hover { background: rgba(255, 255, 255, 0.1); }
+/* Glow only on the primary action and Continue (amendment: "prominent but controlled"). */
+:root[data-theme="arena"] .hm-btn-primary,
+:root[data-theme="arena"] .hm-continue,
+:root[data-theme="arena"] .game-continue {
+  background: var(--club-neon);
+  color: var(--club-neon-ink);
+  border-color: var(--club-neon);
+  box-shadow: var(--arena-glow);
+}
+:root[data-theme="arena"] .hm-btn-primary:hover { background: color-mix(in srgb, var(--club-neon) 86%, #ffffff); }
+:root[data-theme="arena"] .hm-btn-ghost { background: transparent; }
+
+/* Form dots keep their result colours with light text (the generated ink mapping must not reach them). */
+:root[data-theme="arena"] .hm-form-dot.hm-form-w { background: #1f8a58; color: #ffffff; }
+:root[data-theme="arena"] .hm-form-dot.hm-form-l { background: #c23a3a; color: #ffffff; }
+
+/* ---------------------------------------------------------------- club identity in the header */
+:root[data-theme="arena"] .hm-shell[data-club-identity] .hm-header { box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--club-neon) 35%, transparent); }
+
+/* Header fit (pre-existing overflow at ~1024px: save controls + Continue were wider than the header,
+   so the whole shell scrolled sideways). The title yields first, then the save controls compact. */
+@media (min-width: 761px) {
+  :root[data-theme="arena"] .hm-header { min-width: 0; padding-right: 0; overflow-x: clip; }
+  :root[data-theme="arena"] .hm-header-title { min-width: 0; flex: 1 1 auto; overflow: hidden; }
+  :root[data-theme="arena"] .hm-header-title-text,
+  :root[data-theme="arena"] .hm-header-sub { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  :root[data-theme="arena"] .hm-header-meta { min-width: 0; flex: 0 1 auto; }
+}
+@media (min-width: 761px) and (max-width: 1360px) {
+  :root[data-theme="arena"] .hm-header-meta .hm-btn:not(.game-continue) { padding: 6px 9px; font-size: 11px; white-space: nowrap; }
+  :root[data-theme="arena"] .hm-header .game-continue { min-width: 148px; }
+  /* Save controls stack into two compact rows instead of pushing the shell sideways. */
+  :root[data-theme="arena"] .hm-header .game-save-control { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 4px; max-width: 250px; }
+}
+
+/* ---------------------------------------------------------------- MDY-01 Arena adaptation: intensity escalation
+   Preparation stays calm and desaturated; on matchday the club neon floods the stage; live, the state glows. */
+:root[data-theme="arena"] .hm-shell[data-game-state="matchday"] .hm-header {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--club-neon) 18%, rgba(7, 11, 18, 0.92)) 0%, rgba(7, 11, 18, 0.92) 55%);
+  box-shadow: inset 0 -2px 0 var(--club-neon);
+}
+:root[data-theme="arena"] .hm-shell[data-game-state="matchday"] .hm-club-badge,
+:root[data-theme="arena"] .hm-shell[data-game-state="live"] .hm-club-badge { box-shadow: var(--arena-glow); }
+:root[data-theme="arena"] .hm-shell[data-game-state="live"] .hm-header {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--club-neon) 32%, rgba(7, 11, 18, 0.92)) 0%, rgba(7, 11, 18, 0.92) 70%);
+  box-shadow: inset 0 -2px 0 var(--club-neon), 0 6px 26px color-mix(in srgb, var(--club-neon) 30%, transparent);
+}
+:root[data-theme="arena"] .hm-shell[data-game-state="season-complete"] .hm-header { box-shadow: inset 0 -2px 0 var(--arena-gold); }
+
+/* Club identity markers in the wizard follow the chosen club (ENT-03). */
+:root[data-theme="arena"] .career-entry[data-club-identity] .career-choice[data-selected="true"] { border-color: var(--club-neon); box-shadow: inset 3px 0 var(--club-neon), var(--arena-glow); }
+
+@media (prefers-reduced-motion: reduce) {
+  :root[data-theme="arena"] * { transition-duration: 0s !important; animation-duration: 0.01ms !important; }
+}

@@ -1,0 +1,4682 @@
+[
+  {
+    "id": "SQD-01",
+    "domain": "SQD",
+    "name": "Truppen & Omklädningsrummet (squad list)",
+    "route": "/career/squad",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/squad/page.tsx",
+      "components/clubhq/EnvironmentBanner.tsx",
+      "components/game/Identity.tsx (SquadDepth, PlayerCell)",
+      "components/SortableTh.tsx",
+      "components/players/PlayerDynamicsPanel.tsx (MoraleBadge)",
+      "components/players/PlayerFormSparkline.tsx",
+      "components/game/squad-season.css"
+    ],
+    "purpose": "Primary roster workspace: review every own player's form, physical state, contract and squad role; set captain and squad-status tier; pick two players to compare.",
+    "actions": [
+      "Switch view tab (Översikt / Prestation / Fysisk status / Kontrakt)",
+      "Search by name",
+      "Filter by position (select + 7 position chips below table)",
+      "Filter by state (Tillgängliga / Otillgängliga / Energi under 75%)",
+      "Toggle form mode (last 5 played vs last 5 fixtures incl. DNP)",
+      "Sort 12 columns",
+      "Change squad-role tier per row (inline select)",
+      "Tick up to 2 players for compare/captaincy",
+      "Appoint captain from selection aside",
+      "Open player dossier",
+      "Jump to Taktik / Kontrakt"
+    ],
+    "structure": "Photo EnvironmentBanner (dressing room) with 3 metric tiles (squad size, match fitness avg, captain) and 2 CTA buttons; SquadDepth strip (7 position cards); a hm-tabs row of 4 buttons; one Panel with filter bar and a horizontally scrolling hm-roster-table whose columns change per tab (Overview shows ~19 columns: checkbox, Nr, Spelare, Pos, Ålder, Moral, Trupproll, M, Starter, Mål, Skott%, Räddn%, Betyg, Form(5M), Energi, Matchträning, Tillgänglighet, Återkomst, Avtal till); duplicate position-chip row after the panel.",
+    "strengths": [
+      "Very data-rich, real handball stats (shot % / attempts, save % / faced) with tooltips explaining Matchträning vs Energi",
+      "Per-workspace state memory (useWorkspaceState) keeps filters/sort/tab between visits",
+      "Inline squad-role select makes promises/roles actionable without leaving the list",
+      "Form sparkline + morale badge give at-a-glance signals",
+      "Captain/vice/7m role pills inside the player cell"
+    ],
+    "weaknesses": [
+      "Overview tab is the union of Performance + Physical: ~19 columns, forcing horizontal scroll even on desktop",
+      "Position filter duplicated (select in filter bar + chip row placed below the table, easy to miss)",
+      "Compare and captaincy hidden behind a checkbox selection with max 2; captain can only be set from that aside (vice-captain/7m not editable here)",
+      "Physical tab adds 3 columns only visible there (Belastning 7 d, Trend, Återhämtning) – workload story split across tabs",
+      "No bulk actions, no saved views, no column chooser",
+      "Tab buttons use aria-pressed instead of tablist semantics"
+    ],
+    "links": [
+      "/career/tactics",
+      "/career/contracts",
+      "/career/compare?left&right",
+      "/career/squad/[playerId]"
+    ],
+    "desktop": "Single column, full width; table relies on .hm-scroll-x horizontal scrolling.",
+    "mobile": "No page-specific breakpoint for the roster table; squad-season.css has @media (max-width:800px/1250px) for depth/heading only – table becomes a sideways-scrolling 19-column grid.",
+    "opportunities": [
+      "Card/list hybrid with a player \"chip\" showing energy, fitness, morale and form as micro-visuals; columns become optional",
+      "Positional depth chart (court-shaped) instead of a flat strip",
+      "Saved views (e.g. \"Matchday readiness\", \"Contract risk\") replacing 4 hard tabs",
+      "Multi-select tray with actions (compare, set roles, rest, list for transfer)"
+    ],
+    "importance": "core"
+  },
+  {
+    "id": "SQD-01a",
+    "domain": "SQD",
+    "name": "Tab \"Översikt\"",
+    "route": "/career/squad",
+    "kind": "tab",
+    "parent": "SQD-01",
+    "components": [
+      "app/career/squad/page.tsx"
+    ],
+    "purpose": "Default view combining performance, physical and contract-end columns.",
+    "actions": [
+      "Sort",
+      "Select",
+      "Set squad role"
+    ],
+    "structure": "Roster table with performance + physical columns + Avtal till.",
+    "strengths": [
+      "One-glance health check"
+    ],
+    "weaknesses": [
+      "Widest table in the game; least scannable"
+    ],
+    "links": [
+      "SQD-01"
+    ],
+    "desktop": "Horizontal scroll at <1600px.",
+    "mobile": "Horizontal scroll.",
+    "opportunities": [
+      "Make overview a curated 6–8 column summary with expandable rows"
+    ],
+    "importance": "core"
+  },
+  {
+    "id": "SQD-01b",
+    "domain": "SQD",
+    "name": "Tab \"Prestation\"",
+    "route": "/career/squad",
+    "kind": "tab",
+    "parent": "SQD-01",
+    "components": [
+      "app/career/squad/page.tsx",
+      "components/players/PlayerFormSparkline.tsx",
+      "lib/career/playerForm.ts"
+    ],
+    "purpose": "Season output per player.",
+    "actions": [
+      "Sort by M, Starter, Mål, Betyg",
+      "Toggle form mode"
+    ],
+    "structure": "Columns M, Starter, Mål, Skott % / försök, Räddningar % / mötta, Betyg (1–10 avg), Form (5M) sparkline.",
+    "strengths": [
+      "Shooting and save efficiency shown with sample size"
+    ],
+    "weaknesses": [
+      "Shot% and save% not sortable; no per-60 or per-match normalisation"
+    ],
+    "links": [
+      "SQD-01"
+    ],
+    "desktop": "Fits better than overview.",
+    "mobile": "Scroll.",
+    "opportunities": [
+      "Small multiples / sparkline per metric; position-aware metric sets (GK vs outcourt)"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "SQD-01c",
+    "domain": "SQD",
+    "name": "Tab \"Fysisk status\"",
+    "route": "/career/squad",
+    "kind": "tab",
+    "parent": "SQD-01",
+    "components": [
+      "app/career/squad/page.tsx",
+      "lib/training/readinessSummary.ts",
+      "lib/players/matchFitness.ts"
+    ],
+    "purpose": "Readiness: energy, match fitness, 7-day load, load trend, recovery outlook, availability and return date.",
+    "actions": [
+      "Sort by Energi / Belastning 7 d"
+    ],
+    "structure": "Columns Energi %, Matchträning %, Belastning 7 d, Trend (↑/→/↓), Återhämtning (God/Normal/Nedsatt, reasons in tooltip), Tillgänglighet badge, Återkomst date.",
+    "strengths": [
+      "Separates energy (day form) from match fitness (match sharpness)",
+      "Reasons for recovery outlook available as tooltip"
+    ],
+    "weaknesses": [
+      "Readiness reasons hidden in title tooltips (not touch-accessible)",
+      "No visual thresholds/trend lines; numbers only"
+    ],
+    "links": [
+      "TRN-01",
+      "MDY-01"
+    ],
+    "desktop": "OK.",
+    "mobile": "Tooltips unusable on touch.",
+    "opportunities": [
+      "Readiness heat-strip per player (energy, fitness, load ratio) with explicit risk bands"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "SQD-01d",
+    "domain": "SQD",
+    "name": "Tab \"Kontrakt\"",
+    "route": "/career/squad",
+    "kind": "tab",
+    "parent": "SQD-01",
+    "components": [
+      "app/career/squad/page.tsx"
+    ],
+    "purpose": "Contract end and wage per player.",
+    "actions": [
+      "Sort by Avtal till / Lön",
+      "Link \"Förläng / profil →\""
+    ],
+    "structure": "Columns Avtal till, Lön / månad, Åtgärd link; drops Trupproll column.",
+    "strengths": [
+      "Quick wage overview"
+    ],
+    "weaknesses": [
+      "Duplicates /career/contracts (SQD-05) with fewer features; link goes to profile, not to the renewal panel"
+    ],
+    "links": [
+      "SQD-05",
+      "SQD-02e"
+    ],
+    "desktop": "Narrow table.",
+    "mobile": "OK.",
+    "opportunities": [
+      "Remove in favour of a single contracts surface or deep-link to renewal"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "SQD-01e",
+    "domain": "SQD",
+    "name": "Selection aside \"Spelardossier & jämförelse\"",
+    "route": "/career/squad",
+    "kind": "panel",
+    "parent": "SQD-01",
+    "components": [
+      "app/career/squad/page.tsx"
+    ],
+    "purpose": "Appears when 1–2 rows ticked: availability/energy/fitness line, captain button, dossier link, compare CTA in panel header.",
+    "actions": [
+      "Utse till kapten",
+      "Spelardossier →",
+      "Jämför valda spelare →",
+      "Rensa val"
+    ],
+    "structure": "aria-live aside above the table listing chosen players with inline buttons.",
+    "strengths": [
+      "aria-live announces selection"
+    ],
+    "weaknesses": [
+      "Mixes two unrelated jobs (compare vs captaincy)",
+      "Compare CTA lives in panel header, far from the aside"
+    ],
+    "links": [
+      "SQD-04",
+      "SQD-02"
+    ],
+    "desktop": "Inline above table.",
+    "mobile": "Wraps.",
+    "opportunities": [
+      "Floating selection tray with contextual actions"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "SQD-01f",
+    "domain": "SQD",
+    "name": "Panel \"Truppens balans\" (SquadDepth)",
+    "route": "/career/squad",
+    "kind": "panel",
+    "parent": "SQD-01",
+    "components": [
+      "components/game/Identity.tsx (SquadDepth)"
+    ],
+    "purpose": "Available/total per primary position (V6, V9, M9, M6, H9, H6, MV).",
+    "actions": [
+      "None (read-only)"
+    ],
+    "structure": "Overline \"SJU POSITIONER. ETT LAG.\" + 7 position cards.",
+    "strengths": [
+      "Handball-specific framing"
+    ],
+    "weaknesses": [
+      "Not clickable as a filter even though a separate chip row does exactly that",
+      "Ignores secondary positions"
+    ],
+    "links": [
+      "SQD-01"
+    ],
+    "desktop": "Row of 7.",
+    "mobile": "Wraps.",
+    "opportunities": [
+      "Court-shaped depth chart with secondary-position depth and click-to-filter"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "SQD-01g",
+    "domain": "SQD",
+    "name": "Empty filter state",
+    "route": "/career/squad",
+    "kind": "state",
+    "parent": "SQD-01",
+    "components": [
+      "components/manager/Workspace.tsx (EmptyState)"
+    ],
+    "purpose": "\"Inga spelare matchar dina filter.\" under an empty table.",
+    "actions": [
+      "Rensa filter (in filter bar)"
+    ],
+    "structure": "EmptyState text below table headers.",
+    "strengths": [
+      "Clear filter reset exists"
+    ],
+    "weaknesses": [
+      "Reset button not repeated in the empty state"
+    ],
+    "links": [
+      "SQD-01"
+    ],
+    "desktop": "-",
+    "mobile": "-",
+    "opportunities": [
+      "Empty state with one-click reset"
+    ],
+    "importance": "rare"
+  },
+  {
+    "id": "SQD-02",
+    "domain": "SQD",
+    "name": "Spelarprofil (player dossier)",
+    "route": "/career/squad/[playerId]",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/squad/[playerId]/page.tsx",
+      "components/game/Identity.tsx (PlayerHero)",
+      "components/manager/PlayerActions.tsx",
+      "components/game/PlayerCondition.tsx",
+      "components/players/PlayerDynamicsPanel.tsx",
+      "components/GameplayProfilePanels.tsx",
+      "components/KnowledgeGatedProfilePanels.tsx",
+      "components/ScoutReportPanel.tsx",
+      "components/ContractRenewal.tsx",
+      "components/transfers/PlayerTransferCard.tsx",
+      "components/manager/PlayerPerformance.tsx",
+      "components/players/DevelopmentHistory.tsx",
+      "components/game/profile-world.css"
+    ],
+    "purpose": "Single dossier for ANY player (own, external, free agent, retired): identity, condition, morale/person management, ability/attributes (full for own, knowledge-gated for external), scouting report, contract, transfer status, medical, history.",
+    "actions": [
+      "Back (context-aware: Trupp / Transfers / Klubb)",
+      "Switch 6 tabs",
+      "Jämför spelare",
+      "Own: Matchtrupp & startsju / Kontraktsöversikt / Träning & belastning links",
+      "External: Kortlista / Scouta spelare / Förhandla",
+      "Answer player concerns, transfer requests, list/unlist, release (with confirm)",
+      "Open renewal talks / submit renewal offer / withdraw",
+      "Start scouting assignment",
+      "Förhandla om övergång / Föreslå lån"
+    ],
+    "structure": "Photo PlayerHero (dressing-room backdrop) with back button; PlayerActions button row; own-player Tillstånd panel; hm-profile-tabs (6 buttons); body is hm-profile-split (main column + hm-world-rail) whose content is recomposed per tab from shared blocks (attributes, ability, contract, history, body, report, medical).",
+    "strengths": [
+      "Strong knowledge-gating model: external players never expose raw CA/PA or 1–20 grid; ranges and tiers instead",
+      "Own players get a full 56 outcourt / 21 GK attribute grid with family radar",
+      "Person-management (morale factors, promises, concerns as DecisionCards) lives where the player is",
+      "Context-aware back button and own vs external action sets"
+    ],
+    "weaknesses": [
+      "Six tabs reuse the same blocks in different combinations (ability panel appears in 3 tabs, body profile in 3, medical in 2, PlayerPerformance in 2) – tabs feel redundant",
+      "Tab \"Profil & egenskaper\" and tab \"Egenskaper\" overlap heavily",
+      "Heavy inline styles (hex colours, px) instead of tokens in panels",
+      "Stars-only CA/PA (1–5) for own players hides the meaningful 1–200 scale progression; development tab shows stars as text \"★★★☆☆\"",
+      "Tab state is local useState (not in URL) – deep links like \"open contract tab\" impossible (other surfaces link only to the profile root)",
+      "Fallback mock attribute set (Tekniska/Mentala/Fysiska) uses a different vocabulary than gameplay ratings"
+    ],
+    "links": [
+      "/career/squad",
+      "/career/transfers",
+      "/career/clubs/[clubId]",
+      "/career/compare",
+      "/career/tactics",
+      "/career/contracts",
+      "/career/training",
+      "/career/scouting?target",
+      "/career/transfers/[playerId]",
+      "/career/transfers/offers/[offerId]",
+      "/career/history?season"
+    ],
+    "desktop": "Two-column split (main + rail ~340–420px; wider at ≥2100px).",
+    "mobile": "profile-world.css: ≤1250px collapses to one column and rail becomes 2-col grid; ≤760px further stacking. Attribute grid uses auto-fill minmax(205px) so it reflows.",
+    "opportunities": [
+      "Collapse to 3–4 purposeful tabs (Overview, Attributes & development, Contract & transfer, History) with URL-addressable tabs",
+      "Attribute visualisation with history deltas (development events carry previous→new values)",
+      "Knowledge uncertainty as visual ranges (error bars) rather than text ranges",
+      "Unified \"person\" timeline: morale factors, promises, talks, injuries, transfers"
+    ],
+    "importance": "core"
+  },
+  {
+    "id": "SQD-02a",
+    "domain": "SQD",
+    "name": "Tab \"Profil & egenskaper\" (overview)",
+    "route": "/career/squad/[playerId]",
+    "kind": "tab",
+    "parent": "SQD-02",
+    "components": [
+      "app/career/squad/[playerId]/page.tsx"
+    ],
+    "purpose": "Season-in-numbers strip, PlayerDynamicsPanel (own), attributes; rail with ability, scout report (external), medical and a \"Din nästa bedömning\" note.",
+    "actions": [
+      "Visa kontrakt / Visa prestation shortcuts"
+    ],
+    "structure": "4-stat strip (starts, shots/faced, efficiency/save%, goals/shots) + panels.",
+    "strengths": [
+      "Position-aware stat strip (GK vs outcourt)"
+    ],
+    "weaknesses": [
+      "Very long scroll for own players: dynamics + full 56-attribute grid"
+    ],
+    "links": [
+      "SQD-02"
+    ],
+    "desktop": "Inside profile split layout.",
+    "mobile": "Stacks under ≤1250px.",
+    "opportunities": [
+      "Summary hero with key ratings; push detailed grids to Attributes tab"
+    ],
+    "importance": "core"
+  },
+  {
+    "id": "SQD-02b",
+    "domain": "SQD",
+    "name": "Tab \"Prestation & historik\"",
+    "route": "/career/squad/[playerId]",
+    "kind": "tab",
+    "parent": "SQD-02",
+    "components": [
+      "components/manager/PlayerPerformance.tsx"
+    ],
+    "purpose": "Season performance strip, last 12 matches table (Datum, Match, Resultat, Start, Min, Mål/skott, Räddningar, Betyg) and season history table.",
+    "actions": [
+      "Open club / history season links"
+    ],
+    "structure": "Three Panels stacked.",
+    "strengths": [
+      "Match-by-match log with rating"
+    ],
+    "weaknesses": [
+      "No charts; same component reused in \"Klubbhistorik\" tab"
+    ],
+    "links": [
+      "SQD-02"
+    ],
+    "desktop": "Inside profile split layout.",
+    "mobile": "Stacks under ≤1250px.",
+    "opportunities": [
+      "Rating/goal trend chart; per-match drill to match report"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "SQD-02c",
+    "domain": "SQD",
+    "name": "Tab \"Egenskaper\"",
+    "route": "/career/squad/[playerId]",
+    "kind": "tab",
+    "parent": "SQD-02",
+    "components": [
+      "components/GameplayProfilePanels.tsx",
+      "components/KnowledgeGatedProfilePanels.tsx"
+    ],
+    "purpose": "Attribute grid in main column; rail with ability, body profile and scout report.",
+    "actions": [
+      "Read"
+    ],
+    "structure": "GameplayAttributesPanel + rail.",
+    "strengths": [
+      "Dedicated attributes view"
+    ],
+    "weaknesses": [
+      "Near-duplicate of overview tab"
+    ],
+    "links": [
+      "SQD-02"
+    ],
+    "desktop": "Inside profile split layout.",
+    "mobile": "Stacks under ≤1250px.",
+    "opportunities": [
+      "Merge with overview or turn into a comparison-ready attribute workspace"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "SQD-02d",
+    "domain": "SQD",
+    "name": "Tab \"Utveckling\"",
+    "route": "/career/squad/[playerId]",
+    "kind": "tab",
+    "parent": "SQD-02",
+    "components": [
+      "app/career/squad/[playerId]/page.tsx (DevelopmentPanel)",
+      "components/players/DevelopmentHistory.tsx"
+    ],
+    "purpose": "Own: current level & potential stars, individual focus label, last 5 development events. External: explanatory note only.",
+    "actions": [
+      "None (focus is changed only on /career/training)"
+    ],
+    "structure": "Key-value rows + event list; body profile; rail ability + medical.",
+    "strengths": [
+      "Shows concrete attribute changes"
+    ],
+    "weaknesses": [
+      "Read-only: individual focus cannot be changed here (lives on Training)",
+      "Star text strings instead of a progression visual"
+    ],
+    "links": [
+      "TRN-01d"
+    ],
+    "desktop": "Inside profile split layout.",
+    "mobile": "Stacks under ≤1250px.",
+    "opportunities": [
+      "Development curve (CA over time vs PA band), editable focus in place"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "SQD-02e",
+    "domain": "SQD",
+    "name": "Tab \"Kontrakt\"",
+    "route": "/career/squad/[playerId]",
+    "kind": "tab",
+    "parent": "SQD-02",
+    "components": [
+      "components/ContractRenewal.tsx",
+      "components/transfers/PlayerTransferCard.tsx"
+    ],
+    "purpose": "Contract panel (owning club, wage, end, shirt no.) + renewal flow, transfer status card, market value (exact for own, range for external); rail club history & training compensation.",
+    "actions": [
+      "Inled förlängningssamtal",
+      "Förläng kontrakt",
+      "Dra dig ur",
+      "Förhandla om övergång",
+      "Föreslå lån"
+    ],
+    "structure": "Stacked panels.",
+    "strengths": [
+      "Renewal shows demand factors with ±% chips and expected role"
+    ],
+    "weaknesses": [
+      "Market value and contract split across 3 panels; no wage-budget context inline"
+    ],
+    "links": [
+      "SQD-02"
+    ],
+    "desktop": "Inside profile split layout.",
+    "mobile": "Stacks under ≤1250px.",
+    "opportunities": [
+      "Contract \"deal sheet\" with budget impact bar and demand breakdown chart"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "SQD-02f",
+    "domain": "SQD",
+    "name": "Tab \"Klubbhistorik\"",
+    "route": "/career/squad/[playerId]",
+    "kind": "tab",
+    "parent": "SQD-02",
+    "components": [
+      "app/career/squad/[playerId]/page.tsx",
+      "components/manager/PlayerPerformance.tsx"
+    ],
+    "purpose": "Club history entries (age ranges), training compensation breakdown, then PlayerPerformance again; rail body profile.",
+    "actions": [
+      "Read"
+    ],
+    "structure": "Panels.",
+    "strengths": [
+      "Training compensation explained separately from market value"
+    ],
+    "weaknesses": [
+      "Repeats performance tab content"
+    ],
+    "links": [
+      "SQD-02"
+    ],
+    "desktop": "Inside profile split layout.",
+    "mobile": "Stacks under ≤1250px.",
+    "opportunities": [
+      "Career timeline visual"
+    ],
+    "importance": "rare"
+  },
+  {
+    "id": "SQD-02g",
+    "domain": "SQD",
+    "name": "PlayerHero + PlayerActions",
+    "route": "/career/squad/[playerId]",
+    "kind": "panel",
+    "parent": "SQD-02",
+    "components": [
+      "components/game/Identity.tsx (PlayerHero)",
+      "components/manager/PlayerActions.tsx"
+    ],
+    "purpose": "Identity header (name, number, position, age, nation, club colours, status, squad tier, captain/7m) + contextual action buttons.",
+    "actions": [
+      "Back",
+      "Jämför",
+      "Kortlista",
+      "Scouta",
+      "Förhandla",
+      "Own-player links"
+    ],
+    "structure": "Photo hero band followed by a row of small buttons.",
+    "strengths": [
+      "Club-colour theming"
+    ],
+    "weaknesses": [
+      "Action row is a flat list of 3–4 equal-weight buttons; primary action unclear for own players"
+    ],
+    "links": [
+      "SQD-02"
+    ],
+    "desktop": "Inside profile split layout.",
+    "mobile": "Stacks under ≤1250px.",
+    "opportunities": [
+      "Sticky compact hero with one primary contextual CTA"
+    ],
+    "importance": "core"
+  },
+  {
+    "id": "SQD-02h",
+    "domain": "SQD",
+    "name": "Panel \"Tillstånd\" (PlayerConditionPanel)",
+    "route": "/career/squad/[playerId]",
+    "kind": "panel",
+    "parent": "SQD-02",
+    "components": [
+      "components/game/PlayerCondition.tsx"
+    ],
+    "purpose": "Own players: availability chip, selectable state, injury & rehab, return date, match-fitness band, two <meter> bars (Energi, Matchträning).",
+    "actions": [
+      "Read"
+    ],
+    "structure": "Definition list + meters.",
+    "strengths": [
+      "Explains \"rested but injured\" edge case"
+    ],
+    "weaknesses": [
+      "Native <meter> styling inconsistent across browsers"
+    ],
+    "links": [
+      "SQD-02"
+    ],
+    "desktop": "Inside profile split layout.",
+    "mobile": "Stacks under ≤1250px.",
+    "opportunities": [
+      "Condition gauge set shared with squad and matchday"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "SQD-02i",
+    "domain": "SQD",
+    "name": "Panel \"Spelaren som person\" (PlayerDynamicsPanel)",
+    "route": "/career/squad/[playerId]",
+    "kind": "panel",
+    "parent": "SQD-02",
+    "components": [
+      "components/players/PlayerDynamicsPanel.tsx",
+      "components/experience (DecisionCard, EventCard, MeterBar)"
+    ],
+    "purpose": "Morale meter (0–100, target), morale factor chips, intention summary, pre-contract warning, player concerns with option buttons, transfer request DecisionCard (accept/promise/refuse), promises list, incoming bids, transfer-list and release actions with inline confirm.",
+    "actions": [
+      "Answer concern option",
+      "Godkänn/Övertala/Avslå transfer request",
+      "Öppna budet",
+      "Transferlista / Ta bort",
+      "Bryt avtalet… → Bekräfta"
+    ],
+    "structure": "pd-panel section with header meter and stacked decision cards.",
+    "strengths": [
+      "Consequences shown on every option",
+      "Morale impact capped and explained (±3 %)"
+    ],
+    "weaknesses": [
+      "Destructive \"Bryt avtalet\" is a small button next to transfer listing",
+      "Status messages rendered as plain text line"
+    ],
+    "links": [
+      "SQD-02"
+    ],
+    "desktop": "Inside profile split layout.",
+    "mobile": "Stacks under ≤1250px.",
+    "opportunities": [
+      "Person timeline + mood chart; separate danger zone"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "SQD-02j",
+    "domain": "SQD",
+    "name": "Panel \"Spelaregenskaper (skala 1–20)\" (GameplayAttributesPanel)",
+    "route": "/career/squad/[playerId]",
+    "kind": "panel",
+    "parent": "SQD-02",
+    "components": [
+      "components/GameplayProfilePanels.tsx",
+      "lib/rating/types.ts",
+      "lib/rating/attributeVocabulary.ts"
+    ],
+    "purpose": "Own players: radar of 6 outcourt families (Teknik, Perception/beslut, Taktik, Försvar, Fysik, Mental) or 4 GK families, family averages with bars, then every attribute (56 outcourt / 21 GK) with a tier-coloured bar and value; dots mark evidence-backed/editor values.",
+    "actions": [
+      "Read (hover tooltip for origin)"
+    ],
+    "structure": "Dark gradient header strip (160px radar + family tiles) then FamilyBlocks in auto-fill grid.",
+    "strengths": [
+      "Complete, well-grouped attribute model; radar gives shape at a glance"
+    ],
+    "weaknesses": [
+      "Hard-coded hex colours/gradients; tier colours (≥15 green, ≥12 blue, ≥9 grey, else amber) not tokenised",
+      "No comparison/delta, no position-weighting highlight"
+    ],
+    "links": [
+      "SQD-02"
+    ],
+    "desktop": "Inside profile split layout.",
+    "mobile": "Stacks under ≤1250px.",
+    "opportunities": [
+      "Role-weighted highlights, deltas since last month, compare overlay"
+    ],
+    "importance": "core"
+  },
+  {
+    "id": "SQD-02k",
+    "domain": "SQD",
+    "name": "Panel \"Förmåga & Positionskarta\" (GameplayAbilityPanel)",
+    "route": "/career/squad/[playerId]",
+    "kind": "panel",
+    "parent": "SQD-02",
+    "components": [
+      "components/GameplayProfilePanels.tsx",
+      "lib/rating/presentation.ts"
+    ],
+    "purpose": "CA/PA as 1–5 stars, mini-court with 7 position spots (primary highlighted), attack and defence role proficiencies as text.",
+    "actions": [
+      "Read"
+    ],
+    "structure": "Stars rows + SVG mini court + role rows.",
+    "strengths": [
+      "Handball court metaphor"
+    ],
+    "weaknesses": [
+      "Only primary position lit; secondary positions and proficiency levels not visualised"
+    ],
+    "links": [
+      "SQD-02"
+    ],
+    "desktop": "Inside profile split layout.",
+    "mobile": "Stacks under ≤1250px.",
+    "opportunities": [
+      "Position suitability heat on court (primary/secondary/role proficiency)"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "SQD-02l",
+    "domain": "SQD",
+    "name": "Knowledge-gated panels (external players)",
+    "route": "/career/squad/[playerId]",
+    "kind": "panel",
+    "parent": "SQD-02",
+    "components": [
+      "components/KnowledgeGatedProfilePanels.tsx",
+      "lib/knowledge/careerVisibility.ts",
+      "lib/knowledge/types.ts"
+    ],
+    "purpose": "External players: ability/potential as star ranges (e.g. \"2–4 ★\") with knowledge tier badge (Mycket begränsad / Begränsad / Måttlig / God kännedom); attributes reduced to strengths/weaknesses lists.",
+    "actions": [
+      "Read"
+    ],
+    "structure": "Two panels replacing ability and attribute panels.",
+    "strengths": [
+      "Honest uncertainty model"
+    ],
+    "weaknesses": [
+      "Text-only; uncertainty not visual",
+      "Low-knowledge message offers no direct \"scout now\" button in this panel"
+    ],
+    "links": [
+      "SQD-02"
+    ],
+    "desktop": "Inside profile split layout.",
+    "mobile": "Stacks under ≤1250px.",
+    "opportunities": [
+      "Range bars that tighten as knowledge grows; inline scout CTA"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "SQD-02m",
+    "domain": "SQD",
+    "name": "Panel \"Scoutingrapport\" (ScoutReportPanel)",
+    "route": "/career/squad/[playerId]",
+    "kind": "panel",
+    "parent": "SQD-02",
+    "components": [
+      "components/ScoutReportPanel.tsx",
+      "lib/knowledge/scoutReportVisibility.ts"
+    ],
+    "purpose": "Estimated market value range, scout confidence %, recommendation text, strengths/weaknesses, report history (scout + date), \"Scouta spelare\" CTA or no-scout notice.",
+    "actions": [
+      "Scouta spelare → /career/scouting?target"
+    ],
+    "structure": "Panel with stamp (\"Rapport tillgänglig\"/\"Första observation\").",
+    "strengths": [
+      "Report metaphor with stamp and history"
+    ],
+    "weaknesses": [
+      "Only latest report shown; no diff between reports"
+    ],
+    "links": [
+      "SQD-02",
+      "REC-01"
+    ],
+    "desktop": "Inside profile split layout.",
+    "mobile": "Stacks under ≤1250px.",
+    "opportunities": [
+      "Report timeline showing how ranges narrowed"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "SQD-02n",
+    "domain": "SQD",
+    "name": "Panel \"Förläng kontrakt\" (ContractRenewal)",
+    "route": "/career/squad/[playerId]",
+    "kind": "panel",
+    "parent": "SQD-02",
+    "components": [
+      "components/ContractRenewal.tsx",
+      "components/MoneyInput.tsx"
+    ],
+    "purpose": "Renewal state machine: intention summary, blocker note, open talks, demand vs current wage, expected role, demand factors (±%), last response quote, waiting state with answer date, offer form (1–4 years, wage, optional role promise), signing MomentHero after agreement.",
+    "actions": [
+      "Inled förlängningssamtal",
+      "Förläng kontrakt",
+      "Dra dig ur"
+    ],
+    "structure": "pd-renewal block inside contract panel (also embedded on /career/contracts).",
+    "strengths": [
+      "Asynchronous negotiation made explicit (answer next day)"
+    ],
+    "weaknesses": [
+      "Feedback via a plain status line; no budget impact shown"
+    ],
+    "links": [
+      "SQD-02e",
+      "SQD-05a"
+    ],
+    "desktop": "Inside profile split layout.",
+    "mobile": "Stacks under ≤1250px.",
+    "opportunities": [
+      "Show payroll/budget delta and acceptance likelihood"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "SQD-02o",
+    "domain": "SQD",
+    "name": "Panel \"Transferläge\" (PlayerTransferCard)",
+    "route": "/career/squad/[playerId]",
+    "kind": "panel",
+    "parent": "SQD-02",
+    "components": [
+      "components/transfers/PlayerTransferCard.tsx"
+    ],
+    "purpose": "Ownership vs playing club chips, loan progress line, contract facts, competing interest, promise kept/broken, negotiation CTA with deadline clock.",
+    "actions": [
+      "Förhandla om övergång / Ditt drag",
+      "Föreslå lån"
+    ],
+    "structure": "tc-panel card.",
+    "strengths": [
+      "Loan progress bar and deadline urgency"
+    ],
+    "weaknesses": [
+      "Uses Transfer Centre visual skin (tc-*) inside profile skin – visual mismatch"
+    ],
+    "links": [
+      "SQD-02"
+    ],
+    "desktop": "Inside profile split layout.",
+    "mobile": "Stacks under ≤1250px.",
+    "opportunities": [
+      "Unified card system"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "SQD-02p",
+    "domain": "SQD",
+    "name": "Panel \"Medicinskt\" (MedicalPanel)",
+    "route": "/career/squad/[playerId]",
+    "kind": "panel",
+    "parent": "SQD-02",
+    "components": [
+      "app/career/squad/[playerId]/page.tsx (MedicalPanel)",
+      "lib/medical/labels.ts"
+    ],
+    "purpose": "Availability, active injury type/severity/rehab phase/return date/rehab %, last 5 injuries.",
+    "actions": [
+      "Read"
+    ],
+    "structure": "Key-value rows.",
+    "strengths": [
+      "Complete injury facts"
+    ],
+    "weaknesses": [
+      "Duplicates Tillstånd panel facts for own players; no link to /career/medical"
+    ],
+    "links": [
+      "SQD-02"
+    ],
+    "desktop": "Inside profile split layout.",
+    "mobile": "Stacks under ≤1250px.",
+    "opportunities": [
+      "Body map / rehab timeline"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "SQD-02q",
+    "domain": "SQD",
+    "name": "Loading / not-found states",
+    "route": "/career/squad/[playerId]",
+    "kind": "state",
+    "parent": "SQD-02",
+    "components": [
+      "app/career/squad/[playerId]/page.tsx"
+    ],
+    "purpose": "\"Läser in spelarbetyg…\" while real-world ratings fetch from /api/game-world/gameplay-ratings; \"Spelaren hittades inte.\" when id unknown.",
+    "actions": [
+      "None"
+    ],
+    "structure": "Plain muted panel text.",
+    "strengths": [
+      "Honest fallback (null rating → mock display)"
+    ],
+    "weaknesses": [
+      "No skeleton; not-found has no way back"
+    ],
+    "links": [
+      "SQD-02"
+    ],
+    "desktop": "Inside profile split layout.",
+    "mobile": "Stacks under ≤1250px.",
+    "opportunities": [
+      "Skeleton states; not-found with search/back"
+    ],
+    "importance": "rare"
+  },
+  {
+    "id": "SQD-03",
+    "domain": "SQD",
+    "name": "Spelarsök (player market search)",
+    "route": "/career/players",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/players/page.tsx",
+      "components/game/RecruitmentPresentation.tsx (KnowledgeMeter, RecruitmentTag)",
+      "components/game/Identity.tsx",
+      "components/game/recruitment-news.css"
+    ],
+    "purpose": "Search every non-own, non-retired player in the world; shortlist; open dossier/scouting/transfer.",
+    "actions": [
+      "Search name/club",
+      "Filter position, max age, nationality, competition, contract (expiring / free agents)",
+      "Sort Spelare/Ålder/Kännedom/Avtal/Mål",
+      "Paginate (60 per page)",
+      "+ Kortlista toggle",
+      "Visa (select into dossier)",
+      "Jämför",
+      "Open profile / Scouta / Öppna bud & budget"
+    ],
+    "structure": "PageHeading + \"game-market-stage\" band with 3 counters (players on market, shortlist, scouts); two-column layout: results Panel (6-filter bar, 9-column table, pager) + sticky \"Spelardossier\" aside with PlayerHero, KnowledgeMeter, facts and 3 CTAs.",
+    "strengths": [
+      "Master-detail layout with persistent dossier",
+      "Knowledge meter per row communicates uncertainty",
+      "Recruitment status tag per row"
+    ],
+    "weaknesses": [
+      "No ability/potential/value column – the only sortable quality signal is goals",
+      "Overlaps heavily with Transfer Centre \"Hela marknaden\" and Recruitment Centre lists (3 player-market tables)",
+      "Pagination instead of virtualised list",
+      "Default selection silently picks first row of page"
+    ],
+    "links": [
+      "/career/recruitment?view=SHORTLIST",
+      "/career/squad/[id]",
+      "/career/scouting?target",
+      "/career/transfers?target",
+      "/career/compare?left"
+    ],
+    "desktop": "Grid minmax(0,1fr) + 425px dossier at ≥2200px, 320px at ≤1200px.",
+    "mobile": "≤900px: single column (dossier below results).",
+    "opportunities": [
+      "Merge into one Market workspace with Recruitment/Transfers",
+      "Show knowledge-gated ability range as a visual band column",
+      "Saved searches and need-based presets"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "SQD-03a",
+    "domain": "SQD",
+    "name": "Dossier aside \"Spelardossier\"",
+    "route": "/career/players",
+    "kind": "panel",
+    "parent": "SQD-03",
+    "components": [
+      "app/career/players/page.tsx",
+      "components/game/Identity.tsx (PlayerHero)"
+    ],
+    "purpose": "Selected player preview.",
+    "actions": [
+      "Öppna spelarprofil",
+      "Scouta spelare",
+      "Öppna bud & budget"
+    ],
+    "structure": "Heading + tag, PlayerHero, knowledge meter, 3 facts, 3 buttons.",
+    "strengths": [
+      "Fast triage without page change"
+    ],
+    "weaknesses": [
+      "Shows no ability information even when known"
+    ],
+    "links": [
+      "SQD-02",
+      "REC-01",
+      "REC-03"
+    ],
+    "desktop": "Right rail.",
+    "mobile": "Below table.",
+    "opportunities": [
+      "Mini scout report in dossier"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "SQD-04",
+    "domain": "SQD",
+    "name": "Jämför spelare",
+    "route": "/career/compare?left=&right=",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/compare/page.tsx",
+      "components/manager/PlayerActions.tsx",
+      "lib/knowledge/careerVisibility.ts"
+    ],
+    "purpose": "Side-by-side comparison of two players (own or external) with role-relevant attributes.",
+    "actions": [
+      "Pick Spelare A / B from grouped selects (Din trupp / Övriga världen)",
+      "Open player/club",
+      "PlayerActions per side"
+    ],
+    "structure": "Two selects; Panel \"Profil & prestation\" (15-row comparison table: klubb, position, ålder, kännedom, bedömd nivå range, styrkor, utvecklingsområden, matcher/starter, mål/skott, skotteffektivitet, räddningar, snittbetyg, energi, avtal, lön); Panel \"Egenskaper för <pos>\" with 6 position-relevant 1–20 attributes (own players only); action rows; empty state if B missing.",
+    "strengths": [
+      "URL-addressable selection",
+      "Respects knowledge gating",
+      "Position-relevant attribute subsets (RELEVANT map)"
+    ],
+    "weaknesses": [
+      "Select lists contain every player in the world (thousands) with no search",
+      "No visual diff (bars/radar overlay), no winner highlighting",
+      "External attributes blank in the attribute table"
+    ],
+    "links": [
+      "/career/players",
+      "SQD-02"
+    ],
+    "desktop": "Two-column table.",
+    "mobile": "Table remains; selects wrap.",
+    "opportunities": [
+      "Searchable picker, radar overlay, delta bars, \"compare against squad average\""
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "SQD-05",
+    "domain": "SQD",
+    "name": "Kontrakt (contracts overview)",
+    "route": "/career/contracts",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/contracts/page.tsx",
+      "components/ContractRenewal.tsx",
+      "lib/career/management.ts (contractRows)"
+    ],
+    "purpose": "Plan renewals: who expires, days left, wages, payroll; open renewal for a player.",
+    "actions": [
+      "Toggle \"Utgående inom ett år\"",
+      "Förhandla (select row)",
+      "Hitta ersättare →",
+      "Jämför alternativ →"
+    ],
+    "structure": "PageHeading + 4-cell summary (expiring ≤1y, ≤180d, monthly payroll, link to squad); two-column hm-contract-layout: \"Avtalsöversikt\" 7-column table (Spelare, Pos, Avtal till, Dagar kvar countdown, Lön, Status badge, Åtgärd) + decision panel (ContractRenewal) or prompt \"Vem bygger du vidare med?\".",
+    "strengths": [
+      "Countdown urgency (≤180 days highlighted)",
+      "Renewal embedded beside the list (master-detail)"
+    ],
+    "weaknesses": [
+      "No sorting (header \"Avtal till ↑\" is static text)",
+      "No wage budget headroom shown although renewal depends on it",
+      "Staff contracts not included"
+    ],
+    "links": [
+      "/career/players",
+      "/career/squad",
+      "/career/compare?left"
+    ],
+    "desktop": "Two columns.",
+    "mobile": "squad-season.css collapses hm-contract-layout (1.9fr + 280px) to one column at the max-width:1250px breakpoint; renewal panel then sits below a scrolling 7-column table.",
+    "opportunities": [
+      "Contract timeline (Gantt of contract ends vs season boundaries)",
+      "Payroll vs budget bar with projected renewals"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "SQD-05a",
+    "domain": "SQD",
+    "name": "Panel \"Ditt avtalsbeslut\"",
+    "route": "/career/contracts",
+    "kind": "panel",
+    "parent": "SQD-05",
+    "components": [
+      "components/ContractRenewal.tsx"
+    ],
+    "purpose": "Embedded renewal flow for selected row.",
+    "actions": [
+      "Same as SQD-02n"
+    ],
+    "structure": "Player cell + days left + explanatory paragraph + ContractRenewal.",
+    "strengths": [
+      "Keeps context"
+    ],
+    "weaknesses": [
+      "Selection kept in workspace memory; stale selection persists across visits"
+    ],
+    "links": [
+      "SQD-02n"
+    ],
+    "desktop": "Right column.",
+    "mobile": "Stacked.",
+    "opportunities": [
+      "Side drawer"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "STF-01",
+    "domain": "STF",
+    "name": "Personal – Organisation",
+    "route": "/career/staff",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/staff/page.tsx",
+      "components/staff/StaffNav.tsx",
+      "components/staff/OrganisationChart.tsx",
+      "components/game/Secondary.tsx (SectionScene)",
+      "components/staff/staff.css"
+    ],
+    "purpose": "See the club organisation (departments, positions, holders, vacancies, costs vs board limit), staff list with role suitability and this week's coaching responsibilities.",
+    "actions": [
+      "Navigate staff subnav (Organisation / Vakanser / Rekryteringsmarknad / Förhandlingar / Ansvarsområden)",
+      "Open staff profile",
+      "Rekrytera (vacancy) / Förläng (expiring)",
+      "Sort staff table (Namn, Roll, Lämplighet)",
+      "Open Träningsvecka / Scouting"
+    ],
+    "structure": "SectionScene header with crest; hm-subnav with badges; OrganisationChart band (cost MeterBar, 3 stats, \"Behov just nu\" list, 5 department columns of position cards, collapsible responsibilities); split: role-count grid + 4-column staff table; rail with weekly coach responsibilities and a note.",
+    "strengths": [
+      "Org chart by department with filled/covered/vacant/combined states",
+      "Staff cost vs board limit meter",
+      "Needs list surfaces vacancies and expiring contracts"
+    ],
+    "weaknesses": [
+      "Three overlapping representations of the same staff (org chart cards, role-count grid, staff table)",
+      "Suitability shown as 1–5 stars everywhere except scouting page (x/20)",
+      "\"Relevanta egenskaper\" column is a text list of attribute names, not values"
+    ],
+    "links": [
+      "/career/staff/recruitment",
+      "/career/staff/[staffId]",
+      "/career/staff/responsibilities",
+      "/career/training",
+      "/career/scouting",
+      "/career/manager"
+    ],
+    "desktop": "Departments 5 columns → 3 at ≤1280px.",
+    "mobile": "≤900px departments and band to 1 column; ≤600px stats to 1 column.",
+    "opportunities": [
+      "Single interactive org chart as the page; table as optional view",
+      "Coaching-quality impact visual (staff → training quality per session type)"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "STF-01a",
+    "domain": "STF",
+    "name": "Staff subnav (StaffNav)",
+    "route": "/career/staff*",
+    "kind": "tab",
+    "parent": "STF-01",
+    "components": [
+      "components/staff/StaffNav.tsx"
+    ],
+    "purpose": "Five-item sub-navigation shared by staff pages with vacancy and open-negotiation badges.",
+    "actions": [
+      "Navigate"
+    ],
+    "structure": "hm-subnav links; Vakanser/Förhandlingar are query views of /career/staff/recruitment.",
+    "strengths": [
+      "Badges show pending work"
+    ],
+    "weaknesses": [
+      "Mixes routes and ?view= query states; Rekryteringsmarknad and Vakanser render on the same page with stacked legacy content"
+    ],
+    "links": [
+      "STF-03a",
+      "STF-03b",
+      "STF-04"
+    ],
+    "desktop": "Row.",
+    "mobile": "Wraps.",
+    "opportunities": [
+      "Consistent tab model"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "STF-01b",
+    "domain": "STF",
+    "name": "Panel \"Klubbens organisation\" (OrganisationChart)",
+    "route": "/career/staff",
+    "kind": "panel",
+    "parent": "STF-01",
+    "components": [
+      "components/staff/OrganisationChart.tsx",
+      "lib/staff/organisation*"
+    ],
+    "purpose": "Departments (Ledning, Tränare, Rekrytering, Akademi, Stöd), positions, board members, costs, needs.",
+    "actions": [
+      "Rekrytera →",
+      "Förläng →",
+      "Ansvarsfördelning →"
+    ],
+    "structure": "xp-band header with meter + stats, needs list, st-depts grid, details/summary.",
+    "strengths": [
+      "Clear vacancy affordance per slot"
+    ],
+    "weaknesses": [
+      "Dense small text; wage/contract info per card"
+    ],
+    "links": [
+      "STF-03",
+      "STF-02",
+      "STF-04"
+    ],
+    "desktop": "5 cols.",
+    "mobile": "1 col.",
+    "opportunities": [
+      "Visual tree with health colours"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "STF-01c",
+    "domain": "STF",
+    "name": "Staff table + role counts",
+    "route": "/career/staff",
+    "kind": "panel",
+    "parent": "STF-01",
+    "components": [
+      "app/career/staff/page.tsx",
+      "components/StarRating.tsx"
+    ],
+    "purpose": "Role counts per STAFF_ROLE and sortable table (Namn, Roll, Relevanta egenskaper, Lämplighet stars).",
+    "actions": [
+      "Sort",
+      "Open profile"
+    ],
+    "structure": "Two Panels.",
+    "strengths": [
+      "Sortable by suitability"
+    ],
+    "weaknesses": [
+      "Redundant with org chart"
+    ],
+    "links": [
+      "STF-02"
+    ],
+    "desktop": "-",
+    "mobile": "Scroll.",
+    "opportunities": [
+      "Remove or turn into compact list view"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "STF-01d",
+    "domain": "STF",
+    "name": "Rail \"Veckans tränaransvar\"",
+    "route": "/career/staff",
+    "kind": "panel",
+    "parent": "STF-01",
+    "components": [
+      "app/career/staff/page.tsx",
+      "lib/training (resolveResponsibleCoach)"
+    ],
+    "purpose": "Which coach leads each session this week.",
+    "actions": [
+      "Open coach",
+      "Träningsvecka →"
+    ],
+    "structure": "List by date.",
+    "strengths": [
+      "Connects staff to training"
+    ],
+    "weaknesses": [
+      "No session type shown here (only coach + date)"
+    ],
+    "links": [
+      "TRN-01"
+    ],
+    "desktop": "Rail.",
+    "mobile": "Stacked.",
+    "opportunities": [
+      "Mini week grid"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "STF-02",
+    "domain": "STF",
+    "name": "Personprofil (staff profile)",
+    "route": "/career/staff/[staffId]",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/staff/[staffId]/page.tsx",
+      "components/staff/StaffInsight.tsx (RoleFit, StaffAttributes, StaffImpact)",
+      "components/staff/StaffDealPanel.tsx",
+      "components/experience (MeterBar)"
+    ],
+    "purpose": "Assess a staff member (own, other club, free agent): role fit, attributes (ranges when knowledge <90%), ambition, employment, impact, hire/renew/dismiss, this week's responsibilities.",
+    "actions": [
+      "Back (context: recruitment/staff/club)",
+      "Ta referenser (research)",
+      "Lägg bud på ersättning (club stage)",
+      "Erbjud kontrakt / Erbjud förlängning (role, years, wage, responsibility scope, signing bonus, promise)",
+      "Dra dig ur",
+      "Säg upp… → Bekräfta uppsägning"
+    ],
+    "structure": "SectionScene (role eyebrow, name, StaffMark) + main column (Lämplighet RoleFit, StaffAttributes with compare-to-current-holder, club history) + rail (Anställning, Karriärambition & roll with knowledge meter, StaffImpact, StaffDealPanel, Aktuellt träningsansvar).",
+    "strengths": [
+      "Knowledge-gated staff attributes with range display and \"take references\" action",
+      "Comparison against current role holder",
+      "Deal panel shows budget guardrails (cash, staff limit, projected cost, over-budget warnings)",
+      "ProgressSteps for negotiation stage"
+    ],
+    "weaknesses": [
+      "Ambition panel is styled with inline rgba/hex values; mixed dark-on-light panels",
+      "Deal form has 6 fields with no preview of acceptance",
+      "Not-found state is a bare text panel"
+    ],
+    "links": [
+      "/career/staff",
+      "/career/staff/recruitment",
+      "/career/clubs/[clubId]",
+      "/career/training"
+    ],
+    "desktop": "Main + rail.",
+    "mobile": "staff.css ≤600px fit rows stack.",
+    "opportunities": [
+      "Staff \"card\" with role-fit radar and delta vs holder",
+      "Negotiation stepper consistent with player negotiation room"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "STF-02a",
+    "domain": "STF",
+    "name": "Panels \"Lämplighet\" + \"Egenskaper för rollen\" (StaffInsight)",
+    "route": "/career/staff/[staffId]",
+    "kind": "panel",
+    "parent": "STF-02",
+    "components": [
+      "components/staff/StaffInsight.tsx",
+      "lib/staff/labels.ts",
+      "lib/staff/presentation.ts"
+    ],
+    "purpose": "Role suitability per role (1–20 → 1–5 stars, verbal label) and role-relevant staff attributes, with ranges under uncertainty.",
+    "actions": [
+      "Read"
+    ],
+    "structure": "si-panel fit rows + attribute list.",
+    "strengths": [
+      "Source note (real identity vs generated)"
+    ],
+    "weaknesses": [
+      "Stars hide the 1–20 resolution"
+    ],
+    "links": [
+      "STF-02"
+    ],
+    "desktop": "-",
+    "mobile": "-",
+    "opportunities": [
+      "Range bars"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "STF-02b",
+    "domain": "STF",
+    "name": "Panel \"Värva / Förläng eller avsluta\" (StaffDealPanel)",
+    "route": "/career/staff/[staffId]",
+    "kind": "panel",
+    "parent": "STF-02",
+    "components": [
+      "components/staff/StaffDealPanel.tsx",
+      "components/MoneyInput.tsx"
+    ],
+    "purpose": "HIRE or OWN deal flow with financial overview and dismissal DecisionCard.",
+    "actions": [
+      "Ta referenser",
+      "Lägg bud på ersättning",
+      "Erbjud kontrakt",
+      "Erbjud förlängning",
+      "Dra dig ur",
+      "Säg upp… / Bekräfta uppsägning / Behåll"
+    ],
+    "structure": "st-deal section: stepper, 6-cell finance grid with warnings, form, status notes, DecisionCard.",
+    "strengths": [
+      "Budget consequences explicit"
+    ],
+    "weaknesses": [
+      "Dismissal confirm inline (no modal) under the hire form"
+    ],
+    "links": [
+      "STF-02"
+    ],
+    "desktop": "Rail.",
+    "mobile": "Stacked.",
+    "opportunities": [
+      "Shared negotiation component with REC-04"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "STF-03",
+    "domain": "STF",
+    "name": "Rekrytera personal",
+    "route": "/career/staff/recruitment[?view=vacancies|negotiations][&role=]",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/staff/recruitment/page.tsx",
+      "components/staff/StaffNav.tsx (StaffRecruitmentView)",
+      "components/staff/StaffMarketBoard.tsx"
+    ],
+    "purpose": "Find staff candidates (free agents + employed) across every role; view vacancies and staff negotiations.",
+    "actions": [
+      "Filter role / availability / name (market board)",
+      "Sort columns",
+      "Open candidate profile",
+      "Visa kandidater (vacancy)",
+      "Legacy role chip filter"
+    ],
+    "structure": "SectionScene with counters; StaffNav; optional vacancies/negotiations list section; StaffMarketBoard (8-column table: Namn, Roll, Tillgänglighet, Bedömd lämplighet stars with \"?\" when knowledge<60, Mot i dag delta, Ambition, Förväntad lön, Kännedom %); then a legacy split with \"Fria scouter\" table rail and \"Rekrytering — Personal\" 5-column table with role chips.",
+    "strengths": [
+      "StaffMarketBoard compares candidate to current holder (\"Mot i dag\")",
+      "?role= deep link pre-filters market board"
+    ],
+    "weaknesses": [
+      "Two market tables on one page (new StaffMarketBoard + legacy table + free scout table) – duplicated and contradictory filters (?role= only applies to the board)",
+      "Legacy role chips use inline accent styling",
+      "Vacancies/negotiations views stack above the full market instead of replacing it"
+    ],
+    "links": [
+      "/career/staff",
+      "/career/staff/[staffId]?from=recruitment",
+      "/career/scouting"
+    ],
+    "desktop": "Board full width, legacy split below.",
+    "mobile": "Tables scroll.",
+    "opportunities": [
+      "One staff market with saved role filters; vacancies as entry cards"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "STF-03a",
+    "domain": "STF",
+    "name": "View \"Vakanta tjänster\"",
+    "route": "/career/staff/recruitment?view=vacancies",
+    "kind": "tab",
+    "parent": "STF-03",
+    "components": [
+      "components/staff/StaffNav.tsx"
+    ],
+    "purpose": "List vacant roles with \"Visa kandidater →\".",
+    "actions": [
+      "Visa kandidater"
+    ],
+    "structure": "hm-plan-section link list.",
+    "strengths": [
+      "Direct path to candidates"
+    ],
+    "weaknesses": [
+      "Empty state \"Alla tjänster är tillsatta.\" only"
+    ],
+    "links": [
+      "STF-03c"
+    ],
+    "desktop": "-",
+    "mobile": "-",
+    "opportunities": [
+      "Vacancy cards with impact of filling"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "STF-03b",
+    "domain": "STF",
+    "name": "View \"Förhandlingar\"",
+    "route": "/career/staff/recruitment?view=negotiations",
+    "kind": "tab",
+    "parent": "STF-03",
+    "components": [
+      "components/staff/StaffNav.tsx"
+    ],
+    "purpose": "Last 20 staff negotiations (hire/renewal) with stage.",
+    "actions": [
+      "Open profile"
+    ],
+    "structure": "Link list.",
+    "strengths": [
+      "Single history list"
+    ],
+    "weaknesses": [
+      "Answers arrive in inbox, not here; no CTA to respond"
+    ],
+    "links": [
+      "STF-02"
+    ],
+    "desktop": "-",
+    "mobile": "-",
+    "opportunities": [
+      "Negotiation board shared with player transfers"
+    ],
+    "importance": "rare"
+  },
+  {
+    "id": "STF-03c",
+    "domain": "STF",
+    "name": "Panel \"Hitta rätt person\" (StaffMarketBoard)",
+    "route": "/career/staff/recruitment",
+    "kind": "panel",
+    "parent": "STF-03",
+    "components": [
+      "components/staff/StaffMarketBoard.tsx"
+    ],
+    "purpose": "Primary staff market table.",
+    "actions": [
+      "Filter",
+      "Sort",
+      "Open"
+    ],
+    "structure": "Header with 3 filters + 8-column sortable table.",
+    "strengths": [
+      "Uncertainty marker"
+    ],
+    "weaknesses": [
+      "See STF-03"
+    ],
+    "links": [
+      "STF-02"
+    ],
+    "desktop": "-",
+    "mobile": "Scroll.",
+    "opportunities": [
+      "-"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "STF-03d",
+    "domain": "STF",
+    "name": "Legacy tables \"Fria scouter\" + \"Rekrytering — Personal\"",
+    "route": "/career/staff/recruitment",
+    "kind": "panel",
+    "parent": "STF-03",
+    "components": [
+      "app/career/staff/recruitment/page.tsx"
+    ],
+    "purpose": "Older candidate tables still rendered below the board.",
+    "actions": [
+      "Role chips",
+      "Sort"
+    ],
+    "structure": "Rail table + main table.",
+    "strengths": [
+      "-"
+    ],
+    "weaknesses": [
+      "Redundant; candidate to remove"
+    ],
+    "links": [
+      "STF-03c"
+    ],
+    "desktop": "-",
+    "mobile": "-",
+    "opportunities": [
+      "Remove"
+    ],
+    "importance": "internal"
+  },
+  {
+    "id": "STF-04",
+    "domain": "STF",
+    "name": "Ansvarsfördelning (delegation)",
+    "route": "/career/staff/responsibilities",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/staff/responsibilities/page.tsx",
+      "lib/staff delegation (RESPONSIBILITY_AREAS, setDelegation, approveProposal)",
+      "components/experience (DecisionCard)"
+    ],
+    "purpose": "Decide per responsibility area whether the manager does it, staff advises, or staff acts (Du själv / Råd först / Delegera); approve/reject staff proposals; read staff activity log.",
+    "actions": [
+      "Set mode per area (radiogroup)",
+      "Godkänn / Avslå proposals",
+      "Granska träningsplan",
+      "Titta på spelaren först",
+      "Open responsible staff"
+    ],
+    "structure": "PageHeading + StaffNav; dg-panel \"Vem gör vad\" 5-column matrix (Område, Rollen som äger det, Ansvarig + stars, Läge segmented radios, Vad det innebär); dg-panel \"Förslag från staben\" DecisionCards + decided list; dg-panel \"Vad staben har gjort\" log (≤25).",
+    "strengths": [
+      "Clear delegation model with explained scope per area",
+      "Proposals carry consequence text"
+    ],
+    "weaknesses": [
+      "Training-plan proposals cannot be approved here (button disabled, redirect)",
+      "Log is a long ordered list without filters"
+    ],
+    "links": [
+      "/career/staff",
+      "/career/training",
+      "/career/transfers/[playerId]"
+    ],
+    "desktop": "Stacked panels.",
+    "mobile": "Matrix in hm-scroll-x.",
+    "opportunities": [
+      "Delegation as toggles on each domain page (contextual) + central inbox of proposals"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "TRN-01",
+    "domain": "TRN",
+    "name": "Träning & Återhämtning",
+    "route": "/career/training[?week=YYYY-MM-DD]",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/training/page.tsx",
+      "components/clubhq/EnvironmentBanner.tsx",
+      "components/game/Identity.tsx (MatchHero)",
+      "components/manager/TrainingFeedback.tsx",
+      "components/manager/AssistantTrainingPanel.tsx",
+      "lib/training/types.ts",
+      "components/game/squad-season.css"
+    ],
+    "purpose": "Plan the training week (day types, up to 2 sessions/day with type, intensity, duration, target group, responsible coach), apply templates, set per-player load and individual development focus, monitor energy/match fitness and development.",
+    "actions": [
+      "Föregående / Denna / Nästa vecka",
+      "Choose template (Balanserad/Taktisk/Fysisk/Återhämtning/Matchtätt) + Tillämpa mall",
+      "Set day type",
+      "+ Lägg till pass / Ta bort pass",
+      "Per session: type (12), intensity (4), duration (3), target (4), coach",
+      "Per player: load setting (Full/Reducerad/Endast återhämtning/Vila), individual focus (7)",
+      "Jump to match prep / report from match day cell",
+      "Assistant plan: ask, approve, decline"
+    ],
+    "structure": "EnvironmentBanner (training hall) with 3 metrics; \"Veckans matchberedskap\" band with 3 numbers + compact MatchHero; TrainingFeedback; AssistantTrainingPanel; \"Veckoschema\" panel with 7-column day grid (each day: date, day-type select or match link, session cards each with 4–5 selects); \"Spelarberedskap\" 5-column table; \"Utveckling\" 6-column table.",
+    "strengths": [
+      "Match days are embedded in the week and link to prep/report",
+      "Session cards colour-coded by category and intensity",
+      "Coach quality per session surfaced",
+      "Explanatory tooltips with energy multipliers"
+    ],
+    "weaknesses": [
+      "Each session card is a stack of 4–5 native selects – extremely dense, no drag/drop, no visual load budget",
+      "Weekly load/energy forecast not shown – the player readiness consequence of the plan is invisible until days execute",
+      "Duplicate metrics: banner and week band both show sessions/recovery/energy",
+      "\"Senaste förbättring\" column prints the raw attribute key (e.g. FINISHING) not the Swedish label",
+      "Terminology drift: Matchträning / matchform / \"MF\" for the same metric",
+      "Locked (executed) days only show a \"Genomförd\" badge, no outcome"
+    ],
+    "links": [
+      "/career/staff",
+      "/career/calendar",
+      "/career/fixtures/[id]",
+      "/career/match-report/[id]",
+      "/career/staff/responsibilities"
+    ],
+    "desktop": "7 day columns minmax(150px) (175px at large) inside horizontal scroller.",
+    "mobile": "No mobile layout for the week grid: always 7×≥150px columns → sideways scrolling ≥1050px; tables scroll.",
+    "opportunities": [
+      "Visual week planner (drag session blocks, load bar per day, projected energy curve per player group)",
+      "Per-player load/readiness chart linking to squad physical tab",
+      "Development panel showing attribute deltas and focus effect"
+    ],
+    "importance": "core"
+  },
+  {
+    "id": "TRN-01a",
+    "domain": "TRN",
+    "name": "Panel \"Assistentens träningsplan\" (AssistantTrainingPanel)",
+    "route": "/career/training",
+    "kind": "panel",
+    "parent": "TRN-01",
+    "components": [
+      "components/manager/AssistantTrainingPanel.tsx"
+    ],
+    "purpose": "Delegation mode for training (Du själv / Råd först / Delegera), request weekly proposal, show proposal goal, planned sessions/intensity and individual advice; approve/decline.",
+    "actions": [
+      "Be om veckoförslag",
+      "Godkänn (per advice)",
+      "Godkänn träningsplan",
+      "Avböj träningsplan",
+      "Ansvarsfördelning →"
+    ],
+    "structure": "Section with mode buttons, proposal table (Spelare / skäl, Belastning).",
+    "strengths": [
+      "Low-effort path for casual players"
+    ],
+    "weaknesses": [
+      "Placed above the planner; competes for attention"
+    ],
+    "links": [
+      "STF-04"
+    ],
+    "desktop": "-",
+    "mobile": "-",
+    "opportunities": [
+      "Show proposal as a diff overlay on the week grid"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "TRN-01b",
+    "domain": "TRN",
+    "name": "Panel \"Veckoschema\" (week planner)",
+    "route": "/career/training",
+    "kind": "panel",
+    "parent": "TRN-01",
+    "components": [
+      "app/career/training/page.tsx"
+    ],
+    "purpose": "Edit the week.",
+    "actions": [
+      "See TRN-01"
+    ],
+    "structure": "7 day cells × ≤2 session cards.",
+    "strengths": [
+      "Category pills, matchday highlight, today highlight"
+    ],
+    "weaknesses": [
+      "Select-heavy"
+    ],
+    "links": [
+      "TRN-01"
+    ],
+    "desktop": "Scroll.",
+    "mobile": "Scroll.",
+    "opportunities": [
+      "Block-based planner"
+    ],
+    "importance": "core"
+  },
+  {
+    "id": "TRN-01c",
+    "domain": "TRN",
+    "name": "Panel \"Spelarberedskap\"",
+    "route": "/career/training",
+    "kind": "panel",
+    "parent": "TRN-01",
+    "components": [
+      "app/career/training/page.tsx"
+    ],
+    "purpose": "Per player: energy badge (Pigg/Något sliten/Trött), MF %, recent load, load setting select (constrained by injury/limited), individual focus select; status badges (injured/rehab/return/placement).",
+    "actions": [
+      "Set load",
+      "Set focus"
+    ],
+    "structure": "5-column table.",
+    "strengths": [
+      "Constraints enforced with explanatory title"
+    ],
+    "weaknesses": [
+      "\"Senaste belastning\" is an unexplained decaying magnitude; differs from squad \"Belastning 7 d\""
+    ],
+    "links": [
+      "SQD-01c"
+    ],
+    "desktop": "-",
+    "mobile": "Scroll.",
+    "opportunities": [
+      "Merge with squad physical view"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "TRN-01d",
+    "domain": "TRN",
+    "name": "Panel \"Utveckling\"",
+    "route": "/career/training",
+    "kind": "panel",
+    "parent": "TRN-01",
+    "components": [
+      "app/career/training/page.tsx"
+    ],
+    "purpose": "Per player: age, level stars, potential stars, status (Förbättras/Tränar/Ingen data), latest improvement.",
+    "actions": [
+      "Read"
+    ],
+    "structure": "6-column table.",
+    "strengths": [
+      "Squad-wide development overview"
+    ],
+    "weaknesses": [
+      "Raw attribute key and stars as text"
+    ],
+    "links": [
+      "SQD-02d"
+    ],
+    "desktop": "-",
+    "mobile": "Scroll.",
+    "opportunities": [
+      "Development leaderboard / growth chart"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "TRN-01e",
+    "domain": "TRN",
+    "name": "TrainingFeedback block",
+    "route": "/career/training",
+    "kind": "panel",
+    "parent": "TRN-01",
+    "components": [
+      "components/manager/TrainingFeedback.tsx"
+    ],
+    "purpose": "Collapsed <details> \"Senaste träningsutfall · date\": per player sessions attended, energy before/after and change for the latest executed training day.",
+    "actions": [
+      "Expand"
+    ],
+    "structure": "details + Panel table (Spelare, Pass, Energi före, Energi efter, Förändring).",
+    "strengths": [
+      "Only place showing the actual energy cost of training"
+    ],
+    "weaknesses": [
+      "Collapsed by default and only for the latest day; no history"
+    ],
+    "links": [
+      "TRN-01"
+    ],
+    "desktop": "-",
+    "mobile": "-",
+    "opportunities": [
+      "-"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "TRN-01f",
+    "domain": "TRN",
+    "name": "Loading state",
+    "route": "/career/training",
+    "kind": "state",
+    "parent": "TRN-01",
+    "components": [
+      "app/career/training/page.tsx"
+    ],
+    "purpose": "Suspense fallback \"Förbereder träningsveckan…\".",
+    "actions": [
+      "None"
+    ],
+    "structure": "hm-empty status text.",
+    "strengths": [
+      "role=status"
+    ],
+    "weaknesses": [
+      "No skeleton"
+    ],
+    "links": [
+      "TRN-01"
+    ],
+    "desktop": "-",
+    "mobile": "-",
+    "opportunities": [
+      "Skeleton"
+    ],
+    "importance": "rare"
+  },
+  {
+    "id": "TRN-02",
+    "domain": "TRN",
+    "name": "Matchplan & Taktiktavla 2.0",
+    "route": "/career/tactics",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/tactics/page.tsx (1665 lines)",
+      "components/court/HandballCourtSvg.tsx",
+      "components/game/CoachingChoices.tsx",
+      "components/matchPlan/TacticsDiffManager.tsx",
+      "components/matchPlan/HandballPlanSections.tsx (SetPieceSection, LeadershipSection)",
+      "components/game/coaching.css",
+      "lib/matchPlan/*",
+      "lib/career/manualLineup.ts"
+    ],
+    "purpose": "Choose match squad (≤16) and starting seven, defensive specialists/exchanges, special situations (6v5, 5v6, 7v6), team style (defence 6-0/5-1, aggression, tempo, attack identity, rotation, 7v6 policy), assistant rotation, 7m takers, captaincy/leadership, for the next fixture.",
+    "actions": [
+      "Drag & drop players between court slots and bench (HTML5 DnD)",
+      "Switch court mode (Anfall 6v6 / Försvar 6v6 / Byten & Diff / 6 mot 5 / 5 mot 6 / 7 mot 6)",
+      "Switch defence 6–0 / 5–1",
+      "Select defence zone / 5v6 index",
+      "Switch player-overlay mode (Energi / Lämplighet / Senaste match / Form 5 matcher)",
+      "Assign / remove defensive specialists, clear all exchanges",
+      "Set coaching choices",
+      "Toggle Assistentbyten",
+      "Set 7m order, captain, vice",
+      "Add/remove players to match squad",
+      "Repair plan (gate states)",
+      "Jump: Till matchen → / Truppen →"
+    ],
+    "structure": "EnvironmentBanner; fixture strip (crests, date, round, anchor pills); coach-preparation-layout = left court section (heading, visual-mode radiogroup, dual Attack/Defence tabs with badges, special-situation tabs, exchange banner, SVG court with draggable position chips, bench strip, TacticsDiffManager in EXCHANGES mode) + right rail (\"Så spelar vi\" CoachingChoices + active-plan summary + assistant toggle + mode-specific rail panel); SetPieceSection; LeadershipSection; roster split (Matchtrupp · n spelare / Ej uttagna).",
+    "strengths": [
+      "Genuinely handball-native: 6v6, 5v6, 7v6 and attack↔defence exchanges are first-class",
+      "Court-based direct manipulation with drag & drop",
+      "Overlay modes turn the court into an information display (energy, suitability, last-match rating, 5-match form)",
+      "Derived exchange banner explains automatic specialist swaps",
+      "Robust guard states that repair invalid plans"
+    ],
+    "weaknesses": [
+      "Very large single file (1665 lines) with many inline styles and emoji icons (⚡🎯⭐📈⚔️🛡️🔄) – inconsistent visual language",
+      "Three overlapping mode controls (anchor pills, dual tabs, situation tabs) all set the same courtMode",
+      "Drag & drop is HTML5 only – no touch support, no keyboard alternative visible on court",
+      "Mixed anchor navigation (#plan-setpieces) and in-page state switches",
+      "Several components in components/matchPlan (CourtBoard, StartingUnitEditor, MatchSquadPanel, PlayerInstructionPanel, TacticalConfigPanel, SpecialPlayPanel, SevenVSixPolicyControl) are not used by any career route – dead or editor-only",
+      "Opponent context is absent on the page (opponent analysis lives on /career/analysis/opponent and match-preview)"
+    ],
+    "links": [
+      "/career/match-preview",
+      "/career/squad",
+      "/career/players",
+      "/career/clubs/[opponentId]",
+      "/career"
+    ],
+    "desktop": "Two columns (court + ~340px rail) ≥1350px.",
+    "mobile": "coaching.css: ≤1350px rail 340px; ≤1050px single column, rail 2-col; ≤750px rail 1-col. DnD unusable on touch.",
+    "opportunities": [
+      "Tactic board with tap-to-select-then-tap-to-place (touch + keyboard)",
+      "Opponent overlay on court (their tendencies vs our setup)",
+      "Single mode switcher (phase × manpower matrix)",
+      "Plan readiness checklist (squad, GK, 7m, captain) as a progress header"
+    ],
+    "importance": "core"
+  },
+  {
+    "id": "TRN-02a",
+    "domain": "TRN",
+    "name": "Guard states (no fixture / too few players / unavailable in plan / non-normal formation / invalid lineup)",
+    "route": "/career/tactics",
+    "kind": "state",
+    "parent": "TRN-02",
+    "components": [
+      "app/career/tactics/page.tsx"
+    ],
+    "purpose": "Full-page blocking states: \"Nästa laguttagning väntar.\", \"Startsjuan behöver fler spelare.\", \"Uttagningen behöver uppdateras.\", \"Välj en normal startsju.\", \"Startsjuan behöver uppdateras.\" each with repair button or links.",
+    "actions": [
+      "Repair / rebuild plan",
+      "Öppna truppen",
+      "Hitta förstärkning",
+      "Till klubben"
+    ],
+    "structure": "Banner + message card.",
+    "strengths": [
+      "Clear recovery paths"
+    ],
+    "weaknesses": [
+      "Replaces entire page; user cannot inspect current plan while blocked"
+    ],
+    "links": [
+      "TRN-02"
+    ],
+    "desktop": "Inside tactics layout.",
+    "mobile": "Stacks ≤1050px.",
+    "opportunities": [
+      "Inline warnings with auto-fix preview"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "TRN-02b",
+    "domain": "TRN",
+    "name": "Court modes \"ANFALL (6v6)\" / \"FÖRSVAR (6v6)\" (dual tabs)",
+    "route": "/career/tactics",
+    "kind": "tab",
+    "parent": "TRN-02",
+    "components": [
+      "app/career/tactics/page.tsx",
+      "components/court/HandballCourtSvg.tsx"
+    ],
+    "purpose": "Edit attack starting seven or defence 6v6 positions/specialists on the SVG court.",
+    "actions": [
+      "Drag players",
+      "Toggle 6–0 / 5–1",
+      "Select defence zone"
+    ],
+    "structure": "role=tablist with two large tabs showing badges (\"6 båda vägar\", \"n specialister\").",
+    "strengths": [
+      "Badges summarise two-way vs specialist usage"
+    ],
+    "weaknesses": [
+      "Emoji icons, uppercase labels"
+    ],
+    "links": [
+      "TRN-02"
+    ],
+    "desktop": "Inside tactics layout.",
+    "mobile": "Stacks ≤1050px.",
+    "opportunities": [
+      "Phase toggle integrated in court header"
+    ],
+    "importance": "core"
+  },
+  {
+    "id": "TRN-02c",
+    "domain": "TRN",
+    "name": "Special situations tabs (6 mot 5 / 5 mot 6 / 7 mot 6)",
+    "route": "/career/tactics",
+    "kind": "tab",
+    "parent": "TRN-02",
+    "components": [
+      "app/career/tactics/page.tsx"
+    ],
+    "purpose": "Configure numerical advantage/disadvantage and empty-goal attack units.",
+    "actions": [
+      "Assign players per slot",
+      "Pick 7th outfielder"
+    ],
+    "structure": "role=tablist of 3 tabs; rail shows situation-specific panel.",
+    "strengths": [
+      "Covers handball-specific situations most managers games ignore"
+    ],
+    "weaknesses": [
+      "Hidden behind small tabs; no indication if a situation is unconfigured"
+    ],
+    "links": [
+      "TRN-02"
+    ],
+    "desktop": "Inside tactics layout.",
+    "mobile": "Stacks ≤1050px.",
+    "opportunities": [
+      "Completion indicators per situation"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "TRN-02d",
+    "domain": "TRN",
+    "name": "Mode \"Byten & Diff\" (TacticsDiffManager)",
+    "route": "/career/tactics",
+    "kind": "tab",
+    "parent": "TRN-02",
+    "components": [
+      "components/matchPlan/TacticsDiffManager.tsx",
+      "lib/matchPlan/tacticsDiffWorkflow.ts"
+    ],
+    "purpose": "Attack↔defence exchange overview: who plays both ways, specialist pairs (max 3), clear all.",
+    "actions": [
+      "Assign/remove specialist",
+      "Clear all exchanges",
+      "Jump to court mode"
+    ],
+    "structure": "Diff manager panel under court.",
+    "strengths": [
+      "Makes implicit substitution logic explicit"
+    ],
+    "weaknesses": [
+      "Reached only via anchor pill \"Byten & Diff\", not via the dual tabs"
+    ],
+    "links": [
+      "TRN-02"
+    ],
+    "desktop": "Inside tactics layout.",
+    "mobile": "Stacks ≤1050px.",
+    "opportunities": [
+      "Visual pairing lines on court"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "TRN-02e",
+    "domain": "TRN",
+    "name": "Overlay mode selector \"Taktikvisning\"",
+    "route": "/career/tactics",
+    "kind": "panel",
+    "parent": "TRN-02",
+    "components": [
+      "app/career/tactics/page.tsx"
+    ],
+    "purpose": "Switch chip subtitle data: Energi, Lämplighet, Senaste match, Form (5 matcher).",
+    "actions": [
+      "Select mode"
+    ],
+    "structure": "Inline-styled radiogroup with emoji buttons + helper text.",
+    "strengths": [
+      "Turns court into data display"
+    ],
+    "weaknesses": [
+      "Uses aria-checked on buttons without role=radio; inline styles"
+    ],
+    "links": [
+      "TRN-02"
+    ],
+    "desktop": "Inside tactics layout.",
+    "mobile": "Stacks ≤1050px.",
+    "opportunities": [
+      "Colour-scaled chips + legend"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "TRN-02f",
+    "domain": "TRN",
+    "name": "Rail \"Så spelar vi\" (CoachingChoices)",
+    "route": "/career/tactics",
+    "kind": "panel",
+    "parent": "TRN-02",
+    "components": [
+      "components/game/CoachingChoices.tsx"
+    ],
+    "purpose": "Team style: defence system, aggression, tempo, attack identity, rotation, 7v6 policy; summary line; Assistentbyten på/av.",
+    "actions": [
+      "Change each choice",
+      "Toggle assistant rotation"
+    ],
+    "structure": "Fieldsets of segmented choices + summary sentence.",
+    "strengths": [
+      "Same component reused live in match (consistency)"
+    ],
+    "weaknesses": [
+      "No explanation of trade-offs at plan time (TimeoutOverlay has richer copy)"
+    ],
+    "links": [
+      "TRN-02"
+    ],
+    "desktop": "Inside tactics layout.",
+    "mobile": "Stacks ≤1050px.",
+    "opportunities": [
+      "Trade-off explanations + opponent-aware suggestion"
+    ],
+    "importance": "core"
+  },
+  {
+    "id": "TRN-02g",
+    "domain": "TRN",
+    "name": "Section \"Fasta situationer · 7-meter\" (SetPieceSection)",
+    "route": "/career/tactics",
+    "kind": "panel",
+    "parent": "TRN-02",
+    "components": [
+      "components/matchPlan/HandballPlanSections.tsx"
+    ],
+    "purpose": "Order of penalty takers (max MAX_PENALTY_TAKERS).",
+    "actions": [
+      "Choose takers in order"
+    ],
+    "structure": "hm-plan-section with selects.",
+    "strengths": [
+      "-"
+    ],
+    "weaknesses": [
+      "Below the fold, reached by anchor"
+    ],
+    "links": [
+      "TRN-02"
+    ],
+    "desktop": "Inside tactics layout.",
+    "mobile": "Stacks ≤1050px.",
+    "opportunities": [
+      "Show 7m conversion stats next to candidates"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "TRN-02h",
+    "domain": "TRN",
+    "name": "Section \"Ledarskap\" (LeadershipSection)",
+    "route": "/career/tactics",
+    "kind": "panel",
+    "parent": "TRN-02",
+    "components": [
+      "components/matchPlan/HandballPlanSections.tsx"
+    ],
+    "purpose": "Captain, vice-captain, leadership effect (steadying leadership).",
+    "actions": [
+      "Set captain / vice"
+    ],
+    "structure": "hm-plan-section.",
+    "strengths": [
+      "Second place to set captain (also on squad aside)"
+    ],
+    "weaknesses": [
+      "Duplicate captaincy entry points"
+    ],
+    "links": [
+      "TRN-02"
+    ],
+    "desktop": "Inside tactics layout.",
+    "mobile": "Stacks ≤1050px.",
+    "opportunities": [
+      "Single roles editor"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "TRN-02i",
+    "domain": "TRN",
+    "name": "Roster \"Matchtrupp · n spelare\" / \"Ej uttagna\"",
+    "route": "/career/tactics",
+    "kind": "panel",
+    "parent": "TRN-02",
+    "components": [
+      "app/career/tactics/page.tsx"
+    ],
+    "purpose": "Selected match squad (≤16) and players outside it.",
+    "actions": [
+      "Add/remove from squad",
+      "Drag to court"
+    ],
+    "structure": "Two roster columns of rows.",
+    "strengths": [
+      "Clear count vs max"
+    ],
+    "weaknesses": [
+      "Placed at bottom; squad size validation surfaces only in match preview"
+    ],
+    "links": [
+      "TRN-02"
+    ],
+    "desktop": "Inside tactics layout.",
+    "mobile": "Stacks ≤1050px.",
+    "opportunities": [
+      "Persistent squad counter in header"
+    ],
+    "importance": "core"
+  },
+  {
+    "id": "REC-01",
+    "domain": "REC",
+    "name": "Scouting & Motståndaranalys",
+    "route": "/career/scouting[?target=playerId]",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/scouting/page.tsx",
+      "components/scouting/ScoutingCentre.tsx",
+      "components/scouting/scouting.css",
+      "lib/career/scouting.ts"
+    ],
+    "purpose": "Run the scouting department: see scouts and workload, start player assignments and broad assignments (club / competition / nation / position+age), follow active work, open finished reports, browse discoveries; recommendations by squad need.",
+    "actions": [
+      "Rekrytera scouter →",
+      "Rekryteringscentrum →",
+      "Search player to watch + pick scout + start assignment",
+      "Configure broad assignment (type, club/competition/nation/position, max age, scout) + start",
+      "Cancel broad assignment",
+      "Filter discoveries by scout/type",
+      "Kortlista / Scouta from recommendations",
+      "Öppna rapport"
+    ],
+    "structure": "PageHeading; ScoutingCentre (spotlight hero, stats strip, Rekommendationer list with compare, \"Scouterna\" workload rail, \"Senaste upptäckterna\"); market-stage band with 3 counters; game-scouting-layout column of 7 Panels: Dina scouter, Ny bevakning (search + 6-column table + scout select), Nytt bredare uppdrag (form), Aktiva uppdrag, Färdiga rapporter, Breda uppdrag, Upptäckta spelare (6-column table + filters).",
+    "strengths": [
+      "Explicit uncertainty narrative (\"Det du inte vet visas som ett spann\")",
+      "Two assignment types (targeted vs broad) mirror real scouting",
+      "Recommendations tied to squad needs"
+    ],
+    "weaknesses": [
+      "Title promises \"Motståndaranalys\" but opponent scouting is not on this page (it lives on analysis/opponent and match-preview)",
+      "Two hero/summary blocks stacked (ScoutingCentre hero + market-stage counters) with overlapping numbers",
+      "Seven panels in one long column; no tabs",
+      "Scout ability shown as \"x.x/20\" here but as stars elsewhere",
+      "\"Öppna rapport\" leads to the player profile, not a report view"
+    ],
+    "links": [
+      "/career/staff/recruitment",
+      "/career/recruitment",
+      "/career/squad/[playerId]",
+      "/career/staff/[staffId]"
+    ],
+    "desktop": "Layout grid; ≥1100px two columns.",
+    "mobile": "scouting.css ≤1100/≤700px; recruitment-news.css ≤900px single column.",
+    "opportunities": [
+      "Scouting board (kanban: Upptäckt → Bevakas → Rapport → Kortlista)",
+      "Map/league coverage view of where scouts are",
+      "Report view with knowledge-gain visual"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "REC-01a",
+    "domain": "REC",
+    "name": "ScoutingCentre (\"Scoutingcentralen\")",
+    "route": "/career/scouting",
+    "kind": "panel",
+    "parent": "REC-01",
+    "components": [
+      "components/scouting/ScoutingCentre.tsx"
+    ],
+    "purpose": "Hero spotlight on newest discovery, stats, need-based recommendations with star ranges, scout workload, latest discoveries.",
+    "actions": [
+      "Öppna rapporten",
+      "Kortlista",
+      "Scouta"
+    ],
+    "structure": "sc-centre hero + two-column panels.",
+    "strengths": [
+      "Star-range component (StarRangeView) is a good uncertainty primitive"
+    ],
+    "weaknesses": [
+      "Duplicates counters below"
+    ],
+    "links": [
+      "REC-01"
+    ],
+    "desktop": "Panel.",
+    "mobile": "Stacked.",
+    "opportunities": [
+      "Make it the page"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "REC-01b",
+    "domain": "REC",
+    "name": "Panel \"Dina scouter\"",
+    "route": "/career/scouting",
+    "kind": "panel",
+    "parent": "REC-01",
+    "components": [
+      "app/career/scouting/page.tsx"
+    ],
+    "purpose": "Scouts with suitability x/20 and active assignment count; empty state with recruit button.",
+    "actions": [
+      "Open scout",
+      "Rekrytera"
+    ],
+    "structure": "List.",
+    "strengths": [
+      "Workload visible"
+    ],
+    "weaknesses": [
+      "Duplicates ScoutingCentre \"Scouterna\""
+    ],
+    "links": [
+      "REC-01"
+    ],
+    "desktop": "Panel.",
+    "mobile": "Stacked.",
+    "opportunities": [
+      "Merge"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "REC-01c",
+    "domain": "REC",
+    "name": "Panel \"Ny bevakning\"",
+    "route": "/career/scouting",
+    "kind": "panel",
+    "parent": "REC-01",
+    "components": [
+      "app/career/scouting/page.tsx"
+    ],
+    "purpose": "Targeted assignment: search, table (Spelare, Pos, Ålder, Klubb, Kännedom, Välj), scout select, start; ?target= preselects.",
+    "actions": [
+      "Search",
+      "Select",
+      "Start"
+    ],
+    "structure": "Search + table + form.",
+    "strengths": [
+      "Deep-link from profile pre-selects player"
+    ],
+    "weaknesses": [
+      "Form errors as text only"
+    ],
+    "links": [
+      "REC-01"
+    ],
+    "desktop": "Panel.",
+    "mobile": "Stacked.",
+    "opportunities": [
+      "Assign by dragging player onto scout"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "REC-01d",
+    "domain": "REC",
+    "name": "Panel \"Nytt bredare uppdrag\"",
+    "route": "/career/scouting",
+    "kind": "panel",
+    "parent": "REC-01",
+    "components": [
+      "app/career/scouting/page.tsx"
+    ],
+    "purpose": "Broad assignment builder: type CLUB/COMPETITION/NATION/POSITION, parameters, max age, scout.",
+    "actions": [
+      "Configure",
+      "Start"
+    ],
+    "structure": "Type buttons + conditional fields.",
+    "strengths": [
+      "Flexible discovery"
+    ],
+    "weaknesses": [
+      "No estimate of duration/yield"
+    ],
+    "links": [
+      "REC-01"
+    ],
+    "desktop": "Panel.",
+    "mobile": "Stacked.",
+    "opportunities": [
+      "Show expected output & duration"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "REC-01e",
+    "domain": "REC",
+    "name": "Panels \"Aktiva uppdrag\" / \"Färdiga rapporter\" / \"Breda uppdrag\"",
+    "route": "/career/scouting",
+    "kind": "panel",
+    "parent": "REC-01",
+    "components": [
+      "app/career/scouting/page.tsx"
+    ],
+    "purpose": "Progress of work, completed reports with knowledge meter, broad assignments with cancel.",
+    "actions": [
+      "Öppna rapport",
+      "Avbryt"
+    ],
+    "structure": "Three list panels.",
+    "strengths": [
+      "Progress %"
+    ],
+    "weaknesses": [
+      "Three separate lists for one pipeline"
+    ],
+    "links": [
+      "REC-01"
+    ],
+    "desktop": "Panel.",
+    "mobile": "Stacked.",
+    "opportunities": [
+      "Single pipeline board"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "REC-01f",
+    "domain": "REC",
+    "name": "Panel \"Upptäckta spelare\"",
+    "route": "/career/scouting",
+    "kind": "panel",
+    "parent": "REC-01",
+    "components": [
+      "app/career/scouting/page.tsx"
+    ],
+    "purpose": "Discoveries table (Spelare, Klubb, Källa, Scout, Kännedom) with filters by scout and assignment type.",
+    "actions": [
+      "Filter",
+      "Kortlista/Open"
+    ],
+    "structure": "Filter row + table.",
+    "strengths": [
+      "Source attribution"
+    ],
+    "weaknesses": [
+      "No ability range column"
+    ],
+    "links": [
+      "REC-01"
+    ],
+    "desktop": "Panel.",
+    "mobile": "Stacked.",
+    "opportunities": [
+      "Add star-range column and sort"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "REC-02",
+    "domain": "REC",
+    "name": "Rekryteringscentrum",
+    "route": "/career/recruitment[?view=SHORTLIST]",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/recruitment/page.tsx",
+      "components/game/RecruitmentPresentation.tsx",
+      "lib/career/recruitment.ts"
+    ],
+    "purpose": "Pipeline of recruitment candidates (discovered → scouting → scouted → shortlist → prioritised → negotiating) with dossier, priority and notes.",
+    "actions": [
+      "Switch pipeline stage (7 buttons: Alla, Nya fynd, Under scouting, Scoutade, Kortlista, Prioriterade, Aktiva förhandlingar)",
+      "Search, filter position/nation/status/knowledge tier",
+      "Select candidate",
+      "Toggle shortlist",
+      "Start scouting with chosen scout",
+      "Set priority, write note",
+      "Jämför med truppen",
+      "Öppna bud & budget",
+      "Open negotiation room"
+    ],
+    "structure": "PageHeading; numbered stage nav (01–07) as process strip; layout: candidates Panel (search + filter chips + 10-column table: Spelare, Klubb, Pos, Ålder, Kännedom, Förmåga, Potential, Marknadsvärde, Status) + dossier column (links, profile card, assessment, scouting box with progress, priority & note, transfer panel).",
+    "strengths": [
+      "Process-oriented stage strip matches the real recruitment funnel",
+      "Shows ability/potential ranges and market value range (knowledge-gated) – the richest market table",
+      "Notes and priority per target"
+    ],
+    "weaknesses": [
+      "Stage state is local (only ?view=SHORTLIST read) – not deep-linkable",
+      "Inline style objects (inputStyle)",
+      "Overlaps with Spelarsök and Transfer Centre lists"
+    ],
+    "links": [
+      "/career/players",
+      "/career/compare?left",
+      "/career/transfers?target",
+      "/career/transfers/[playerId]",
+      "/career/scouting?target",
+      "/career/staff/recruitment"
+    ],
+    "desktop": "Two columns (table + dossier 320–500px).",
+    "mobile": "≤900px single column; stage strip 4 columns.",
+    "opportunities": [
+      "Kanban funnel with drag between stages",
+      "Unified market + pipeline workspace"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "REC-02a",
+    "domain": "REC",
+    "name": "Candidate dossier",
+    "route": "/career/recruitment",
+    "kind": "panel",
+    "parent": "REC-02",
+    "components": [
+      "app/career/recruitment/page.tsx (CandidateDossier)"
+    ],
+    "purpose": "Assessment (\"Scoutens bedömning\"/\"Bedömningsunderlag\"), scouting box, \"Prioritet & anteckning\", \"Transfer\" panel.",
+    "actions": [
+      "Open profile",
+      "Shortlist",
+      "Start scouting",
+      "Priority",
+      "Note",
+      "Negotiate"
+    ],
+    "structure": "Stack of 4 panels.",
+    "strengths": [
+      "Everything for one target in one column"
+    ],
+    "weaknesses": [
+      "Long; duplicates profile content"
+    ],
+    "links": [
+      "SQD-02",
+      "REC-04"
+    ],
+    "desktop": "Right column.",
+    "mobile": "Below.",
+    "opportunities": [
+      "Drawer"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "REC-03",
+    "domain": "REC",
+    "name": "Transfer Centre",
+    "route": "/career/transfers[?target=playerId]",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/transfers/page.tsx",
+      "components/players/IncomingOffersBoard.tsx",
+      "components/transfers/transfer-centre.css",
+      "lib/career transfer status helpers"
+    ],
+    "purpose": "Hub for buying/selling: incoming bids & departures, urgent negotiations, transfer budget, market (opportunities/all/watched), ongoing negotiations, squad needs, market pulse, recent deals.",
+    "actions": [
+      "Respond to incoming bid (link)",
+      "Open urgent negotiation card",
+      "Switch market tab (Möjligheter / Hela marknaden / Bevakade)",
+      "Search, position chips, interest filter",
+      "Select player → dossier",
+      "Förhandla / Föreslå lån / Bevaka / Jämför / Spelarprofil"
+    ],
+    "structure": "PageHeading; IncomingOffersBoard (bids list + 4 mini-lists); tc-stage band (headline sentence + budget/committed meter stats); urgent cards; main tc-panel with tablist, featured opportunity cards and 8-column table (Spelare, Pos, Ålder, Klubb, Kontrakt, Marknadsvärde range, Intresse, Status); dossier aside; side panels Förhandlingar, Truppbehov, Marknadspuls (14-day responses), Senaste affärer.",
+    "strengths": [
+      "Strong decision-first headline (\"n förhandlingar väntar på ditt drag\")",
+      "Opportunities explain \"why\" per player (need + realistic contract + budget)",
+      "Interest filter (realistic) reduces dead-end negotiations",
+      "Market pulse gives a sense of a living market"
+    ],
+    "weaknesses": [
+      "Shortlist called \"Bevakade/Bevaka\" here but \"Kortlista\" elsewhere – same data, two names",
+      "Very long page; incoming sales board sits above buying content",
+      "Third player-market table in the game (with Spelarsök and Rekryteringscentrum)",
+      "Disabled negotiate button uses inline opacity styles; reason only in title tooltip"
+    ],
+    "links": [
+      "/career/recruitment",
+      "/career/transfers/[playerId]",
+      "/career/transfers/offers/[offerId]",
+      "/career/compare?right",
+      "/career/squad/[playerId]"
+    ],
+    "desktop": "Multi-column; transfer-centre.css breakpoints 1280/1100/760.",
+    "mobile": "≤760px stacked; photo hero swaps to narrow image ≤900px.",
+    "opportunities": [
+      "Separate Buy / Sell / Deals modes",
+      "Budget waterfall (budget, committed, wage room)",
+      "Unified market table with knowledge-gated quality"
+    ],
+    "importance": "core"
+  },
+  {
+    "id": "REC-03a",
+    "domain": "REC",
+    "name": "Panel \"Försäljning – Bud och avgångar\" (IncomingOffersBoard)",
+    "route": "/career/transfers",
+    "kind": "panel",
+    "parent": "REC-03",
+    "components": [
+      "components/players/IncomingOffersBoard.tsx"
+    ],
+    "purpose": "Live bids (club crest, player, status, fee, respond-by CTA), \"Vill lämna\", \"Transferlistan\", \"Förhandsavtal\", \"Senaste avgångar\"; empty state explains when bids arrive.",
+    "actions": [
+      "Svara före <date>",
+      "Öppna",
+      "Open player"
+    ],
+    "structure": "tc-panel with bid list + 4-column mini lists.",
+    "strengths": [
+      "Good empty-state copy"
+    ],
+    "weaknesses": [
+      "Always first on Transfer Centre even when user wants to buy"
+    ],
+    "links": [
+      "REC-05"
+    ],
+    "desktop": "-",
+    "mobile": "-",
+    "opportunities": [
+      "Sell tab"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "REC-03b",
+    "domain": "REC",
+    "name": "Market tabs (Möjligheter / Hela marknaden / Bevakade)",
+    "route": "/career/transfers",
+    "kind": "tab",
+    "parent": "REC-03",
+    "components": [
+      "app/career/transfers/page.tsx"
+    ],
+    "purpose": "Three market lists with counts; featured cards for opportunities; filters only on full market.",
+    "actions": [
+      "Switch",
+      "Search",
+      "Filter",
+      "Select row (keyboard enabled)"
+    ],
+    "structure": "role=tablist + table.",
+    "strengths": [
+      "Keyboard-selectable rows with aria-selected"
+    ],
+    "weaknesses": [
+      "Tab state not in URL"
+    ],
+    "links": [
+      "REC-03c"
+    ],
+    "desktop": "-",
+    "mobile": "Scroll.",
+    "opportunities": [
+      "-"
+    ],
+    "importance": "core"
+  },
+  {
+    "id": "REC-03c",
+    "domain": "REC",
+    "name": "Dossier aside (TransferDossier)",
+    "route": "/career/transfers",
+    "kind": "drawer",
+    "parent": "REC-03",
+    "components": [
+      "app/career/transfers/page.tsx"
+    ],
+    "purpose": "Selected player: knowledge-gated view (fetches rating), interest assessment, negotiate/loan/watch/compare/profile actions; Stäng button.",
+    "actions": [
+      "Förhandla om övergång",
+      "Föreslå lån",
+      "Bevaka/Sluta bevaka",
+      "Jämför med truppen",
+      "Spelarprofil",
+      "Stäng"
+    ],
+    "structure": "Aside with close button (behaves like a non-modal drawer).",
+    "strengths": [
+      "Explains why negotiation is blocked (interest.reason)"
+    ],
+    "weaknesses": [
+      "Reason only in tooltip"
+    ],
+    "links": [
+      "REC-04",
+      "SQD-02",
+      "SQD-04"
+    ],
+    "desktop": "Right column.",
+    "mobile": "Stacked.",
+    "opportunities": [
+      "True slide-over drawer"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "REC-03d",
+    "domain": "REC",
+    "name": "Side panels (Förhandlingar, Truppbehov, Marknadspuls, Senaste affärer)",
+    "route": "/career/transfers",
+    "kind": "panel",
+    "parent": "REC-03",
+    "components": [
+      "app/career/transfers/page.tsx"
+    ],
+    "purpose": "Ongoing deals with next step, players per position vs need, last 14 days of responses, recent ins/outs.",
+    "actions": [
+      "Open deal"
+    ],
+    "structure": "Four tc-panels.",
+    "strengths": [
+      "Live dot for pulse"
+    ],
+    "weaknesses": [
+      "Truppbehov duplicates squad depth"
+    ],
+    "links": [
+      "REC-04",
+      "SQD-01f"
+    ],
+    "desktop": "Rail.",
+    "mobile": "Stacked.",
+    "opportunities": [
+      "Need heat-map on court"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "REC-04",
+    "domain": "REC",
+    "name": "Förhandlingsrum (negotiation room)",
+    "route": "/career/transfers/[playerId][?deal=LOAN]",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/transfers/[playerId]/page.tsx",
+      "components/transfers/NegotiationRoom.tsx",
+      "components/transfers/DealCompletion.tsx",
+      "components/experience (ProgressSteps)",
+      "components/MoneyInput.tsx"
+    ],
+    "purpose": "The single place to negotiate a permanent transfer or loan: club stage (fee or loan wage share + end date), player stage (wage, years 1–5, signing bonus, promised role), counters, waiting, completion.",
+    "actions": [
+      "Choose deal type (Permanent / Lån) and Öppna förhandlingen",
+      "Lägg budet (fee)",
+      "Loan: wage-share %, end date",
+      "Lägg fram villkoren (wage, years, bonus, role)",
+      "Accept counter (\"meet\") / Justera budet i stället",
+      "Dra dig ur",
+      "After completion: Öppna spelarprofilen / Se truppen / Planera laguttagning"
+    ],
+    "structure": "PageHeading + photo hero with parties (club ↔ our club), ProgressSteps stepper (Klubben → Spelaren/Speltiden → Signering/Lånet) and deadline clock; two party asides (club, player & agent) around a decision section; timeline of rounds (tc-timeline); acquisition summary box with training compensation; DealCompletion moment on success.",
+    "strengths": [
+      "Negotiation as a visible, staged conversation with timeline and stamped answers",
+      "Deadline urgency clock",
+      "Acquisition cost summary (fee, bonus, wage × years, training compensation)",
+      "Rich completion moment with next-step CTAs"
+    ],
+    "weaknesses": [
+      "Some summary boxes built with inline styles",
+      "No indication of player's willingness/likely acceptance range beyond counters",
+      "Own-player and cooldown states are text blocks"
+    ],
+    "links": [
+      "/career/transfers",
+      "/career/squad/[playerId]",
+      "/career/squad",
+      "/career/tactics",
+      "/career/contracts"
+    ],
+    "desktop": "Hero + 3-column party/decision layout.",
+    "mobile": "transfer-centre.css ≤1100/760 stacks parties above decision.",
+    "opportunities": [
+      "Acceptance-zone slider visual",
+      "Shared negotiation pattern for staff and renewals"
+    ],
+    "importance": "core"
+  },
+  {
+    "id": "REC-04a",
+    "domain": "REC",
+    "name": "Start decision \"Inled förhandling\"",
+    "route": "/career/transfers/[playerId]",
+    "kind": "state",
+    "parent": "REC-04",
+    "components": [
+      "components/transfers/NegotiationRoom.tsx"
+    ],
+    "purpose": "Deal-type radiogroup and open button; cooldown and own-player variants.",
+    "actions": [
+      "Permanent / Lån",
+      "Öppna förhandlingen →"
+    ],
+    "structure": "tc-decision tc-start.",
+    "strengths": [
+      "Loan disabled with reason"
+    ],
+    "weaknesses": [
+      "-"
+    ],
+    "links": [
+      "REC-04"
+    ],
+    "desktop": "Centre column.",
+    "mobile": "Stacked.",
+    "opportunities": [
+      "-"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "REC-04b",
+    "domain": "REC",
+    "name": "Decision form – club stage",
+    "route": "/career/transfers/[playerId]",
+    "kind": "panel",
+    "parent": "REC-04",
+    "components": [
+      "components/transfers/NegotiationRoom.tsx"
+    ],
+    "purpose": "Fee (or loan wage share %, end date) with visible knowledge-gated value range as default.",
+    "actions": [
+      "Lägg budet",
+      "Accept counter",
+      "Dra dig ur"
+    ],
+    "structure": "Form inside tc-decision with counter \"meet\" button.",
+    "strengths": [
+      "Defaults derived from value range"
+    ],
+    "weaknesses": [
+      "Number input for % (no slider)"
+    ],
+    "links": [
+      "REC-04"
+    ],
+    "desktop": "Centre column.",
+    "mobile": "Stacked.",
+    "opportunities": [
+      "Slider with range band"
+    ],
+    "importance": "core"
+  },
+  {
+    "id": "REC-04c",
+    "domain": "REC",
+    "name": "Decision form – player stage",
+    "route": "/career/transfers/[playerId]",
+    "kind": "panel",
+    "parent": "REC-04",
+    "components": [
+      "components/transfers/NegotiationRoom.tsx"
+    ],
+    "purpose": "Wage/month, years, signing bonus, promised role; acquisition summary.",
+    "actions": [
+      "Lägg fram villkoren",
+      "Accept counter"
+    ],
+    "structure": "Form + summary box.",
+    "strengths": [
+      "Total cost transparency"
+    ],
+    "weaknesses": [
+      "Dense"
+    ],
+    "links": [
+      "REC-04"
+    ],
+    "desktop": "Centre column.",
+    "mobile": "Stacked.",
+    "opportunities": [
+      "-"
+    ],
+    "importance": "core"
+  },
+  {
+    "id": "REC-04d",
+    "domain": "REC",
+    "name": "Waiting / closed status",
+    "route": "/career/transfers/[playerId]",
+    "kind": "state",
+    "parent": "REC-04",
+    "components": [
+      "components/transfers/NegotiationRoom.tsx"
+    ],
+    "purpose": "\"Inget att göra just nu\" while party considers; closed labels (refused, expired, withdrawn).",
+    "actions": [
+      "Continue in calendar"
+    ],
+    "structure": "tc-status blocks.",
+    "strengths": [
+      "Honest async state"
+    ],
+    "weaknesses": [
+      "No \"advance to answer\" shortcut"
+    ],
+    "links": [
+      "REC-04"
+    ],
+    "desktop": "Centre column.",
+    "mobile": "Stacked.",
+    "opportunities": [
+      "Inline \"advance day\" affordance"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "REC-04e",
+    "domain": "REC",
+    "name": "Deal completed (DealCompletion)",
+    "route": "/career/transfers/[playerId]",
+    "kind": "overlay",
+    "parent": "REC-04",
+    "components": [
+      "components/transfers/NegotiationRoom.tsx"
+    ],
+    "purpose": "Celebratory moment with deal summary and next steps.",
+    "actions": [
+      "Öppna spelarprofilen",
+      "Se truppen",
+      "Planera laguttagning",
+      "Tillbaka till Transfer Centre"
+    ],
+    "structure": "Photo moment hero + summary.",
+    "strengths": [
+      "Emotional payoff"
+    ],
+    "weaknesses": [
+      "-"
+    ],
+    "links": [
+      "REC-04"
+    ],
+    "desktop": "Centre column.",
+    "mobile": "Stacked.",
+    "opportunities": [
+      "-"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "REC-05",
+    "domain": "REC",
+    "name": "Bud på din spelare (incoming offer)",
+    "route": "/career/transfers/offers/[offerId]",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/transfers/offers/[offerId]/page.tsx",
+      "components/experience (DecisionCard, MomentHero)",
+      "components/MoneyInput.tsx"
+    ],
+    "purpose": "Respond to another club's bid for an own player: why they want him, bidding history, financial & sporting effect, accept / counter / reject / withdraw; completed sale moment.",
+    "actions": [
+      "Acceptera budet",
+      "Motbud + Skicka motbud",
+      "Avvisa affär",
+      "Dra dig ur",
+      "← Transfers"
+    ],
+    "structure": "PageHeading; player header; sections \"Varför de vill ha honom\", \"Budgivningen\" history, \"Ekonomisk & sportslig effekt\"; DecisionCard \"Ditt svar\"; MomentHero \"Såld\" when completed.",
+    "strengths": [
+      "Consequences framed (cash, sporting effect)",
+      "Player has final say explicitly stated"
+    ],
+    "weaknesses": [
+      "Not-found is a bare panel",
+      "Sporting effect is text, no squad-depth visual"
+    ],
+    "links": [
+      "/career/transfers",
+      "SQD-02i"
+    ],
+    "desktop": "Single column.",
+    "mobile": "Single column.",
+    "opportunities": [
+      "Show depth chart before/after sale"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "REC-05a",
+    "domain": "REC",
+    "name": "Sold moment (MomentHero \"Såld\")",
+    "route": "/career/transfers/offers/[offerId]",
+    "kind": "overlay",
+    "parent": "REC-05",
+    "components": [
+      "app/career/transfers/offers/[offerId]/page.tsx"
+    ],
+    "purpose": "Departure announcement after completion.",
+    "actions": [
+      "Read"
+    ],
+    "structure": "Photo moment.",
+    "strengths": [
+      "Narrative closure"
+    ],
+    "weaknesses": [
+      "-"
+    ],
+    "links": [
+      "REC-05"
+    ],
+    "desktop": "-",
+    "mobile": "-",
+    "opportunities": [
+      "-"
+    ],
+    "importance": "rare"
+  },
+  {
+    "id": "CMP-01",
+    "domain": "CMP",
+    "name": "Tävlingar (competition workspace)",
+    "route": "/career/competitions[/competitionId][?tab=]",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/competitions/page.tsx",
+      "app/career/competitions/[competitionId]/page.tsx",
+      "components/manager/CompetitionWorkspace.tsx",
+      "components/manager/CupWorkspace.tsx",
+      "components/manager/StatisticsTable.tsx",
+      "components/game/Identity.tsx (CompetitionHero)",
+      "components/game/profile-world.css"
+    ],
+    "purpose": "League/cup hub: table & form, fixtures, results, player statistics, clubs, history; switch between any competition (incl. non-simulated leagues for recruitment browsing).",
+    "actions": [
+      "Switch competition (select)",
+      "Switch tab (URL ?tab=)",
+      "Open club / match / history season"
+    ],
+    "structure": "CompetitionHero; switcher + meta pills (Fullt simulerad / Ej simulerad, clubs count, played matches, next round); hm-tabs as Links (6); split: main Panel per tab + rail (Din klubb i ligan, Omgång n list, Senaste resultat, Skytteligan top 5, note for non-simulated).",
+    "strengths": [
+      "Tabs are URL-driven (deep-linkable)",
+      "Same workspace for every league; clear simulated/non-simulated status",
+      "League table with 11 columns incl. form dots"
+    ],
+    "weaknesses": [
+      "/career/competitions and /career/competitions/[id] are identical components (no overview of all competitions)",
+      "Cup uses a different layout (CupWorkspace) with an h1 inside a section",
+      "Statistics tab duplicates /career/statistics"
+    ],
+    "links": [
+      "/career/clubs/[id]",
+      "/career/fixtures/[id]",
+      "/career/match-report/[id]",
+      "/career/history?season"
+    ],
+    "desktop": "Main + rail.",
+    "mobile": "profile-world.css ≤1250px one column, meta pills hidden.",
+    "opportunities": [
+      "League table with position-change arrows and points-gap chart",
+      "Season progression timeline"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "CMP-01a",
+    "domain": "CMP",
+    "name": "Tab \"Tabell & form\"",
+    "route": "/career/competitions/[competitionId]?tab=",
+    "kind": "tab",
+    "parent": "CMP-01",
+    "components": [
+      "components/manager/CompetitionWorkspace.tsx"
+    ],
+    "purpose": "League table.",
+    "actions": [
+      "Read",
+      "Open linked entities"
+    ],
+    "structure": "Table #, Klubb, SM, V, O, F, GM, IM, MSK, P, Form · fem senaste; own club highlighted.",
+    "strengths": [
+      "URL-addressable"
+    ],
+    "weaknesses": [],
+    "links": [
+      "CMP-01"
+    ],
+    "desktop": "Main column.",
+    "mobile": "Scroll tables.",
+    "opportunities": [],
+    "importance": "core"
+  },
+  {
+    "id": "CMP-01b",
+    "domain": "CMP",
+    "name": "Tab \"Matcher\"",
+    "route": "/career/competitions/[competitionId]?tab=",
+    "kind": "tab",
+    "parent": "CMP-01",
+    "components": [
+      "components/manager/CompetitionWorkspace.tsx"
+    ],
+    "purpose": "Upcoming fixtures.",
+    "actions": [
+      "Read",
+      "Open linked entities"
+    ],
+    "structure": "FixtureTable.",
+    "strengths": [
+      "URL-addressable"
+    ],
+    "weaknesses": [],
+    "links": [
+      "CMP-01"
+    ],
+    "desktop": "Main column.",
+    "mobile": "Scroll tables.",
+    "opportunities": [],
+    "importance": "frequent"
+  },
+  {
+    "id": "CMP-01c",
+    "domain": "CMP",
+    "name": "Tab \"Resultat\"",
+    "route": "/career/competitions/[competitionId]?tab=",
+    "kind": "tab",
+    "parent": "CMP-01",
+    "components": [
+      "components/manager/CompetitionWorkspace.tsx"
+    ],
+    "purpose": "Played fixtures.",
+    "actions": [
+      "Read",
+      "Open linked entities"
+    ],
+    "structure": "FixtureTable.",
+    "strengths": [
+      "URL-addressable"
+    ],
+    "weaknesses": [],
+    "links": [
+      "CMP-01"
+    ],
+    "desktop": "Main column.",
+    "mobile": "Scroll tables.",
+    "opportunities": [],
+    "importance": "frequent"
+  },
+  {
+    "id": "CMP-01d",
+    "domain": "CMP",
+    "name": "Tab \"Spelarstatistik\"",
+    "route": "/career/competitions/[competitionId]?tab=",
+    "kind": "tab",
+    "parent": "CMP-01",
+    "components": [
+      "components/manager/CompetitionWorkspace.tsx"
+    ],
+    "purpose": "Player ranking for this competition.",
+    "actions": [
+      "Read",
+      "Open linked entities"
+    ],
+    "structure": "StatisticsTable (metric select, minimum filter, 12 columns).",
+    "strengths": [
+      "URL-addressable"
+    ],
+    "weaknesses": [],
+    "links": [
+      "CMP-01"
+    ],
+    "desktop": "Main column.",
+    "mobile": "Scroll tables.",
+    "opportunities": [],
+    "importance": "occasional"
+  },
+  {
+    "id": "CMP-01e",
+    "domain": "CMP",
+    "name": "Tab \"Klubbar\"",
+    "route": "/career/competitions/[competitionId]?tab=",
+    "kind": "tab",
+    "parent": "CMP-01",
+    "components": [
+      "components/manager/CompetitionWorkspace.tsx"
+    ],
+    "purpose": "Clubs list with city and squad count.",
+    "actions": [
+      "Read",
+      "Open linked entities"
+    ],
+    "structure": "3-column table.",
+    "strengths": [
+      "URL-addressable"
+    ],
+    "weaknesses": [],
+    "links": [
+      "CMP-01"
+    ],
+    "desktop": "Main column.",
+    "mobile": "Scroll tables.",
+    "opportunities": [],
+    "importance": "occasional"
+  },
+  {
+    "id": "CMP-01f",
+    "domain": "CMP",
+    "name": "Tab \"Historik\"",
+    "route": "/career/competitions/[competitionId]?tab=",
+    "kind": "tab",
+    "parent": "CMP-01",
+    "components": [
+      "components/manager/CompetitionWorkspace.tsx"
+    ],
+    "purpose": "Finished seasons links.",
+    "actions": [
+      "Read",
+      "Open linked entities"
+    ],
+    "structure": "Link rows / EmptyState.",
+    "strengths": [
+      "URL-addressable"
+    ],
+    "weaknesses": [],
+    "links": [
+      "CMP-01"
+    ],
+    "desktop": "Main column.",
+    "mobile": "Scroll tables.",
+    "opportunities": [],
+    "importance": "rare"
+  },
+  {
+    "id": "CMP-01g",
+    "domain": "CMP",
+    "name": "Svenska Cupen variant (CupWorkspace)",
+    "route": "/career/competitions/se-svenska-cupen-herr",
+    "kind": "state",
+    "parent": "CMP-01",
+    "components": [
+      "components/manager/CupWorkspace.tsx"
+    ],
+    "purpose": "Cup path (\"Din väg i cupen\"), next cup matches, group tables, fixtures/results, previous winners.",
+    "actions": [
+      "Switch tabs",
+      "Open matches"
+    ],
+    "structure": "Header section + panels per group (#, Lag, M, +/-, P).",
+    "strengths": [
+      "Group stage + ties supported"
+    ],
+    "weaknesses": [
+      "Different visual structure from league workspace; no bracket visual"
+    ],
+    "links": [
+      "CMP-01"
+    ],
+    "desktop": "-",
+    "mobile": "-",
+    "opportunities": [
+      "Bracket / path visual"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "CMP-01h",
+    "domain": "CMP",
+    "name": "Non-simulated league / not found states",
+    "route": "/career/competitions/[competitionId]",
+    "kind": "state",
+    "parent": "CMP-01",
+    "components": [
+      "components/manager/CompetitionWorkspace.tsx"
+    ],
+    "purpose": "\"Ej simulerad · ingen tabell\" with note to explore clubs; \"Tävlingen hittades inte.\"",
+    "actions": [
+      "Inspektera klubbarna →"
+    ],
+    "structure": "Status pill + world note.",
+    "strengths": [
+      "Honest scope"
+    ],
+    "weaknesses": [
+      "-"
+    ],
+    "links": [
+      "CMP-01e"
+    ],
+    "desktop": "-",
+    "mobile": "-",
+    "opportunities": [
+      "-"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "CMP-02",
+    "domain": "CMP",
+    "name": "Match (fixture page)",
+    "route": "/career/fixtures/[fixtureId]",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/fixtures/[fixtureId]/page.tsx",
+      "components/manager/Workspace.tsx (FixtureTable)",
+      "components/FormDots.tsx"
+    ],
+    "purpose": "Neutral fixture page for any match (own or other): teams, table position, form, recent fixtures; link to report when played.",
+    "actions": [
+      "Open match report (if played)",
+      "Open club",
+      "Open schedule (not found)"
+    ],
+    "structure": "PageHeading (date/time, \"Home – Away\", result or round); two Panels side by side (one per club: table position, form dots, FixtureTable).",
+    "strengths": [
+      "Works for archive fixtures via careerArchiveSummaries"
+    ],
+    "weaknesses": [
+      "For the user's next match it is not a preparation hub (prep is on match-preview); Training links to this page as \"Matchförberedelse →\" which is misleading",
+      "Very thin page"
+    ],
+    "links": [
+      "/career/match-report/[id]",
+      "/career/schedule",
+      "/career/clubs/[id]"
+    ],
+    "desktop": "Two panels.",
+    "mobile": "hm-comparison-select wraps.",
+    "opportunities": [
+      "Head-to-head history, odds-like strength comparison, redirect own next fixture to match prep"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "CMP-03",
+    "domain": "CMP",
+    "name": "Matcher (legacy redirect)",
+    "route": "/career/matches",
+    "kind": "state",
+    "parent": null,
+    "components": [
+      "app/career/matches/page.tsx"
+    ],
+    "purpose": "Client-side redirect to /career/schedule (Schedule is the canonical fixture list, owned by part A).",
+    "actions": [
+      "None"
+    ],
+    "structure": "Renders null then router.replace.",
+    "strengths": [
+      "Old bookmarks do not 404"
+    ],
+    "weaknesses": [
+      "Client redirect flashes empty page; /career/match-center redirects here, creating a double redirect"
+    ],
+    "links": [
+      "/career/schedule"
+    ],
+    "desktop": "-",
+    "mobile": "-",
+    "opportunities": [
+      "Server redirect"
+    ],
+    "importance": "internal"
+  },
+  {
+    "id": "CMP-04",
+    "domain": "CMP",
+    "name": "Statistik",
+    "route": "/career/statistics",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/statistics/page.tsx",
+      "components/manager/StatisticsTable.tsx",
+      "components/game/Identity.tsx (PlayerCell, RankIndicator)"
+    ],
+    "purpose": "League-wide season statistics: leaders, player ranking, team attack & defence.",
+    "actions": [
+      "Choose ranking metric (Mål, Matcher, Skotteffektivitet, Räddningar…)",
+      "Set minimum sample",
+      "Tidigare säsonger →",
+      "Open players/clubs"
+    ],
+    "structure": "PageHeading; leader strip of 3 cards (Flest mål, Flest räddningar, Högst snittbetyg); Panel \"Spelarranking\" (12-column table: #, Spelare, Nuvarande klubb, Pos, Matcher, Starter, Mål, Skott, Skott %, Räddningar / mötta, Räddning %, Betyg); Panel \"Lag · anfall & försvar\" (8 columns).",
+    "strengths": [
+      "Minimum-sample filter avoids small-sample leaders",
+      "Copy promises \"Varje procenttal har ett underlag\""
+    ],
+    "weaknesses": [
+      "Only own league; no competition switcher (unlike competitions tab)",
+      "No per-position leaderboards, no charts",
+      "Duplicate of competition \"Spelarstatistik\" tab"
+    ],
+    "links": [
+      "/career/history",
+      "SQD-02",
+      "/career/clubs/[id]"
+    ],
+    "desktop": "Stack.",
+    "mobile": "Tables scroll.",
+    "opportunities": [
+      "Scatter plots (shots vs efficiency, saves vs faced)",
+      "Position-specific leaderboards"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "MDY-01",
+    "domain": "MDY",
+    "name": "Matchförhandsvisning (match preview / matchday gate)",
+    "route": "/career/match-preview",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/match-preview/page.tsx",
+      "components/matchday/Matchday.tsx (MatchdayStage)",
+      "components/game/Identity.tsx (MatchHero)",
+      "components/manager/MatchContext.tsx",
+      "components/scouting/OpponentScoutingPanel.tsx",
+      "components/game/ConfirmDialog.tsx",
+      "lib/career/productionMatch*"
+    ],
+    "purpose": "Pre-match hub for the NEXT fixture: stakes, table & form, media, opponent knowledge, our starting seven, low-readiness warnings, unavailable players; start live match or quick result on matchday.",
+    "actions": [
+      "STARTA MATCH → / FORTSÄTT MATCH →",
+      "Quick result (snabbresultat)",
+      "Confirm start despite squad warnings (dialog)",
+      "Justera taktik & matchtrupp →",
+      "Beställ scoutingrapport (opponent)",
+      "Anpassa matchplanen →",
+      "Open players"
+    ],
+    "structure": "Alerts (error, blocking squad issues, lineup errors) rendered ABOVE PageHeading; MatchdayStage (stakes band, \"Tabell och form\", \"Vad som sägs\", \"Det vi vet\"); MatchHero with start buttons (only on matchday); MatchContext; OpponentScoutingPanel compact; grid of two Panels (\"Din matchförberedelse & startsjua\" with 7 slot cards incl. K/7m badges + \"Lägre beredskap\" list; \"Otillgängliga spelare\" table).",
+    "strengths": [
+      "Readiness warnings tie training load to selection (energy %, 7-day load, reduced recovery)",
+      "Confirm dialog prevents starting without substitutes",
+      "Assistant-control notice when manager is suspended"
+    ],
+    "weaknesses": [
+      "Plan summary prints raw engine enums (\"Anfallsstil: SLOW/BALANCED/FAST\", formation code)",
+      "Start buttons only exist on matchday; on other days the page is read-only with no \"advance to matchday\" CTA",
+      "Alerts appear above the heading – disorienting",
+      "Season-complete / no-fixture states are bare muted panels",
+      "Overlaps with fixture page (CMP-02) and analysis/opponent (ANL-03)"
+    ],
+    "links": [
+      "/career/tactics",
+      "/career/match-day/[fixtureId]",
+      "/career/match-day/[fixtureId]?finish=1",
+      "SQD-02"
+    ],
+    "desktop": "Stacked bands; 2-panel auto-fit grid (min 340px).",
+    "mobile": "matchday.css ≤1100px stacks; grid auto-fits to one column.",
+    "opportunities": [
+      "True \"matchday ritual\": checklist (squad ✓, GK ✓, 7m ✓, opponent report ✓) → kick-off",
+      "Lineup on a court graphic with readiness rings",
+      "Opponent threat cards next to our matchups"
+    ],
+    "importance": "core"
+  },
+  {
+    "id": "MDY-01a",
+    "domain": "MDY",
+    "name": "MatchdayStage (\"Matchdagen\")",
+    "route": "/career/match-preview",
+    "kind": "panel",
+    "parent": "MDY-01",
+    "components": [
+      "components/matchday/Matchday.tsx"
+    ],
+    "purpose": "Stakes, assistant-control alert, table & form, media quotes, opponent knowledge.",
+    "actions": [
+      "Read"
+    ],
+    "structure": "mday-stage with three bd-panels.",
+    "strengths": [
+      "Narrative framing of the match"
+    ],
+    "weaknesses": [
+      "Text heavy"
+    ],
+    "links": [
+      "MDY-01"
+    ],
+    "desktop": "-",
+    "mobile": "Stacks.",
+    "opportunities": [
+      "Stakes meter"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "MDY-01b",
+    "domain": "MDY",
+    "name": "Confirm dialog \"Kontrollera matchtruppen\"",
+    "route": "/career/match-preview",
+    "kind": "modal",
+    "parent": "MDY-01",
+    "components": [
+      "components/game/ConfirmDialog.tsx"
+    ],
+    "purpose": "Shown when squad has warnings (e.g. NO_SUBSTITUTES) before LIVE or QUICK start.",
+    "actions": [
+      "Confirm start",
+      "Cancel"
+    ],
+    "structure": "ConfirmDialog (warning tone) with counts and warning list.",
+    "strengths": [
+      "Prevents accidental bad starts"
+    ],
+    "weaknesses": [
+      "-"
+    ],
+    "links": [
+      "MDY-01"
+    ],
+    "desktop": "-",
+    "mobile": "Stacks.",
+    "opportunities": [
+      "Fix-in-place actions inside dialog"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "MDY-01c",
+    "domain": "MDY",
+    "name": "Blocking / lineup error alerts",
+    "route": "/career/match-preview",
+    "kind": "state",
+    "parent": "MDY-01",
+    "components": [
+      "app/career/match-preview/page.tsx"
+    ],
+    "purpose": "role=alert banners with link to Taktik when lineup invalid or squad blocking.",
+    "actions": [
+      "Rätta matchtruppen i Taktik →"
+    ],
+    "structure": "hm-panel-body alerts.",
+    "strengths": [
+      "Actionable"
+    ],
+    "weaknesses": [
+      "Above heading; plain styling"
+    ],
+    "links": [
+      "MDY-01"
+    ],
+    "desktop": "-",
+    "mobile": "Stacks.",
+    "opportunities": [
+      "Inline checklist"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "MDY-01d",
+    "domain": "MDY",
+    "name": "OpponentScoutingPanel (compact)",
+    "route": "/career/match-preview",
+    "kind": "panel",
+    "parent": "MDY-01",
+    "components": [
+      "components/scouting/OpponentScoutingPanel.tsx"
+    ],
+    "purpose": "Order opponent scouting report (choose analyst/scout); report with confidence per topic, observed strengths/weaknesses, recommendations, link to plan.",
+    "actions": [
+      "Beställ scoutingrapport",
+      "Anpassa matchplanen →"
+    ],
+    "structure": "hm-plan-section.",
+    "strengths": [
+      "Confidence labels per topic"
+    ],
+    "weaknesses": [
+      "Same panel also on analysis/opponent"
+    ],
+    "links": [
+      "MDY-01"
+    ],
+    "desktop": "-",
+    "mobile": "Stacks.",
+    "opportunities": [
+      "Threat cards"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "MDY-01e",
+    "domain": "MDY",
+    "name": "Panels \"Din matchförberedelse & startsjua\" + \"Otillgängliga spelare\"",
+    "route": "/career/match-preview",
+    "kind": "panel",
+    "parent": "MDY-01",
+    "components": [
+      "app/career/match-preview/page.tsx"
+    ],
+    "purpose": "Starting seven slot cards, plan summary, low-readiness list; unavailable list with status badge.",
+    "actions": [
+      "Taktiktavla →",
+      "Open player"
+    ],
+    "structure": "Two Panels in auto-fit grid.",
+    "strengths": [
+      "Readiness list"
+    ],
+    "weaknesses": [
+      "Raw enum text; slot cards not court-shaped"
+    ],
+    "links": [
+      "MDY-01"
+    ],
+    "desktop": "-",
+    "mobile": "Stacks.",
+    "opportunities": [
+      "Court lineup graphic"
+    ],
+    "importance": "core"
+  },
+  {
+    "id": "MDY-01f",
+    "domain": "MDY",
+    "name": "States: season complete / no fixture",
+    "route": "/career/match-preview",
+    "kind": "state",
+    "parent": "MDY-01",
+    "components": [
+      "app/career/match-preview/page.tsx"
+    ],
+    "purpose": "\"Säsongen är avslutad…\" / \"Ingen kommande match schemalagd.\"",
+    "actions": [
+      "None"
+    ],
+    "structure": "Muted panel.",
+    "strengths": [
+      "-"
+    ],
+    "weaknesses": [
+      "No CTA"
+    ],
+    "links": [
+      "MDY-01"
+    ],
+    "desktop": "-",
+    "mobile": "Stacks.",
+    "opportunities": [
+      "CTA to season review / schedule"
+    ],
+    "importance": "rare"
+  },
+  {
+    "id": "MDY-02",
+    "domain": "MDY",
+    "name": "Live match (Match Center)",
+    "route": "/career/match-day/[fixtureId][?finish=1]",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/match-day/[fixtureId]/page.tsx",
+      "components/ProductionMatchView.tsx",
+      "components/matchCenter/MatchCenter.tsx (LiveMatchCenter, MatchCenterSurface, KeyMoment, Commentary)",
+      "components/matchCenter/WorkspaceViews.tsx",
+      "components/matchCenter/TimeoutOverlay.tsx",
+      "components/matchCenter/TacticalCourt.tsx",
+      "components/game/LiveCoachPanel.tsx",
+      "components/game/CoachingChoices.tsx",
+      "components/matchCenter/match-center.css",
+      "lib/matchCenter/model.ts",
+      "lib/matchCenter/workspace.ts"
+    ],
+    "purpose": "Play the match: event-driven text/key-moment match center with tactical snapshots, live coaching (tactics, timeouts, substitutions), half-time and full-time decisions, optional continuous 2D court; also serves as archive replay when no live session.",
+    "actions": [
+      "Spela / Pausa / Starta andra halvlek / Återuppta efter timeout",
+      "Hastighet (Realtid 1×, Normal 2×, Snabb 10×, Mycket snabb 20×, Express 48×, Turbo 64×, Maximal 86×)",
+      "Nästa viktiga händelse",
+      "Nyckelhändelser på/av",
+      "Spela till slut (quick finish)",
+      "Slutför match och öppna rapport",
+      "Switch view (Översikt / Nyckelögonblick / Spelare / Statistik; arrow-key tablist)",
+      "Change tactics live",
+      "Call timeout",
+      "Substitute (out → in)",
+      "Assistentbyten på/av",
+      "Open Experimental 2D"
+    ],
+    "structure": "Optional stakes banner; MatchCenterSurface: header (crests, score, period, clock, manpower line \"6v6 jämnt\"/\"6v5 övertag\"/\"7 mot 6\", suspensions), skip link, controls bar, sticky workspace nav with compact score, tabpanel per view, coach aside (LiveCoachPanel) on the side, details \"Experimental 2D\" with SVG LiveCourt.",
+    "strengths": [
+      "Event-first presentation with key moments and tactical snapshots (before/situation/shot) is distinctive",
+      "Accessible tablist (keyboard Home/End/Arrows), skip link to controls, reduced-motion rules",
+      "Named speeds tied to real wall-clock durations",
+      "Clear manpower state language",
+      "Same surface reused for archive replay (consistency)"
+    ],
+    "weaknesses": [
+      "Decision controls are split between the controls bar (play/speed), LiveCoachPanel (tactics/timeout/subs), and TimeoutOverlay (instructions + subs again)",
+      "2D court is hidden behind an English \"Experimental 2D\" details element",
+      "Substitution requires two-step button selection in a side panel; no on-court drag",
+      "Quick-finish and error states are bare paragraphs",
+      "Very dense dark UI with custom css (778 lines) separate from the rest of the design system"
+    ],
+    "links": [
+      "/career/match-report/[fixtureId]",
+      "/career/match-preview",
+      "/career"
+    ],
+    "desktop": "Live layout: view panel + coach aside.",
+    "mobile": "match-center.css ≤1000px single column (header compacts); ≤900px overview/player/stat workspaces single column; coaching.css ≤1050px live layout single column, out-list 4-col.",
+    "opportunities": [
+      "Unified \"bench\" decision dock (tactics, timeout, subs) always visible",
+      "Promote 2D/court view as a first-class view tab with momentum overlay",
+      "Live momentum graph + energy bars for on-court players",
+      "Half-time as a dedicated briefing screen with stats and suggested changes"
+    ],
+    "importance": "core"
+  },
+  {
+    "id": "MDY-02a",
+    "domain": "MDY",
+    "name": "Header / scoreboard & manpower",
+    "route": "/career/match-day/[fixtureId]",
+    "kind": "panel",
+    "parent": "MDY-02",
+    "components": [
+      "components/matchCenter/MatchCenter.tsx"
+    ],
+    "purpose": "Crests, score, competition label, period & remaining time, manpower line, suspensions/disqualifications per club.",
+    "actions": [
+      "Read"
+    ],
+    "structure": "mc-header.",
+    "strengths": [
+      "Handball-specific manpower state"
+    ],
+    "weaknesses": [
+      "Timeouts remaining not prominent"
+    ],
+    "links": [
+      "MDY-02"
+    ],
+    "desktop": "Inside match center.",
+    "mobile": "Single column ≤900–1000px.",
+    "opportunities": [
+      "Timeout & suspension timers as visual pips"
+    ],
+    "importance": "core"
+  },
+  {
+    "id": "MDY-02b",
+    "domain": "MDY",
+    "name": "Controls bar",
+    "route": "/career/match-day/[fixtureId]",
+    "kind": "panel",
+    "parent": "MDY-02",
+    "components": [
+      "components/ProductionMatchView.tsx"
+    ],
+    "purpose": "Play/pause/resume/second half, speed select, next key event, key-events toggle, play to end, finalise.",
+    "actions": [
+      "See MDY-02 actions"
+    ],
+    "structure": "mc-controls row of buttons + select.",
+    "strengths": [
+      "Labels change with state"
+    ],
+    "weaknesses": [
+      "Many equal-weight buttons"
+    ],
+    "links": [
+      "MDY-02"
+    ],
+    "desktop": "Inside match center.",
+    "mobile": "Single column ≤900–1000px.",
+    "opportunities": [
+      "Single transport control"
+    ],
+    "importance": "core"
+  },
+  {
+    "id": "MDY-02c",
+    "domain": "MDY",
+    "name": "View \"Översikt\"",
+    "route": "/career/match-day/[fixtureId]",
+    "kind": "tab",
+    "parent": "MDY-02",
+    "components": [
+      "components/matchCenter/MatchCenter.tsx",
+      "components/matchCenter/TacticalCourt.tsx"
+    ],
+    "purpose": "Key moment card with tactical snapshot stepper (TacticalCourt, närbild/helplan), commentary feed (\"Från planen · Direktflöde\"), match summary, \"Matchen i siffror\" table, \"Matchens profiler\", \"Händelser att återvända till\"; TimeoutOverlay and decision heading appear here.",
+    "actions": [
+      "Step snapshots",
+      "Toggle full court",
+      "Toggle important events",
+      "Open moment/player"
+    ],
+    "structure": "mc-overview-grid two columns.",
+    "strengths": [
+      "Rich narrative + tactical illustration"
+    ],
+    "weaknesses": [
+      "Very busy; many sub-sections"
+    ],
+    "links": [
+      "MDY-02"
+    ],
+    "desktop": "Inside match center.",
+    "mobile": "Single column ≤900–1000px.",
+    "opportunities": [
+      "Prioritise live state over review content"
+    ],
+    "importance": "core"
+  },
+  {
+    "id": "MDY-02d",
+    "domain": "MDY",
+    "name": "View \"Nyckelögonblick\"",
+    "route": "/career/match-day/[fixtureId]",
+    "kind": "tab",
+    "parent": "MDY-02",
+    "components": [
+      "components/matchCenter/MatchCenter.tsx",
+      "lib/matchCenter/workspace.ts"
+    ],
+    "purpose": "Filterable key moments (Alla, Mål, Räddningar, Genombrott, Omställning, 7m, Försvar) with KeyMoment detail.",
+    "actions": [
+      "Filter",
+      "Open moment"
+    ],
+    "structure": "Filter chips + moment list + detail.",
+    "strengths": [
+      "Filters hidden if no matching moments"
+    ],
+    "weaknesses": [
+      "-"
+    ],
+    "links": [
+      "MDY-02"
+    ],
+    "desktop": "Inside match center.",
+    "mobile": "Single column ≤900–1000px.",
+    "opportunities": [
+      "Timeline scrubber"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "MDY-02e",
+    "domain": "MDY",
+    "name": "View \"Spelare\"",
+    "route": "/career/match-day/[fixtureId]",
+    "kind": "tab",
+    "parent": "MDY-02",
+    "components": [
+      "components/matchCenter/WorkspaceViews.tsx"
+    ],
+    "purpose": "Per-team player performance table sortable by Position, Betyg, Mål, Skott, Minuter, Energi; player focus with related moments.",
+    "actions": [
+      "Switch team",
+      "Sort",
+      "Select player"
+    ],
+    "structure": "mc-player-workspace.",
+    "strengths": [
+      "Live energy per player"
+    ],
+    "weaknesses": [
+      "-"
+    ],
+    "links": [
+      "MDY-02"
+    ],
+    "desktop": "Inside match center.",
+    "mobile": "Single column ≤900–1000px.",
+    "opportunities": [
+      "Energy bars + rating sparkline"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "MDY-02f",
+    "domain": "MDY",
+    "name": "View \"Statistik\" (sub-nav Match & positioner / Avslut / Målvakter / Matchutveckling)",
+    "route": "/career/match-day/[fixtureId]",
+    "kind": "tab",
+    "parent": "MDY-02",
+    "components": [
+      "components/matchCenter/WorkspaceViews.tsx",
+      "components/matchCenter/TacticalCourt.tsx (ShotMap)"
+    ],
+    "purpose": "Team stats with definitions (Mål, Skott, Mål/skott, Räddningar, Räddningsprocent, Bollförluster, Tekniska fel, Frikast, 2 min, Omställningsmål), goals by registered position, shot map with outcome filter, keeper categories, score-flow SVG.",
+    "actions": [
+      "Switch section",
+      "Filter shots by team/player/outcome"
+    ],
+    "structure": "mc-analysis-nav + panels.",
+    "strengths": [
+      "Shot map with registered origins; metric definitions"
+    ],
+    "weaknesses": [
+      "No shot-quality / xG-like measure"
+    ],
+    "links": [
+      "MDY-02"
+    ],
+    "desktop": "Inside match center.",
+    "mobile": "Single column ≤900–1000px.",
+    "opportunities": [
+      "Heat zones, goal-mouth placement map"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "MDY-02g",
+    "domain": "MDY",
+    "name": "Coach aside \"Dina matchbeslut\" (LiveCoachPanel)",
+    "route": "/career/match-day/[fixtureId]",
+    "kind": "panel",
+    "parent": "MDY-02",
+    "components": [
+      "components/game/LiveCoachPanel.tsx",
+      "components/game/CoachingChoices.tsx"
+    ],
+    "purpose": "Possession indicator, CoachingChoices (defence, aggression, tempo, attack, rotation), timeout block (1 per half, reasons when disabled), substitutions (choose out on court → eligible in from bench of same kind), Assistentbyten toggle, bench & availability details.",
+    "actions": [
+      "Change tactic",
+      "Ta timeout",
+      "Byt ut / Byt in",
+      "Toggle assistant subs"
+    ],
+    "structure": "aside.game-sideline sections.",
+    "strengths": [
+      "Explains why timeout is unavailable",
+      "Substitution respects suspensions/exit-required"
+    ],
+    "weaknesses": [
+      "No energy-sorted bench; energy only as text per button"
+    ],
+    "links": [
+      "MDY-02"
+    ],
+    "desktop": "Inside match center.",
+    "mobile": "Single column ≤900–1000px.",
+    "opportunities": [
+      "Bench dock with energy bars"
+    ],
+    "importance": "core"
+  },
+  {
+    "id": "MDY-02h",
+    "domain": "MDY",
+    "name": "TimeoutOverlay (\"Din timeout · Samla laget\" / opponent timeout)",
+    "route": "/career/match-day/[fixtureId]",
+    "kind": "overlay",
+    "parent": "MDY-02",
+    "components": [
+      "components/matchCenter/TimeoutOverlay.tsx"
+    ],
+    "purpose": "Non-modal dialog (role=dialog, aria-modal=false) during timeouts: contextual team directives based on score margin/period (e.g. \"Hög press & snabb omställning\", \"Täta bakåt & kontrollerat tempo\", \"Extraspela 7 mot 6\") with effect/trade-off/duration, tactical base settings, on-court players with substitution picker, assistant notice, resume banner.",
+    "actions": [
+      "Choose directive",
+      "Adjust tactics",
+      "Substitute",
+      "Resume"
+    ],
+    "structure": "mc-timeout-overlay inside Overview with inline-styled banners.",
+    "strengths": [
+      "Best decision copy in the game: intended effect, trade-off, duration"
+    ],
+    "weaknesses": [
+      "Duplicates LiveCoachPanel substitutions and tactics",
+      "Inline styles"
+    ],
+    "links": [
+      "MDY-02"
+    ],
+    "desktop": "Inside match center.",
+    "mobile": "Single column ≤900–1000px.",
+    "opportunities": [
+      "Make this the model for all coaching decisions"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "MDY-02i",
+    "domain": "MDY",
+    "name": "Half-time state",
+    "route": "/career/match-day/[fixtureId]",
+    "kind": "state",
+    "parent": "MDY-02",
+    "components": [
+      "components/matchCenter/MatchCenter.tsx",
+      "components/ProductionMatchView.tsx"
+    ],
+    "purpose": "Session pausedAtHalf: view forced to Översikt, decision heading \"Nästa halvlek börjar med ditt beslut.\", primary button \"Starta andra halvlek\".",
+    "actions": [
+      "Adjust tactics/subs",
+      "Starta andra halvlek"
+    ],
+    "structure": "mc-decision-heading role=status.",
+    "strengths": [
+      "Explicit pause for decisions"
+    ],
+    "weaknesses": [
+      "No dedicated half-time summary (first-half stats vs plan, energy)"
+    ],
+    "links": [
+      "MDY-02"
+    ],
+    "desktop": "Inside match center.",
+    "mobile": "Single column ≤900–1000px.",
+    "opportunities": [
+      "Half-time briefing screen"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "MDY-02j",
+    "domain": "MDY",
+    "name": "Full-time state",
+    "route": "/career/match-day/[fixtureId]",
+    "kind": "state",
+    "parent": "MDY-02",
+    "components": [
+      "components/ProductionMatchView.tsx"
+    ],
+    "purpose": "Reviewing mode: summary headline (win/draw/loss story), coach aside hidden, button \"Slutför match och öppna rapport\".",
+    "actions": [
+      "Slutför match och öppna rapport"
+    ],
+    "structure": "Same surface in review mode.",
+    "strengths": [
+      "Smooth hand-off to report"
+    ],
+    "weaknesses": [
+      "Report then re-renders much of the same content (ANL-01)"
+    ],
+    "links": [
+      "MDY-02"
+    ],
+    "desktop": "Inside match center.",
+    "mobile": "Single column ≤900–1000px.",
+    "opportunities": [
+      "Merge full-time and report into one post-match flow"
+    ],
+    "importance": "core"
+  },
+  {
+    "id": "MDY-02k",
+    "domain": "MDY",
+    "name": "Assistant-in-control state",
+    "route": "/career/match-day/[fixtureId]",
+    "kind": "state",
+    "parent": "MDY-02",
+    "components": [
+      "components/ProductionMatchView.tsx"
+    ],
+    "purpose": "When manager is suspended: banner and \"{name} leder laget\" box replaces coach panel; manager can only watch.",
+    "actions": [
+      "Watch"
+    ],
+    "structure": "mday-control status box.",
+    "strengths": [
+      "Rules made explicit"
+    ],
+    "weaknesses": [
+      "-"
+    ],
+    "links": [
+      "MDY-02"
+    ],
+    "desktop": "Inside match center.",
+    "mobile": "Single column ≤900–1000px.",
+    "opportunities": [
+      "-"
+    ],
+    "importance": "rare"
+  },
+  {
+    "id": "MDY-02l",
+    "domain": "MDY",
+    "name": "Experimental 2D court (details)",
+    "route": "/career/match-day/[fixtureId]",
+    "kind": "panel",
+    "parent": "MDY-02",
+    "components": [
+      "components/ProductionMatchView.tsx (Court, LiveCourt)"
+    ],
+    "purpose": "Optional continuous SVG court (players as numbered circles in club colours, ball) driven by frame buffer; also in archive replay.",
+    "actions": [
+      "Open/close"
+    ],
+    "structure": "<details><summary>Experimental 2D</summary>.",
+    "strengths": [
+      "Live positional data exists for a real visual"
+    ],
+    "weaknesses": [
+      "English label, hidden by default in live match; minimal graphics"
+    ],
+    "links": [
+      "MDY-02"
+    ],
+    "desktop": "Inside match center.",
+    "mobile": "Single column ≤900–1000px.",
+    "opportunities": [
+      "First-class 2D view with trails and tactical shape"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "MDY-02m",
+    "domain": "MDY",
+    "name": "Quick finish / no session / archive fallback states",
+    "route": "/career/match-day/[fixtureId]",
+    "kind": "state",
+    "parent": "MDY-02",
+    "components": [
+      "components/ProductionMatchView.tsx"
+    ],
+    "purpose": "?finish=1 auto-simulates to full time then redirects to report; without session: loading \"Laddar matchreprisen…\", error + \"Försök igen\", archive replay with \"Matchrapport\"/\"Fortsätt karriären\", or text + \"Öppna match\".",
+    "actions": [
+      "Försök igen",
+      "Matchrapport",
+      "Fortsätt karriären"
+    ],
+    "structure": "Plain paragraphs and buttons.",
+    "strengths": [
+      "Resilient fallbacks"
+    ],
+    "weaknesses": [
+      "Unstyled; quick finish has no progress visual"
+    ],
+    "links": [
+      "MDY-02"
+    ],
+    "desktop": "Inside match center.",
+    "mobile": "Single column ≤900–1000px.",
+    "opportunities": [
+      "Simulation progress screen"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "MDY-03",
+    "domain": "MDY",
+    "name": "Match Center (legacy redirect)",
+    "route": "/career/match-center",
+    "kind": "state",
+    "parent": null,
+    "components": [
+      "app/career/match-center/page.tsx"
+    ],
+    "purpose": "Server redirect to /career/matches (which client-redirects to /career/schedule).",
+    "actions": [
+      "None"
+    ],
+    "structure": "redirect().",
+    "strengths": [
+      "-"
+    ],
+    "weaknesses": [
+      "Double redirect chain"
+    ],
+    "links": [
+      "CMP-03"
+    ],
+    "desktop": "-",
+    "mobile": "-",
+    "opportunities": [
+      "Redirect directly to schedule or remove"
+    ],
+    "importance": "internal"
+  },
+  {
+    "id": "MDY-04",
+    "domain": "MDY",
+    "name": "Matchrepriser (match-2d replays)",
+    "route": "/career/match-2d",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/match-2d/page.tsx",
+      "components/ProductionMatchView.tsx (ArchiveReplay)",
+      "lib/save/useMatchArchive.ts"
+    ],
+    "purpose": "Pick any archived match and replay it (match center + experimental 2D shown by default); continue an ongoing match.",
+    "actions": [
+      "Fortsätt pågående match",
+      "Select archived match",
+      "Försök igen"
+    ],
+    "structure": "Bare hm-grid: heading, select of archived matches (date · score), then ArchiveReplay.",
+    "strengths": [
+      "Archive replay with 2D"
+    ],
+    "weaknesses": [
+      "Source file has broken encoding: every Swedish character renders as \"?\" (e.g. \"Matchrepriser ? nyckel?gonblick\", \"Forts?tt p?g?ende match\", \"V?lj matchrepris\")",
+      "Not in main navigation (navigation.ts only lists it as an owned prefix) – effectively orphaned",
+      "Unstyled select page"
+    ],
+    "links": [
+      "/career/match-day/[fixtureId]"
+    ],
+    "desktop": "Plain.",
+    "mobile": "Plain.",
+    "opportunities": [
+      "Fold into match report / history as \"Repris\"; fix encoding"
+    ],
+    "importance": "rare"
+  },
+  {
+    "id": "ANL-01",
+    "domain": "ANL",
+    "name": "Matchrapport",
+    "route": "/career/match-report/[fixtureId]",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/match-report/[fixtureId]/page.tsx",
+      "components/ProductionMatchView.tsx (ArchiveReplay)",
+      "components/matchCenter/MatchCenter.tsx (ArchivedMatchCenter)",
+      "components/matchday/Matchday.tsx (MatchAftermathPanel, MatchFlow)",
+      "lib/save/useMatchArchive.ts"
+    ],
+    "purpose": "Post-match: result, performances, decisive moments, stats comparison, aftermath (media headlines, voices, goal-difference flow), press conference entry, playing time & workload, next steps.",
+    "actions": [
+      "← Schema",
+      "Se matchrepris",
+      "Öppna matchanalys (if latest)",
+      "Tabell & liga → / Svenska Cupen →",
+      "🎤 Möt pressen → (when open)",
+      "Fortsätt →",
+      "Expand/collapse \"Speltid och belastning\"",
+      "Försök igen (archive load error)"
+    ],
+    "structure": "Two variants. Archive variant: PageHeading, full ArchivedMatchCenter (same 4 views as live), HeadToHeadStatsComparison, MatchAftermathPanel, PostMatchPressBanner, action bar (5–6 buttons), open <details> table (Spelare, Minuter, Energi efter match, Matchbelastning, Senaste 7 dagar). Legacy variant (no archive): MatchHero with result, aftermath, \"Bästa spelare\", \"Tabellplacering\", \"Matchstatistik · Jämförelse\", two \"spelarbetyg\" tables (Mål, Skott, Betyg).",
+    "strengths": [
+      "Workload table connects match minutes to the training load model (same unit)",
+      "Aftermath gives narrative closure (media, voices, flow chart)",
+      "Clear next-step CTAs incl. press"
+    ],
+    "weaknesses": [
+      "\"Se matchrepris\" opens /career/match-day/[id] which renders the same ArchiveReplay already on the report page",
+      "Two divergent layouts depending on archive availability",
+      "Action bar has two primary buttons (press + continue)",
+      "Stats comparison rendered twice in archive variant (match center Statistik + HeadToHead panel)"
+    ],
+    "links": [
+      "/career/schedule",
+      "/career/match-day/[id]",
+      "/career/analysis/last-match",
+      "/career/competitions/[id]",
+      "/career/media/press/[id]",
+      "/career"
+    ],
+    "desktop": "Long single column.",
+    "mobile": "Match center rules ≤900px; tables scroll.",
+    "opportunities": [
+      "Single post-match story: score → turning points → player ratings → workload consequences → what to change (link to training/tactics)",
+      "Player rating chart and momentum graph as hero"
+    ],
+    "importance": "core"
+  },
+  {
+    "id": "ANL-01a",
+    "domain": "ANL",
+    "name": "Archived match center (4 views)",
+    "route": "/career/match-report/[fixtureId]",
+    "kind": "panel",
+    "parent": "ANL-01",
+    "components": [
+      "components/matchCenter/MatchCenter.tsx"
+    ],
+    "purpose": "Same Översikt / Nyckelögonblick / Spelare / Statistik views as live, read-only, with Experimental 2D details.",
+    "actions": [
+      "Switch views",
+      "Explore moments"
+    ],
+    "structure": "MatchCenterSurface in review mode.",
+    "strengths": [
+      "Consistency with live"
+    ],
+    "weaknesses": [
+      "Heavy for a report"
+    ],
+    "links": [
+      "ANL-01"
+    ],
+    "desktop": "-",
+    "mobile": "-",
+    "opportunities": [
+      "Report-specific summary first"
+    ],
+    "importance": "core"
+  },
+  {
+    "id": "ANL-01b",
+    "domain": "ANL",
+    "name": "MatchAftermathPanel (\"Efter matchen\")",
+    "route": "/career/match-report/[fixtureId]",
+    "kind": "panel",
+    "parent": "ANL-01",
+    "components": [
+      "components/matchday/Matchday.tsx"
+    ],
+    "purpose": "Media headlines (\"Rubrikerna\"), voices after final whistle, \"Målskillnaden minut för minut\" SVG flow chart.",
+    "actions": [
+      "Read"
+    ],
+    "structure": "mday-after with bd-panels.",
+    "strengths": [
+      "Emotion + data"
+    ],
+    "weaknesses": [
+      "Flow chart small"
+    ],
+    "links": [
+      "ANL-01"
+    ],
+    "desktop": "-",
+    "mobile": "-",
+    "opportunities": [
+      "Momentum hero chart"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "ANL-01c",
+    "domain": "ANL",
+    "name": "Details \"Speltid och belastning\"",
+    "route": "/career/match-report/[fixtureId]",
+    "kind": "panel",
+    "parent": "ANL-01",
+    "components": [
+      "app/career/match-report/[fixtureId]/page.tsx"
+    ],
+    "purpose": "Minutes, energy after match, match workload (≈ estimated for GKs), last-7-days load per player who played.",
+    "actions": [
+      "Collapse"
+    ],
+    "structure": "Open <details> with table.",
+    "strengths": [
+      "Bridges match → training"
+    ],
+    "weaknesses": [
+      "No link to adjust training load"
+    ],
+    "links": [
+      "ANL-01"
+    ],
+    "desktop": "-",
+    "mobile": "-",
+    "opportunities": [
+      "Inline \"rest next day\" actions"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "ANL-01d",
+    "domain": "ANL",
+    "name": "Legacy report variant (no archive)",
+    "route": "/career/match-report/[fixtureId]",
+    "kind": "state",
+    "parent": "ANL-01",
+    "components": [
+      "app/career/match-report/[fixtureId]/page.tsx"
+    ],
+    "purpose": "Fallback when archive missing: MatchHero, best players, table position, stats comparison, rating tables.",
+    "actions": [
+      "Same nav buttons"
+    ],
+    "structure": "hm-grid of panels.",
+    "strengths": [
+      "Works for simulated/quick matches"
+    ],
+    "weaknesses": [
+      "Different look from archive variant"
+    ],
+    "links": [
+      "ANL-01"
+    ],
+    "desktop": "-",
+    "mobile": "-",
+    "opportunities": [
+      "Unify"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "ANL-01e",
+    "domain": "ANL",
+    "name": "Error / no report states",
+    "route": "/career/match-report/[fixtureId]",
+    "kind": "state",
+    "parent": "ANL-01",
+    "components": [
+      "app/career/match-report/[fixtureId]/page.tsx"
+    ],
+    "purpose": "\"Den här matchen saknar en rapport.\", archive load error with \"Försök igen\".",
+    "actions": [
+      "Försök igen"
+    ],
+    "structure": "Plain panel/alert.",
+    "strengths": [
+      "-"
+    ],
+    "weaknesses": [
+      "No navigation out"
+    ],
+    "links": [
+      "ANL-01"
+    ],
+    "desktop": "-",
+    "mobile": "-",
+    "opportunities": [
+      "Back links"
+    ],
+    "importance": "rare"
+  },
+  {
+    "id": "ANL-01f",
+    "domain": "ANL",
+    "name": "PostMatchPressBanner",
+    "route": "/career/match-report/[fixtureId]",
+    "kind": "panel",
+    "parent": "ANL-01",
+    "components": [
+      "app/career/match-report/[fixtureId]/page.tsx"
+    ],
+    "purpose": "Entry to post-match press conference (media domain owned by part A).",
+    "actions": [
+      "Möt pressen"
+    ],
+    "structure": "Banner.",
+    "strengths": [
+      "Contextual"
+    ],
+    "weaknesses": [
+      "-"
+    ],
+    "links": [
+      "ANL-01"
+    ],
+    "desktop": "-",
+    "mobile": "-",
+    "opportunities": [
+      "-"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "ANL-02",
+    "domain": "ANL",
+    "name": "Matchanalys – Översikt",
+    "route": "/career/analysis",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/analysis/layout.tsx",
+      "app/career/analysis/page.tsx",
+      "lib/analysis/viewModels.ts",
+      "components/analysis/EvidenceLists.tsx",
+      "components/game/Secondary.tsx"
+    ],
+    "purpose": "Analysis hub: next opponent hero, last match result, own form (last five), observed patterns; tabs to opponent / our team / last match.",
+    "actions": [
+      "Switch analysis tab (Översikt / Motståndaren / Vårt lag / Senaste matchen)",
+      "Analysera motståndaren →",
+      "Matchförberedelse →",
+      "Matchanalys →",
+      "Arbeta med matchplanen / Planera veckan"
+    ],
+    "structure": "Layout: SectionScene (crest, actions Matchplan) + hm-tabs links. Overview: split main (MatchHero next, Panel \"Senaste matchen\") + rail (\"Vårt lag · senaste fem\" form dots + metrics, \"Observerade mönster\", note \"Från match till beslut\").",
+    "strengths": [
+      "Evidence model: Evidence<T> ok/missing with explicit MissingDataNote; patterns vs interpretations separated",
+      "Route-based tabs (deep-linkable)"
+    ],
+    "weaknesses": [
+      "Thin overview that duplicates match preview and report entry points",
+      "Patterns and interpretations are plain text lists – no charts despite numeric basis"
+    ],
+    "links": [
+      "/career/tactics",
+      "/career/training",
+      "/career/match-preview",
+      "/career/analysis/*"
+    ],
+    "desktop": "Split.",
+    "mobile": "secondary.css ≤1200/760/720 stacks.",
+    "opportunities": [
+      "Analysis dashboard with trend charts (goals for/against, shooting %, save %) and \"what changed\" cards"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "ANL-02a",
+    "domain": "ANL",
+    "name": "Analysis tab bar (layout)",
+    "route": "/career/analysis/*",
+    "kind": "tab",
+    "parent": "ANL-02",
+    "components": [
+      "app/career/analysis/layout.tsx"
+    ],
+    "purpose": "Four route tabs.",
+    "actions": [
+      "Navigate"
+    ],
+    "structure": "nav.hm-tabs with aria-current.",
+    "strengths": [
+      "Proper aria-current"
+    ],
+    "weaknesses": [
+      "-"
+    ],
+    "links": [
+      "ANL-02",
+      "ANL-03",
+      "ANL-04",
+      "ANL-05"
+    ],
+    "desktop": "-",
+    "mobile": "Wraps.",
+    "opportunities": [
+      "-"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "ANL-03",
+    "domain": "ANL",
+    "name": "Matchanalys – Motståndaren",
+    "route": "/career/analysis/opponent",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/analysis/opponent/page.tsx",
+      "components/scouting/OpponentScoutingPanel.tsx",
+      "lib/analysis/viewModels.ts"
+    ],
+    "purpose": "Next opponent: scouting report ordering, recent matches, attack & defence metrics over last five, league position, form, patterns, interpretation.",
+    "actions": [
+      "Beställ scoutingrapport",
+      "Öppna matchplan →",
+      "Matchförberedelse →",
+      "Klubb & trupp →"
+    ],
+    "structure": "Main: MatchHero; OpponentScoutingPanel; Panel \"Motståndarens senaste matcher\" (6 columns); two metric panels \"Anfall · senaste fem\" (Mål/match, Skott/match, Skotteffektivitet, Bollförluster/match, 7m-effektivitet) and \"Försvar · senaste fem\" (Insläppta/match, Räddningsprocent, Räddningar/match, Utvisningar/match). Rail: club facts, patterns, interpretation, note.",
+    "strengths": [
+      "Explicit statement of what is NOT in the data (no individual opponent production)"
+    ],
+    "weaknesses": [
+      "No comparison to our own numbers side by side",
+      "Empty state when no next fixture only links to history"
+    ],
+    "links": [
+      "/career/tactics",
+      "/career/match-preview",
+      "/career/clubs/[id]",
+      "/career/match-report/[id]"
+    ],
+    "desktop": "Split.",
+    "mobile": "Stacks.",
+    "opportunities": [
+      "Mirror chart us vs them per metric; tactical recommendation linking to specific plan settings"
+    ],
+    "importance": "frequent"
+  },
+  {
+    "id": "ANL-04",
+    "domain": "ANL",
+    "name": "Matchanalys – Vårt lag",
+    "route": "/career/analysis/our-team",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/analysis/our-team/page.tsx",
+      "lib/analysis/viewModels.ts"
+    ],
+    "purpose": "Own team over last five or season: form, goal difference, attack & defence metrics, outfield and goalkeeper season tables, patterns.",
+    "actions": [
+      "Toggle window (Senaste fem / Hela säsongen)",
+      "Matchplan → / Träningsvecka → / Truppen →"
+    ],
+    "structure": "Panel with window toggle + form dots + 4 metrics; two metric panels; \"Säsongens utespelare\" (6 columns) and \"Säsongens målvakter\" (6 columns) tables; rail patterns, interpretation, note.",
+    "strengths": [
+      "Explains which numbers the window affects"
+    ],
+    "weaknesses": [
+      "Player tables ignore the window toggle (always season) – potentially confusing",
+      "Numbers only"
+    ],
+    "links": [
+      "/career/squad",
+      "/career/tactics",
+      "/career/training"
+    ],
+    "desktop": "Split.",
+    "mobile": "Stacks.",
+    "opportunities": [
+      "Rolling trend lines; per-player contribution chart"
+    ],
+    "importance": "occasional"
+  },
+  {
+    "id": "ANL-05",
+    "domain": "ANL",
+    "name": "Matchanalys – Senaste matchen",
+    "route": "/career/analysis/last-match",
+    "kind": "page",
+    "parent": null,
+    "components": [
+      "app/career/analysis/last-match/page.tsx",
+      "components/analysis/presentation.ts",
+      "components/game/Identity.tsx (Scoreboard)"
+    ],
+    "purpose": "Deep dive on the latest own match: team match facts, player contributions, filterable event timeline, halves split, scoring runs, patterns, interpretation.",
+    "actions": [
+      "Filter events (Alla, Mål, Räddningar, Bollförluster, 2 min, 7m)",
+      "Matchrapport & repris →",
+      "Open players/clubs"
+    ],
+    "structure": "Scoreboard; main: \"Lagens matchfakta\" (mått × vårt lag × motstånd), \"Spelarnas bidrag\" (Mål, Skott, Betyg), \"Matchhändelser\" timeline with filter buttons; rail: \"Halvlekar\" table, \"Mål i följd\" (scoring runs), patterns, \"Bedömning\".",
+    "strengths": [
+      "Scoring runs and half split are insightful handball analytics"
+    ],
+    "weaknesses": [
+      "Largely duplicates match report / match center statistics for the same match",
+      "Only the latest match (no picker)"
+    ],
+    "links": [
+      "/career/match-report/[id]",
+      "/career/schedule",
+      "/career/history"
+    ],
+    "desktop": "Split.",
+    "mobile": "Stacks.",
+    "opportunities": [
+      "Merge into report as \"Analys\" tab; allow any match"
+    ],
+    "importance": "occasional"
+  }
+]

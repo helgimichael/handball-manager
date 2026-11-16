@@ -1,0 +1,1906 @@
+[
+  {
+    "id": "int-hard",
+    "name": "ALPLA HC Hard",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "red",
+    "primaryMeasured": null,
+    "secondary": "white",
+    "secondaryMeasured": null,
+    "accent": null,
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "Red shirt with white sleeves/details, red shorts.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://en.wikipedia.org/wiki/Alpla_HC_Hard",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      },
+      {
+        "url": "https://de.wikipedia.org/wiki/Alpla_HC_Hard",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      },
+      {
+        "url": "https://www.imago-images.de/de/collections/sport/786529/handball-alpla-sommercup-spiel-um-platz-3-hv-hard-tbv-lemgo-lippe",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Search result only; press photos of men's A-team Aug 2026 exist but were not viewed."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: PROBABLE. Two Wikipedias agree. Second attempt groundwork: IMAGO/GEPA photo collection of HC Hard vs TBV Lemgo Lippe, ALPLA Sommercup 3rd-place match (08.08.2026) exists; not viewed (licensed press images, no browser).",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior PROBABLE. Needs phase-2 visual verification."
+  },
+  {
+    "id": "int-fivers",
+    "name": "Fivers Margareten",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "red",
+    "primaryMeasured": null,
+    "secondary": "light-blue",
+    "secondaryMeasured": null,
+    "accent": null,
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "en.wiki: red/light-blue hummel striped shirt; de.wiki: black kit, colours black-white.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://en.wikipedia.org/wiki/Handballclub_Fivers_Margareten",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      },
+      {
+        "url": "https://de.wikipedia.org/wiki/Fivers_WAT_Margareten",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      },
+      {
+        "url": "https://fivers.at/",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: UNCERTAIN. Wikipedias conflict; both templates old. Groundwork: Fivers were 2025/26 HLA Meisterliga finalists (press text); no kit colour in text found. Second attempt: no kit colour statement found by text search.",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior UNCERTAIN. Needs phase-2 visual verification. Prior review: Conflict: red/light-blue stripes (en.wiki) vs black (de.wiki)."
+  },
+  {
+    "id": "int-h71",
+    "name": "H71",
+    "status": "UNKNOWN",
+    "confidence": 0,
+    "primary": null,
+    "primaryMeasured": null,
+    "secondary": null,
+    "secondaryMeasured": null,
+    "accent": null,
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "No evidence found.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://en.wikipedia.org/wiki/H71_(men%27s_handball)",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      },
+      {
+        "url": "https://history.eurohandball.com/ec/ct/men/2025-26/clubs/600087/H71",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      },
+      {
+        "url": "http://www.h71.fo",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Official site URL from EHF/GSA listings; not viewed."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: UNKNOWN. No en/de/fo Wikipedia article found (H71 Hoyvík). Search budget exhausted before club site check. Groundwork: en.wikipedia has an \"H71 (men's handball)\" article and EHF history pages list H71 (Hoyvík) in EHF European Cup 2025-26; no kit colour read from text. Second attempt groundwork: official site www.h71.fo (per EHF history page and globalsportsarchive); not opened.",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior UNKNOWN. Needs phase-2 visual verification. Prior review: No kit evidence found."
+  },
+  {
+    "id": "int-veszprem-academy",
+    "name": "Veszprém Handball Academy",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "red",
+    "primaryMeasured": null,
+    "secondary": "white",
+    "secondaryMeasured": null,
+    "accent": null,
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "Assumed parent-club (Veszprém) red; no evidence that the academy team wears the parent kit.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://hu.wikipedia.org/wiki/One_Veszprém_KC",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      },
+      {
+        "url": "https://statshub.sportradar.com/easywin/en/match/63078005",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "NB I/B 25/26 table lists \"Veszprem Handball Academy U21\"; no kit info."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: UNCERTAIN. Colours are the parent club's; academy kit itself not documented. Second attempt groundwork: 2025/26 NB I/B tables list this side as \"Veszprem Handball Academy U21\" — an U21/academy team; must not inherit parent (One Veszprém) red without an image. Identity unchanged.",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior UNCERTAIN. Needs phase-2 visual verification. Prior review: Academy team; parent kit use not evidenced."
+  },
+  {
+    "id": "int-meran",
+    "name": "Black Devils Meran Alperia",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "black",
+    "primaryMeasured": null,
+    "secondary": "white",
+    "secondaryMeasured": null,
+    "accent": null,
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "Black home shirt; away crimson.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://it.wikipedia.org/wiki/Sport_Club_Meran_Handball",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      },
+      {
+        "url": "https://www.oasport.it/2025/06/pallamano-conversano-e-campione-ditalia-battuti-gli-alperia-black-devils/",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: PROBABLE. Only documented contrast is white (club colour); crimson is away kit only. Groundwork: club site blackdevils.team; 2024/25 Serie A Gold finalists vs Conversano (FIGH photos in oasport). Not checked visually. Second attempt: text sources name the club \"Handball Meran Alperia Black Devils\" (Serie A Gold, Black Devils Arena); no kit colour stated in text.",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior PROBABLE. Needs phase-2 visual verification. Prior review: monochrome shirt without documented accent colour → ice-silver neon | Black primary; accent only from club colours (white), no documented shirt trim."
+  },
+  {
+    "id": "int-cologno",
+    "name": "Metelli Cologne",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "grey",
+    "primaryMeasured": null,
+    "secondary": "pink",
+    "secondaryMeasured": null,
+    "accent": null,
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "Grey shirt with fuchsia/black sleeve detail, grey shorts.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://it.wikipedia.org/wiki/Pallamano_Cologne",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: PROBABLE. Club is Pallamano Cologne (Brescia province, Italy), not Köln. Single Wikipedia source. Second attempt: no text source mentions the club kit.",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior PROBABLE. Needs phase-2 visual verification."
+  },
+  {
+    "id": "int-cassano",
+    "name": "Proger Cassano Magnago",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "maroon",
+    "primaryMeasured": null,
+    "secondary": "white",
+    "secondaryMeasured": null,
+    "accent": null,
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "Club colours white and amaranth; kit template shows white body with sash and amaranth sleeves/shorts.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://it.wikipedia.org/wiki/Handball_Cassano_Magnago",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      },
+      {
+        "url": "https://www.ilgiorno.it/varese/sport/pallamano-cassano-magnago-scudetto-ezdg3vti",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      },
+      {
+        "url": "https://www.ilgiorno.it/sport/pallamano-maschile-rosa-tutta-italiana-e-bomber-moretti-cassano-magnago-sogna-in-grande-ffe16231",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Press text: club referred to as bianco-amaranto / amaranto; no image viewed."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: UNCERTAIN. Template is internally inconsistent (white sash on white body); dominant shirt colour could be white or amaranth. Groundwork: press (Il Giorno) describes a new 2026-27 \"maglia amaranto\" presented with sponsor BioMaXGTL – Gatti SpA; club won the 2025/26 scudetto. Text only, not seen. Second attempt groundwork: Il Giorno describes the club as \"bianco-amaranto\" and the team as \"gli amaranto\"; supports amaranth/maroon as dominant identity, but shirt body still not seen.",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior UNCERTAIN. Needs phase-2 visual verification. Prior review: Ambiguous kit template: white vs amaranth dominant."
+  },
+  {
+    "id": "int-camerano",
+    "name": "Camerano",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "grey",
+    "primaryMeasured": null,
+    "secondary": "black",
+    "secondaryMeasured": null,
+    "accent": null,
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "Kit template: grey body, black sleeves and shorts; club colours stated as red-black.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://it.wikipedia.org/wiki/Pallamano_Camerano",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      },
+      {
+        "url": "https://www.federhandball.it/wp-content/uploads/2025/07/Comunicato-N.-40-finale-del-30.07.2025.pdf",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: UNCERTAIN. Club colours (red-black) conflict with kit template (grey/black). Groundwork: FIGH Comunicato N.40 (30.07.2025) lists Camerano relegated to Serie A Silver 2025/26 — batch competitionId int-ita-2 consistent. TIER NOTE: Camerano relegated to Serie A Silver 2025/26 and listed in Serie A Silver girone B 2026/27 (press) — check worldPool/tier assignment; identity not changed.",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior UNCERTAIN. Needs phase-2 visual verification. Prior review: Conflict between club colours red-black and grey kit template. | monochrome shirt without documented accent colour → ice-silver neon"
+  },
+  {
+    "id": "int-paese",
+    "name": "Paese",
+    "status": "UNKNOWN",
+    "confidence": 0,
+    "primary": null,
+    "primaryMeasured": null,
+    "secondary": null,
+    "secondaryMeasured": null,
+    "accent": null,
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "No evidence found.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://www.federhandball.it/?p=10251",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: UNKNOWN. No it.wikipedia article (Pallamano Paese missing). Search budget exhausted. Groundwork: federhandball.it result pages list Paese in Serie A Silver (girone A) and Serie A Gold in different seasons; no kit info. TIER NOTE: federhandball 2026 match reports list Paese in Serie A Silver maschile girone A (e.g. Secchia Rubiera – Paese 46-23) — check worldPool/tier assignment; identity not changed.",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior UNKNOWN. Needs phase-2 visual verification. Prior review: No kit evidence found."
+  },
+  {
+    "id": "int-fasano",
+    "name": "Serra Fasano",
+    "status": "UNCERTAIN",
+    "confidence": 0.2,
+    "primary": "white",
+    "primaryMeasured": null,
+    "secondary": "light-blue",
+    "secondaryMeasured": null,
+    "accent": null,
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "Club colours white and light blue (Junior Fasano); shirt not documented.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://it.wikipedia.org/wiki/Serie_A_Gold",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: UNCERTAIN. Only club colour statement; which colour is the shirt body is not known. IDENTITY NOTE: \"Serra Fasano\" appears in Serie A Silver girone B 2026/27, distinct from Junior Fasano (Serie A Gold). Prior white/light-blue colours were taken from Junior Fasano / Serie A Gold context and may belong to the other club — confidence lowered. Identity not changed.",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior UNCERTAIN. Needs phase-2 visual verification. Prior review: Only club colours; shirt body colour unconfirmed. | white/black home shirt: neon accent is documented as a club, away or dated colour — not confirmed as a home-shirt detail (owner decision)"
+  },
+  {
+    "id": "int-bevo",
+    "name": "Humby/Bevo HC",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "yellow",
+    "primaryMeasured": null,
+    "secondary": "blue",
+    "secondaryMeasured": null,
+    "accent": null,
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "Yellow shirt with blue upper/sleeves, blue shorts.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://nl.wikipedia.org/wiki/Bevo_HC",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/Bevo_HC",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: PROBABLE. Two Wikipedias agree. Second attempt: Bevo HC is from Panningen (Limburg); no text kit-colour statement found.",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior PROBABLE. Needs phase-2 visual verification."
+  },
+  {
+    "id": "int-volendam",
+    "name": "KRAS/Volendam",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "orange",
+    "primaryMeasured": null,
+    "secondary": "black",
+    "secondaryMeasured": null,
+    "accent": null,
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "Orange shirt, black shorts.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://nl.wikipedia.org/wiki/RKHV_Volendam",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      },
+      {
+        "url": "https://de.wikipedia.org/wiki/RKHV_Volendam",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: PROBABLE. Two Wikipedias agree. Second attempt: no new text evidence.",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior PROBABLE. Needs phase-2 visual verification."
+  },
+  {
+    "id": "int-aalsmeer",
+    "name": "RoyalFloraHolland/HV Aalsmeer",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "black",
+    "primaryMeasured": null,
+    "secondary": null,
+    "secondaryMeasured": null,
+    "accent": "gold",
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "Black shirt with thin gold hoops on sleeve, black shorts; away gold.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://nl.wikipedia.org/wiki/HV_Aalsmeer",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/HV_Aalsmeer",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      },
+      {
+        "url": "https://www.nhnieuws.nl/nieuws/344072/samenvatting-hv-aalsmeer-na-benauwde-zege-gekroond-tot-winterkampioen",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: PROBABLE. Gold trim hex taken from away-kit body (FFD700) as the documented gold. Groundwork: a search summary of a 2026 NH Nieuws caption mentions a black-and-gold shirt; a 2022 Sporza article mentions \"green men of Aalsmeer\" (conflict/older). Not seen visually. Second attempt: no new text evidence.",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior PROBABLE. Needs phase-2 visual verification. Prior review: white/black home shirt: neon accent is documented as a club, away or dated colour — not confirmed as a home-shirt detail (owner decision)"
+  },
+  {
+    "id": "int-wisla-plock",
+    "name": "ORLEN Wisła Płock",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "blue",
+    "primaryMeasured": null,
+    "secondary": "white",
+    "secondaryMeasured": null,
+    "accent": null,
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "Blue shirt (2025/26 template), dark navy shorts.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://en.wikipedia.org/wiki/Wisła_Płock_(handball)",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: PROBABLE. Single Wikipedia source with current-season template. Second attempt: no new text evidence.",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior PROBABLE. Needs phase-2 visual verification."
+  },
+  {
+    "id": "int-sporting",
+    "name": "Sporting CP",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "green",
+    "primaryMeasured": null,
+    "secondary": "white",
+    "secondaryMeasured": null,
+    "accent": null,
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "Green and white hooped shirt, black shorts.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://en.wikipedia.org/wiki/Sporting_CP_(handball)",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      },
+      {
+        "url": "https://lojaverde.sporting.pt/en/collections/equipamento-principal-scp/principal",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Shop text only: green and white principal kit; not handball-specific, not viewed."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: PROBABLE. Hoops inferred from Sporting's traditional pattern and the club-specific template; text does not state 'hoops' explicitly. Second attempt groundwork: official store \"equipamento principal\" collection describes green and white official on-field kit (football/generic, not handball-specific); Sporting are 2025/26 champions.",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior PROBABLE. Needs phase-2 visual verification. Prior review: Pattern (hoops) inferred, not stated; template from 2022/23."
+  },
+  {
+    "id": "int-alduhail",
+    "name": "Al Duhail",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "red",
+    "primaryMeasured": null,
+    "secondary": null,
+    "secondaryMeasured": null,
+    "accent": null,
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "All-red kit per the club's football infobox (2023/24).",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://en.wikipedia.org/wiki/Al_Duhail_SC",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      },
+      {
+        "url": "https://www.duhailsc.qa/homepage-handball",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/Al_Duhail_SC_(handball)",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: UNCERTAIN. Handball team kit not documented; football kit used as proxy. Groundwork: club handball page with photo gallery exists (duhailsc.qa/homepage-handball); handball article on en.wikipedia (Al_Duhail_SC_(handball)). Not checked visually. Second attempt groundwork: en.wikipedia handball article gives nickname \"The Red Knights\" (supports red identity, not proof of current kit).",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior UNCERTAIN. Needs phase-2 visual verification. Prior review: Only football kit evidence; handball home shirt unconfirmed."
+  },
+  {
+    "id": "int-schaffhausen",
+    "name": "Kadetten Schaffhausen",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "orange",
+    "primaryMeasured": null,
+    "secondary": "black",
+    "secondaryMeasured": null,
+    "accent": null,
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "Orange shirt (Puma), black shorts.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://en.wikipedia.org/wiki/Kadetten_Schaffhausen",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      },
+      {
+        "url": "https://de.wikipedia.org/wiki/Kadetten_Schaffhausen",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      },
+      {
+        "url": "https://www.kadettensh.ch",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Official site URL; not viewed."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: PROBABLE. Two Wikipedias agree. Second attempt groundwork: club site kadettensh.ch; eBay lists an undated Puma Kadetten handball shirt (colour not stated). Not viewed.",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior PROBABLE. Needs phase-2 visual verification."
+  },
+  {
+    "id": "den1-aalborg",
+    "name": "Aalborg Håndbold",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "red",
+    "primaryMeasured": null,
+    "secondary": "white",
+    "secondaryMeasured": null,
+    "accent": null,
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "Red shirt, white shorts.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://en.wikipedia.org/wiki/Aalborg_H%C3%A5ndbold",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      },
+      {
+        "url": "https://aalborghaandbold.dk/category/nyhed/",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: PROBABLE. Hex values are Wikipedia template defaults, not brand hex. No shop listing found.",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior PROBABLE. Needs phase-2 visual verification."
+  },
+  {
+    "id": "den1-bjerringbro",
+    "name": "Bjerringbro-Silkeborg",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "black",
+    "primaryMeasured": null,
+    "secondary": "white",
+    "secondaryMeasured": null,
+    "accent": null,
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "Black shirt with thin white side panels, black shorts.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://en.wikipedia.org/wiki/Bjerringbro-Silkeborg_H%C3%A5ndbold",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: PROBABLE. Only Wikipedia evidence; no current shop listing found. Accent is white only.",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior PROBABLE. Needs phase-2 visual verification. Prior review: monochrome shirt without documented accent colour → ice-silver neon | Black primary; only documented accent is white (no colour accent)."
+  },
+  {
+    "id": "den1-fredericia",
+    "name": "Fredericia HK",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "red",
+    "primaryMeasured": null,
+    "secondary": "black",
+    "secondaryMeasured": null,
+    "accent": null,
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "Red shirt, black shorts.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://en.wikipedia.org/wiki/Fredericia_HK",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: PROBABLE. Only Wikipedia evidence; searches returned FC Fredericia (football) instead.",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior PROBABLE. Needs phase-2 visual verification."
+  },
+  {
+    "id": "den1-gog",
+    "name": "GOG Håndbold",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "yellow",
+    "primaryMeasured": null,
+    "secondary": "red",
+    "secondaryMeasured": null,
+    "accent": null,
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "Yellow shirt with red details, red shorts.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://en.wikipedia.org/wiki/GOG_H%C3%A5ndbold",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      },
+      {
+        "url": "https://gog.dk/wp-content/uploads/2026/04/GOG-magasin.pdf",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: PROBABLE. Hex values are template defaults.",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior PROBABLE. Needs phase-2 visual verification."
+  },
+  {
+    "id": "den1-grindsted",
+    "name": "Grindsted GIF",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "blue",
+    "primaryMeasured": null,
+    "secondary": "black",
+    "secondaryMeasured": null,
+    "accent": null,
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "Blue shirt, black shorts.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://en.wikipedia.org/wiki/Grindsted_GIF_H%C3%A5ndbold",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: PROBABLE. Only Wikipedia evidence. Club reported relegated after 2025/26.",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior PROBABLE. Needs phase-2 visual verification."
+  },
+  {
+    "id": "den1-hoj",
+    "name": "HØJ Elite",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "white",
+    "primaryMeasured": null,
+    "secondary": "red",
+    "secondaryMeasured": null,
+    "accent": null,
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "White body with red sleeves, black shorts.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://da.wikipedia.org/wiki/H%C3%98J_Elite",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/H%C3%98J_Elite",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      },
+      {
+        "url": "https://wiki.riteme.site/wiki/H%C3%98J_Elite_(men%27s_handball)",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/H%C3%98J_Elite_(men%27s_handball)",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Text: home arena Ølstykke-Hallen; conflicts with batch city Hjørring."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: PROBABLE. Danish Wikipedia says club has men's and women's elite teams; men promoted to Herrehåndboldligaen and relegated after 2025/26. Club city in batch (Hjørring) not verified. Groundwork: en.wikipedia \"HØJ Elite (men's handball)\" says the club is based in Ølstykke/Jyllinge — conflicts with batch city Hjørring (identity not changed). CITY MISMATCH: batch city is Hjørring, but en.wikipedia and press (sn.dk) place HØJ Elite in Ølstykke/Jyllinge (Egedal/Roskilde area, Zealand), home arena Ølstykke-Hallen. Identity not changed.",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior PROBABLE. Needs phase-2 visual verification. Prior review: Wikipedia only; white primary with red sleeves as accent."
+  },
+  {
+    "id": "den1-morsthy",
+    "name": "Mors-Thy Håndbold",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "blue",
+    "primaryMeasured": null,
+    "secondary": "black",
+    "secondaryMeasured": null,
+    "accent": null,
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "Blue shirt, black shorts.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://en.wikipedia.org/wiki/Mors-Thy_H%C3%A5ndbold",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: PROBABLE. Only Wikipedia evidence.",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior PROBABLE. Needs phase-2 visual verification."
+  },
+  {
+    "id": "den1-nordsjaelland",
+    "name": "Nordsjælland Håndbold",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "light-green",
+    "primaryMeasured": null,
+    "secondary": "black",
+    "secondaryMeasured": null,
+    "accent": null,
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "Bright green shirt, black shorts.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://en.wikipedia.org/wiki/Nordsj%C3%A6lland_H%C3%A5ndbold",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: PROBABLE. Only Wikipedia evidence.",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior PROBABLE. Needs phase-2 visual verification."
+  },
+  {
+    "id": "den1-ribeesbjerg",
+    "name": "Ribe-Esbjerg HH",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "navy",
+    "primaryMeasured": null,
+    "secondary": "black",
+    "secondaryMeasured": null,
+    "accent": null,
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "Navy/blue shirt, black shorts.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://en.wikipedia.org/wiki/Ribe-Esbjerg_HH",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: PROBABLE. Only Wikipedia evidence.",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior PROBABLE. Needs phase-2 visual verification."
+  },
+  {
+    "id": "den1-skanderborg",
+    "name": "Skanderborg Aarhus",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "navy",
+    "primaryMeasured": null,
+    "secondary": "white",
+    "secondaryMeasured": null,
+    "accent": null,
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "Navy shirt and shorts.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://en.wikipedia.org/wiki/Skanderborg_AGF_H%C3%A5ndbold",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: PROBABLE. Merged club (Skanderborg + Aarhus/AGF). Pre-merger Skanderborg Håndbold page shows green 008000 / black, so kit identity changed with the merger.",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior PROBABLE. Needs phase-2 visual verification. Prior review: Wikipedia only; merged club, earlier green identity conflicts."
+  },
+  {
+    "id": "den1-skjern",
+    "name": "Skjern Håndbold",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "green",
+    "primaryMeasured": null,
+    "secondary": "white",
+    "secondaryMeasured": null,
+    "accent": "white",
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "Green shirt with white collar, black shorts.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://en.wikipedia.org/wiki/Skjern_H%C3%A5ndbold",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: PROBABLE. Only Wikipedia evidence.",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior PROBABLE. Needs phase-2 visual verification."
+  },
+  {
+    "id": "den1-sonderjyske",
+    "name": "SønderjyskE Håndbold",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "sky-blue",
+    "primaryMeasured": null,
+    "secondary": "white",
+    "secondaryMeasured": null,
+    "accent": "white",
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "Light/sky-blue shirt with white collar, light-blue shorts.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://en.wikipedia.org/wiki/S%C3%B8nderjyskE_Herreh%C3%A5ndbold",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: PROBABLE. Women's page shows the same kit. Only Wikipedia evidence; search budget ran out before shop check.",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior PROBABLE. Needs phase-2 visual verification."
+  },
+  {
+    "id": "den1-tms",
+    "name": "TMS Ringsted",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "green",
+    "primaryMeasured": null,
+    "secondary": "black",
+    "secondaryMeasured": null,
+    "accent": null,
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "Green shirt, black shorts.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://en.wikipedia.org/wiki/TMS_Ringsted",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: PROBABLE. Only Wikipedia evidence.",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior PROBABLE. Needs phase-2 visual verification."
+  },
+  {
+    "id": "den1-tth",
+    "name": "TTH Holstebro",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "white",
+    "primaryMeasured": null,
+    "secondary": "black",
+    "secondaryMeasured": null,
+    "accent": null,
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "White body with black sleeves, black shorts.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://en.wikipedia.org/wiki/TTH_Holstebro",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: PROBABLE. Only Wikipedia evidence.",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior PROBABLE. Needs phase-2 visual verification. Prior review: monochrome shirt without documented accent colour → ice-silver neon | White primary; only documented accent is black (no colour accent)."
+  },
+  {
+    "id": "ger1-bergischer",
+    "name": "Bergischer HC",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "royal-blue",
+    "primaryMeasured": null,
+    "secondary": "white",
+    "secondaryMeasured": null,
+    "accent": null,
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "Royal-blue shirt with white horizontal band.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://en.wikipedia.org/wiki/Bergischer_HC",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: PROBABLE. Only Wikipedia evidence.",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior PROBABLE. Needs phase-2 visual verification."
+  },
+  {
+    "id": "ger1-fuchse",
+    "name": "Füchse Berlin",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "green",
+    "primaryMeasured": null,
+    "secondary": "light-green",
+    "secondaryMeasured": null,
+    "accent": null,
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "Green shirt (\"Power Green\" with \"Fresh Mint\" accents per PUMA 24/25 product name), green shorts.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://www.decathlon.de/p/mp/fuchse-berlin-24-25-heimtrikot-herren-puma-power-green-fresh-mint/7af7b1ca-22ac-413a-ab34-6ec9b5796fc0/c9",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/F%C3%BCchse_Berlin",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: PROBABLE. No 2025/26 colour statement found; 24/25 retail listing plus Wikipedia agree on green. Secondary inferred from product colour name \"Fresh Mint\".",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior PROBABLE. Needs phase-2 visual verification."
+  },
+  {
+    "id": "ger1-eisenach",
+    "name": "ThSV Eisenach",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "blue",
+    "primaryMeasured": null,
+    "secondary": "white",
+    "secondaryMeasured": null,
+    "accent": null,
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "Blue shirt with white shoulders, blue shorts.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://en.wikipedia.org/wiki/ThSV_Eisenach",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: PROBABLE. Only Wikipedia evidence.",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior PROBABLE. Needs phase-2 visual verification."
+  },
+  {
+    "id": "ger1-erlangen",
+    "name": "HC Erlangen",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "black",
+    "primaryMeasured": null,
+    "secondary": "red",
+    "secondaryMeasured": null,
+    "accent": null,
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "Black shirt (Erima-style patterned body), club colours black/red.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://en.wikipedia.org/wiki/HC_Erlangen",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: UNCERTAIN. Body colour only implied by pattern file name; red is a club colour, not confirmed as shirt trim.",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior UNCERTAIN. Needs phase-2 visual verification. Prior review: Black primary inferred from template pattern name; red accent is club colour only. | white/black home shirt: neon accent is documented as a club, away or dated colour — not confirmed as a home-shirt detail (owner decision)"
+  },
+  {
+    "id": "ger1-flensburg",
+    "name": "SG Flensburg-Handewitt",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "red",
+    "primaryMeasured": null,
+    "secondary": "navy",
+    "secondaryMeasured": null,
+    "accent": "navy",
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "Deep red (\"chili pepper\") shirt with navy detailing on collar, cuffs and side panels; flame graphic.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://www.hummel.net/sgfh-25-26-home-jersey-s-s-chili-pepper/233577-3782.html",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/SG_Flensburg-Handewitt",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: VERIFIED. Conflict: Wikipedia template shows navy shirt (older kit). Manufacturer 25/26 listing says red base with navy; hummel page itself returned HTTP 429, evidence from search snippet and URL slug.",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior VERIFIED. Needs phase-2 visual verification."
+  },
+  {
+    "id": "ger1-goppingen",
+    "name": "Frisch Auf Göppingen",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "green",
+    "primaryMeasured": null,
+    "secondary": "white",
+    "secondaryMeasured": null,
+    "accent": null,
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "Club colours green/white; shirt body uses a hummel pattern whose colour is not stated.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://en.wikipedia.org/wiki/Frisch_Auf_G%C3%B6ppingen",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: UNCERTAIN. Club programme mentions \"Heimtrikot 2025/26\" but no colour. Green is club colour, shirt colour not textually confirmed.",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior UNCERTAIN. Needs phase-2 visual verification. Prior review: Shirt colour not stated; only club colours known."
+  },
+  {
+    "id": "ger1-gummersbach",
+    "name": "VfL Gummersbach",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "blue",
+    "primaryMeasured": null,
+    "secondary": "white",
+    "secondaryMeasured": null,
+    "accent": null,
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "Blue shirt and shorts.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://en.wikipedia.org/wiki/VfL_Gummersbach",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: PROBABLE. Club hall magazine 2025/26 mentions new PUMA partnership; no colour statement found.",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior PROBABLE. Needs phase-2 visual verification."
+  },
+  {
+    "id": "ger1-hamburg",
+    "name": "HSV Hamburg",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "red",
+    "primaryMeasured": null,
+    "secondary": "navy",
+    "secondaryMeasured": null,
+    "accent": null,
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "PUMA Liga 21/22 template with red arms; club colours red/dark blue.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://en.wikipedia.org/wiki/Handball_Sport_Verein_Hamburg",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: UNCERTAIN. Evidence is old (2021/22) and body colour only implied by pattern name. Search results dominated by football HSV.",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior UNCERTAIN. Needs phase-2 visual verification. Prior review: Old (2021/22) Wikipedia-only evidence."
+  },
+  {
+    "id": "ger1-hannover",
+    "name": "TSV Hannover-Burgdorf",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "green",
+    "primaryMeasured": null,
+    "secondary": "white",
+    "secondaryMeasured": null,
+    "accent": "white",
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "Rich green shirt with white accents on shoulders and sides, white shorts.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://www.leinetal24.de/sport/handball/tsv-hanover-burgdorf-stellt-mit-politischen-gaesten-und-sponsoren-im-rahmen-der-finals-ihr-heimtrikot-vo-94415680.html",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/TSV_Hannover-Burgdorf",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: PROBABLE. News report of official 2026/27 home shirt launch.",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior PROBABLE. Needs phase-2 visual verification."
+  },
+  {
+    "id": "ger1-kiel",
+    "name": "THW Kiel",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "white",
+    "primaryMeasured": null,
+    "secondary": "black",
+    "secondaryMeasured": null,
+    "accent": "black",
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "White shirt with black details/stripe graphic (PUMA White-PUMA Black).",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://eu.puma.com/no/en/pd/thw-kiel-25-26-home-jersey-men/786978",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/THW_Kiel",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: VERIFIED. Retailer describes black-and-white stripe motif.",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior VERIFIED. Needs phase-2 visual verification. Prior review: monochrome shirt without documented accent colour → ice-silver neon | White primary; only documented accent is black (no colour accent)."
+  },
+  {
+    "id": "ger1-leipzig",
+    "name": "SC DHfK Leipzig",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "green",
+    "primaryMeasured": null,
+    "secondary": "white",
+    "secondaryMeasured": null,
+    "accent": null,
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "Green shirt and shorts.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://en.wikipedia.org/wiki/SC_DHfK_Leipzig_Handball",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: PROBABLE. Only Wikipedia evidence. Club colour hex #004411 is darker than kit hex.",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior PROBABLE. Needs phase-2 visual verification."
+  },
+  {
+    "id": "ger1-lemgo",
+    "name": "TBV Lemgo",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "blue",
+    "primaryMeasured": null,
+    "secondary": "white",
+    "secondaryMeasured": null,
+    "accent": null,
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "Blue shirt with white shoulders, blue shorts.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://en.wikipedia.org/wiki/TBV_Lemgo",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: PROBABLE. Only Wikipedia evidence; club colour hex #0873FD differs from kit hex.",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior PROBABLE. Needs phase-2 visual verification."
+  },
+  {
+    "id": "ger1-magdeburg",
+    "name": "SC Magdeburg",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "green",
+    "primaryMeasured": null,
+    "secondary": "red",
+    "secondaryMeasured": null,
+    "accent": "red",
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "Green shirt with red accents on shoulders and sides.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://www.volksstimme.de/sport/sc-magdeburg/neue-trikots-sc-magdeburg-ist-wieder-grun-rot-4089452",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/SC_Magdeburg",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: PROBABLE. Previous two seasons the home shirt was black.",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior PROBABLE. Needs phase-2 visual verification."
+  },
+  {
+    "id": "ger1-melsungen",
+    "name": "MT Melsungen",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "red",
+    "primaryMeasured": null,
+    "secondary": "white",
+    "secondaryMeasured": null,
+    "accent": null,
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "Red shirt with white side arcs, red shorts.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://en.wikipedia.org/wiki/MT_Melsungen",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: PROBABLE. Only Wikipedia evidence.",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior PROBABLE. Needs phase-2 visual verification."
+  },
+  {
+    "id": "ger1-minden",
+    "name": "GWD Minden",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "green",
+    "primaryMeasured": null,
+    "secondary": "white",
+    "secondaryMeasured": null,
+    "accent": null,
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "Green shirt with thin white sides, green shorts.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://en.wikipedia.org/wiki/GWD_Minden",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: PROBABLE. Only Wikipedia evidence.",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior PROBABLE. Needs phase-2 visual verification."
+  },
+  {
+    "id": "ger1-rheinneckar",
+    "name": "Rhein-Neckar Löwen",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "yellow",
+    "primaryMeasured": null,
+    "secondary": "navy",
+    "secondaryMeasured": null,
+    "accent": "blue",
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "Yellow shirt with blue details, dark-blue shorts.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://www.wochenblatt-reporter.de/kronau/imagepost/das-sind-sie-die-neuen-trikots-der-rhein-neckar-loewen_i12052",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      },
+      {
+        "url": "https://erima.de/corporate/uploads/2c8c877c73f69fce47ee87ae6f902626.pdf",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      },
+      {
+        "url": "https://en.wikipedia.org/wiki/Rhein-Neckar_L%C3%B6wen",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: PROBABLE. 2025/26 specifically not found, but seasons either side agree.",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior PROBABLE. Needs phase-2 visual verification."
+  },
+  {
+    "id": "ger1-stuttgart",
+    "name": "TVB Stuttgart",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "blue",
+    "primaryMeasured": null,
+    "secondary": "white",
+    "secondaryMeasured": null,
+    "accent": null,
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked (no visual access)"
+    },
+    "description": "Template shows blue body with white shoulders; club colours listed white/blue.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://en.wikipedia.org/wiki/TVB_Stuttgart",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only — no image seen (2nd attempt 2026-11-13 also blocked). Prior status: UNCERTAIN. 2026/27 shirt designed by studiokurbos (regional \"Maultaschen\" theme) but colours not stated in found text.",
+    "reviewReason": "NO VISUAL CHECK: built-in browser tab cap reached on all 10 tabs_create retries in two separate attempts (latest 2026-11-13); status capped from prior UNCERTAIN. Needs phase-2 visual verification. Prior review: Template body blue but colour1 listed as white; conflicting."
+  }
+]

@@ -1,0 +1,21 @@
+/* Arena Nights SYS-02e -- court grid calibration (dev shell only). Court colours are the renderer's own. */
+
+.cg-court {
+  position: relative; margin: 0 auto; border-radius: 4px; overflow: hidden;
+  --ds-color-surface: #0e2e27;
+  --ds-color-text: rgba(226, 245, 238, 0.82);
+}
+.cg-court:focus-visible { outline: 2px solid var(--dev-flag); outline-offset: 3px; }
+.cg-label { position: absolute; z-index: 2; font-size: 10px; font-weight: 600; color: rgba(226, 245, 238, 0.7); text-align: center; pointer-events: none; }
+.cg-label--top { top: 4px; left: 50%; transform: translateX(-50%); }
+.cg-label--bottom { bottom: 4px; left: 50%; transform: translateX(-50%); }
+.cg-label--left { top: 50%; left: 4px; transform: translateY(-50%) rotate(-90deg); transform-origin: left center; }
+.cg-label--right { top: 50%; right: 4px; transform: translateY(-50%) rotate(90deg); transform-origin: right center; }
+
+.cg-toggles { display: flex; gap: 14px; margin-top: 10px; }
+.cg-toggles label { display: inline-flex; align-items: center; gap: 6px; }
+.cg-dl { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; margin: 0; }
+.cg-dl dt { color: var(--dev-muted); }
+.cg-dl dd { margin: 0; text-align: right; }
+.cg-cell-positions { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--dev-line); display: flex; flex-direction: column; gap: 4px; }
+.hm-dev-sticky > .hm-dev-panel + .hm-dev-panel { margin-top: 12px; }

@@ -27,3 +27,24 @@
   background:radial-gradient(ellipse at center,transparent 25%,#0006 100%),linear-gradient(rgb(6 9 10 / var(--sv-atmosphere-overlay)),#06090aeb);
   pointer-events:none;
 }
+
+/* ENT-06 A "Corner escape hatch" — career and match routes: no reveal edge, no reserved height; a 28px tertiary pill
+   bottom-left (below the feedback button where one is shown) reveals the existing panel. Phones inside a career use
+   the ⋯ menu item instead. The pill lives outside the career shell (portal on <body>), so it stays neutral rather than
+   showing a fallback accent that is not the club's. */
+.sv-corner { position:fixed;left:max(12px,env(safe-area-inset-left,0px));bottom:max(12px,env(safe-area-inset-bottom,0px));z-index:2147483001; }
+.sv-corner-pill { all:unset;box-sizing:border-box;display:inline-flex;align-items:center;gap:4px;height:28px;padding:0 10px;border-radius:999px;cursor:pointer;
+  background:var(--arena-solid-2,#10151f);color:var(--arena-muted,#9aa3b2);border:1px solid var(--arena-line,#ffffff1f);
+  font:600 11px/1 var(--arena-font-ui,system-ui);letter-spacing:.02em;opacity:.72;touch-action:manipulation;-webkit-tap-highlight-color:transparent;
+  transition:opacity 120ms ease,color 120ms ease,border-color 120ms ease; }
+.sv-corner-pill:is(:hover,:focus-visible),.sv-corner[data-header-visible="true"] .sv-corner-pill { opacity:1;color:var(--arena-ink,#eef2f7);border-color:var(--arena-line-strong,#ffffff33); }
+.sv-corner-pill:focus-visible { outline:2px solid var(--arena-ink,#eef2f7);outline-offset:2px; }
+.sv-corner-label { font-size:11px; }
+/* Pointer-coarse devices get a 44px hit area without growing the visible 28px pill. */
+@media(pointer:coarse) { .sv-corner-pill { position:relative; } .sv-corner-pill::after { content:"";position:absolute;inset:-8px; } }
+@media(max-width:760px) { .sv-corner[data-scope="career"] { display:none; } }
+@media(prefers-reduced-motion:reduce) { .sv-corner-pill { transition:none; } }
+/* Where the global feedback button is still shown (match QA), it moves up so the pill sits below it. */
+:root:has(.sv-corner) .alpha-feedback-trigger { bottom:calc(max(12px,env(safe-area-inset-bottom,0px)) + 36px); }
+/* The career ⋯ menu item is the phone form of the pill (desktop/tablet keep the pill). */
+@media(min-width:761px) { .game-save-apps-link { display:none!important; } }

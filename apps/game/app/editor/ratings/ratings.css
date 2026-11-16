@@ -1,0 +1,51 @@
+/* Arena Nights SYS-02c/02d -- rating review queue + detail (dev shell only). Uses the dev tokens from components/dev/dev.css. */
+
+.rv-clubs { list-style: none; margin: 0; padding: 0 4px 4px; max-height: calc(100vh - 260px); overflow: auto; }
+.rv-club {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%;
+  padding: 6px 8px; border: 0; border-radius: 4px; background-color: transparent; color: var(--dev-ink); font: inherit; text-align: left; cursor: pointer;
+}
+.rv-club:hover { background-color: var(--dev-surface-2); }
+.rv-club[aria-current="true"] { background-color: var(--dev-surface-3); box-shadow: inset 2px 0 0 var(--dev-flag); }
+.rv-club-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rv-club-progress { display: inline-flex; align-items: center; gap: 6px; flex: none; }
+.rv-clubs-note { margin: 0; padding: 6px 12px 10px; font-size: 11px; }
+
+.rv-bar { display: inline-block; width: 48px; height: 4px; border-radius: 2px; background-color: var(--dev-line); overflow: hidden; }
+.rv-bar > span { display: block; height: 100%; background-color: var(--dev-pos); }
+.rv-bar--wide { width: 100%; height: 6px; }
+
+.rv-summary { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 16px; padding: 12px; border-bottom: 1px solid var(--dev-line); }
+.rv-unreviewed { display: flex; flex-direction: column; }
+.rv-unreviewed-value { font-size: 28px; font-weight: 700; line-height: 1.1; color: var(--dev-warn); }
+.rv-filters { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.rv-row { cursor: pointer; }
+.rv-name { color: var(--dev-ink); text-decoration: none; font-weight: 600; }
+.rv-name:hover { text-decoration: underline; }
+
+/* Detail (SYS-02d) */
+.rd-summary {
+  position: sticky; top: 44px; z-index: 30; margin-bottom: 12px;
+  display: grid; grid-template-columns: minmax(0, 1fr) auto auto auto auto; align-items: center; gap: 20px;
+  padding: 10px 14px; border: 1px solid var(--dev-line-strong); border-radius: 6px;
+  background-color: var(--dev-surface-2); box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+.rd-summary-name { font-size: 16px; font-weight: 700; }
+.rd-summary-meta { color: var(--dev-muted); font-size: 12px; }
+.rd-metric { display: flex; flex-direction: column; }
+.rd-metric-value { font: 700 22px/1.1 var(--dev-mono); font-variant-numeric: tabular-nums; }
+.rd-locked { color: var(--dev-pos); font-weight: 700; }
+.rd-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.rd-badge { padding: 1px 6px; border: 1px solid var(--dev-line-strong); border-radius: 3px; font: 600 11px/1.5 var(--dev-mono); color: var(--dev-muted); }
+.rd-badge--override { border-color: var(--dev-flag); color: var(--dev-flag); }
+
+.rd-section { margin-bottom: 10px; }
+.rd-section > summary { display: flex; align-items: center; gap: 8px; padding: 8px 12px; }
+.rd-section > summary .hm-dev-panel-title { flex: 1 1 auto; }
+.rd-section[open] > summary { border-bottom: 1px solid var(--dev-line); }
+.rd-form { display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap; }
+.rd-form label { display: flex; flex-direction: column; gap: 4px; font-size: 11px; color: var(--dev-muted); }
+.rd-errors { color: var(--dev-neg); margin-top: 8px; }
+.rd-ability { display: flex; gap: 24px; align-items: baseline; }
+.rd-confirm { display: flex; flex-direction: column; gap: 8px; padding: 10px 12px; margin-top: 10px; border: 1px solid var(--dev-flag); border-radius: 4px; background-color: var(--dev-dirty); }
+.rd-confirm-actions { display: flex; gap: 8px; }

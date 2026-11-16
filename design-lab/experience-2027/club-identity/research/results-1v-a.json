@@ -1,0 +1,458 @@
+[
+  {
+    "id": "se_club_alingsas_hk",
+    "name": "Alingsås HK",
+    "primary": "blue",
+    "primaryHex": null,
+    "secondary": "white",
+    "secondaryHex": null,
+    "trim": null,
+    "trimHex": null,
+    "pattern": "solid",
+    "description": "Blue shirt (en-wiki template adds a white upper panel), blue shorts.",
+    "season": "unspecified (Wikipedia kit template, 2019- home kit)",
+    "crestDiffers": false,
+    "status": "PROBABLE",
+    "confidence": 0.6,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/w/index.php?title=Alingsås_HK&action=raw",
+        "type": "wikipedia",
+        "evidence": "body1=0000FF, shorts1=0000FF, pattern_b1=_upper_white1; 2019- home kit body 0000FF"
+      },
+      {
+        "url": "https://sv.wikipedia.org/w/index.php?title=Alingsås_HK&action=raw",
+        "type": "wikipedia",
+        "evidence": "färg = blue, body1 = 0000EE, shorts1 = 0000EE"
+      }
+    ],
+    "notes": "No official shop/club text found (club domain guesses did not resolve). Hex values are generic template blues, not brand colours.",
+    "reviewReason": null,
+    "verifyAttempt": "Searches 'Alingsås HK matchtröja hemma', 'Alingsås HK klubbshop' found no shop or kit text; www.alingsashk.se does not resolve and ahk.nu refused connection.",
+    "imageUrls": []
+  },
+  {
+    "id": "se_club_amo_hk",
+    "name": "Amo HK",
+    "primary": "royal-blue",
+    "primaryHex": "#1338BE",
+    "secondary": "black",
+    "secondaryHex": null,
+    "trim": null,
+    "trimHex": null,
+    "pattern": "solid",
+    "description": "Blue shirt, black shorts and socks; white away shirt.",
+    "season": "unspecified (Wikipedia infobox)",
+    "crestDiffers": false,
+    "status": "PROBABLE",
+    "confidence": 0.55,
+    "sources": [
+      {
+        "url": "https://sv.wikipedia.org/w/index.php?title=Amo_Handboll&action=raw",
+        "type": "wikipedia",
+        "evidence": "färg = #1338BE; body1 = 1338BE, shorts1 = 000000; body2 = FFFFFF"
+      }
+    ],
+    "notes": "Single source (sv Wikipedia). No official shop or club page found. Secondary = shorts colour.",
+    "reviewReason": "Only Wikipedia evidence; no official confirmation.",
+    "verifyAttempt": "Search 'Amo Handboll matchtröja' found nothing; amohandboll.com has no shop link or kit text (only a nortic.se ticket link).",
+    "imageUrls": []
+  },
+  {
+    "id": "se_club_hammarby_if_hf",
+    "name": "Hammarby IF HF",
+    "primary": "green",
+    "primaryHex": "#07663A",
+    "secondary": "white",
+    "secondaryHex": null,
+    "trim": null,
+    "trimHex": null,
+    "pattern": "stripes",
+    "description": "Green-and-white striped shirt (club 'grönvitt').",
+    "season": "unspecified (Wikipedia 2018- home kit); club colours current 2025/26",
+    "crestDiffers": false,
+    "status": "PROBABLE",
+    "confidence": 0.65,
+    "sources": [
+      {
+        "url": "https://www.hammarbyhandboll.se",
+        "type": "official-club",
+        "evidence": "Supportershop banner: 'Klä dig grönvitt – ett klick bort'"
+      },
+      {
+        "url": "https://en.wikipedia.org/w/index.php?title=Hammarby_IF_Handboll&action=raw",
+        "type": "wikipedia",
+        "evidence": "body1 = 07663A (green), pattern_b1 = _3stripesonwhite, shorts1 = 07663A"
+      },
+      {
+        "url": "https://sv.wikipedia.org/w/index.php?title=Hammarby_IF_HF&action=raw",
+        "type": "wikipedia",
+        "evidence": "body1 = FFFFFF with pattern _2greenstripes, green shoulders, green shorts"
+      }
+    ],
+    "notes": "Green/white confirmed officially, but whether green or white dominates differs between en and sv Wikipedia. Official Intersport 'HB matchtröja' product page states no colour.",
+    "reviewReason": "Green vs white dominance in the striped shirt is unclear.",
+    "verifyAttempt": "Opened hammarbyhandboll.se and the official supportershop team.intersport.se/hammarby-handboll-supporter: 'Merchandise HB matchtröja' (599 kr, supplier no. C17599-HIF) exists but its page states no colour or home/away ('unicolored' slug only). Search 'Hammarby handboll matchtröja hemma 2025' returned football only.",
+    "imageUrls": [
+      "https://cdn.intersport.se/images/prod/5637778828_85125_163412901000_10?w=3840,h=3840,quality=80",
+      "https://cdn.intersport.se/images/prod/5637778828_85125_163412901000_20?w=3840,h=3840,quality=80"
+    ]
+  },
+  {
+    "id": "se_club_hf_karlskrona",
+    "name": "HF Karlskrona",
+    "primary": "black",
+    "primaryHex": null,
+    "secondary": "yellow",
+    "secondaryHex": null,
+    "trim": "yellow",
+    "trimHex": null,
+    "pattern": "solid",
+    "description": "Black shirt, black shorts; yellow away shirt. Club colours black and yellow.",
+    "season": "unspecified (Wikipedia infobox; page includes 2025-26 transfers)",
+    "crestDiffers": false,
+    "status": "PROBABLE",
+    "confidence": 0.6,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/w/index.php?title=HF_Karlskrona&action=raw",
+        "type": "wikipedia",
+        "evidence": "colour1 = black, colour2 = yellow; body1 = 000000, shorts1 = 000000; body2 = FFFF00"
+      }
+    ],
+    "notes": "Official site hfk.se links a Clubmate shop that did not render product data. Yellow accent comes from club colours / away kit, not a documented home-shirt trim.",
+    "reviewReason": "Black primary; yellow accent from club colours only, no official shirt source.",
+    "verifyAttempt": "Opened hfk.se (redirect from hfkarlskrona.se): no kit text; Clubmate 'HFK-Shopen' (clubs.clubmate.se/hfkarlskrona/shop/) renders no product data. Search 'HF Karlskrona matchtröja hemma' found nothing.",
+    "imageUrls": []
+  },
+  {
+    "id": "se_club_hk_malmo",
+    "name": "HK Malmö",
+    "primary": "black",
+    "primaryHex": null,
+    "secondary": "white",
+    "secondaryHex": null,
+    "trim": "red",
+    "trimHex": null,
+    "pattern": "solid",
+    "description": "Black Select 'Spain V25' player shirt with white details; Wikipedia shows black home kit with red trim.",
+    "season": "2025/26 (shop model V25)",
+    "crestDiffers": false,
+    "status": "PROBABLE",
+    "confidence": 0.7,
+    "sources": [
+      {
+        "url": "https://emporia.malmo.teamsportia.se/klubbshop-1/hk-malmo/select-player-shirt-ss-spain-v25-hk-malmo.html",
+        "type": "official-shop",
+        "evidence": "Select Player Shirt S/S Spain V25 (HK Malmö), Färg: Black/White"
+      },
+      {
+        "url": "https://en.wikipedia.org/w/index.php?title=HK_Malmö&action=raw",
+        "type": "wikipedia",
+        "evidence": "colour1 = black, colour2 = white; body1 = 000000, pattern _redborder arms, _redbottom shorts"
+      }
+    ],
+    "notes": "Club shop (linked from hkmalmo.se) sells only a Black/White player shirt but does not label it home. Red trim from Wikipedia kit labelled 2010-11, so possibly outdated.",
+    "reviewReason": "Black primary; red accent only from an older Wikipedia kit.",
+    "verifyAttempt": "Re-opened teamsportia club shop product: 'Select Player Shirt S/S Spain V25 (HK Malmö)', Färg: Black/White, but no home/away/match wording and description empty; category page URL returned 404. Search found only Malmö FF.",
+    "imageUrls": [
+      "https://cdn.abicart.com/shop/images/217175117-origpic-efbaf5/ws79/131079/art79/h5117/217175117-origpic-fa0dae.png98.png"
+    ]
+  },
+  {
+    "id": "se_club_if_hallby_hk",
+    "name": "IF Hallby HK",
+    "primary": "blue",
+    "primaryHex": null,
+    "secondary": null,
+    "secondaryHex": null,
+    "trim": null,
+    "trimHex": null,
+    "pattern": "solid",
+    "description": "Blue shirt, blue shorts (Kempa, 2020-).",
+    "season": "2020- (Wikipedia kit section)",
+    "crestDiffers": false,
+    "status": "PROBABLE",
+    "confidence": 0.5,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/w/index.php?title=IF_Hallby&action=raw",
+        "type": "wikipedia",
+        "evidence": "Kits HOME table: Kempa 2020-, body = 0000FF, shorts = 0000FF"
+      }
+    ],
+    "notes": "Single Wikipedia source; sv Wikipedia has no kit data; club domain guess did not resolve.",
+    "reviewReason": "Only Wikipedia evidence; no accent colour documented.",
+    "verifyAttempt": "Opened hallbyhandboll.se and its official klubbshop team.intersport.se/if-hallby-handboll: categories Paket/Träning/Supporter/Ledare only, no match shirt listed (Kempa training tees). Search found nothing official.",
+    "imageUrls": []
+  },
+  {
+    "id": "se_club_ifk_kristianstad",
+    "name": "IFK Kristianstad",
+    "primary": "orange",
+    "primaryHex": null,
+    "secondary": null,
+    "secondaryHex": null,
+    "trim": null,
+    "trimHex": null,
+    "pattern": "solid",
+    "description": "Orange shirt (hummel); crest is blue and white.",
+    "season": "long-standing; current per Wikipedia",
+    "crestDiffers": true,
+    "status": "PROBABLE",
+    "confidence": 0.85,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/w/index.php?title=IFK_Kristianstad&action=raw",
+        "type": "wikipedia",
+        "evidence": "logo is blue and white like most IFK clubs, but 'its shirt colour is orange'"
+      },
+      {
+        "url": "https://old.eurohandball.com/article/031523/IFK+fans+get+ticket+as+chip+in+their+hand",
+        "type": "match-report",
+        "evidence": "Club revenue manager: fans 'very proud of wearing the orange colour'"
+      }
+    ],
+    "notes": "Club website text exposed no shop or kit description. Crest blue/white differs from shirt.",
+    "reviewReason": null,
+    "verifyAttempt": "Opened ifkkristianstad.se: no shop link or kit text. Searches 'IFK Kristianstad handboll matchtröja hemma' and 'IFK Kristianstad fanshop replica tröja orange' found no official source.",
+    "imageUrls": []
+  },
+  {
+    "id": "se_club_ifk_skovde_hk",
+    "name": "IFK Skövde HK",
+    "primary": "blue",
+    "primaryHex": null,
+    "secondary": "white",
+    "secondaryHex": null,
+    "trim": null,
+    "trimHex": null,
+    "pattern": "solid",
+    "description": "Blue shirt, blue shorts; white away shirt.",
+    "season": "unspecified (Wikipedia infobox)",
+    "crestDiffers": false,
+    "status": "PROBABLE",
+    "confidence": 0.55,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/w/index.php?title=IFK_Skövde&action=raw",
+        "type": "wikipedia",
+        "evidence": "body1 = 0000FF, shorts1 = 0000FF; body2 = FFFFFF"
+      },
+      {
+        "url": "https://sv.wikipedia.org/w/index.php?title=IFK_Skövde&action=raw",
+        "type": "wikipedia",
+        "evidence": "färg #0000EE; body1 0000EE; away body2 FFFFFF"
+      }
+    ],
+    "notes": "Two consistent Wikipedia sources; no official shop found.",
+    "reviewReason": null,
+    "verifyAttempt": "ifkskovde.se redirects to the football club (svenskalag ifkskovdefk); www.ifkskovdehk.se does not resolve. Searches 'IFK Skövde handboll nya matchtröjor' and '\"Skövde\" handboll klubbshop matchtröja' found no official kit source.",
+    "imageUrls": []
+  },
+  {
+    "id": "se_club_ik_savehof",
+    "name": "IK Sävehof",
+    "primary": "black",
+    "primaryHex": "#000000",
+    "secondary": "yellow",
+    "secondaryHex": "#FFD700",
+    "trim": null,
+    "trimHex": null,
+    "pattern": "sleeves",
+    "description": "Yellow-and-black ('gulsvart') shirt; en-wiki: black body, yellow sleeves; sv-wiki: yellow body with black shoulder stripes.",
+    "season": "2020- (en Wikipedia men's home)",
+    "crestDiffers": false,
+    "status": "UNCERTAIN",
+    "confidence": 0.5,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/w/index.php?title=IK_Sävehof&action=raw",
+        "type": "wikipedia",
+        "evidence": "colour1 black, colour2 yellow; body1 000000, arms FFD700, shorts 000000; away body FFD700"
+      },
+      {
+        "url": "https://sv.wikipedia.org/w/index.php?title=IK_Sävehof&action=raw",
+        "type": "wikipedia",
+        "evidence": "färg #000000; body1 FFFF00 with _shoulder_stripes_black_shirt, shorts 000000"
+      },
+      {
+        "url": "https://savehof.se",
+        "type": "official-club",
+        "evidence": "Headline 'Gulsvart fördel mot Flames'; supporter shop sells yellow and black tees"
+      }
+    ],
+    "notes": "Yellow/black certain (official 'gulsvart'), but which colour dominates the home shirt conflicts between sources. Stadium club shop returned HTTP 429.",
+    "reviewReason": "Black vs yellow dominance conflicts between sources.",
+    "verifyAttempt": "Opened savehof.se (links Stadium klubbshop stadium.se/foreningar/1478097 = HTTP 429, and shop.tshirt.se/ecom/savehofshopen/): supporter shop page 1 lists only tees ('T-shirt - gul', 'ton i ton svart'), hoodies etc., no match shirt. Search 'Sävehof nya matchställ' found nothing.",
+    "imageUrls": []
+  },
+  {
+    "id": "se_club_lugi_hf",
+    "name": "Lugi HF",
+    "primary": "wine",
+    "primaryHex": "#71002E",
+    "secondary": "black",
+    "secondaryHex": null,
+    "trim": "white",
+    "trimHex": null,
+    "pattern": "solid",
+    "description": "Wine-red (vinröd) shirt, black shorts (Puma).",
+    "season": "2020- (Wikipedia kit); colour current on club site",
+    "crestDiffers": false,
+    "status": "PROBABLE",
+    "confidence": 0.8,
+    "sources": [
+      {
+        "url": "https://www.lugihandboll.se",
+        "type": "official-club",
+        "evidence": "Image caption 'Vinröd kärlek med LUGI Handboll'; heading 'Samma färger. Samma klubb.'"
+      },
+      {
+        "url": "https://en.wikipedia.org/w/index.php?title=Lugi_HF&action=raw",
+        "type": "wikipedia",
+        "evidence": "colour1 = #71002E, colour2 = white; body1 = 71002e, shorts1 = 000000"
+      }
+    ],
+    "notes": "Official site confirms wine red as club colour but not explicitly the shirt; Wikipedia hex 71002E.",
+    "reviewReason": null,
+    "verifyAttempt": "Opened lugihandboll.se: no shop link or shirt text (only ticket links). Searches 'LUGI handboll matchtröja vinröd puma' and 'LUGI handboll webshop matchtröja' found nothing official.",
+    "imageUrls": []
+  },
+  {
+    "id": "se_club_ov_helsingborg",
+    "name": "OV Helsingborg",
+    "primary": "green",
+    "primaryHex": "#0D8548",
+    "secondary": "white",
+    "secondaryHex": null,
+    "trim": null,
+    "trimHex": null,
+    "pattern": "solid",
+    "description": "Green shirt with white details (adidas, 2020-); white away.",
+    "season": "2020- (Wikipedia kit)",
+    "crestDiffers": false,
+    "status": "PROBABLE",
+    "confidence": 0.7,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/w/index.php?title=OV_Helsingborg_HK&action=raw",
+        "type": "wikipedia",
+        "evidence": "colour1 = green, colour2 = white; kits Adidas 2020 onward; header #00855f"
+      },
+      {
+        "url": "https://sv.wikipedia.org/w/index.php?title=OV_Helsingborg&action=raw",
+        "type": "wikipedia",
+        "evidence": "färg #0D8548; body1 0D8548, shorts1 0D8548; away white"
+      },
+      {
+        "url": "https://ovhelsingborg.myclub.se",
+        "type": "official-club",
+        "evidence": "Supporter article refers to 'de gröna leden'"
+      }
+    ],
+    "notes": "Club shop at team.intersport.se/ov-helsingborg not checked in detail.",
+    "reviewReason": null,
+    "verifyAttempt": "Opened ovhelsingborg.myclub.se and official webshop team.intersport.se/ov-helsingborg: no match shirt; only adidas training wear (e.g. Entrada 26 t-shirt in 'drkgrn-white', Tiro26 in black-white). Search found nothing official.",
+    "imageUrls": []
+  },
+  {
+    "id": "se_club_skanela_if",
+    "name": "Skånela IF",
+    "primary": "red",
+    "primaryHex": "#CD0000",
+    "secondary": "black",
+    "secondaryHex": null,
+    "trim": "white",
+    "trimHex": null,
+    "pattern": "solid",
+    "description": "Red shirt (hummel), black shorts; white away.",
+    "season": "unspecified (Wikipedia, hummel 2020 template)",
+    "crestDiffers": false,
+    "status": "PROBABLE",
+    "confidence": 0.6,
+    "sources": [
+      {
+        "url": "https://sv.wikipedia.org/w/index.php?title=Skånela_IF&action=raw",
+        "type": "wikipedia",
+        "evidence": "färg #CD0000; body1 CD0000, shorts1 000000; body2 FFFFFF"
+      },
+      {
+        "url": "https://en.wikipedia.org/w/index.php?title=Skånela_IF&action=raw",
+        "type": "wikipedia",
+        "evidence": "colour1 = red, colour2 = #FFFFFF; pattern _hummelauthentic20r"
+      }
+    ],
+    "notes": "No official shop/club text found (domain guess failed).",
+    "reviewReason": null,
+    "verifyAttempt": "www.skanelaif.se and www.skanelaifhandboll.se do not resolve; searches 'Skånela IF handboll matchtröja hummel röd' and 'Skånela IF handboll klubbshop' found no official source.",
+    "imageUrls": []
+  },
+  {
+    "id": "se_club_ystads_if_hf",
+    "name": "Ystads IF HF",
+    "primary": "white",
+    "primaryHex": null,
+    "secondary": "blue",
+    "secondaryHex": "#0080FF",
+    "trim": "yellow",
+    "trimHex": "#FFFF00",
+    "pattern": "solid",
+    "description": "White shirt with blue details, blue shorts; blue away. Club colours blue and yellow.",
+    "season": "2022-23 (en Wikipedia kit labels)",
+    "crestDiffers": false,
+    "status": "PROBABLE",
+    "confidence": 0.55,
+    "sources": [
+      {
+        "url": "https://sv.wikipedia.org/w/index.php?title=Ystads_IF_HF&action=raw",
+        "type": "wikipedia",
+        "evidence": "färg white, textfärg blue; body1 FFFFFF, shorts1 0000FF; body2 0000FF"
+      },
+      {
+        "url": "https://en.wikipedia.org/w/index.php?title=Ystads_IF&action=raw",
+        "type": "wikipedia",
+        "evidence": "colour1 #0080FF, colour2 #FFFF00; home pattern _fckobenhavn1819h (white-based), thin blue border"
+      }
+    ],
+    "notes": "Club shop (ystad.teamsportia.se) lists Adidas Tabela 23 jerseys without colour. Blue accent documented; yellow is club colour2, not confirmed on shirt.",
+    "reviewReason": "White primary; accent from Wikipedia only, no official shirt source.",
+    "verifyAttempt": "Opened official club shop ystad.teamsportia.se/klubbshop/ystad-if-handboll/senior/: two 'Adidas Tabela 23 Jsy Sr (Ystad IF Handboll)' shirts, Färg 'Royblu/White' (art 1300) and 'White/Royblu' (art 1260); neither labelled home/away/match, so home colour not confirmed (consistent with white + royal blue).",
+    "imageUrls": [
+      "https://cdn.abicart.com/shop/images/221845037-origpic-530198/ws81/130581/art81/h5037/221845037-origpic-58e53b.png1.png",
+      "https://cdn.abicart.com/shop/images/221844905-origpic-18213f/ws81/130581/art81/h4905/221844905-origpic-130c32.png1.png"
+    ]
+  },
+  {
+    "id": "se_club_onnereds_hk",
+    "name": "Önnereds HK",
+    "primary": "green",
+    "primaryHex": null,
+    "secondary": "black",
+    "secondaryHex": null,
+    "trim": null,
+    "trimHex": null,
+    "pattern": "solid",
+    "description": "Green shirt, black shorts; white away.",
+    "season": "unspecified (Wikipedia infobox)",
+    "crestDiffers": false,
+    "status": "PROBABLE",
+    "confidence": 0.6,
+    "sources": [
+      {
+        "url": "https://en.wikipedia.org/w/index.php?title=Önnereds_HK&action=raw",
+        "type": "wikipedia",
+        "evidence": "colour1 = green, colour2 = black; body1 008000, shorts1 000000; body2 FFFFFF"
+      },
+      {
+        "url": "https://sv.wikipedia.org/w/index.php?title=Önnereds_HK&action=raw",
+        "type": "wikipedia",
+        "evidence": "färg = green; body1 008000, shorts1 000000"
+      }
+    ],
+    "notes": "Klubbhuset club shop has a 'Matchtröjor' category but no listed products.",
+    "reviewReason": null,
+    "verifyAttempt": "www.onnered.se SSL error; searches 'Önnereds HK matchtröja grön' and 'Önnereds HK klubbhuset matchtröja' found no official shop listing (club site onneredshk.se not reached).",
+    "imageUrls": []
+  }
+]

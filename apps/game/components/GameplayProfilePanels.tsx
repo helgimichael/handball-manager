@@ -1,18 +1,17 @@
-// HM-UX-RATINGS-0.1 + HM-RICH-EXPERIENCE-02: Player Dossier 2.0
-// Visual attribute radar/pentagon, color-coded 1-20 attribute bars, and
-// position suitability mini-court. Canonical CA/PA remain internal (1-5 stars only).
-import type { CSSProperties } from "react";
-import {
-  GOALKEEPER_ATTRIBUTE_FAMILIES,
-  OUTCOURT_ATTRIBUTE_FAMILIES,
-  type GoalkeeperAttribute,
-  type GoalkeeperAttributeFamily,
-  type OutcourtAttribute,
-  type OutcourtAttributeFamily,
-} from "@/lib/rating/types";
-import { getAttributeFamilyLabel, getAttributeLabel } from "@/lib/rating/attributeVocabulary";
+'use client';
+// HM-UX-RATINGS-0.1 + HM-RICH-EXPERIENCE-02: Player Dossier 2.0 -- OWN players only.
+// Arena Nights:
+//   SQD-02j (A) Heat matrix: families as columns, attributes as tiles on a tokenised tier ramp, ▲/▼ deltas
+//               from the stored development history (last 30 days), role-relevant tiles outlined, compare overlay.
+//   SQD-02k (A) Suitability court: all seven spots shaded (primary solid, secondary partial, spots sharing one of
+//               his attack roles faint), attack/defence role chips, tap a spot for the roles that exist there.
+// Canonical CA/PA remain internal (1-5 stars only). External players never reach these panels.
+import Link from "next/link";
+import { useState, type ReactNode } from "react";
+import { ATTACK_ROLES_BY_POSITION } from "@/lib/rating/types";
 import { abilityStarsFromCA, potentialStarsFromPA } from "@/lib/development/types";
 import { presentTacticalRole } from "@/lib/rating/presentation";
+import { ATTRIBUTE_TIER_LABEL_SV, type AttributeMatrix, type AttributeTier } from "@/lib/players/attributeMatrix";
 import StarRating from "@/components/StarRating";
 
 export type GameplayAttributeOrigin = "EVIDENCE_BACKED" | "DERIVED" | "GENERATED_PRIOR" | "EDITOR_OVERRIDE";
@@ -37,306 +36,124 @@ export interface GameplayRatingRow {
   locked: boolean;
 }
 
-const MINI_COURT_SPOTS: readonly { code: string; x: number; y: number }[] = [
-  { code: "MV", x: 50, y: 15 },
-  { code: "V6", x: 16, y: 26 },
+const COURT_SPOTS: readonly { code: string; x: number; y: number }[] = [
+  { code: "MV", x: 50, y: 12 },
+  { code: "V6", x: 12, y: 24 },
   { code: "M6", x: 50, y: 36 },
-  { code: "H6", x: 84, y: 26 },
-  { code: "V9", x: 24, y: 68 },
-  { code: "M9", x: 50, y: 78 },
-  { code: "H9", x: 76, y: 68 },
+  { code: "H6", x: 88, y: 24 },
+  { code: "V9", x: 22, y: 70 },
+  { code: "M9", x: 50, y: 80 },
+  { code: "H9", x: 78, y: 70 },
 ];
 
-/** Club assessment, handball roles, and visual position mini-court. */
-export function GameplayAbilityPanel({ row }: { row: GameplayRatingRow }) {
-  return (
-    <div className="hm-panel">
-      <div className="hm-panel-header">
-        <span className="hm-panel-title">Förmåga & Positionskarta</span>
-      </div>
-      <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-        <AbilityBlock label="Nuvarande nivå" stars={abilityStarsFromCA(row.ca)} title="Tränarstabens bedömning av nuvarande nivå" />
-        <AbilityBlock label="Potential" stars={potentialStarsFromPA(row.pa)} title="Scoutingens uppskattning — osäker" />
+type Fit = "primary" | "secondary" | "role" | "none";
+const FIT_LABEL: Record<Fit, string> = { primary: "Primär position", secondary: "Sekundär position", role: "Hans anfallsroll finns här", none: "Ingen registrerad roll här" };
 
-        {/* Visual Position Suitability Mini-Court */}
-        <div
-          aria-label={`Positionskarta: primär position ${row.position}`}
-          style={{
-            position: "relative",
-            height: 118,
-            borderRadius: 5,
-            background: "linear-gradient(180deg, #102a49 0%, #0b1d34 100%)",
-            border: "1px solid #233f63",
-            overflow: "hidden",
-          }}
-        >
-          <svg viewBox="0 0 200 110" preserveAspectRatio="none" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.45 }}>
-            <path d="M 35 4 C 35 52 165 52 165 4" fill="#1b4d82" stroke="#7ab3ef" strokeWidth="1.5" />
-            <path d="M 14 4 C 14 88 186 88 186 4" fill="none" stroke="#7ab3ef" strokeWidth="1.2" strokeDasharray="4 3" />
-            <rect x="86" y="2" width="28" height="5" fill="none" stroke="#f87171" strokeWidth="1.5" />
+/** SQD-02k: club assessment, the suitability court and the role chips. */
+export function GameplayAbilityPanel({ row, secondaryPosition }: { row: GameplayRatingRow; secondaryPosition?: string | null }) {
+  const primary = row.position === "GK" ? "MV" : row.position;
+  const attackRoles = row.attackRoleProficiencies.map((r) => r.role);
+  const rolesAt = (code: string) => code === "MV" ? [] : attackRoles.filter((r) => (ATTACK_ROLES_BY_POSITION[code as keyof typeof ATTACK_ROLES_BY_POSITION] as readonly string[] | undefined)?.includes(r));
+  const fit = (code: string): Fit => code === primary ? "primary" : code === secondaryPosition ? "secondary" : rolesAt(code).length ? "role" : "none";
+  const [spot, setSpot] = useState<string>(primary);
+  const spotRoles = rolesAt(spot);
+  return (
+    <section className="hm-panel gp-ability" aria-labelledby={`gp-ability-${row.playerId}`}>
+      <div className="hm-panel-header">
+        <span className="hm-panel-title" id={`gp-ability-${row.playerId}`}>Förmåga & Positionskarta</span>
+        <Link className="gp-link" href="/career/tactics">Taktiktavlan →</Link>
+      </div>
+      <div className="hm-panel-body gp-ability-body">
+        <div className="gp-ability-band">
+          <div><span>Nuvarande nivå</span><StarRating stars={abilityStarsFromCA(row.ca)} title="Tränarstabens bedömning av nuvarande nivå" /></div>
+          <div><span>Potential</span><StarRating stars={potentialStarsFromPA(row.pa)} title="Scoutingens uppskattning — osäker" /></div>
+        </div>
+        <div className="gp-court" role="group" aria-label={`Positionskarta: primär ${primary}${secondaryPosition ? `, sekundär ${secondaryPosition}` : ""}`}>
+          <svg viewBox="0 0 200 110" preserveAspectRatio="none" aria-hidden="true" className="gp-court-lines">
+            <path d="M 35 4 C 35 52 165 52 165 4" />
+            <path d="M 14 4 C 14 88 186 88 186 4" strokeDasharray="4 3" />
+            <rect x="86" y="2" width="28" height="5" />
           </svg>
-          {MINI_COURT_SPOTS.map((spot) => {
-            const active = spot.code === row.position || (row.position === "GK" && spot.code === "MV");
-            return (
-              <span
-                key={spot.code}
-                style={{
-                  position: "absolute",
-                  left: `${spot.x}%`,
-                  top: `${spot.y}%`,
-                  transform: "translate(-50%, -50%)",
-                  padding: active ? "3px 8px" : "2px 6px",
-                  borderRadius: 999,
-                  fontSize: active ? 10.5 : 9,
-                  fontWeight: 800,
-                  background: active ? "#22c55e" : "rgba(15, 27, 45, 0.78)",
-                  color: active ? "#052e16" : "#94a3b8",
-                  border: active ? "1.5px solid #bbf7d0" : "1px solid rgba(255,255,255,0.16)",
-                  boxShadow: active ? "0 0 12px rgba(34, 197, 94, 0.55)" : "none",
-                }}
-              >
-                {spot.code}
-              </span>
-            );
-          })}
-        </div>
-
-        <div className="hm-divider" />
-        <RoleRow label="Anfallsroller" roles={row.attackRoleProficiencies} />
-        <RoleRow label="Försvarsroller" roles={row.defenceRoleProficiencies} />
-      </div>
-    </div>
-  );
-}
-
-function AbilityBlock({ label, stars, title }: { label: string; stars: number; title: string }) {
-  return (
-    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-      <span className="hm-text-secondary" style={{ fontSize: "var(--hm-text-xs)" }}>
-        {label}
-      </span>
-      <StarRating stars={stars} title={title} />
-    </div>
-  );
-}
-
-function RoleRow({ label, roles }: { label: string; roles: { role: string }[] }) {
-  return (
-    <div style={{ display: "flex", justifyContent: "space-between", gap: 8, fontSize: "var(--hm-text-xs)" }}>
-      <span className="hm-text-muted">{label}</span>
-      <span style={{ fontWeight: 700, textAlign: "right" }}>
-        {roles.length ? roles.map((r) => presentTacticalRole(r.role)).join(", ") : "—"}
-      </span>
-    </div>
-  );
-}
-
-function tierColor(val: number): string {
-  if (val >= 15) return "#15803d";
-  if (val >= 12) return "#0369a1";
-  if (val >= 9) return "#475569";
-  return "#b45309";
-}
-
-/** Left-column panel: the COMPLETE gameplay attribute set (56 outcourt / 21 goalkeeper), with visual radar & bars. */
-export function GameplayAttributesPanel({ row }: { row: GameplayRatingRow }) {
-  const isGoalkeeper = row.branch.branch === "GOALKEEPER";
-  const familyList = isGoalkeeper
-    ? (Object.keys(GOALKEEPER_ATTRIBUTE_FAMILIES) as GoalkeeperAttributeFamily[]).map((family) => {
-        const attrs = GOALKEEPER_ATTRIBUTE_FAMILIES[family].map(
-          (a) => (row.branch.attributes as Record<string, GameplayAttributeEntry>)[a]?.value ?? 10,
-        );
-        const avg = attrs.reduce((s, v) => s + v, 0) / Math.max(1, attrs.length);
-        return { key: family, label: getAttributeFamilyLabel(family), avg };
-      })
-    : (Object.keys(OUTCOURT_ATTRIBUTE_FAMILIES) as OutcourtAttributeFamily[]).map((family) => {
-        const attrs = OUTCOURT_ATTRIBUTE_FAMILIES[family].map(
-          (a) => (row.branch.attributes as Record<string, GameplayAttributeEntry>)[a]?.value ?? 10,
-        );
-        const avg = attrs.reduce((s, v) => s + v, 0) / Math.max(1, attrs.length);
-        return { key: family, label: getAttributeFamilyLabel(family), avg };
-      });
-
-  // Compute Radar Polygon points
-  const cx = 80;
-  const cy = 80;
-  const maxR = 58;
-  const n = familyList.length;
-  const polygonPoints = familyList
-    .map((f, i) => {
-      const angle = (Math.PI * 2 * i) / n - Math.PI / 2;
-      const r = Math.max(0.15, Math.min(1, f.avg / 20)) * maxR;
-      return `${(cx + Math.cos(angle) * r).toFixed(1)},${(cy + Math.sin(angle) * r).toFixed(1)}`;
-    })
-    .join(" ");
-
-  return (
-    <div className="hm-panel">
-      <div className="hm-panel-header">
-        <span className="hm-panel-title">{isGoalkeeper ? "Målvaktsegenskaper" : "Spelaregenskaper"} (skala 1–20)</span>
-        <span className="hm-text-muted" style={{ fontSize: 11 }}>
-          Kategoriprofil & detaljanalys
-        </span>
-      </div>
-
-      {/* Visual Radar & Category Summary Strip */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "160px minmax(0, 1fr)",
-          gap: 16,
-          alignItems: "center",
-          padding: "14px 16px",
-          background: "linear-gradient(135deg, #0f1d31 0%, #152740 100%)",
-          color: "#f1f5f9",
-        }}
-      >
-        <svg viewBox="0 0 160 160" width="150" height="150" role="img" aria-label="Spelarprofilens radardiagram">
-          {[0.35, 0.65, 1].map((scale) => (
-            <polygon
-              key={scale}
-              points={familyList
-                .map((_, i) => {
-                  const angle = (Math.PI * 2 * i) / n - Math.PI / 2;
-                  const r = scale * maxR;
-                  return `${(cx + Math.cos(angle) * r).toFixed(1)},${(cy + Math.sin(angle) * r).toFixed(1)}`;
-                })
-                .join(" ")}
-              fill="none"
-              stroke="rgba(255,255,255,0.16)"
-              strokeWidth="1"
-            />
-          ))}
-          <polygon points={polygonPoints} fill="rgba(200, 67, 32, 0.42)" stroke="#f59e6c" strokeWidth="2" />
-        </svg>
-
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(135px, 1fr))", gap: 8 }}>
-          {familyList.map((f) => (
-            <div
-              key={f.key}
-              style={{
-                padding: "7px 10px",
-                background: "rgba(255,255,255,0.06)",
-                border: "1px solid rgba(255,255,255,0.12)",
-                borderRadius: 4,
-              }}
-            >
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 6 }}>
-                <span style={{ fontSize: 10, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.06em", color: "#cbd5e1" }}>
-                  {f.label}
-                </span>
-                <strong style={{ fontFamily: "var(--game-font-display)", fontSize: 18, color: "#ffffff" }}>
-                  {f.avg.toFixed(1)}
-                </strong>
-              </div>
-              <div style={{ height: 4, background: "rgba(255,255,255,0.14)", borderRadius: 99, marginTop: 4, overflow: "hidden" }}>
-                <i style={{ display: "block", height: "100%", width: `${Math.min(100, (f.avg / 20) * 100)}%`, background: "#f59e6c" }} />
-              </div>
-            </div>
+          {COURT_SPOTS.map((s) => (
+            <button key={s.code} type="button" className="gp-spot" data-fit={fit(s.code)} aria-pressed={spot === s.code} style={{ left: `${s.x}%`, top: `${s.y}%` }}
+              aria-label={`${s.code}: ${FIT_LABEL[fit(s.code)]}`} onClick={() => setSpot(s.code)}>{s.code}</button>
           ))}
         </div>
+        <p className="gp-spot-note" role="status"><b>{spot}</b> · {FIT_LABEL[fit(spot)]}{spotRoles.length ? ": " : ""}{spotRoles.map((r) => <span key={r} className="gp-chip" data-kind="attack">{presentTacticalRole(r)}</span>)}</p>
+        <div className="gp-legend" aria-hidden="true"><span data-fit="primary">Primär</span><span data-fit="secondary">Sekundär</span><span data-fit="role">Roll finns</span></div>
+        <RoleChips label="Anfallsroller" kind="attack" roles={row.attackRoleProficiencies} />
+        <RoleChips label="Försvarsroller" kind="defence" roles={row.defenceRoleProficiencies} />
       </div>
-
-      {isGoalkeeper
-        ? (Object.keys(GOALKEEPER_ATTRIBUTE_FAMILIES) as GoalkeeperAttributeFamily[]).map((family) => (
-            <FamilyBlock
-              key={family}
-              familyLabel={getAttributeFamilyLabel(family)}
-              rows={GOALKEEPER_ATTRIBUTE_FAMILIES[family].map((attribute) => ({
-                attribute,
-                label: getAttributeLabel(attribute as GoalkeeperAttribute),
-                entry: (row.branch.attributes as Record<string, GameplayAttributeEntry>)[attribute],
-              }))}
-            />
-          ))
-        : (Object.keys(OUTCOURT_ATTRIBUTE_FAMILIES) as OutcourtAttributeFamily[]).map((family) => (
-            <FamilyBlock
-              key={family}
-              familyLabel={getAttributeFamilyLabel(family)}
-              rows={OUTCOURT_ATTRIBUTE_FAMILIES[family].map((attribute) => ({
-                attribute,
-                label: getAttributeLabel(attribute as OutcourtAttribute),
-                entry: (row.branch.attributes as Record<string, GameplayAttributeEntry>)[attribute],
-              }))}
-            />
-          ))}
-    </div>
+    </section>
   );
 }
 
-function FamilyBlock({
-  familyLabel,
-  rows,
-}: {
-  familyLabel: string;
-  rows: { attribute: string; label: string; entry: GameplayAttributeEntry }[];
+function RoleChips({ label, kind, roles }: { label: string; kind: "attack" | "defence"; roles: { role: string }[] }) {
+  return <div className="gp-roles"><span className="gp-roles-label">{label}</span><span className="gp-chips">{roles.length ? roles.map((r) => <span key={r.role} className="gp-chip" data-kind={kind}>{presentTacticalRole(r.role)}</span>) : <span className="hm-text-muted">—</span>}</span></div>;
+}
+
+const ORIGIN_LABEL: Partial<Record<string, string>> = { EVIDENCE_BACKED: "Belagt av källunderlag", EDITOR_OVERRIDE: "Manuellt satt" };
+const TIERS: AttributeTier[] = ["elite", "strong", "solid", "weak"];
+
+/** SQD-02j: the complete attribute set (56 outcourt / 21 goalkeeper) as a heat matrix. */
+export function GameplayAttributesPanel({ matrix, position, compareLabel, compareControl, selected, onSelect }: {
+  matrix: AttributeMatrix; position: string;
+  /** Name of the overlay ("truppsnittet", a player's name) when a compare overlay is active. */
+  compareLabel?: string | null;
+  compareControl?: ReactNode;
+  selected?: string | null;
+  onSelect?: (attribute: string) => void;
 }) {
   return (
-    <div style={{ borderTop: "1px solid var(--hm-border)" }}>
-      <div className="hm-eyebrow" style={{ padding: "10px 16px 4px", fontWeight: 800, color: "var(--game-ink)" }}>
-        {familyLabel}
+    <section className="hm-panel gp-matrix" aria-labelledby="gp-matrix-h">
+      <div className="hm-panel-header gp-matrix-head">
+        <span className="hm-panel-title" id="gp-matrix-h">{matrix.goalkeeper ? "Målvaktsegenskaper" : "Spelaregenskaper"} (skala 1–20)</span>
+        {compareControl}
       </div>
-      <div
-        className="hm-panel-body"
-        style={{
-          paddingTop: 4,
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 205px), 1fr))",
-          gap: "7px 18px",
-        }}
-      >
-        {rows.map(({ attribute, label, entry }) => {
-          const val = entry?.value ?? 10;
-          const color = tierColor(val);
+      <ol className="gp-family-avgs" aria-label="Familjesnitt">
+        {matrix.families.map((f) => (
+          <li key={f.key}>
+            <span>{f.label}</span>
+            <b>{f.avg.toFixed(1)}</b>
+            {f.compareAvg != null && <small data-up={f.avg >= f.compareAvg}>{f.avg - f.compareAvg >= 0 ? "+" : ""}{(f.avg - f.compareAvg).toFixed(1)} mot {compareLabel ?? "jämförelse"}</small>}
+            <i style={{ width: `${Math.min(100, (f.avg / 20) * 100)}%` }} aria-hidden="true" />
+          </li>
+        ))}
+      </ol>
+      <div className="gp-heat" data-cols={matrix.families.length}>
+        {matrix.families.map((f) => {
+          const changed = f.tiles.filter((t) => t.delta !== 0).length;
           return (
-            <div
-              key={attribute}
-              className="hm-stat-row"
-              style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr) 44px 26px", alignItems: "center", gap: 6 }}
-              title={
-                entry.origin === "EVIDENCE_BACKED"
-                  ? "Belagt av källunderlag"
-                  : entry.origin === "EDITOR_OVERRIDE"
-                  ? "Manuellt satt"
-                  : undefined
-              }
-            >
-              <span className="hm-stat-label" style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-                {(entry.origin === "EVIDENCE_BACKED" || entry.origin === "EDITOR_OVERRIDE") && (
-                  <span style={confirmedDotStyle(entry.origin)} />
-                )}
-                {label}
-              </span>
-              <span style={{ height: 5, background: "#dcd9cf", borderRadius: 99, overflow: "hidden", display: "block" }} aria-hidden="true">
-                <i style={{ display: "block", height: "100%", width: `${Math.min(100, (val / 20) * 100)}%`, background: color }} />
-              </span>
-              <span
-                style={{
-                  ...statValueStyle,
-                  textAlign: "right",
-                  color,
-                  fontSize: 12,
-                }}
-              >
-                {val}
-              </span>
-            </div>
+            <details key={f.key} className="gp-heat-family" open>
+              <summary><span>{f.label}</span><b>{f.avg.toFixed(1)}</b>{changed > 0 && <small>{changed} förändrade</small>}</summary>
+              <ul>
+                {f.tiles.map((t) => {
+                  const diff = t.compare != null ? Math.round((t.value - t.compare) * 10) / 10 : null;
+                  const origin = t.origin ? ORIGIN_LABEL[t.origin] : undefined;
+                  return (
+                    <li key={t.key}>
+                      <button type="button" className="gp-tile" data-tier={t.tier} data-relevant={t.relevant} aria-pressed={selected === t.key} onClick={() => onSelect?.(t.key)}
+                        aria-label={`${t.label} ${t.value}${t.delta ? `, ${t.delta > 0 ? "upp" : "ner"} ${Math.abs(t.delta)} senaste 30 dagarna` : ""}${t.relevant ? ", rollviktig" : ""}${diff != null ? `, ${diff >= 0 ? "+" : ""}${diff} mot ${compareLabel ?? "jämförelse"}` : ""}${origin ? `, ${origin}` : ""}. Visa historik`}
+                        title={origin}>
+                        <span className="gp-tile-label">{origin && <i className="gp-origin" data-origin={t.origin!} aria-hidden="true" />}{t.label}</span>
+                        <b className="gp-tile-value">{t.value}</b>
+                        {t.delta !== 0 && <span className="gp-delta" data-up={t.delta > 0} aria-hidden="true">{t.delta > 0 ? "▲" : "▼"}{Math.abs(t.delta)}</span>}
+                        {diff != null && <span className="gp-cmp" data-up={diff >= 0} aria-hidden="true">{diff >= 0 ? "+" : ""}{diff}</span>}
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            </details>
           );
         })}
       </div>
-    </div>
+      <footer className="gp-matrix-legend">
+        {TIERS.map((t) => <span key={t} className="gp-tier-chip" data-tier={t}>{ATTRIBUTE_TIER_LABEL_SV[t]}</span>)}
+        <span>▲▼ förändring senaste 30 dagarna ({matrix.changedCount} st)</span>
+        <span className="gp-relevant-chip">Ram = rollviktig för {matrix.goalkeeper ? "MV" : position}</span>
+        <span><i className="gp-origin" data-origin="EVIDENCE_BACKED" aria-hidden="true" />belagt · <i className="gp-origin" data-origin="EDITOR_OVERRIDE" aria-hidden="true" />manuellt satt</span>
+      </footer>
+    </section>
   );
 }
-
-function confirmedDotStyle(origin: "EVIDENCE_BACKED" | "EDITOR_OVERRIDE"): CSSProperties {
-  return {
-    display: "inline-block",
-    width: 6,
-    height: 6,
-    borderRadius: "50%",
-    marginRight: 5,
-    background: origin === "EVIDENCE_BACKED" ? "var(--hm-positive)" : "var(--hm-negative)",
-  };
-}
-
-const statValueStyle: CSSProperties = { fontWeight: 800 };

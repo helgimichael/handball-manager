@@ -1,0 +1,285 @@
+[
+ {
+  "id": "se_club_bodens_bk_hf",
+  "name": "Bodens BK HF",
+  "shortName": "Boden",
+  "city": null,
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_norra",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "UNCERTAIN",
+   "primary": "green",
+   "secondary": null,
+   "trim": null,
+   "description": "Only the parent multi-sport club Bodens BK's football kit is documented (all green). No handball-specific shirt evidence found.",
+   "sources": [
+    "https://sv.wikipedia.org/wiki/Bodens_BK"
+   ],
+   "notes": "Green comes from the football section of the parent club, not the handball team. The football kit hex 208040 is not applied here because it is not documented for handball.",
+   "review": [
+    "Handball kit not documented; colour inferred from parent club's football kit only."
+   ]
+  }
+ },
+ {
+  "id": "se_club_enkopings_hf",
+  "name": "Enköpings HF",
+  "shortName": "Enköping",
+  "city": null,
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_norra",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "UNKNOWN",
+   "primary": null,
+   "secondary": null,
+   "trim": null,
+   "description": "No evidence found for the home shirt colour.",
+   "sources": [
+    "https://sv.wikipedia.org/wiki/Enköpings_HF"
+   ],
+   "notes": "Club laget.se site (laget.se/EHF) not checked for kit; search budget ran out.",
+   "review": [
+    "No colour evidence found."
+   ]
+  }
+ },
+ {
+  "id": "se_club_hk_cliff",
+  "name": "HK Cliff",
+  "shortName": "Cliff",
+  "city": null,
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_norra",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "yellow",
+   "secondary": "blue",
+   "trim": null,
+   "description": "Yellow shirt, blue shorts, white socks.",
+   "sources": [
+    "https://sv.wikipedia.org/wiki/HK_Cliff",
+    "https://results.partillecup.com/2024/teams/52865369"
+   ],
+   "notes": "Not a B team. Swedish Wikipedia describes HK Cliff as an independent Stockholm club (Skärholmen / Mälarhöjden / Södermalm) with no parent club. Hex values come from the Wikipedia template, which may use generic values.",
+   "review": []
+  }
+ },
+ {
+  "id": "se_club_hk_eskil",
+  "name": "HK Eskil",
+  "shortName": "Eskil",
+  "city": null,
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_norra",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "green",
+   "secondary": "white",
+   "trim": null,
+   "description": "All-green kit (green shirt, green shorts, white socks); away kit has a white body.",
+   "sources": [
+    "https://sv.wikipedia.org/wiki/HK_Eskil"
+   ],
+   "notes": "Only source is Wikipedia; the season is not stated. Secondary white comes from the club text colour and the away body.",
+   "review": []
+  }
+ },
+ {
+  "id": "se_club_ik_bolton",
+  "name": "IK Bolton",
+  "shortName": "Bolton",
+  "city": null,
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_norra",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "UNCERTAIN",
+   "primary": "yellow",
+   "secondary": "black",
+   "trim": null,
+   "description": "Yellow/black according to a 2017 youth tournament registration only.",
+   "sources": [
+    "https://results.partillecup.com/2017/teams/12027471"
+   ],
+   "notes": "Single old youth-tournament source; no Wikipedia kit data (sv article has no colour fields). Not confirmed for the men's senior team or the current season.",
+   "review": [
+    "Only a 2017 youth tournament listing; needs confirmation for the current men's home shirt."
+   ]
+  }
+ },
+ {
+  "id": "se_club_lif_lindesberg",
+  "name": "LIF Lindesberg",
+  "shortName": "Lindesberg",
+  "city": null,
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_norra",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "orange",
+   "secondary": "blue",
+   "trim": null,
+   "description": "Orange shirt, blue shorts, white socks. The English Wikipedia kit adds thin blue side panels and blue cuffs.",
+   "sources": [
+    "https://sv.wikipedia.org/wiki/LIF_Lindesberg",
+    "https://en.wikipedia.org/wiki/LIF_Lindesberg"
+   ],
+   "notes": "The two Wikipedias agree on orange and blue but differ on hex (sv FFA500, en FF8000). The sv values are used.",
+   "review": []
+  }
+ },
+ {
+  "id": "se_club_rp_if_linkoping",
+  "name": "RP IF Linköping",
+  "shortName": "RP Linköping",
+  "city": null,
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_norra",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "UNKNOWN",
+   "primary": null,
+   "secondary": null,
+   "trim": null,
+   "description": "No evidence found for the home shirt colour.",
+   "sources": [
+    "https://sv.wikipedia.org/wiki/RP_IF",
+    "https://www.rpif.se/"
+   ],
+   "notes": "Youth team labels Röd/Vit are hints at most and are not used.",
+   "review": [
+    "No colour evidence found."
+   ]
+  }
+ },
+ {
+  "id": "se_club_rimbo_hk_roslagen",
+  "name": "Rimbo HK Roslagen",
+  "shortName": "Rimbo",
+  "city": null,
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_norra",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "green",
+   "secondary": "black",
+   "trim": null,
+   "description": "Green shirt body with black sleeves, black shorts, white socks. Second kit is yellow with black.",
+   "sources": [
+    "https://sv.wikipedia.org/wiki/Rimbo_HK"
+   ],
+   "notes": "sv 'Rimbo HK Roslagen' redirects to 'Rimbo HK'. Wikipedia does not label the kits home/away; kit 1 is assumed to be home.",
+   "review": []
+  }
+ },
+ {
+  "id": "se_club_sannadals_sk",
+  "name": "Sannadals SK",
+  "shortName": "Sannadal",
+  "city": null,
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_norra",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "red",
+   "secondary": "white",
+   "trim": null,
+   "description": "Red shirt and red shorts with white collar and white three-stripe sleeve trim (adidas template), white socks.",
+   "sources": [
+    "https://sv.wikipedia.org/wiki/Sannadals_SK"
+   ],
+   "notes": "The adidas-pattern kit template may be from an older season.",
+   "review": []
+  }
+ },
+ {
+  "id": "se_club_taby_hbk",
+  "name": "Täby HBK",
+  "shortName": "Täby",
+  "city": null,
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_norra",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "red",
+   "secondary": "blue",
+   "trim": null,
+   "description": "Red shirt with blue shorts (official 2025/26 shirt brief); club also uses blue or white alternative shirts.",
+   "sources": [
+    "https://www.svenskalag.se/tabyhbk/nyheter/2258563/inbjudan-till-designtavling-skapa-var-egen-troja-for-sasongen-2025-26",
+    "https://sv.wikipedia.org/wiki/Täby_Handbollsklubb"
+   ],
+   "notes": "The official club source gives red/blue for 2025/26 but does not say 'home' or 'men's team' explicitly, so the status is PROBABLE rather than VERIFIED. The final design pattern is unknown.",
+   "review": []
+  }
+ },
+ {
+  "id": "se_club_uppsala_hk",
+  "name": "Uppsala HK",
+  "shortName": "Uppsala",
+  "city": null,
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_norra",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "blue",
+   "secondary": "orange",
+   "trim": "white",
+   "description": "Blue shirt (Hummel template with white/black detailing), black shorts with white sides, white socks; orange second kit.",
+   "sources": [
+    "https://sv.wikipedia.org/wiki/Uppsala_Handbollsklubb"
+   ],
+   "notes": "Assumes 'Uppsala HK' = Uppsala Handbollsklubb (sv 'Uppsala HK' is a disambiguation page). The kit template is likely from around 2014. Orange is a documented club colour (färg2), used here as secondary.",
+   "review": [
+    "Kit evidence likely dated (Hummel 2014 template); confirm current shirt."
+   ]
+  }
+ },
+ {
+  "id": "se_club_orebro_sk_hk_herr",
+  "name": "Örebro SK HK herr",
+  "shortName": "Örebro SK",
+  "city": null,
+  "tier": "SE-3 Division 1",
+  "competitionId": "se_division1_norra",
+  "registrationUrl": null,
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "white",
+   "secondary": "black",
+   "trim": null,
+   "description": "White shirt, black shorts, white socks; club identity is black and white ('svartvita'); black second kit.",
+   "sources": [
+    "https://sv.wikipedia.org/wiki/Örebro_SK_Handboll",
+    "https://sv.wikipedia.org/wiki/Örebro_SK",
+    "https://www.laget.se/oskh/About"
+   ],
+   "notes": "White/black only; no documented accent colour.",
+   "review": [
+    "monochrome shirt without documented accent colour → ice-silver neon",
+    "White primary with black secondary only; no documented accent colour for the neon."
+   ]
+  }
+ }
+]

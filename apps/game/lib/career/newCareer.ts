@@ -7,7 +7,7 @@ import type { CareerEvent } from './careerEvents';
 import { displaceIncumbentHeadCoach } from "../staff/headCoachDisplacement";
 import { emptyMatchFitnessLedger, LEGACY_MATCH_FITNESS, PRESEASON_MATCH_FITNESS } from "../players/matchFitness";
 import { generateDoubleRoundRobin } from "@handball-manager/game-simulation";
-import { GAME_CURRENT_DATE, TUMBA_SQUAD, getClub, getClubsByCompetition } from "../game-data";
+import { CLUB_WORLD_EPOCH, GAME_CURRENT_DATE, TUMBA_SQUAD, getClub, getClubsByCompetition } from "../game-data";
 import { getRealLeagueSchedule } from "../game-data/realLeagueSchedules";
 import type { PlayerMock } from "../game-data";
 import { addDays } from "./dateUtils";
@@ -27,6 +27,7 @@ import { ensureCareerPlayerSquadStatus } from "./squadStatus";
 import { ensureDivision1PlayerEconomicIdentity } from "./division1Integration";
 import { ensureWorldPoolPlayerEconomicIdentity } from "./worldPoolIntegration";
 import { seedPermanentBTeamPartnerships } from "./clubPartnerships";
+import { seedStaticRelationPartnerships } from "./staticRelationPartnerships";
 import { seedScoutPool } from "../staff/scoutPool";
 
 const FALLBACK_COMPETITION_ID = "swe-2"; // used only if playerClubId doesn't resolve to a known club
@@ -142,6 +143,8 @@ export function createNewCareerState(
     seasonId: "2026/27",
     competitionId,
     playerClubId,
+    // Club Identity C3: new careers start in the corrected 2026/27 club world.
+    clubWorldBaseline: CLUB_WORLD_EPOCH,
     gameDate: careerStartDate,
     seasonComplete: false,
     saveSeed,
@@ -253,7 +256,7 @@ export function createNewCareerState(
   // HM-CLUB-PARTNERSHIPS-1.0: the five canonical AFFILIATED_B_TEAM
   // relations exist from career start, regardless of which club the
   // manager plays -- world-state facts, not manager-specific choices.
-  const withPartnerships = seedPermanentBTeamPartnerships(withSquadStatus, careerStartDate);
+  const withPartnerships = seedStaticRelationPartnerships(seedPermanentBTeamPartnerships(withSquadStatus, careerStartDate), "CAREER_START", careerStartDate);
   // HM-STAFF-SCOUT-POOL-1.0: the 100-entry real-person scout source pool
   // (and its LIKELY_ELIGIBLE free-agent subset) exists from career
   // start, independent of which club the manager plays -- runs after

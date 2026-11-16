@@ -1,0 +1,1794 @@
+[
+  {
+    "id": "int-hard",
+    "name": "ALPLA HC Hard",
+    "status": "VERIFIED",
+    "confidence": 0.85,
+    "primary": "red",
+    "primaryMeasured": "#7E0E18",
+    "secondary": "white",
+    "secondaryMeasured": null,
+    "accent": "white",
+    "accentMeasured": null,
+    "pattern": "other",
+    "crest": {
+      "primary": "red",
+      "secondary": "white",
+      "note": "Round ALPLA HC Hard crest: white ring, red devil, black lettering. Matches the shirt."
+    },
+    "description": "Red shirt with white graphic details/lettering (\"Rote Teufel\"), red shorts.",
+    "team": "men-A",
+    "homeKit": true,
+    "season": "2026/27",
+    "photoDate": "2026-11-11",
+    "evidence": [
+      {
+        "url": "https://www.hchard.at/",
+        "type": "official-match-photo",
+        "date": "2026-11-11",
+        "screenshot": "evidence/int-hard-1.jpg",
+        "observation": "Official site hero (news 11.11.2026): men's A-team timeout, players in red Kempa shirts with white details. Photo is colour-graded dark, so the measured hex is darker than the real red."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "Matches prior red/white. Hex approximate (graded photo).",
+    "reviewReason": null
+  },
+  {
+    "id": "int-fivers",
+    "name": "Fivers Margareten",
+    "status": "VERIFIED",
+    "confidence": 0.8,
+    "primary": "red",
+    "primaryMeasured": "#CE1E36",
+    "secondary": "light-blue",
+    "secondaryMeasured": "#9BA4B7",
+    "accent": "white",
+    "accentMeasured": null,
+    "pattern": "stripes",
+    "crest": {
+      "primary": "red",
+      "secondary": "blue",
+      "note": "FIVERS logo: red lettering with blue/white star. Matches the red/light-blue shirt."
+    },
+    "description": "Red hummel shirt with thin light-blue/white diagonal chevron stripes, red shorts.",
+    "team": "men-A",
+    "homeKit": true,
+    "season": "2026/27",
+    "photoDate": "2026-11",
+    "evidence": [
+      {
+        "url": "https://fivers.at/",
+        "type": "official-match-photo",
+        "date": "2026-11-13",
+        "screenshot": "evidence/int-fivers-1.jpg",
+        "observation": "Official site slider (Ferlach preview, Nov 2026): men's player #65 jumping in red shirt with light-blue/white chevron stripes and red shorts."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "Resolves the Wikipedia conflict in favour of en.wiki red/light-blue; the de.wiki black kit was not seen. The photo does not state home/away, but red is the club colour across the site.",
+    "reviewReason": null
+  },
+  {
+    "id": "int-h71",
+    "name": "H71",
+    "status": "PROBABLE",
+    "confidence": 0.7,
+    "primary": "black",
+    "primaryMeasured": "#210E08",
+    "secondary": "maroon",
+    "secondaryMeasured": null,
+    "accent": "red",
+    "accentMeasured": null,
+    "pattern": "other",
+    "crest": {
+      "primary": "maroon",
+      "secondary": "white",
+      "note": "H71 crest: white \"H71\" on a dark maroon square."
+    },
+    "description": "Black/very dark shirt with dark-red/maroon graphic pattern, black shorts.",
+    "team": "men-A",
+    "homeKit": null,
+    "season": "2026/27",
+    "photoDate": "2026-10",
+    "evidence": [
+      {
+        "url": "https://www.h71.fo/klub/h71--3/nyheder/267619",
+        "type": "official-match-photo",
+        "date": "2026-10-27",
+        "screenshot": "evidence/int-h71-1.jpg",
+        "observation": "Official news \"Menninir fáa pólska mótstøðu\": H71 player in black shirt with maroon/red pattern vs opponents in white; caption says last match in Croatia (away). A promo for the home European Cup game in Hoyvík shows the same dark kit vs a blue opponent."
+      }
+    ],
+    "womenDiffer": true,
+    "notes": "The women's team wears white shirts on the same site. The men's home kit is likely the dark kit (shown in the home-match promo), but the clear match photo is from an away game.",
+    "reviewReason": "Only one clear match photo and it is away; home use inferred from a promo graphic. Measured hex is near-black."
+  },
+  {
+    "id": "int-veszprem-academy",
+    "name": "Veszprém Handball Academy",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "red",
+    "primaryMeasured": null,
+    "secondary": "white",
+    "secondaryMeasured": null,
+    "accent": null,
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked visually"
+    },
+    "description": "Assumed parent-club (Veszprém) red; no evidence that the academy team wears the parent kit.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://hu.wikipedia.org/wiki/One_Veszprém_KC",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      },
+      {
+        "url": "https://statshub.sportradar.com/easywin/en/match/63078005",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "NB I/B 25/26 table lists \"Veszprem Handball Academy U21\"; no kit info."
+      },
+      {
+        "url": "https://www.veszpremkc.hu",
+        "type": "text",
+        "date": "2026-11-13",
+        "screenshot": null,
+        "observation": "Tried in the browser this run; no usable men's A-team image."
+      },
+      {
+        "url": "https://www.veszpremhandball.hu",
+        "type": "text",
+        "date": "2026-11-13",
+        "screenshot": null,
+        "observation": "Tried in the browser this run; no usable men's A-team image."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only. This side is an U21 academy team (\"Veszprem Handball Academy U21\" in NB I/B tables), so it must not inherit One Veszprém red. veszpremkc.hu was blocked; veszpremhandball.hu is a parked domain. Prior: Colours are the parent club's; academy kit itself not documented.",
+    "reviewReason": "No image of the men's A-team home shirt could be seen; text evidence only."
+  },
+  {
+    "id": "int-meran",
+    "name": "Black Devils Meran Alperia",
+    "status": "VERIFIED",
+    "confidence": 0.85,
+    "primary": "black",
+    "primaryMeasured": "#302F33",
+    "secondary": "grey",
+    "secondaryMeasured": null,
+    "accent": "white",
+    "accentMeasured": null,
+    "pattern": "other",
+    "crest": {
+      "primary": "black",
+      "secondary": "white",
+      "note": "Black Devils shield in black and white with devil horns. Matches."
+    },
+    "description": "Anthracite/black shirt with darker grey graphic pattern and white sponsor lettering (Alperia); goalkeepers light grey.",
+    "team": "men-A",
+    "homeKit": true,
+    "season": "2026/27",
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://www.blackdevils.team/de/serie-a-berretta/11-0.html",
+        "type": "official-team-photo",
+        "date": "2026-11-13",
+        "screenshot": "evidence/int-meran-1.jpg",
+        "observation": "Official Serie A page team photo \"On Fire\": men's A-team in charcoal/black patterned shirts, GKs in light grey."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "Body measures charcoal (#302F33), named black. Monochrome; the only accent is white.",
+    "reviewReason": null
+  },
+  {
+    "id": "int-cologno",
+    "name": "Metelli Cologne",
+    "status": "VERIFIED",
+    "confidence": 0.8,
+    "primary": "grey",
+    "primaryMeasured": "#3E3D3F",
+    "secondary": "pink",
+    "secondaryMeasured": "#5D1E2F",
+    "accent": "black",
+    "accentMeasured": null,
+    "pattern": "other",
+    "crest": {
+      "primary": "pink",
+      "secondary": "white",
+      "note": "Small round crest on the fuchsia site header; fuchsia is the club brand colour."
+    },
+    "description": "Grey shirt body with fuchsia/pink upper chest and shoulders, black shorts.",
+    "team": "men-A",
+    "homeKit": true,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://www.pallamanocologne.it/",
+        "type": "official-match-photo",
+        "date": "2026-11-13",
+        "screenshot": "evidence/int-cologno-1.jpg",
+        "observation": "Official homepage hero: men's first team celebrating in their home hall, grey shirts with pink tops (Metelli sponsor), black shorts. The hero image has a dark overlay, so measured hexes are darkened."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "Identity: Pallamano Cologne (Brescia), not Köln; the site says Serie A Gold. Hexes are under a dark overlay: the real grey is lighter and the pink is fuchsia.",
+    "reviewReason": null
+  },
+  {
+    "id": "int-cassano",
+    "name": "Proger Cassano Magnago",
+    "status": "PROBABLE",
+    "confidence": 0.65,
+    "primary": "white",
+    "primaryMeasured": "#E2E6E5",
+    "secondary": "maroon",
+    "secondaryMeasured": "#5C192B",
+    "accent": "maroon",
+    "accentMeasured": null,
+    "pattern": "sleeves",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked visually"
+    },
+    "description": "White shirt with amaranth (maroon) sleeves and sponsor logos, amaranth shorts.",
+    "team": "men-A",
+    "homeKit": null,
+    "season": "2025/26",
+    "photoDate": "2026-05",
+    "evidence": [
+      {
+        "url": "https://www.ilgiorno.it/varese/sport/pallamano-cassano-magnago-scudetto-ezdg3vti",
+        "type": "press-photo",
+        "date": "2026-05-31",
+        "screenshot": "evidence/int-cassano-1.jpg",
+        "observation": "Press (Il Giorno) photo of the Serie A Gold 2025-26 title celebration in Sassari: Cassano men in white shirts with amaranth sleeves, amaranth shorts. Final played away from home."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "The \"maglia amaranto\" lead from the blocked run comes from a 2023-12 article, not 2026/27. No official club site found (handballcassano.it does not resolve). Senior team now run by Handball Cassano Magnago SSD.",
+    "reviewReason": "Press photo only, from a final away from home; 2026/27 home shirt not seen. White vs amaranth body still to confirm."
+  },
+  {
+    "id": "int-camerano",
+    "name": "Camerano",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "grey",
+    "primaryMeasured": null,
+    "secondary": "black",
+    "secondaryMeasured": null,
+    "accent": null,
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked visually"
+    },
+    "description": "Kit template: grey body, black sleeves and shorts; club colours stated as red-black.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://it.wikipedia.org/wiki/Pallamano_Camerano",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      },
+      {
+        "url": "https://www.federhandball.it/wp-content/uploads/2025/07/Comunicato-N.-40-finale-del-30.07.2025.pdf",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      },
+      {
+        "url": "https://www.pallamanocamerano.it",
+        "type": "text",
+        "date": "2026-11-13",
+        "screenshot": null,
+        "observation": "Tried in the browser this run; no usable men's A-team image."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only. pallamanocamerano.it is now an unrelated gambling site; no club image found. Prior: Club colours (red-black) conflict with kit template (grey/black).",
+    "reviewReason": "No image of the men's A-team home shirt could be seen; text evidence only."
+  },
+  {
+    "id": "int-paese",
+    "name": "Paese",
+    "status": "UNKNOWN",
+    "confidence": 0,
+    "primary": null,
+    "primaryMeasured": null,
+    "secondary": null,
+    "secondaryMeasured": null,
+    "accent": null,
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked visually"
+    },
+    "description": "No evidence found.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://www.federhandball.it/?p=10251",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only. No club site or images found; Paese is not in the 2026-27 Serie A Gold list per search. Prior: No it.wikipedia article (Pallamano Paese missing). Search budget exhausted.",
+    "reviewReason": "No kit evidence found."
+  },
+  {
+    "id": "int-fasano",
+    "name": "Serra Fasano",
+    "status": "UNCERTAIN",
+    "confidence": 0.2,
+    "primary": "white",
+    "primaryMeasured": null,
+    "secondary": "light-blue",
+    "secondaryMeasured": null,
+    "accent": null,
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked visually"
+    },
+    "description": "Club colours white and light blue (Junior Fasano); shirt not documented.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://it.wikipedia.org/wiki/Serie_A_Gold",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only. IDENTITY NOTE kept: \"Serra Fasano\" (Serie A Silver/Serie B) is a different club from Junior Fasano; the prior white/light-blue may belong to Junior Fasano. No image found. Prior: Only club colour statement; which colour is the shirt body is not known.",
+    "reviewReason": "No image of the men's A-team home shirt could be seen; text evidence only."
+  },
+  {
+    "id": "int-bevo",
+    "name": "Humby/Bevo HC",
+    "status": "VERIFIED",
+    "confidence": 0.9,
+    "primary": "yellow",
+    "primaryMeasured": "#E6B70A",
+    "secondary": "blue",
+    "secondaryMeasured": "#073E88",
+    "accent": "navy",
+    "accentMeasured": null,
+    "pattern": "other",
+    "crest": {
+      "primary": "blue",
+      "secondary": "white",
+      "note": "BEVO HC crest: blue with a white figure and a yellow accent."
+    },
+    "description": "Yellow shirt with large blue diagonal panels on the shoulders and lower body, blue collar/cuffs, blue shorts.",
+    "team": "men-A",
+    "homeKit": true,
+    "season": "2026/27",
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://bevohc.nl/teams/heren-1",
+        "type": "official-match-photo",
+        "date": "2026-11-13",
+        "screenshot": "evidence/int-bevo-1.jpg",
+        "observation": "Heren 1 header: home celebration in yellow/blue shirts (dark overlay)."
+      },
+      {
+        "url": "https://bevohc.nl//uploads/images/_500xAUTO_crop_center-center_none/6-Joey-Stromberg_WEB.png",
+        "type": "official-team-photo",
+        "date": "2026-11-13",
+        "screenshot": "evidence/int-bevo-2.jpg",
+        "observation": "Official squad portrait: yellow shirt with blue diagonal panels (measured)."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "Matches prior.",
+    "reviewReason": null
+  },
+  {
+    "id": "int-volendam",
+    "name": "KRAS/Volendam",
+    "status": "VERIFIED",
+    "confidence": 0.85,
+    "primary": "orange",
+    "primaryMeasured": "#F04E0A",
+    "secondary": "black",
+    "secondaryMeasured": "#2C3036",
+    "accent": "black",
+    "accentMeasured": null,
+    "pattern": "other",
+    "crest": {
+      "primary": "orange",
+      "secondary": "white",
+      "note": "KRAS/Volendam logo in orange and white."
+    },
+    "description": "Orange shirt with black graphic shoulders/side panels, black shorts.",
+    "team": "men-A",
+    "homeKit": true,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://www.handbalvolendam.nl/site/assets/img/bg-home4.jpg",
+        "type": "official-team-photo",
+        "date": "2026-11-13",
+        "screenshot": "evidence/int-volendam-1.jpg",
+        "observation": "Official site background composite: a men's first-team player (KRAS sponsor) in an orange shirt with black details and black shorts, next to women/youth players in the same kit family."
+      }
+    ],
+    "womenDiffer": false,
+    "notes": "Official site is handbalvolendam.nl. Composite promo image; season not stated.",
+    "reviewReason": null
+  },
+  {
+    "id": "int-aalsmeer",
+    "name": "RoyalFloraHolland/HV Aalsmeer",
+    "status": "VERIFIED",
+    "confidence": 0.8,
+    "primary": "navy",
+    "primaryMeasured": "#1A2A39",
+    "secondary": "gold",
+    "secondaryMeasured": null,
+    "accent": "gold",
+    "accentMeasured": null,
+    "pattern": "other",
+    "crest": {
+      "primary": "gold",
+      "secondary": "black",
+      "note": "HVA crest: gold on black."
+    },
+    "description": "Very dark navy (near-black) shirt with gold trim and sponsor details (FIQAS, Royal FloraHolland).",
+    "team": "men-A",
+    "homeKit": true,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://hvaalsmeer.nl/",
+        "type": "official-team-photo",
+        "date": "2026-11-13",
+        "screenshot": "evidence/int-aalsmeer-1.jpg",
+        "observation": "Official homepage header composite of men's first-team players in dark navy/black shirts with gold accents."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "The body reads near-black but measures dark navy (#1A2A39); prior said black. Gold trim confirmed visually.",
+    "reviewReason": null
+  },
+  {
+    "id": "int-wisla-plock",
+    "name": "ORLEN Wisła Płock",
+    "status": "VERIFIED",
+    "confidence": 0.9,
+    "primary": "blue",
+    "primaryMeasured": "#0291E0",
+    "secondary": "light-blue",
+    "secondaryMeasured": "#51B8F4",
+    "accent": "white",
+    "accentMeasured": null,
+    "pattern": "other",
+    "crest": {
+      "primary": "blue",
+      "secondary": "white",
+      "note": "Wisła Płock shield in blue and white. Matches."
+    },
+    "description": "Bright azure-blue Puma shirt with lighter-blue tonal pattern, white sponsor lettering (ORLEN), darker blue cuffs.",
+    "team": "men-A",
+    "homeKit": true,
+    "season": "2026/27",
+    "photoDate": "2026-09",
+    "evidence": [
+      {
+        "url": "https://sprwislaplock.pl/sklad-2026-2027/",
+        "type": "official-team-photo",
+        "date": "2026-11-13",
+        "screenshot": "evidence/int-wisla-plock-1.jpg",
+        "observation": "Official 2026/27 squad portrait (Zarabec #23): bright blue shirt with lighter blue pattern."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "Official site is sprwislaplock.pl. The colour is a bright azure, between blue and sky-blue.",
+    "reviewReason": null
+  },
+  {
+    "id": "int-sporting",
+    "name": "Sporting CP",
+    "status": "PROBABLE",
+    "confidence": 0.85,
+    "primary": "green",
+    "primaryMeasured": "#138354",
+    "secondary": "white",
+    "secondaryMeasured": null,
+    "accent": "black",
+    "accentMeasured": null,
+    "pattern": "hoops",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked visually"
+    },
+    "description": "Green and white horizontal hoops, black shorts.",
+    "team": "men-A",
+    "homeKit": true,
+    "season": "2025/26",
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://www.rtp.pt/noticias/sporting/sporting-vence-derbi-e-fecha-liga-de-andebol-com-pleno-de-vitorias_d1743117",
+        "type": "press-photo",
+        "date": "2026-05-23",
+        "screenshot": "evidence/int-sporting-1.jpg",
+        "observation": "Press (RTP) article image at Pavilhão João Rocha (green crowd): Sporting players in green/white hoops with black shorts vs a red-shirted opponent. Hoops confirmed visually."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "The hoop pattern is now confirmed by an image (it was inferred). Official sporting.pt handball pages redirected to the home page.",
+    "reviewReason": "Press photo, not an official club source; 2026/27 not seen."
+  },
+  {
+    "id": "int-alduhail",
+    "name": "Al Duhail",
+    "status": "VERIFIED",
+    "confidence": 0.8,
+    "primary": "red",
+    "primaryMeasured": "#AA1618",
+    "secondary": null,
+    "secondaryMeasured": null,
+    "accent": "white",
+    "accentMeasured": null,
+    "pattern": "solid",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked visually"
+    },
+    "description": "All-red shirt with subtle tonal pattern, red shorts.",
+    "team": "men-A",
+    "homeKit": null,
+    "season": "2026/27",
+    "photoDate": "2026-10",
+    "evidence": [
+      {
+        "url": "https://www.duhailsc.qa/homepage-handball",
+        "type": "official-match-photo",
+        "date": "2026-11-13",
+        "screenshot": "evidence/int-alduhail-1.jpg",
+        "observation": "Official club handball page photo (uploaded 2026-10): Al Duhail player in red shirt and red shorts shooting vs an opponent in yellow/blue."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "First handball-specific evidence; before this only the football kit was used as a proxy. Home/away not stated.",
+    "reviewReason": null
+  },
+  {
+    "id": "int-schaffhausen",
+    "name": "Kadetten Schaffhausen",
+    "status": "VERIFIED",
+    "confidence": 0.9,
+    "primary": "orange",
+    "primaryMeasured": "#F5905C",
+    "secondary": "black",
+    "secondaryMeasured": null,
+    "accent": "white",
+    "accentMeasured": null,
+    "pattern": "solid",
+    "crest": {
+      "primary": "black",
+      "secondary": "orange",
+      "note": "Kadetten signet in black/orange."
+    },
+    "description": "Orange Puma shirt with black details, black shorts; goalkeepers blue.",
+    "team": "men-A",
+    "homeKit": true,
+    "season": "2026/27",
+    "photoDate": "2026-07",
+    "evidence": [
+      {
+        "url": "https://kadettensh.ch/1-mannschaft/",
+        "type": "official-team-photo",
+        "date": "2026-11-13",
+        "screenshot": "evidence/int-schaffhausen-1.jpg",
+        "observation": "Official 2026/27 team photo: field players in orange shirts and black shorts."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "Studio light makes the orange read lighter (#F5905C).",
+    "reviewReason": null
+  },
+  {
+    "id": "den1-aalborg",
+    "name": "Aalborg Håndbold",
+    "status": "VERIFIED",
+    "confidence": 0.9,
+    "primary": "red",
+    "primaryMeasured": "#8B2624",
+    "secondary": "white",
+    "secondaryMeasured": null,
+    "accent": "white",
+    "accentMeasured": null,
+    "pattern": "solid",
+    "crest": {
+      "primary": "red",
+      "secondary": "white",
+      "note": "Aalborg Håndbold hexagon badge, red/white, on the chest."
+    },
+    "description": "Red hummel shirt with tonal pattern and white shoulder details, red shorts.",
+    "team": "men-A",
+    "homeKit": true,
+    "season": "2026/27",
+    "photoDate": "2026-08",
+    "evidence": [
+      {
+        "url": "https://aalborghaandbold.dk/hold/liga/",
+        "type": "official-team-photo",
+        "date": "2026-11-13",
+        "screenshot": "evidence/den1-aalborg-1.jpg",
+        "observation": "Official 2026/27 squad portrait (Lukas Nilsson #3): red shirt, red shorts."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "Shorts are red (prior said white). The portrait measures darker than the real red.",
+    "reviewReason": null
+  },
+  {
+    "id": "den1-bjerringbro",
+    "name": "Bjerringbro-Silkeborg",
+    "status": "VERIFIED",
+    "confidence": 0.85,
+    "primary": "black",
+    "primaryMeasured": "#171717",
+    "secondary": "yellow",
+    "secondaryMeasured": "#C8CF27",
+    "accent": "yellow",
+    "accentMeasured": null,
+    "pattern": "other",
+    "crest": {
+      "primary": "white",
+      "secondary": "black",
+      "note": "BSH eagle crest, white on black."
+    },
+    "description": "Black adidas shirt with yellow shoulder stripes and white sponsor lettering (Grundfos, Jyske Bank).",
+    "team": "men-A",
+    "homeKit": true,
+    "season": "2026/27",
+    "photoDate": "2026-08",
+    "evidence": [
+      {
+        "url": "https://bjerringbro-silkeborg.dk/holdet/",
+        "type": "official-team-photo",
+        "date": "2026-11-13",
+        "screenshot": "evidence/den1-bjerringbro-1.jpg",
+        "observation": "Official 2026/27 squad portrait (#4): black shirt with yellow three-stripe shoulders. The image is stylised (background desaturated, yellow kept)."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "The accent changes from white (prior) to yellow, which gives a real colour accent.",
+    "reviewReason": null
+  },
+  {
+    "id": "den1-fredericia",
+    "name": "Fredericia HK",
+    "status": "VERIFIED",
+    "confidence": 0.8,
+    "primary": "red",
+    "primaryMeasured": "#961630",
+    "secondary": "white",
+    "secondaryMeasured": null,
+    "accent": "navy",
+    "accentMeasured": null,
+    "pattern": "other",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked visually"
+    },
+    "description": "Deep red shirt with white details; goalkeepers navy.",
+    "team": "men-A",
+    "homeKit": true,
+    "season": "2025/26",
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://ehfel.eurohandball.com/men/2025-26/clubs/details/7TEUyarPrgtD-hkwAREsnQ/FredericiaH%C3%A5ndboldklub",
+        "type": "league-photo",
+        "date": "2026-11-13",
+        "screenshot": "evidence/den1-fredericia-1.jpg",
+        "observation": "EHF European League 2025/26 official team photo: field players in red shirts with white details, GKs in navy."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "The club site fredericiahk.dk timed out. Photo is from 2025/26.",
+    "reviewReason": null
+  },
+  {
+    "id": "den1-gog",
+    "name": "GOG Håndbold",
+    "status": "VERIFIED",
+    "confidence": 0.9,
+    "primary": "yellow",
+    "primaryMeasured": "#F8BE38",
+    "secondary": "red",
+    "secondaryMeasured": "#CD0C2A",
+    "accent": "red",
+    "accentMeasured": null,
+    "pattern": "other",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked visually"
+    },
+    "description": "Yellow shirt with red shoulder/sleeve panels, red shorts.",
+    "team": "men-A",
+    "homeKit": true,
+    "season": "2026/27",
+    "photoDate": "2026-08",
+    "evidence": [
+      {
+        "url": "https://gog.dk/holdet-2025-2026/",
+        "type": "official-team-photo",
+        "date": "2026-11-13",
+        "screenshot": "evidence/den1-gog-1.jpg",
+        "observation": "Official \"Holdet 2026/2027\" team photo: yellow/red shirts, red shorts; GKs green."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "Matches prior.",
+    "reviewReason": null
+  },
+  {
+    "id": "den1-grindsted",
+    "name": "Grindsted GIF",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "blue",
+    "primaryMeasured": null,
+    "secondary": "black",
+    "secondaryMeasured": null,
+    "accent": null,
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked visually"
+    },
+    "description": "Blue shirt, black shorts.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://en.wikipedia.org/wiki/Grindsted_GIF_H%C3%A5ndbold",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      },
+      {
+        "url": "https://www.ggif.dk",
+        "type": "text",
+        "date": "2026-11-13",
+        "screenshot": null,
+        "observation": "Tried in the browser this run; no usable men's A-team image."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only. Relegated after 2025/26. ggif.dk has a certificate error; no image found. Prior: Only Wikipedia evidence. Club reported relegated after 2025/26.",
+    "reviewReason": "No image of the men's A-team home shirt could be seen; text evidence only."
+  },
+  {
+    "id": "den1-hoj",
+    "name": "HØJ Elite",
+    "status": "VERIFIED",
+    "confidence": 0.9,
+    "primary": "white",
+    "primaryMeasured": "#DFE0E5",
+    "secondary": "red",
+    "secondaryMeasured": "#CB1F1B",
+    "accent": "red",
+    "accentMeasured": null,
+    "pattern": "sleeves",
+    "crest": {
+      "primary": "red",
+      "secondary": "white",
+      "note": "Round HØJ crest in red/white."
+    },
+    "description": "White body with red shoulders/sleeves and DSV sponsor, black shorts; GKs blue.",
+    "team": "men-A",
+    "homeKit": true,
+    "season": "2026/27",
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://hojelitehaandbold.dk/liga-herrer",
+        "type": "official-team-photo",
+        "date": "2026-11-13",
+        "screenshot": "evidence/den1-hoj-1.jpg",
+        "observation": "Official men's page team photo (\"1. Division Herrer\"): white/red shirts, black shorts."
+      }
+    ],
+    "womenDiffer": false,
+    "notes": "The women's team wears the same white/red design. The men now play in 1. Division Herrer (relegated); home venue is Ølstykke-hallerne (Zealand), so the batch city Hjørring looks wrong. Identity not changed.",
+    "reviewReason": null
+  },
+  {
+    "id": "den1-morsthy",
+    "name": "Mors-Thy Håndbold",
+    "status": "VERIFIED",
+    "confidence": 0.85,
+    "primary": "blue",
+    "primaryMeasured": "#0062D9",
+    "secondary": "black",
+    "secondaryMeasured": null,
+    "accent": "white",
+    "accentMeasured": null,
+    "pattern": "solid",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked visually"
+    },
+    "description": "Bright blue shirt with black collar and cuffs, white sponsor lettering.",
+    "team": "men-A",
+    "homeKit": true,
+    "season": "2026/27",
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://morsthy.dk/truppen/ligaholdet",
+        "type": "official-team-photo",
+        "date": "2026-11-13",
+        "screenshot": "evidence/den1-morsthy-1.jpg",
+        "observation": "Official Ligaholdet squad portrait (Frederik Bak #8): bright blue shirt with black trim."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "The away kit is white (seen in a Skjern home photo).",
+    "reviewReason": null
+  },
+  {
+    "id": "den1-nordsjaelland",
+    "name": "Nordsjælland Håndbold",
+    "status": "VERIFIED",
+    "confidence": 0.85,
+    "primary": "dark-green",
+    "primaryMeasured": "#1B5650",
+    "secondary": "white",
+    "secondaryMeasured": null,
+    "accent": "white",
+    "accentMeasured": null,
+    "pattern": "other",
+    "crest": {
+      "primary": "dark-green",
+      "secondary": "white",
+      "note": "NH crest: dark green with a crown."
+    },
+    "description": "Dark green Craft shirt with white collar/trim and tonal pattern, green shorts.",
+    "team": "men-A",
+    "homeKit": true,
+    "season": "2026/27",
+    "photoDate": "2026-07",
+    "evidence": [
+      {
+        "url": "https://www.nordsjaelland-haandbold.dk/holdet/truppen/",
+        "type": "official-team-photo",
+        "date": "2026-11-13",
+        "screenshot": "evidence/den1-nordsjaelland-2.jpg",
+        "observation": "Official squad portrait (#37, uploaded 2026/07): dark green shirt, white collar."
+      },
+      {
+        "url": "https://www.nordsjaelland-haandbold.dk/",
+        "type": "official-team-photo",
+        "date": "2026-11-13",
+        "screenshot": "evidence/den1-nordsjaelland-1.jpg",
+        "observation": "Official \"Den nye officielle kamptrøje 2026\" banner with a player in the dark green shirt."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "Changes from light-green (prior) to dark-green.",
+    "reviewReason": null
+  },
+  {
+    "id": "den1-ribeesbjerg",
+    "name": "Ribe-Esbjerg HH",
+    "status": "VERIFIED",
+    "confidence": 0.8,
+    "primary": "blue",
+    "primaryMeasured": "#3C5A8F",
+    "secondary": "white",
+    "secondaryMeasured": null,
+    "accent": "white",
+    "accentMeasured": null,
+    "pattern": "solid",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked visually"
+    },
+    "description": "Blue Craft shirt with white collar and cuff trim, white sponsor lettering.",
+    "team": "men-A",
+    "homeKit": true,
+    "season": "2026/27",
+    "photoDate": "2026-11",
+    "evidence": [
+      {
+        "url": "https://rehh.dk/",
+        "type": "official-team-photo",
+        "date": "2026-11-13",
+        "screenshot": "evidence/den1-ribeesbjerg-1.jpg",
+        "observation": "Official site news cut-out of a player (Even Haugli, Nov 2026) in a blue shirt with white trim."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "Prior said navy; the shirt looks mid/royal blue. Studio light mutes the measured hex.",
+    "reviewReason": null
+  },
+  {
+    "id": "den1-skanderborg",
+    "name": "Skanderborg Aarhus",
+    "status": "PROBABLE",
+    "confidence": 0.7,
+    "primary": "white",
+    "primaryMeasured": "#C4CBD6",
+    "secondary": "navy",
+    "secondaryMeasured": "#535F7D",
+    "accent": "navy",
+    "accentMeasured": null,
+    "pattern": "other",
+    "crest": {
+      "primary": "navy",
+      "secondary": "white",
+      "note": "SAH round badge in navy/white."
+    },
+    "description": "White Puma shirt with a large navy halftone V/chevron panel across the front and navy shoulder trim.",
+    "team": "men-A",
+    "homeKit": null,
+    "season": "2026/27",
+    "photoDate": "2026-09",
+    "evidence": [
+      {
+        "url": "https://sa-h.dk/truppen/spillere/",
+        "type": "official-team-photo",
+        "date": "2026-11-13",
+        "screenshot": "evidence/den1-skanderborg-1.jpg",
+        "observation": "Official 2026/27 player card (#7 Christoffer Dreyer): white shirt with a big navy halftone front panel."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "Prior said navy shirt. The current shirt is roughly half white, half navy, with white reading as the base. Only one portrait seen; no match photo. Official site is sa-h.dk.",
+    "reviewReason": "Unclear whether white or navy should count as primary; home/away not confirmed by a match photo."
+  },
+  {
+    "id": "den1-skjern",
+    "name": "Skjern Håndbold",
+    "status": "VERIFIED",
+    "confidence": 0.9,
+    "primary": "green",
+    "primaryMeasured": "#15855F",
+    "secondary": "white",
+    "secondaryMeasured": null,
+    "accent": "black",
+    "accentMeasured": null,
+    "pattern": "solid",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked visually"
+    },
+    "description": "Green Puma shirt with white sponsor lettering, black shorts.",
+    "team": "men-A",
+    "homeKit": true,
+    "season": "2026/27",
+    "photoDate": "2026",
+    "evidence": [
+      {
+        "url": "https://www.skjernhaandbold.dk/",
+        "type": "official-match-photo",
+        "date": "2026-11-13",
+        "screenshot": "evidence/den1-skjern-1.jpg",
+        "observation": "Official homepage match photo vs Mors-Thy (Mors in their white away kit): Skjern in green shirts, black shorts."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "Matches prior.",
+    "reviewReason": null
+  },
+  {
+    "id": "den1-sonderjyske",
+    "name": "SønderjyskE Håndbold",
+    "status": "UNCERTAIN",
+    "confidence": 0.4,
+    "primary": "sky-blue",
+    "primaryMeasured": null,
+    "secondary": "white",
+    "secondaryMeasured": null,
+    "accent": "white",
+    "accentMeasured": null,
+    "pattern": "unknown",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked visually"
+    },
+    "description": "Light/sky-blue shirt with white collar, light-blue shorts.",
+    "team": "unknown",
+    "homeKit": null,
+    "season": null,
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://en.wikipedia.org/wiki/S%C3%B8nderjyskE_Herreh%C3%A5ndbold",
+        "type": "text",
+        "date": null,
+        "screenshot": null,
+        "observation": "Not viewed as image in phase 2 (browser tab cap reached); carried forward from prior/text research only."
+      },
+      {
+        "url": "https://soenderjyske.dk/herrehaandbold",
+        "type": "text",
+        "date": "2026-11-13",
+        "screenshot": null,
+        "observation": "Tried in the browser this run; no usable men's A-team image."
+      },
+      {
+        "url": "https://www.sonderjyske.dk/",
+        "type": "text",
+        "date": "2026-11-13",
+        "screenshot": null,
+        "observation": "Tried in the browser this run; no usable men's A-team image."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "text evidence only. Club site not found (soenderjyske.dk is unrelated; the sonderjyske.dk handball path returns 404). Prior: Women's page shows the same kit. Only Wikipedia evidence; search budget ran out before shop check.",
+    "reviewReason": "No image of the men's A-team home shirt could be seen; text evidence only."
+  },
+  {
+    "id": "den1-tms",
+    "name": "TMS Ringsted",
+    "status": "VERIFIED",
+    "confidence": 0.85,
+    "primary": "teal",
+    "primaryMeasured": "#3C948B",
+    "secondary": "navy",
+    "secondaryMeasured": "#1E1D23",
+    "accent": "yellow",
+    "accentMeasured": null,
+    "pattern": "other",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked visually"
+    },
+    "description": "Teal/jade-green Select shirt with tonal pattern and navy collar, navy shorts; yellow sponsor (BORUP).",
+    "team": "men-A",
+    "homeKit": true,
+    "season": "2026/27",
+    "photoDate": "2026-08",
+    "evidence": [
+      {
+        "url": "https://tms-ringsted.dk/herretruppen/",
+        "type": "official-team-photo",
+        "date": "2026-11-13",
+        "screenshot": "evidence/den1-tms-1.jpg",
+        "observation": "Official Herretruppen squad portrait (#5, uploaded 2026/08): teal-green shirt, navy shorts."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "Prior said green; the shade is teal/jade (#3C948B).",
+    "reviewReason": null
+  },
+  {
+    "id": "den1-tth",
+    "name": "TTH Holstebro",
+    "status": "VERIFIED",
+    "confidence": 0.85,
+    "primary": "white",
+    "primaryMeasured": "#E7E4EB",
+    "secondary": "black",
+    "secondaryMeasured": null,
+    "accent": "black",
+    "accentMeasured": null,
+    "pattern": "other",
+    "crest": {
+      "primary": "white",
+      "secondary": "black",
+      "note": "TTH round crest in black/white."
+    },
+    "description": "White shirt with black/grey details, black shorts; GKs yellow.",
+    "team": "men-A",
+    "homeKit": true,
+    "season": "2026/27",
+    "photoDate": "2026-08-04",
+    "evidence": [
+      {
+        "url": "https://tthholstebro.dk/holdet/",
+        "type": "official-team-photo",
+        "date": "2026-11-13",
+        "screenshot": "evidence/den1-tth-1.jpg",
+        "observation": "Official 2026/27 team photo (2026-08-04): field players in white shirts, black shorts. The homepage hype video also shows the white kit (\"Kom i hvidt\")."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "Official site is tthholstebro.dk. Monochrome white/black.",
+    "reviewReason": null
+  },
+  {
+    "id": "ger1-bergischer",
+    "name": "Bergischer HC",
+    "status": "VERIFIED",
+    "confidence": 0.85,
+    "primary": "navy",
+    "primaryMeasured": "#2C4661",
+    "secondary": "white",
+    "secondaryMeasured": null,
+    "accent": "light-blue",
+    "accentMeasured": null,
+    "pattern": "other",
+    "crest": {
+      "primary": "navy",
+      "secondary": "white",
+      "note": "BHC lion crest, white on navy."
+    },
+    "description": "Navy shirt with white collar/cuffs and thin light-blue pinstripes, red KNIPEX sleeve patch.",
+    "team": "men-A",
+    "homeKit": true,
+    "season": "2026/27",
+    "photoDate": "2026-10-25",
+    "evidence": [
+      {
+        "url": "https://bhc06.de/team/",
+        "type": "official-team-photo",
+        "date": "2026-11-13",
+        "screenshot": "evidence/ger1-bergischer-1.jpg",
+        "observation": "Official 2026/27 autograph card (#7 Becher): navy shirt with white trim."
+      },
+      {
+        "url": "https://www.opel-hbl.de/image/Redaktion/Saison_2026_27/HBL/261025_BHC.jpg?h=500",
+        "type": "league-photo",
+        "date": "2026-10-25",
+        "screenshot": "evidence/ger1-bergischer-2.jpg",
+        "observation": "HBL editorial match photo: BHC field player #53 in navy (measured)."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "Changes from royal-blue with a white band (old Wikipedia template) to navy. Official site is bhc06.de.",
+    "reviewReason": null
+  },
+  {
+    "id": "ger1-fuchse",
+    "name": "Füchse Berlin",
+    "status": "VERIFIED",
+    "confidence": 0.9,
+    "primary": "green",
+    "primaryMeasured": "#38B95C",
+    "secondary": "dark-green",
+    "secondaryMeasured": null,
+    "accent": "white",
+    "accentMeasured": null,
+    "pattern": "stripes",
+    "crest": {
+      "primary": "green",
+      "secondary": "red",
+      "note": "Füchse crest: green shield with a red fox."
+    },
+    "description": "Bright green adidas shirt with a subtle darker-green vertical pattern, green shorts; GKs light blue.",
+    "team": "men-A",
+    "homeKit": true,
+    "season": "2026/27",
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://fuechse.berlin/o.red.t/team.php",
+        "type": "official-team-photo",
+        "date": "2026-11-13",
+        "screenshot": "evidence/ger1-fuchse-1.jpg",
+        "observation": "Official 2026/27 team photo with HBL logo: green shirts and shorts."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "Supplier is now adidas (prior: PUMA 24/25). THW Kiel uses the same image as a match preview.",
+    "reviewReason": null
+  },
+  {
+    "id": "ger1-eisenach",
+    "name": "ThSV Eisenach",
+    "status": "VERIFIED",
+    "confidence": 0.85,
+    "primary": "royal-blue",
+    "primaryMeasured": "#024BAE",
+    "secondary": "white",
+    "secondaryMeasured": null,
+    "accent": "white",
+    "accentMeasured": null,
+    "pattern": "stripes",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked visually"
+    },
+    "description": "Royal-blue Kempa shirt with thin vertical pinstripes, white shoulders/sleeves and white collar.",
+    "team": "men-A",
+    "homeKit": true,
+    "season": "2026/27",
+    "photoDate": "2026",
+    "evidence": [
+      {
+        "url": "https://www.thsv-eisenach.de/",
+        "type": "official-team-photo",
+        "date": "2026-11-13",
+        "screenshot": "evidence/ger1-eisenach-1.jpg",
+        "observation": "Official homepage news photo (Stupka posing): royal-blue shirt with white sleeves."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "Matches prior.",
+    "reviewReason": null
+  },
+  {
+    "id": "ger1-erlangen",
+    "name": "HC Erlangen",
+    "status": "VERIFIED",
+    "confidence": 0.9,
+    "primary": "black",
+    "primaryMeasured": "#0B0C0F",
+    "secondary": "white",
+    "secondaryMeasured": null,
+    "accent": "red",
+    "accentMeasured": null,
+    "pattern": "other",
+    "crest": {
+      "primary": "red",
+      "secondary": "black",
+      "note": "HCE roundel on the chest in red/blue/white."
+    },
+    "description": "Black adidas shirt with white three-stripe shoulders and red numbers.",
+    "team": "men-A",
+    "homeKit": true,
+    "season": "2026/27",
+    "photoDate": "2026-10-11",
+    "evidence": [
+      {
+        "url": "https://www.hc-erlangen.de/",
+        "type": "official-match-photo",
+        "date": "2026-10-11",
+        "screenshot": "evidence/ger1-erlangen-1.jpg",
+        "observation": "Official home match photo HCE vs Melsungen (2026-10-11): Erlangen players in black shirts, white stripes, red numbers."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "Black confirmed; red appears as the number colour.",
+    "reviewReason": null
+  },
+  {
+    "id": "ger1-flensburg",
+    "name": "SG Flensburg-Handewitt",
+    "status": "VERIFIED",
+    "confidence": 0.9,
+    "primary": "navy",
+    "primaryMeasured": "#182A58",
+    "secondary": "red",
+    "secondaryMeasured": null,
+    "accent": "white",
+    "accentMeasured": null,
+    "pattern": "other",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked visually"
+    },
+    "description": "Navy hummel shirt with subtle tonal pinstripes and small red/white details, navy shorts.",
+    "team": "men-A",
+    "homeKit": true,
+    "season": "2026/27",
+    "photoDate": "2026-11-12",
+    "evidence": [
+      {
+        "url": "https://www.sg-flensburg-handewitt.de/",
+        "type": "official-match-photo",
+        "date": "2026-09-20",
+        "screenshot": "evidence/ger1-flensburg-1.jpg",
+        "observation": "Official home match photo (2026-09-20): Flensburg player in navy vs an opponent in red."
+      },
+      {
+        "url": "https://www.sg-flensburg-handewitt.de/",
+        "type": "official-match-photo",
+        "date": "2026-11-12",
+        "screenshot": "evidence/ger1-flensburg-2.jpg",
+        "observation": "DHB-Pokal home win (2026-11-12, Hummelsport banners): team celebrating in navy."
+      },
+      {
+        "url": "https://www.vfl-gummersbach.de/wp-content/uploads/2026/11/spielbericht-vfl-flensburg-hp-1024x576.jpg",
+        "type": "official-match-photo",
+        "date": "2026-11",
+        "screenshot": "evidence/ger1-flensburg-3.jpg",
+        "observation": "Gummersbach report from the game at Flensburg: hosts in navy, Gummersbach in their white away kit."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "CHANGE: the prior VERIFIED red (\"chili pepper\", 25/26) is out of date. The 2026/27 home kit is navy.",
+    "reviewReason": null
+  },
+  {
+    "id": "ger1-goppingen",
+    "name": "Frisch Auf Göppingen",
+    "status": "VERIFIED",
+    "confidence": 0.9,
+    "primary": "dark-green",
+    "primaryMeasured": "#065A50",
+    "secondary": "white",
+    "secondaryMeasured": null,
+    "accent": "light-green",
+    "accentMeasured": null,
+    "pattern": "other",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked visually"
+    },
+    "description": "Dark green Kempa shirt with a lighter green graphic pattern, white shorts.",
+    "team": "men-A",
+    "homeKit": true,
+    "season": "2026/27",
+    "photoDate": null,
+    "evidence": [
+      {
+        "url": "https://www.frischauf-gp.de/profis/kader/",
+        "type": "official-team-photo",
+        "date": "2026-11-13",
+        "screenshot": "evidence/ger1-goppingen-1.jpg",
+        "observation": "Official team photo 2026/27 (\"Zusammen grün\"): dark green shirts, white shorts."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "Green body now confirmed (prior was uncertain).",
+    "reviewReason": null
+  },
+  {
+    "id": "ger1-gummersbach",
+    "name": "VfL Gummersbach",
+    "status": "VERIFIED",
+    "confidence": 0.85,
+    "primary": "blue",
+    "primaryMeasured": "#1B4A80",
+    "secondary": "white",
+    "secondaryMeasured": null,
+    "accent": "white",
+    "accentMeasured": null,
+    "pattern": "stripes",
+    "crest": {
+      "primary": "blue",
+      "secondary": "white",
+      "note": "VfL crest: blue/white roundel."
+    },
+    "description": "Blue Puma shirt with thin white vertical pinstripes, blue shorts; the away kit is white with light-blue sleeves.",
+    "team": "men-A",
+    "homeKit": true,
+    "season": "2026/27",
+    "photoDate": "2026-07",
+    "evidence": [
+      {
+        "url": "https://www.vfl-gummersbach.de/",
+        "type": "official-team-photo",
+        "date": "2026-07",
+        "screenshot": "evidence/ger1-gummersbach-1.jpg",
+        "observation": "Official \"A new era: 26/27 VfL Gummersbach kits\" home/away graphic: players in blue pinstripe and in white/light-blue."
+      },
+      {
+        "url": "https://www.vfl-gummersbach.de/wp-content/uploads/2026/11/spielbericht-vfl-flensburg-hp-1024x576.jpg",
+        "type": "official-match-photo",
+        "date": "2026-11",
+        "screenshot": "evidence/ger1-gummersbach-2.jpg",
+        "observation": "Match report from the game at Flensburg: VfL in the white/light-blue away kit, which confirms blue is home."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "Matches prior blue.",
+    "reviewReason": null
+  },
+  {
+    "id": "ger1-hamburg",
+    "name": "HSV Hamburg",
+    "status": "PROBABLE",
+    "confidence": 0.7,
+    "primary": "red",
+    "primaryMeasured": "#A73D49",
+    "secondary": "navy",
+    "secondaryMeasured": "#182071",
+    "accent": "white",
+    "accentMeasured": null,
+    "pattern": "other",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked visually"
+    },
+    "description": "Red shirt with blue side/shoulder panels, white shorts.",
+    "team": "men-A",
+    "homeKit": true,
+    "season": "2025/26",
+    "photoDate": "2025-11-23",
+    "evidence": [
+      {
+        "url": "https://hamburg-handball.de/",
+        "type": "official-match-photo",
+        "date": "2025-11-23",
+        "screenshot": "evidence/ger1-hamburg-1.jpg",
+        "observation": "Official site thumbnail of the home match vs HC Erlangen (2025-11-23): Hamburg player in a red/blue shirt with white shorts (small image)."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "The club now appears as \"Handball Club Hamburg\" (site hamburg-handball.de; HBL team list). Identity not changed. Only a small 2025/26 image was found.",
+    "reviewReason": "2026/27 kit not seen; small image."
+  },
+  {
+    "id": "ger1-hannover",
+    "name": "TSV Hannover-Burgdorf",
+    "status": "VERIFIED",
+    "confidence": 0.9,
+    "primary": "green",
+    "primaryMeasured": "#009142",
+    "secondary": "white",
+    "secondaryMeasured": null,
+    "accent": "black",
+    "accentMeasured": null,
+    "pattern": "other",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked visually"
+    },
+    "description": "Green adidas shirt with white/black stripe sleeves and white details.",
+    "team": "men-A",
+    "homeKit": true,
+    "season": "2026/27",
+    "photoDate": "2026-08-30",
+    "evidence": [
+      {
+        "url": "https://www.die-recken.de/",
+        "type": "official-match-photo",
+        "date": "2026-08-30",
+        "screenshot": "evidence/ger1-hannover-1.jpg",
+        "observation": "Official home match photo vs Rhein-Neckar Löwen (2026-08-30): team huddle in green shirts."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "Matches prior.",
+    "reviewReason": null
+  },
+  {
+    "id": "ger1-kiel",
+    "name": "THW Kiel",
+    "status": "VERIFIED",
+    "confidence": 0.85,
+    "primary": "white",
+    "primaryMeasured": "#C0D8F2",
+    "secondary": "black",
+    "secondaryMeasured": null,
+    "accent": "black",
+    "accentMeasured": null,
+    "pattern": "other",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked visually"
+    },
+    "description": "White shirt with black details and sponsor lettering (HEITEC), white shorts with black trim.",
+    "team": "men-A",
+    "homeKit": null,
+    "season": "2026/27",
+    "photoDate": "2026-11",
+    "evidence": [
+      {
+        "url": "https://thw-handball.de/",
+        "type": "official-match-photo",
+        "date": "2026-11",
+        "screenshot": "evidence/ger1-kiel-1.jpg",
+        "observation": "Official photo after the win at TBV Lemgo (Nov 2026): Kiel team in white shirts and shorts. Hall light tints the measured white blue."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "This photo is from an away game; white is the long-standing home colour and matches the 25/26 PUMA home listing.",
+    "reviewReason": null
+  },
+  {
+    "id": "ger1-leipzig",
+    "name": "SC DHfK Leipzig",
+    "status": "VERIFIED",
+    "confidence": 0.85,
+    "primary": "dark-green",
+    "primaryMeasured": "#164A3E",
+    "secondary": "white",
+    "secondaryMeasured": null,
+    "accent": "white",
+    "accentMeasured": null,
+    "pattern": "stripes",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked visually"
+    },
+    "description": "Dark green shirt with thin white pinstripes and white trim, green shorts. A pink alternate kit also exists.",
+    "team": "men-A",
+    "homeKit": true,
+    "season": "2026/27",
+    "photoDate": "2026-09-12",
+    "evidence": [
+      {
+        "url": "https://www.scdhfk-handball.de/",
+        "type": "official-match-photo",
+        "date": "2026-09-12",
+        "screenshot": "evidence/ger1-leipzig-1.jpg",
+        "observation": "Official match photo (2026-09-12): Leipzig players in dark green pinstripe shirts."
+      },
+      {
+        "url": "https://www.scdhfk-handball.de/",
+        "type": "official-match-photo",
+        "date": "2026-10-08",
+        "screenshot": "evidence/ger1-leipzig-2.jpg",
+        "observation": "Official match photo (2026-10-08): player in the pink alternate kit."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "The club appears to play in the 2. HBL in 2026/27 (site lists Emsdetten, Coburg, Hüttenberg, Ferndorf). Identity not changed.",
+    "reviewReason": null
+  },
+  {
+    "id": "ger1-lemgo",
+    "name": "TBV Lemgo",
+    "status": "VERIFIED",
+    "confidence": 0.9,
+    "primary": "royal-blue",
+    "primaryMeasured": "#274381",
+    "secondary": "white",
+    "secondaryMeasured": null,
+    "accent": "white",
+    "accentMeasured": null,
+    "pattern": "stripes",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked visually"
+    },
+    "description": "Royal-blue Kempa shirt with white pinstripes and white trim, blue shorts.",
+    "team": "men-A",
+    "homeKit": true,
+    "season": "2026/27",
+    "photoDate": "2026-10-17",
+    "evidence": [
+      {
+        "url": "https://www.tbv-lemgo-lippe.de/",
+        "type": "official-match-photo",
+        "date": "2026-10-17",
+        "screenshot": "evidence/ger1-lemgo-1.jpg",
+        "observation": "Official home match TBV vs Göppingen (2026-10-17) walk-out: blue pinstripe shirts under blue stage light."
+      },
+      {
+        "url": "https://www.tbv-lemgo-lippe.de/wp-content/uploads/2026/07/Heimtrikot_26-2732.jpg",
+        "type": "official-team-photo",
+        "date": "2026-07",
+        "screenshot": "evidence/ger1-lemgo-2.jpg",
+        "observation": "Official \"Heimtrikot 26\" image worn by a player: blue with white pinstripes (measured)."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "Matches prior blue; the pinstripes are a new detail.",
+    "reviewReason": null
+  },
+  {
+    "id": "ger1-magdeburg",
+    "name": "SC Magdeburg",
+    "status": "VERIFIED",
+    "confidence": 0.9,
+    "primary": "green",
+    "primaryMeasured": "#156238",
+    "secondary": "red",
+    "secondaryMeasured": "#BE3E25",
+    "accent": "red",
+    "accentMeasured": null,
+    "pattern": "other",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked visually"
+    },
+    "description": "Green shirt with red side panels/shoulder, green shorts with a red side stripe.",
+    "team": "men-A",
+    "homeKit": true,
+    "season": "2026/27",
+    "photoDate": "2026-10-04",
+    "evidence": [
+      {
+        "url": "https://www.scm-handball.de/",
+        "type": "official-match-photo",
+        "date": "2026-10-04",
+        "screenshot": "evidence/ger1-magdeburg-1.jpg",
+        "observation": "Official home match photo vs HC Erlangen (2026-10-04): SCM player in a green/red shirt."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "Matches prior green/red.",
+    "reviewReason": null
+  },
+  {
+    "id": "ger1-melsungen",
+    "name": "MT Melsungen",
+    "status": "VERIFIED",
+    "confidence": 0.8,
+    "primary": "red",
+    "primaryMeasured": "#95034E",
+    "secondary": "white",
+    "secondaryMeasured": null,
+    "accent": "white",
+    "accentMeasured": null,
+    "pattern": "other",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked visually"
+    },
+    "description": "Red shirt with white details, red shorts; GK yellow.",
+    "team": "men-A",
+    "homeKit": true,
+    "season": "2026/27",
+    "photoDate": "2026-11",
+    "evidence": [
+      {
+        "url": "https://www.mt-melsungen.de/",
+        "type": "official-match-photo",
+        "date": "2026-11",
+        "screenshot": "evidence/ger1-melsungen-1.jpg",
+        "observation": "Official DHB-Pokal home match vs BHC (Nov 2026): Melsungen field players in red, GK in yellow. The arena lighting is magenta, so the hex leans pink."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "Another homepage photo labelled MT2 (second team) was excluded.",
+    "reviewReason": null
+  },
+  {
+    "id": "ger1-minden",
+    "name": "GWD Minden",
+    "status": "VERIFIED",
+    "confidence": 0.85,
+    "primary": "dark-green",
+    "primaryMeasured": "#1B4134",
+    "secondary": "white",
+    "secondaryMeasured": null,
+    "accent": "red",
+    "accentMeasured": null,
+    "pattern": "other",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked visually"
+    },
+    "description": "Dark green hummel shirt with a tonal chevron pattern and white trim, green shorts; red Melitta sponsor.",
+    "team": "men-A",
+    "homeKit": true,
+    "season": "2026/27",
+    "photoDate": "2026-08",
+    "evidence": [
+      {
+        "url": "https://gwd-minden.de/",
+        "type": "official-team-photo",
+        "date": "2026-11-13",
+        "screenshot": "evidence/ger1-minden-1.jpg",
+        "observation": "Official squad portrait (#22 Vorlicek, uploaded 2026/08): dark green shirt."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "The club plays in the 2. HBL in 2026/27 (site title). Identity not changed. The green is darker than prior.",
+    "reviewReason": null
+  },
+  {
+    "id": "ger1-rheinneckar",
+    "name": "Rhein-Neckar Löwen",
+    "status": "VERIFIED",
+    "confidence": 0.85,
+    "primary": "yellow",
+    "primaryMeasured": "#FADA15",
+    "secondary": "navy",
+    "secondaryMeasured": "#303B57",
+    "accent": "navy",
+    "accentMeasured": null,
+    "pattern": "other",
+    "crest": {
+      "primary": "yellow",
+      "secondary": "navy",
+      "note": "Löwen crest in yellow/navy."
+    },
+    "description": "Yellow shirt with navy collar/sleeve edges and a tonal pattern.",
+    "team": "men-A",
+    "homeKit": true,
+    "season": "2026/27",
+    "photoDate": "2026-07",
+    "evidence": [
+      {
+        "url": "https://www.rhein-neckar-loewen.de/",
+        "type": "official-team-photo",
+        "date": "2026-11-13",
+        "screenshot": "evidence/ger1-rheinneckar-1.jpg",
+        "observation": "Official \"Komm ins Rudel\" promo (2026/07): men's player in a yellow shirt with navy trim."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "Promo image, not a match photo; agrees with the prior press source.",
+    "reviewReason": null
+  },
+  {
+    "id": "ger1-stuttgart",
+    "name": "TVB Stuttgart",
+    "status": "VERIFIED",
+    "confidence": 0.9,
+    "primary": "royal-blue",
+    "primaryMeasured": "#212D93",
+    "secondary": "light-blue",
+    "secondaryMeasured": null,
+    "accent": "white",
+    "accentMeasured": null,
+    "pattern": "other",
+    "crest": {
+      "primary": null,
+      "secondary": null,
+      "note": "crest not checked visually"
+    },
+    "description": "Royal-blue shirt with light-blue patterned sleeves/shoulders, blue shorts; GK neon green.",
+    "team": "men-A",
+    "homeKit": true,
+    "season": "2026/27",
+    "photoDate": "2026-10-08",
+    "evidence": [
+      {
+        "url": "https://www.tvbstuttgart.de/",
+        "type": "official-match-photo",
+        "date": "2026-10-08",
+        "screenshot": "evidence/ger1-stuttgart-1.jpg",
+        "observation": "Official home match photo (2026-10-08, \"Stuttgart\" on court): team in royal-blue shirts and shorts."
+      }
+    ],
+    "womenDiffer": null,
+    "notes": "Blue body confirmed (prior was uncertain). Official site is tvbstuttgart.de.",
+    "reviewReason": null
+  }
+]

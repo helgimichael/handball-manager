@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { enterCareerAfterLoad, setMatchSpeed, showCourt2D } from './matchPrep';
 import { readFileSync, mkdirSync, writeFileSync } from 'node:fs';
 import { resolve, join } from 'node:path';
 import { createHash } from 'node:crypto';
@@ -29,9 +30,9 @@ test('normal career motion: live and immutable replay at 1x/4x/16x, pause and se
   const records:unknown[]=[];
   const initial=JSON.parse(readFileSync(resolve('../../docs/match-realism-v21/human-qa/match-007-initial.json'),'utf8')) as CareerSave;
   initial.careerState=advanceProductionMatch(initial.careerState!,400,false);
-  await install(page,initial);await page.goto(`${base}/career/match-day/swe-2-f7`);await expect(page.locator(court)).toBeVisible({timeout:60000});
+  await install(page,initial);await page.goto(`${base}/career/match-day/swe-2-f7`);await enterCareerAfterLoad(page);await showCourt2D(page);await expect(page.locator(court)).toBeVisible({timeout:60000});
   for(const speed of [1,4,16]){
-    await page.getByLabel('Matchhastighet',{exact:true}).selectOption(String(speed));await page.getByRole('button',{name:'Spela',exact:true}).click();
+    await setMatchSpeed(page,speed);await page.getByRole('button',{name:'Spela',exact:true}).click();
     const sequence=await sample(page,4);await page.getByRole('button',{name:'Pausa',exact:true}).click();records.push({mode:'live',speed,sequence});
     const paused=await sample(page,.3);expect(new Set(paused.map(s=>JSON.stringify(s.poses))).size).toBe(1);
   }
@@ -39,7 +40,7 @@ test('normal career motion: live and immutable replay at 1x/4x/16x, pause and se
   const completed=JSON.parse(readFileSync(resolve(process.env.HM_MOTION_QA_SAVE??'../../docs/match-realism-v21/human-qa/match-007-completed.json'),'utf8')) as CareerSave;
   const archive=completed.careerState!.matchArchives!['swe-2-f7'],frames=archiveFrames(archive);
   writeFileSync(join(output,'live-sequences.json'),JSON.stringify(records));
-  await install(page,completed);await page.goto(`${base}/career/match-day/swe-2-f7`);await expect(page.locator(court)).toBeVisible({timeout:30000});
+  await install(page,completed);await page.goto(`${base}/career/match-day/swe-2-f7`);await enterCareerAfterLoad(page);await showCourt2D(page);await expect(page.locator(court)).toBeVisible({timeout:30000});
   const slider=page.getByLabel('Position i reprisen',{exact:true});
   for(const speed of [1,4,16]){
     await slider.fill('450');await slider.press('ArrowRight');await slider.press('ArrowLeft');
@@ -61,7 +62,7 @@ test('full canonical replay and actual handball scenes in all three motion archi
   test.setTimeout(800000);mkdirSync(output,{recursive:true});const scenes:unknown[]=[];
   for(const index of [7,3,28]){
     const save=JSON.parse(readFileSync(resolve(`${process.env.HM_MOTION_ARCHIVE_DIR??'../../docs/match-motion-continuity/after-final'}/match-${String(index).padStart(3,'0')}-completed.json`),'utf8')) as CareerSave;
-    const archive=Object.values(save.careerState!.matchArchives!)[0];await install(page,save);await page.goto(`${base}/career/match-day/${archive.fixture.id}`);await expect(page.locator(court)).toBeVisible({timeout:60000});
+    const archive=Object.values(save.careerState!.matchArchives!)[0];await install(page,save);await page.goto(`${base}/career/match-day/${archive.fixture.id}`);await enterCareerAfterLoad(page);await showCourt2D(page);await expect(page.locator(court)).toBeVisible({timeout:60000});
     const cues=[['settled circulation',archive.events.find(e=>e.type==='PASS_RELEASED'&&e.details.phase==='ESTABLISHED')],['breakthrough',archive.events.find(e=>e.type==='DRIVE_RELEASED')],['defensive help',archive.events.find(e=>e.type==='CONTACT_EXECUTED')],['transition and retreat',archive.events.find(e=>e.type==='POSSESSION_CHANGED')],['pivot screen',archive.events.find(e=>e.type==='SCREEN_CONTACT')],['settled handoff',archive.events.find(e=>e.type==='ATTACK_SETTLED')]] as const;
     for(const [name,event] of cues){if(!event){scenes.push({index,name,available:false});continue;}const tick=Math.max(0,event.tick-15);const slider=page.getByLabel('Position i reprisen',{exact:true});await slider.fill(String(tick));await slider.press('ArrowRight');await slider.press('ArrowLeft');await page.getByLabel('Reprishastighet',{exact:true}).selectOption('1');await page.getByRole('button',{name:'Spela',exact:true}).click();const sequence=await sample(page,2);await page.getByRole('button',{name:'Pausa',exact:true}).click();scenes.push({index,name,event,sequence});}
     if(index===7){const slider=page.getByLabel('Position i reprisen',{exact:true});await slider.fill('0');await slider.press('ArrowRight');await slider.press('ArrowLeft');await page.getByLabel('Reprishastighet',{exact:true}).selectOption('16');await page.getByRole('button',{name:'Spela',exact:true}).click();await expect.poll(async()=>Number(await page.locator(court).getAttribute('data-render-tick')),{timeout:650000,intervals:[1000]}).toBe(archiveFrames(archive).at(-1)![0]);await page.getByRole('button',{name:'Pausa',exact:true}).click();scenes.push({index,fullReplay:true,speed:16,score:[archive.result.homeGoals,archive.result.awayGoals]});}
@@ -76,7 +77,7 @@ test('actual canonical help, recovery, M6 and support cues at 1x',async({page})=
     const archive=Object.values(save.careerState!.matchArchives!)[0],frames=archiveFrames(archive);
     const catalog=JSON.parse(readFileSync(resolve(`../../docs/match-motion-continuity/final/scene-source/scenes-${index}.json`),'utf8')) as {fixtureId:string;seed:number;frameHash:string;scenes:{name:string;event:{tick:number};actor:unknown}[]};
     expect(catalog.fixtureId).toBe(archive.fixture.id);expect(catalog.seed).toBe(archive.seed);expect(catalog.frameHash).toBe(createHash('sha256').update(JSON.stringify(frames)).digest('hex'));
-    await install(page,save);await page.goto(`${base}/career/match-day/${archive.fixture.id}`);await expect(page.locator(court)).toBeVisible({timeout:60000});
+    await install(page,save);await page.goto(`${base}/career/match-day/${archive.fixture.id}`);await enterCareerAfterLoad(page);await showCourt2D(page);await expect(page.locator(court)).toBeVisible({timeout:60000});
     for(const name of ['defensive help','helper recovery or reconnection','transition and retreat','keeper distribution','M6 screen','passer after release','off-ball support']){
       const cue=catalog.scenes.find(cue=>cue.name===name);expect(cue,`Actual ${name} cue for case ${index}`).toBeTruthy();if(!cue)continue;
       const slider=page.getByLabel('Position i reprisen',{exact:true}),tick=Math.max(0,cue.event.tick-10);await slider.fill(String(tick));await slider.press('ArrowRight');await slider.press('ArrowLeft');await page.getByLabel('Reprishastighet',{exact:true}).selectOption('1');await page.getByRole('button',{name:'Spela',exact:true}).click();const sequence=await sample(page,2);await page.getByRole('button',{name:'Pausa',exact:true}).click();records.push({index,...cue,sequence});

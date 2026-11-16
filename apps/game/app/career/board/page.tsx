@@ -1,38 +1,34 @@
 "use client";
-// HM-ALPHA3-M07: the Boardroom -- what the board expects this season and
-// why, how much it trusts the manager (and what moves that trust), every
-// meeting it has held, and the manager's own contract with the club.
+// Arena Nights CLB-05 C "Board Minutes": the page is the protocol of your relationship with this board. A header
+// strip with the dual meter (Förtroende now / Rykte), the pressure stage, the explained factors and the objective
+// meters; an open decision pinned under it (it opens the meeting moment, CLB-05b B); then the dated minutes,
+// newest first -- what was said, what was demanded, what you did and how it ended -- with the contract in the rail.
+// On the day of a verdict the stamp plays once (CLB-05a B), then stays as the band for 21 days.
+// HM-ALPHA3-M07 rules unchanged: every action is the existing submitBoardRecoveryPlan / acceptBoardContract /
+// declineBoardContract; nothing about confidence, objectives or thresholds is computed here.
 import Link from "next/link";
-import { useMemo, useState } from "react";
-import { DecisionCard, MomentHero } from "@/components/experience/Moment";
-import { MeterBar } from "@/components/experience/primitives";
+import { useState } from "react";
 import { BOARDROOM_BACKDROP } from "@/components/board/boardVisuals";
+import { BoardMeetingModal, useSessionFlag, VerdictMoment } from "@/components/board/BoardMeeting";
 import { useCareer } from "@/lib/career/CareerContext";
 import { getCareerClub } from "@/lib/career/careerWorld";
-import { boardPressureStage, BOARD_PRESSURE_LABEL, submitBoardRecoveryPlan, boardOf, DISMISSAL_LINE, ensureBoard, evaluateObjectives, FINAL_WARNING_LINE, WARNING_LINE } from "@/lib/board/board";
-import type { BoardMeeting, ObjectiveStatus } from "@/lib/board/types";
+import { submitBoardRecoveryPlan } from "@/lib/board/board";
 import { acceptBoardContract, declineBoardContract, managerCareerOf } from "@/lib/manager/managerCareer";
+import { boardMinutes, decisionOptions, type OpenDecision } from "@/lib/club/boardMinutes";
 import { useMoney } from "@/lib/settings/usePreferences";
 
-const STATUS_LABEL: Record<ObjectiveStatus, string> = { ON_TRACK: "I fas", AT_RISK: "I fara", MET: "Uppfyllt", PARTLY_MET: "Delvis", FAILED: "Missat" };
-const VERDICT_LABEL: Record<BoardMeeting["verdict"], string> = { PLEASED: "Nöjd", SATISFIED: "Godkänt", CONCERNED: "Oroad", WARNING: "Varning", DISMISSED: "Avsked" };
+const decisionKey = (d: OpenDecision) => `hm-board-meeting:${d.kind === "RECOVERY" ? d.meetingId : `offer:${d.expiresOn}:${d.wageEurPerMonth}`}`;
 
-function confidenceTone(c: number) {
-  return c >= 60 ? "success" : c >= WARNING_LINE ? "gold" : "loss";
-}
-
-/** Confidence over time as a small line with the warning lines drawn in. */
-function ConfidenceTrend({ history }: { history: { date: string; confidence: number }[] }) {
+/** Confidence over time with the warning, final-warning and dismissal lines drawn in. */
+function ConfidenceTrend({ history, lines }: { history: { date: string; confidence: number }[]; lines: { warning: number; finalWarning: number; dismissal: number } }) {
   if (history.length < 2) return null;
-  const w = 320, h = 80;
+  const w = 320, h = 64;
   const x = (i: number) => (i / (history.length - 1)) * w;
   const y = (c: number) => h - (c / 100) * h;
   return (
-    <svg className="bd-trend" viewBox={`0 0 ${w} ${h}`} role="img" aria-label={`Förtroendet över tid: från ${history[0]!.confidence} till ${history.at(-1)!.confidence}`}>
-      <line x1={0} x2={w} y1={y(WARNING_LINE)} y2={y(WARNING_LINE)} className="bd-trend-line" data-line="warning" />
-      <line x1={0} x2={w} y1={y(DISMISSAL_LINE)} y2={y(DISMISSAL_LINE)} className="bd-trend-line" data-line="dismissal" />
+    <svg className="bm-trend" viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none" role="img" aria-label={`Förtroendet över tid: från ${history[0]!.confidence} till ${history.at(-1)!.confidence}`}>
+      {(["warning", "finalWarning", "dismissal"] as const).map((k) => <line key={k} x1={0} x2={w} y1={y(lines[k])} y2={y(lines[k])} data-line={k} />)}
       <polyline points={history.map((p, i) => `${x(i)},${y(p.confidence)}`).join(" ")} />
-      <circle cx={x(history.length - 1)} cy={y(history.at(-1)!.confidence)} r={3.5} />
     </svg>
   );
 }
@@ -40,78 +36,144 @@ function ConfidenceTrend({ history }: { history: { date: string; confidence: num
 export default function BoardroomPage() {
   const money = useMoney();
   const { career, updateCareer } = useCareer();
-  const [message, setMessage] = useState<string | null>(null);
   const club = getCareerClub(career);
-  // A save from before M07 has no board until its next processed day; show the one it would get.
-  const view = useMemo(() => (boardOf(career) ? career : ensureBoard(career, career.gameDate)), [career]);
-  const board = view.board!;
-  const objectives = useMemo(() => evaluateObjectives(view, board), [view, board]);
+  const m = boardMinutes(career);
   const contract = managerCareerOf(career).contract;
-  const latest = [...board.meetings].reverse().find((m) => m.kind !== "SEASON_START");
-  const recentVerdict = latest && latest.date >= addDays(career.gameDate, -21) ? latest : undefined;
-  const run = (fn: () => void, ok: string) => { try { fn(); setMessage(ok); } catch (e) { setMessage(e instanceof Error ? e.message : "Det gick inte."); } };
-  const pressureMeeting = [...board.meetings].reverse().find(m => career.careerEvents.some(e => e.id === `BOARD_UPDATE:${m.id}` && e.requiresAction && !e.resolved) && ['WARNING','FINAL_WARNING'].includes(m.kind));
-  const plan = board.recoveryPlans?.at(-1);
-  const offer = board.contractOffer && board.contractOffer.expiresOn >= career.gameDate ? board.contractOffer : undefined;
+  const [asked, setAsked] = useState(false);
+  const [result, setResult] = useState<string | null>(null);
+  const [expanded, setExpanded] = useState<string | null>(null);
+  // Arriving with an unanswered meeting (Continue sends you here) opens it once per session; a verdict from today plays once.
+  const [decisionSeen, markDecision] = useSessionFlag(m.decision ? decisionKey(m.decision) : null);
+  const [verdictSeen, markVerdict] = useSessionFlag(m.verdictToday ? `hm-board-verdict:${m.verdictToday.id}` : null);
+  const meeting = !!m.decision && (asked || !decisionSeen);
+  const verdict = !meeting && !verdictSeen ? m.verdictToday : null;
+  const setMeeting = (open: boolean) => setAsked(open);
+
+  const closeMeeting = (text?: string) => {
+    markDecision();
+    setAsked(false);
+    if (text) setResult(text);
+  };
+  const choose = (id: string): string | null => {
+    if (!m.decision) return null;
+    if (id === "PLAN" && m.decision.kind === "RECOVERY") { const meetingId = m.decision.meetingId; updateCareer((s) => submitBoardRecoveryPlan(s, meetingId)); setExpanded(meetingId); return "Handlingsplanen är registrerad i protokollet."; }
+    if (id === "SIGN") { updateCareer((s) => acceptBoardContract(s)); return "Avtalet är påskrivet och protokollfört."; }
+    if (id === "DECLINE") { updateCareer((s) => declineBoardContract(s)); return "Du tackade nej. Ditt avtal löper som tidigare."; }
+    return null;
+  };
+  const toMinutes = (id?: string) => { if (id) setExpanded(id); document.getElementById("bm-minutes")?.scrollIntoView({ behavior: "smooth", block: "start" }); };
+
+  const band = m.verdictBand;
+  const d = m.decision;
+  const name = /[sxz]$/i.test(club.shortName) ? club.shortName : `${club.shortName}s`;
 
   return (
-    <div className="bd-page">
-      {recentVerdict ? (
-        <MomentHero kind={recentVerdict.kind === "DISMISSAL" ? "DISMISSAL" : "ANNOUNCEMENT"} tone={recentVerdict.verdict === "PLEASED" ? "gold" : recentVerdict.verdict === "SATISFIED" ? "ink" : "loss"} backdrop={{ kind: "photo", style: BOARDROOM_BACKDROP }} tags={[false, "Styrelsens besked", recentVerdict.date]} stamp={VERDICT_LABEL[recentVerdict.verdict]} headline={recentVerdict.title} lede={recentVerdict.summary} />
-      ) : (
-        <MomentHero tone="ink" backdrop={{ kind: "photo", style: BOARDROOM_BACKDROP }} tags={[false, "Styrelserummet", career.seasonId]} stamp={null} headline={`${/[sxz]$/i.test(club.shortName) ? club.shortName : club.shortName + "s"} styrelse`} lede={`Styrelsens samlade förhandsbedömning: ${board.predictedPosition}:a. Här ser du vad styrelsen kräver, hur mycket den litar på dig och varför.`} aside={<div className="bd-hero-figure"><b>{board.confidence}</b><small>förtroende av 100</small></div>} />
-      )}
+    <div className="bm-page">
+      <header className="bm-band xp-photo-hero" style={BOARDROOM_BACKDROP} data-tone={band?.tone ?? "neutral"}>
+        <div>
+          <small>Styrelserummet · {career.seasonId}</small>
+          <h1>{name} styrelse</h1>
+          {band ? <p><b>{band.date}:</b> {band.title}</p> : <p>Styrelsens förhandsbedömning: {m.board.predictedPosition}:a.</p>}
+        </div>
+        {band && <span className="bm-stamp" data-tone={band.tone}>{band.verdictLabel}</span>}
+      </header>
 
-      <div className="bd-grid">
-        <section className="bd-panel" aria-labelledby="bd-conf">
-          <header><span className="xp-eyebrow">Förtroende</span><h2 id="bd-conf">Hur styrelsen ser på dig</h2></header>
-          <MeterBar label="Förtroende" value={board.confidence / 100} figure={`${board.confidence} / 100`} tone={confidenceTone(board.confidence)} />
-          <p className="pd-note">{board.targetConfidence > board.confidence ? `På väg upp mot ${board.targetConfidence}` : board.targetConfidence < board.confidence ? `På väg ner mot ${board.targetConfidence}` : "Stabilt"} – förtroendet rör sig högst 8 steg i månaden. {board.warnings > 0 ? <b>{board.warnings === 1 ? "Du har fått en varning." : "Du har fått sista varningen."}</b> : null}</p>
-          <p className="pd-note">Läge: <b>{BOARD_PRESSURE_LABEL[boardPressureStage(board)]}</b></p>
-          {pressureMeeting && !career.managerCareer?.seekingJob && <DecisionCard title="Styrelsen begär en handlingsplan" primary={{label:'Lämna handlingsplan',consequence:'Vid nästa granskning efter minst 28 dagar: stig två tabellplatser, förbättra formen med 0,5 poäng per match eller minska ekonomiska problem. Uppfyllt ger +6 till målförtroendet, annars -6.',onSelect:()=>run(()=>updateCareer(s=>submitBoardRecoveryPlan(s,pressureMeeting.id)),'Handlingsplanen är registrerad.')}}>Fortsatt underprestation kan leda till avsked.</DecisionCard>}
-          {plan && <p className="pd-note">Handlingsplan från {plan.agreedOn}: {plan.status === 'ACTIVE' ? 'Inväntar nästa granskning' : plan.status === 'MET' ? 'Förbättring uppnådd' : 'Otillräcklig förbättring'}.</p>}
-          <ConfidenceTrend history={board.history} />
-          <ul className="bd-factors">{board.factors.length === 0 ? <li><span>Inga tydliga signaler ännu – styrelsen bedömer dig efter några matcher.</span></li> : board.factors.map((f) => <li key={f.label} data-sign={f.points >= 0 ? "plus" : "minus"}><span>{f.label}</span><b>{f.points > 0 ? `+${f.points}` : f.points}</b></li>)}</ul>
-          <p className="pd-note">Under {WARNING_LINE} varnar styrelsen, under {FINAL_WARNING_LINE} kommer sista varningen. Faller förtroendet under {DISMISSAL_LINE} efter två varningar bryter styrelsen samarbetet.</p>
-        </section>
-
-        <section className="bd-panel" aria-labelledby="bd-obj">
-          <header><span className="xp-eyebrow">Säsongens mål</span><h2 id="bd-obj">Vad styrelsen kräver</h2></header>
-          <ol className="bd-objectives">{objectives.map((o) => (
-            <li key={o.id} data-status={o.status}>
-              <div><b>{o.label}</b><span className="tc-pill" data-status={o.status}>{STATUS_LABEL[o.status]}</span></div>
-              <small>{o.why}</small>
-              {o.progress && <small className="bd-progress">{o.progress}</small>}
+      <section className="bm-strip" aria-label="Läget med styrelsen">
+        <div className="bm-dual">
+          <div className="bm-meter-row">
+            <span>Förtroende</span>
+            <div className="bm-meter" role="meter" aria-valuemin={0} aria-valuemax={100} aria-valuenow={m.confidence} aria-label={`Förtroende ${m.confidence} av 100`}>
+              <i style={{ width: `${m.confidence}%` }} data-tone={m.confidence >= 60 ? "good" : m.confidence >= m.lines.warning ? "warn" : "bad"} />
+              {(["warning", "finalWarning", "dismissal"] as const).map((k) => <b key={k} style={{ left: `${m.lines[k]}%` }} data-line={k} title={k === "warning" ? `Varning under ${m.lines.warning}` : k === "finalWarning" ? `Sista varning under ${m.lines.finalWarning}` : `Avsked under ${m.lines.dismissal} efter två varningar`} />)}
+            </div>
+            <strong>{m.confidence}<small>{m.trend === "up" ? ` ↗ ${m.targetConfidence}` : m.trend === "down" ? ` ↘ ${m.targetConfidence}` : ""}</small></strong>
+          </div>
+          <div className="bm-meter-row">
+            <span>Rykte</span>
+            <div className="bm-meter" role="meter" aria-valuemin={0} aria-valuemax={100} aria-valuenow={m.reputation ?? 0} aria-label="Ditt rykte som tränare"><i style={{ width: `${m.reputation ?? 0}%` }} data-tone="info" /></div>
+            <strong>{m.reputation ?? "–"}</strong>
+          </div>
+          <p className="bm-lines">Linjerna: varning under {m.lines.warning}, sista varning under {m.lines.finalWarning}, avsked under {m.lines.dismissal} efter två varningar. Förtroendet rör sig högst 8 steg i månaden.</p>
+          <ConfidenceTrend history={m.history} lines={m.lines} />
+        </div>
+        <div className="bm-stage" data-tone={m.stageTone}>
+          <small>Läge</small><strong>{m.stageLabel}</strong>
+          <span>{m.warnings === 0 ? "Inga varningar" : m.warnings === 1 ? "En varning" : "Sista varningen given"}</span>
+          <ul className="bm-factor-chips" aria-label="Det som rör förtroendet">
+            {m.factors.length === 0 ? <li>Inga tydliga signaler ännu</li> : m.factors.map((f) => <li key={f.label} data-sign={f.points >= 0 ? "plus" : "minus"}><b>{f.points > 0 ? `+${f.points}` : f.points}</b> {f.label}</li>)}
+          </ul>
+        </div>
+        <ol className="bm-objectives" aria-label="Säsongens mål">
+          {m.objectives.map((o) => (
+            <li key={o.id} data-tone={o.tone}>
+              <div><b>{o.label}</b><span className="bm-pill" data-tone={o.tone}>{o.statusLabel}</span></div>
+              {o.meter && <div className="bm-obj-meter" aria-hidden="true"><i style={{ width: `${o.meter.value * 100}%` }} /><b style={{ left: `${o.meter.target * 100}%` }} data-mark="target" />{o.meter.minimum !== null && <b style={{ left: `${o.meter.minimum * 100}%` }} data-mark="minimum" />}</div>}
+              <small>{o.progress}</small>
             </li>
-          ))}</ol>
+          ))}
+        </ol>
+      </section>
+
+      {d && (
+        <section className="bm-pinned" aria-label="Öppet beslut" data-kind={d.kind}>
+          <div>
+            <small>{d.kind === "RECOVERY" ? "Svar krävs · blockerar Fortsätt" : `Svar senast ${d.expiresOn}`}</small>
+            <strong>{d.kind === "RECOVERY" ? "Styrelsen begär en handlingsplan" : "Styrelsen erbjuder ett nytt avtal"}</strong>
+            <span>{d.kind === "RECOVERY" ? d.summary : `${d.years} år till, ${money.format(d.wageEurPerMonth)} i månaden.`}</span>
+          </div>
+          <button type="button" className="hm-btn hm-btn-primary" onClick={() => setMeeting(true)}>Öppna mötet</button>
         </section>
+      )}
+      {result && <p className="bm-result" role="status">{result} <button type="button" className="hm-btn hm-btn-sm hm-btn-ghost" onClick={() => toMinutes()}>Till protokollet</button></p>}
+
+      <div className="bm-split">
+        <section id="bm-minutes" className="bm-minutes" aria-labelledby="bm-minutes-h">
+          <h2 id="bm-minutes-h">Protokollet</h2>
+          {m.entries.length <= 1 && <p className="bm-muted">Protokollet är tunt än. Varje möte, varning, plan och avtal skrivs in här.</p>}
+          <ol>
+            {m.entries.map((e) => {
+              const open = expanded === e.id;
+              return (
+                <li key={e.id} data-tone={e.tone} data-open={e.open || undefined}>
+                  <span className="bm-entry-stamp" data-tone={e.tone}>{e.verdictLabel}</span>
+                  <div className="bm-entry">
+                    <small><time>{e.date}</time> · {e.kindLabel}</small>
+                    <strong>{e.title}</strong>
+                    <p>{e.summary}</p>
+                    <dl>
+                      <div><dt>Krav</dt><dd>{e.demanded}</dd></div>
+                      {e.response && <div><dt>Ditt svar</dt><dd>{e.response}</dd></div>}
+                      {e.outcome && <div><dt>Utfall</dt><dd data-tone={e.outcome.tone}>{e.outcome.label}</dd></div>}
+                    </dl>
+                    {(e.confidenceAt !== null || e.plan) && <button type="button" className="bm-expand" aria-expanded={open} onClick={() => setExpanded(open ? null : e.id)}>{open ? "Dölj läget då" : "Läget då"}</button>}
+                    {open && (
+                      <div className="bm-then">
+                        {e.confidenceAt !== null && <p>Förtroende vid mötet: <b>{e.confidenceAt}</b>{e.confidenceDelta !== null && e.confidenceDelta !== 0 ? ` (${e.confidenceDelta > 0 ? "+" : "−"}${Math.abs(e.confidenceDelta)} sedan förra mötet)` : ""}.</p>}
+                        {e.plan && <p>Utgångsläge för planen: {e.plan.baseline.position ? `${e.plan.baseline.position}:a i tabellen` : "ingen tabellplats"}{e.plan.baseline.form !== null ? `, ${e.plan.baseline.form.toFixed(1).replace(".", ",")} poäng per match` : ""}{e.plan.baseline.overBudget ? ", lönerna över budget" : ""}. {e.plan.status === "ACTIVE" ? "Granskas vid nästa månadsmöte." : `Granskad ${e.plan.reviewedOn ?? ""}.`}</p>}
+                        {e.open && <button type="button" className="hm-btn hm-btn-sm hm-btn-primary" onClick={() => setMeeting(true)}>Svara styrelsen</button>}
+                      </div>
+                    )}
+                  </div>
+                </li>
+              );
+            })}
+          </ol>
+        </section>
+        <aside className="bm-rail" aria-labelledby="bm-contract-h">
+          <section className="bm-contract">
+            <h2 id="bm-contract-h">Kontraktet</h2>
+            <dl><div><dt>Klubb</dt><dd>{club.name}</dd></div><div><dt>Lön</dt><dd>{money.format(contract.wageEurPerMonth)} / mån</dd></div><div><dt>Sedan</dt><dd>{contract.startDate}</dd></div><div><dt>Till</dt><dd>{contract.endDate}</dd></div></dl>
+            {d?.kind === "CONTRACT" ? <button type="button" className="hm-btn hm-btn-primary" onClick={() => setMeeting(true)}>Svara på avtalet</button> : <p className="bm-muted">Styrelsen tar upp avtalet vid säsongsgenomgången när det har mindre än ett år kvar.</p>}
+            <Link href="/career/manager">Din karriär →</Link>
+          </section>
+        </aside>
       </div>
 
-      <div className="bd-grid">
-        <section className="bd-panel" aria-labelledby="bd-contract">
-          <header><span className="xp-eyebrow">Ditt avtal</span><h2 id="bd-contract">Kontraktet</h2></header>
-          <dl className="bd-contract"><div><dt>Klubb</dt><dd>{club.name}</dd></div><div><dt>Lön</dt><dd>{money.format(contract.wageEurPerMonth)} / mån</dd></div><div><dt>Sedan</dt><dd>{contract.startDate}</dd></div><div><dt>Till</dt><dd>{contract.endDate}</dd></div></dl>
-          {offer ? (
-            <DecisionCard tone="gold" title="Styrelsen erbjuder ett nytt avtal" status={<span className="tc-pill">Svar senast {offer.expiresOn}</span>}
-              primary={{ label: "Skriv på", consequence: `${offer.years} år till, ${money.format(offer.wageEurPerMonth)} i månaden.`, onSelect: () => run(() => updateCareer((s) => acceptBoardContract(s)), "Avtalet är påskrivet.") }}
-              secondary={<button type="button" className="hm-btn" onClick={() => run(() => updateCareer((s) => declineBoardContract(s)), "Du tackade nej. Avtalet löper som tidigare.")}>Tacka nej</button>}>
-              Styrelsen vill behålla dig efter säsongen.
-            </DecisionCard>
-          ) : <p className="pd-note">Styrelsen tar upp avtalet vid säsongsgenomgången när det har mindre än ett år kvar. <Link href="/career/manager">Din karriär →</Link></p>}
-          {message && <p className="pd-note" role="status">{message}</p>}
-        </section>
-
-        <section className="bd-panel" aria-labelledby="bd-meetings">
-          <header><span className="xp-eyebrow">Protokollet</span><h2 id="bd-meetings">Möten</h2></header>
-          <ol className="bd-meetings">{[...board.meetings].reverse().map((m) => <li key={m.id} data-verdict={m.verdict}><time>{m.date}</time><b>{m.title}</b><small>{m.summary}</small><em>{VERDICT_LABEL[m.verdict]}</em></li>)}</ol>
-        </section>
-      </div>
+      {meeting && d && (
+        <BoardMeetingModal decision={d} options={decisionOptions(d, (v) => money.format(v))} onChoose={choose} onClose={closeMeeting}
+          statement={d.kind === "RECOVERY" ? <><p><b>{d.title}.</b> {d.summary}</p><p>Styrelsen vill se hur du tänker vända det. Fortsatt underprestation kan leda till {d.finalWarning ? "avsked" : "sista varningen"}.</p></> : <p>Styrelsen vill behålla dig och erbjuder {d.years} år till. Erbjudandet gäller till {d.expiresOn}.</p>} />
+      )}
+      {verdict && <VerdictMoment entry={verdict} factors={m.factors} onClose={(go) => { markVerdict(); if (go) toMinutes(verdict.id); }} />}
     </div>
   );
-}
-
-function addDays(iso: string, days: number): string {
-  const d = new Date(`${iso}T00:00:00Z`);
-  d.setUTCDate(d.getUTCDate() + days);
-  return d.toISOString().slice(0, 10);
 }

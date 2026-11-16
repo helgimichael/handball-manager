@@ -1,0 +1,417 @@
+[
+ {
+  "id": "se_div2_team_1571761",
+  "name": "Gimonäs Umeå IF",
+  "shortName": "Gimonäs Umeå IF",
+  "city": null,
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_n",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28071/teams/1571761",
+  "worldPool": false,
+  "prior": {
+   "status": "UNCERTAIN",
+   "primary": "black",
+   "secondary": "white",
+   "trim": null,
+   "description": "Black shirt with white (per Partille Cup youth-team registration: Black / White / Black).",
+   "sources": [
+    "https://results.partillecup.com/2023/teams/42130134"
+   ],
+   "notes": "Only evidence is a youth team tournament registration; not men's senior team, not current season. Black primary; white is the only documented accent.",
+   "review": [
+    "Single youth-tournament source; black primary with white accent only",
+    "monochrome shirt without documented accent colour → ice-silver neon"
+   ]
+  }
+ },
+ {
+  "id": "se_div2_team_1574316",
+  "name": "Härnösands HF",
+  "shortName": "Härnösands HF",
+  "city": null,
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_n",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28071/teams/1574316",
+  "worldPool": false,
+  "prior": {
+   "status": "UNKNOWN",
+   "primary": null,
+   "secondary": null,
+   "trim": null,
+   "description": null,
+   "sources": [],
+   "notes": "Searches found no kit info. A Partille Cup 2017 entry exists for \"Härnösands HK\" (different name) with no colour shown.",
+   "review": [
+    "No usable kit-colour evidence found; needs owner/club lookup"
+   ]
+  }
+ },
+ {
+  "id": "se_div2_team_1582047",
+  "name": "Kiruna HK",
+  "shortName": "Kiruna HK",
+  "city": null,
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_n",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28071/teams/1582047",
+  "worldPool": false,
+  "prior": {
+   "status": "UNCERTAIN",
+   "primary": "red",
+   "secondary": "white",
+   "trim": null,
+   "description": "Red shirt with white (per Partille Cup youth-team registration: Red / White).",
+   "sources": [
+    "https://results.partillecup.com/2023/teams/42138355"
+   ],
+   "notes": "Only a youth tournament registration; Kiruna IF (ice hockey, separate club) also red/white, not used as evidence.",
+   "review": [
+    "Single youth-tournament source, not men's senior team"
+   ]
+  }
+ },
+ {
+  "id": "se_div2_team_1583325",
+  "name": "Norrfjärdens IF",
+  "shortName": "Norrfjärdens IF",
+  "city": null,
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_n",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28071/teams/1583325",
+  "worldPool": false,
+  "prior": {
+   "status": "UNKNOWN",
+   "primary": null,
+   "secondary": null,
+   "trim": null,
+   "description": null,
+   "sources": [],
+   "notes": "No handball kit evidence found in Swedish or English searches.",
+   "review": [
+    "No usable kit-colour evidence found; needs owner/club lookup"
+   ]
+  }
+ },
+ {
+  "id": "se_div2_team_1583328",
+  "name": "Sikeå SK",
+  "shortName": "Sikeå SK",
+  "city": null,
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_n",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28071/teams/1583328",
+  "worldPool": false,
+  "prior": {
+   "status": "UNKNOWN",
+   "primary": null,
+   "secondary": null,
+   "trim": null,
+   "description": null,
+   "sources": [],
+   "notes": "No handball kit evidence found.",
+   "review": [
+    "No usable kit-colour evidence found; needs owner/club lookup"
+   ]
+  }
+ },
+ {
+  "id": "se_div2_team_1578618",
+  "name": "Sundsvall HK",
+  "shortName": "Sundsvall HK",
+  "city": null,
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_n",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28071/teams/1578618",
+  "worldPool": false,
+  "prior": {
+   "status": "UNKNOWN",
+   "primary": null,
+   "secondary": null,
+   "trim": null,
+   "description": null,
+   "sources": [],
+   "notes": "No handball kit evidence found; results were about GIF Sundsvall (football) and Sundsvall Hockey, not used.",
+   "review": [
+    "No usable kit-colour evidence found; needs owner/club lookup"
+   ]
+  }
+ },
+ {
+  "id": "se_div2_team_1575294",
+  "name": "AIK",
+  "shortName": "AIK",
+  "city": null,
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_o",
+  "registrationUrl": "https://www.profixio.com/app/leagueid27989/teams/1575294",
+  "worldPool": false,
+  "prior": {
+   "status": "UNCERTAIN",
+   "primary": "black",
+   "secondary": "yellow",
+   "trim": null,
+   "description": "Probably black shirt (AIK black/yellow club colours); handball-section evidence conflicts.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/AIK_Handboll",
+    "https://results.partillecup.com/2018,sv/club/15829175",
+    "https://sv.wikipedia.org/wiki/AIK_Handboll"
+   ],
+   "notes": "Handball section checked separately from football (football home kit black with yellow, not used as handball evidence). sv-wiki template (2016/17) suggests yellow body; en-wiki and Partille suggest black. Yellow is the club colour but not documented on the current handball shirt.",
+   "review": [
+    "Conflicting handball kit sources (black vs yellow); no current-season source",
+    "white/black home shirt: neon accent is documented as a club, away or dated colour — not confirmed as a home-shirt detail (owner decision)"
+   ]
+  }
+ },
+ {
+  "id": "se_div2_team_1577066",
+  "name": "Djurgårdens HF",
+  "shortName": "Djurgårdens HF",
+  "city": null,
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_o",
+  "registrationUrl": "https://www.profixio.com/app/leagueid27989/teams/1577066",
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "light-blue",
+   "secondary": "navy",
+   "trim": null,
+   "description": "Blue shirt with navy vertical stripes (traditional Djurgården blue stripes), navy shorts.",
+   "sources": [
+    "https://sv.wikipedia.org/wiki/Djurgårdens_IF_HF",
+    "https://difhistoria.se/wp-content/uploads/Matchprogram-Handboll-Herr-2004-2005.pdf"
+   ],
+   "notes": "Handball section shirt (not football). Evidence is old/undated; current Division 2 shirt not confirmed. Hex values from the wiki kit template.",
+   "review": []
+  }
+ },
+ {
+  "id": "se_div2_team_1576032",
+  "name": "HF SIF",
+  "shortName": "HF SIF",
+  "city": null,
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_o",
+  "registrationUrl": "https://www.profixio.com/app/leagueid27989/teams/1576032",
+  "worldPool": false,
+  "prior": {
+   "status": "UNKNOWN",
+   "primary": null,
+   "secondary": null,
+   "trim": null,
+   "description": null,
+   "sources": [],
+   "notes": "Could not establish club identity/town from searches. No kit evidence.",
+   "review": [
+    "No usable kit-colour evidence found; needs owner/club lookup"
+   ]
+  }
+ },
+ {
+  "id": "se_div2_team_1570960",
+  "name": "HK Tyrold",
+  "shortName": "HK Tyrold",
+  "city": null,
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_o",
+  "registrationUrl": "https://www.profixio.com/app/leagueid27989/teams/1570960",
+  "worldPool": false,
+  "prior": {
+   "status": "UNKNOWN",
+   "primary": null,
+   "secondary": null,
+   "trim": null,
+   "description": null,
+   "sources": [],
+   "notes": "Club plays at Tyresöhallen (profixio protocol 2025). Tyresö Handboll youth Partille 2018 listing (Red / Yellow / Red) is a different club name and was not used.",
+   "review": [
+    "No usable kit-colour evidence found; needs owner/club lookup"
+   ]
+  }
+ },
+ {
+  "id": "se_div2_team_1581926",
+  "name": "Kungsängens SK",
+  "shortName": "Kungsängens SK",
+  "city": null,
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_o",
+  "registrationUrl": "https://www.profixio.com/app/leagueid27989/teams/1581926",
+  "worldPool": false,
+  "prior": {
+   "status": "UNCERTAIN",
+   "primary": "wine",
+   "secondary": "black",
+   "trim": null,
+   "description": "Wine-red shirt (per Partille Cup youth-team registration: Winered / Winered / Black).",
+   "sources": [
+    "https://results.partillecup.com/2024/teams/52864759"
+   ],
+   "notes": "Only youth tournament evidence.",
+   "review": [
+    "Single youth-tournament source, not men's senior team"
+   ]
+  }
+ },
+ {
+  "id": "se_div2_team_1587488",
+  "name": "Lidingö SK",
+  "shortName": "Lidingö SK",
+  "city": null,
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_o",
+  "registrationUrl": "https://www.profixio.com/app/leagueid27989/teams/1587488",
+  "worldPool": false,
+  "prior": {
+   "status": "UNKNOWN",
+   "primary": null,
+   "secondary": null,
+   "trim": null,
+   "description": null,
+   "sources": [],
+   "notes": "Lidingö SK has a handball section (Gångsätrahallen) but no kit colour evidence found. IFK Lidingö (blue/white) is a different club and was not used.",
+   "review": [
+    "No usable kit-colour evidence found; needs owner/club lookup"
+   ]
+  }
+ },
+ {
+  "id": "se_div2_team_1576098",
+  "name": "SK Kvarnberga",
+  "shortName": "SK Kvarnberga",
+  "city": null,
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_o",
+  "registrationUrl": "https://www.profixio.com/app/leagueid27989/teams/1576098",
+  "worldPool": false,
+  "prior": {
+   "status": "UNKNOWN",
+   "primary": null,
+   "secondary": null,
+   "trim": null,
+   "description": null,
+   "sources": [],
+   "notes": "Sportklubben Kvarnberga registered in Huddinge; no kit evidence found.",
+   "review": [
+    "No usable kit-colour evidence found; needs owner/club lookup"
+   ]
+  }
+ },
+ {
+  "id": "se_div2_team_1587398",
+  "name": "Skogås HK",
+  "shortName": "Skogås HK",
+  "city": null,
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_o",
+  "registrationUrl": "https://www.profixio.com/app/leagueid27989/teams/1587398",
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "green",
+   "secondary": "white",
+   "trim": null,
+   "description": "Green shirt with white (Partille Cup registrations: Green / White / Green 2022, Green / White / Black 2017).",
+   "sources": [
+    "https://results.partillecup.com/2022/teams/33799985",
+    "https://results.partillecup.com/2017/teams/12032900"
+   ],
+   "notes": "Two consistent youth-team registrations; men's senior shirt not directly confirmed.",
+   "review": []
+  }
+ },
+ {
+  "id": "se_div2_team_1578302",
+  "name": "Skuru IK",
+  "shortName": "Skuru IK",
+  "city": null,
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_o",
+  "registrationUrl": "https://www.profixio.com/app/leagueid27989/teams/1578302",
+  "worldPool": false,
+  "prior": {
+   "status": "PROBABLE",
+   "primary": "green",
+   "secondary": "white",
+   "trim": null,
+   "description": "Green shirt and green shorts.",
+   "sources": [
+    "https://en.wikipedia.org/wiki/Skuru_IK_(women%27s_handball)"
+   ],
+   "notes": "Evidence from the club's women's handball article (same club, Skuru IK handball); men's team assumed same club kit but not directly confirmed. White from infobox colour2.",
+   "review": []
+  }
+ },
+ {
+  "id": "se_div2_team_1581054",
+  "name": "Spånga HK",
+  "shortName": "Spånga HK",
+  "city": null,
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_o",
+  "registrationUrl": "https://www.profixio.com/app/leagueid27989/teams/1581054",
+  "worldPool": false,
+  "prior": {
+   "status": "UNCERTAIN",
+   "primary": "blue",
+   "secondary": "white",
+   "trim": null,
+   "description": "Blue shirt with white (per Partille Cup youth-team registration: Blue / White / Blue).",
+   "sources": [
+    "https://results.partillecup.com/2017/teams/12033048"
+   ],
+   "notes": "Old youth-team evidence only.",
+   "review": [
+    "Single old youth-tournament source"
+   ]
+  }
+ },
+ {
+  "id": "se_div2_team_1582988",
+  "name": "Tumba HK",
+  "shortName": "Tumba HK",
+  "city": null,
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_o",
+  "registrationUrl": "https://www.profixio.com/app/leagueid27989/teams/1582988",
+  "worldPool": false,
+  "prior": {
+   "status": "UNKNOWN",
+   "primary": null,
+   "secondary": null,
+   "trim": null,
+   "description": null,
+   "sources": [],
+   "notes": "No evidence for \"Tumba HK\". IFK Tumba Handboll (blue, Partille 2014) may or may not be the same entity; not used.",
+   "review": [
+    "No usable kit-colour evidence found; needs owner/club lookup"
+   ]
+  }
+ },
+ {
+  "id": "se_div2_team_1585773",
+  "name": "Årsta AIK HF",
+  "shortName": "Årsta AIK HF",
+  "city": null,
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_o",
+  "registrationUrl": "https://www.profixio.com/app/leagueid27989/teams/1585773",
+  "worldPool": false,
+  "prior": {
+   "status": "UNCERTAIN",
+   "primary": "red",
+   "secondary": "white",
+   "trim": null,
+   "description": "Red shirt (Partille Cup youth registrations: Red / White / Black 2023, Red / Red 2018).",
+   "sources": [
+    "https://results.partillecup.com/2023/teams/42134957",
+    "https://results.partillecup.com/2018/teams/16695289"
+   ],
+   "notes": "Youth evidence only; unrelated to AIK (Solna).",
+   "review": [
+    "Youth-tournament sources only"
+   ]
+  }
+ }
+]

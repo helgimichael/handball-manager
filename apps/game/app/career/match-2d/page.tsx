@@ -1,26 +1,13 @@
 'use client';
-import { useState } from 'react';
+// Arena Nights -- MDY-04 C: replays live in the match report's "Repris" tab (ANL-01). This standalone
+// page (and its broken encoding) is retired; old links land on the schedule, where every played match
+// opens its report.
+import { useEffect } from 'react';
 import Link from 'next/link';
-import { useCareer } from '@/lib/career/CareerContext';
-import { ArchiveReplay } from '@/components/ProductionMatchView';
-import { getClub } from '@/lib/game-data';
-import { careerArchiveSummaries } from '@/lib/career/matchArchiveSummary';
-import { useMatchArchive } from '@/lib/save/useMatchArchive';
-import { matchDayHref } from '@/lib/career/fixtureRoutes';
-export default function MatchReplays() {
-  const { career } = useCareer();
-  const [selected, setSelected] = useState('');
-  const summaries = careerArchiveSummaries(career);
-  const ids = [...new Set([...(career.matchArchiveIds ?? []), ...Object.keys(summaries)])].sort((a, b) => (summaries[b]?.fixture.date ?? '').localeCompare(summaries[a]?.fixture.date ?? ''));
-  const replay = useMatchArchive(selected);
-  return <div className="hm-grid" style={{ gap: 12 }}><div className="hm-panel-body"><h2>Matchrepriser ? nyckel?gonblick</h2>
-    {career.productionMatch && <p><Link className="hm-btn hm-btn-primary" href={matchDayHref(career.productionMatch.fixture.id)}>Forts?tt p?g?ende match</Link></p>}
-    {ids.length ? <select aria-label="V?lj matchrepris" value={selected} onChange={e => setSelected(e.target.value)}><option value="">V?lj en match att visa</option>{ids.map(id => {
-      const summary = summaries[id];
-      return <option key={id} value={id}>{summary ? `${summary.fixture.date} ? ${getClub(summary.fixture.homeClubId)?.shortName} ${summary.result.homeGoals}?${summary.result.awayGoals} ${getClub(summary.fixture.awayClubId)?.shortName}` : `Matcharkiv ? ${id}`}</option>;
-    })}</select> : <p>N?r du har spelat en match kan du se den igen h?r.</p>}</div>
-    {replay.loading && <p role="status">Laddar matchreprisen?</p>}
-    {replay.error && <div role="alert"><p>{replay.error}</p><button className="hm-btn" onClick={replay.retry}>F?rs?k igen</button></div>}
-    {replay.archive && <ArchiveReplay key={selected} archive={replay.archive} defaultShowExperimental />}
-  </div>;
+import { useRouter } from 'next/navigation';
+
+export default function MatchReplaysRedirect() {
+  const router = useRouter();
+  useEffect(() => { router.replace('/career/schedule'); }, [router]);
+  return <p role="status">Matchrepriserna finns nu i varje matchrapport under fliken Repris. Öppnar matchprogrammet… <Link href="/career/schedule">Gå dit direkt →</Link></p>;
 }

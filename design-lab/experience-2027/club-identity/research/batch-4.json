@@ -1,0 +1,210 @@
+[
+ {
+  "id": "se_div2_team_1578886",
+  "name": "VästeråsIrsta HK",
+  "shortName": "VästeråsIrsta HK",
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_m",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28151/teams/1578886"
+ },
+ {
+  "id": "se_div2_team_1582839",
+  "name": "Backa HK",
+  "shortName": "Backa HK",
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_v",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28052/teams/1582839"
+ },
+ {
+  "id": "se_div2_team_1580934",
+  "name": "Fjärås HK",
+  "shortName": "Fjärås HK",
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_v",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28052/teams/1580934"
+ },
+ {
+  "id": "se_div2_team_1570589",
+  "name": "HB 78 Jönköping",
+  "shortName": "HB 78 Jönköping",
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_v",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28052/teams/1570589"
+ },
+ {
+  "id": "se_div2_team_1581244",
+  "name": "HK Skövde",
+  "shortName": "HK Skövde",
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_v",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28052/teams/1581244"
+ },
+ {
+  "id": "se_div2_team_1575715",
+  "name": "HK Varberg 09",
+  "shortName": "HK Varberg 09",
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_v",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28052/teams/1575715"
+ },
+ {
+  "id": "se_div2_team_1578882",
+  "name": "IF Hellton Karlstad",
+  "shortName": "IF Hellton Karlstad",
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_v",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28052/teams/1578882"
+ },
+ {
+  "id": "se_div2_team_1574211",
+  "name": "IK Baltichov",
+  "shortName": "IK Baltichov",
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_v",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28052/teams/1574211"
+ },
+ {
+  "id": "se_div2_team_1586623",
+  "name": "Skara HK",
+  "shortName": "Skara HK",
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_v",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28052/teams/1586623"
+ },
+ {
+  "id": "se_div2_team_1579656",
+  "name": "Stenungsunds HK",
+  "shortName": "Stenungsunds HK",
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_v",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28052/teams/1579656"
+ },
+ {
+  "id": "se_div2_team_1578270",
+  "name": "Torslanda HK",
+  "shortName": "Torslanda HK",
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_v",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28052/teams/1578270"
+ },
+ {
+  "id": "se_div2_team_1585949",
+  "name": "Vårgårda IK HK",
+  "shortName": "Vårgårda IK HK",
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_v",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28052/teams/1585949"
+ },
+ {
+  "id": "se_div2_team_1578815",
+  "name": "Örgryte IS Handboll",
+  "shortName": "Örgryte IS Handboll",
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_v",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28052/teams/1578815"
+ },
+ {
+  "id": "se_div2_team_1578982",
+  "name": "Helsingborgs HK",
+  "shortName": "Helsingborgs HK",
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_s",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28096/teams/1578982"
+ },
+ {
+  "id": "se_div2_team_1582183",
+  "name": "HF Karlskrona U",
+  "shortName": "HF Karlskrona U",
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_s",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28096/teams/1582183"
+ },
+ {
+  "id": "se_div2_team_1583015",
+  "name": "HK Ystadpågarna",
+  "shortName": "HK Ystadpågarna",
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_s",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28096/teams/1583015"
+ },
+ {
+  "id": "se_div2_team_1586014",
+  "name": "IFK Malmö HF",
+  "shortName": "IFK Malmö HF",
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_s",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28096/teams/1586014"
+ },
+ {
+  "id": "se_div2_team_1581343",
+  "name": "IK Sund",
+  "shortName": "IK Sund",
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_s",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28096/teams/1581343"
+ },
+ {
+  "id": "se_div2_team_1580548",
+  "name": "KFUM Kalmar HK",
+  "shortName": "KFUM Kalmar HK",
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_s",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28096/teams/1580548"
+ },
+ {
+  "id": "se_div2_team_1583912",
+  "name": "Kävlinge HK",
+  "shortName": "Kävlinge HK",
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_s",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28096/teams/1583912"
+ },
+ {
+  "id": "se_div2_team_1585295",
+  "name": "LUGI HF U",
+  "shortName": "LUGI HF U",
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_s",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28096/teams/1585295"
+ },
+ {
+  "id": "se_div2_team_1576008",
+  "name": "Lunds HS Lejon",
+  "shortName": "Lunds HS Lejon",
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_s",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28096/teams/1576008"
+ },
+ {
+  "id": "se_div2_team_1571471",
+  "name": "Lödde Vikings HK",
+  "shortName": "Lödde Vikings HK",
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_s",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28096/teams/1571471"
+ },
+ {
+  "id": "se_div2_team_1579219",
+  "name": "Malmö HP",
+  "shortName": "Malmö HP",
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_s",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28096/teams/1579219"
+ },
+ {
+  "id": "se_div2_team_1586501",
+  "name": "Växjö HF",
+  "shortName": "Växjö HF",
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_s",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28096/teams/1586501"
+ },
+ {
+  "id": "se_div2_team_1585596",
+  "name": "Ystads IF HF U",
+  "shortName": "Ystads IF HF U",
+  "tier": "SE-4 Division 2",
+  "competitionId": "se_division2_s",
+  "registrationUrl": "https://www.profixio.com/app/leagueid28096/teams/1585596"
+ }
+]

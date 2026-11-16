@@ -20,7 +20,7 @@
 // loanPlayerOut unchanged; a B-team/development-partnership "exposure"
 // has no movement mechanism at all in 1.0 (see isPartnershipExposureEligible's
 // own doc for why that is the honest, minimal integration).
-import { getClub, getCompetition } from "../game-data";
+import { getClub, getCompetition, hasStaticCooperationRelation } from "../game-data";
 import { playerAgeAtDate } from "../development/developmentIntegration";
 import { getCareerPlayer } from "./careerWorld";
 import { buildClubNewsEvent, type CareerEvent } from "./careerEvents";
@@ -151,6 +151,8 @@ export function getClubPartnerships(state: CareerState, clubId: string): ClubPar
 /** Every club currently tied up as SOMEONE's exclusive partner -- a permanent B-team club (always) or the `clubBId` of any ACTIVE DEVELOPMENT_PARTNERSHIP (Part: "En Division 1-klubb får endast ha ETT aktivt development partnership"). */
 export function isClubExclusivelyPartnered(state: CareerState, clubId: string): boolean {
   if (isPermanentBTeamClub(clubId)) return true;
+  // Club Identity C4 (D9): a real-world second/U team or partner association is never offered as anyone's development partner.
+  if (hasStaticCooperationRelation(clubId, state.seasonId)) return true;
   return Object.values(state.clubPartnerships).some((p) => p.type === "DEVELOPMENT_PARTNERSHIP" && p.status === "ACTIVE" && p.clubBId === clubId);
 }
 
@@ -317,6 +319,8 @@ export function terminatePartnership(state: CareerState, partnershipId: string, 
 export function renewPartnership(state: CareerState, partnershipId: string, additionalMonths: number): CareerState {
   const partnership = state.clubPartnerships[partnershipId];
   if (!partnership || partnership.permanent || partnership.status !== "ACTIVE" || !partnership.endDate || additionalMonths < 1) return state;
+  // Club Identity C4 (D9-A1): a development partnership with a team that is now a real-world cooperation team runs to its end date; no renewal.
+  if (partnership.type === "DEVELOPMENT_PARTNERSHIP" && hasStaticCooperationRelation(partnership.clubBId, state.seasonId)) return state;
   return {
     ...state,
     clubPartnerships: { ...state.clubPartnerships, [partnershipId]: { ...partnership, endDate: addMonths(partnership.endDate, additionalMonths) } },

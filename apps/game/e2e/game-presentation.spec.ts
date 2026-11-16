@@ -1,6 +1,8 @@
 import { test, expect, type Page } from '@playwright/test';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
+import { navTo } from './hubNav';
+import { enterCareerAfterLoad, newGameToManagerStep } from './matchPrep';
 const base = process.env.HM_QA_URL ?? 'http://localhost:3004';
 const phase = process.env.HM_VISUAL_PHASE ?? 'after';
 const evidenceRoot = path.resolve(process.env.HM_GAME_QA_DIR ?? '../../docs/game-experience');
@@ -13,12 +15,15 @@ async function ready(page:Page) {
 async function createCareer(page:Page) {
   await page.setViewportSize({width:1920,height:1080});
   await page.goto(`${base}/new-game`);
-  for(let step=0;step<4;step++) await page.getByRole('button',{name:'Nästa →',exact:true}).click();
+  await newGameToManagerStep(page);
   await page.getByPlaceholder('För- och efternamn').fill('Visual QA');
+  await page.getByRole('combobox', { name: 'Nationalitet', exact: true }).selectOption('SWE');
+  await page.getByRole('textbox', { name: 'Födelsedatum', exact: true }).fill('1985-04-12');
   await page.getByRole('button',{name:'Nästa →',exact:true}).click();
   await page.getByRole('radio',{name:'Vid första tävlingsmatchen',exact:true}).check();
   await page.getByRole('button',{name:'STARTA KARRIÄR',exact:true}).click();
   await page.waitForURL('**/career',{timeout:90000});
+  await enterCareerAfterLoad(page);
   await ready(page);
   await expect(page.locator('main')).toContainText('Torslanda',{timeout:90000});
 }
@@ -27,17 +32,21 @@ test('five presentation screens at desktop and ultrawide, with actual career dat
   const errors:string[]=[];
   page.on('pageerror',error => errors.push(error.message));
   await createCareer(page);
-  await page.getByRole('link',{name:'Trupp',exact:true}).click();
+  await navTo(page,'Trupp');
   await page.waitForURL('**/career/squad');
   const playerHref = await page.locator('main table a[href^="/career/squad/"]').first().getAttribute('href');
-  const screens = [{name:'home',route:'/career'},{name:'squad',route:'/career/squad'},{name:'player',route:playerHref!},{name:'search',route:'/career/players'},{name:'competition',route:'/career/competitions'}];
+  // CMP-01: /career/competitions is now an overview of competition cards; the standings screen is the own league's
+  // page, reached from its card under 'Dina tävlingar' (the old route defaulted to it).
+  await page.goto(`${base}/career/competitions`); await ready(page);
+  const leagueHref = await page.locator('section[aria-labelledby="cc-mine-h"] a.cc-card').filter({hasNotText:'Nationell cup'}).first().getAttribute('href');
+  const screens = [{name:'home',route:'/career'},{name:'squad',route:'/career/squad'},{name:'player',route:playerHref!},{name:'search',route:'/career/players'},{name:'competition',route:leagueHref!}];
   const measurements:unknown[]=[];
   for(const viewport of [{width:1920,height:1080},{width:2560,height:1080}]) {
     const dir=path.join(output,String(viewport.width)); mkdirSync(dir,{recursive:true});
     await page.setViewportSize(viewport);
     for(const screen of screens) {
       await page.goto(`${base}${screen.route}`); await ready(page);
-      if(['squad','search','competition'].includes(screen.name)) await expect(page.locator('main table tbody tr').first()).toBeVisible({timeout:30000});
+      if(['squad','search','competition'].includes(screen.name)) await expect(page.locator('main table tbody tr:not(.cc-pinned-row)').first()).toBeVisible({timeout:30000}); // CMP-01: the standings' first row is the own-club pin, shown only on phone
       if(screen.name==='player') { if(phase==='before') await expect(page.getByRole('button',{name:'Inled förlängningssamtal',exact:true})).toBeVisible({timeout:30000}); else await expect(page.locator('.game-player-hero')).toBeVisible({timeout:30000}); }
       if(screen.name==='home') await expect(page.locator('main')).toContainText('Torslanda',{timeout:30000});
       await page.screenshot({path:path.join(dir,`${screen.name}.png`),fullPage:false,animations:'disabled'});
@@ -56,16 +65,17 @@ test('player identity survives tabs, offer drafts survive selection and sporting
   const errors:string[]=[];
   page.on('pageerror',error=>errors.push(error.message));
   await createCareer(page);
-  await page.getByRole('link',{name:'Trupp',exact:true}).click();
+  await navTo(page,'Trupp');
   await page.locator('main table a[href^="/career/squad/"]').first().click();
   await expect(page.locator('.game-player-hero')).toBeVisible({timeout:30000});
   const playerId=await page.locator('.game-player-hero').getAttribute('data-player-id');
-  for(const tab of ['Prestation & historik','Egenskaper','Utveckling','Kontrakt','Klubbhistorik','Profil & egenskaper']) {
+  // SQD-02c: the 'Egenskaper' and 'Utveckling' tabs are one chapter, 'Egenskaper & utveckling'.
+  for(const tab of ['Matcher','Egenskaper & utveckling','Kontrakt & framtid','Karriär','Översikt']) {
     await page.getByRole('button',{name:tab,exact:true}).click();
     await expect(page.locator('.game-player-hero')).toHaveAttribute('data-player-id',playerId!);
     await expect(page.getByRole('button',{name:tab,exact:true})).toHaveAttribute('aria-pressed','true');
   }
-  await page.getByRole('link',{name:'Transfers',exact:true}).click();
+  await navTo(page,'Transfers');
   const row=page.locator('main table tbody tr').first();
   await row.getByRole('button',{name:'Välj',exact:true}).click();
   const fee=page.getByLabel('Övergångssumma (€)',{exact:true});

@@ -28,6 +28,7 @@ import type { HandballPosition, PlayerMock } from "../game-data";
 import { getClubBudgets, getClubFinancialHealth, getClubPlayerWageCostsEurAnnual } from "../economy/clubEconomyIntegration";
 import { getPlayerContract, getPlayerContractStatus, getPlayerFairWageEurPerMonth } from "../economy/contractIntegration";
 import { daysUntilContractEnd } from "../economy/contractLifecycle";
+import { activeClubId } from "../manager/employment";
 import { computeNewContractEndDate } from "../transfers/transferExecution";
 import { playerAgeAtDate } from "../development/developmentIntegration";
 import { deriveDefaultSquadStatusTier, type SquadStatusTier } from "./squadStatus";
@@ -305,7 +306,7 @@ export function progressCpuContractDecisions(state: CareerState, date: string, c
   const loanedPlayerIds = new Set(Object.values(state.loans ?? {}).filter((loan) => loan.active).map((loan) => loan.playerId));
 
   for (const clubId of cpuClubIds) {
-    if (clubId === state.playerClubId) continue;
+    if (clubId === activeClubId(state)) continue;
     // HM-ALPHA2-05E: the OWNER decides on its loaned-out players exactly as
     // on its own squad (they come back when the loan ends), so a CPU owner
     // can renew a loanee whose contract is running out.

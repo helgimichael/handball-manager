@@ -21,11 +21,14 @@ import { assessMatchdaySquad } from '@/lib/matchPlan/matchdaySquadCheck';
 import { squadEnergy } from '@/lib/career/management';
 import { matchFitnessOf } from '@/lib/players/matchFitness';
 import { ConfirmDialog } from '@/components/game/ConfirmDialog';
-import { currentTeamRoles } from '@/lib/career/teamRoles';
-import type { Position } from '@/lib/matchPlan/types';
 import { matchDayHref } from '@/lib/career/fixtureRoutes';
-
-const PREVIEW_SLOTS: readonly Position[] = ['GK', 'V6', 'V9', 'M9', 'H9', 'H6', 'M6'];
+import { headToHead, lineupBoard, preMatchAttention, previewEmptyState, ritualTiles, squadFixRows } from '@/lib/matchday/preMatch';
+import { AttentionList, Bench, HeadToHead, LineupCourt, PreviewEmpty, RitualSteps, SquadFixList } from '@/components/matchday/PreMatch';
+import { ThreatCards } from '@/components/analysis/Trends';
+import { threatCards } from '@/lib/analysis/threats';
+import { mirrorRows } from '@/lib/analysis/trends';
+import { getClubMatchHistory, sliceWindow } from '@/lib/analysis/matchHistory';
+import { TEMPO_LABELS_SV } from '@/lib/matchPlan/matchPlanLabels';
 
 export default function MatchPreviewPage() {
   const router = useRouter();
@@ -36,21 +39,8 @@ export default function MatchPreviewPage() {
   const squad = getCareerSquad(career);
   const unavailable = squad.filter((p) => !isSelectableForMatch(career.playerStatuses, p.id));
 
-  if (career.seasonComplete) {
-    return (
-      <div className="hm-panel">
-        <div className="hm-panel-body hm-text-muted">Säsongen är avslutad — inga fler matcher att förhandsvisa.</div>
-      </div>
-    );
-  }
-
-  if (!fixture) {
-    return (
-      <div className="hm-panel">
-        <div className="hm-panel-body hm-text-muted">Ingen kommande match schemalagd.</div>
-      </div>
-    );
-  }
+  // MDY-01f: season complete / no fixture -- always a way forward.
+  if (career.seasonComplete || !fixture) return <PreviewEmpty state={previewEmptyState(career)} />;
 
   const isMatchdayReady = fixture.date === career.gameDate && career.careerEvents.some(event => event.id === `MATCHDAY_READY:${fixture.id}` && !event.resolved);
   const hasActiveSessionForFixture = career.productionMatch?.fixture.id === fixture.id;
@@ -67,7 +57,16 @@ export default function MatchPreviewPage() {
 
   const squadCheck = savedPlan && !hasActiveSessionForFixture ? assessMatchdaySquad(savedPlan, availableSquad.map(p => ({ id: p.id, name: `${p.firstName} ${p.lastName}`, isGoalkeeper: p.position === 'MV', energy: squadEnergy(career, p), matchFitness: matchFitnessOf(career, p.id) }))) : null;
   const blocking = lineupErrors.length ? [] : squadCheck?.blocking ?? [];
-  const roles = currentTeamRoles(career);
+  // MDY-01 (C) three-step ritual: 1 Före avkast -> 2 Laget -> 3 Motståndaren, then kick-off.
+  const attention = preMatchAttention(career, { lineupErrors, blocking, warnings: squadCheck?.warnings ?? [], plan: savedPlan, lowReadiness: lowReadiness.length, unavailable: unavailable.length });
+  const board = lineupBoard(career, savedPlan, squad);
+  const opponentId = fixture.homeClubId === career.playerClubId ? fixture.awayClubId : fixture.homeClubId;
+  const meetings = headToHead(career, career.playerClubId, opponentId, fixture.id);
+  // MDY-01c: blocking issues live in the checklist tiles (red tile + reason + fix), not in banners above the page.
+  const scoutReport = career.opponentScouting?.reports[fixture.id];
+  const tiles = ritualTiles({ attention, lineupErrors, blocking, hasPlan: !!savedPlan, report: scoutReport ? 'READY' : career.opponentScouting?.requests[fixture.id] ? 'PENDING' : 'NONE' });
+  // MDY-01d: threat cards (shared with ANL-03), gated by the scouting report's confidence.
+  const threats = threatCards(scoutReport, mirrorRows(sliceWindow(getClubMatchHistory(career, opponentId), 'LAST_5'), sliceWindow(getClubMatchHistory(career, career.playerClubId), 'LAST_5')));
 
   function requestStart(kind: 'LIVE' | 'QUICK') {
     if (squadCheck && squadCheck.warnings.length > 0) setPendingStart(kind);
@@ -91,25 +90,28 @@ export default function MatchPreviewPage() {
   return (
     <div className="hm-grid" style={{ gap: 12 }}>
       {error && <div role="alert" className="hm-panel-body">{error}</div>}
-      {blocking.length > 0 && <div role="alert" className="hm-panel-body hm-squad-check">{blocking.map(b => <span key={b.code} data-kind="blocking">{b.text}</span>)} <Link href="/career/tactics">Rätta matchtruppen i Taktik →</Link></div>}
-      {pendingStart && squadCheck && <ConfirmDialog tone="warning" eyebrow="Kontrollera matchtruppen" title={squadCheck.warnings.some(w => w.code === 'NO_SUBSTITUTES') ? 'Du har inga avbytare uttagna. Vill du verkligen starta matchen?' : 'Vill du starta matchen med den här truppen?'} confirmLabel={pendingStart === 'LIVE' ? 'Starta matchen' : 'Spela snabbresultat'} cancelLabel="Tillbaka till laguttagningen" onCancel={() => { setPendingStart(null); router.push('/career/tactics'); }} onConfirm={() => { const kind = pendingStart; setPendingStart(null); if (kind === 'LIVE') handlePlayMatch(); else handleQuickResult(); }}>
+      {/* MDY-01b "Fix-it dialog": each warning with its consequence and a fix; or start anyway. */}
+      {pendingStart && squadCheck && <ConfirmDialog tone="warning" eyebrow="Kontrollera matchtruppen" title={`${squadCheck.warnings.length === 1 ? 'En sak' : `${squadCheck.warnings.length} saker`} att se över – starta ändå?`} confirmLabel={pendingStart === 'LIVE' ? 'Starta matchen' : 'Spela snabbresultat'} cancelLabel="Avbryt" onCancel={() => setPendingStart(null)} onConfirm={() => { const kind = pendingStart; setPendingStart(null); if (kind === 'LIVE') handlePlayMatch(); else handleQuickResult(); }}>
         <p>Matchtrupp: {squadCheck.registered} spelare · {squadCheck.benchOutfield} utespelare och {squadCheck.benchGoalkeepers} {squadCheck.benchGoalkeepers === 1 ? 'målvakt' : 'målvakter'} på bänken.</p>
-        <ul>{squadCheck.warnings.map(w => <li key={w.code}>{w.text}</li>)}</ul>
+        <SquadFixList rows={squadFixRows(squadCheck.warnings)} />
         <p>Endast de uttagna spelarna kan användas under matchen. Inga spelare läggs till automatiskt.</p>
       </ConfirmDialog>}
-      {lineupErrors.length > 0 && <div role="alert" className="hm-panel-body">{lineupErrors.join(' ')} <Link href="/career/tactics">{isManualLineupCareer(career) ? 'Välj startsju i Taktik →' : 'Öppna Taktik och uppdatera startsjuan.'}</Link></div>}
       <PageHeading
         eyebrow={fixture.kickoffTime ? `${fixture.date} · ${fixture.kickoffTime}` : fixture.date}
         title="Matchförhandsvisning"
         description="Laget, motståndaren och planen inför avkast."
         actions={<Link className="hm-btn" href="/career/tactics">Justera taktik & matchtrupp →</Link>}
       />
+      <RitualSteps steps={tiles} />
       <MatchdayStage fixture={fixture} matchday={isMatchdayReady} />
+      <section id="md-step-1" className="md-step" aria-labelledby="md-step-1-h">
+        <header><span className="md-step-no">1</span><h2 id="md-step-1-h">Före avkast</h2><small>{attention.filter(a => a.tone === 'block').length} måste åtgärdas · {attention.filter(a => a.tone === 'warn').length} att se över</small></header>
+        <AttentionList items={attention} />
+      </section>
       <MatchHero career={career} fixture={fixture} context={isMatchdayReady ? 'MATCHDAG' : 'INFÖR AVKAST'}>
         {isMatchdayReady ? <><button type="button" className="hm-btn hm-btn-primary" disabled={lineupErrors.length > 0 || blocking.length > 0} onClick={() => hasActiveSessionForFixture ? handlePlayMatch() : requestStart('LIVE')}>{hasActiveSessionForFixture ? "FORTSÄTT MATCH →" : "STARTA MATCH →"}</button><button type="button" className="hm-btn" disabled={lineupErrors.length > 0 || blocking.length > 0} onClick={() => requestStart('QUICK')}>SNABBRESULTAT</button></> : <span>Fortsätt säsongen till matchdagen för att spela.</span>}
       </MatchHero>
-      <MatchContext fixture={fixture} />
-      <OpponentScoutingPanel compact />
+      <section id="md-step-2" className="md-step" aria-labelledby="md-step-2-h"><header><span className="md-step-no">2</span><h2 id="md-step-2-h">Laget</h2><small>Startsju, avbytare och tillgänglighet</small></header>
       <div className="hm-grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 340px), 1fr))" }}>
         <div className="hm-panel">
           <div className="hm-panel-header">
@@ -121,29 +123,12 @@ export default function MatchPreviewPage() {
               <>
                 <p style={{ marginTop: 0 }}>
                   Matchtruppen innehåller <strong>{savedPlan.squad.players.length}</strong> spelare
-                  {career.matchPlans[fixture.id] ? '' : ' (senaste uppställningen)'}. Försvar: <strong>{savedPlan.defencePlan.baseFormation}</strong> · Anfallsstil:{' '}
-                  <strong>{savedPlan.attackPlan.tempo}</strong>.
+                  {career.matchPlans[fixture.id] ? '' : ' (senaste uppställningen)'}. Försvar: <strong>{savedPlan.defencePlan.baseFormation.replace('-', '–').replace(':', '–')}</strong> · Anfallstempo:{' '}
+                  <strong>{TEMPO_LABELS_SV[savedPlan.attackPlan.tempo].toLowerCase()}</strong>.
                 </p>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(145px, 1fr))", gap: 6, marginTop: 8 }}>
-                  {PREVIEW_SLOTS.map((slot) => {
-                    const pid = savedPlan.attackStartingUnit.slots.find((s) => s.position === slot)?.playerId;
-                    const p = pid ? squad.find((x) => x.id === pid) : undefined;
-                    return (
-                      <div key={slot} className="hm-role-slot-card" style={{ padding: "6px 8px" }}>
-                        <div className="hm-role-slot-top">
-                          <span className="hm-role-slot-badge">{slot === 'GK' ? 'MV' : slot}</span>
-                          {pid && roles.captainId === pid && <span className="hm-badge" data-tone="accent">K</span>}
-                          {pid && roles.penaltyTakers[0] === pid && <span className="hm-badge" data-tone="good">7m</span>}
-                        </div>
-                        {p ? (
-                          <PlayerCell player={p} />
-                        ) : (
-                          <span className="hm-text-muted">Ej uttagen</span>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
+                <LineupCourt spots={board.spots} />
+                <h3 className="md-subhead">Avbytare · {board.bench.length}</h3>
+                <Bench bench={board.bench} />
               </>
             ) : (
               <p>Granska truppens tillgänglighet och välj startsju och instruktioner i Taktik innan avkast.</p>
@@ -189,6 +174,15 @@ export default function MatchPreviewPage() {
           )}
         </div>
       </div>
+      </section>
+      <section id="md-step-3" className="md-step" aria-labelledby="md-step-3-h"><header><span className="md-step-no">3</span><h2 id="md-step-3-h">Motståndaren</h2><small>Tidigare möten, matchbild och scoutingens analys</small></header>
+        <h3 className="md-subhead">Tidigare möten</h3>
+        <HeadToHead matches={meetings} clubId={career.playerClubId} />
+        <h3 className="md-subhead">Hot och vårt svar</h3>
+        <ThreatCards cards={threats} empty="Inga mått där motståndaren är tydligt starkare än oss, och ingen scoutingrapport ännu." />
+        {scoutReport ? <p className="md-empty">Scoutingrapport av {scoutReport.staffName} · säkerhet {Math.round(scoutReport.reliability * 100)} %. <Link href="/career/analysis/opponent">Hela motståndaranalysen →</Link></p> : <OpponentScoutingPanel compact />}
+        <MatchContext fixture={fixture} />
+      </section>
     </div>
   );
 }

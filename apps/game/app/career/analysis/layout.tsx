@@ -12,7 +12,8 @@ const TABS = [
   { href: "/career/analysis", label: "Översikt" },
   { href: "/career/analysis/opponent", label: "Motståndaren" },
   { href: "/career/analysis/our-team", label: "Vårt lag" },
-  { href: "/career/analysis/last-match", label: "Senaste matchen" },
+  // ANL-02a: "Senaste matchen" merged into the match report (ANL-05); "Matcher" picks any match -> its report.
+  { href: "/career/analysis/matches", label: "Matcher" },
 ];
 
 export default function AnalysisLayout({ children }: { children: ReactNode }) {
@@ -23,7 +24,7 @@ export default function AnalysisLayout({ children }: { children: ReactNode }) {
   return (
     <div className="game-secondary-page">
       <SectionScene eyebrow={`${club.name} · ${career.seasonId}`} title="Matchanalys" description="Registrerade matcher, lagets prestationer och underlaget inför nästa motståndare." mark={<ClubCrest shortName={club.shortName} primaryColor={club.primaryColor} clubId={club.id} size={72} />} actions={<><Link className="hm-btn hm-btn-sm" href="/career/tactics">Matchplan →</Link><Link className="hm-btn hm-btn-sm" href="/career/schedule">Matcher & resultat →</Link></>} />
-      <nav className="hm-tabs game-analysis-tabs" aria-label="Analysvyer">{TABS.map(tab => <Link key={tab.href} href={tab.href} aria-current={pathname === tab.href ? 'page' : undefined}>{tab.label}</Link>)}</nav>
+      <nav className="hm-tabs game-analysis-tabs" aria-label="Analysvyer">{TABS.map(tab => <Link key={tab.href} href={tab.href} aria-current={pathname === tab.href || (tab.href === '/career/analysis/matches' && pathname === '/career/analysis/last-match') ? 'page' : undefined}>{tab.label}</Link>)}</nav>
       {children}
     </div>
   );

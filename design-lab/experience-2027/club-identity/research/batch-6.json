@@ -1,0 +1,369 @@
+[
+ {
+  "id": "den2-norddjurs",
+  "name": "Norddjurs Håndbold",
+  "shortName": "Norddjurs",
+  "city": "Grenaa",
+  "tier": "International / world pool",
+  "competitionId": "den-2"
+ },
+ {
+  "id": "esp1-barca",
+  "name": "FC Barcelona",
+  "shortName": "Barcelona",
+  "city": "Barcelona",
+  "tier": "International / world pool",
+  "competitionId": "esp-1"
+ },
+ {
+  "id": "esp1-anaitasuna",
+  "name": "Bidasoa Irun",
+  "shortName": "Bidasoa",
+  "city": "Irun",
+  "tier": "International / world pool",
+  "competitionId": "esp-1"
+ },
+ {
+  "id": "esp1-logrono",
+  "name": "Ademar León",
+  "shortName": "Ademar León",
+  "city": "León",
+  "tier": "International / world pool",
+  "competitionId": "esp-1"
+ },
+ {
+  "id": "esp1-granollers",
+  "name": "Fraikin BM Granollers",
+  "shortName": "Granollers",
+  "city": "Granollers",
+  "tier": "International / world pool",
+  "competitionId": "esp-1"
+ },
+ {
+  "id": "esp1-alicante",
+  "name": "Helvetia Anaitasuna",
+  "shortName": "Anaitasuna",
+  "city": "Pamplona",
+  "tier": "International / world pool",
+  "competitionId": "esp-1"
+ },
+ {
+  "id": "esp1-cuenca",
+  "name": "Cuenca Balonmano",
+  "shortName": "Cuenca",
+  "city": "Cuenca",
+  "tier": "International / world pool",
+  "competitionId": "esp-1"
+ },
+ {
+  "id": "esp2-cisne",
+  "name": "Cisne Balonmano",
+  "shortName": "Cisne",
+  "city": "Ourense",
+  "tier": "International / world pool",
+  "competitionId": "esp-2"
+ },
+ {
+  "id": "esp2-cordoba",
+  "name": "BM Córdoba",
+  "shortName": "Córdoba",
+  "city": "Córdoba",
+  "tier": "International / world pool",
+  "competitionId": "esp-2"
+ },
+ {
+  "id": "esp2-huesca",
+  "name": "BM Huesca",
+  "shortName": "Huesca",
+  "city": "Huesca",
+  "tier": "International / world pool",
+  "competitionId": "esp-2"
+ },
+ {
+  "id": "esp2-teucro",
+  "name": "Teucro Pontevedra",
+  "shortName": "Teucro",
+  "city": "Pontevedra",
+  "tier": "International / world pool",
+  "competitionId": "esp-2"
+ },
+ {
+  "id": "hun1-szeged",
+  "name": "Pick Szeged",
+  "shortName": "Szeged",
+  "city": "Szeged",
+  "tier": "International / world pool",
+  "competitionId": "hun-1"
+ },
+ {
+  "id": "hun1-veszprem",
+  "name": "Telekom Veszprém",
+  "shortName": "Veszprém",
+  "city": "Veszprém",
+  "tier": "International / world pool",
+  "competitionId": "hun-1"
+ },
+ {
+  "id": "hun1-ferencvaros",
+  "name": "Ferencváros",
+  "shortName": "Ferencváros",
+  "city": "Budapest",
+  "tier": "International / world pool",
+  "competitionId": "hun-1"
+ },
+ {
+  "id": "hun1-csurgo",
+  "name": "Csurgói KK",
+  "shortName": "Csurgó",
+  "city": "Csurgó",
+  "tier": "International / world pool",
+  "competitionId": "hun-1"
+ },
+ {
+  "id": "hun1-gyor",
+  "name": "Grundfos Tatabánya",
+  "shortName": "Tatabánya",
+  "city": "Tatabánya",
+  "tier": "International / world pool",
+  "competitionId": "hun-1"
+ },
+ {
+  "id": "hun2-cegled",
+  "name": "Ceglédi KKSE",
+  "shortName": "Cegléd",
+  "city": "Cegléd",
+  "tier": "International / world pool",
+  "competitionId": "hun-2"
+ },
+ {
+  "id": "hun2-eger",
+  "name": "Egri Spartacus",
+  "shortName": "Eger",
+  "city": "Eger",
+  "tier": "International / world pool",
+  "competitionId": "hun-2"
+ },
+ {
+  "id": "hun2-komlo",
+  "name": "Komlói Bányász",
+  "shortName": "Komló",
+  "city": "Komló",
+  "tier": "International / world pool",
+  "competitionId": "hun-2"
+ },
+ {
+  "id": "svn1-celje",
+  "name": "RK Celje",
+  "shortName": "Celje",
+  "city": "Celje",
+  "tier": "International / world pool",
+  "competitionId": "svn-1"
+ },
+ {
+  "id": "svn1-slovan",
+  "name": "RD Slovan",
+  "shortName": "Slovan",
+  "city": "Ljubljana",
+  "tier": "International / world pool",
+  "competitionId": "svn-1"
+ },
+ {
+  "id": "svn1-trimo",
+  "name": "RK Trimo Trebnje",
+  "shortName": "Trimo Trebnje",
+  "city": "Trebnje",
+  "tier": "International / world pool",
+  "competitionId": "svn-1"
+ },
+ {
+  "id": "svn1-gorenje",
+  "name": "RK Gorenje Velenje",
+  "shortName": "Velenje",
+  "city": "Velenje",
+  "tier": "International / world pool",
+  "competitionId": "svn-1"
+ },
+ {
+  "id": "svn2-skofjaloka",
+  "name": "RD Škofja Loka",
+  "shortName": "Škofja Loka",
+  "city": "Škofja Loka",
+  "tier": "International / world pool",
+  "competitionId": "svn-2"
+ },
+ {
+  "id": "svn2-jeruzalem",
+  "name": "RK Jeruzalem Ormož",
+  "shortName": "Ormož",
+  "city": "Ormož",
+  "tier": "International / world pool",
+  "competitionId": "svn-2"
+ },
+ {
+  "id": "isl1-valur",
+  "name": "Valur",
+  "shortName": "Valur",
+  "city": "Reykjavík",
+  "tier": "International / world pool",
+  "competitionId": "isl-1"
+ },
+ {
+  "id": "isl1-fh",
+  "name": "FH",
+  "shortName": "FH",
+  "city": "Hafnarfjörður",
+  "tier": "International / world pool",
+  "competitionId": "isl-1"
+ },
+ {
+  "id": "isl1-haukar",
+  "name": "Haukar",
+  "shortName": "Haukar",
+  "city": "Hafnarfjörður",
+  "tier": "International / world pool",
+  "competitionId": "isl-1"
+ },
+ {
+  "id": "isl1-akureyri",
+  "name": "KA Akureyri",
+  "shortName": "KA",
+  "city": "Akureyri",
+  "tier": "International / world pool",
+  "competitionId": "isl-1"
+ },
+ {
+  "id": "isl2-fram",
+  "name": "Fram",
+  "shortName": "Fram",
+  "city": "Reykjavík",
+  "tier": "International / world pool",
+  "competitionId": "isl-2"
+ },
+ {
+  "id": "isl2-throttur",
+  "name": "Þróttur Reykjavík",
+  "shortName": "Þróttur",
+  "city": "Reykjavík",
+  "tier": "International / world pool",
+  "competitionId": "isl-2"
+ },
+ {
+  "id": "int-hard",
+  "name": "ALPLA HC Hard",
+  "shortName": "HC Hard",
+  "tier": "International / world pool",
+  "competitionId": "int-aut-1"
+ },
+ {
+  "id": "int-fivers",
+  "name": "Fivers Margareten",
+  "shortName": "Fivers",
+  "tier": "International / world pool",
+  "competitionId": "int-aut-1"
+ },
+ {
+  "id": "int-h71",
+  "name": "H71",
+  "shortName": "H71",
+  "tier": "International / world pool",
+  "competitionId": "int-fro-1"
+ },
+ {
+  "id": "int-veszprem-academy",
+  "name": "Veszprém Handball Academy",
+  "shortName": "Veszprém Akadémia",
+  "tier": "International / world pool",
+  "competitionId": "int-hun-2b"
+ },
+ {
+  "id": "int-meran",
+  "name": "Black Devils Meran Alperia",
+  "shortName": "Meran",
+  "tier": "International / world pool",
+  "competitionId": "int-ita-1"
+ },
+ {
+  "id": "int-cologno",
+  "name": "Metelli Cologne",
+  "shortName": "Cologne",
+  "tier": "International / world pool",
+  "competitionId": "int-ita-1"
+ },
+ {
+  "id": "int-cassano",
+  "name": "Proger Cassano Magnago",
+  "shortName": "Cassano Magnago",
+  "tier": "International / world pool",
+  "competitionId": "int-ita-1"
+ },
+ {
+  "id": "int-camerano",
+  "name": "Camerano",
+  "shortName": "Camerano",
+  "tier": "International / world pool",
+  "competitionId": "int-ita-2"
+ },
+ {
+  "id": "int-paese",
+  "name": "Paese",
+  "shortName": "Paese",
+  "tier": "International / world pool",
+  "competitionId": "int-ita-2"
+ },
+ {
+  "id": "int-fasano",
+  "name": "Serra Fasano",
+  "shortName": "Fasano",
+  "tier": "International / world pool",
+  "competitionId": "int-ita-2"
+ },
+ {
+  "id": "int-bevo",
+  "name": "Humby/Bevo HC",
+  "shortName": "Bevo",
+  "tier": "International / world pool",
+  "competitionId": "int-ned-1"
+ },
+ {
+  "id": "int-volendam",
+  "name": "KRAS/Volendam",
+  "shortName": "Volendam",
+  "tier": "International / world pool",
+  "competitionId": "int-ned-1"
+ },
+ {
+  "id": "int-aalsmeer",
+  "name": "RoyalFloraHolland/HV Aalsmeer",
+  "shortName": "Aalsmeer",
+  "tier": "International / world pool",
+  "competitionId": "int-ned-1"
+ },
+ {
+  "id": "int-wisla-plock",
+  "name": "ORLEN Wisła Płock",
+  "shortName": "Wisła Płock",
+  "tier": "International / world pool",
+  "competitionId": "int-pol-1"
+ },
+ {
+  "id": "int-sporting",
+  "name": "Sporting CP",
+  "shortName": "Sporting",
+  "tier": "International / world pool",
+  "competitionId": "int-por-1"
+ },
+ {
+  "id": "int-alduhail",
+  "name": "Al Duhail",
+  "shortName": "Al Duhail",
+  "tier": "International / world pool",
+  "competitionId": "int-qat-1"
+ },
+ {
+  "id": "int-schaffhausen",
+  "name": "Kadetten Schaffhausen",
+  "shortName": "Kadetten",
+  "tier": "International / world pool",
+  "competitionId": "int-che-1"
+ }
+]

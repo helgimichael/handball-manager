@@ -1,0 +1,394 @@
+[
+ {
+  "id": "den1-aalborg",
+  "name": "Aalborg Håndbold",
+  "shortName": "Aalborg",
+  "city": "Aalborg",
+  "tier": "International / world pool",
+  "competitionId": "den-1"
+ },
+ {
+  "id": "den1-bjerringbro",
+  "name": "Bjerringbro-Silkeborg",
+  "shortName": "BSH",
+  "city": "Silkeborg",
+  "tier": "International / world pool",
+  "competitionId": "den-1"
+ },
+ {
+  "id": "den1-fredericia",
+  "name": "Fredericia HK",
+  "shortName": "Fredericia",
+  "city": "Fredericia",
+  "tier": "International / world pool",
+  "competitionId": "den-1"
+ },
+ {
+  "id": "den1-gog",
+  "name": "GOG Håndbold",
+  "shortName": "GOG",
+  "city": "Gudme/Ørbæk",
+  "tier": "International / world pool",
+  "competitionId": "den-1"
+ },
+ {
+  "id": "den1-grindsted",
+  "name": "Grindsted GIF",
+  "shortName": "Grindsted",
+  "city": "Grindsted",
+  "tier": "International / world pool",
+  "competitionId": "den-1"
+ },
+ {
+  "id": "den1-hoj",
+  "name": "HØJ Elite",
+  "shortName": "HØJ",
+  "city": "Hjørring",
+  "tier": "International / world pool",
+  "competitionId": "den-1"
+ },
+ {
+  "id": "den1-morsthy",
+  "name": "Mors-Thy Håndbold",
+  "shortName": "Mors-Thy",
+  "city": "Nykøbing Mors",
+  "tier": "International / world pool",
+  "competitionId": "den-1"
+ },
+ {
+  "id": "den1-nordsjaelland",
+  "name": "Nordsjælland Håndbold",
+  "shortName": "Nordsjælland",
+  "city": "Helsingør",
+  "tier": "International / world pool",
+  "competitionId": "den-1"
+ },
+ {
+  "id": "den1-ribeesbjerg",
+  "name": "Ribe-Esbjerg HH",
+  "shortName": "Ribe-Esbjerg",
+  "city": "Esbjerg",
+  "tier": "International / world pool",
+  "competitionId": "den-1"
+ },
+ {
+  "id": "den1-skanderborg",
+  "name": "Skanderborg Aarhus",
+  "shortName": "Skanderborg AGF",
+  "city": "Aarhus",
+  "tier": "International / world pool",
+  "competitionId": "den-1"
+ },
+ {
+  "id": "den1-skjern",
+  "name": "Skjern Håndbold",
+  "shortName": "Skjern",
+  "city": "Skjern",
+  "tier": "International / world pool",
+  "competitionId": "den-1"
+ },
+ {
+  "id": "den1-sonderjyske",
+  "name": "SønderjyskE Håndbold",
+  "shortName": "SønderjyskE",
+  "city": "Aabenraa",
+  "tier": "International / world pool",
+  "competitionId": "den-1"
+ },
+ {
+  "id": "den1-tms",
+  "name": "TMS Ringsted",
+  "shortName": "TMS Ringsted",
+  "city": "Ringsted",
+  "tier": "International / world pool",
+  "competitionId": "den-1"
+ },
+ {
+  "id": "den1-tth",
+  "name": "TTH Holstebro",
+  "shortName": "TTH Holstebro",
+  "city": "Holstebro",
+  "tier": "International / world pool",
+  "competitionId": "den-1"
+ },
+ {
+  "id": "ger1-bergischer",
+  "name": "Bergischer HC",
+  "shortName": "Bergischer HC",
+  "city": "Bergisches Land",
+  "tier": "International / world pool",
+  "competitionId": "ger-1"
+ },
+ {
+  "id": "ger1-fuchse",
+  "name": "Füchse Berlin",
+  "shortName": "Füchse Berlin",
+  "city": "Berlin",
+  "tier": "International / world pool",
+  "competitionId": "ger-1"
+ },
+ {
+  "id": "ger1-eisenach",
+  "name": "ThSV Eisenach",
+  "shortName": "Eisenach",
+  "city": "Eisenach",
+  "tier": "International / world pool",
+  "competitionId": "ger-1"
+ },
+ {
+  "id": "ger1-erlangen",
+  "name": "HC Erlangen",
+  "shortName": "Erlangen",
+  "city": "Erlangen",
+  "tier": "International / world pool",
+  "competitionId": "ger-1"
+ },
+ {
+  "id": "ger1-flensburg",
+  "name": "SG Flensburg-Handewitt",
+  "shortName": "Flensburg",
+  "city": "Flensburg",
+  "tier": "International / world pool",
+  "competitionId": "ger-1"
+ },
+ {
+  "id": "ger1-goppingen",
+  "name": "Frisch Auf Göppingen",
+  "shortName": "Göppingen",
+  "city": "Göppingen",
+  "tier": "International / world pool",
+  "competitionId": "ger-1"
+ },
+ {
+  "id": "ger1-gummersbach",
+  "name": "VfL Gummersbach",
+  "shortName": "Gummersbach",
+  "city": "Gummersbach",
+  "tier": "International / world pool",
+  "competitionId": "ger-1"
+ },
+ {
+  "id": "ger1-hamburg",
+  "name": "HSV Hamburg",
+  "shortName": "HSV Hamburg",
+  "city": "Hamburg",
+  "tier": "International / world pool",
+  "competitionId": "ger-1"
+ },
+ {
+  "id": "ger1-hannover",
+  "name": "TSV Hannover-Burgdorf",
+  "shortName": "Hannover-Burgdorf",
+  "city": "Hannover",
+  "tier": "International / world pool",
+  "competitionId": "ger-1"
+ },
+ {
+  "id": "ger1-kiel",
+  "name": "THW Kiel",
+  "shortName": "THW Kiel",
+  "city": "Kiel",
+  "tier": "International / world pool",
+  "competitionId": "ger-1"
+ },
+ {
+  "id": "ger1-leipzig",
+  "name": "SC DHfK Leipzig",
+  "shortName": "Leipzig",
+  "city": "Leipzig",
+  "tier": "International / world pool",
+  "competitionId": "ger-1"
+ },
+ {
+  "id": "ger1-lemgo",
+  "name": "TBV Lemgo",
+  "shortName": "Lemgo",
+  "city": "Lemgo",
+  "tier": "International / world pool",
+  "competitionId": "ger-1"
+ },
+ {
+  "id": "ger1-magdeburg",
+  "name": "SC Magdeburg",
+  "shortName": "Magdeburg",
+  "city": "Magdeburg",
+  "tier": "International / world pool",
+  "competitionId": "ger-1"
+ },
+ {
+  "id": "ger1-melsungen",
+  "name": "MT Melsungen",
+  "shortName": "Melsungen",
+  "city": "Melsungen",
+  "tier": "International / world pool",
+  "competitionId": "ger-1"
+ },
+ {
+  "id": "ger1-minden",
+  "name": "GWD Minden",
+  "shortName": "Minden",
+  "city": "Minden",
+  "tier": "International / world pool",
+  "competitionId": "ger-1"
+ },
+ {
+  "id": "ger1-rheinneckar",
+  "name": "Rhein-Neckar Löwen",
+  "shortName": "Rhein-Neckar",
+  "city": "Mannheim",
+  "tier": "International / world pool",
+  "competitionId": "ger-1"
+ },
+ {
+  "id": "ger1-stuttgart",
+  "name": "TVB Stuttgart",
+  "shortName": "Stuttgart",
+  "city": "Stuttgart",
+  "tier": "International / world pool",
+  "competitionId": "ger-1"
+ },
+ {
+  "id": "ger1-wetzlar",
+  "name": "HSG Wetzlar",
+  "shortName": "Wetzlar",
+  "city": "Wetzlar",
+  "tier": "International / world pool",
+  "competitionId": "ger-1"
+ },
+ {
+  "id": "nor1-elverum",
+  "name": "Elverum Håndball",
+  "shortName": "Elverum",
+  "city": "Elverum",
+  "tier": "International / world pool",
+  "competitionId": "nor-1"
+ },
+ {
+  "id": "nor1-kolstad",
+  "name": "Kolstad Håndball",
+  "shortName": "Kolstad",
+  "city": "Trondheim",
+  "tier": "International / world pool",
+  "competitionId": "nor-1"
+ },
+ {
+  "id": "nor1-oif",
+  "name": "ØIF Arendal",
+  "shortName": "Arendal",
+  "city": "Arendal",
+  "tier": "International / world pool",
+  "competitionId": "nor-1"
+ },
+ {
+  "id": "nor1-bodo",
+  "name": "Bodø HK",
+  "shortName": "Bodø",
+  "city": "Bodø",
+  "tier": "International / world pool",
+  "competitionId": "nor-1"
+ },
+ {
+  "id": "nor1-halden",
+  "name": "Halden Topphåndball",
+  "shortName": "Halden",
+  "city": "Halden",
+  "tier": "International / world pool",
+  "competitionId": "nor-1"
+ },
+ {
+  "id": "nor1-runar",
+  "name": "Runar Håndball",
+  "shortName": "Runar",
+  "city": "Sandefjord",
+  "tier": "International / world pool",
+  "competitionId": "nor-1"
+ },
+ {
+  "id": "nor2-nordstrand",
+  "name": "Nordstrand IF",
+  "shortName": "Nordstrand",
+  "city": "Oslo",
+  "tier": "International / world pool",
+  "competitionId": "nor-2"
+ },
+ {
+  "id": "nor2-fjellhammer",
+  "name": "Fjellhammer IL",
+  "shortName": "Fjellhammer",
+  "city": "Lørenskog",
+  "tier": "International / world pool",
+  "competitionId": "nor-2"
+ },
+ {
+  "id": "nor2-sandnes",
+  "name": "Sandnes HK",
+  "shortName": "Sandnes",
+  "city": "Sandnes",
+  "tier": "International / world pool",
+  "competitionId": "nor-2"
+ },
+ {
+  "id": "nor2-vestli",
+  "name": "Vestli IL",
+  "shortName": "Vestli",
+  "city": "Oslo",
+  "tier": "International / world pool",
+  "competitionId": "nor-2"
+ },
+ {
+  "id": "ger2-balingen",
+  "name": "HBW Balingen-Weilstetten",
+  "shortName": "Balingen",
+  "city": "Balingen",
+  "tier": "International / world pool",
+  "competitionId": "ger-2"
+ },
+ {
+  "id": "ger2-dessau",
+  "name": "SC DHfK Dessau",
+  "shortName": "Dessau",
+  "city": "Dessau",
+  "tier": "International / world pool",
+  "competitionId": "ger-2"
+ },
+ {
+  "id": "ger2-nordhorn",
+  "name": "HSG Nordhorn-Lingen",
+  "shortName": "Nordhorn",
+  "city": "Nordhorn",
+  "tier": "International / world pool",
+  "competitionId": "ger-2"
+ },
+ {
+  "id": "ger2-wilhelmshaven",
+  "name": "TV Bittenfeld",
+  "shortName": "Bittenfeld",
+  "city": "Waiblingen",
+  "tier": "International / world pool",
+  "competitionId": "ger-2"
+ },
+ {
+  "id": "den2-aarhus",
+  "name": "Aarhus Håndbold Herrer",
+  "shortName": "Aarhus",
+  "city": "Aarhus",
+  "tier": "International / world pool",
+  "competitionId": "den-2"
+ },
+ {
+  "id": "den2-vendsyssel",
+  "name": "Elitesport Vendsyssel",
+  "shortName": "Vendsyssel",
+  "city": "Hjørring",
+  "tier": "International / world pool",
+  "competitionId": "den-2"
+ },
+ {
+  "id": "den2-fif",
+  "name": "FIF Håndbold",
+  "shortName": "FIF",
+  "city": "Fredensborg",
+  "tier": "International / world pool",
+  "competitionId": "den-2"
+ }
+]
