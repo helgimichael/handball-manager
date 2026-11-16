@@ -63,7 +63,8 @@ test('phase 3: club world, squad need, recruitment, negotiation, competition and
   await shell(page);
   await expect(page.locator('.cz-legend li')).toHaveCount(4);
   await expect(page.locator('.cz-zone').first()).toHaveText('Uppflyttning');
-  await page.locator('.hm-league-table').screenshot({ path: `${shots}/p3-04-standings-desktop.png` });
+  // CMP-01 league centre: the standings table is now '.cc-table' (was '.hm-league-table'); same table, same shot.
+  await page.locator('.cc-table').screenshot({ path: `${shots}/p3-04-standings-desktop.png` });
 
   // 5. Inbox tray, then home.
   await page.goto(`${base}/career/inbox`);

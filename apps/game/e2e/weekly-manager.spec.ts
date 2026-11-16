@@ -41,10 +41,12 @@ test('weekly office links existing training, persists edits and shows daily Cont
   // The initial day starts unprocessed. An important event may stop Continue
   // on that same date; verify the completed tick rather than demanding a skip.
   await expect(page.locator('.game-progression-notice')).toBeVisible({timeout:30000});
-  await page.getByRole('link',{name:'Kontoret',exact:true}).click();
+  // ENT-09: the 'Kontoret' breadcrumb link is gone (real hub breadcrumb); the office home is the hub rail's 'Idag'.
+  const office=page.getByRole('navigation',{name:'Hubbar',exact:true}).getByRole('link',{name:'Idag',exact:true});
+  await office.click();
   await panel.locator('a.game-week-line').first().click();
   await expect(page.getByRole('combobox',{name:`Dagtyp ${date}`,exact:true})).toBeDisabled();
-  await page.getByRole('link',{name:'Kontoret',exact:true}).click();
+  await office.click();
   await expect(panel.getByRole('heading',{name:'Senaste \u00e5terkopplingen',exact:true})).toBeVisible();
   if(process.env.HM_QA_SCREENSHOT_DIR)await panel.screenshot({path:`${process.env.HM_QA_SCREENSHOT_DIR}/weekly-manager.png`});
   expect(errors).toEqual([]);

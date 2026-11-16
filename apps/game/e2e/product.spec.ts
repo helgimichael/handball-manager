@@ -116,14 +116,18 @@ test('normal career UI: real squad, calendar, live match, decisions, finalizatio
   await navTo(page, 'Schema');
   await expect(page.locator('body')).toContainText('Tumba');
   await navTo(page, 'Tävlingar');
-  await page.getByRole('link', { name: 'Resultat', exact: true }).click();
-  await page.locator('main table a[href^="/career/match-report/"]').first().click();
+  // CMP-01: Tävlingar is now an overview of competition cards; the league's own page (via its card under 'Dina
+  // tävlingar') holds the 'Resultat' tab, whose results are round lists (score links) instead of a table.
+  await page.locator('section[aria-labelledby="cc-mine-h"] a.cc-card').filter({ hasNotText: 'Nationell cup' }).first().click();
+  await page.getByRole('navigation', { name: 'Tävlingsvyer', exact: true }).getByRole('link', { name: 'Resultat', exact: true }).click();
+  await page.locator('main .cc-rounds a.cc-fx-score[href^="/career/match-report/"]').first().click();
   await expect(page.getByText('Matchrapport', { exact: true })).toBeVisible();
   await page.getByRole('link', { name: 'Tabell & liga →', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Allsvenskan', exact: true })).toBeVisible();
-  await page.getByRole('link', { name: 'Spelarstatistik', exact: true }).click();
+  await page.getByRole('link', { name: 'Statistik', exact: true }).click(); // CMP-01: the 'Spelarstatistik' tab is now 'Statistik'
   await page.locator('main table a[href^="/career/squad/"]').first().click();
   await page.getByRole('button', { name: 'Matcher', exact: true }).click();
-  await expect(page.locator('main table a[href^="/career/match-report/"]')).not.toHaveCount(0);
+  // SQD-02b: the Matcher chapter lists matches in the 'Matchlogg' (ol.pv-log) instead of a table.
+  await expect(page.locator('main ol.pv-log a[href^="/career/match-report/"]')).not.toHaveCount(0);
   expect(errors).toEqual([]);
 });

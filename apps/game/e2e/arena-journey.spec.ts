@@ -4,7 +4,7 @@
 // back home; then the same surfaces at phone width. Screenshots and match evidence go to HM_QA_SCREENSHOT_DIR.
 import { test, expect as baseExpect, type Page } from '@playwright/test';
 import { mkdirSync, writeFileSync } from 'node:fs';
-import { chooseStartingSeven, enterCareerAfterLoad, newGameToManagerStep, playToEnd } from './matchPrep';
+import { chooseStartingSeven, enterCareerAfterLoad, newGameToManagerStep, playToEnd, setMatchSpeed } from './matchPrep';
 const expect = baseExpect.configure({ timeout: 30000 });
 const base = process.env.HM_QA_URL ?? 'http://localhost:3001';
 const shots = process.env.HM_QA_SCREENSHOT_DIR ?? '../../docs/club-identity/phase2-screenshots';
@@ -75,7 +75,9 @@ test('arena journey: existing career to a completed native V2 match and back, de
   await page.locator('.hm-matrix-table tbody .hm-chip-name a').first().click();
   await expect(page.locator('.hm-dossier-bar')).toBeVisible();
   await page.screenshot({ path: `${shots}/02-player-overview-desktop.png` });
-  for (const [tab, heading] of [['Utveckling', 'Utveckling över tid'], ['Matcher', 'Prestationskurva'], ['Karriär', 'Karriären'], ['Kontrakt & framtid', 'Kontrakt & framtid']] as const) {
+  // SQD-02b/02c redesign: 'Utveckling' + 'Egenskaper' merged into 'Egenskaper & utveckling' (own player: 'Utvecklingskurva');
+  // the Matcher chart 'Prestationskurva' is now 'Betyg senaste N matcherna'. Same chapters, same heading check.
+  for (const [tab, heading] of [['Egenskaper & utveckling', 'Utvecklingskurva'], ['Matcher', /^Betyg senaste \d+ matcherna$/], ['Karriär', 'Karriären'], ['Kontrakt & framtid', 'Kontrakt & framtid']] as const) {
     await page.getByRole('button', { name: tab, exact: true }).click();
     await expect(page.getByRole('heading', { name: heading, exact: true }).first()).toBeVisible();
   }
@@ -145,9 +147,16 @@ test('arena journey: existing career to a completed native V2 match and back, de
   const finishBtn = page.getByRole('button', { name: 'Slutför match och öppna rapport', exact: true });
   // "Spela till slut" plays the rest of the native V2 match (both halves) and finalises it, landing on the report;
   // a manually played match ends on the live page with the final-whistle card and the finish button instead.
-  await playToEnd(page);
-  await Promise.race([finishBtn.waitFor({ timeout: 900000 }), page.waitForURL('**/career/match-report/**', { timeout: 900000 })]);
-  await expect(page.locator('.mc-final-whistle')).toBeVisible({ timeout: 90000 });
+  // MDY-02m: 'Spela till slut' now shows the simulation-progress card and opens the report by itself, so the
+  // final-whistle card (MDY-02j) is reached only by playing on: play the rest live at the top speed (86×).
+  await setMatchSpeed(page, 86);
+  const resumeLive = page.locator('.mc-transport-primary:is([data-state="play"],[data-state="second-half"],[data-state="resume"])');
+  await expect(async () => {
+    const back = page.getByRole('button', { name: 'Återgå till match', exact: true });
+    if (await back.isVisible()) await back.click();
+    if (await resumeLive.isVisible()) await resumeLive.click();
+    await expect(page.locator('.mc-final-whistle')).toBeVisible({ timeout: 5000 });
+  }).toPass({ timeout: 900000 });
   const finalScore = (await page.locator('.mc-final-score strong').first().innerText()).replace(/\s/g, '');
   await page.screenshot({ path: `${shots}/07-final-whistle-desktop.png` });
   const finalTag = await page.locator('.mc-final-tag').first().innerText();
@@ -191,7 +200,8 @@ test('arena journey: existing career to a completed native V2 match and back, de
   await page.screenshot({ path: `${shots}/10-player-phone.png` });
   await page.getByRole('button', { name: 'Mer', exact: true }).click();
   await expect(page.locator('#hm-sidebar')).toHaveAttribute('data-open', 'true');
-  await expect(page.locator('#hm-sidebar .hm-rail-sub a')).toHaveCount(26);
+  // CLB-01 (C): 'Klubbhuset' merged into Klubb (lib/career/hubs.ts MERGED_NAV_IDS), so the hubs list 25 tabs, not 26.
+  await expect(page.locator('#hm-sidebar .hm-rail-sub a')).toHaveCount(25);
   await page.keyboard.press('Escape');
 
   // Phone matchday: the next match from preview to report at 375 px, score and clock always visible.

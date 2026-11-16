@@ -402,3 +402,10 @@
   .mc-dock, .mc-dock-switch i::after, .mc-sim-fill { transition: none; }
 }
 @keyframes mc-phase-fade { from { opacity: 0; } }
+
+/* Phone: the match owns the screen bottom (fixed transport + bench dock above). The shell's bottom tabs + Continue
+   (ENT-07a, z-index 50, Continue is disabled during a live match anyway) would cover the "Spela" transport, so the
+   shell dock steps aside on the live-match route; it returns with the report. */
+@media (max-width: 760px) {
+  .hm-shell[data-route="live-match"] .hm-mobile-dock { display: none; }
+}

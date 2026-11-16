@@ -35,14 +35,18 @@ test('five presentation screens at desktop and ultrawide, with actual career dat
   await navTo(page,'Trupp');
   await page.waitForURL('**/career/squad');
   const playerHref = await page.locator('main table a[href^="/career/squad/"]').first().getAttribute('href');
-  const screens = [{name:'home',route:'/career'},{name:'squad',route:'/career/squad'},{name:'player',route:playerHref!},{name:'search',route:'/career/players'},{name:'competition',route:'/career/competitions'}];
+  // CMP-01: /career/competitions is now an overview of competition cards; the standings screen is the own league's
+  // page, reached from its card under 'Dina tävlingar' (the old route defaulted to it).
+  await page.goto(`${base}/career/competitions`); await ready(page);
+  const leagueHref = await page.locator('section[aria-labelledby="cc-mine-h"] a.cc-card').filter({hasNotText:'Nationell cup'}).first().getAttribute('href');
+  const screens = [{name:'home',route:'/career'},{name:'squad',route:'/career/squad'},{name:'player',route:playerHref!},{name:'search',route:'/career/players'},{name:'competition',route:leagueHref!}];
   const measurements:unknown[]=[];
   for(const viewport of [{width:1920,height:1080},{width:2560,height:1080}]) {
     const dir=path.join(output,String(viewport.width)); mkdirSync(dir,{recursive:true});
     await page.setViewportSize(viewport);
     for(const screen of screens) {
       await page.goto(`${base}${screen.route}`); await ready(page);
-      if(['squad','search','competition'].includes(screen.name)) await expect(page.locator('main table tbody tr').first()).toBeVisible({timeout:30000});
+      if(['squad','search','competition'].includes(screen.name)) await expect(page.locator('main table tbody tr:not(.cc-pinned-row)').first()).toBeVisible({timeout:30000}); // CMP-01: the standings' first row is the own-club pin, shown only on phone
       if(screen.name==='player') { if(phase==='before') await expect(page.getByRole('button',{name:'Inled förlängningssamtal',exact:true})).toBeVisible({timeout:30000}); else await expect(page.locator('.game-player-hero')).toBeVisible({timeout:30000}); }
       if(screen.name==='home') await expect(page.locator('main')).toContainText('Torslanda',{timeout:30000});
       await page.screenshot({path:path.join(dir,`${screen.name}.png`),fullPage:false,animations:'disabled'});
@@ -65,7 +69,8 @@ test('player identity survives tabs, offer drafts survive selection and sporting
   await page.locator('main table a[href^="/career/squad/"]').first().click();
   await expect(page.locator('.game-player-hero')).toBeVisible({timeout:30000});
   const playerId=await page.locator('.game-player-hero').getAttribute('data-player-id');
-  for(const tab of ['Matcher','Egenskaper','Utveckling','Kontrakt & framtid','Karriär','Översikt']) {
+  // SQD-02c: the 'Egenskaper' and 'Utveckling' tabs are one chapter, 'Egenskaper & utveckling'.
+  for(const tab of ['Matcher','Egenskaper & utveckling','Kontrakt & framtid','Karriär','Översikt']) {
     await page.getByRole('button',{name:tab,exact:true}).click();
     await expect(page.locator('.game-player-hero')).toHaveAttribute('data-player-id',playerId!);
     await expect(page.getByRole('button',{name:tab,exact:true})).toHaveAttribute('aria-pressed','true');

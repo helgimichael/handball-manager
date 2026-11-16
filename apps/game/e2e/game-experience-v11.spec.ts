@@ -101,7 +101,8 @@ test('Continue identifies the real stop, object navigation retains workspace con
   await page.getByRole('checkbox',{name:'Välj Gabriel Helgason',exact:true}).check();
   await page.locator('.hm-roster-table a[href^="/career/squad/"]').first().click();
   await expect(page.locator('.game-player-hero')).toBeVisible();
-  await page.getByRole('button',{name:'Tillbaka i navigationen',exact:true}).click();
+  // ENT-09 A dropped the header's '←' (router.back) button: "back/forward arrows dropped (browser does it)".
+  await page.goBack();
   await expect(page.getByLabel('Sök spelare',{exact:true})).toHaveValue('Gabriel Helgason');
   await expect(page.getByRole('checkbox',{name:'Välj Gabriel Helgason',exact:true})).toBeChecked();
   await navTo(page,'Spelarsök');
@@ -109,7 +110,7 @@ test('Continue identifies the real stop, object navigation retains workspace con
   await page.getByRole('combobox',{name:'Position',exact:true}).selectOption('M9');
   await page.locator('.game-target-dossier').getByRole('link',{name:'Öppna spelarprofil →',exact:true}).click();
   await expect(page.locator('.game-player-hero')).toBeVisible();
-  await page.getByRole('button',{name:'Tillbaka i navigationen',exact:true}).click();
+  await page.goBack(); // ENT-09: browser back replaces the removed header back button (see above).
   await expect(page.getByLabel('Sök spelarmarknaden',{exact:true})).toHaveValue('Ahlin');
   await expect(page.getByRole('combobox',{name:'Position',exact:true})).toHaveValue('M9');
   await expect(page.locator('.game-target-dossier')).toContainText('Ahlin');

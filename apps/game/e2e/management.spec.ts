@@ -31,7 +31,8 @@ test('connected management journeys, contracts, shortlist, scouting, world links
   const ownHref = new URL(page.url()).pathname;
   const ownName = await page.locator('.game-player-hero').textContent();
   await page.getByRole('button',{name:'Matcher',exact:true}).click();
-  await expect(page.getByRole('heading',{name:'Senaste matcherna',exact:true})).toBeVisible();
+  // SQD-02b: the Matcher chapter's 'Senaste matcherna' table is now the 'Matchlogg' (trend chart + match log).
+  await expect(page.getByRole('heading',{name:'Matchlogg',exact:true})).toBeVisible();
   await navTo(page,'Trupp');
   await page.waitForURL('**/career/squad');
   await page.getByRole('combobox',{name:'Position',exact:true}).selectOption('MV');
@@ -39,27 +40,34 @@ test('connected management journeys, contracts, shortlist, scouting, world links
   await page.getByRole('combobox',{name:'Position',exact:true}).selectOption('ALL');
   await page.getByRole('tab',{name:'Prestation',exact:true}).click();
   await page.getByRole('button',{name:/Mål/}).first().click();
+  // SQD-01b: the Prestation view is two read-only tables; selecting players (tray, compare) lives in Översikt,
+  // which keeps the goal sort just chosen.
+  await page.getByRole('tab',{name:'Översikt',exact:true}).click();
   await page.locator('table input[aria-label^="Välj "]:not([aria-label="Välj alla synliga spelare"])').nth(0).check();
   await page.locator('table input[aria-label^="Välj "]:not([aria-label="Välj alla synliga spelare"])').nth(1).check();
   await page.getByRole('link',{name:'Jämför valda spelare →',exact:true}).click();
   await expect(page.getByRole('heading',{name:'Jämför spelare',exact:true})).toBeVisible();
-  await expect(page.locator('.hm-compare-table thead a')).toHaveCount(2);
+  await expect(page.locator('.hm-compare-heads .hm-compare-id strong a')).toHaveCount(2); // SQD-03: compare table head -> two identity headers (player links)
   await page.screenshot({path:`${process.env.HM_QA_SCREENSHOT_DIR ?? '../../docs/management-experience'}/comparison.png`,fullPage:true});
   await page.goto(`${base}/career/contracts`);
-  const firstContract = page.locator('main table tbody tr').first();
-  const expiry = await firstContract.locator('td').nth(2).innerText();
-  const contractName = await firstContract.locator('td a').first().innerText();
-  const contractHref = await firstContract.locator('td a').first().getAttribute('href');
-  await firstContract.getByRole('button',{name:'Förhandla',exact:true}).click();
+  // SQD-05: the contracts table is now a Gantt timeline sorted by contract end. A row's name button opens the renewal
+  // drawer (was the row's 'Förhandla'); its tail shows the end date; the profile link sits in the drawer.
+  const contractRow = (name?: string) => name ? page.locator('.hm-gantt .hm-gantt-row[data-kind="PLAYER"]').filter({hasText:name}) : page.locator('.hm-gantt .hm-gantt-row[data-kind="PLAYER"]').first();
+  const firstContract = contractRow();
+  const expiry = await firstContract.locator('.hm-gantt-tail small').innerText();
+  const contractName = await firstContract.locator('.hm-gantt-name b').innerText();
+  await firstContract.locator('button.hm-gantt-name').click();
+  const contractHref = await page.getByRole('link',{name:'Spelarprofil →',exact:true}).getAttribute('href');
   await page.getByRole('button',{name:'Inled förlängningssamtal',exact:true}).click();
   await page.getByLabel('Förlängning',{exact:true}).selectOption('3');
   await page.getByRole('button',{name:'Förläng kontrakt',exact:true}).click();
   await expect(page.getByRole('status').filter({hasText:'Budet är lämnat. Svar i morgon.'})).toBeVisible();
+  await page.getByRole('dialog').getByRole('button',{name:'Stäng',exact:true}).click(); // SQD-05a drawer is modal: close it to reach the header's Spara
   await page.getByRole('button',{name:'Spara',exact:true}).click();
   await expect(page.getByRole('status').filter({hasText:'Sparat'})).toBeVisible();
   await page.reload();
-  await expect(page.getByRole('link',{name:contractName,exact:true})).toBeVisible({timeout:60000});
-  await expect(page.locator('main table tbody tr').filter({hasText:contractName})).not.toContainText(expiry);
+  await expect(contractRow(contractName).locator('.hm-gantt-name b')).toHaveText(contractName,{timeout:60000});
+  await expect(contractRow(contractName)).not.toContainText(expiry);
   await page.goto(`${base}/career/inbox`);
   // WLD-01: the list is grouped into threads per player, each named after its latest message. The 'Kontrakt'
   // chip narrows the threads to contract-planning messages, so the handled one names its own thread again.
@@ -101,7 +109,7 @@ test('connected management journeys, contracts, shortlist, scouting, world links
   await page.getByRole('link',{name:targetName,exact:true}).click();
   await page.getByRole('link',{name:'Jämför spelare',exact:true}).click();
   await page.getByRole('combobox',{name:'Spelare B',exact:true}).selectOption(ownHref.split('/').at(-1)!);
-  await expect(page.locator('.hm-compare-table thead a')).toHaveCount(2);
+  await expect(page.locator('.hm-compare-heads .hm-compare-id strong a')).toHaveCount(2); // SQD-03: compare table head -> two identity headers (player links)
   await page.goto(`${base}${targetHref}`);
   await expect(page.getByText('Scoutingrapport',{exact:true})).toBeVisible();
   // Advance the real calendar until the assigned scout files the report.

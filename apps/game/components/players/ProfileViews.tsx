@@ -169,7 +169,8 @@ export function DealSheet({ career, player, dossier, marketValue, renewal, trans
       <p className="hm-dossier-note">Hans lön {formatMoney(b.playerAnnualEur)} ({b.sharePct} %) · alla spelarlöner {formatMoney(b.payrollEur)} · budget {formatMoney(b.budgetEur)} · {b.over ? `över budget med ${formatMoney(-b.roomEur)}` : `utrymme ${formatMoney(b.roomEur)}`}</p>
     </section>}
     <div className="pv-deal-cols">
-      <section className="hm-dossier-section" aria-label="Förlängning">{renewal ?? <p className="hm-dossier-note">{own ? 'Avtalet ägs av en annan klubb under lånet; förlängning sköts av ägarklubben.' : 'Extern spelare: kontraktet förhandlas genom ett bud i Transfercentret.'}</p>}</section>
+      {/* Region name must differ from the renewal's own "Förlängning" select inside it (no duplicate accessible name). */}
+      <section className="hm-dossier-section" aria-label="Kontraktsförlängning">{renewal ?? <p className="hm-dossier-note">{own ? 'Avtalet ägs av en annan klubb under lånet; förlängning sköts av ägarklubben.' : 'Extern spelare: kontraktet förhandlas genom ett bud i Transfercentret.'}</p>}</section>
       <div className="pv-deal-side">{transfer}</div>
     </div>
   </div>;
