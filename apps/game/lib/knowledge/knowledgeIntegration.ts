@@ -14,11 +14,16 @@
 // EMPTY, not pre-seeded with one row per club/player in the world.
 import type { CareerState } from "../career/types";
 import { clampKnowledgePct, DEFAULT_EXTERNAL_KNOWLEDGE_PCT, OWN_CLUB_KNOWLEDGE_PCT } from "./types";
+import { activeClubId, formerClubId } from "../manager/employment";
+
+/** Employment states: the squad he left stays well known (the same floor a move to a new job leaves behind), but no longer as his own. */
+export const FORMER_CLUB_KNOWLEDGE_PCT = 85;
+const formerFloor = (state: CareerState, clubId: string, pct: number) => (clubId === formerClubId(state) ? Math.max(pct, FORMER_CLUB_KNOWLEDGE_PCT) : pct);
 
 /** The manager's own club is always fully known; an external club defaults to DEFAULT_EXTERNAL_KNOWLEDGE_PCT unless a stored (scouted/observed) value overrides it. */
 export function getClubKnowledgePct(state: CareerState, clubId: string): number {
-  if (clubId === state.playerClubId) return OWN_CLUB_KNOWLEDGE_PCT;
-  return state.clubKnowledge[clubId] ?? DEFAULT_EXTERNAL_KNOWLEDGE_PCT;
+  if (clubId === activeClubId(state)) return OWN_CLUB_KNOWLEDGE_PCT;
+  return formerFloor(state, clubId, state.clubKnowledge[clubId] ?? DEFAULT_EXTERNAL_KNOWLEDGE_PCT);
 }
 
 /**
@@ -30,8 +35,8 @@ export function getClubKnowledgePct(state: CareerState, clubId: string): number 
  * roster is always fully known, regardless of any stored value.
  */
 export function getPlayerKnowledgePct(state: CareerState, playerId: string, clubId: string): number {
-  if (clubId === state.playerClubId) return OWN_CLUB_KNOWLEDGE_PCT;
-  return state.playerKnowledge[playerId] ?? getClubKnowledgePct(state, clubId);
+  if (clubId === activeClubId(state)) return OWN_CLUB_KNOWLEDGE_PCT;
+  return formerFloor(state, clubId, state.playerKnowledge[playerId] ?? getClubKnowledgePct(state, clubId));
 }
 
 /** The one write path for club knowledge -- reserved for a future scouting/observation source; not called by any gameplay system yet (Part: "Bygg inte hela scouting-systemet ännu"). */

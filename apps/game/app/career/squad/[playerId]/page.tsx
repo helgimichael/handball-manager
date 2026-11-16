@@ -15,6 +15,7 @@ import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { abilityStars, getClub, potentialStars } from "@/lib/game-data";
 import { playerAgeAtDate } from "@/lib/development/developmentIntegration";
 import { useCareer } from "@/lib/career/CareerContext";
+import { activeClubId } from "@/lib/manager/employment";
 import { getCareerPlayer, getCareerSquad } from "@/lib/career/careerWorld";
 import { isFreeAgentClubId } from "@/lib/career/contractExpiry";
 import { isRetiredClubId } from "@/lib/career/playerLifecycle";
@@ -121,7 +122,8 @@ function PlayerProfile() {
 
   // Arena Nights Phase 2: the dossier model (pure, read-only, own-player gating inside).
   const dossier = useMemo(() => (player ? buildPlayerDossier(career, player.id) : undefined), [career, player]);
-  const isOwn = !!player && player.clubId === career.playerClubId;
+  // Employment states: a former club's players are seen from the outside (no internal actions, knowledge from memory).
+  const isOwn = !!player && player.clubId === activeClubId(career);
   const devEvents: AttributeEvent[] = useMemo(() => dossier ? dossier.development.points.map((p) => ({ date: p.date, attribute: p.attribute, from: p.from, to: p.to, source: p.source })) : [], [dossier]);
   // SQD-02j: heat matrix (own players only); the compare overlay reads own players / the own squad average only.
   const matrix = useMemo(() => {
@@ -253,7 +255,7 @@ function PlayerProfile() {
           contractClubName={(contract?.clubId ? getClub(contract.clubId)?.name : club?.name) ?? "Okänd"}
           marketValue={isOwnPlayer ? (marketValue !== undefined ? formatMoney(marketValue) : "—")
             : scoutReportView?.marketValueRange ? (scoutReportView.marketValueRange.min === scoutReportView.marketValueRange.max ? formatMoney(scoutReportView.marketValueRange.min) : `${formatMoney(scoutReportView.marketValueRange.min)} – ${formatMoney(scoutReportView.marketValueRange.max)}`) : "—"}
-          renewal={contract?.clubId === career.playerClubId ? <ContractRenewal key={player.id} playerId={player.id} /> : null}
+          renewal={contract?.clubId === activeClubId(career) ? <ContractRenewal key={player.id} playerId={player.id} /> : null}
           transfer={<PlayerTransferCard playerId={player.id} />} />
 </>;
   const bodyContent = <section className="hm-dossier-section" aria-labelledby="pv-body-h">

@@ -101,7 +101,8 @@ function spineCache(state: CareerState) {
   return {
     actions: state.careerEvents.filter((e) => e.requiresAction && !e.resolved),
     press: Object.values(mediaOf(state).press ?? {}).filter((p) => p.status === "OPEN"),
-    board: state.board?.meetings ?? [],
+    // Employment states: a former club's board meetings are not his calendar.
+    board: club ? state.board?.meetings ?? [] : [],
     transfers: Object.values(state.transferOffers ?? {}).filter((o) => o.status === "AGREED_AWAITING_WINDOW" && o.toClubId === club && o.scheduledCompletionDate),
     contracts: club ? contractRows(state) : [],
     scouting: Object.values(state.scoutingAssignments ?? {}).filter((a) => a.status === "IN_PROGRESS"),

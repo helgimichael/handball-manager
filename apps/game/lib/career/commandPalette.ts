@@ -6,6 +6,7 @@ import type { CareerState } from "./types";
 import { CAREER_NAV_ITEMS } from "./navigation";
 import { CAREER_HUBS, hubHref, hubOfNavId } from "./hubs";
 import { searchManagement } from "./management";
+import { availableHubHref, routeAccess } from "./clubAccess";
 
 export type PaletteGroup = "Sidor" | "Spelare" | "Klubbar" | "Tävlingar" | "Åtgärder";
 export interface PaletteItem { id: string; group: PaletteGroup; label: string; context: string; href: string }
@@ -28,8 +29,9 @@ export const PALETTE_ACTIONS: readonly PaletteItem[] = [
   { id: "act:save", group: "Åtgärder", label: "Sparade karriärer", context: "Spelet", href: "/load-game" },
 ];
 
-function pages(): PaletteItem[] {
-  const hubs = CAREER_HUBS.map((h): PaletteItem => ({ id: `hub:${h.id}`, group: "Sidor", label: h.label, context: "Hubb", href: hubHref(h) }));
+function pages(state: CareerState): PaletteItem[] {
+  // Employment states: a hub lands on its first page he may open (none at all for Laget/Klubben without a club).
+  const hubs = CAREER_HUBS.flatMap((h): PaletteItem[] => { const href = availableHubHref(state, h) ?? hubHref(h); return [{ id: `hub:${h.id}`, group: "Sidor", label: h.label, context: "Hubb", href }]; });
   const items = CAREER_NAV_ITEMS.map((i): PaletteItem => ({ id: `page:${i.id}`, group: "Sidor", label: i.label, context: hubOfNavId(i.id)?.label ?? "Spelet", href: i.href }));
   return [...hubs, ...items];
 }
@@ -49,7 +51,7 @@ export function paletteResults(state: CareerState, raw: string, limitPerGroup = 
   const add = (g: PaletteGroup, items: PaletteItem[]) => { if (!scope || scope === g) out.push(...rank(items).slice(0, limitPerGroup)); };
   // Pages: dedupe hub landing pages that equal their first tab's label.
   const seen = new Set<string>();
-  add("Sidor", pages().filter((p) => { const k = `${p.label}|${p.href}`; if (seen.has(k)) return false; seen.add(k); return true; }));
+  add("Sidor", pages(state).filter((p) => { const k = `${p.label}|${p.href}`; if (seen.has(k)) return false; seen.add(k); return true; }));
   add("Åtgärder", [...PALETTE_ACTIONS]);
   if (term.length >= 2) {
     const found = searchManagement(state, rawTerm);
@@ -57,5 +59,6 @@ export function paletteResults(state: CareerState, raw: string, limitPerGroup = 
     add("Klubbar", found.filter((r) => r.kind === "Klubb").map((r) => ({ id: `club:${r.id}`, group: "Klubbar" as const, label: r.label, context: r.context, href: r.href })));
     add("Tävlingar", found.filter((r) => r.kind === "Tävling").map((r) => ({ id: `comp:${r.id}`, group: "Tävlingar" as const, label: r.label, context: r.context, href: r.href })));
   }
-  return PALETTE_GROUP_ORDER.flatMap((g) => out.filter((i) => i.group === g));
+  // Without a club, nothing club-internal is offered (the route guard would refuse it anyway).
+  return PALETTE_GROUP_ORDER.flatMap((g) => out.filter((i) => i.group === g && routeAccess(state, i.href).allowed));
 }

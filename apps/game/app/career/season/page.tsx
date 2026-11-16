@@ -23,6 +23,7 @@ import { CompetitionMark, competitionKeyOf, competitionStyle, COMPETITION_IDENTI
 import { BracketGrid, Crest, TieCard, clubName as name, tieStatus } from "@/components/season/Knockout";
 import { TROPHY_MOMENT_BACKDROP, TROPHY_STILL } from "@/components/season/seasonAssets";
 import { useCareer } from "@/lib/career/CareerContext";
+import { activeClubId } from "@/lib/manager/employment";
 import { getCareerPlayer } from "@/lib/career/careerWorld";
 import { formatGameDate } from "@/lib/career/dateUtils";
 import type { CareerState } from "@/lib/career/types";
@@ -56,7 +57,7 @@ export default function SeasonPage() {
   const { career } = useCareer();
   const outcome = career.seasonOutcome;
   const ties = Object.values(career.competitionTies ?? {});
-  const me = career.playerClubId;
+  const me = (activeClubId(career) ?? "");
   const leagues = [HANDBOLLSLIGAN, ALLSVENSKAN].filter((c) => hasLeagueCalendar(career, c));
   const upcoming = career.fixtures.filter((f) => !career.results[f.id] && (f.homeClubId === me || f.awayClubId === me || f.stage)).sort((a, b) => a.date.localeCompare(b.date)).slice(0, 6);
   const smTies = ties.filter((t) => t.competitionId === SM_SLUTSPEL);
@@ -66,8 +67,8 @@ export default function SeasonPage() {
     const tables: Record<string, ReturnType<typeof competitionTable>> = {};
     for (const c of new Set([career.competitionId, ...[HANDBOLLSLIGAN, ALLSVENSKAN].filter((x) => hasLeagueCalendar(career, x))])) tables[c] = competitionTable(career, c);
     const allTies = Object.values(career.competitionTies ?? {});
-    const input = { me: career.playerClubId, competitionId: career.competitionId, phase: career.seasonOutcome?.phase, tables, ties: allTies };
-    return { path: buildSeasonPath(input), bracket: ghostBracket(input), gala: buildGalaSequence(career.seasonOutcome, career.playerClubId, career.competitionId) };
+    const input = { me: (activeClubId(career) ?? ""), competitionId: career.competitionId, phase: career.seasonOutcome?.phase, tables, ties: allTies };
+    return { path: buildSeasonPath(input), bracket: ghostBracket(input), gala: buildGalaSequence(career.seasonOutcome, (activeClubId(career) ?? ""), career.competitionId) };
   }, [career]);
   const tabs: { id: SeasonTab; label: string }[] = [
     { id: "tables", label: "Tabeller" },
@@ -168,14 +169,14 @@ function Champion({ tie, label }: { tie?: CompetitionTie; label: string }) {
 }
 
 function myOpenTie(career: CareerState) {
-  const me = career.playerClubId;
+  const me = (activeClubId(career) ?? "");
   const mine = Object.values(career.competitionTies ?? {}).filter((t) => t.competitionId !== SVENSKA_CUPEN && (t.highClubId === me || t.lowClubId === me));
   return { open: mine.find((t) => !t.winnerClubId), last: mine.filter((t) => t.winnerClubId).sort((a, b) => b.fixtureIds.length - a.fixtureIds.length).at(-1), all: mine };
 }
 
 function SeasonHero({ career }: { career: CareerState }) {
   const o = career.seasonOutcome;
-  const me = career.playerClubId;
+  const me = (activeClubId(career) ?? "");
   const table = competitionTable(career, career.competitionId);
   const position = table.findIndex((r) => r.clubId === me) + 1;
   const row = table.find((r) => r.clubId === me);
@@ -213,7 +214,7 @@ function SeasonHero({ career }: { career: CareerState }) {
 
 /** "What happens next" for the manager's club, in one panel. */
 function NextStep({ career }: { career: CareerState }) {
-  const me = career.playerClubId;
+  const me = (activeClubId(career) ?? "");
   const o = career.seasonOutcome;
   const ties = Object.values(career.competitionTies ?? {});
   const { open, all } = myOpenTie(career);
@@ -334,7 +335,7 @@ function SeasonVerdict({ career }: { career: CareerState }) {
   return (
     <section className="ss-verdict" aria-label="Säsongens facit">
       {items.filter((i) => i.club).map((i) => (
-        <div key={i.label} className="ss-verdict-item" data-mine={i.club === career.playerClubId} style={competitionStyle(i.comp)}>
+        <div key={i.label} className="ss-verdict-item" data-mine={i.club === (activeClubId(career) ?? "")} style={competitionStyle(i.comp)}>
           <CompetitionMark competition={i.comp} size={30} />
           <span><small>{i.label}</small><b>{name(i.club)}</b></span>
           <Crest id={i.club} size={34} />
@@ -353,7 +354,7 @@ function LeagueTable({ career, competitionId }: { career: CareerState; competiti
       <h3><CompetitionMark competition={key} size={24} />{LEAGUE_NAME(competitionId)}</h3>
       <table className="hm-table ss-table">
         <thead><tr><th>#</th><th>Lag</th><th className="hm-table-num">M</th><th className="hm-table-num">+/−</th><th className="hm-table-num">P</th></tr></thead>
-        <tbody>{table.map((r, i) => { const z = zoneOf?.(i + 1); const nz = zoneOf?.(i + 2); return <tr key={r.clubId} data-zone={z?.zone} data-own={r.clubId === career.playerClubId} data-cut={!!nz && nz.zone !== z?.zone || (!nz && !!z && i < table.length - 1)}><td title={z?.label}>{i + 1}</td><td><Link href={`/career/clubs/${encodeURIComponent(r.clubId)}`} className="ss-club"><Crest id={r.clubId} />{name(r.clubId)}</Link></td><td className="hm-table-num">{r.played}</td><td className="hm-table-num">{r.goalDifference > 0 ? `+${r.goalDifference}` : r.goalDifference}</td><td className="hm-table-num"><b>{r.points}</b></td></tr>; })}</tbody>
+        <tbody>{table.map((r, i) => { const z = zoneOf?.(i + 1); const nz = zoneOf?.(i + 2); return <tr key={r.clubId} data-zone={z?.zone} data-own={r.clubId === (activeClubId(career) ?? "")} data-cut={!!nz && nz.zone !== z?.zone || (!nz && !!z && i < table.length - 1)}><td title={z?.label}>{i + 1}</td><td><Link href={`/career/clubs/${encodeURIComponent(r.clubId)}`} className="ss-club"><Crest id={r.clubId} />{name(r.clubId)}</Link></td><td className="hm-table-num">{r.played}</td><td className="hm-table-num">{r.goalDifference > 0 ? `+${r.goalDifference}` : r.goalDifference}</td><td className="hm-table-num"><b>{r.points}</b></td></tr>; })}</tbody>
       </table>
       <ul className="ss-legend">{competitionId === HANDBOLLSLIGAN ? <><li data-zone="playoff">1–8 SM-slutspel</li><li data-zone="kval">11–13 Kval</li><li data-zone="down">14 Nedflyttning</li></> : <><li data-zone="up">1 Uppflyttning</li><li data-zone="kval-up">2–4 Kval uppåt</li><li data-zone="kval">11–12 Kval nedåt</li><li data-zone="down">13–14 Nedflyttning</li></>}</ul>
     </div>
@@ -363,7 +364,7 @@ function LeagueTable({ career, competitionId }: { career: CareerState; competiti
 function Cup({ career, ties }: { career: CareerState; ties: CompetitionTie[] }) {
   const groups = ties.filter((t) => t.stage === "CUP_GROUP").sort((a, b) => a.key.localeCompare(b.key));
   const byKey = (k: string) => ties.find((t) => t.key === k);
-  const me = career.playerClubId;
+  const me = (activeClubId(career) ?? "");
   const myGroup = groups.find((g) => g.clubIds?.includes(me));
   return (
     <section className="ss-section" data-comp="CUP" style={competitionStyle("CUP")} aria-labelledby="cup-title">

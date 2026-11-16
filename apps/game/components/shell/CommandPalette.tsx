@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCareer } from '@/lib/career/CareerContext';
 import { paletteResults, type PaletteItem } from '@/lib/career/commandPalette';
+import { routeAccess } from '@/lib/career/clubAccess';
 
 const RECENT_KEY = 'hm-palette-recent';
 function readRecent(): PaletteItem[] {
@@ -43,7 +44,7 @@ export default function CommandPalette({ onClose }: { onClose: () => void }) {
   const results = useMemo(() => {
     const found = paletteResults(career, query);
     if (query.trim()) return found;
-    const recents = recent.map((r) => ({ ...r, id: `recent:${r.id}`, context: `Senast · ${r.context}` }));
+    const recents = recent.filter((r) => routeAccess(career, r.href).allowed).map((r) => ({ ...r, id: `recent:${r.id}`, context: `Senast · ${r.context}` }));
     return [...recents, ...found.filter((f) => f.group === 'Åtgärder').slice(0, 4), ...found.filter((f) => f.group === 'Sidor' && f.context === 'Hubb')];
   }, [career, query, recent]);
 

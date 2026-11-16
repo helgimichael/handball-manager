@@ -1,5 +1,6 @@
 "use client";
 
+import { assertClubAccess } from "../manager/employment";
 import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode, type SetStateAction } from "react";
 import type { FastMatchResult } from "@handball-manager/game-simulation";
 import { flushCareerWritesOnExit, getActiveSave, getCareerWriteStatus, saveCareerState, subscribeCareerWriteStatus, type CareerSave, type CareerWriteStatus } from "../save/saveRepository";
@@ -836,6 +837,17 @@ export function CareerProvider({ children, loadingFallback, initializationErrorF
     return result;
   }
 
+  // Employment states, data boundary: every action that works on the club the manager runs is refused
+  // while he has none. The route guard already keeps club pages from mounting; this keeps a stale button,
+  // a remembered link or a public page's shortcut from changing a former club's squad, staff or business.
+  const current = value;
+  function clubOnly<A extends unknown[], R>(action: (...args: A) => R): (...args: A) => R {
+    return (...args: A) => {
+      assertClubAccess(current.career);
+      return action(...args);
+    };
+  }
+
   return (
     <CareerContext.Provider
       value={{
@@ -847,42 +859,42 @@ export function CareerProvider({ children, loadingFallback, initializationErrorF
         markInboxMessageRead,
         archiveInboxMessage,
         unarchiveInboxMessage,
-        updateTacticalProfile: updateTacticalProfileAction,
-        updateSquadStatus: updateSquadStatusAction,
-        offerStaffContract: offerStaffContractAction,
-        updateMatchPlan: updateMatchPlanAction,
-        setPlayerMatchDefault: setPlayerMatchDefaultAction,
-        updateSpecialPlay: updateSpecialPlayAction,
-        applyMidMatchTacticalChange: applyMidMatchTacticalChangeAction,
-        applyMidMatchPlanChange: applyMidMatchPlanChangeAction,
+        updateTacticalProfile: clubOnly(updateTacticalProfileAction),
+        updateSquadStatus: clubOnly(updateSquadStatusAction),
+        offerStaffContract: clubOnly(offerStaffContractAction),
+        updateMatchPlan: clubOnly(updateMatchPlanAction),
+        setPlayerMatchDefault: clubOnly(setPlayerMatchDefaultAction),
+        updateSpecialPlay: clubOnly(updateSpecialPlayAction),
+        applyMidMatchTacticalChange: clubOnly(applyMidMatchTacticalChangeAction),
+        applyMidMatchPlanChange: clubOnly(applyMidMatchPlanChangeAction),
         startLiveMatchSession: startLiveMatchSessionAction,
         updateLiveMatchSession: updateLiveMatchSessionAction,
         endLiveMatchSession: endLiveMatchSessionAction,
-        setTrainingDayType: setTrainingDayTypeActionWrapper,
-        addTrainingSession: addTrainingSessionActionWrapper,
-        removeTrainingSession: removeTrainingSessionActionWrapper,
-        updateTrainingSession: updateTrainingSessionActionWrapper,
-        applyWeeklyTemplate: applyWeeklyTemplateActionWrapper,
-        setPlayerTrainingLoad: setPlayerTrainingLoadActionWrapper,
-        setPlayerIndividualFocus: setPlayerIndividualFocusActionWrapper,
-        bookFriendly: bookFriendlyActionWrapper,
-        submitTransferOffer: submitTransferOfferActionWrapper,
-        negotiateTransfer: negotiateTransferActionWrapper,
-        createScoutingAssignment: createScoutingAssignmentActionWrapper,
-        createBroadScoutingAssignment: createBroadScoutingAssignmentActionWrapper,
-        cancelScoutingAssignment: cancelScoutingAssignmentActionWrapper,
-        addToShortlist: addToShortlistActionWrapper,
-        removeFromShortlist: removeFromShortlistActionWrapper,
-        setRecruitmentPriority: setRecruitmentPriorityActionWrapper,
-        setRecruitmentNote: setRecruitmentNoteActionWrapper,
-        requestPartnershipSearch: requestPartnershipSearchActionWrapper,
-        startDevelopmentPartnership: startDevelopmentPartnershipActionWrapper,
-        terminatePartnership: terminatePartnershipActionWrapper,
-        renewPartnership: renewPartnershipActionWrapper,
-        signFreeAgentScout: signFreeAgentScoutActionWrapper,
-        startPlacement: startPlacementActionWrapper,
-        recallPlayerFromPlacement: recallPlayerFromPlacementActionWrapper,
-        startInternationalPartnershipLoan: startInternationalPartnershipLoanActionWrapper,
+        setTrainingDayType: clubOnly(setTrainingDayTypeActionWrapper),
+        addTrainingSession: clubOnly(addTrainingSessionActionWrapper),
+        removeTrainingSession: clubOnly(removeTrainingSessionActionWrapper),
+        updateTrainingSession: clubOnly(updateTrainingSessionActionWrapper),
+        applyWeeklyTemplate: clubOnly(applyWeeklyTemplateActionWrapper),
+        setPlayerTrainingLoad: clubOnly(setPlayerTrainingLoadActionWrapper),
+        setPlayerIndividualFocus: clubOnly(setPlayerIndividualFocusActionWrapper),
+        bookFriendly: clubOnly(bookFriendlyActionWrapper),
+        submitTransferOffer: clubOnly(submitTransferOfferActionWrapper),
+        negotiateTransfer: clubOnly(negotiateTransferActionWrapper),
+        createScoutingAssignment: clubOnly(createScoutingAssignmentActionWrapper),
+        createBroadScoutingAssignment: clubOnly(createBroadScoutingAssignmentActionWrapper),
+        cancelScoutingAssignment: clubOnly(cancelScoutingAssignmentActionWrapper),
+        addToShortlist: clubOnly(addToShortlistActionWrapper),
+        removeFromShortlist: clubOnly(removeFromShortlistActionWrapper),
+        setRecruitmentPriority: clubOnly(setRecruitmentPriorityActionWrapper),
+        setRecruitmentNote: clubOnly(setRecruitmentNoteActionWrapper),
+        requestPartnershipSearch: clubOnly(requestPartnershipSearchActionWrapper),
+        startDevelopmentPartnership: clubOnly(startDevelopmentPartnershipActionWrapper),
+        terminatePartnership: clubOnly(terminatePartnershipActionWrapper),
+        renewPartnership: clubOnly(renewPartnershipActionWrapper),
+        signFreeAgentScout: clubOnly(signFreeAgentScoutActionWrapper),
+        startPlacement: clubOnly(startPlacementActionWrapper),
+        recallPlayerFromPlacement: clubOnly(recallPlayerFromPlacementActionWrapper),
+        startInternationalPartnershipLoan: clubOnly(startInternationalPartnershipLoanActionWrapper),
         saveStatus,
         retrySave,
       }}

@@ -21,6 +21,7 @@ import { ENVIRONMENTS } from "@/components/clubhq/environments";
 import { COMPETITIONS, getClub, positionLabel } from "@/lib/game-data";
 import { playerAgeAtDate } from "@/lib/development/developmentIntegration";
 import { useCareer } from "@/lib/career/CareerContext";
+import { canAccessClubInternals } from "@/lib/manager/employment";
 import { getCareerClubSquad } from "@/lib/career/careerWorld";
 import { clubCompetitionId } from "@/lib/career/competitionMembership";
 import type { ClubIdentityProfile, CoachIdentityProfile } from "@/lib/identity";
@@ -40,7 +41,8 @@ export default function ClubProfilePage() {
   const { career } = useCareer();
   const club = getClub(params.clubId);
   const [identity, setIdentity] = useState<Identity | null>(null);
-  const isOwnClub = params.clubId === career.playerClubId;
+  // Employment states: only the club he runs opens as his own house; a former club shows its public portrait.
+  const isOwnClub = canAccessClubInternals(career, params.clubId);
 
   useEffect(() => { if (isOwnClub) router.replace("/career/club"); }, [isOwnClub, router]);
   useEffect(() => {

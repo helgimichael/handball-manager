@@ -7,7 +7,8 @@ import { getActiveSave } from "@/lib/save/saveRepository";
 import { COMPETITIONS, getClub } from '@/lib/game-data';
 import CareerInitialization, { type HandoverFact } from '@/components/game/CareerInitialization';
 import { buildSaveCover } from '@/components/entry/saveCover';
-import { CareerProvider } from "@/lib/career/CareerContext";
+import { CareerProvider, useCareer } from "@/lib/career/CareerContext";
+import { activeClubId } from "@/lib/manager/employment";
 import '@/components/game/game-feedback.css';
 import { WorkspaceMemory } from '@/components/game/WorkspaceMemory';
 
@@ -41,7 +42,8 @@ export default function CareerLayout({ children }: { children: React.ReactNode }
           router.replace("/");
           return;
         }
-        setSave({ clubId: save.clubId, gameDate: save.gameDate, seasonId: save.careerState?.seasonId, existing: !!save.careerState, facts: save.careerState ? coverFacts(save) : undefined });
+        // Employment states: a manager without a club opens his career, not his former club.
+        setSave({ clubId: save.careerState?.managerCareer?.seekingJob ? "" : save.clubId, gameDate: save.gameDate, seasonId: save.careerState?.seasonId, existing: !!save.careerState, facts: save.careerState ? coverFacts(save) : undefined });
       })
       .catch((cause: unknown) => {
         if (cancelled) return;
@@ -65,7 +67,7 @@ export default function CareerLayout({ children }: { children: React.ReactNode }
   return (
     <CareerProvider loadingFallback={loading} initializationErrorFallback={failure}>
       <Handover startedAt={startedAt} identity={identity} facts={save.facts}>
-        <WorkspaceMemory><GameShell>{children}</GameShell></WorkspaceMemory>
+        <EmploymentWorkspace><GameShell>{children}</GameShell></EmploymentWorkspace>
       </Handover>
     </CareerProvider>
   );
@@ -90,4 +92,10 @@ function Handover({ startedAt, identity, facts, children }: { startedAt: number;
   const [entered, setEntered] = useState(() => Date.now() - startedAt <= 3000);
   if (entered) return children;
   return <CareerInitialization {...identity} facts={facts} ready onEnter={() => setEntered(true)} />;
+}
+
+/** Employment states: the workspace memory is scoped to the club the manager runs (or to having none). */
+function EmploymentWorkspace({ children }: { children: ReactNode }) {
+  const { career } = useCareer();
+  return <WorkspaceMemory scope={activeClubId(career) ?? "no-club"}>{children}</WorkspaceMemory>;
 }

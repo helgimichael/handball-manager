@@ -19,7 +19,10 @@ import type { CSSProperties } from "react";
 import { getNextEventDate } from "@/lib/career/calendar";
 import { addDays, formatGameDate } from "@/lib/career/dateUtils";
 import { CAREER_NAV_ITEMS, resolveActiveNavId } from "@/lib/career/navigation";
-import { CAREER_HUBS, MOBILE_TAB_HUBS, hubHref, hubTabs, resolveHubRoute } from "@/lib/career/hubs";
+import { CAREER_HUBS, MOBILE_TAB_HUBS, resolveHubRoute } from "@/lib/career/hubs";
+import { availableHubTabs, hubAccessList, routeAccess } from "@/lib/career/clubAccess";
+import { activeClubId } from "@/lib/manager/employment";
+import { NoClubAccess } from "./shell/NoClubAccess";
 import { COMPETITIONS, getClub, getCompetition } from "@/lib/game-data";
 import { computeLiveMatchView } from "@/lib/liveMatch/liveMatchView";
 import { formatMatchMinute } from "@/lib/liveMatch/commentary";
@@ -30,6 +33,7 @@ import { buildBreadcrumb, parentCrumb } from './shell/breadcrumb';
 import { pushStop, stopInboxHref, stopKey, stopKicker } from './shell/eventStops';
 import { registerFeedbackContext } from './FeedbackModal';
 import './shell/shell-231.css';
+import './shell/no-club.css';
 
 type NavEntry = { id: string; href: string; label: string; icon: NavIconName; badge?: number };
 
@@ -59,6 +63,14 @@ export default function GameShell({ children }: { children: ReactNode }) {
   const competitionName = COMPETITIONS.find((c) => c.id === career.competitionId)?.name ?? "Ligan";
   const nextEventDate = getNextEventDate(career);
   const activeNavId = resolveActiveNavId(pathname);
+  // Employment states: club-internal destinations need a club of his own. Without one the hubs that are
+  // nothing but club work (Laget, Klubben) stay in place but inert, other hubs show only their open tabs,
+  // and a club-internal route renders the "no club" panel instead of mounting the page at all.
+  const access = routeAccess(career, pathname);
+  const hubAccess = hubAccessList(career);
+  const hubAccessOf = (id: string) => hubAccess.find((h) => h.hub.id === id)!;
+  const ownClubId = activeClubId(career);
+  const hubKeySignature = hubAccess.map((h) => (h.available ? h.href ?? "" : "")).join("|");
   // HM-MATCH-1.3A Part F/G: "a live match is a persistent career
   // session, not a page" -- the global shell must know one is in
   // progress (Part F: a visible route back) and must never let the
@@ -132,12 +144,15 @@ export default function GameShell({ children }: { children: ReactNode }) {
       if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
       const n = Number(e.key);
       if (!Number.isInteger(n) || n < 1 || n > CAREER_HUBS.length) return;
+      // A hub that needs a club does nothing without one.
+      const href = hubKeySignature.split("|")[n - 1];
+      if (!href) return;
       e.preventDefault();
-      router.push(hubHref(CAREER_HUBS[n - 1]!));
+      router.push(href);
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [paletteOpen, isOnLiveMatchRoute, router]);
+  }, [paletteOpen, isOnLiveMatchRoute, router, hubKeySignature]);
   // Desktop rail: collapsed (64px) or pinned open (220px); a per-device convenience only.
   // The shell only renders on the client (after the save loads), so the lazy initialisers can read the device.
   const [railPinned, setRailPinned] = useState<boolean | null>(() => { try { const v = window.localStorage.getItem("hm-rail-pinned"); return v === null ? null : v === "1"; } catch { return null; } });
@@ -212,12 +227,12 @@ export default function GameShell({ children }: { children: ReactNode }) {
   const overlayMatch = useMemo(() => {
     if (!processing || processing.notice.kind !== 'matchday') return null;
     const last = processing.days.at(-1)?.date;
-    const f = career.fixtures.find((x) => x.date === last && (x.homeClubId === career.playerClubId || x.awayClubId === career.playerClubId));
+    const f = career.fixtures.find((x) => x.date === last && (x.homeClubId === ownClubId || x.awayClubId === ownClubId));
     const home = f ? getClub(f.homeClubId) : undefined, away = f ? getClub(f.awayClubId) : undefined;
     return f && home && away ? { home, away, label: f.type === 'LEAGUE' ? `${competitionName} omg ${f.round}` : undefined } : null;
-  }, [processing, career.fixtures, career.playerClubId, competitionName]);
+  }, [processing, career.fixtures, ownClubId, competitionName]);
 
-  const gameState = career.productionMatch ? 'live' : career.seasonComplete ? 'season-complete' : career.fixtures.some(f => f.date===career.gameDate && !career.results[f.id] && (f.homeClubId===career.playerClubId || f.awayClubId===career.playerClubId)) ? 'matchday' : 'season';
+  const gameState = career.productionMatch ? 'live' : career.seasonComplete ? 'season-complete' : career.fixtures.some(f => f.date===career.gameDate && !career.results[f.id] && (f.homeClubId===ownClubId || f.awayClubId===ownClubId)) ? 'matchday' : 'season';
   const inboxBadge = unread ? <span className="hm-nav-badge" aria-hidden="true">{unread}</span> : null;
   const continueButton = (className: string) => <button
     type="button"
@@ -247,15 +262,25 @@ export default function GameShell({ children }: { children: ReactNode }) {
         <nav className="hm-nav-group hm-rail" aria-label="Hubbar">
           {CAREER_HUBS.map((hub, index) => {
             const active = activeHub?.id === hub.id;
+            const { available, href } = hubAccessOf(hub.id);
+            if (!available || !href) return (
+              <div key={hub.id} className="hm-rail-hub" data-locked="true">
+                <span className="hm-nav-item hm-rail-link" role="link" aria-disabled="true" aria-label={`${hub.label} – kräver en klubb`} title={`${hub.label}: kräver en klubb`} data-testid={`hub-locked-${hub.id}`}>
+                  <span className="hm-nav-icon"><NavIcon name={hub.icon} /></span>
+                  <span className="hm-rail-label">{hub.label}</span>
+                  <span className="hm-rail-lock" aria-hidden="true">Kräver klubb</span>
+                </span>
+              </div>
+            );
             return (
               <div key={hub.id} className="hm-rail-hub" data-active={active}>
-                <Link className="hm-nav-item hm-rail-link" data-active={active} href={hubHref(hub)} aria-label={hub.label} aria-current={active ? 'page' : undefined} title={`${hub.label} (${index + 1})`}>
+                <Link className="hm-nav-item hm-rail-link" data-active={active} href={href} aria-label={hub.label} aria-current={active ? 'page' : undefined} title={`${hub.label} (${index + 1})`}>
                   <span className="hm-nav-icon"><NavIcon name={hub.icon} /></span>
                   <span className="hm-rail-label">{hub.label}</span>
                   <kbd className="hm-rail-key" aria-hidden="true">{index + 1}</kbd>
                 </Link>
                 <ul className="hm-rail-sub" aria-label={`${hub.label}: sidor`}>
-                  {hubTabs(hub).map((tab) => <li key={tab.id}><Link href={tab.href} data-active={tab.id === activeNavId} aria-current={tab.id === activeNavId ? 'page' : undefined}>{tab.label}{tab.id === 'inbox' ? inboxBadge : null}</Link></li>)}
+                  {availableHubTabs(career, hub).map((tab) => <li key={tab.id}><Link href={tab.href} data-active={tab.id === activeNavId} aria-current={tab.id === activeNavId ? 'page' : undefined}>{tab.label}{tab.id === 'inbox' ? inboxBadge : null}</Link></li>)}
                 </ul>
               </div>
             );
@@ -311,17 +336,21 @@ export default function GameShell({ children }: { children: ReactNode }) {
           <ol>{crumbs.map((c, i) => <li key={`${c.label}-${i}`}>{c.href ? <Link href={c.href}>{c.label}</Link> : <span aria-current="page">{c.label}</span>}</li>)}</ol>
           {backCrumb?.href && <Link className="hm-crumbs-back" href={backCrumb.href}>‹ {backCrumb.label}</Link>}
         </nav>
-        {activeHub && hubTabs(activeHub).length > 1 && <nav className="hm-hub-tabs" aria-label={`${activeHub.label}: flikar`}>
-          {hubTabs(activeHub).map((tab) => <Link key={tab.id} href={tab.href} data-active={tab.id === activeNavId} aria-current={tab.id === activeNavId ? 'page' : undefined}>{tab.label}{tab.id === 'inbox' && unread ? <span className="hm-nav-badge" aria-hidden="true">{unread}</span> : null}</Link>)}
+        {activeHub && availableHubTabs(career, activeHub).length > 1 && <nav className="hm-hub-tabs" aria-label={`${activeHub.label}: flikar`}>
+          {availableHubTabs(career, activeHub).map((tab) => <Link key={tab.id} href={tab.href} data-active={tab.id === activeNavId} aria-current={tab.id === activeNavId ? 'page' : undefined}>{tab.label}{tab.id === 'inbox' && unread ? <span className="hm-nav-badge" aria-hidden="true">{unread}</span> : null}</Link>)}
         </nav>}
-        {children}
+        {access.allowed ? children : <NoClubAccess formerClubId={access.formerClubId} />}
       </main>
 
       <div className="hm-mobile-dock">
         {continueButton('hm-continue-dock')}
         <nav className="hm-mobile-tabs" aria-label="Hubbar (mobil)">
-          {MOBILE_TAB_HUBS.map((id) => CAREER_HUBS.find(h => h.id === id)!).map((hub) => (
-            <Link key={hub.id} href={hubHref(hub)} data-active={activeHub?.id === hub.id} aria-current={activeHub?.id === hub.id ? 'page' : undefined}>
+          {MOBILE_TAB_HUBS.map((id) => CAREER_HUBS.find(h => h.id === id)!).map((hub) => !hubAccessOf(hub.id).available ? (
+            <span key={hub.id} role="link" aria-disabled="true" aria-label={`${hub.shortLabel} – kräver en klubb`} title="Kräver en klubb">
+              <NavIcon name={hub.icon} /><span>{hub.shortLabel}</span>
+            </span>
+          ) : (
+            <Link key={hub.id} href={hubAccessOf(hub.id).href!} data-active={activeHub?.id === hub.id} aria-current={activeHub?.id === hub.id ? 'page' : undefined}>
               <NavIcon name={hub.icon} /><span>{hub.shortLabel}</span>{hub.id === 'idag' ? inboxBadge : null}
             </Link>
           ))}

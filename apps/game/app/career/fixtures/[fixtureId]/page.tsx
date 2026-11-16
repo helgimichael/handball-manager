@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { careerArchiveSummaries } from '@/lib/career/matchArchiveSummary';
 import { useCareer } from '@/lib/career/CareerContext';
+import { activeClubId } from "@/lib/manager/employment";
 import { getNextPlayerFixture } from '@/lib/career/calendar';
 import { COMPETITIONS, getClub } from '@/lib/game-data';
 import { EmptyState, CompetitionLink } from '@/components/manager/Workspace';
@@ -30,14 +31,14 @@ export default function FixturePage() {
   const h2h = useMemo(() => (fixture ? headToHead(career, fixture) : null), [career, fixture]);
   if (!fixture || !h2h) return <EmptyState>Matchen finns inte i denna karriär. Länken kan höra till en tidigare säsong. <Link href="/career/schedule">Öppna schemat →</Link></EmptyState>;
   const result = career.results[fixtureId] ?? summaries[fixtureId]?.result;
-  const own = fixture.homeClubId === career.playerClubId || fixture.awayClubId === career.playerClubId;
+  const own = fixture.homeClubId === (activeClubId(career) ?? "") || fixture.awayClubId === (activeClubId(career) ?? "");
   const isNext = getNextPlayerFixture(career)?.id === fixture.id;
   const tie = fixture.stage ? career.competitionTies?.[fixture.stage.tieId] : undefined;
   const competitionName = fixture.competitionId === SVENSKA_CUPEN ? 'Svenska Cupen' : COMPETITIONS.find(c => c.id === fixture.competitionId)?.name ?? 'Tävling';
   const context = fixture.type === 'LEAGUE' ? `${competitionName} · omgång ${fixture.round}` : tie ? `${competitionName} · ${STAGE_LABEL[tie.stage]}` : fixture.type === 'FRIENDLY' ? 'Träningsmatch' : competitionName;
   const ht = result ? halfTimeScore(result) : null;
   const sides = [h2h.home, h2h.away] as const;
-  const clubButton = (i: 0 | 1) => { const s = sides[i]; return <button type="button" className="cc-h2h-club" data-side={i === 0 ? 'home' : 'away'} data-own={s.clubId === career.playerClubId || undefined} onClick={() => setPeek(s.clubId)} aria-label={`Snabbtitt: ${s.name}`}>
+  const clubButton = (i: 0 | 1) => { const s = sides[i]; return <button type="button" className="cc-h2h-club" data-side={i === 0 ? 'home' : 'away'} data-own={s.clubId === (activeClubId(career) ?? "") || undefined} onClick={() => setPeek(s.clubId)} aria-label={`Snabbtitt: ${s.name}`}>
     <ClubCrest clubId={s.clubId} shortName={short(s.clubId)} primaryColor={getClub(s.clubId)?.primaryColor ?? ''} size={64} />
     <strong>{s.name}</strong><small>{i === 0 ? 'Hemma' : 'Borta'}{s.position ? ` · ${s.position}:a` : ''}</small>
   </button>; };

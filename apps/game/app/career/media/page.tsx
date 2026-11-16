@@ -15,6 +15,7 @@ import { EmptyState } from "@/components/manager/Workspace";
 import { ClubLink } from "@/components/entityLinks";
 import { FictionNote, FrontPageCard, LeadStory, OutletChip, PRESSROOM_BACKDROP, StoryCard } from "@/components/media/MediaParts";
 import { useCareer } from "@/lib/career/CareerContext";
+import { activeClubId } from "@/lib/manager/employment";
 import { fixtureHref } from "@/lib/career/fixtureRoutes";
 import { getClub } from "@/lib/game-data";
 import { appealAction, setRoutinePressDelegation } from "@/lib/media/actions";
@@ -50,7 +51,7 @@ function MediaCentre() {
   const open = openPressConferences(career);
   const control = matchControl(career);
   const run = (fn: () => void, ok: string) => { try { fn(); setMessage(ok); } catch (e) { setMessage(e instanceof Error ? e.message : "Det gick inte."); } };
-  const local = CLUB_MEDIA[career.playerClubId];
+  const local = activeClubId(career) ? CLUB_MEDIA[career.playerClubId] : undefined;
   const go = (next: { tab?: Tab; scope?: Scope }) => {
     const q = new URLSearchParams();
     const t = next.tab ?? tab; if (t !== "feed") q.set("tab", t);

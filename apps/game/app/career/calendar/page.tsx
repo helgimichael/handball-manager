@@ -3,6 +3,7 @@ import CalendarMilestones from '@/components/manager/CalendarMilestones';
 import { useState } from 'react';
 import Link from 'next/link';
 import { useCareer } from '@/lib/career/CareerContext';
+import { activeClubId } from "@/lib/manager/employment";
 import { addDays, formatGameDate } from '@/lib/career/dateUtils';
 import { mondayOf, resolveTrainingWeek } from '@/lib/training/trainingSchedule';
 import { contractRows } from '@/lib/career/management';
@@ -22,7 +23,7 @@ export default function CalendarPage() {
   const strip = buildSeasonStrip(career, nationalBreaks());
   const weeks = (view === 'WEEK' ? [0] : [0,7,14,21]).map(offset => resolveTrainingWeek(career, addDays(weekStart,offset)));
   const contracts = contractRows(career);
-  const clubFixtures = career.fixtures.filter(f => f.homeClubId === career.playerClubId || f.awayClubId === career.playerClubId);
+  const clubFixtures = career.fixtures.filter(f => f.homeClubId === (activeClubId(career) ?? "") || f.awayClubId === (activeClubId(career) ?? ""));
   const nextMatch = clubFixtures.filter(f => !career.results[f.id] && f.date >= career.gameDate).sort((a, b) => a.date.localeCompare(b.date))[0];
   const visibleMatches = clubFixtures.filter(f => f.date >= weekStart && f.date <= addDays(weekStart, view === 'WEEK' ? 6 : 27));
   const span = view === 'WEEK' ? 7 : 28;
@@ -54,9 +55,9 @@ export default function CalendarPage() {
           {day.date === career.gameDate && <span className="hm-calendar-today">Idag</span>}
           <p>{day.sessions.length ? `${day.sessions.length} pass · ${day.executed ? 'utförda' : 'planerade'}` : day.dayType === 'REST' ? 'Återhämtning utan pass' : 'Inga träningspass'}</p>
           {matches.map(f => {
-            const opponentId = f.homeClubId === career.playerClubId ? f.awayClubId : f.homeClubId;
+            const opponentId = f.homeClubId === (activeClubId(career) ?? "") ? f.awayClubId : f.homeClubId;
             const result = career.results[f.id];
-            return <Link className="hm-calendar-event hm-calendar-match" key={f.id} href={result ? `/career/match-report/${encodeURIComponent(f.id)}` : `/career/fixtures/${encodeURIComponent(f.id)}`}><span>{f.homeClubId === career.playerClubId ? 'Hemma' : 'Borta'} · {f.type === 'LEAGUE' ? `omg ${f.round}` : f.type === 'CUP' ? 'Cup' : 'Träningsmatch'}</span><strong>{getClub(opponentId)?.shortName ?? opponentId}</strong><b>{result ? `${result.homeGoals}–${result.awayGoals} · Matchrapport →` : 'Matchförberedelse →'}</b></Link>;
+            return <Link className="hm-calendar-event hm-calendar-match" key={f.id} href={result ? `/career/match-report/${encodeURIComponent(f.id)}` : `/career/fixtures/${encodeURIComponent(f.id)}`}><span>{f.homeClubId === (activeClubId(career) ?? "") ? 'Hemma' : 'Borta'} · {f.type === 'LEAGUE' ? `omg ${f.round}` : f.type === 'CUP' ? 'Cup' : 'Träningsmatch'}</span><strong>{getClub(opponentId)?.shortName ?? opponentId}</strong><b>{result ? `${result.homeGoals}–${result.awayGoals} · Matchrapport →` : 'Matchförberedelse →'}</b></Link>;
           })}
           {expiring.map(r => <div className="hm-calendar-deadline" key={r.player.id}><span>Avtal löper ut</span><PlayerLink playerId={r.player.id}>{r.player.firstName} {r.player.lastName}</PlayerLink></div>)}
           {scouting.map(a => <Link className="hm-calendar-discovery" key={a.id} href="/career/scouting">Scouting beräknas klar →</Link>)}

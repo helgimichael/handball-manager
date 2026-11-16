@@ -11,6 +11,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useWorkspaceState } from "@/components/game/WorkspaceMemory";
 import { careerArchiveSummaries } from "@/lib/career/matchArchiveSummary";
 import { useCareer } from "@/lib/career/CareerContext";
+import { activeClubId } from "@/lib/manager/employment";
 import { categoryLabel } from "@/lib/career/inboxBridge";
 import { destinationLabel, resolveDestinationHref } from "@/lib/career/destinations";
 import { getClub } from "@/lib/game-data";
@@ -99,7 +100,7 @@ function Inbox() {
   const clearChips = () => router.replace(href({ cat: [] }), { scroll: false });
 
   return <div className="game-news-page ib-desk">
-    <PageHeading eyebrow={`${getClub(career.playerClubId)?.shortName ?? "Klubben"} / nyheter & kommunikation`} title="Inkorg" description="Besked som kräver dig först, sedan trådarna per spelare, match och styrelse. Varje tråd visar vad som hände, vad du beslutade och vad det ledde till." />
+    <PageHeading eyebrow={`${getClub(activeClubId(career) ?? "")?.shortName ?? "Utan klubb"} / nyheter & kommunikation`} title="Inkorg" description="Besked som kräver dig först, sedan trådarna per spelare, match och styrelse. Varje tråd visar vad som hände, vad du beslutade och vad det ledde till." />
     <div className="game-news-masthead"><div><span className="hm-eyebrow">Klubbens senaste</span><strong>{new Date(`${career.gameDate}T12:00:00Z`).toLocaleDateString("sv-SE", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" })}</strong></div><div><strong>{unread}</strong><span>olästa besked</span></div><div data-urgent={tray.length > 0}><strong>{tray.length}</strong><span>beslut som kräver dig</span></div><span className="game-news-edition">SÄSONG {career.seasonId}</span></div>
 
     {/* WLD-01: the pinned tray -- open decisions, earliest deadline first, five shown. */}

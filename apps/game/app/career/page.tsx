@@ -26,6 +26,8 @@ import { buildFrontPage, buildMatchBox, buildSeasonCurtain, courtCoverage, descr
 import { MatchBox } from '@/components/front/MatchBox';
 import { CourtCoverage } from '@/components/front/CourtCoverage';
 import { SeasonCurtain, useSeasonCurtain } from '@/components/front/SeasonCurtain';
+import { UnemployedFront } from '@/components/front/UnemployedFront';
+import { activeClubId } from '@/lib/manager/employment';
 
 const PRIORITY_LABEL: Record<BriefPriority, string> = { ACTION: 'Kräver åtgärd', IMPORTANT: 'Viktigt', UNREAD: 'Oläst', READ: 'Läst' };
 
@@ -69,6 +71,20 @@ export default function HomePage() {
   const matchday = front.lead.kind === 'MATCHDAY';
   const competitionHref = `/career/competitions/${encodeURIComponent(career.competitionId)}`;
   const matchBox = !career.seasonComplete && <MatchBox box={box} ladder={front.ladder} clubId={club.id} competitionHref={competitionHref} />;
+
+  // Employment states: without a club Idag is the career's own front page -- no former crest, squad, board or shortcuts.
+  if (!activeClubId(career)) {
+    const handoff = career.seasonComplete ? <section className="game-season-milestone hm-handoff-card" aria-labelledby="hm-handoff-h">
+      <div>
+        <span className="game-overline">{career.seasonId} avslutad</span>
+        <h2 id="hm-handoff-h">Säsongen är i mål.</h2>
+        <p>Nästa säsong blir {nextSeasonId}. Jobbmarknaden fortsätter när den nya säsongen börjar.</p>
+        <button type="button" className="hm-btn hm-btn-primary hm-btn-sm" onClick={startNextSeason}>Börja nästa säsong →</button>
+        {blockers.length > 0 && <div role="alert" className="hm-handoff-blockers"><strong>Det här hindrar säsongsbytet</strong><ul>{blockers.map((b, i) => { const copy = describeTransitionBlocker(b); return <li key={`${b.code}:${b.ref}:${i}`}><b>{copy.title}</b><span>{copy.detail}</span></li>; })}</ul></div>}
+      </div>
+    </section> : null;
+    return <UnemployedFront career={career} front={front} week={front.masthead.week} reputationEar={<FrontEar ear={front.ears[1]} />} seasonHandoff={handoff} />;
+  }
 
   return <div className="game-home hm-front" style={clubColorVars(club)}>
     <header className="hm-front-masthead" aria-label="Matchveckan">

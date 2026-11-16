@@ -35,7 +35,7 @@ export default function WeekSpine({ career, expanded = false, stopCount = 0 }: {
       {day.sessions.length > 0 && <p>{day.sessions.length} träningspass: {day.sessions.join(', ')}</p>}
       {day.pins.length === 0 && day.sessions.length === 0 && <p className="hm-text-muted">Inget inplanerat.</p>}
       <ul>{day.pins.map((p) => <li key={p.id} data-kind={p.kind}><Link href={p.href}><span>{KIND_LABEL[p.kind]}</span> {p.detail}</Link></li>)}</ul>
-      <div className="hm-spine-detail-actions"><Link className="hm-btn hm-btn-sm" href="/career/calendar">Hela kalendern →</Link><Link className="hm-btn hm-btn-sm hm-btn-ghost" href="/career/training">Hantera träning →</Link></div>
+      <div className="hm-spine-detail-actions"><Link className="hm-btn hm-btn-sm" href="/career/calendar">Hela kalendern →</Link>{career.managerCareer?.seekingJob ? <Link className="hm-btn hm-btn-sm hm-btn-ghost" href="/career/manager?tab=jobs">Jobbmarknaden →</Link> : <Link className="hm-btn hm-btn-sm hm-btn-ghost" href="/career/training">Hantera träning →</Link>}</div>
     </div>}
   </section>;
 }

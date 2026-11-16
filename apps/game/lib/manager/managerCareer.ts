@@ -33,6 +33,7 @@ import { addDaysIso, hash, managerMatchesPlayed } from "../players/dynamicsState
 import { boardSeasonEnd, objectivesScore, predictedPositionOf } from "../board/board";
 import { matchWinnerClubId } from "@handball-manager/game-simulation";
 import { closeOpenBusiness } from "./departure";
+import { activeClubId } from "./employment";
 import { withEvents } from "./events";
 import type { InterviewQuestion, JobApplication, JobOffer, ManagerCareerState, ManagerMilestone, ManagerRecord, ManagerStint, ManagerStintSeason, ReputationChange, Vacancy } from "../board/types";
 
@@ -126,7 +127,7 @@ export function adjustReputation(c: ManagerCareerState, date: string, delta: num
 
 /** The manager's employer, or undefined while he is out of work (the old club is then run by an interim). */
 export function managedClubId(state: Pick<CareerState, "playerClubId" | "managerCareer">): string | undefined {
-  return state.managerCareer?.seekingJob ? undefined : state.playerClubId;
+  return activeClubId(state);
 }
 
 /** Clubs a manager can coach: clubs in a simulated Swedish league (current membership) with a league calendar and a playable squad this season -- never a B-team (owner decision: B-teams are always CPU-managed). */
