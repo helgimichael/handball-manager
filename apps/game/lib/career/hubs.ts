@@ -20,7 +20,7 @@ export interface CareerHub {
 export const CAREER_HUBS: readonly CareerHub[] = [
   { id: "idag", label: "Idag", shortLabel: "Idag", icon: "home", tabs: ["home", "inbox", "calendar", "schedule"] },
   { id: "laget", label: "Laget", shortLabel: "Laget", icon: "squad", tabs: ["squad", "tactics", "training", "medical", "contracts"] },
-  { id: "klubben", label: "Klubben", shortLabel: "Klubben", icon: "club", tabs: ["klubbhuset", "club", "board", "finance", "staff"] },
+  { id: "klubben", label: "Klubben", shortLabel: "Klubben", icon: "club", tabs: ["club", "board", "finance", "staff"] },
   { id: "rekrytering", label: "Rekrytering", shortLabel: "Marknad", icon: "recruitment", tabs: ["recruitment", "players", "scouting", "transfers"] },
   { id: "tavling", label: "Tävling", shortLabel: "Tävling", icon: "competitions", tabs: ["season", "competitions", "cup", "statistics", "analysis"] },
   { id: "karriar", label: "Karriär", shortLabel: "Karriär", icon: "manager", tabs: ["manager", "history", "media"] },
