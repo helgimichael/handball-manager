@@ -2,15 +2,14 @@
 import { useMemo, useState } from 'react';
 import type { ProductionMatchSession, MatchCommand } from '@/lib/career/productionMatch';
 import type { MatchCenterModel } from '@/lib/matchCenter/model';
-import { type TeamId, type Role, otherTeam } from '@handball-manager/handball-engine/src/v2/core/state';
+import { type TeamId, otherTeam } from '@handball-manager/handball-engine/src/v2/core/state';
 import type { TeamTactics } from '@handball-manager/handball-engine/src/v2/core/coaching';
-import { CoachingChoices } from '@/components/game/CoachingChoices';
+import { COACH_AGGRESSION_LABEL, COACH_ATTACK_LABEL, COACH_SEVEN_V_SIX_LABEL, COACH_TEMPO_LABEL } from '@/components/game/CoachingChoices';
 import type { MatchControl } from '@/lib/media/discipline';
 import { getClub } from '@/lib/game-data';
 import ClubCrest from '@/components/ClubCrest';
 import { clockText } from '@/lib/matchCenter/model';
-
-const ROLE_LABEL: Record<Role, string> = { LW: 'V6', LB: 'V9', CB: 'M9', RB: 'H9', RW: 'H6', P: 'M6', P2: 'M6', GK: 'MV' };
+import { byEnergy, energyTone, huddleDirectives } from './liveFlow';
 
 export type ContextualInstruction = {
     id: string;
@@ -78,6 +77,28 @@ export function getContextualInstructions(margin = 0, opponentDefence = '6:0', p
     ];
 }
 
+const PATCH_LABEL: { key: keyof ContextualInstruction['patch']; label: string; value: (v: string) => string }[] = [
+    { key: 'defence', label: 'Försvar', value: v => v },
+    { key: 'aggression', label: 'Aggressivitet', value: v => COACH_AGGRESSION_LABEL[v as keyof typeof COACH_AGGRESSION_LABEL] ?? v },
+    { key: 'tempo', label: 'Tempo', value: v => COACH_TEMPO_LABEL[v as keyof typeof COACH_TEMPO_LABEL] ?? v },
+    { key: 'attackIdentity', label: 'Anfall', value: v => COACH_ATTACK_LABEL[v as keyof typeof COACH_ATTACK_LABEL] ?? v },
+    { key: 'sevenVSix', label: '7 mot 6', value: v => COACH_SEVEN_V_SIX_LABEL[v as keyof typeof COACH_SEVEN_V_SIX_LABEL] ?? v },
+];
+/** What a directive actually changes, in the dock's own words ("Försvar 5:1 · Tempo Snabbt"). */
+export function directiveChanges(patch: ContextualInstruction['patch']): string {
+    return PATCH_LABEL.filter(p => patch[p.key] !== undefined).map(p => `${p.label} ${p.value(String(patch[p.key]))}`).join(' · ');
+}
+
+/** Whiteboard backdrop for the huddle: a court in chalk lines (decorative). */
+function Whiteboard() {
+    return <svg className="mc-huddle-board" viewBox="0 0 200 110" aria-hidden="true" preserveAspectRatio="xMidYMid slice"><g fill="none" stroke="currentColor" strokeWidth=".8"><rect x="2" y="2" width="196" height="106" /><path d="M100 2V108" /><path d="M2 25A30 30 0 0 1 32 55A30 30 0 0 1 2 85" /><path strokeDasharray="3 3" d="M2 10A45 45 0 0 1 47 55A45 45 0 0 1 2 100" /><path d="M198 25A30 30 0 0 0 168 55A30 30 0 0 0 198 85" /><path strokeDasharray="3 3" d="M198 10A45 45 0 0 0 153 55A45 45 0 0 0 198 100" /><circle cx="100" cy="55" r="9" /></g></svg>;
+}
+
+/**
+ * MDY-02h (A) Timeout huddle phase -- during a team time-out the centre of the Match Center becomes the huddle:
+ * 2-3 contextual directive cards (effect, trade-off, duration) on a whiteboard. Substitutions and base tactics stay
+ * in the Bench Dock beside it (no second panel). Directives use the existing TACTICS command only.
+ */
 export function TimeoutOverlay({
     session,
     model,
@@ -103,371 +124,82 @@ export function TimeoutOverlay({
     const callingClubId = callingTeam === 'HOME' ? session.fixture.homeClubId : session.fixture.awayClubId;
     const callingClub = getClub(callingClubId);
     const tactics = core.coaching[team];
+    const assistant = control?.by === 'ASSISTANT' ? control : null;
 
-    const [outId, setOutId] = useState<string | null>(null);
-    const [inId, setInId] = useState<string | null>(null);
-
-    const courtPlayers = useMemo(() => {
-        return core.players
-            .filter(p => p.team === team && p.population === 'COURT')
-            .map(p => {
-                const person = session.people.find(x => x.id === p.id);
-                return {
-                    id: p.id,
-                    kind: p.kind,
-                    role: p.role,
-                    number: person?.number ?? '—',
-                    name: person?.name ?? p.id,
-                    energy: Math.round(p.condition.energy * 100),
-                };
-            });
-    }, [core.players, session.people, team]);
-
-    const activeSuspensions = useMemo(() => {
-        return model.players.filter(p => p.population === 'SUSPENDED' && p.remainingSuspension > 0);
-    }, [model.players]);
-
-    const selectedOut = useMemo(() => {
-        return outId ? courtPlayers.find(p => p.id === outId) : null;
-    }, [courtPlayers, outId]);
-
-    const benchReplacements = useMemo(() => {
-        if (!selectedOut) return [];
-        return core.players
-            .filter(p => p.team === team && p.population === 'BENCH' && !p.condition.unavailable && !p.condition.exitRequired && !(p.condition.attacksRemaining > 0) && p.kind === selectedOut.kind)
-            .map(p => {
-                const person = session.people.find(x => x.id === p.id);
-                return {
-                    id: p.id,
-                    kind: p.kind,
-                    role: p.role,
-                    number: person?.number ?? '—',
-                    name: person?.name ?? p.id,
-                    energy: Math.round(p.condition.energy * 100),
-                };
-            });
-    }, [core.players, session.people, team, selectedOut]);
-
-    const selectedIn = useMemo(() => {
-        return inId ? benchReplacements.find(p => p.id === inId) : null;
-    }, [benchReplacements, inId]);
-
-    const pendingExchange = useMemo(() => {
-        return core.exchanges.find(e => e.team === team && e.phase !== 'COMPLETED' && e.phase !== 'CANCELLED');
-    }, [core.exchanges, team]);
-
-    // Contextual team instructions based on scoreline, half, and opponent tactical setup
+    const activeSuspensions = useMemo(() => model.players.filter(p => p.population === 'SUSPENDED' && p.remainingSuspension > 0), [model.players]);
+    const pendingExchange = core.exchanges.find(e => e.team === team && e.phase !== 'COMPLETED' && e.phase !== 'CANCELLED');
     const opponent = otherTeam(team);
     const margin = team === 'HOME' ? model.result.homeGoals - model.result.awayGoals : model.result.awayGoals - model.result.homeGoals;
     const opponentDefence = core.coaching[opponent]?.defence ?? '6:0';
-
-    const [acknowledgedMessage, setAcknowledgedMessage] = useState<string | null>(null);
-
-    const contextualInstructions: ContextualInstruction[] = useMemo(() => {
-        return getContextualInstructions(margin, opponentDefence, model.period);
-    }, [margin, model.period, opponentDefence]);
-
     const activeInstructionId = tactics?.instruction;
-    const activeInstruction = contextualInstructions.find(i => i.id === activeInstructionId);
-    const previousStateSummary = useMemo(() => {
-        return `Försvar: ${tactics?.defence ?? '6:0'} · Tempo: ${tactics?.tempo ?? 'BALANCED'} · Anfall: ${tactics?.attackIdentity ?? 'BALANCED'}`;
-    }, [tactics?.defence, tactics?.tempo, tactics?.attackIdentity]);
-
-    function handleApplyInstruction(inst: ContextualInstruction) {
-        if (!onCommand) return;
-        onCommand({ kind: 'TACTICS', team, patch: inst.patch });
-    }
-
-    function handleConfirmSubstitution() {
-        if (!onCommand || !outId || !inId) return;
-        onCommand({ kind: 'SUBSTITUTION', team, outId, inId });
-        setOutId(null);
-        setInId(null);
-    }
+    const directives = useMemo(() => huddleDirectives(getContextualInstructions(margin, opponentDefence, model.period), activeInstructionId), [margin, opponentDefence, model.period, activeInstructionId]);
+    const tired = useMemo(() => byEnergy(core.players.filter(p => p.team === team && p.population === 'COURT' && energyTone(p.condition.energy * 100) !== 'ok'), p => p.condition.energy).slice(0, 3), [core.players, team]);
+    const [acknowledgedMessage, setAcknowledgedMessage] = useState<string | null>(null);
+    const person = (id: string | null) => session.people.find(x => x.id === id);
 
     function handleResume() {
         if (!onResumeTimeout) return;
-        const msg = activeInstruction
-            ? `Spelet återupptas: ${callingName} samlar spelet. Taktiska direktiv: ${activeInstruction.title} (${activeInstruction.intendedEffect}).`
-            : `Spelet återupptas efter timeout för ${callingName}.`;
-        setAcknowledgedMessage(msg);
-        setTimeout(() => {
-            onResumeTimeout();
-        }, 150);
+        const active = directives.find(d => d.id === activeInstructionId);
+        setAcknowledgedMessage(active ? `Spelet återupptas: ${active.title}.` : `Spelet återupptas efter timeout för ${callingName}.`);
+        setTimeout(() => onResumeTimeout(), 150);
     }
 
     return (
-        <section className="mc-timeout-overlay" role="dialog" aria-modal="false" aria-label="Lagtimeout">
-            <header className="mc-timeout-header">
-                <div className="mc-timeout-badge-wrap">
-                    <ClubCrest
-                        shortName={callingClub?.shortName ?? '—'}
-                        primaryColor={callingClub?.primaryColor ?? ''}
-                        clubId={callingClub?.id}
-                        size={48}
-                    />
-                    <div>
-                        <span className="game-overline">Officiell Timeout</span>
-                        <h2>{isOwnTimeout ? 'Din timeout · Samla laget' : `Motståndarens timeout · ${callingName}`}</h2>
-                        <p>
-                            {isOwnTimeout
-                                ? 'Utnyttja pausen för att ge nya direktiv, göra byten och samla kraft.'
-                                : `${callingName} har kallat till bänken. Justera försvars- och anfallstaktiken inför återupptagandet.`}
-                        </p>
-                    </div>
+        <section className="mc-timeout-overlay mc-huddle" role="dialog" aria-modal="false" aria-label="Lagtimeout" data-own={isOwnTimeout || undefined}>
+            <header className="mc-timeout-header mc-huddle-head">
+                <ClubCrest shortName={callingClub?.shortName ?? '—'} primaryColor={callingClub?.primaryColor ?? ''} clubId={callingClub?.id} size={44} />
+                <div>
+                    <span className="game-overline">Timeout · {clockText(model.clock)}</span>
+                    <h2>{isOwnTimeout ? 'Din timeout · Samla laget' : `Motståndarens timeout · ${callingName}`}</h2>
+                    <p>{isOwnTimeout ? 'Välj ett direktiv. Byten och taktik gör du i bänken bredvid.' : `${callingName} har kallat in laget. Svara med ett direktiv eller justera i bänken.`}</p>
                 </div>
-                <div className="mc-timeout-state-card">
-                    <span className="mc-timeout-score">
-                        {names.HOME} <strong>{model.result.homeGoals}–{model.result.awayGoals}</strong> {names.AWAY}
-                    </span>
-                    <small>Halvlek {model.period} · Matchklocka {clockText(model.clock)}</small>
-                    {model.manpower && (
-                        <div className="mc-timeout-manpower">
-                            Utespelare: {model.manpower.HOME} mot {model.manpower.AWAY}
-                            {activeSuspensions.length > 0 && (
-                                <span> ({activeSuspensions.map(s => `${names[s.team]} #${s.number} ${clockText(s.remainingSuspension)}`).join(', ')})</span>
-                            )}
-                        </div>
-                    )}
-                </div>
+                <dl className="mc-huddle-state">
+                    <div><dt>Ställning</dt><dd>{names.HOME} {model.result.homeGoals}–{model.result.awayGoals} {names.AWAY}</dd></div>
+                    {model.manpower && <div><dt>På plan</dt><dd>{model.manpower.HOME} mot {model.manpower.AWAY}{activeSuspensions.length > 0 && ` · ${activeSuspensions.map(s => `${names[s.team]} #${s.number} ${clockText(s.remainingSuspension)}`).join(', ')}`}</dd></div>}
+                    {model.timeouts && <div><dt>Timeouts kvar</dt><dd>{names.HOME} {model.timeouts.HOME} · {names.AWAY} {model.timeouts.AWAY}</dd></div>}
+                </dl>
             </header>
 
-            {acknowledgedMessage && (
-                <div className="mc-timeout-resume-banner" role="alert" style={{ margin: '10px 18px', padding: '10px 14px', background: 'rgba(16,185,129,0.15)', border: '1px solid #10b981', borderRadius: '6px', color: '#10b981', fontSize: '13px', fontWeight: 600 }}>
-                    {acknowledgedMessage}
-                </div>
-            )}
+            {acknowledgedMessage && <p className="mc-timeout-resume-banner" role="alert">{acknowledgedMessage}</p>}
 
-            <div className="mc-timeout-body">
-                {/* Left Column: Contextual Instructions & Tactical Settings */}
-                <div className="mc-timeout-tactics-col">
-                    {/* Taktisk konsekvensanalys & Åtgärdsstatus */}
-                    <div className="mc-timeout-decision-card" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '6px', padding: '12px 14px', marginBottom: '14px' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
-                            <strong style={{ fontSize: '13px', color: 'var(--hm-accent-primary, #3b82f6)' }}>
-                                📋 Taktisk åtgärdsanalys & Konsekvenser
-                            </strong>
-                            <span className="hm-badge" style={{ fontSize: '10px' }}>
-                                {activeInstruction ? activeInstruction.title : 'Manuella direktiv'}
-                            </span>
-                        </div>
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '8px', fontSize: '12px' }}>
-                            <div>
-                                <span style={{ color: 'var(--hm-text-muted)', display: 'block', fontSize: '10px', textTransform: 'uppercase' }}>Tidigare tillstånd</span>
-                                <span>{previousStateSummary}</span>
-                            </div>
-                            <div>
-                                <span style={{ color: 'var(--hm-text-muted)', display: 'block', fontSize: '10px', textTransform: 'uppercase' }}>Nytt taktiskt läge</span>
-                                <strong style={{ color: '#fff' }}>
-                                    {activeInstruction
-                                        ? `Försvar: ${activeInstruction.patch.defence ?? tactics?.defence} · Tempo: ${activeInstruction.patch.tempo ?? tactics?.tempo} · Anfall: ${activeInstruction.patch.attackIdentity ?? tactics?.attackIdentity}`
-                                        : previousStateSummary}
-                                </strong>
-                            </div>
-                            <div>
-                                <span style={{ color: 'var(--hm-text-muted)', display: 'block', fontSize: '10px', textTransform: 'uppercase' }}>Avsedd effekt</span>
-                                <span style={{ color: 'var(--hm-tone-positive, #10b981)' }}>
-                                    {activeInstruction ? activeInstruction.intendedEffect : 'Direkt anpassning av tempo och försvarsformation'}
-                                </span>
-                            </div>
-                            <div>
-                                <span style={{ color: 'var(--hm-text-muted)', display: 'block', fontSize: '10px', textTransform: 'uppercase' }}>Risk & Kompromiss</span>
-                                <span style={{ color: 'var(--hm-accent-gold, #f59e0b)' }}>
-                                    {activeInstruction ? activeInstruction.tradeoff : 'Kräver disciplin i omställningsfasen'}
-                                </span>
-                            </div>
-                            <div>
-                                <span style={{ color: 'var(--hm-text-muted)', display: 'block', fontSize: '10px', textTransform: 'uppercase' }}>Varaktighet / Villkor</span>
-                                <span style={{ color: 'var(--hm-text-secondary)' }}>
-                                    {activeInstruction ? activeInstruction.durationCondition : 'Gäller tills nästa spelavbrott eller manuell ändring'}
-                                </span>
-                            </div>
-                        </div>
+            <section className="mc-timeout-section mc-huddle-directives">
+                <Whiteboard />
+                <header className="mc-timeout-section-head"><h3>Kontextuellt lagdirektiv</h3><span className="mc-timeout-section-hint">Utifrån ställning, halvlek och motståndarens försvar</span></header>
+                {assistant ? (
+                    <div className="mc-timeout-assistant-notice" role="status">
+                        <strong>{assistant.name} leder laget från bänken</strong>
+                        <p>{assistant.reason}</p>
+                        <p>Assisterande tränaren samlar laget enligt matchplanen du förberedde.</p>
                     </div>
-                    <section className="mc-timeout-section">
-                        <header className="mc-timeout-section-head">
-                            <h3>Kontextuellt lagdirektiv</h3>
-                            <span className="mc-timeout-section-hint">Välj lagets primära fokus inför återupptagandet</span>
-                        </header>
-                        {control?.by === 'ASSISTANT' ? (
-                            <div className="mc-timeout-assistant-notice" role="status">
-                                <strong>{control.name} leder laget från bänken</strong>
-                                <p>{control.reason}</p>
-                                <p>Assisterande tränaren samlar laget enligt matchplanen du förberedde.</p>
-                            </div>
-                        ) : (
-                            <div className="mc-timeout-instructions-list">
-                                {contextualInstructions.map(inst => {
-                                    const isActive = activeInstructionId === inst.id;
-                                    return (
-                                        <button
-                                            key={inst.id}
-                                            type="button"
-                                            className={`mc-timeout-instruction-btn ${isActive ? 'is-active' : ''} ${inst.isRecommended ? 'is-recommended' : ''}`}
-                                            onClick={() => handleApplyInstruction(inst)}
-                                            aria-pressed={isActive}
-                                        >
-                                            <div className="mc-timeout-instruction-header">
-                                                <strong>{inst.title}</strong>
-                                                <div className="mc-timeout-instruction-badges">
-                                                    {inst.isRecommended && <span className="mc-timeout-recommended-badge">Rekommenderat</span>}
-                                                    {isActive && <span className="mc-timeout-active-badge">Aktivt ✓</span>}
-                                                </div>
-                                            </div>
-                                            <p>{inst.description}</p>
-                                        </button>
-                                    );
-                                })}
-                            </div>
-                        )}
-                    </section>
-
-                    <section className="mc-timeout-section">
-                        <header className="mc-timeout-section-head">
-                            <h3>Taktiska grundinställningar</h3>
-                        </header>
-                        {tactics && onCommand && control?.by !== 'ASSISTANT' && (
-                            <CoachingChoices
-                                defence={tactics.defence}
-                                aggression={tactics.aggression ?? 'BALANCED'}
-                                tempo={tactics.tempo}
-                                attack={tactics.attackIdentity}
-                                rotation={tactics.rotationStrategy ?? 'BALANCED'}
-                                sevenVSix={tactics.sevenVSix ?? 'OFF'}
-                                onDefence={value => onCommand({ kind: 'TACTICS', team, patch: { defence: value } })}
-                                onAggression={value => onCommand({ kind: 'TACTICS', team, patch: { aggression: value } })}
-                                onTempo={value => onCommand({ kind: 'TACTICS', team, patch: { tempo: value } })}
-                                onAttack={value => onCommand({ kind: 'TACTICS', team, patch: { attackIdentity: value } })}
-                                onRotation={value => onCommand({ kind: 'TACTICS', team, patch: { rotationStrategy: value } })}
-                                onSevenVSix={value => onCommand({ kind: 'TACTICS', team, patch: { sevenVSix: value } })}
-                            />
-                        )}
-                    </section>
-                </div>
-
-                {/* Right Column: Court Lineup & Quick Substitution */}
-                <div className="mc-timeout-court-col">
-                    <section className="mc-timeout-section">
-                        <header className="mc-timeout-section-head">
-                            <h3>Spelare på planen ({courtPlayers.length})</h3>
-                            <span className="mc-timeout-section-hint">Klicka på en spelare för att byta ut</span>
-                        </header>
-
-                        {pendingExchange && (
-                            <div className="mc-timeout-pending-notice" role="status">
-                                Byte pågår: #{session.people.find(x => x.id === pendingExchange.outId)?.number ?? pendingExchange.outId} → #{session.people.find(x => x.id === pendingExchange.inId)?.number ?? pendingExchange.inId}
-                            </div>
-                        )}
-
-                        <div className="mc-timeout-players-list">
-                            {courtPlayers.map(p => {
-                                const isSelectedOut = p.id === outId;
-                                return (
-                                    <button
-                                        key={p.id}
-                                        type="button"
-                                        className={`mc-timeout-player-chip ${isSelectedOut ? 'is-selected-out' : ''}`}
-                                        onClick={() => {
-                                            if (control?.by === 'ASSISTANT') return;
-                                            if (outId === p.id) {
-                                                setOutId(null);
-                                                setInId(null);
-                                            } else {
-                                                setOutId(p.id);
-                                                setInId(null);
-                                            }
-                                        }}
-                                        aria-pressed={isSelectedOut}
-                                        disabled={control?.by === 'ASSISTANT'}
-                                    >
-                                        <span className="mc-timeout-player-number">{p.number}</span>
-                                        <div className="mc-timeout-player-info">
-                                            <strong>{p.name}</strong>
-                                            <small>{ROLE_LABEL[p.role]} · {p.energy}% energi</small>
-                                        </div>
-                                        <div className="mc-timeout-chip-actions">
-                                            <div
-                                                className="mc-timeout-energy-bar"
-                                                style={{ width: `${Math.max(10, Math.min(100, p.energy))}%`, background: p.energy < 70 ? '#ef4444' : '#10b981' }}
-                                                aria-hidden="true"
-                                            />
-                                            <span className="mc-timeout-action-pill">{isSelectedOut ? 'Vald ut' : 'Byt'}</span>
-                                        </div>
-                                    </button>
-                                );
-                            })}
-                        </div>
-                    </section>
-
-                    {/* Bench Replacements Drawer when player selected */}
-                    {selectedOut && control?.by !== 'ASSISTANT' && (
-                        <section className="mc-timeout-substitution-box">
-                            <header className="mc-timeout-sub-header">
-                                <h4>Ersätt #{selectedOut.number} {selectedOut.name} ({ROLE_LABEL[selectedOut.role]})</h4>
-                                <small>Välj tillgänglig avbytare från bänken:</small>
-                            </header>
-
-                            {benchReplacements.length === 0 ? (
-                                <p className="mc-timeout-empty-bench">Inga tillgängliga ersättare på bänken på denna position.</p>
-                            ) : (
-                                <div className="mc-timeout-bench-list">
-                                    {benchReplacements.map(p => {
-                                        const isSelectedIn = p.id === inId;
-                                        return (
-                                            <button
-                                                key={p.id}
-                                                type="button"
-                                                className={`mc-timeout-bench-chip ${isSelectedIn ? 'is-selected-in' : ''}`}
-                                                onClick={() => setInId(p.id)}
-                                                aria-pressed={isSelectedIn}
-                                            >
-                                                <span className="mc-timeout-player-number">{p.number}</span>
-                                                <div className="mc-timeout-player-info">
-                                                    <strong>{p.name}</strong>
-                                                    <small>{ROLE_LABEL[p.role]} · {p.energy}% energi</small>
-                                                </div>
-                                                <span className="mc-timeout-action-pill">{isSelectedIn ? 'Vald in' : 'Välj'}</span>
-                                            </button>
-                                        );
-                                    })}
-                                </div>
-                            )}
-
-                            {selectedIn && (
-                                <div className="mc-timeout-confirm-wrap">
-                                    <div className="mc-timeout-confirm-label">
-                                        Byte: #{selectedOut.number} {selectedOut.name} <strong>→</strong> #{selectedIn.number} {selectedIn.name}
-                                    </div>
-                                    <button
-                                        type="button"
-                                        className="hm-btn hm-btn-primary mc-timeout-confirm-btn"
-                                        onClick={handleConfirmSubstitution}
-                                    >
-                                        Genomför snabbyte
-                                    </button>
-                                </div>
-                            )}
-                        </section>
-                    )}
-                </div>
-            </div>
-
-            <footer className="mc-timeout-footer">
-                <div className="mc-timeout-footer-meta">
-                    {model.timeouts && (
-                        <span>Timeouts kvar: {names.HOME} {model.timeouts.HOME} · {names.AWAY} {model.timeouts.AWAY}</span>
-                    )}
-                    <small>Besluten träder i kraft omedelbart vid domarens signal.</small>
-                </div>
-                {onResumeTimeout && (
-                    <button
-                        type="button"
-                        className="hm-btn hm-btn-primary mc-timeout-resume-action"
-                        onClick={handleResume}
-                    >
-                        Återgå till match
-                    </button>
+                ) : (
+                    <div className="mc-timeout-instructions-list mc-huddle-cards">
+                        {directives.map(inst => {
+                            const isActive = activeInstructionId === inst.id;
+                            return (
+                                <button key={inst.id} type="button" className={`mc-timeout-instruction-btn mc-huddle-card${isActive ? ' is-active' : ''}${inst.isRecommended ? ' is-recommended' : ''}`} disabled={!onCommand} onClick={() => onCommand?.({ kind: 'TACTICS', team, patch: inst.patch })} aria-pressed={isActive}>
+                                    <span className="mc-huddle-card-tags">{inst.isRecommended && <i className="mc-timeout-recommended-badge">Rekommenderat</i>}{isActive && <i className="mc-timeout-active-badge">Valt ✓</i>}</span>
+                                    <strong>{inst.title}</strong>
+                                    <small className="mc-huddle-changes">{directiveChanges(inst.patch)}</small>
+                                    <dl>
+                                        <div><dt>Effekt</dt><dd>{inst.intendedEffect}</dd></div>
+                                        <div><dt>Risk</dt><dd>{inst.tradeoff}</dd></div>
+                                        <div><dt>Gäller</dt><dd>{inst.durationCondition}</dd></div>
+                                    </dl>
+                                </button>
+                            );
+                        })}
+                    </div>
                 )}
+            </section>
+
+            {!assistant && (tired.length > 0 || pendingExchange) && <p className="mc-huddle-subs-hint">
+                {pendingExchange ? <>Byte pågår: #{person(pendingExchange.outId)?.number ?? '—'} → #{person(pendingExchange.inId)?.number ?? '—'}. </> : null}
+                {tired.length > 0 && <>Tröttast på plan: {tired.map(p => `#${person(p.id)?.number ?? '—'} ${person(p.id)?.name ?? p.id} (${Math.round(p.condition.energy * 100)} %)`).join(', ')}. Byt i bänken.</>}
+            </p>}
+
+            <footer className="mc-timeout-footer mc-huddle-foot">
+                <small>Direktiven ändrar lagets taktik direkt och gäller när domaren blåser igång spelet.</small>
+                {onResumeTimeout && <button type="button" className="hm-btn hm-btn-primary mc-timeout-resume-action" onClick={handleResume}>Återgå till match</button>}
             </footer>
         </section>
     );

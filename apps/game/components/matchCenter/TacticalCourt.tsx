@@ -1,5 +1,5 @@
 'use client';
-import { useId } from 'react';
+import { useId, type KeyboardEvent } from 'react';
 import type { TacticalSnapshot, PlayerRow, ShotFact } from '@/lib/matchCenter/model';
 import type { ActorRole } from '@/lib/matchCenter/workspace';
 import { ROLE_LABEL, SHOT_LABEL } from '@/lib/matchCenter/model';
@@ -52,6 +52,9 @@ export function StructureCourt({ players, defence, defensivePosts }: {
     ]> = { LW: [7, 1.5], LB: [11, 5], CB: [12, 10], RB: [11, 15], RW: [7, 18.5], P: [7, 10], P2: [7, 12], GK: [1.4, 10] };
     return <div className="mc-structure"><header><strong>Ditt lag på plan</strong><span>{defensivePosts ? `Försvar ${defence}` : 'Anfallsroller'} · schematisk struktur</span></header><svg viewBox="0 0 17 20" role="img" aria-label={`Statisk rollfördelning för ditt lag. ${defensivePosts ? `Försvar ${defence}` : 'Anfallsroller'}. Schematisk vy, inte fysiska spelarpositioner.`}><path d="M0 .5H17V19.5H0 M0 4A6 6 0 0 1 6 10A6 6 0 0 1 0 16" fill="none" stroke="currentColor" strokeWidth=".06"/>{players.filter(p => p.population === 'COURT').map(p => { const [x, y] = defensivePosts?.[p.id] ?? anchors[p.role]; return <g key={p.id} transform={`translate(${x} ${y})`}><circle r=".75"/><text textAnchor="middle" dominantBaseline="central" fontSize=".55">{p.position}</text><text textAnchor="middle" y="1.4" fontSize=".6">{p.name.split(' ').at(-1)}</text><title>{p.name} · {p.position}</title></g>; })}</svg></div>;
 }
-export function ShotMap({ shots }: {
+/** `onShot` (MDY-02f) makes each shot focusable: hover, focus or click selects it so the panel can show its moment. */
+export function ShotMap({ shots, onShot, selected }: {
     shots: ShotFact[];
-}) { return <svg className="mc-shot-map" viewBox="-1 -1 42 22" role="img" aria-label="Skottkarta med registrerade avslutspositioner. G: mål, R: räddning, X: utan mål, B: block, punkt: pågående."><Lines />{shots.filter(s => s.origin).map(s => <g key={s.eventId} transform={`translate(${40 - s.origin!.y} ${s.origin!.x})`} data-outcome={s.outcome}><circle r=".42"/><text fontSize=".5" dominantBaseline="central" textAnchor="middle">{{ GOAL: 'G', SAVE: 'R', BLOCK: 'B', MISS: 'X', PENDING: '·' }[s.outcome]}</text><title>{{ GOAL: 'Mål', SAVE: 'Räddning', BLOCK: 'Block', MISS: 'Utan mål', PENDING: 'Pågående' }[s.outcome]} · {SHOT_LABEL[s.kind] ?? 'Övriga avslut'}</title></g>)}</svg>; }
+    onShot?: (shot: ShotFact) => void;
+    selected?: string | null;
+}) { return <svg className="mc-shot-map" viewBox="-1 -1 42 22" role={onShot ? 'group' : 'img'} aria-label="Skottkarta med registrerade avslutspositioner. G: mål, R: räddning, X: utan mål, B: block, punkt: pågående."><Lines />{shots.filter(s => s.origin).map(s => { const label = `${{ GOAL: 'Mål', SAVE: 'Räddning', BLOCK: 'Block', MISS: 'Utan mål', PENDING: 'Pågående' }[s.outcome]} · ${SHOT_LABEL[s.kind] ?? 'Övriga avslut'}`; return <g key={s.eventId} transform={`translate(${40 - s.origin!.y} ${s.origin!.x})`} data-outcome={s.outcome} data-selected={selected === s.eventId || undefined} {...(onShot ? { tabIndex: 0, role: 'button', 'aria-label': `${Math.floor(s.timestamp / 60000)}′ ${label}`, onClick: () => onShot(s), onMouseEnter: () => onShot(s), onFocus: () => onShot(s), onKeyDown: (e: KeyboardEvent) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onShot(s); } } } : {})}><circle r={selected === s.eventId ? '.62' : '.42'}/><text fontSize=".5" dominantBaseline="central" textAnchor="middle">{{ GOAL: 'G', SAVE: 'R', BLOCK: 'B', MISS: 'X', PENDING: '·' }[s.outcome]}</text><title>{label}</title></g>; })}</svg>; }
