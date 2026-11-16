@@ -25,8 +25,12 @@
 import { exchangeActive, requestExchange } from './population';
 import { courtPlayers, otherTeam, type CorePlayer, type CoreState, type TeamId } from './state';
 
-/** Per player: planned court minutes (0-60) and how strongly his role asks the assistant to honour them (0-1). */
-export type PlannedMinutes = Readonly<Record<string, { readonly planned: number; readonly weight: number }>>;
+/**
+ * Per player: planned court minutes (0-60), how strongly his role asks the assistant to honour them (0-1) and,
+ * optionally, the playing position whose 60-minute budget he shares. The career side only ever hands over
+ * positions whose budget is valid; an over-budget position is left out and rotates by fatigue alone.
+ */
+export type PlannedMinutes = Readonly<Record<string, { readonly planned: number; readonly weight: number; readonly position?: string }>>;
 
 /** How long (official match time) a manual substitution keeps both players out of the assistant's hands. */
 export const MANUAL_LOCK_MS = 10 * 60000;
@@ -103,6 +107,11 @@ export function minutesNeed(minutes: PlannedMinutes, p: CorePlayer, r: MinutesRe
 /** Same position only: goalkeeper for goalkeeper, a field player for a field player of the same role. */
 export const samePosition = (outgoing: CorePlayer, incoming: CorePlayer): boolean =>
   outgoing.kind === incoming.kind && (outgoing.kind === 'GOALKEEPER' || incoming.role === outgoing.role);
+/** Same planned position too, when the plan names one: both players draw on the same 60-minute position budget. */
+export const sameBudget = (minutes: PlannedMinutes, outgoing: CorePlayer, incoming: CorePlayer): boolean => {
+  const a = minutes[outgoing.id]?.position, b = minutes[incoming.id]?.position;
+  return a === undefined || b === undefined || a === b;
+};
 
 /**
  * At most one minutes-driven exchange per call. Returns true when one was requested.
@@ -122,7 +131,7 @@ export function minutesRotationBefore(s: CoreState, team: TeamId, ctx: Context):
     .sort((a, b) => b.score - a.score || a.p.id.localeCompare(b.p.id));
   for (const { p: out, score } of outgoing) {
     const incoming = s.players
-      .filter(b => ctx.ready(b) && samePosition(out, b) && !ctx.protectedIds.has(b.id) && !manualLocked(s, team, b.id) && (b.kind === 'GOALKEEPER' || b.condition.energy >= Math.max(.6, out.condition.energy - .05)))
+      .filter(b => ctx.ready(b) && samePosition(out, b) && sameBudget(minutes, out, b) && !ctx.protectedIds.has(b.id) && !manualLocked(s, team, b.id) && (b.kind === 'GOALKEEPER' || b.condition.energy >= Math.max(.6, out.condition.energy - .05)))
       .map(b => ({ b, need: minutesNeed(minutes, b, r) }))
       .filter(x => x.need > 0)
       .sort((a, b) => b.need - a.need || b.b.condition.energy - a.b.condition.energy || a.b.id.localeCompare(b.b.id))[0];

@@ -366,5 +366,6 @@
   "lib/staff/staffDesk.test.ts",
   "lib/medical/returnToPlay.test.ts",
   "lib/players/roleExpectations.test.ts",
-  "lib/matchPlan/minutesPlan.test.ts"
+  "lib/matchPlan/minutesPlan.test.ts",
+  "lib/matchPlan/positionBudgets.test.ts"
 ]

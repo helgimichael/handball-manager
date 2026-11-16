@@ -2,7 +2,7 @@ import { matchPlanBefore, plannedSeventhPlayer, type TeamMatchPlan } from './mat
 import { courtPlayers,otherTeam,record,type CorePlayer,type CoreState,type TeamId } from './state';
 import { requestExchange,exchangeActive,courtLimit } from './population';
 import { requestTeamTimeout } from './referee';
-import { manualLocked, minutesNeed, minutesReading, minutesRotationBefore } from './minutesRotation';
+import { manualLocked, minutesNeed, minutesReading, minutesRotationBefore, sameBudget } from './minutesRotation';
 import type { AttackIdentity } from './offence';
 
 /** How far the defence is prepared to leave its line to take the ball. */
@@ -198,14 +198,14 @@ export function coachingBefore(s:CoreState) {
     const locked=(p:CorePlayer)=>manualLocked(s,team,p.id);
     // Planned minutes are one weighted input among energy and position: absent, every need reads 0 and the order is unchanged.
     const minutes=plan?.minutes,reading=minutes?minutesReading(s,team):null;
-    const need=(p:CorePlayer)=>minutes&&reading?minutesNeed(minutes,p,reading):0;
+    const need=(p:CorePlayer,out?:CorePlayer)=>minutes&&reading&&(!out||sameBudget(minutes,out,p))?minutesNeed(minutes,p,reading):0;
     const tired=players.filter(p=>free(p)&&!locked(p)&&isExhaustedOrNormalTired(p)).sort((a,b)=>a.condition.energy-b.condition.energy||a.id.localeCompare(b.id));
     let requested=false;
     for(const outgoing of tired) {
       const pr=pairOf(outgoing.id);
       const counterpartId=pr?(pr.attackId===outgoing.id?pr.defenceId:pr.attackId):null;
       const incoming=s.players.filter(p=>ready(p)&&!locked(p)&&!specialistIds.has(p.id)&&p.kind===outgoing.kind&&p.id!==counterpartId&&p.condition.energy>outgoing.condition.energy+profile.freshMargin)
-        .sort((a,b)=>Number(b.role===outgoing.role)-Number(a.role===outgoing.role)||need(b)-need(a)||
+        .sort((a,b)=>Number(b.role===outgoing.role)-Number(a.role===outgoing.role)||need(b,outgoing)-need(a,outgoing)||
           (profile.prefer==='STRENGTH'?playingStrength(b)-playingStrength(a):0)||b.condition.energy-a.condition.energy||a.id.localeCompare(b.id))[0];
       if(incoming&&requestExchange(s,team,outgoing.id,incoming.id)){requested=true;break;}
     }

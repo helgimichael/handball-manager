@@ -29,8 +29,9 @@ import { threatCards } from '@/lib/analysis/threats';
 import { mirrorRows } from '@/lib/analysis/trends';
 import { getClubMatchHistory, sliceWindow } from '@/lib/analysis/matchHistory';
 import { TEMPO_LABELS_SV } from '@/lib/matchPlan/matchPlanLabels';
-import { minutesPlannerRows, resetPlannedMinutes, setPlannedMinutes } from '@/lib/matchPlan/minutesPlan';
+import { changePlannedMinutes, minutesPlannerRows, minutesTotals, positionBudgets, resetPlannedMinutes } from '@/lib/matchPlan/minutesPlan';
 import type { MatchPlan } from '@/lib/matchPlan/types';
+import type { CareerState } from '@/lib/career/types';
 import { setMatchPlan } from '@/lib/career/matchPlanActions';
 import { MinutesPlanner } from '@/components/matchday/MinutesPlanner';
 
@@ -89,13 +90,22 @@ export default function MatchPreviewPage() {
 
   // SQUAD-ROLE-MINUTES: the minutes plan is saved with this fixture's own match plan; nothing else changes.
   const minutesRows = savedPlan ? minutesPlannerRows(career, savedPlan) : [];
-  function editMinutes(edit: (plan: MatchPlan) => MatchPlan) {
+  const budgets = savedPlan ? positionBudgets(career, savedPlan) : [];
+  // Each position has 60 minutes: the change is validated against what is on screen, and again on the saved state.
+  function changeMinutes(playerId: string, minutes: number): string | null {
+    if (!savedPlan) return 'Ingen matchplan att ändra.';
+    const check = changePlannedMinutes(career, savedPlan, playerId, minutes);
+    if (!check.ok) return check.error;
+    editMinutes((plan, state) => { const applied = changePlannedMinutes(state, plan, playerId, minutes); return applied.ok ? applied.plan : plan; });
+    return null;
+  }
+  function editMinutes(edit: (plan: MatchPlan, state: CareerState) => MatchPlan) {
     updateCareer(state => {
       if (state.productionMatch?.fixture.id === fixture!.id) return state;
       const available = getCareerSquad(state).filter(p => isSelectableForMatch(state.playerStatuses, p.id));
       const plan = isManualLineupCareer(state) ? resolveManualMatchPlan(state, fixture!.id, available) : state.matchPlans[fixture!.id];
       if (!plan) return state;
-      const next = edit(plan);
+      const next = edit(plan, state);
       return next === plan ? state : setMatchPlan(state, fixture!.id, next);
     });
   }
@@ -146,8 +156,8 @@ export default function MatchPreviewPage() {
                 <LineupCourt spots={board.spots} />
                 <h3 className="md-subhead">Avbytare · {board.bench.length}</h3>
                 <Bench bench={board.bench} />
-                <MinutesPlanner rows={minutesRows} readOnly={hasActiveSessionForFixture}
-                  onChange={(id, minutes) => editMinutes(plan => setPlannedMinutes(plan, id, minutes))}
+                <MinutesPlanner rows={minutesRows} budgets={budgets} totals={minutesTotals(budgets)} readOnly={hasActiveSessionForFixture}
+                  onEdit={changeMinutes}
                   onReset={id => editMinutes(plan => resetPlannedMinutes(plan, id))}
                   onResetAll={() => editMinutes(plan => resetPlannedMinutes(plan))} />
               </>

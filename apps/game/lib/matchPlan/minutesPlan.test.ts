@@ -15,7 +15,7 @@ import type { CareerState } from '../career/types';
 import { buildInitialMatchSquad } from './careerSquadBridge';
 import { buildDefaultMatchPlan } from './defaultMatchPlan';
 import type { MatchPlan } from './types';
-import { clampPlannedMinutes, defaultPlannedMinutes, engineMinutesPlan, minutesPlannerRows, PLANNED_MINUTES_MAX, plannedMinutesFor, resetPlannedMinutes, resolvePlannedMinutes, setPlannedMinutes } from './minutesPlan';
+import { assignedPosition, clampPlannedMinutes, defaultPlannedMinutes, engineMinutesPlan, minutesPlannerRows, PLANNED_MINUTES_MAX, plannedMinutesFor, positionBudgets, resetPlannedMinutes, resolvePlannedMinutes, setPlannedMinutes } from './minutesPlan';
 import { assessPlayingTime } from '../players/playingTime';
 import { manualLocked } from '@handball-manager/handball-engine/src/v2/core/minutesRotation';
 
@@ -34,11 +34,17 @@ const starters = (plan: MatchPlan) => new Set(plan.attackStartingUnit.slots.filt
 const roles = (s: CareerState, entries: [string, SquadStatusTier][]) => entries.reduce((acc, [id, t]) => updatePlayerSquadStatus(acc, id, t), s);
 
 test('role-based defaults: a Key starter is planned more than a Rotation substitute, a Squad Player substitute least', () => {
-  const { s: base, plan } = career();
-  const start = [...starters(plan)][0]!, bench = field(plan).filter(id => !starters(plan).has(id));
-  const s = roles(base, [[start, 'KEY_PLAYER'], [bench[0]!, 'ROTATION'], [bench[1]!, 'SQUAD_PLAYER']]);
+  const { s: base, plan: full } = career();
+  // One position with a Talent starter and two substitutes: the defaults fit its 60 minutes with room for both.
+  const pivot = full.attackStartingUnit.slots.find(x => x.position === 'M6')!.playerId;
+  const start = full.attackStartingUnit.slots.find(x => x.position === 'V6')!.playerId;
+  const bench = field(full).filter(id => !starters(full).has(id)).slice(0, 2);
+  const keep = new Set([...starters(full), ...keepers(full), ...bench]);
+  const plan: MatchPlan = { ...full, squad: { ...full.squad, players: full.squad.players.filter(p => keep.has(p.playerId)).map(p => bench.includes(p.playerId) ? { ...p, position: 'M6' as const } : p) } };
+  const s = roles(base, [[start, 'KEY_PLAYER'], [pivot, 'TALENT'], [bench[0]!, 'ROTATION'], [bench[1]!, 'SQUAD_PLAYER']]);
   const key = defaultPlannedMinutes(s, plan, start), rot = defaultPlannedMinutes(s, plan, bench[0]!), squad = defaultPlannedMinutes(s, plan, bench[1]!);
-  assert.ok(key > rot && rot > squad, `${key} > ${rot} > ${squad}`);
+  assert.ok(key > rot && rot > squad && squad > 0, `${key} > ${rot} > ${squad}`);
+  assert.ok(defaultPlannedMinutes(s, plan, pivot) + rot + squad <= 60, 'inside the M6 budget');
   for (const n of [key, rot, squad]) { assert.equal(n % 5, 0); assert.ok(n >= 0 && n <= PLANNED_MINUTES_MAX); }
 });
 
@@ -150,8 +156,13 @@ test('a whole quick match: planned minutes move who plays, and every exchange ke
   const { s, plan, fixtureId } = career();
   const bench = field(plan).filter(id => !starters(plan).has(id));
   const target = bench[0]!;
+  // Keep the target's position inside its 60 minutes: the other players there share what is left.
+  const sharing = plan.squad.players.map(p => p.playerId).filter(id => id !== target && assignedPosition(plan, id) === assignedPosition(plan, target));
   const play = (minutes: number) => {
-    let running = startProductionMatch(setMatchPlan(s, fixtureId, setPlannedMinutes(plan, target, minutes)), fixtureId, { quick: true });
+    const others = sharing.reduce((p, id, i) => setPlannedMinutes(p, id, i === 0 ? 60 - minutes : 0), plan);
+    const planned = setPlannedMinutes(others, target, minutes);
+    assert.ok(positionBudgets(s, planned).every(b => b.status !== 'OVER'));
+    let running = startProductionMatch(setMatchPlan(s, fixtureId, planned), fixtureId, { quick: true });
     for (let i = 0; i < 40 && running.productionMatch?.core.status === 'RUNNING'; i++) {
       if (running.productionMatch.pausedAtHalf) running = commandProductionMatch(running, { kind: 'SECOND_HALF' });
       running = advanceProductionMatch(running, 10000, false);

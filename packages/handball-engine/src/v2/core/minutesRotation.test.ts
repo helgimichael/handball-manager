@@ -7,7 +7,7 @@ import { createMatch } from './match';
 import { advanceCoreMutable } from './engine';
 import { courtPlayers, type CorePlayer, type CoreState } from './state';
 import { coachingBefore } from './coaching';
-import { lockManualExchange, minutesAhead, minutesNeed, minutesReading, minutesTolerance, samePosition, type PlannedMinutes } from './minutesRotation';
+import { lockManualExchange, minutesAhead, minutesNeed, minutesReading, minutesTolerance, sameBudget, samePosition, type PlannedMinutes } from './minutesRotation';
 
 const MIN = 60000;
 
@@ -162,4 +162,18 @@ test('a tired player is replaced by the fresh same-role player who still needs h
   coachingBefore(s);
   assert.equal(requested(s)[0]?.inId, favoured);
   assert.equal(minutesNeed(s.coaching.HOME.plan!.minutes!, s.players.find(p => p.id === other)!, minutesReading(s, 'HOME')), 0);
+});
+
+test('position budgets: the assistant only trades minutes inside one planned position budget', () => {
+  const run = (benchPosition: string) => {
+    const s = running(), { court, bench } = pair(s);
+    at(s, 24, court);
+    plan(s, { [court.id]: { planned: 20, weight: .55, position: 'V6' }, [bench.id]: { planned: 30, weight: .55, position: benchPosition } });
+    coachingBefore(s);
+    return requested(s).filter(e => e.outId === court.id && e.inId === bench.id).length;
+  };
+  assert.equal(run('V6'), 1, 'same budget: the planned minutes are traded');
+  assert.equal(run('H6'), 0, 'another position\'s budget is never used to cover this one');
+  const s = running(), { court, bench } = pair(s);
+  assert.equal(sameBudget({ [court.id]: { planned: 20, weight: 1 } }, court, bench), true, 'no planned position: engine role alone decides, as before');
 });
