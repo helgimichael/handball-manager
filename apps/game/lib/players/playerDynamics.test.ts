@@ -54,7 +54,10 @@ test("weekly morale is explained by factors and moves a bounded step", () => {
 
 test("renewal is a negotiation: the demand is at least his wage, a low offer is countered, the demand is accepted", () => {
   let s = at(career(), "2026-09-01");
-  // Someone who asks for a real raise, so a lower offer can be countered.
+  // Someone who asks for a real raise, so a lower offer can be countered. HM-TRANSFER-REALISM-1.0: a content
+  // player now renews close to his wage (PCDM); an unhappy one asks for more -- use one.
+  const unhappy = managerSquadIds(s)[3]!;
+  s = { ...s, playerDynamics: { morale: { [unhappy]: { moralePct: 45, targetPct: 45, factors: [], updatedOn: s.gameDate, unhappyWeeks: 0 } }, promises: {}, concerns: {}, requests: {}, listings: {}, departures: [] } };
   const id = managerSquadIds(s).find((p) => renewalDemand(s, p).demandEurPerMonth >= s.playerContracts[p]!.wageEurPerMonth * 1.06)!;
   assert.ok(id, "at least one player asks for a raise");
   const wage = s.playerContracts[id]!.wageEurPerMonth;
