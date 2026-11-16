@@ -89,13 +89,15 @@ test("Division 1 recruitment: a D1 club can create a real need and sees free age
   // force one into existence via the same contract-expiry path the real
   // world uses, rather than a parallel/synthetic free-agent shape.
   const rivalClubId = getClubsByCompetition(HBL_ID).find((c) => c.id !== state.playerClubId)!.id;
-  const someHblPlayer = (state.worldSquads[rivalClubId] ?? [])[0];
+  // HM-TRANSFER-REALISM-1.0: the club's weakest player -- a free agent a Division 1 club can realistically sign (a star would refuse; that is the PCDM, not a tier gate).
+  const caOfPlayer = (id: string) => state.gameplayRatings[rivalClubId]?.find((r) => r.playerId === id)?.ca ?? 0;
+  const someHblPlayer = [...(state.worldSquads[rivalClubId] ?? [])].sort((a, b) => caOfPlayer(a.id) - caOfPlayer(b.id))[0];
   assert.ok(someHblPlayer, "fixture assumption: a real HBL player exists");
   const withFreeAgent = releasePlayerToFreeAgency(state, someHblPlayer.id, state.gameDate);
   const freeAgentAtPosition = getFreeAgents(withFreeAgent).find((p) => p.id === someHblPlayer.id);
   assert.ok(freeAgentAtPosition, "fixture check: the player must now be a real free agent");
 
-  const candidates = rankCandidates(withFreeAgent, d1ClubId, freeAgentAtPosition!.position, state.gameDate);
+  const candidates = rankCandidates(withFreeAgent, d1ClubId, freeAgentAtPosition!.position, state.gameDate, { exhaustive: true });
   const asFreeAgent = candidates.find((c) => c.playerId === freeAgentAtPosition!.id);
   assert.ok(asFreeAgent, "a Division 1 club's own candidate ranking must include a real free agent at that position");
 });
@@ -143,10 +145,12 @@ test("cross-tier transfer: a Division 1 player can transfer to an Allsvenskan cl
 test("downward transfer: candidate evaluation does not forbid a higher-tier player from being ranked by a lower-tier club", () => {
   const state = fullWorldState("world-downward", "se_club_hammarby_if_hf");
   const d1ClubId = getClubsByCompetition(D1_NORRA_ID)[0].id;
-  const hblPlayer = (state.worldSquads[getClubsByCompetition(HBL_ID).find((c) => c.id !== state.playerClubId)!.id] ?? [])[0];
-  assert.ok(hblPlayer);
-  const candidates = rankCandidates(state, d1ClubId, hblPlayer.position, state.gameDate);
-  const found = candidates.some((c) => c.playerId === hblPlayer.id);
+  // HM-TRANSFER-REALISM-1.0: no hard tier gate -- HBL players who would genuinely consider Division 1
+  // (fringe or veteran players) are real candidates; the stars are excluded by the PCDM, never by their tier.
+  const hblClubIds = getClubsByCompetition(HBL_ID).map((c) => c.id).filter((id) => id !== state.playerClubId);
+  const hblPlayers = hblClubIds.flatMap((id) => state.worldSquads[id] ?? []);
+  const positions = [...new Set(hblPlayers.map((p) => p.position))];
+  const found = positions.some((position) => rankCandidates(state, d1ClubId, position, state.gameDate, { exhaustive: true }).some((c) => hblClubIds.includes(c.clubId)));
   assert.ok(found, "a higher-tier (HBL) player must still appear as a real, rankable candidate for a Division 1 buyer -- no hard tier gate");
 });
 

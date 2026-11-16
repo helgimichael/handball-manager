@@ -122,6 +122,8 @@ const SCOUTED_JITTER_MAGNITUDE = 6;
 export const CPU_OFFER_CONTRACT_YEARS = 3;
 /** HM-TRANSFER-REALISM-1.0: a club in an acute squad emergency stretches its wage discipline this much further. */
 export const EMERGENCY_WAGE_CAP_FACTOR = 1.25;
+/** rankCandidates stops asking the PCDM once this many willing, affordable candidates are found (callers use the top three). */
+export const RANK_VIABLE_TARGET = 5;
 const UNSCOUTED_JITTER_MAGNITUDE = 22;
 
 function ageScore(age: number | null): number {
@@ -147,7 +149,7 @@ function contractSituationScore(status: ReturnType<typeof getPlayerContractStatu
  * alternativ ska kunna väljas" implies some candidates are filtered out
  * as too rich for the club's budget, not that one is force-picked anyway).
  */
-export function rankCandidates(state: CareerState, buyerClubId: string, position: HandballPosition, date: string, options: { emergency?: boolean } = {}): CandidateScore[] {
+export function rankCandidates(state: CareerState, buyerClubId: string, position: HandballPosition, date: string, options: { emergency?: boolean; /** Evaluate every visible candidate (explainability, tests) instead of stopping at RANK_VIABLE_TARGET. */ exhaustive?: boolean } = {}): CandidateScore[] {
   const budgets = getClubBudgets(state, buyerClubId);
   if (!budgets) return []; // Part: "Ingen gratis CPU-ekonomi" -- no budget data, no recruitment.
 
@@ -192,6 +194,16 @@ export function rankCandidates(state: CareerState, buyerClubId: string, position
    * international-reach gating, since they aren't "found abroad", they're
    * openly available).
    */
+  /**
+   * HM-TRANSFER-REALISM-1.0: two phases. Phase 1 (here) scores every visible
+   * candidate on the cheap, wage-independent terms. Phase 2 (below) asks the
+   * Player Career Decision Model -- the expensive part -- in descending score
+   * order, and stops once enough willing, affordable candidates are found.
+   * Every caller only ever uses the top few affordable entries, and the score
+   * itself never depends on the wage (affordability only demotes), so the
+   * top of the list is exactly what a full evaluation would produce.
+   */
+  const pending: { player: PlayerMock; sourceClubId: string; rating: { ca: number; pa: number }; contractStatus: ReturnType<typeof getPlayerContractStatus>; age: number | null; score: number }[] = [];
   function evaluate(player: PlayerMock, sourceClubId: string, internationalReachPenalty: number): void {
     if (state.playerStatuses[player.id]?.availability === "ON_PLACEMENT") return; // not really available to sell right now.
     if (hasActivePendingTransfer(state, player.id, pendingTransferPlayerIds)) return; // HM-CPU-SQUAD-BUILDING-1.0B Part 1: already has a pending deal elsewhere -- never a viable candidate, checked here (not only at offer time) so a doomed candidate never wastes a pursuit slot.
@@ -201,21 +213,6 @@ export function rankCandidates(state: CareerState, buyerClubId: string, position
     if (!rating || !contract) return; // defensive -- every real candidate should have both by this point in career setup.
 
     const contractStatus = getPlayerContractStatus(state, player.id);
-    const isFreeAgent = contractStatus === "FREE_AGENT";
-    const marketValueEur = getPlayerMarketValueEur(state, player.id) ?? 0;
-    // Part 6: "Transfer fee: 0" -- a free agent has no selling club to pay, matching submitTransferOffer's own existing isFreeAgent skip of the selling-club payout.
-    const estimatedFeeEur = isFreeAgent ? 0 : marketValueEur;
-    // HM-TRANSFER-REALISM-1.0: CPU clubs understand who they can realistically sign. The offer is
-    // the wage the player would actually need here (shared Player Career Decision Model -- sporting
-    // level, role, career phase, alternatives); a player no wage can bring here (the sporting floor,
-    // a better club abroad) is not a candidate at all, so a weak club never chases him.
-    const demand = playerWageDemandAt(state, player.id, buyerClubId, { contractYears: CPU_OFFER_CONTRACT_YEARS });
-    if (!demand || demand.demandEurPerMonth === null) return;
-    // Club-side wage discipline: not at that price -- unless the club is in an acute squad emergency, when it pays a crisis premium.
-    if (demand.demandEurPerMonth > clubWageCap(state, player.id) * (options.emergency ? EMERGENCY_WAGE_CAP_FACTOR : 1)) return;
-    const estimatedWageEurPerMonth = Math.max(Math.round(demand.demandEurPerMonth / 10) * 10, 10);
-
-    const affordability = assessTransferAffordability(state, buyerClubId, estimatedFeeEur, 0, estimatedWageEurPerMonth, 100, { budgets: buyerBudgets, currentWageCostsEurAnnual });
     const age = playerAgeAtDate(player.dateOfBirth, player.birthYear, date);
     const buyerTier = competitionTierForClub(buyerClubId);
     const candidateTier = competitionTierForClub(sourceClubId);
@@ -224,16 +221,33 @@ export function rankCandidates(state: CareerState, buyerClubId: string, position
 
     const jitter = seededOffset(`${buyerClubId}:${player.id}:${date}:cpu-candidate-jitter`, jitterMagnitude);
 
-    let score = rating.ca * 1.0 + Math.max(0, rating.pa - rating.ca) * 0.3 + ageScore(age) + contractSituationScore(contractStatus) + tierGapPenalty - levelGapPenalty - internationalReachPenalty - squadSizePenalty + jitter;
-    if (!affordability.affordable) score -= 1000; // Part: "för dyr kandidat ska kunna avvisas" -- still ranked/visible for explainability, but never chosen while unaffordable ones exist.
+    const score = rating.ca * 1.0 + Math.max(0, rating.pa - rating.ca) * 0.3 + ageScore(age) + contractSituationScore(contractStatus) + tierGapPenalty - levelGapPenalty - internationalReachPenalty - squadSizePenalty + jitter;
+    pending.push({ player, sourceClubId, rating, contractStatus, age, score });
+  }
 
+  function finish(entry: (typeof pending)[number]): CandidateScore | null {
+    const { player, sourceClubId, rating, contractStatus, age } = entry;
+    const isFreeAgent = contractStatus === "FREE_AGENT";
+    // HM-TRANSFER-REALISM-1.0: CPU clubs understand who they can realistically sign. The offer is
+    // the wage the player would actually need here (shared Player Career Decision Model -- sporting
+    // level, role, career phase, alternatives); a player no wage can bring here (the sporting floor,
+    // a better club abroad) is not a candidate at all, so a weak club never chases him.
+    const demand = playerWageDemandAt(state, player.id, buyerClubId, { contractYears: CPU_OFFER_CONTRACT_YEARS });
+    if (!demand || demand.demandEurPerMonth === null) return null;
+    // Club-side wage discipline: not at that price -- unless the club is in an acute squad emergency, when it pays a crisis premium.
+    if (demand.demandEurPerMonth > clubWageCap(state, player.id) * (options.emergency ? EMERGENCY_WAGE_CAP_FACTOR : 1)) return null;
+    const estimatedWageEurPerMonth = Math.max(Math.round(demand.demandEurPerMonth / 10) * 10, 10);
+    const marketValueEur = getPlayerMarketValueEur(state, player.id) ?? 0;
+    // Part 6: "Transfer fee: 0" -- a free agent has no selling club to pay, matching submitTransferOffer's own existing isFreeAgent skip of the selling-club payout.
+    const estimatedFeeEur = isFreeAgent ? 0 : marketValueEur;
+    const affordability = assessTransferAffordability(state, buyerClubId, estimatedFeeEur, 0, estimatedWageEurPerMonth, 100, { budgets: buyerBudgets, currentWageCostsEurAnnual });
+    const score = affordability.affordable ? entry.score : entry.score - 1000; // Part: "för dyr kandidat ska kunna avvisas" -- still ranked/visible for explainability, but never chosen while unaffordable ones exist.
     const reasonParts = [
       `${positionLabel(position)}, nivå ${Math.round(rating.ca)}`,
       isFreeAgent ? "fri agent -- ingen övergångssumma" : contractStatus === "EXPIRING" ? "kontrakt går snart ut" : null,
       affordability.affordable ? "råd att värva" : `för dyr (${affordability.reasons.join(" ")})`,
     ].filter(Boolean);
-
-    results.push({
+    return {
       playerId: player.id,
       clubId: sourceClubId,
       position,
@@ -247,7 +261,7 @@ export function rankCandidates(state: CareerState, buyerClubId: string, position
       affordable: affordability.affordable,
       score,
       reason: reasonParts.join(", ") + ".",
-    });
+    };
   }
 
   for (const club of candidateClubs) {
@@ -277,6 +291,14 @@ export function rankCandidates(state: CareerState, buyerClubId: string, position
     evaluate(player, FREE_AGENT_CLUB_ID, 0);
   }
 
+  pending.sort((a, b) => b.score - a.score || a.player.id.localeCompare(b.player.id));
+  let affordableFound = 0;
+  for (const entry of pending) {
+    const result = finish(entry);
+    if (!result) continue;
+    results.push(result);
+    if (result.affordable && ++affordableFound >= RANK_VIABLE_TARGET && !options.exhaustive) break;
+  }
   return results.sort((a, b) => b.score - a.score);
 }
 

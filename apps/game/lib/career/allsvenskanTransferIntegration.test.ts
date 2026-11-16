@@ -4,6 +4,7 @@
 // player at another real Allsvenskan club, exactly mirroring
 // transferCareerIntegration.test.ts's own established Handbollsligan
 // pattern.
+import { playerDecisionOnMove } from "../transfers/careerDecision/stateAdapter";
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { createNewCareerState } from "./newCareer";
@@ -42,9 +43,11 @@ function pickLoanableSellerAndPlayer(state: CareerState) {
   for (const club of getClubsByCompetition(ALLSVENSKAN_ID)) {
     if (club.id === TUMBA_CLUB_ID) continue;
     const squad = state.worldSquads[club.id] ?? [];
+    // HM-TRANSFER-REALISM-1.0: a depth player who would also accept the loan himself (shared PCDM).
     const loanable = squad.find((p) => {
       const tier = deriveDefaultSquadStatusTier(p);
-      return tier !== "KEY_PLAYER" && tier !== "FIRST_CHOICE";
+      const contract = getPlayerContract(state, p.id);
+      return tier !== "KEY_PLAYER" && tier !== "FIRST_CHOICE" && !!contract && playerDecisionOnMove(state, p.id, TUMBA_CLUB_ID, { wageEurPerMonth: contract.wageEurPerMonth, contractYears: 1 }).accept;
     });
     if (loanable) return { sellerClubId: club.id, player: loanable };
   }

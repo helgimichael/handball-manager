@@ -260,13 +260,21 @@ test("a full but WEAK squad signs materially better players", () => {
 });
 
 test("a full and STRONG squad stays essentially quiet", () => {
+  // HM-TRANSFER-REALISM-1.0: this used to compare against a weak (CA 95) league, assuming any player
+  // would join any club. Under the shared Player Career Decision Model better players rarely drop into a
+  // weak environment while stars do step UP into a strong one, so that comparison no longer measures the
+  // upgrade gate. The gate itself: a strong squad's quality upgrades are genuine (they clear the gap) and
+  // never outnumber the players who do, and its total intake over two years stays small.
   const clubs = hblClubs();
-  let weakState = harnessWorld("upgrade-cmp-weak");
   let strongState = harnessWorld("upgrade-cmp-strong");
-  for (const c of clubs) { weakState = fullSquad(weakState, c, 3, 95); strongState = fullSquad(strongState, c, 3, 145); }
-  const weakArrivals = clubs.flatMap((c) => arrivals(runCycles(weakState, 24), c)).length;
-  const strongArrivals = clubs.flatMap((c) => arrivals(runCycles(strongState, 24), c)).length;
-  assert.ok(strongArrivals < weakArrivals, `a strong league (${strongArrivals} arrivals) must recruit far less than a weak one (${weakArrivals})`);
+  for (const c of clubs) strongState = fullSquad(strongState, c, 3, 145);
+  const clearing = Object.entries(strongState.gameplayRatings).filter(([c]) => !clubs.includes(c)).flatMap(([, r]) => r).filter((r) => r.ca >= 145 + CLEARLY_REPLACED_CA_GAP).length;
+  const after = runCycles(strongState, 24);
+  const strongArrivals = clubs.flatMap((c) => arrivals(after, c));
+  const upgrades = strongArrivals.filter((a) => a.ca > 145);
+  for (const a of upgrades) assert.ok(a.ca >= 145 + CLEARLY_REPLACED_CA_GAP, `upgrade ${a.id} at CA ${a.ca} is not a material upgrade over CA 145`);
+  assert.ok(upgrades.length <= clearing, `${upgrades.length} upgrades but only ${clearing} players in the world clear the gap`);
+  assert.ok(strongArrivals.length <= 2 * clubs.length, `${strongArrivals.length} arrivals across ${clubs.length} strong clubs in two years is not quiet`);
 });
 
 test("an overfull squad is blocked by the size gate even when weak", () => {

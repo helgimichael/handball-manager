@@ -365,10 +365,10 @@ export function progressCpuContractDecisions(state: CareerState, date: string, c
       // HM-TRANSFER-REALISM-1.0: a renewal needs BOTH sides. The club decided above; the player
       // now answers with the shared Player Career Decision Model -- the wage he needs to stay
       // (vs what the open market offers him), or no wage at all when he has outgrown the club.
-      // The player is asked on a fixed cadence (every PLAYER_RENEWAL_REVIEW_DAYS, and every day in
-      // the final DECISION_FORCE_WITHIN_DAYS); in between the club simply waits for his answer.
+      // Asked every time the club decides RENEW (an accepted renewal leaves the window, so this repeats
+      // only for a player who keeps refusing); his refusal is logged every PLAYER_RENEWAL_REVIEW_DAYS.
       const daysLeft = daysUntilContractEnd(contract.contractEndDate, date);
-      const playerReview = daysLeft <= DECISION_FORCE_WITHIN_DAYS || daysLeft % PLAYER_RENEWAL_REVIEW_DAYS === 0;
+      const playerReview = true;
       let renewalWage = contract.wageEurPerMonth;
       let playerVerdict: "ACCEPTS" | "REFUSES" | "UNAFFORDABLE" | "NOT_ASKED" = "NOT_ASKED";
       if (decision === "RENEW" && playerReview) {
