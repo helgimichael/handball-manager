@@ -425,8 +425,8 @@ function pursueQualityUpgrades(state: CareerState, clubId: string, date: string,
  * candidate/offer resulted, so the persisted state honestly reflects
  * "this club is searching for this position" either way.
  */
-function pursuePosition(state: CareerState, clubId: string, position: HandballPosition, need: NeedLevel, date: string, emit: Emit): { state: CareerState; pursued: boolean } {
-  const candidates = rankCandidates(state, clubId, position, date);
+function pursuePosition(state: CareerState, clubId: string, position: HandballPosition, need: NeedLevel, date: string, emit: Emit, emergency = false): { state: CareerState; pursued: boolean } {
+  const candidates = rankCandidates(state, clubId, position, date, { emergency });
   const chosen = bestAffordableCandidate(candidates);
   const id = planId(clubId, position);
 
@@ -660,7 +660,7 @@ export function progressCpuEmergencyRecruitment(state: CareerState, date: string
       }
       if (existing?.cooldownUntil !== null && existing?.cooldownUntil !== undefined && !isSameOrBefore(existing.cooldownUntil, date)) continue; // cooldown still respected (Part 4).
 
-      const result = pursuePosition(next, clubId, target.position, target.level, date, emit);
+      const result = pursuePosition(next, clubId, target.position, target.level, date, emit, true);
       next = result.state;
       if (result.pursued && !isRetry) slotsRemaining -= 1;
     }
