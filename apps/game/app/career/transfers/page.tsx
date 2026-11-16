@@ -1,56 +1,39 @@
 "use client";
 
-// HM-ALPHA2-05E: the Transfer Centre -- market overview and opportunities,
-// player search and shortlist, active negotiations and incoming answers,
-// finances and squad needs. It never negotiates itself: every deal is
-// conducted in the Negotiation Room (/career/transfers/[playerId]), the
-// single negotiation workflow the Recruitment Centre and player profiles
-// link to as well.
-import { Suspense, useEffect, useMemo, useState } from "react";
-import { careerPlayerVisibility } from "@/lib/knowledge/careerVisibility";
+// Arena Nights 231 -- the Transfer Centre as a trading desk (REC-03 A "Market Table + Deal Panel").
+// Header: mode switch Köp · Sälj · Affärer and the budget waterfall, always in sight. Köp: saved views over
+// one canonical market table (REC-03b A), the need court as the position filter (REC-03d B) and the Deal
+// Panel / drawer for the selected player (REC-03c A). Sälj: the sell board (REC-03a A). Affärer: ongoing
+// negotiations, market pulse and recent deals. Mode, view, filters and the selected player live in the URL.
+// It still never negotiates itself: every deal is conducted in the Negotiation Room.
+import { Suspense, useCallback, useEffect, useMemo, useState } from "react";
+import { DelegationToggle } from "@/components/staff/DelegationToggle";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { ClubLink, PlayerLink } from "@/components/entityLinks";
 import { PageHeading } from "@/components/manager/Workspace";
-import { CourtBackdrop } from "@/components/transfers/CourtBackdrop";
+import { PlayerGlyph } from "@/components/game/Identity";
+import { PlayerLink } from "@/components/entityLinks";
+import { BudgetWaterfall } from "@/components/transfers/BudgetWaterfall";
+import { DealDrawer } from "@/components/transfers/DealDrawer";
+import { MarketTable, NegotiationPill } from "@/components/transfers/MarketTable";
+import { NeedCourt } from "@/components/transfers/NeedCourt";
 import { daysLeftLabel, deadlineUrgency } from "@/components/transfers/transferVisuals";
-import { PlayerCell, PlayerGlyph, PlayerHero } from "@/components/game/Identity";
-import { KnowledgeMeter } from "@/components/game/RecruitmentPresentation";
-import { KnowledgeGatedAbilityPanel } from "@/components/KnowledgeGatedProfilePanels";
+import { IncomingOffersBoard } from "@/components/players/IncomingOffersBoard";
 import { useCareer } from "@/lib/career/CareerContext";
-import { getCareerClubSquad, getCareerPlayer, getExternalCandidateClubs } from "@/lib/career/careerWorld";
-import { getFreeAgents } from "@/lib/career/contractExpiry";
-import { getCareerPlayerRating } from "@/lib/career/careerRatingNormalization";
-import { isTransferWindowOpen, nextTransferWindowOpenDate } from "@/lib/transfers/transferWindow";
-import { playerAgeAtDate } from "@/lib/development/developmentIntegration";
+import { getCareerPlayer } from "@/lib/career/careerWorld";
 import { formatMoney, localizeMoneyText } from "@/lib/economy/currency";
 import { useMoney } from "@/lib/settings/usePreferences";
-import { CONTRACT_STATUS_LABEL, CONTRACT_STATUS_TONE } from "@/lib/economy/labels";
-import { getPlayerContract, getPlayerContractStatus, getPlayerMarketValueEur } from "@/lib/economy/contractIntegration";
-import { getClub, positionLabel, type Club, type HandballPosition, type PlayerMock } from "@/lib/game-data";
-import { getPlayerKnowledgePct } from "@/lib/knowledge/knowledgeIntegration";
-import { type KnowledgeRatingInput } from "@/lib/knowledge/playerVisibility";
-import { resolveMarketValueRange } from "@/lib/knowledge/scoutReportVisibility";
-import { isShortlisted } from "@/lib/career/recruitment";
-import {
-  getManagerRecruitmentNeeds,
-  getOpenNegotiationSummaries,
-  getPlayerTransferStatus,
-  getRecentResponses,
-  getTransferFinance,
-  getTransferOpportunities,
-  summarizeNegotiation,
-  type NegotiationSummary,
-} from "@/lib/transfers/transferCentre";
-import { getLatestNegotiation } from "@/lib/transfers/negotiationIntegration";
-import { evaluatePlayerInterest, matchesInterestFilter, type InterestFilter } from "@/lib/transfers/playerInterest";
+import { getClub } from "@/lib/game-data";
+import { isTransferWindowOpen, nextTransferWindowOpenDate } from "@/lib/transfers/transferWindow";
+import { getManagerRecruitmentNeeds, getOpenNegotiationSummaries, getRecentResponses } from "@/lib/transfers/transferCentre";
 import type { TransferOfferStatus } from "@/lib/transfers/types";
-import { IncomingOffersBoard } from "@/components/players/IncomingOffersBoard";
+import type { InterestFilter } from "@/lib/transfers/playerInterest";
+import {
+  budgetWaterfall, buildMarketTable, DESK_MODES, deskSearch, describeView, MARKET_VIEWS, parseDeskQuery, sellBadgeCount,
+  type DeskQuery, type MarketView,
+} from "@/lib/transfers/transferDesk";
 import type { CareerState } from "@/lib/career/types";
 
-type Tab = "OPPORTUNITIES" | "MARKET" | "SHORTLIST";
-const POSITIONS: readonly (HandballPosition | "ALL")[] = ["ALL", "MV", "V9", "V6", "M9", "M6", "H9", "H6"];
-const NEED_LABEL = { HIGH: "Akut", MEDIUM: "Behov", LOW: "Täckt", NONE: "Full" } as const;
 const OFFER_STATUS_LABEL: Record<TransferOfferStatus, string> = {
   BLOCKED_UNAFFORDABLE: "Ej råd",
   BLOCKED_PENDING_TRANSFER: "Pågående affär",
@@ -60,330 +43,226 @@ const OFFER_STATUS_LABEL: Record<TransferOfferStatus, string> = {
   COMPLETED: "Genomförd",
   CANCELLED_STALE: "Avbruten",
 };
+const INTEREST_LABEL: Record<InterestFilter, string> = { REALISTIC: "Realistiska mål", PERSUADABLE: "Möjligen intresserade", ALL: "Alla" };
+const SAVED_VIEWS_KEY = "hm-tx-saved-views";
+interface SavedView { name: string; search: string }
 
-export default function TransfersPage() { return <Suspense><TransferCentre /></Suspense>; }
+export default function TransfersPage() { return <Suspense><TransferDesk /></Suspense>; }
 
-function valueRangeLabel(career: CareerState, player: PlayerMock): string {
-  const value = getPlayerMarketValueEur(career, player.id);
-  if (value === undefined) return "—";
-  const range = resolveMarketValueRange(value, getPlayerKnowledgePct(career, player.id, player.clubId), player.id);
-  return range.min === range.max ? formatMoney(range.min) : `${formatMoney(range.min)} – ${formatMoney(range.max)}`;
+/** Browser-local saved views -- a per-viewer convenience only; the desk works the same without them. */
+function useSavedViews(): [SavedView[], (v: SavedView[]) => void] {
+  const [views, setViews] = useState<SavedView[]>([]);
+  useEffect(() => {
+    try {
+      const raw = window.localStorage.getItem(SAVED_VIEWS_KEY);
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- one-shot hydration from browser storage.
+      if (raw) setViews((JSON.parse(raw) as SavedView[]).filter((v) => typeof v?.name === "string" && typeof v?.search === "string").slice(0, 6));
+    } catch { /* storage unavailable -- no saved views */ }
+  }, []);
+  const store = useCallback((next: SavedView[]) => {
+    setViews(next);
+    try { window.localStorage.setItem(SAVED_VIEWS_KEY, JSON.stringify(next)); } catch { /* convenience only */ }
+  }, []);
+  return [views, store];
 }
 
-function NegotiationPill({ summary }: { summary?: NegotiationSummary }) {
-  if (!summary) return null;
-  const tone = summary.nextStep === "YOUR_MOVE" ? "move" : summary.nextStep === "WAITING" ? "wait" : summary.nextStep === "COMPLETED" ? "done" : "closed";
-  const label = summary.nextStep === "YOUR_MOVE" ? "Ditt drag" : summary.nextStep === "WAITING" ? "Väntar svar" : summary.nextStep === "COMPLETED" ? "Klar" : "Avslutad";
-  return <span className="tc-pill" data-tone={tone}>{label}</span>;
-}
-
-function TransferCentre() {
+function TransferDesk() {
   useMoney(); // re-render every figure when the display currency changes
   const params = useSearchParams();
-  const { career, addToShortlist, removeFromShortlist } = useCareer();
-  const [tab, setTab] = useState<Tab>("OPPORTUNITIES");
-  const [query, setQuery] = useState("");
-  const [position, setPosition] = useState<HandballPosition | "ALL">("ALL");
-  const [interestFilter, setInterestFilter] = useState<InterestFilter>("REALISTIC");
-  const [selectedId, setSelectedId] = useState<string | null>(params.get("target"));
+  const { career } = useCareer();
+  const query = parseDeskQuery(params);
+  const setQuery = useCallback((patch: Partial<DeskQuery>) => {
+    const next = { ...parseDeskQuery(new URLSearchParams(window.location.search)), ...patch };
+    // The native History API keeps useSearchParams in sync without a route transition (cheap for arrow-key row nav).
+    window.history.replaceState(null, "", `/career/transfers${deskSearch(next)}`);
+  }, []);
 
-  const finance = getTransferFinance(career);
-  const needs = getManagerRecruitmentNeeds(career);
   const negotiations = getOpenNegotiationSummaries(career);
-  const responses = getRecentResponses(career).slice(0, 5);
-  const opportunities = useMemo(() => getTransferOpportunities(career), [career]);
-  const urgent = negotiations.filter((n) => n.nextStep === "YOUR_MOVE");
-  const yourMove = urgent.length;
-  const urgentNeeds = needs.filter((n) => n.level === "HIGH").map((n) => n.position);
+  const yourMove = negotiations.filter((n) => n.nextStep === "YOUR_MOVE").length;
+  const bids = sellBadgeCount(career);
   const windowOpen = isTransferWindowOpen(career.gameDate);
-
-  const market = useMemo(() => {
-    const rows: { player: PlayerMock; club: Club | null }[] = [
-      ...getExternalCandidateClubs(career).flatMap((club) => getCareerClubSquad(career, club.id).map((player) => ({ player, club: club as Club | null }))),
-      ...getFreeAgents(career).map((player) => ({ player, club: null as Club | null })),
-    ];
-    const q = query.trim().toLowerCase();
-    return rows.filter(({ player }) => {
-      if (position !== "ALL" && player.position !== position) return false;
-      if (q && !`${player.firstName} ${player.lastName}`.toLowerCase().includes(q)) return false;
-      const interest = evaluatePlayerInterest(career, player.id, career.playerClubId);
-      return matchesInterestFilter(interest, interestFilter);
-    });
-  }, [career, query, position, interestFilter]);
-
-  const shortlist = useMemo(
-    () => Object.values(career.recruitmentTargets ?? {}).filter((t) => t.shortlisted).map((t) => getCareerPlayer(career, t.playerId)).filter((p): p is PlayerMock => !!p && p.clubId !== career.playerClubId),
-    [career],
-  );
-
-  const rows: PlayerMock[] = tab === "OPPORTUNITIES" ? opportunities.map((o) => o.player) : tab === "SHORTLIST" ? shortlist : market.map((r) => r.player);
-  const whyById = new Map(opportunities.map((o) => [o.player.id, o.why]));
-  const selected = selectedId ? getCareerPlayer(career, selectedId) ?? null : null;
+  const badges: Record<DeskQuery["mode"], number> = { kop: 0, salj: bids, affarer: yourMove };
 
   return (
-    <div className="game-transfers-page tc-page">
-      <PageHeading eyebrow="Rekrytering / bygg laget" title="Transfer Centre" description="Marknaden, era förhandlingar och ekonomin på ett ställe. Varje affär görs i förhandlingsrummet." actions={<><Link className="hm-btn" href="/career/recruitment">Rekryteringscentrum</Link><Link className="hm-btn" href="/career/players">Spelarsök →</Link></>} />
+    <div className="game-transfers-page tc-page tx-desk">
+      <PageHeading eyebrow="Rekrytering / bygg laget" title="Transfer Centre" description="Köp, sälj och följ dina affärer. Varje förhandling görs i förhandlingsrummet." actions={<Link className="hm-btn" href="/career/recruitment">Rekryteringscentrum</Link>} />
 
-      {/* HM-ALPHA3-M05: bids for your players, the transfer list and departures. */}
-      <IncomingOffersBoard />
-      <section className="tc-stage" aria-label="Transferläge och ekonomi">
-        <CourtBackdrop />
-        <div className="tc-stage-lead">
-          <div className="tc-eyebrow"><span className="tc-live-dot" data-open={windowOpen} aria-hidden="true" />{windowOpen ? "Transferfönstret är öppet" : `Fönstret stängt -- öppnar ${nextTransferWindowOpenDate(career.gameDate)}`}</div>
-          <h2>{yourMove > 0 ? `${yourMove} förhandling${yourMove > 1 ? "ar" : ""} väntar på ditt drag` : negotiations.length > 0 ? `${negotiations.length} pågående förhandling${negotiations.length > 1 ? "ar" : ""}` : urgentNeeds.length > 0 ? `Akut behov: ${urgentNeeds.join(", ")}` : "Hitta nästa förstärkning"}</h2>
-          <p>{windowOpen ? "Överenskomna övergångar registreras direkt." : "Överenskommelser registreras när fönstret öppnar. Lån startar direkt."} {opportunities.length > 0 ? `${opportunities.length} realistiska möjligheter på positioner ni behöver.` : ""}</p>
-        </div>
-        <div className="tc-stat"><small>Kassa</small><strong>{finance ? formatMoney(finance.cashEur) : "—"}</strong></div>
-        <div className="tc-stat">
-          <small>Transferbudget</small><strong>{finance ? formatMoney(finance.transferBudgetEur) : "—"}</strong>
-          {finance && finance.committedEur > 0 && <span className="tc-stat-meter" aria-label={`${formatMoney(finance.committedEur)} bundet i affärer`}><i style={{ width: `${Math.min(100, Math.round(finance.committedEur / Math.max(1, finance.transferBudgetEur + finance.committedEur) * 100))}%` }} /></span>}
-        </div>
-        <div className="tc-stat" data-tone={finance && finance.wageRoomEurPerMonth < 0 ? "warning" : undefined}><small>Löneutrymme / mån</small><strong>{finance ? formatMoney(Math.round(finance.wageRoomEurPerMonth)) : "—"}</strong></div>
-        <div className="tc-stat"><small>Bundet i affärer</small><strong>{finance ? formatMoney(finance.committedEur) : "—"}</strong></div>
-      </section>
-
-      {urgent.length > 0 && (
-        <section className="tc-urgent" aria-label="Kräver beslut">
-          <div className="tc-urgent-head"><span className="tc-eyebrow">Kräver beslut</span><span>{urgent.length} förhandling{urgent.length > 1 ? "ar" : ""} väntar på er</span></div>
-          <div className="tc-urgent-list">
-            {urgent.map((s) => {
-              const p = getCareerPlayer(career, s.negotiation.playerId);
-              const clock = deadlineUrgency(career.gameDate, s.date);
-              return (
-                <Link key={s.negotiation.id} className="tc-urgent-card" data-urgency={clock?.urgency} href={`/career/transfers/${encodeURIComponent(s.negotiation.playerId)}`}>
-                  {p ? <PlayerGlyph player={p} size={40} /> : <span />}
-                  <div>
-                    <strong>{p ? `${p.firstName} ${p.lastName}` : ""}</strong>
-                    <span>{s.latest?.response === "COUNTER" ? "Motbud att ta ställning till" : s.latest?.response === "ACCEPT" ? "Klubben är överens -- villkor till spelaren" : "Lägg nästa bud"}</span>
-                  </div>
-                  <b>{clock ? daysLeftLabel(clock.daysLeft) : "Ditt drag"}</b>
-                </Link>
-              );
-            })}
+      <header className="tx-desk-head">
+        <div className="tx-desk-modes">
+          <div className="tx-modes" role="tablist" aria-label="Läge">
+            {DESK_MODES.map((m) => (
+              <button key={m.id} type="button" role="tab" aria-selected={query.mode === m.id} onClick={() => setQuery({ mode: m.id })}>
+                {m.label}{badges[m.id] > 0 && <b className="tx-badge" aria-label={`${badges[m.id]} väntar på dig`}>{badges[m.id]}</b>}
+              </button>
+            ))}
           </div>
-        </section>
-      )}
+          <p className="tx-window"><span className="tc-live-dot" data-open={windowOpen} aria-hidden="true" />{windowOpen ? "Transferfönstret är öppet -- överenskomna övergångar registreras direkt." : `Fönstret är stängt -- öppnar ${nextTransferWindowOpenDate(career.gameDate)}. Lån startar direkt.`}</p>
+        </div>
+        <BudgetWaterfall w={budgetWaterfall(career)} compact />
+        <DelegationToggle area="PLAYER_RECRUITMENT" compact />
+      </header>
 
-      <div className="tc-hub">
-        <section className="tc-panel" aria-label="Marknaden">
-          <div className="tc-tabs" role="tablist" aria-label="Marknadsvy">
-            <button type="button" role="tab" aria-selected={tab === "OPPORTUNITIES"} onClick={() => setTab("OPPORTUNITIES")}>Möjligheter<b>{opportunities.length}</b></button>
-            <button type="button" role="tab" aria-selected={tab === "MARKET"} onClick={() => setTab("MARKET")}>Hela marknaden<b>{market.length}</b></button>
-            <button type="button" role="tab" aria-selected={tab === "SHORTLIST"} onClick={() => setTab("SHORTLIST")}>Bevakade<b>{shortlist.length}</b></button>
-          </div>
-          {tab === "MARKET" && (
-            <div className="tc-filters" style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center" }}>
-              <input className="tc-input" style={{ maxWidth: 220 }} aria-label="Sök spelare" placeholder="Sök namn…" value={query} onChange={(e) => setQuery(e.target.value)} />
-              <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
-                {POSITIONS.map((p) => <button key={p} type="button" className="tc-chip" aria-pressed={position === p} onClick={() => setPosition(p)}>{p === "ALL" ? "Alla" : p}</button>)}
-              </div>
-              <div style={{ display: "flex", gap: 4, alignItems: "center", marginLeft: "auto" }}>
-                <span style={{ fontSize: "11px", color: "var(--hm-text-muted)" }}>Mål:</span>
-                {(["REALISTIC", "PERSUADABLE", "ALL"] as const).map((fk) => (
-                  <button key={fk} type="button" className="tc-chip" aria-pressed={interestFilter === fk} onClick={() => setInterestFilter(fk)}>
-                    {fk === "REALISTIC" ? "Realistiska mål" : fk === "PERSUADABLE" ? "Möjligen intresserade" : "Alla"}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-          {tab === "OPPORTUNITIES" && <div className="tc-filters"><span className="tc-why">Spelare på positioner ni behöver, med kontrakt som gör en affär realistisk och inom transferbudgeten.</span></div>}
-          {tab === "OPPORTUNITIES" && opportunities.length > 0 && (
-            <div className="tc-featured" aria-label="Utvalda möjligheter">
-              {opportunities.slice(0, 3).map((o) => (
-                <button key={o.player.id} type="button" className="tc-feature" data-selected={selectedId === o.player.id} data-need={o.needLevel} onClick={() => setSelectedId(o.player.id)}>
-                  <span className="tc-feature-top"><PlayerGlyph player={o.player} size={38} /><span className="tc-feature-pos">{o.player.position}</span></span>
-                  <strong>{o.player.firstName} {o.player.lastName}</strong>
-                  <span className="tc-feature-club">{o.clubId ? getClub(o.clubId)?.shortName ?? o.clubId : "Fri agent"} · {playerAgeAtDate(o.player.dateOfBirth, o.player.birthYear, career.gameDate) ?? "–"} år</span>
-                  <span className="tc-feature-why">{o.why}</span>
-                  <span className="tc-feature-value">{valueRangeLabel(career, o.player)}</span>
-                </button>
+      {query.mode === "kop" && <BuyMode career={career} query={query} setQuery={setQuery} yourMove={yourMove} />}
+      {query.mode === "salj" && <IncomingOffersBoard />}
+      {query.mode === "affarer" && <DealsMode career={career} />}
+    </div>
+  );
+}
+
+function BuyMode({ career, query, setQuery, yourMove }: { career: CareerState; query: DeskQuery; setQuery: (p: Partial<DeskQuery>) => void; yourMove: number }) {
+  const { addToShortlist } = useCareer();
+  const needs = getManagerRecruitmentNeeds(career);
+  const table = useMemo(() => buildMarketTable(career, query), [career, query]);
+  const [picked, setPicked] = useState<Set<string>>(() => new Set());
+  const [savedViews, storeViews] = useSavedViews();
+  const [search, setSearch] = useState(query.q);
+  const selected = query.target && getCareerPlayer(career, query.target) ? query.target : null;
+  const currentSearch = deskSearch({ ...query, target: null, mode: "kop" });
+  const filtered = query.pos !== "ALL" || query.q.trim() !== "" || query.interest !== "ALL" || query.expiring;
+  const hidden = Math.max(0, table.totalInView - table.rows.length);
+
+  const pick = (id: string, on: boolean) => setPicked((prev) => { const next = new Set(prev); if (on) next.add(id); else next.delete(id); return next; });
+  const bulkAdd = () => { for (const id of picked) addToShortlist(id); setPicked(new Set()); };
+  const clearFilters = () => { setSearch(""); setQuery({ pos: "ALL", q: "", interest: "ALL", expiring: false }); };
+  const saveView = () => {
+    if (savedViews.some((v) => v.search === currentSearch)) return;
+    storeViews([...savedViews, { name: describeView(query), search: currentSearch }].slice(-6));
+  };
+
+  return (
+    <div className="tx-buy" data-has-selection={selected ? "true" : undefined}>
+      <section className="tx-market" aria-label="Marknaden">
+        {yourMove > 0 && <button type="button" className="tx-alert" onClick={() => setQuery({ mode: "affarer" })}><b>{yourMove}</b> förhandling{yourMove > 1 ? "ar" : ""} väntar på ditt drag <span>Till Affärer →</span></button>}
+
+        <div className="tx-market-head">
+          <NeedCourt needs={needs} selected={query.pos} onSelect={(pos) => setQuery({ pos })} />
+          <div className="tx-market-controls">
+            <div className="tx-views" role="tablist" aria-label="Vy">
+              {MARKET_VIEWS.map((v) => (
+                <button key={v.id} type="button" role="tab" aria-selected={query.view === v.id} onClick={() => setQuery({ view: v.id })}>{v.label}<b>{table.counts[v.id]}</b></button>
+              ))}
+              {savedViews.map((v) => (
+                <span key={v.search} className="tx-saved">
+                  <button type="button" className="tx-saved-open" aria-pressed={v.search === currentSearch} onClick={() => { const saved = parseDeskQuery(new URLSearchParams(v.search)); setSearch(saved.q); setQuery({ ...saved, mode: "kop", target: query.target }); }}>{v.name}</button>
+                  <button type="button" aria-label={`Ta bort sparad vy ${v.name}`} onClick={() => storeViews(savedViews.filter((x) => x.search !== v.search))}>×</button>
+                </span>
               ))}
             </div>
-          )}
-          {rows.length === 0 ? (
-            <div className="tc-empty">{tab === "SHORTLIST" ? "Inga bevakade spelare än. Bevaka en spelare från dossiern eller rekryteringscentrumet." : tab === "OPPORTUNITIES" ? "Inga tydliga möjligheter just nu -- truppen är täckt eller marknaden för dyr. Sök på hela marknaden." : "Inga spelare matchar filtret."}</div>
-          ) : (
-            <div className="tc-table hm-scroll-x">
-              <table className="hm-table">
-                <thead><tr><th>Spelare</th><th>Pos</th><th>Ålder</th><th>Klubb</th><th>Kontrakt</th><th className="hm-table-num">Marknadsvärde</th><th>Intresse</th><th>Status</th></tr></thead>
-                <tbody>
-                  {rows.slice(0, 80).map((player) => {
-                    const status = getPlayerContractStatus(career, player.id);
-                    const latest = getLatestNegotiation(career, player.id, career.playerClubId);
-                    return (
-                      <tr key={player.id} data-clickable="true" data-selected={selectedId === player.id} onClick={() => setSelectedId(player.id)} tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSelectedId(player.id); } }} aria-selected={selectedId === player.id}>
-                        <td className="hm-td-strong"><PlayerCell player={player} />{tab === "OPPORTUNITIES" && <div className="tc-why">{whyById.get(player.id)}</div>}</td>
-                        <td title={positionLabel(player.position)}>{player.position}</td>
-                        <td>{playerAgeAtDate(player.dateOfBirth, player.birthYear, career.gameDate) ?? "–"}</td>
-                        <td className="hm-text-muted">{player.clubId && getClub(player.clubId) ? <ClubLink clubId={player.clubId} stopPropagation>{getClub(player.clubId)!.shortName}</ClubLink> : "Fri agent"}</td>
-                        <td>{status ? <span className={`hm-badge hm-badge-${CONTRACT_STATUS_TONE[status]}`}>{CONTRACT_STATUS_LABEL[status]}</span> : "—"}</td>
-                        <td className="hm-table-num">{valueRangeLabel(career, player)}</td>
-                        <td>{(() => {
-                          const interest = evaluatePlayerInterest(career, player.id, career.playerClubId);
-                          return (
-                            <span className="tc-pill" data-tone={interest.tone === "positive" ? "done" : interest.tone === "caution" ? "wait" : "closed"} title={interest.reason}>
-                              {interest.label}
-                            </span>
-                          );
-                        })()}</td>
-                        <td>{latest ? <NegotiationPill summary={summarizeNegotiation(latest)} /> : isShortlisted(career, player.id) ? <span className="tc-pill">Bevakad</span> : null}</td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </section>
-
-        <div className="tc-rail">
-          {selected && <Dossier career={career} player={selected} onShortlist={(on) => (on ? addToShortlist(selected.id) : removeFromShortlist(selected.id))} onClose={() => setSelectedId(null)} />}
-
-          <section className="tc-panel" aria-label="Pågående förhandlingar">
-            <div className="tc-panel-head"><h3>Förhandlingar</h3><span>{negotiations.length} pågående</span></div>
-            {negotiations.length === 0 ? <div className="tc-empty">Inga pågående förhandlingar. Välj en spelare och öppna förhandlingsrummet.</div> : (
-              <div className="tc-deal-list">
-                {negotiations.map((s) => {
-                  const p = getCareerPlayer(career, s.negotiation.playerId);
-                  return (
-                    <Link key={s.negotiation.id} className="tc-deal" data-step={s.nextStep} href={`/career/transfers/${encodeURIComponent(s.negotiation.playerId)}`}>
-                      {/* The glyph only -- PlayerCell carries its own profile link, and links must not nest. */}
-                      {p ? <PlayerGlyph player={p} size={34} /> : <span />}
-                      <div>
-                        <strong>{p ? `${p.firstName} ${p.lastName}` : ""}</strong>
-                        <span>{s.negotiation.dealType === "LOAN" ? "Lån" : "Övergång"} · {s.negotiation.stage === "CLUB" ? "med klubben" : "med spelaren"}</span>
-                        <span>{s.nextStep === "WAITING" ? `Svar väntas ${s.date}` : s.date ? `Ditt bud senast ${s.date}` : "Ditt drag"}{s.activeRivals.length ? ` · ${s.activeRivals.length} konkurrent${s.activeRivals.length > 1 ? "er" : ""}` : ""}</span>
-                      </div>
-                      <NegotiationPill summary={s} />
-                    </Link>
-                  );
-                })}
+            <label className="tx-view-select">
+              <span className="tx-sr">Vy</span>
+              <select className="tc-input" value={query.view} onChange={(e) => setQuery({ view: e.target.value as MarketView })}>
+                {MARKET_VIEWS.map((v) => <option key={v.id} value={v.id}>{v.label} ({table.counts[v.id]})</option>)}
+              </select>
+            </label>
+            <div className="tx-filters">
+              <input className="tc-input" type="search" aria-label="Sök spelare" placeholder="Sök namn…" value={search} onChange={(e) => { setSearch(e.target.value); setQuery({ q: e.target.value }); }} />
+              <div className="tx-chipset" role="group" aria-label="Mål">
+                {(["REALISTIC", "PERSUADABLE", "ALL"] as const).map((fk) => <button key={fk} type="button" className="tc-chip" aria-pressed={query.interest === fk} onClick={() => setQuery({ interest: fk })}>{INTEREST_LABEL[fk]}</button>)}
               </div>
-            )}
-          </section>
-
-          <section className="tc-panel" aria-label="Truppbehov">
-            <div className="tc-panel-head"><h3>Truppbehov</h3><span>spelare per position</span></div>
-            <div className="tc-panel-body">
-              <div className="tc-needs">{needs.map((n) => <div key={n.position} className="tc-need" data-level={n.level} title={n.reason}><small>{n.position}</small><strong>{n.projectedDepth}</strong><span className="tc-need-bar" aria-hidden="true"><i style={{ height: `${Math.min(100, n.projectedDepth * 25)}%` }} /></span><small>{NEED_LABEL[n.level]}</small></div>)}</div>
-              <p className="tc-note" style={{ marginTop: 10 }}>{urgentNeeds.length ? `Akut: ${urgentNeeds.join(", ")}. ` : "Inga akuta luckor. "}Siffran är spelare på positionen inklusive överenskomna ankomster.</p>
+              <button type="button" className="tc-chip" aria-pressed={query.expiring} onClick={() => setQuery({ expiring: !query.expiring })}>Endast utgående kontrakt</button>
+              <button type="button" className="hm-btn hm-btn-sm" onClick={saveView} disabled={savedViews.some((v) => v.search === currentSearch)}>{savedViews.some((v) => v.search === currentSearch) ? "Vyn är sparad" : "Spara vy"}</button>
             </div>
-          </section>
-
-          <section className="tc-panel" aria-label="Inkommande svar">
-            <div className="tc-panel-head"><h3><span className="tc-live-dot" data-open="true" aria-hidden="true" />Marknadspuls</h3><span>svar och rörelser, 14 dagar</span></div>
-            {responses.length === 0 ? <div className="tc-empty">Inga svar än. Svar på era bud kommer efter några dagar och syns här och i inkorgen.</div> : responses.map(({ negotiation, round }, i) => {
-              const p = getCareerPlayer(career, negotiation.playerId);
-              return (
-                <Link key={`${negotiation.id}:${round.date}:${i}`} className="tc-response" data-response={round.response} data-party={round.party} href={`/career/transfers/${encodeURIComponent(negotiation.playerId)}`} style={{ color: "inherit", textDecoration: "none" }}>
-                  <header><span>{round.party === "CLUB" ? "Klubben" : round.party === "PLAYER" ? "Spelaren" : "Marknaden"} · {p ? `${p.firstName} ${p.lastName}` : ""}</span><span>{round.date}</span></header>
-                  <p>{localizeMoneyText(round.reason)}</p>
-                </Link>
-              );
-            })}
-          </section>
-
-          <RecentDeals career={career} />
+            {query.view === "mojligheter" && <p className="tx-muted tx-view-note">Spelare på positioner ni behöver, med kontrakt som gör en affär realistisk och inom transferbudgeten.</p>}
+          </div>
         </div>
+
+        {picked.size > 0 && (
+          <div className="tx-bulk" role="region" aria-label="Markerade spelare">
+            <span><b>{picked.size}</b> markerade</span>
+            <button type="button" className="hm-btn hm-btn-sm hm-btn-primary" onClick={bulkAdd}>Lägg på Kortlista</button>
+            <button type="button" className="hm-btn hm-btn-sm" onClick={() => setPicked(new Set())}>Avmarkera</button>
+          </div>
+        )}
+        {hidden > 0 && filtered && table.rows.length > 0 && <p className="tx-hidden">{hidden} spelare i vyn döljs av filtren. <button type="button" className="tx-linkbtn" onClick={clearFilters}>Rensa filter</button></p>}
+
+        {table.rows.length === 0 ? (
+          <div className="tx-empty">
+            {query.view === "kortlista" && table.totalInView === 0 ? <>
+              <p>Kortlistan är tom. Lägg spelare på Kortlista från marknaden eller rekryteringscentrumet.</p>
+              <div className="tx-empty-actions"><button type="button" className="hm-btn" onClick={() => setQuery({ view: "marknad" })}>Visa hela marknaden</button><Link className="hm-btn" href="/career/recruitment">Rekryteringscentrum</Link></div>
+            </> : query.view === "mojligheter" && table.totalInView === 0 ? <>
+              <p>Inga tydliga möjligheter just nu -- truppen är täckt eller marknaden för dyr.</p>
+              <div className="tx-empty-actions"><button type="button" className="hm-btn" onClick={() => setQuery({ view: "marknad" })}>Sök på hela marknaden</button></div>
+            </> : <>
+              <p>Inga spelare matchar filtren{hidden ? ` (${hidden} dolda)` : ""}.</p>
+              <div className="tx-empty-actions"><button type="button" className="hm-btn" onClick={clearFilters}>Rensa filter</button></div>
+            </>}
+          </div>
+        ) : (
+          <MarketTable rows={table.rows} selectedId={selected} onSelect={(id) => setQuery({ target: id })} picked={picked} onPick={pick} showWhy={query.view === "mojligheter"} caption={MARKET_VIEWS.find((v) => v.id === query.view)?.label ?? "Marknaden"} />
+        )}
+        {table.rows.length >= 120 && <p className="tx-hidden">Visar de 120 bäst rankade. Smalna av med position eller sök.</p>}
+      </section>
+
+      <div className="tx-panel-col">
+        {selected ? <DealDrawer key={selected} playerId={selected} onClose={() => setQuery({ target: null })} /> : (
+          <aside className="tx-drawer tx-drawer-idle" aria-label="Affärspanel">
+            <div className="tx-drawer-body">
+              <h3 className="tx-h4">Välj en spelare</h3>
+              <p className="tx-muted">Klicka på en rad (eller använd piltangenterna) för att se värdering, om ni kan buda och vad som stoppar en affär.</p>
+            </div>
+          </aside>
+        )}
       </div>
     </div>
   );
 }
 
-function Dossier({ career, player, onShortlist, onClose }: { career: CareerState; player: PlayerMock; onShortlist: (on: boolean) => void; onClose: () => void }) {
-  const status = getPlayerTransferStatus(career, player.id);
-  const contract = getPlayerContract(career, player.id);
-  const knowledge = getPlayerKnowledgePct(career, player.id, player.clubId);
-  const shortlisted = isShortlisted(career, player.id);
-  const freeAgent = status?.contractStatus === "FREE_AGENT";
-  const own = status?.isOwnPlayer ?? false;
-  const canLoan = !freeAgent && !status?.loan && !own;
-
-  // Knowledge-gated ability (HM-SCOUTING-1.0 Part 9) -- fetched for the selected player only, same as Player Profile.
-  const [ratingRow, setRatingRow] = useState<KnowledgeRatingInput | null | undefined>(undefined);
-  useEffect(() => {
-    const local = getCareerPlayerRating(career, player.id, player.clubId);
-    if (local || player.dataSource !== "REAL_WORLD") {
-      // eslint-disable-next-line react-hooks/set-state-in-effect -- one-shot sync from career state for the newly selected player.
-      setRatingRow(local ?? null);
-      return;
-    }
-    let cancelled = false;
-    fetch(`/api/game-world/gameplay-ratings/clubs/${encodeURIComponent(player.clubId)}`)
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data) => { if (!cancelled) setRatingRow((data?.players ?? []).find((r: KnowledgeRatingInput & { playerId: string }) => r.playerId === player.id) ?? null); })
-      .catch(() => { if (!cancelled) setRatingRow(null); });
-    return () => { cancelled = true; };
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- keyed on the selected player, matching Player Profile's fetch pattern.
-  }, [player.id, player.clubId, player.dataSource]);
-  const view = ratingRow ? careerPlayerVisibility(career, ratingRow, player.id, knowledge) : null;
-
+function DealsMode({ career }: { career: CareerState }) {
+  const negotiations = getOpenNegotiationSummaries(career);
+  const responses = getRecentResponses(career).slice(0, 6);
+  const deals = Object.values(career.transferOffers).filter((o) => o.toClubId === career.playerClubId || o.fromClubId === career.playerClubId).reverse().slice(0, 8);
   return (
-    <aside className="game-target-dossier" aria-label="Vald spelare">
-      <div className="game-dossier-heading"><span className="hm-eyebrow">Spelardossier</span><button type="button" className="hm-btn hm-btn-sm" onClick={onClose} aria-label="Stäng dossiern">Stäng</button></div>
-      <PlayerHero player={player} career={career} />
-      <div className="game-dossier-body" style={{ display: "grid", gap: 12 }}>
-        <KnowledgeMeter pct={knowledge} />
-        {view && <KnowledgeGatedAbilityPanel view={view} />}
-        <dl className="tc-facts">
-          <div><dt>Avtalet ägs av</dt><dd>{status?.ownerClubId ? <ClubLink clubId={status.ownerClubId}>{getClub(status.ownerClubId)?.shortName ?? status.ownerClubId}</ClubLink> : "Fri agent"}</dd></div>
-          {status?.loan && <div><dt>Spelar för</dt><dd>{getClub(status.loan.borrowingClubId)?.shortName} (lån till {status.loan.endDate})</dd></div>}
-          <div><dt>Kontrakt</dt><dd>{status?.contractStatus ? CONTRACT_STATUS_LABEL[status.contractStatus] : "—"}{contract ? ` · t.o.m. ${contract.contractEndDate}` : ""}</dd></div>
-          <div><dt>Lön</dt><dd>{contract ? `${formatMoney(contract.wageEurPerMonth)}/mån` : "—"}</dd></div>
-          <div><dt>Marknadsvärde</dt><dd>{valueRangeLabel(career, player)}</dd></div>
-          {status && status.interestedClubIds.length > 0 && <div><dt>Konkurrerande intresse</dt><dd>{status.interestedClubIds.map((id) => getClub(id)?.shortName ?? id).join(", ")}</dd></div>}
-          {status?.managerNegotiation && <div><dt>Er förhandling</dt><dd><NegotiationPill summary={status.managerNegotiation} /></dd></div>}
-        </dl>
-        {own ? (
-          <div className="tc-actions"><Link className="hm-btn tc-wide" href={`/career/squad/${encodeURIComponent(player.id)}`}>Spelaren tillhör er -- öppna profilen →</Link></div>
-        ) : (() => {
-          const interest = evaluatePlayerInterest(career, player.id, career.playerClubId);
-          return (
-            <div className="tc-actions">
-              <div className="tc-interest-box" style={{ width: "100%", padding: "8px 10px", background: "rgba(255,255,255,0.03)", borderRadius: "var(--hm-radius-sm)", border: "1px solid rgba(255,255,255,0.06)", marginBottom: 4 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 3 }}>
-                  <span style={{ fontSize: "11px", color: "var(--hm-text-muted)" }}>Intresse för övergång</span>
-                  <span className="tc-pill" data-tone={interest.tone === "positive" ? "done" : interest.tone === "caution" ? "wait" : "closed"}>
-                    {interest.label}
-                  </span>
-                </div>
-                <p style={{ margin: 0, fontSize: "11px", color: "var(--hm-text-secondary)", lineHeight: 1.35 }}>
-                  {interest.reason}
-                </p>
-              </div>
-              {interest.willEnterNegotiations ? (
-                <Link className="hm-btn hm-btn-primary tc-wide" href={`/career/transfers/${encodeURIComponent(player.id)}`}>
-                  {status?.managerNegotiation && status.managerNegotiation.nextStep !== "CLOSED" && status.managerNegotiation.nextStep !== "COMPLETED" ? "Fortsätt förhandlingen →" : "Förhandla om övergång →"}
+    <div className="tx-deals">
+      <section className="tc-panel" aria-label="Pågående förhandlingar">
+        <div className="tc-panel-head"><h3>Förhandlingar</h3><span>{negotiations.length} pågående · ditt drag först</span></div>
+        {negotiations.length === 0 ? (
+          <div className="tx-empty"><p>Inga pågående förhandlingar.</p><div className="tx-empty-actions"><Link className="hm-btn" href="/career/transfers">Hitta en spelare på marknaden</Link></div></div>
+        ) : (
+          <div className="tc-deal-list">
+            {negotiations.map((s) => {
+              const p = getCareerPlayer(career, s.negotiation.playerId);
+              const clock = deadlineUrgency(career.gameDate, s.date);
+              return (
+                <Link key={s.negotiation.id} className="tc-deal" data-step={s.nextStep} href={`/career/transfers/${encodeURIComponent(s.negotiation.playerId)}`}>
+                  {p ? <PlayerGlyph player={p} size={34} /> : <span />}
+                  <div>
+                    <strong>{p ? `${p.firstName} ${p.lastName}` : ""}</strong>
+                    <span>{s.negotiation.dealType === "LOAN" ? "Lån" : "Övergång"} · {s.negotiation.stage === "CLUB" ? "med klubben" : "med spelaren"}{s.activeRivals.length ? ` · ${s.activeRivals.length} konkurrent${s.activeRivals.length > 1 ? "er" : ""}` : ""}</span>
+                    <span>{s.nextStep === "WAITING" ? `Svar väntas ${s.date}` : s.latest?.response === "COUNTER" ? "Motbud att ta ställning till" : s.latest?.response === "ACCEPT" ? "Klubben är överens -- villkor till spelaren" : "Lägg nästa bud"}{s.nextStep === "YOUR_MOVE" && clock ? ` · ${daysLeftLabel(clock.daysLeft)}` : ""}</span>
+                  </div>
+                  <NegotiationPill summary={s} />
                 </Link>
-              ) : (
-                <button type="button" className="hm-btn tc-wide" disabled style={{ opacity: 0.6, cursor: "not-allowed" }} title={interest.reason}>
-                  Förhandling ej möjlig · {interest.label}
-                </button>
-              )}
-              {canLoan && interest.willEnterNegotiations ? <Link className="hm-btn" href={`/career/transfers/${encodeURIComponent(player.id)}?deal=LOAN`}>Föreslå lån</Link> : <span className="hm-btn" aria-disabled="true" title={freeAgent ? "En kontraktslös spelare värvas, inte lånas." : !interest.willEnterNegotiations ? interest.reason : "Spelaren är redan utlånad."}>Lån ej möjligt</span>}
-              <button type="button" className="hm-btn" onClick={() => onShortlist(!shortlisted)} aria-pressed={shortlisted}>{shortlisted ? "Sluta bevaka" : "Bevaka"}</button>
-              <Link className="hm-btn" href={`/career/compare?right=${encodeURIComponent(player.id)}`}>Jämför med truppen</Link>
-              <Link className="hm-btn" href={`/career/squad/${encodeURIComponent(player.id)}`}>Spelarprofil</Link>
-            </div>
-          );
-        })()}
-      </div>
-    </aside>
-  );
-}
+              );
+            })}
+          </div>
+        )}
+      </section>
 
-function RecentDeals({ career }: { career: CareerState }) {
-  const deals = Object.values(career.transferOffers).filter((o) => o.toClubId === career.playerClubId || o.fromClubId === career.playerClubId).reverse().slice(0, 6);
-  return (
-    <section className="tc-panel" aria-label="Senaste affärer">
-      <div className="tc-panel-head"><h3>Senaste affärer</h3><span>{deals.length ? "in och ut" : ""}</span></div>
-      {deals.length === 0 ? <div className="tc-empty">Inga affärer registrerade i karriären.</div> : deals.map((offer) => (
-        <div key={offer.id} className="tc-response">
-          <header><span>{offer.toClubId === career.playerClubId ? "In" : "Ut"} · {offer.dealType === "LOAN" ? "Lån" : "Övergång"}</span><span>{offer.resolvedDate ?? offer.offeredDate}</span></header>
-          <p><PlayerLink playerId={offer.playerId}>{getCareerPlayer(career, offer.playerId)?.lastName ?? offer.playerId}</PlayerLink> · {offer.fromClubId ? getClub(offer.fromClubId)?.shortName ?? offer.fromClubId : "Fri agent"} → {getClub(offer.toClubId)?.shortName ?? offer.toClubId} · {formatMoney(offer.transferFeeEur)} · {OFFER_STATUS_LABEL[offer.status]}</p>
-        </div>
-      ))}
-    </section>
+      <div className="tx-deals-side">
+        <section className="tc-panel" aria-label="Marknadspuls">
+          <div className="tc-panel-head"><h3><span className="tc-live-dot" data-open="true" aria-hidden="true" />Marknadspuls</h3><span>svar, 14 dagar</span></div>
+          {responses.length === 0 ? <div className="tc-empty">Inga svar än. Svar på era bud kommer efter några dagar och syns här och i inkorgen.</div> : responses.map(({ negotiation, round }, i) => {
+            const p = getCareerPlayer(career, negotiation.playerId);
+            return (
+              <Link key={`${negotiation.id}:${round.date}:${i}`} className="tc-response tx-response" data-response={round.response} data-party={round.party} href={`/career/transfers/${encodeURIComponent(negotiation.playerId)}`}>
+                <header><span>{round.party === "CLUB" ? "Klubben" : round.party === "PLAYER" ? "Spelaren" : "Marknaden"} · {p ? `${p.firstName} ${p.lastName}` : ""}</span><span>{round.date}</span></header>
+                <p>{localizeMoneyText(round.reason)}</p>
+              </Link>
+            );
+          })}
+        </section>
+
+        <section className="tc-panel" aria-label="Senaste affärer">
+          <div className="tc-panel-head"><h3>Senaste affärer</h3><span>{deals.length ? "in och ut" : ""}</span></div>
+          {deals.length === 0 ? <div className="tc-empty">Inga affärer registrerade i karriären ännu.</div> : deals.map((offer) => (
+            <div key={offer.id} className="tc-response">
+              <header><span>{offer.toClubId === career.playerClubId ? "In" : "Ut"} · {offer.dealType === "LOAN" ? "Lån" : "Övergång"}</span><span>{offer.resolvedDate ?? offer.offeredDate}</span></header>
+              <p><PlayerLink playerId={offer.playerId}>{getCareerPlayer(career, offer.playerId)?.lastName ?? offer.playerId}</PlayerLink> · {offer.fromClubId ? getClub(offer.fromClubId)?.shortName ?? offer.fromClubId : "Fri agent"} → {getClub(offer.toClubId)?.shortName ?? offer.toClubId} · <span className="tx-num">{formatMoney(offer.transferFeeEur)}</span> · {OFFER_STATUS_LABEL[offer.status]}</p>
+            </div>
+          ))}
+        </section>
+      </div>
+    </div>
   );
 }

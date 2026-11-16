@@ -4,6 +4,8 @@
 // outcome stamped on it, then the contract on one side and where the
 // money went on the other (a single stacked bar: who receives each
 // euro), then what to do next. Restrained: one reveal, no confetti.
+// Arena Nights 231 REC-04e A: a short, skippable floodlight "signing moment" plays once on top (crest,
+// player, "Klar för [klubb]", key terms, then the next-step buttons); this record stays underneath.
 import Link from "next/link";
 import ClubCrest from "@/components/ClubCrest";
 import { PlayerGlyph } from "@/components/game/Identity";
@@ -13,6 +15,7 @@ import { useMoney } from "@/lib/settings/usePreferences";
 import { getClub, positionLabel, type PlayerMock } from "@/lib/game-data";
 import type { DealSummary } from "@/lib/transfers/transferCentre";
 import { DEAL_SIGNED_BACKDROP } from "./transferVisuals";
+import { FloodlightMoment, useMomentOnce } from "./FloodlightMoment";
 
 interface Flow { label: string; to: string; eur: number; tone: string }
 
@@ -40,8 +43,36 @@ export function DealCompletion({ summary, player }: { summary: DealSummary; play
   const total = flows.reduce((s, f) => s + f.eur, 0);
   const share = offer.loanTerms?.wageShareBorrowingPct ?? 100;
   const fullWage = summary.loan?.originalWageEurPerMonth ?? offer.newWageEurPerMonth;
+  const [moment, closeMoment] = useMomentOnce(`signed:${offer.id}`);
+  const profileHref = `/career/squad/${encodeURIComponent(offer.playerId)}`;
 
   return (
+    <>
+    {moment && (
+      <FloodlightMoment
+        label={`${name} klar för ${to?.shortName ?? "er"}`}
+        tone={isLoan || scheduled ? "scheduled" : "signed"}
+        eyebrow={isLoan ? "Lån bekräftat" : scheduled ? "Överenskommelse" : "Övergång genomförd"}
+        headline={<>{player.lastName}<span>{isLoan ? `lånad till ${to?.shortName ?? "er"}` : `klar för ${to?.shortName ?? "er"}`}</span></>}
+        lede={scheduled ? `Registreras när fönstret öppnar ${summary.arrivalDate}.` : undefined}
+        media={<>{from ? <ClubCrest shortName={from.shortName} primaryColor={from.primaryColor} clubId={from.id} size={40} /> : <span className="tc-party-mark" aria-hidden="true">FA</span>}<span className="tc-route-arrow" aria-hidden="true" /><PlayerGlyph player={player} size={64} /><span className="tc-route-arrow" aria-hidden="true" />{to && <ClubCrest shortName={to.shortName} primaryColor={to.primaryColor} clubId={to.id} size={40} />}</>}
+        terms={isLoan ? [
+          { label: "Låneperiod", value: `${offer.loanTerms?.startDate ?? ""} → ${offer.loanTerms?.endDate ?? ""}` },
+          { label: "Ni betalar", value: `${share}% · ${formatMoney(Math.round(fullWage * share / 100))}/mån` },
+        ] : [
+          { label: "Övergångssumma", value: formatMoney(summary.feeEur) },
+          { label: "Lön", value: `${formatMoney(offer.newWageEurPerMonth)}/mån` },
+          { label: "Avtal t.o.m.", value: summary.contractEndDate },
+          ...(summary.promisedSquadRole ? [{ label: "Utlovad roll", value: SQUAD_STATUS_TIER_LABEL_SV[summary.promisedSquadRole] }] : []),
+        ]}
+        actions={<>
+          <Link className="hm-btn hm-btn-primary tc-cta" href={profileHref} onClick={closeMoment}>Öppna spelarprofilen →</Link>
+          <Link className="hm-btn" href="/career/squad" onClick={closeMoment}>Se truppen</Link>
+          <Link className="hm-btn" href="/career/tactics" onClick={closeMoment}>Planera laguttagning</Link>
+        </>}
+        onClose={closeMoment}
+      />
+    )}
     <section className="tc-completion" data-arrival={summary.arrival} data-deal={offer.dealType} aria-live="polite">
       <header className="tc-completion-hero tc-photo-hero" style={DEAL_SIGNED_BACKDROP}>
         <div className="tc-completion-copy">
@@ -109,11 +140,12 @@ export function DealCompletion({ summary, player }: { summary: DealSummary; play
       </div>
 
       <nav className="tc-next" aria-label="Nästa steg">
-        <Link className="hm-btn hm-btn-primary tc-cta" href={`/career/squad/${encodeURIComponent(offer.playerId)}`}>Öppna spelarprofilen →</Link>
+        <Link className="hm-btn hm-btn-primary tc-cta" href={profileHref}>Öppna spelarprofilen →</Link>
         <Link className="hm-btn" href="/career/squad">Se truppen</Link>
         <Link className="hm-btn" href="/career/tactics">Planera laguttagning</Link>
         <Link className="hm-btn tc-quiet" href="/career/transfers">Tillbaka till Transfer Centre</Link>
       </nav>
     </section>
+    </>
   );
 }

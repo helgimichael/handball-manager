@@ -1,0 +1,44 @@
+/* Arena 231 -- SQD-02o A "Unified status card": the profile card system (hm-dossier-section) with the
+   negotiation deadline clock and the state as chips. Imported by PlayerTransferCard.tsx. */
+.ptc { gap: 12px; min-width: 0; }
+.ptc-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.ptc-chip { display: inline-flex; align-items: center; padding: 4px 9px; border-radius: 999px; font: 600 11px/1.2 var(--arena-font-ui); color: var(--arena-ink-2); background: var(--arena-solid-3); font-variant-numeric: tabular-nums; }
+.ptc-chip[data-tone="own"] { color: var(--arena-ink); box-shadow: inset 3px 0 0 var(--club-neon); }
+.ptc-chip[data-tone="wait"] { box-shadow: inset 3px 0 0 var(--arena-gold); }
+.ptc-chip[data-tone="pos"] { color: var(--arena-ink); background: color-mix(in srgb, var(--arena-pos) 30%, var(--arena-solid-3)); }
+.ptc-chip[data-tone="neg"] { color: var(--arena-ink); background: color-mix(in srgb, var(--arena-neg) 36%, var(--arena-solid-3)); }
+.ptc-chip[data-tone="warn"] { box-shadow: inset 3px 0 0 var(--arena-warn); }
+
+/* Deadline clock: first thing in the card while a negotiation runs. */
+.ptc-clock { display: grid; gap: 4px; padding: 10px 12px; border-radius: 6px; background: var(--arena-solid-2); border: 1px solid var(--arena-line); border-left: 3px solid var(--club-neon); }
+.ptc-clock b { font: 800 22px/1 var(--arena-font-display); color: var(--arena-ink); text-transform: uppercase; letter-spacing: .01em; font-variant-numeric: tabular-nums; }
+.ptc-clock span { font-size: 12px; color: var(--arena-muted); }
+.ptc-clock[data-urgency="soon"] { border-left-color: var(--arena-warn); }
+.ptc-clock[data-urgency="urgent"], .ptc-clock[data-urgency="overdue"] { border-left-color: var(--arena-neg); background-color: color-mix(in srgb, var(--arena-neg) 10%, var(--arena-solid-2)); }
+
+.ptc-own { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.ptc-club { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; padding: 8px 10px; border-radius: 4px; background: var(--arena-solid-2); border: 1px solid var(--arena-line); }
+.ptc-club > div { min-width: 0; }
+.ptc-club small { display: block; font: 700 9.5px/1.2 var(--arena-font-ui); letter-spacing: .1em; text-transform: uppercase; color: var(--arena-faint); }
+.ptc-club strong { display: block; font-size: 13px; color: var(--arena-ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ptc-club-fa { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; font: 700 10px/1 var(--arena-font-ui); color: var(--arena-muted); background: var(--arena-solid-3); }
+.ptc-own[data-split="true"] .ptc-club:last-child { border-left: 3px solid var(--arena-gold); }
+.ptc-own-link { display: grid; justify-items: center; gap: 2px; flex: none; font: 700 9.5px/1 var(--arena-font-ui); letter-spacing: .1em; text-transform: uppercase; color: var(--arena-gold); }
+.ptc-own-link i { position: relative; width: 22px; height: 2px; background: var(--arena-gold); }
+.ptc-own-link i::after { content: ""; position: absolute; right: -1px; top: -4px; border: 5px solid transparent; border-left: 7px solid var(--arena-gold); border-right: 0; }
+
+.ptc-loan { display: grid; gap: 6px; }
+.ptc-loan-track { height: 6px; border-radius: 3px; background: var(--arena-solid-3); overflow: hidden; }
+.ptc-loan-track i { display: block; height: 100%; background: var(--arena-gold); }
+.ptc-loan-dates { display: flex; justify-content: space-between; gap: 8px; font-size: 11px; color: var(--arena-faint); }
+
+.ptc-actions { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; }
+.ptc-actions .hm-btn { justify-content: center; text-align: center; min-height: 40px; }
+.ptc-actions .ptc-cta:only-child { grid-column: 1 / -1; }
+.ptc :is(a, button):focus-visible { outline: 2px solid var(--club-neon); outline-offset: 2px; }
+@media (max-width: 760px) {
+  .ptc-actions { grid-template-columns: minmax(0, 1fr); }
+  .ptc-actions .hm-btn { min-height: 44px; }
+  .ptc-own { flex-wrap: wrap; }
+  .ptc-own-link { display: none; }
+}
