@@ -3,7 +3,7 @@
 // the same saved lineup, rapid edits keep the newest state, and a failed write keeps the edits, says so and
 // retries. Real career, real UI and the real IndexedDB save; the only injected fault is a failing IDB put.
 import { test, expect as baseExpect, type Page } from '@playwright/test';
-import { chooseStartingSeven } from './matchPrep';
+import { chooseStartingSeven, enterCareerAfterLoad, newGameToManagerStep } from './matchPrep';
 
 const expect = baseExpect.configure({ timeout: 30000 });
 const base = process.env.HM_QA_URL ?? 'http://localhost:3001';
@@ -21,7 +21,7 @@ test('tactics board edits persist across reloads, preview and failures', async (
   page.on('pageerror', (e) => errors.push(e.message));
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(`${base}/new-game`);
-  for (let i = 0; i < 4; i++) await page.getByRole('button', { name: 'Nästa →', exact: true }).click();
+  await newGameToManagerStep(page);
   await page.getByPlaceholder('För- och efternamn').fill('Autosave Check');
   await page.getByRole('combobox', { name: 'Nationalitet', exact: true }).selectOption('SWE');
   await page.getByRole('textbox', { name: 'Födelsedatum', exact: true }).fill('1985-04-12');
@@ -29,6 +29,7 @@ test('tactics board edits persist across reloads, preview and failures', async (
   await page.getByRole('radio', { name: 'Vid första tävlingsmatchen', exact: true }).check();
   await page.getByRole('button', { name: 'STARTA KARRIÄR', exact: true }).click();
   await page.waitForURL('**/career', { timeout: 120000 });
+  await enterCareerAfterLoad(page);
 
   // 1-3. Starting seven, then an immediate reload.
   await page.goto(`${base}/career/tactics`);

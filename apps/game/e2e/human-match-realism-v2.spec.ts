@@ -2,6 +2,7 @@ import { test, expect as baseExpect, type Page } from '@playwright/test';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import type { CareerSave } from '../lib/save/saveRepository';
+import { enterCareerAfterLoad, openReplay } from './matchPrep';
 
 const expect=baseExpect.configure({timeout:30000});
 const base=process.env.HM_QA_URL??'http://localhost:3008';
@@ -88,13 +89,15 @@ test('three automatically selected real career archives: normal report and visib
             transaction.oncomplete=()=>resolve();transaction.onerror=transaction.onabort=()=>reject(transaction.error);
           });database.close();localStorage.setItem('hm-game:active-save:v1',save.saveId);
         },envelope);
-        await page.goto(`${base}/career/match-report/${item.fixture.id}`);
+        await page.goto(`${base}/career/match-report/${item.fixture.id}`);await enterCareerAfterLoad(page);
         await expect(page.getByText('Speltid och belastning',{exact:true})).toBeVisible({timeout:90000});
         const archiveBefore=await persistedArchive(page,envelope.saveId,item.fixture.id);
         expect(archiveBefore.archiveHash).toBe(item.archiveHash);expect(archiveBefore.activeSession).toBe(false);archiveProof.before=archiveBefore;
-        await expect(page.locator('.game-match-centre > strong, .mc-scoreline .mc-score-figure').first()).toHaveText(`${item.score.HOME}–${item.score.AWAY}`);await widths('recorded-report');
-        await page.getByRole('button',{name:'Se matchrepris',exact:true}).click();await page.waitForURL('**/career/match-day/**');
-        await expect(page.getByText('Repris',{exact:true})).toBeVisible({timeout:60000});
+        // ANL-01: the report's own score head replaces the embedded Match Center scoreline.
+        await expect(page.locator('.rp-score .rp-num')).toHaveText(`${item.score.HOME}–${item.score.AWAY}`);await widths('recorded-report');
+        // ANL-01/MDY-04: 'Se matchrepris' (→ /match-day) is gone; the Repris tab renders the replay inline
+        // (openReplay asserts the "Repris" scoreboard in the tab's Plan view).
+        await openReplay(page);
         const slider=page.getByLabel('Position i reprisen',{exact:true});await slider.press('Home');await frame('start');await widths('replay-start');
         for(const speed of [1,4,16]){
           await page.getByLabel('Reprishastighet',{exact:true}).selectOption(String(speed));await page.getByRole('button',{name:'Spela',exact:true}).click();
@@ -107,7 +110,7 @@ test('three automatically selected real career archives: normal report and visib
         const bounds=await slider.boundingBox();expect(bounds).not.toBeNull();await slider.click({position:{x:bounds!.width/2,y:bounds!.height/2}});
         await frame('middle');await widths('replay-middle');await slider.press('End');
         await expect(page.locator('.game-live-score')).toHaveText(`${item.score.HOME}:${item.score.AWAY}`);await frame('end');await widths('replay-end');
-        await page.getByRole('link',{name:'Matchrapport',exact:true}).click();await expect(page.locator('.game-match-centre > strong, .mc-scoreline .mc-score-figure').first()).toHaveText(`${item.score.HOME}–${item.score.AWAY}`);
+        await page.getByRole('tablist',{name:'Rapportens delar',exact:true}).getByRole('tab',{name:'Rapport',exact:true}).click();await expect(page.locator('.rp-score .rp-num')).toHaveText(`${item.score.HOME}–${item.score.AWAY}`);
         const archiveAfter=await persistedArchive(page,envelope.saveId,item.fixture.id);
         expect(archiveAfter).toEqual(archiveBefore);archiveProof.after=archiveAfter;
         expect(errors).toEqual([]);

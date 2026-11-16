@@ -1,10 +1,11 @@
 import { test, expect } from '@playwright/test';
 import { navTo } from './hubNav';
+import { enterCareerAfterLoad, newGameToManagerStep } from './matchPrep';
 const base = process.env.HM_QA_URL ?? 'http://localhost:3006';
 
 async function tumbaCareer(page: import('@playwright/test').Page) {
   await page.goto(`${base}/new-game`);
-  for (let step=0;step<4;step++) await page.getByRole('button',{name:'Nästa →',exact:true}).click();
+  await newGameToManagerStep(page);
   await page.getByPlaceholder('För- och efternamn').fill('Experience v11 QA');
   await page.getByRole('combobox', { name: 'Nationalitet', exact: true }).selectOption('SWE');
   await page.getByRole('textbox', { name: 'Födelsedatum', exact: true }).fill('1985-04-12');
@@ -12,6 +13,7 @@ async function tumbaCareer(page: import('@playwright/test').Page) {
   await page.getByRole('radio',{name:'8 veckor före seriestart',exact:true}).check();
   await page.getByRole('button',{name:'STARTA KARRIÄR',exact:true}).click();
   await page.waitForURL('**/career',{timeout:90000});
+  await enterCareerAfterLoad(page);
   await expect(page.locator('.game-home')).toBeVisible({timeout:90000});
 }
 
@@ -24,11 +26,14 @@ test('career setup validates the selected league, starts another club, and safel
   await expect(page.getByRole('link',{name:'Börja en ny karriär →',exact:true})).toBeVisible();
   await page.getByRole('link',{name:'Börja en ny karriär →',exact:true}).click();
   await page.waitForURL('**/new-game');
-  await expect(page.getByRole('checkbox',{name:'Sverige',exact:true})).toBeChecked();
-  await page.getByRole('button',{name:'Nästa →',exact:true}).click();
-  await page.getByRole('checkbox',{name:'Allsvenskan',exact:true}).uncheck();
-  await page.getByRole('button',{name:'Nästa →',exact:true}).click();
-  await page.getByRole('button',{name:'Nästa →',exact:true}).click();
+  // ENT-03 C: nations and leagues live in the 'Världen' drawer, opened from the club wall's chip and closed with 'Klar'.
+  await page.locator('.ce-world-chip').click();
+  const world=page.getByRole('dialog',{name:'Världen',exact:true});
+  await expect(world).toBeVisible();
+  await expect(world.getByRole('checkbox',{name:'Sverige',exact:true})).toBeChecked();
+  await world.getByRole('checkbox',{name:'Allsvenskan',exact:true}).uncheck();
+  await world.getByRole('button',{name:'Klar',exact:true}).click();
+  await expect(world).toBeHidden();
   await expect(page.getByRole('radio',{name:'IFK Tumba HK',exact:true})).toHaveCount(0);
   await expect(page.getByRole('button',{name:'Nästa →',exact:true})).toBeDisabled();
   await page.getByRole('radio',{name:/^Hammarby/}).check();
@@ -42,6 +47,7 @@ test('career setup validates the selected league, starts another club, and safel
   await expect(page.locator('.career-start-mandate')).toContainText('Hammarby v11 QA');
   await page.getByRole('button',{name:'STARTA KARRIÄR',exact:true}).click();
   await page.waitForURL('**/career',{timeout:90000});
+  await enterCareerAfterLoad(page);
   await expect(page.locator('.hm-club-name')).toContainText('Hammarby',{timeout:90000});
   await page.getByRole('button',{name:'Spara',exact:true}).click();
   await expect(page.getByRole('status').filter({hasText:'Sparat'})).toBeVisible();
@@ -54,6 +60,7 @@ test('career setup validates the selected league, starts another club, and safel
   await expect(remove).toBeFocused();
   await page.getByRole('button',{name:'Ladda',exact:true}).first().click();
   await page.waitForURL('**/career',{timeout:90000});
+  await enterCareerAfterLoad(page);
   await expect(page.locator('.hm-club-name')).toContainText('Hammarby',{timeout:90000});
   expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(2560);
   await page.getByRole('link',{name:'Sparade karriärer →',exact:true}).click();
@@ -72,15 +79,19 @@ test('Continue identifies the real stop, object navigation retains workspace con
   await page.setViewportSize({width:1920,height:1080});
   await tumbaCareer(page);
   await page.locator('.hm-continue-header').click();
-  await expect(page.getByRole('dialog',{name:'Världen går vidare.',exact:true})).toBeVisible();
-  const stopTitle=(await page.locator('.game-advance-stop h3').innerText()).trim();
-  await page.getByRole('dialog').press('Escape');
-  await expect(page.locator('.game-world-advance')).toHaveCount(0);
+  // ENT-10a: a one-day Continue shows no 'Världen går vidare.' dialog; the stop lands directly as the Spine's
+  // expanded event card ("Därför stannade tiden") and the manager is taken to the stop.
   await page.waitForURL('**/career/inbox?message=*');
+  await expect(page.locator('.game-world-advance')).toHaveCount(0);
+  const stopCard=page.locator('aside.game-progression-notice[aria-label="Därför stannade tiden"]');
+  await expect(stopCard).toBeVisible();
+  const stopTitle=(await stopCard.locator('[role="status"] strong').innerText()).trim();
   await expect(page.locator('.game-news-article h2')).toHaveText(stopTitle,{ignoreCase:true});
   const articleTitle=await page.locator('.game-news-article h2').textContent();
-  await page.getByRole('button',{name:'Olästa',exact:true}).click();
-  const unread=page.locator('.game-news-item[data-unread=true]').first();
+  // WLD-01a: 'Olästa' is a counted category chip; the list holds threads named after their latest message
+  // (a thread with an open decision opens that decision instead, so pick one without).
+  await page.getByRole('group',{name:'Kategorier',exact:true}).getByRole('button',{name:/^Olästa \d+$/}).click();
+  const unread=page.locator('.game-news-item[data-unread=true][data-urgent=false]').first();
   const unreadTitle=await unread.getAttribute('aria-label');
   await unread.click();
   await expect(page.locator('.game-news-article h2')).toHaveText(unreadTitle!);

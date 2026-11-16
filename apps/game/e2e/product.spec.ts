@@ -1,5 +1,5 @@
 import { test, expect as baseExpect } from '@playwright/test';
-import { chooseStartingSeven, readyStartMatch } from './matchPrep';
+import { chooseStartingSeven, enterCareerAfterLoad, newGameToManagerStep, openReplay, playToEnd, readyStartMatch, setMatchSpeed } from './matchPrep';
 import { navTo } from './hubNav';
 const expect = baseExpect.configure({ timeout: 30000 });
 const base = process.env.HM_QA_URL ?? 'http://localhost:3001';
@@ -9,7 +9,7 @@ test('normal career UI: real squad, calendar, live match, decisions, finalizatio
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
   await page.goto(`${base}/new-game`);
-  for (let i = 0; i < 4; i++) await page.getByRole('button', { name: 'Nästa →', exact: true }).click();
+  await newGameToManagerStep(page);
   await page.getByPlaceholder('För- och efternamn').fill('Test Manager');
   await page.getByRole('combobox', { name: 'Nationalitet', exact: true }).selectOption('SWE');
   await page.getByRole('textbox', { name: 'Födelsedatum', exact: true }).fill('1985-04-12');
@@ -17,6 +17,7 @@ test('normal career UI: real squad, calendar, live match, decisions, finalizatio
   await page.getByRole('radio', { name: 'Vid första tävlingsmatchen', exact: true }).check();
   await page.getByRole('button', { name: 'STARTA KARRIÄR', exact: true }).click();
   await page.waitForURL('**/career', { timeout: 90000 });
+  await enterCareerAfterLoad(page);
   await expect(page.locator('.hm-shell #manager-content')).toBeVisible({ timeout: 90000 });
   await navTo(page, 'Trupp');
   await expect(page.locator('body')).toContainText('Tumba');
@@ -67,7 +68,7 @@ test('normal career UI: real squad, calendar, live match, decisions, finalizatio
   await expect(page.locator('.coach-live-out-list')).toContainText(replacementName);
   console.log((await page.locator('body').innerText()).slice(-2500));
   await page.screenshot({ path: `${process.env.HM_QA_SCREENSHOT_DIR ?? '../../docs/audit'}/live-match-ui.png`, fullPage: true });
-  await page.getByRole('combobox').filter({ has: page.locator('option[value="64"]') }).selectOption('64');
+  await setMatchSpeed(page, 'Turbo 64×');
   await page.getByRole('button', { name: 'Spela', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Pausa', exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Pausa', exact: true }).click();
@@ -100,16 +101,16 @@ test('normal career UI: real squad, calendar, live match, decisions, finalizatio
   await expect(page.getByRole('button', { name: 'Återuppta efter timeout', exact: true })).toBeVisible({ timeout: 60000 });
   await expect(page.getByRole('button',{name:'Anfall Bredd',exact:true})).toHaveAttribute('aria-pressed','true');
   await expect(page.getByRole('button',{name:'Timeout',exact:true})).toBeDisabled();
-  await page.getByRole('button', { name: 'Spela till slut', exact: true }).click();
+  await playToEnd(page);
   await page.waitForURL('**/career/match-report/**', { timeout: 180000 });
   await expect(page.getByText('Speltid och belastning', { exact: true })).toBeVisible({ timeout: 30000 });
   await page.getByRole('button', { name: 'Spara', exact: true }).click();
   await expect(page.getByRole('status').filter({ hasText: 'Sparat' })).toBeVisible({ timeout: 30000 });
   await page.reload();
   await expect(page.getByText('Speltid och belastning', { exact: true })).toBeVisible({ timeout: 60000 });
-  await page.getByRole('button', { name: 'Se matchrepris', exact: true }).click();
-  await page.waitForURL('**/career/match-day/**');
-  await expect(page.getByText('Repris', { exact: true })).toBeVisible({ timeout: 60000 });
+  // ANL-01/MDY-04: 'Se matchrepris' (→ /match-day) is gone; the report's Repris tab renders the replay inline.
+  // openReplay asserts the replay scoreboard ("Repris") in the tab's 2D Plan view.
+  await openReplay(page);
   await page.getByLabel('Position i reprisen').press('End');
   await page.screenshot({ path: `${process.env.HM_QA_SCREENSHOT_DIR ?? '../../docs/audit'}/replay-ui.png`, fullPage: true });
   await navTo(page, 'Schema');

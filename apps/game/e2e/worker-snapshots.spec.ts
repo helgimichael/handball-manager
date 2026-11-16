@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { snapshotWorldSquads } from '../lib/gameWorld/serverSnapshot';
+import { enterCareerAfterLoad, newGameToManagerStep } from './matchPrep';
 
 const base = process.env.HM_QA_URL ?? 'http://127.0.0.1:8787';
 const code = process.env.HM_QA_ALPHA_ACCESS_CODE ?? 'HBL-ALPHA-2026';
@@ -28,9 +29,10 @@ test('New Game initializes and persists a real Handbollsligan career under worke
   await page.goto(`${base}/new-game`);
   await page.getByLabel('Accesskod', { exact: true }).fill(code);
   await page.getByRole('button', { name: 'Lås upp', exact: true }).click();
-  for (let step = 0; step < 3; step++) await page.getByRole('button', { name: 'Nästa →', exact: true }).click();
+  // ENT-03 C: the club wall is the first step (nations/leagues live in the 'Världen' drawer).
+  await expect(page.getByRole('heading', { name: 'Välj din hemmaplan.', exact: true })).toBeVisible({ timeout: 60_000 });
   await page.getByRole('radio', { name: 'Alingsås HK', exact: true }).check();
-  await page.getByRole('button', { name: 'Nästa →', exact: true }).click();
+  await newGameToManagerStep(page);
   await page.getByPlaceholder('För- och efternamn').fill('Worker Alphatestare');
   await page.getByRole('combobox', { name: 'Nationalitet', exact: true }).selectOption('SWE');
   await page.getByLabel('F\u00f6delsedatum', { exact: true }).fill('1985-01-15');
@@ -38,6 +40,7 @@ test('New Game initializes and persists a real Handbollsligan career under worke
   await page.getByRole('radio', { name: 'Vid första tävlingsmatchen', exact: true }).check();
   await page.getByRole('button', { name: 'STARTA KARRIÄR', exact: true }).click();
   await page.waitForURL('**/career', { timeout: 120_000 });
+  await enterCareerAfterLoad(page);
   await expect(page.getByRole('navigation', { name: 'Hubbar', exact: true }).getByRole('link', { name: 'Laget', exact: true })).toBeVisible({ timeout: 60_000 });
   const saved = await page.evaluate(async () => {
     const id = localStorage.getItem('hm-game:active-save:v1');

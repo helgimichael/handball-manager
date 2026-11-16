@@ -4,13 +4,13 @@
 // back home; then the same surfaces at phone width. Screenshots and match evidence go to HM_QA_SCREENSHOT_DIR.
 import { test, expect as baseExpect, type Page } from '@playwright/test';
 import { mkdirSync, writeFileSync } from 'node:fs';
-import { chooseStartingSeven } from './matchPrep';
+import { chooseStartingSeven, enterCareerAfterLoad, newGameToManagerStep, playToEnd } from './matchPrep';
 const expect = baseExpect.configure({ timeout: 30000 });
 const base = process.env.HM_QA_URL ?? 'http://localhost:3001';
 const shots = process.env.HM_QA_SCREENSHOT_DIR ?? '../../docs/club-identity/phase2-screenshots';
 mkdirSync(shots, { recursive: true });
 
-const HUBS: [string, RegExp][] = [['Idag', /\/career$/], ['Laget', /\/career\/squad$/], ['Klubben', /\/career\/klubbhuset$/], ['Rekrytering', /\/career\/recruitment$/], ['Tävling', /\/career\/season$/], ['Karriär', /\/career\/manager$/]];
+const HUBS: [string, RegExp][] = [['Idag', /\/career$/], ['Laget', /\/career\/squad$/], ['Klubben', /\/career\/club$/], ['Rekrytering', /\/career\/recruitment$/], ['Tävling', /\/career\/season$/], ['Karriär', /\/career\/manager$/]];
 const rail = (page: Page) => page.getByRole('navigation', { name: 'Hubbar', exact: true });
 async function noOverflow(page: Page, label: string) {
   const r = await page.evaluate(() => ({ sw: document.documentElement.scrollWidth, w: window.innerWidth, overlay: !!document.querySelector('nextjs-portal')?.shadowRoot?.querySelector('[data-nextjs-dialog]') }));
@@ -27,7 +27,7 @@ test('arena journey: existing career to a completed native V2 match and back, de
 
   // Setup: a fresh career (starts at the first competitive match), then re-entered from the title screen.
   await page.goto(`${base}/new-game`);
-  for (let i = 0; i < 4; i++) await page.getByRole('button', { name: 'Nästa →', exact: true }).click();
+  await newGameToManagerStep(page);
   await page.getByPlaceholder('För- och efternamn').fill('Arena Journey');
   await page.getByRole('combobox', { name: 'Nationalitet', exact: true }).selectOption('SWE');
   await page.getByRole('textbox', { name: 'Födelsedatum', exact: true }).fill('1985-04-12');
@@ -35,12 +35,14 @@ test('arena journey: existing career to a completed native V2 match and back, de
   await page.getByRole('radio', { name: 'Vid första tävlingsmatchen', exact: true }).check();
   await page.getByRole('button', { name: 'STARTA KARRIÄR', exact: true }).click();
   await page.waitForURL('**/career', { timeout: 120000 });
+  await enterCareerAfterLoad(page);
   await shell(page);
 
   // 1. Opening an existing career.
   await page.goto(`${base}/`);
   await page.getByRole('link', { name: /FORTSÄTT/ }).or(page.getByRole('button', { name: /FORTSÄTT/ })).first().click();
   await page.waitForURL('**/career', { timeout: 90000 });
+  await enterCareerAfterLoad(page);
   await shell(page);
 
   // 2. All six hubs, each with its contextual tab row.
@@ -143,7 +145,7 @@ test('arena journey: existing career to a completed native V2 match and back, de
   const finishBtn = page.getByRole('button', { name: 'Slutför match och öppna rapport', exact: true });
   // "Spela till slut" plays the rest of the native V2 match (both halves) and finalises it, landing on the report;
   // a manually played match ends on the live page with the final-whistle card and the finish button instead.
-  await page.getByRole('button', { name: 'Spela till slut', exact: true }).click();
+  await playToEnd(page);
   await Promise.race([finishBtn.waitFor({ timeout: 900000 }), page.waitForURL('**/career/match-report/**', { timeout: 900000 })]);
   await expect(page.locator('.mc-final-whistle')).toBeVisible({ timeout: 90000 });
   const finalScore = (await page.locator('.mc-final-score strong').first().innerText()).replace(/\s/g, '');
@@ -225,7 +227,7 @@ test('arena journey: existing career to a completed native V2 match and back, de
   await expect(page.locator('.mc-workspace-nav .mc-compact-identity')).toBeInViewport();
   await noOverflow(page, 'live phone');
   await page.screenshot({ path: `${shots}/12-live-phone.png` });
-  await page.getByRole('button', { name: 'Spela till slut', exact: true }).click();
+  await playToEnd(page);
   await Promise.race([finishBtn.waitFor({ timeout: 900000 }), page.waitForURL('**/career/match-report/**', { timeout: 900000 })]);
   if (await finishBtn.isVisible()) await finishBtn.click();
   await page.waitForURL('**/career/match-report/**', { timeout: 60000 });

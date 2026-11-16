@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { enterCareerAfterLoad, newGameToManagerStep } from './matchPrep';
 const base=process.env.HM_QA_URL??'http://localhost:8795';
 
 test('weekly office links existing training, persists edits and shows daily Continue feedback',async({page})=>{
@@ -10,7 +11,7 @@ test('weekly office links existing training, persists edits and shows daily Cont
   await page.addInitScript(()=>{localStorage.setItem('hm_alpha_authorized','true');localStorage.setItem('hm_alpha_access_code','HBL-ALPHA-2026');});
   await page.setViewportSize({width:1600,height:1000});
   await page.goto(`${base}/new-game`);
-  for(let i=0;i<4;i++)await page.getByRole('button',{name:'N\u00e4sta \u2192',exact:true}).click();
+  await newGameToManagerStep(page);
   await page.getByPlaceholder('F\u00f6r- och efternamn').fill('Weekly Manager QA');
   await page.getByRole('combobox',{name:'Nationalitet',exact:true}).selectOption('SWE');
   await page.getByLabel('F\u00f6delsedatum',{exact:true}).fill('1985-01-15');
@@ -18,6 +19,7 @@ test('weekly office links existing training, persists edits and shows daily Cont
   await page.getByRole('radio',{name:'8 veckor f\u00f6re seriestart',exact:true}).check();
   await page.getByRole('button',{name:'STARTA KARRI\u00c4R',exact:true}).click();
   await page.waitForURL('**/career',{timeout:90000});
+  await enterCareerAfterLoad(page);
   const panel=page.locator('#weekly-manager');
   await expect(panel.getByRole('heading',{name:'Veckans managerplan'})).toBeVisible();
   await expect(panel.locator('time[datetime]')).toHaveCount(7);

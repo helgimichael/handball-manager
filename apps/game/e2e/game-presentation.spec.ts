@@ -2,6 +2,7 @@ import { test, expect, type Page } from '@playwright/test';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { navTo } from './hubNav';
+import { enterCareerAfterLoad, newGameToManagerStep } from './matchPrep';
 const base = process.env.HM_QA_URL ?? 'http://localhost:3004';
 const phase = process.env.HM_VISUAL_PHASE ?? 'after';
 const evidenceRoot = path.resolve(process.env.HM_GAME_QA_DIR ?? '../../docs/game-experience');
@@ -14,7 +15,7 @@ async function ready(page:Page) {
 async function createCareer(page:Page) {
   await page.setViewportSize({width:1920,height:1080});
   await page.goto(`${base}/new-game`);
-  for(let step=0;step<4;step++) await page.getByRole('button',{name:'Nästa →',exact:true}).click();
+  await newGameToManagerStep(page);
   await page.getByPlaceholder('För- och efternamn').fill('Visual QA');
   await page.getByRole('combobox', { name: 'Nationalitet', exact: true }).selectOption('SWE');
   await page.getByRole('textbox', { name: 'Födelsedatum', exact: true }).fill('1985-04-12');
@@ -22,6 +23,7 @@ async function createCareer(page:Page) {
   await page.getByRole('radio',{name:'Vid första tävlingsmatchen',exact:true}).check();
   await page.getByRole('button',{name:'STARTA KARRIÄR',exact:true}).click();
   await page.waitForURL('**/career',{timeout:90000});
+  await enterCareerAfterLoad(page);
   await ready(page);
   await expect(page.locator('main')).toContainText('Torslanda',{timeout:90000});
 }

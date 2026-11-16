@@ -1,10 +1,11 @@
 import { test, expect as baseExpect, type Page } from '@playwright/test';
 import { navTo } from './hubNav';
+import { enterCareerAfterLoad, newGameToManagerStep } from './matchPrep';
 const expect = baseExpect.configure({ timeout: 30000 });
 const base = process.env.HM_QA_URL ?? 'http://localhost:3001';
 async function newCareer(page: Page) {
   await page.goto(`${base}/new-game`);
-  for (let i=0;i<4;i++) await page.getByRole('button',{name:'Nästa →',exact:true}).click();
+  await newGameToManagerStep(page);
   await page.getByPlaceholder('För- och efternamn').fill('Management QA');
   await page.getByRole('combobox', { name: 'Nationalitet', exact: true }).selectOption('SWE');
   await page.getByRole('textbox', { name: 'Födelsedatum', exact: true }).fill('1985-04-12');
@@ -12,6 +13,7 @@ async function newCareer(page: Page) {
   await page.getByRole('radio',{name:'8 veckor före seriestart',exact:true}).check();
   await page.getByRole('button',{name:'STARTA KARRIÄR',exact:true}).click();
   await page.waitForURL('**/career',{timeout:90000});
+  await enterCareerAfterLoad(page);
   await expect(page.locator('.game-home')).toBeVisible({timeout:90000});
 }
 test('connected management journeys, contracts, shortlist, scouting, world links and save/load',async ({page}) => {
@@ -59,7 +61,11 @@ test('connected management journeys, contracts, shortlist, scouting, world links
   await expect(page.getByRole('link',{name:contractName,exact:true})).toBeVisible({timeout:60000});
   await expect(page.locator('main table tbody tr').filter({hasText:contractName})).not.toContainText(expiry);
   await page.goto(`${base}/career/inbox`);
-  await page.getByRole('button',{name:`Kontraktsplanering: ${contractName} · Hanterat`,exact:true}).click();
+  // WLD-01: the list is grouped into threads per player, each named after its latest message. The 'Kontrakt'
+  // chip narrows the threads to contract-planning messages, so the handled one names its own thread again.
+  await page.getByRole('group',{name:'Kategorier',exact:true}).getByRole('button',{name:/^Kontrakt \d+$/}).click();
+  await expect(page).toHaveURL(/[?&]cat=CONTRACTS/);
+  await page.locator('.ib-threads').getByRole('button',{name:`Kontraktsplanering: ${contractName} · Hanterat`,exact:true}).click();
   await expect(page.getByRole('button',{name:'Öppna spelare',exact:true})).toBeVisible();
   await page.goto(`${base}/career/players`);
   await page.getByRole('combobox',{name:'Position',exact:true}).selectOption('M9');
