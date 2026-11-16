@@ -12,14 +12,14 @@ import ClubCrest from "@/components/ClubCrest";
 import FormDots from "@/components/FormDots";
 import { MomentHero } from "@/components/experience/Moment";
 import { MeterBar } from "@/components/experience/primitives";
-import { photoBackdrop } from "@/components/experience/visuals";
 import { OutletChip, StoryCard } from "@/components/media/MediaParts";
 import { useCareer } from "@/lib/career/CareerContext";
 import type { CareerFixture } from "@/lib/career/types";
 import { buildOpponentViewModel } from "@/lib/analysis/viewModels";
 import { interpretationLabel } from "@/components/analysis/presentation";
-import { getClub } from "@/lib/game-data";
+import { COMPETITIONS, getClub } from "@/lib/game-data";
 import { matchAftermath, matchdayBriefing } from "@/lib/matchday/matchday";
+import { stakesStrip } from "@/lib/matchday/preMatch";
 import { relationLabel } from "@/lib/media/people";
 import { ENVIRONMENTS } from "@/components/clubhq/environments";
 import { svOrdinal } from "@/lib/format/ordinal";
@@ -34,47 +34,62 @@ function Crest({ id, size = 34 }: { id: string; size?: number }) {
   return c ? <ClubCrest shortName={c.shortName} primaryColor={c.primaryColor} clubId={c.id} size={size} /> : null;
 }
 
+/** MDY-01a A "Stakes header": one strip -- competition, round, both table positions with the gap and what a
+ *  win or a loss means. The text-heavy parts (table and form, media voices, what we know) expand on demand. */
 export function MatchdayStage({ fixture, matchday }: { fixture: CareerFixture; matchday: boolean }) {
   const { career } = useCareer();
   const b = useMemo(() => matchdayBriefing(career, fixture), [career, fixture]);
+  const strip = useMemo(() => stakesStrip(career, fixture), [career, fixture]);
   const opponent = useMemo(() => buildOpponentViewModel(career), [career]);
   const home = getClub(fixture.homeClubId), away = getClub(fixture.awayClubId);
-  const big = b.stakes.level >= 3;
-  const tone = b.stakes.level >= 5 ? "gold" : b.stakes.derby || b.stakes.rival?.relation !== undefined && b.stakes.rival.relation <= -15 ? "signal" : "ink";
-  const lede = [b.stakes.labels.length ? b.stakes.labels.join(" · ") : null, b.attendance ? `Väntad publik ${b.attendance.expected.toLocaleString("sv-SE")} av ${b.attendance.capacity.toLocaleString("sv-SE")}` : null].filter(Boolean).join(". ");
+  const own = getClub(career.playerClubId), opp = getClub(b.opponentId);
+  const competition = COMPETITIONS.find((c) => c.id === fixture.competitionId)?.name ?? b.headline;
+  const venue = fixture.location ?? (home?.venue ? `${home.venue}${home.venueCity ? `, ${home.venueCity}` : home.city ? `, ${home.city}` : ""}` : home?.city ?? null);
+  const tone = b.stakes.level >= 5 ? "gold" : b.stakes.derby || (b.stakes.rival?.relation !== undefined && b.stakes.rival.relation <= -15) ? "signal" : "ink";
   return (
-    <section className="mday-stage" aria-label="Matchdagen" data-big={big || undefined}>
-      <MomentHero kind="ANNOUNCEMENT" tone={tone} size={big ? undefined : "compact"} headingLevel={2} backdrop={{ kind: "photo", style: ARENA_BACKDROP }} tags={[false, matchday ? "Matchdag" : "Inför matchen", `${fixture.date}${fixture.kickoffTime ? ` · ${fixture.kickoffTime}` : ""}`, fixture.location ?? (home?.venue ? `${home.venue}${home.venueCity && home.venueCity !== home.city ? `, ${home.venueCity}` : home.city ? `, ${home.city}` : ""}` : home?.city ?? null), b.headline]} stamp={null}
-        headline={`${home?.shortName ?? ""} – ${away?.shortName ?? ""}`} lede={lede || "En seriematch av många – men varje poäng räknas."}
-        aside={<div className="mday-crests"><Crest id={fixture.homeClubId} size={big ? 64 : 44} /><span>mot</span><Crest id={fixture.awayClubId} size={big ? 64 : 44} /></div>} />
-      {b.control.by === "ASSISTANT" && <p className="md-alert" role="status"><b>{b.control.name} leder laget i den här matchen.</b> {b.control.reason} Du kan förbereda laget och matchplanen, men under matchen gör assisterande tränaren byten, tar timeout och står för instruktionerna.</p>}
-      <div className="mday-grid">
-        <section className="bd-panel" aria-labelledby="mday-state">
-          <header><span className="xp-eyebrow">Läget</span><h3 id="mday-state">Tabell och form</h3></header>
-          <dl className="mday-table">
-            <div><dt>{getClub(career.playerClubId)?.shortName}</dt><dd>{b.table.own ? `${svOrdinal(b.table.own)} av ${b.table.size}` : "–"}</dd><FormDots results={b.form.own} /></div>
-            <div><dt>{getClub(b.opponentId)?.shortName}</dt><dd>{b.table.opp ? `${svOrdinal(b.table.opp)} av ${b.table.size}` : "–"}</dd><FormDots results={b.form.opp} /></div>
-          </dl>
-          {b.rivalry.reasons.length > 0 && <p className="pd-note">Rivalitet: {b.rivalry.reasons.join(" · ")}.</p>}
-          {b.history.length > 0 ? <ul className="mday-history">{b.history.map((h, i) => <li key={i}>{h}</li>)}</ul> : <p className="pd-note">Lagen har inte mötts tidigare i din karriär.</p>}
-        </section>
-        <section className="bd-panel" aria-labelledby="mday-media">
-          <header><span className="xp-eyebrow">Medierna</span><h3 id="mday-media">Vad som sägs</h3></header>
-          {b.rivalQuote && <blockquote className="mday-quote">”{b.rivalQuote.text}”<cite>{b.rivalQuote.name} · {relationLabel(b.rivalQuote.relation).toLowerCase()} relation till dig</cite></blockquote>}
-          {b.narratives.length === 0 ? <p className="pd-note">Medierna har inte skrivit om matchen.</p> : <div className="md-list">{b.narratives.slice(0, 3).map((s) => <StoryCard key={s.id} story={s} size="sm" />)}</div>}
-          {b.pressure && <MeterBar label={`Pressen inför matchen: ${b.pressure.reason.toLowerCase()}`} value={b.pressure.level / 5} figure={`${b.pressure.level}/5`} tone={b.pressure.level >= 3 ? "loss" : "gold"} />}
-          {b.press && b.press.status === "OPEN" && <Link className="hm-btn hm-btn-sm hm-btn-primary" href={`/career/media/press/${encodeURIComponent(b.press.id)}`}>Presskonferensen väntar →</Link>}
-          {b.press && b.press.status !== "OPEN" && <Link className="hm-btn hm-btn-sm" href={`/career/media/press/${encodeURIComponent(b.press.id)}`}>Presskonferensen och följderna →</Link>}
-        </section>
-        <section className="bd-panel" aria-labelledby="mday-opp">
-          <header><span className="xp-eyebrow">Motståndaren</span><h3 id="mday-opp">Det vi vet</h3></header>
-          {opponent.status === "OK" && opponent.interpretations.length > 0 ? (
-            <ul className="mday-notes">{opponent.interpretations.slice(0, 3).map((i, k) => <li key={k}>{interpretationLabel(i)}</li>)}</ul>
-          ) : <p className="pd-note">Inga mönster i motståndarens resultat ännu.</p>}
-          <p className="pd-note">{b.analysisReady ? "Motståndaranalysen är klar." : "Motståndaranalysen blir klar några dagar före matchen."} Spelarnivåer och startsju visas bara när det finns ett underlag – inget gissas fram.</p>
-          <Link className="hm-btn hm-btn-sm" href="/career/analysis/opponent">Motståndaranalys →</Link>
-        </section>
+    <section className="mday-stage mday-strip" aria-label="Matchdagen" data-tone={tone} data-big={b.stakes.level >= 3 || undefined}>
+      <div className="mday-strip-main">
+        <span className="mday-strip-tag">{matchday ? "Matchdag" : "Inför matchen"} · {fixture.date}{fixture.kickoffTime ? ` ${fixture.kickoffTime}` : ""}</span>
+        <h2><Crest id={fixture.homeClubId} size={28} />{home?.shortName ?? ""} – {away?.shortName ?? ""}<Crest id={fixture.awayClubId} size={28} /></h2>
+        <span className="mday-strip-sub">{competition}{fixture.type === "LEAGUE" && fixture.round ? ` · omgång ${fixture.round}` : ""}{venue ? ` · ${venue}` : ""}{b.stakes.labels.length ? ` · ${b.stakes.labels.join(" · ")}` : ""}</span>
       </div>
+      {strip.table && strip.own ? <dl className="mday-strip-table">
+        <div><dt>{own?.shortName}</dt><dd>{svOrdinal(strip.own.position)} <small>{strip.own.points} p</small></dd></div>
+        {strip.opp && <div><dt>{opp?.shortName}</dt><dd>{svOrdinal(strip.opp.position)} <small>{strip.opp.points} p</small></dd></div>}
+        {strip.gap !== null && <div><dt>Skillnad</dt><dd>{strip.gap > 0 ? "+" : ""}{strip.gap} p</dd></div>}
+      </dl> : <p className="mday-strip-note">{fixture.type === "LEAGUE" ? "Tabellen är inte spelad än." : "Ingen tabellplacering står på spel i den här matchen."}</p>}
+      {strip.win && <p className="mday-strip-stakes"><b>{strip.win}</b><b>{strip.loss}</b><small>om omgångens övriga resultat står still</small></p>}
+      {b.control.by === "ASSISTANT" && <p className="md-alert" role="status"><b>{b.control.name} leder laget i den här matchen.</b> {b.control.reason} Du kan förbereda laget och matchplanen, men under matchen gör assisterande tränaren byten, tar timeout och står för instruktionerna.</p>}
+      <details className="mday-strip-more">
+        <summary>Form, möten och vad som sägs{b.narratives.length ? ` · ${b.narratives.length} artiklar` : ""}{b.press?.status === "OPEN" ? " · presskonferens väntar" : ""}</summary>
+        <div className="mday-grid">
+          <section className="bd-panel" aria-labelledby="mday-state">
+            <header><span className="xp-eyebrow">Läget</span><h3 id="mday-state">Tabell och form</h3></header>
+            <dl className="mday-table">
+              <div><dt>{own?.shortName}</dt><dd>{b.table.own ? `${svOrdinal(b.table.own)} av ${b.table.size}` : "–"}</dd><FormDots results={b.form.own} /></div>
+              <div><dt>{opp?.shortName}</dt><dd>{b.table.opp ? `${svOrdinal(b.table.opp)} av ${b.table.size}` : "–"}</dd><FormDots results={b.form.opp} /></div>
+            </dl>
+            {b.attendance && <p className="pd-note">Väntad publik {b.attendance.expected.toLocaleString("sv-SE")} av {b.attendance.capacity.toLocaleString("sv-SE")}.</p>}
+            {b.rivalry.reasons.length > 0 && <p className="pd-note">Rivalitet: {b.rivalry.reasons.join(" · ")}.</p>}
+            {b.history.length > 0 ? <ul className="mday-history">{b.history.map((h, i) => <li key={i}>{h}</li>)}</ul> : <p className="pd-note">Lagen har inte mötts tidigare i din karriär.</p>}
+          </section>
+          <section className="bd-panel" aria-labelledby="mday-media">
+            <header><span className="xp-eyebrow">Medierna</span><h3 id="mday-media">Vad som sägs</h3></header>
+            {b.rivalQuote && <blockquote className="mday-quote">”{b.rivalQuote.text}”<cite>{b.rivalQuote.name} · {relationLabel(b.rivalQuote.relation).toLowerCase()} relation till dig</cite></blockquote>}
+            {b.narratives.length === 0 ? <p className="pd-note">Medierna har inte skrivit om matchen.</p> : <div className="md-list">{b.narratives.slice(0, 3).map((s) => <StoryCard key={s.id} story={s} size="sm" />)}</div>}
+            {b.pressure && <MeterBar label={`Pressen inför matchen: ${b.pressure.reason.toLowerCase()}`} value={b.pressure.level / 5} figure={`${b.pressure.level}/5`} tone={b.pressure.level >= 3 ? "loss" : "gold"} />}
+            {b.press && <Link className="hm-btn hm-btn-sm" href={`/career/media/press/${encodeURIComponent(b.press.id)}`}>{b.press.status === "OPEN" ? "Presskonferensen väntar →" : "Presskonferensen och följderna →"}</Link>}
+          </section>
+          <section className="bd-panel" aria-labelledby="mday-opp">
+            <header><span className="xp-eyebrow">Motståndaren</span><h3 id="mday-opp">Det vi vet</h3></header>
+            {opponent.status === "OK" && opponent.interpretations.length > 0 ? (
+              <ul className="mday-notes">{opponent.interpretations.slice(0, 3).map((i, k) => <li key={k}>{interpretationLabel(i)}</li>)}</ul>
+            ) : <p className="pd-note">Inga mönster i motståndarens resultat ännu.</p>}
+            <p className="pd-note">{b.analysisReady ? "Motståndaranalysen är klar." : "Motståndaranalysen blir klar några dagar före matchen."} Spelarnivåer och startsju visas bara när det finns ett underlag – inget gissas fram.</p>
+            <Link className="hm-btn hm-btn-sm" href="/career/analysis/opponent">Motståndaranalys →</Link>
+          </section>
+        </div>
+      </details>
     </section>
   );
 }
@@ -100,7 +115,8 @@ export function MatchFlow({ flow, ownName }: { flow: { minute: number; diff: num
   );
 }
 
-export function MatchAftermathPanel({ fixtureId }: { fixtureId: string }) {
+/** variant "aside" (ANL-01b, report side column): headlines and voices only -- the momentum hero carries the flow and the press box the interview. */
+export function MatchAftermathPanel({ fixtureId, variant = "full" }: { fixtureId: string; variant?: "full" | "aside" }) {
   const { career } = useCareer();
   const a = useMemo(() => matchAftermath(career, fixtureId), [career, fixtureId]);
   const f = career.fixtures.find((x) => x.id === fixtureId);
@@ -114,6 +130,15 @@ export function MatchAftermathPanel({ fixtureId }: { fixtureId: string }) {
   const score = r ? `${r.homeGoals}–${r.awayGoals}` : "";
   // The big ones get their Moment: a derby, a final, a feud settled, a return to an old club.
   const moment = stakes.level >= 3 && a.result && a.result !== "DRAW" ? { win: a.result === "WIN", label: stakes.labels[0] ?? "Stormatch" } : null;
+  if (variant === "aside") return (
+    <section className="rp-box mday-aside" aria-label="Efter matchen">
+      <header><h3>Rubrikerna</h3></header>
+      {headlines.length === 0 ? <p className="pd-note">Inga artiklar ännu – tidningarna skriver dagen efter.</p> : <div className="md-list">{headlines.slice(0, 3).map((s) => <StoryCard key={s.id} story={s} size="sm" />)}</div>}
+      {a.rivalComment?.quote && <blockquote className="mday-quote">”{a.rivalComment.quote.text}”<cite>{a.rivalComment.quote.who}</cite></blockquote>}
+      {a.consequences.length > 0 && <ul className="md-effects">{a.consequences.map((c, i) => <li key={i} data-sign={c.delta >= 0 ? "plus" : "minus"}><b>{AREA_LABEL[c.area]}</b>{c.text}</li>)}</ul>}
+      {a.tablePos && f.type === "LEAGUE" && <p className="pd-note">{own} ligger {svOrdinal(a.tablePos)} i tabellen.</p>}
+    </section>
+  );
   return (
     <section className="mday-after" aria-label="Efter matchen">
       {moment && <MomentHero kind={moment.win ? (stakes.level >= 5 ? "CHAMPIONSHIP" : "SEASON_ACHIEVEMENT") : "ANNOUNCEMENT"} tone={moment.win ? "gold" : "loss"} size="compact" headingLevel={2} backdrop={{ kind: "photo", style: ARENA_BACKDROP }} tags={[false, moment.label, f.date]} stamp={moment.win ? "Seger" : null} headline={moment.win ? `${moment.label}: ${own} vann ${score}` : `${moment.label}: förlust ${score}`} lede={moment.win ? "En kväll som kommer att minnas." : "En kväll att lägga bakom sig – men den glöms inte."} />}

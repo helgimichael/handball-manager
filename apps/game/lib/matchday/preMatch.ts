@@ -9,6 +9,9 @@ import { isSelectableForMatch } from "../career/playerStatus";
 import { readinessSummary } from "../training/readinessSummary";
 import { careerArchiveSummaries } from "../career/matchArchiveSummary";
 import { currentTeamRoles } from "../career/teamRoles";
+import { competitionTable } from "../competition/tables";
+import { LEAGUE_RULES } from "../competition/rules";
+import { svOrdinal } from "../format/ordinal";
 
 export type AttentionTone = "block" | "warn" | "ok";
 export interface AttentionItem { id: string; tone: AttentionTone; text: string; href?: string; cta?: string }
@@ -88,3 +91,61 @@ export function clubMatchNeighbours(state: CareerState, clubId: string, fixtureI
 }
 
 export const clubShort = (id: string) => getClub(id)?.shortName ?? id;
+
+// ---------------------------------------------------------------- MDY-01c checklist tiles
+export interface ChecklistTile { id: string; label: string; state: "done" | "todo" | "block"; reason?: string; href?: string; cta?: string }
+
+/** The three ritual tiles. A blocking issue turns its tile red with the reason and the fix link (instead of a banner above the page). */
+export function ritualTiles(input: { attention: readonly AttentionItem[]; lineupErrors: readonly string[]; blocking: readonly { code: string; text: string }[]; hasPlan: boolean; report: "READY" | "PENDING" | "NONE" }): ChecklistTile[] {
+  const squadBlock = input.lineupErrors[0] ?? input.blocking[0]?.text ?? (input.hasPlan ? undefined : "Ingen startsju vald.");
+  const otherBlock = input.attention.find((a) => a.tone === "block" && !a.id.startsWith("lineup:") && !a.id.startsWith("block:") && a.id !== "no-plan");
+  const warn = input.attention.find((a) => a.tone === "warn");
+  const first: ChecklistTile = otherBlock ? { id: "md-step-1", label: "Före avkast", state: "block", reason: otherBlock.text, href: otherBlock.href, cta: otherBlock.cta }
+    : warn ? { id: "md-step-1", label: "Före avkast", state: "todo", reason: `${input.attention.filter((a) => a.tone === "warn").length} att se över` }
+    : { id: "md-step-1", label: "Före avkast", state: "done", reason: "Inget som stoppar avkast" };
+  const second: ChecklistTile = squadBlock ? { id: "md-step-2", label: "Laget", state: "block", reason: squadBlock, href: "/career/tactics#plan-squad", cta: "Rätta i Taktik" } : { id: "md-step-2", label: "Laget", state: "done", reason: "Startsju och matchtrupp klara" };
+  const third: ChecklistTile = input.report === "READY" ? { id: "md-step-3", label: "Motståndaren", state: "done", reason: "Scoutingrapporten är klar" }
+    : { id: "md-step-3", label: "Motståndaren", state: "todo", reason: input.report === "PENDING" ? "Scoutingrapporten är på väg" : "Ingen scoutingrapport beställd" };
+  return [first, second, third];
+}
+
+// ---------------------------------------------------------------- MDY-01b fix-it rows
+export interface SquadFixRow { code: string; title: string; text: string; consequence: string; cta: string; href: string }
+const FIX: Record<string, Omit<SquadFixRow, "code" | "text">> = {
+  NO_SUBSTITUTES: { title: "Inga avbytare", consequence: "Ingen kan bytas in vid utvisning, skada eller trötthet.", cta: "Lägg till avbytare", href: "/career/tactics#plan-squad" },
+  THIN_BENCH: { title: "Tunn bänk", consequence: "Startspelarna får spela fler minuter och tröttnar mer.", cta: "Fyll på bänken", href: "/career/tactics#plan-squad" },
+  NO_RESERVE_GOALKEEPER: { title: "Ingen reservmålvakt", consequence: "Skadas målvakten måste en utespelare stå i mål.", cta: "Ta ut en reservmålvakt", href: "/career/tactics#plan-squad" },
+  SHORT_SQUAD: { title: "Lediga platser i truppen", consequence: "Färre spelare att rotera med under matchen.", cta: "Fyll matchtruppen", href: "/career/tactics#plan-squad" },
+  LOW_ENERGY: { title: "Låg energi i startsjuan", consequence: "Trötta spelare presterar sämre och behöver bytas tidigt.", cta: "Byt i startsjuan", href: "/career/tactics#plan-attack" },
+  LOW_MATCH_FITNESS: { title: "Låg matchträning", consequence: "Spelare utan matchrytm orkar kortare stunder.", cta: "Byt i startsjuan", href: "/career/tactics#plan-attack" },
+};
+export function squadFixRows(warnings: readonly { code: string; text: string }[]): SquadFixRow[] {
+  return warnings.map((w) => ({ code: w.code, text: w.text, ...(FIX[w.code] ?? { title: "Matchtruppen", consequence: "Kontrollera truppen innan avkast.", cta: "Öppna matchtruppen", href: "/career/tactics#plan-squad" }) }));
+}
+
+// ---------------------------------------------------------------- MDY-01a stakes strip
+export interface StakesStrip { table: boolean; own: { position: number; points: number } | null; opp: { position: number; points: number } | null; gap: number | null; size: number; win: string | null; loss: string | null }
+
+/** Both table positions, the points gap and where a win or a loss would leave the club if the round's other results stood still. Leagues only; other fixtures get no table line. */
+export function stakesStrip(state: CareerState, fixture: CareerFixture): StakesStrip {
+  const me = state.playerClubId, opp = fixture.homeClubId === me ? fixture.awayClubId : fixture.homeClubId;
+  const rows = fixture.type === "LEAGUE" ? competitionTable(state, fixture.competitionId) : [];
+  const ownIdx = rows.findIndex((r) => r.clubId === me), oppIdx = rows.findIndex((r) => r.clubId === opp);
+  if (ownIdx < 0) return { table: false, own: null, opp: null, gap: null, size: rows.length, win: null, loss: null };
+  const own = { position: ownIdx + 1, points: rows[ownIdx]!.points };
+  const other = oppIdx >= 0 ? { position: oppIdx + 1, points: rows[oppIdx]!.points } : null;
+  const after = (ownGain: number, oppGain: number) => {
+    const pts = own.points + ownGain;
+    const others = rows.filter((r) => r.clubId !== me).map((r) => r.points + (r.clubId === opp ? oppGain : 0));
+    const best = 1 + others.filter((p) => p > pts).length, worst = best + others.filter((p) => p === pts).length;
+    return best === worst ? `${svOrdinal(best)} plats` : `${svOrdinal(best)}–${svOrdinal(worst)} plats`;
+  };
+  return { table: true, own, opp: other, gap: other ? own.points - other.points : null, size: rows.length, win: `Vinst = ${after(LEAGUE_RULES.points.win, 0)}`, loss: `Förlust = ${after(0, LEAGUE_RULES.points.win)}` };
+}
+
+// ---------------------------------------------------------------- MDY-01f empty states
+export interface PreviewEmptyState { title: string; text: string; actions: { label: string; href: string; primary?: boolean }[] }
+export function previewEmptyState(state: Pick<CareerState, "seasonComplete" | "seasonId">): PreviewEmptyState {
+  if (state.seasonComplete) return { title: "Säsongen är avslutad", text: `Säsongen ${state.seasonId} är färdigspelad. Se hur den slutade och förbered nästa säsong.`, actions: [{ label: "Säsongsavslut →", href: "/career/season", primary: true }, { label: "Matchprogrammet", href: "/career/schedule" }] };
+  return { title: "Ingen kommande match schemalagd", text: "Matchprogrammet har ingen ospelad match för ditt lag just nu. Spela fram dagarna från veckan, eller se hela matchprogrammet.", actions: [{ label: "Spela fram →", href: "/career", primary: true }, { label: "Matchprogrammet", href: "/career/schedule" }, { label: "Kalendern", href: "/career/calendar" }] };
+}

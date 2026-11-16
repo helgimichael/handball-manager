@@ -3,14 +3,28 @@
 // readiness rings, ANL-01a/ANL-01 report navigation). Renders lib/matchday/preMatch.ts; links only to
 // existing screens.
 import Link from 'next/link';
-import type { AttentionItem, BenchPlayer, LineupSpot, PlayedMatch } from '@/lib/matchday/preMatch';
+import type { AttentionItem, BenchPlayer, ChecklistTile, LineupSpot, PlayedMatch, PreviewEmptyState, SquadFixRow } from '@/lib/matchday/preMatch';
 import { POSITION_GROUP_LABEL, clubShort } from '@/lib/matchday/preMatch';
 import { matchReportHref } from '@/lib/career/fixtureRoutes';
 
-export function RitualSteps({ steps }: { steps: { id: string; label: string; state: 'done' | 'todo' | 'block' }[] }) {
+/** MDY-01 steps as checklist tiles (MDY-01c): a blocking issue turns its tile red with the reason and the fix link. */
+export function RitualSteps({ steps }: { steps: ChecklistTile[] }) {
   return <nav className="md-ritual" aria-label="Matchförberedelse">
-    <ol>{steps.map((s, i) => <li key={s.id} data-state={s.state}><a href={`#${s.id}`}><b>{i + 1}</b><span>{s.label}</span></a></li>)}</ol>
+    <ol>{steps.map((s, i) => <li key={s.id} data-state={s.state}>
+      <a href={`#${s.id}`}><b>{s.state === 'done' ? '✓' : i + 1}</b><span>{s.label}{s.reason && <small className="md-tile-reason">{s.reason}</small>}</span></a>
+      {s.state === 'block' && s.href && <Link className="md-tile-fix" href={s.href}>{s.cta ?? 'Åtgärda'} →</Link>}
+    </li>)}</ol>
   </nav>;
+}
+
+/** MDY-01b: each squad warning with its consequence in words and a fix link. */
+export function SquadFixList({ rows }: { rows: SquadFixRow[] }) {
+  return <ul className="md-fixes">{rows.map((r) => <li key={r.code}><div><strong>{r.title}</strong><span>{r.text}</span><small>Följd: {r.consequence}</small></div><Link className="hm-btn hm-btn-sm" href={r.href}>{r.cta} →</Link></li>)}</ul>;
+}
+
+/** MDY-01f: season complete / no fixture, always with a way forward. */
+export function PreviewEmpty({ state }: { state: PreviewEmptyState }) {
+  return <section className="md-empty-card"><h2>{state.title}</h2><p>{state.text}</p><div>{state.actions.map((a) => <Link key={a.href} className={`hm-btn${a.primary ? ' hm-btn-primary' : ''}`} href={a.href}>{a.label}</Link>)}</div></section>;
 }
 
 export function AttentionList({ items }: { items: AttentionItem[] }) {
