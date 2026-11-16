@@ -1,8 +1,11 @@
 "use client";
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { StarkvisAppShell } from "./StarkvisAppShell";
+import { hostShellScope } from "./hostShellScope";
 
 export function HostNavigation() {
+  const scope = hostShellScope(usePathname());
   useEffect(() => {
     const updateOffset = () => {
       const shell = document.querySelector<HTMLElement>("[data-starkvis-shell]");
@@ -39,5 +42,5 @@ export function HostNavigation() {
     };
   }, []);
 
-  return <StarkvisAppShell appName="Handball Manager · LAB" />;
+  return <StarkvisAppShell appName="Handball Manager · LAB" revealMode={scope ? "corner" : "edge"} cornerScope={scope ?? undefined} />;
 }

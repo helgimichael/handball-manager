@@ -10,7 +10,7 @@ import { formatGameDate } from '@/lib/career/dateUtils';
 const KIND_LABEL: Record<SpinePinKind, string> = { MATCH: 'Match', RESULT: 'Resultat', ACTION: 'Att avgöra', PRESS: 'Press', BOARD: 'Styrelsen', WINDOW: 'Transferfönster', TRANSFER: 'Övergång', CONTRACT: 'Kontrakt', SCOUTING: 'Scouting', KICKOFF: 'Ligastart' };
 const DAY_TYPE: Record<string, string> = { TRAINING: 'Träning', RECOVERY: 'Återhämtning', REST: 'Vila', MATCH: 'Matchdag', TRAVEL: 'Resa' };
 
-export default function WeekSpine({ career, expanded = false }: { career: CareerState; expanded?: boolean }) {
+export default function WeekSpine({ career, expanded = false, stopCount = 0 }: { career: CareerState; expanded?: boolean; stopCount?: number }) {
   const spine = useMemo(() => buildWeekSpine(career), [career]);
   const [selected, setSelected] = useState<string>(career.gameDate);
   const day = spine.days.find((d) => d.date === selected) ?? spine.days.find((d) => d.isToday) ?? spine.days[0]!;
@@ -24,7 +24,7 @@ export default function WeekSpine({ career, expanded = false }: { career: Career
       </Link> : <span className="hm-spine-countdown"><span>{career.managerCareer?.seekingJob ? 'Utan klubb' : career.seasonComplete ? 'Säsongen avslutad' : 'Ingen match planerad'}</span></span>}
     </div>
     <ol className="hm-spine-days">
-      {spine.days.map((d) => <SpineCell key={d.date} day={d} selected={expanded && d.date === day.date} onSelect={expanded ? () => setSelected(d.date) : undefined} />)}
+      {spine.days.map((d) => <SpineCell key={d.date} day={d} stopCount={d.isToday ? stopCount : 0} selected={expanded && d.date === day.date} onSelect={expanded ? () => setSelected(d.date) : undefined} />)}
     </ol>
     {spine.upNext.length > 0 && <div className="hm-spine-next" aria-label="Härnäst">
       <span className="hm-spine-next-label">Härnäst</span>
@@ -40,7 +40,8 @@ export default function WeekSpine({ career, expanded = false }: { career: Career
   </section>;
 }
 
-function SpineCell({ day, selected, onSelect }: { day: SpineDay; selected: boolean; onSelect?: () => void }) {
+// ENT-09a: today's cell carries the pin for the stops that halted Continue (the event card hangs below the Spine).
+function SpineCell({ day, selected, onSelect, stopCount = 0 }: { day: SpineDay; selected: boolean; onSelect?: () => void; stopCount?: number }) {
   const title = [`${day.weekday} ${day.dayOfMonth}`, DAY_TYPE[day.dayType] ?? day.dayType, ...day.pins.map((p) => p.detail), day.continueStop ? 'Fortsätt stannar här' : ''].filter(Boolean).join(' · ');
   const body = <>
     <span className="hm-spine-wd">{day.weekday}</span>
@@ -48,6 +49,7 @@ function SpineCell({ day, selected, onSelect }: { day: SpineDay; selected: boole
     <span className="hm-spine-pins" aria-hidden="true">{day.pins.slice(0, 4).map((p) => <i key={p.id} data-kind={p.kind} />)}{day.sessions.length > 0 && !day.pins.some((p) => p.kind === 'MATCH' || p.kind === 'RESULT') && <i data-kind="TRAINING" />}</span>
     {day.pins[0] && <span className="hm-spine-pin-label">{day.pins[0].label}</span>}
     {day.continueStop && <span className="hm-spine-stop" aria-hidden="true">▸</span>}
+    {stopCount > 0 && <span className="hm-spine-alert ce-num" aria-hidden="true">{stopCount}</span>}
   </>;
   const common = { 'data-today': day.isToday, 'data-past': day.isPast, 'data-daytype': day.dayType, 'data-stop': day.continueStop, 'data-selected': selected, title, 'aria-label': title } as const;
   return <li className="hm-spine-day" {...common}>
