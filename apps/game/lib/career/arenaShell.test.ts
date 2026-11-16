@@ -15,7 +15,7 @@ import { ensureManagerCareer } from "../manager/managerCareer";
 import { getNextPlayerFixture } from "./calendar";
 import { addDays } from "./dateUtils";
 import { CAREER_NAV_ITEMS } from "./navigation";
-import { CAREER_HUBS, MOBILE_TAB_HUBS, UTILITY_NAV_IDS, hubHref, hubTabs, resolveHubRoute } from "./hubs";
+import { CAREER_HUBS, MERGED_NAV_IDS, MOBILE_TAB_HUBS, UTILITY_NAV_IDS, hubHref, hubTabs, resolveHubRoute } from "./hubs";
 import { PALETTE_ACTIONS, paletteResults } from "./commandPalette";
 import { buildWeekSpine } from "./weekSpine";
 import type { CareerState } from "./types";
@@ -41,6 +41,10 @@ test("ENT-07: exactly six hubs; every primary destination lives in exactly one h
   assert.equal(new Set(placed).size, placed.length, "no item in two hubs");
   for (const item of CAREER_NAV_ITEMS) {
     if ((UTILITY_NAV_IDS as readonly string[]).includes(item.id)) continue;
+    // A destination merged by a canonical recommendation (CLB-01: Klubbhuset into the Club Journal) must not be a tab
+    // itself, its target must be, and its URL must still resolve to that hub and tab -- no route lost.
+    const merged = MERGED_NAV_IDS[item.id];
+    if (merged) { assert.ok(!placed.includes(item.id), `${item.id} is merged, not a tab`); assert.ok(placed.includes(merged), `${item.id} merges into a tab`); assert.equal(resolveHubRoute(item.href).navId, merged, `${item.href} resolves to ${merged}`); continue; }
     assert.ok(placed.includes(item.id), `${item.id} has a hub`);
   }
   for (const h of CAREER_HUBS) { assert.equal(hubTabs(h).length, h.tabs.length, `${h.id}: every tab resolves`); assert.ok(hubHref(h).startsWith("/career")); }
@@ -158,8 +162,9 @@ test("SQD-01 Squad Matrix: rows carry the chip data, four saved views of 8 colum
   const before = hash(s);
   const rows = buildMatrixRows(s);
   assert.equal(rows.length, s.worldSquads[s.playerClubId]!.length);
-  assert.deepEqual(MATRIX_VIEWS.map((v) => v.label), ["Matchberedskap", "Prestation", "Kontraktsrisk", "Utveckling"]);
-  for (const v of MATRIX_VIEWS) { assert.equal(v.columns.length, 8, `${v.id}: 8 default columns`); assert.ok(v.columns.length + v.detailed.length <= 14); assert.equal(cardMetrics(v.id).length, 3); }
+  // SQD-01a (A) adds the curated Översikt as the default view; SQD-01c (A) turns Matchberedskap into the Fysisk status heat-strip.
+  assert.deepEqual(MATRIX_VIEWS.map((v) => v.label), ["Översikt", "Fysisk status", "Prestation", "Kontraktsrisk", "Utveckling"]);
+  for (const v of MATRIX_VIEWS) { assert.ok(v.columns.length <= 8, `${v.id}: at most 8 default columns (fits 1280 px)`); if (v.id !== "OVERVIEW") assert.equal(v.columns.length, 8, `${v.id}: 8 default columns`); assert.ok(v.columns.length + v.detailed.length <= 14); assert.equal(cardMetrics(v.id).length, 3); }
   for (const r of rows) { assert.ok(r.energy >= 0 && r.energy <= 100); assert.ok(["LOW", "MID", "HIGH"].includes(r.fitnessBand)); assert.ok(r.morale >= 0 && r.morale <= 100); }
   const gk = filterSortMatrix(rows, { query: "", position: "MV", state: "ALL", sortKey: "position", direction: "asc" });
   assert.ok(gk.length > 0 && gk.every((r) => r.position === "MV" || r.secondaryPosition === "MV"));

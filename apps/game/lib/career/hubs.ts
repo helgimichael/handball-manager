@@ -29,6 +29,12 @@ export const CAREER_HUBS: readonly CareerHub[] = [
 /** Items outside the six hubs: always reachable from the rail foot (Inställningar). */
 export const UTILITY_NAV_IDS = ["settings"] as const;
 
+/**
+ * Destinations merged into another tab by a canonical recommendation (their URL still works and lands on the target).
+ * CLB-01 (C) "Merged into Club Journal": /career/klubbhuset redirects to /career/club, so Klubben lands on Klubb.
+ */
+export const MERGED_NAV_IDS: Readonly<Record<string, string>> = { klubbhuset: "club" };
+
 /** Phone bottom bar (ENT-07a): Idag · Laget · Tävling · Marknad · Mer (Klubben, Karriär, Inkorg, Inställningar, Spara live in the Mer sheet). */
 export const MOBILE_TAB_HUBS: readonly HubId[] = ["idag", "laget", "tavling", "rekrytering"];
 
@@ -39,12 +45,14 @@ export function hubTabs(hub: CareerHub): CareerNavItem[] {
 }
 
 export function hubOfNavId(navId: string | undefined): CareerHub | undefined {
-  return navId ? CAREER_HUBS.find((h) => h.tabs.includes(navId)) : undefined;
+  const id = navId ? MERGED_NAV_IDS[navId] ?? navId : undefined;
+  return id ? CAREER_HUBS.find((h) => h.tabs.includes(id)) : undefined;
 }
 
 /** Hub + tab for a pathname (exact href first, then owned prefixes -- the existing single-owner rule). */
 export function resolveHubRoute(pathname: string): { hub?: CareerHub; navId?: string } {
-  const navId = resolveActiveNavId(pathname);
+  const raw = resolveActiveNavId(pathname);
+  const navId = raw ? MERGED_NAV_IDS[raw] ?? raw : raw;
   return { hub: hubOfNavId(navId), navId };
 }
 
