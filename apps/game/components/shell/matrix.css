@@ -105,3 +105,11 @@
   @keyframes hm-peek-up { from { transform: translateY(24px); opacity: 0; } }
 }
 @media (prefers-reduced-motion: reduce) { .hm-peek { animation: none; } }
+
+/* ---------------------------------------------------------------- shared side drawer (SQD-01d / SQD-05a / SQD-03a) */
+.hm-drawer[data-wide="true"] { width: min(480px, 100vw); }
+.hm-drawer-head { display: flex; justify-content: space-between; align-items: start; gap: 10px; position: sticky; top: -18px; z-index: 1; margin: -18px -18px 0; padding: 14px 18px 10px; background: var(--arena-solid-1); border-bottom: 1px solid var(--arena-line); }
+.hm-drawer-title { min-width: 0; display: grid; gap: 4px; }
+.hm-drawer-nav { display: flex; gap: 6px; align-items: center; flex: none; }
+.hm-drawer-body { display: grid; gap: 12px; min-width: 0; }
+.hm-drawer-actions { padding-top: 10px; border-top: 1px solid var(--arena-line); }

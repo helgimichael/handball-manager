@@ -1,0 +1,16 @@
+/* ==========================================================================
+   Arena Nights -- SQD-02l tightening range bars (shared by profile, market, compare, scout timeline).
+   ========================================================================== */
+.hm-range { display: grid; grid-template-columns: minmax(84px, auto) minmax(0, 1fr) auto; align-items: center; gap: 10px; font-variant-numeric: tabular-nums; }
+.hm-range-label { font: 700 10px/1.2 var(--arena-font-ui); letter-spacing: .1em; text-transform: uppercase; color: var(--arena-faint); }
+.hm-range-value { font-size: 13px; color: var(--arena-ink); white-space: nowrap; }
+.hm-range[data-unknown="true"] .hm-range-value { color: var(--arena-muted); font-weight: 600; }
+.hm-range-cells { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 3px; min-width: 90px; }
+.hm-range-cells i { height: 10px; border-radius: 2px; background: var(--arena-solid-3); }
+.hm-range-cells i[data-on="true"] { background: color-mix(in srgb, var(--arena-gold) 70%, transparent); }
+.hm-range[data-exact="true"] .hm-range-cells i[data-on="true"] { background: var(--arena-gold); }
+.hm-range-track { position: relative; height: 10px; min-width: 90px; border-radius: 2px; background: var(--arena-solid-3); }
+.hm-range-track i { position: absolute; top: 0; bottom: 0; border-radius: 2px; background: color-mix(in srgb, var(--club-neon) 55%, transparent); }
+.hm-range[data-exact="true"] .hm-range-track i { background: var(--club-neon); }
+.hm-range-stack { display: grid; gap: 8px; }
+@media (max-width: 420px) { .hm-range { grid-template-columns: 1fr auto; } .hm-range-cells, .hm-range-track { grid-column: 1 / -1; grid-row: 2; } }

@@ -2,8 +2,10 @@
 // Arena Nights C5.3 -- SQD-01 (A) Squad Matrix: control panel (views, search, position segments, state, density),
 // a player-chip roster with sortable columns per saved view, a multi-select tray with bulk actions, Peek on row
 // click, and ranked cards on phones. Data and write paths are the existing career operations.
+// Saved views: SQD-01a Översikt (expandable rows), SQD-01c Fysisk status (heat-strip), SQD-01b Prestation
+// (position-aware tables), SQD-01d Kontraktsrisk (countdown + renewal drawer), Utveckling; SQD-01g empty state.
 import Link from 'next/link';
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useWorkspaceState } from '@/components/game/WorkspaceMemory';
 import { useCareer } from '@/lib/career/CareerContext';
 import { getCareerClub, getCareerSquad } from '@/lib/career/careerWorld';
@@ -16,13 +18,14 @@ import { RECOVERY_OUTLOOK_LABEL, WORKLOAD_TREND_LABEL } from '@/lib/training/rea
 import { clubColorVars, playerAvailabilityLabel } from '@/components/game/Identity';
 import { DepthCourt } from '@/components/club/ClubJournal';
 import { positionDepth } from '@/lib/club/clubJournal';
-import { EmptyState } from '@/components/manager/Workspace';
 import { EnvironmentBanner } from '@/components/clubhq/EnvironmentBanner';
 import { getPlayerFormHistory } from '@/lib/career/playerForm';
 import { PlayerFormSparkline } from '@/components/players/PlayerFormSparkline';
 import { matchFitnessOf } from '@/lib/players/matchFitness';
 import { currentTeamRoles } from '@/lib/career/teamRoles';
-import { applyTrayAction, buildMatrixRows, cardMetrics, filterSortMatrix, MATRIX_VIEWS, POSITIONS, type MatrixColumn, type MatrixDensity, type MatrixRow, type MatrixView, type StateFilter, type TrayAction } from '@/lib/career/squadMatrix';
+import { applyTrayAction, buildMatrixRows, cardMetrics, contractCountdownPct, explainEmpty, filterSortMatrix, MATRIX_VIEWS, POSITIONS, readinessRisk, type MatrixColumn, type MatrixDensity, type MatrixRow, type MatrixView, type StateFilter, type TrayAction } from '@/lib/career/squadMatrix';
+import { ExplainingEmpty, OverviewTable, PerformanceTables, ReadinessLegend, ReadinessStripTable } from '@/components/players/SquadViews';
+import { RenewalDrawer } from '@/components/players/RenewalDrawer';
 import { PlayerChip } from '@/components/shell/PlayerChip';
 import PlayerPeek from '@/components/shell/PlayerPeek';
 import type { CareerState } from '@/lib/career/types';
@@ -43,26 +46,34 @@ const COLUMNS: Record<MatrixColumn, { label: string; title?: string; sort?: keyo
   contractStatus: { label: 'Status', sort: 'contractStatus' }, contractAction: { label: 'Åtgärd' },
   current: { label: 'Nivå', title: 'Tränarstabens bedömning av nuvarande nivå', sort: 'current', numeric: true }, potential: { label: 'Potential', title: 'Scoutingens uppskattning — osäker', sort: 'potential', numeric: true },
   trainingLoad: { label: 'Träningsbelastning', sort: 'trainingLoad' }, focus: { label: 'Individuellt fokus' },
+  readiness: { label: 'Beredskap', sort: 'energy', numeric: true }, output: { label: 'Mål / Räddn %', sort: 'goals', numeric: true },
+  goalsPerMatch: { label: 'Mål/match', sort: 'goalsPerMatch', numeric: true }, savesPerMatch: { label: 'Räddn/match', sort: 'savesPerMatch', numeric: true },
 };
 
 export default function SquadPage() {
   useMoney();
-  const { career, updateSquadStatus, updateCareer } = useCareer();
+  const { career, updateSquadStatus, updateCareer, setPlayerTrainingLoad } = useCareer();
   const club = getCareerClub(career);
   const [query, setQuery] = useWorkspaceState('squad.query', '');
   const [position, setPosition] = useWorkspaceState('squad.position', 'ALL');
   const [status, setStatus] = useWorkspaceState<StateFilter>('squad.status', 'ALL');
-  const [view, setView] = useWorkspaceState<MatrixView>('squad.matrixView', 'READINESS');
+  const [view, setView] = useWorkspaceState<MatrixView>('squad.matrixView', 'OVERVIEW');
   const [density, setDensity] = useWorkspaceState<MatrixDensity>('squad.density', 'COMPACT');
   const [formMode, setFormMode] = useWorkspaceState<'APPEARANCES' | 'FIXTURES'>('squad.formMode', 'APPEARANCES');
   const [selected, setSelected] = useWorkspaceState<string[]>('squad.selected', []);
   const [sort, setSort] = useWorkspaceState<{ key: keyof MatrixRow; direction: 'asc' | 'desc' }>('squad.matrixSort', { key: 'position', direction: 'asc' });
   const [peekId, setPeekId] = useState<string | null>(null);
   const [trayNote, setTrayNote] = useState<string | null>(null);
+  const [riskSort, setRiskSort] = useWorkspaceState('squad.riskSort', false);
+  const [renewalId, setRenewalId] = useState<string | null>(null);
+  const closeRenewal = useCallback(() => setRenewalId(null), []);
   const squad = getCareerSquad(career);
   const all = useMemo(() => buildMatrixRows(career), [career]);
-  const rows = useMemo(() => filterSortMatrix(all, { query, position, state: status, sortKey: sort.key, direction: sort.direction }), [all, query, position, status, sort]);
   const spec = MATRIX_VIEWS.find(v => v.id === view) ?? MATRIX_VIEWS[0]!;
+  const rows = useMemo(() => {
+    const sorted = filterSortMatrix(all, { query, position, state: status, sortKey: sort.key, direction: sort.direction });
+    return spec.id === 'READINESS' && riskSort ? [...sorted].sort((a, b) => readinessRisk(b) - readinessRisk(a) || a.name.localeCompare(b.name, 'sv')) : sorted;
+  }, [all, query, position, status, sort, spec.id, riskSort]);
   const columns = density === 'DETAILED' ? [...spec.columns, ...spec.detailed.filter(c => !spec.columns.includes(c))] : spec.columns;
   const available = squad.filter(p => isSelectableForMatch(career.playerStatuses, p.id)).length;
   const tired = all.filter(r => r.energy < 75).length;
@@ -73,7 +84,12 @@ export default function SquadPage() {
   const peek = peekId ? all.find(r => r.id === peekId) : undefined;
   const form = (id: string) => <PlayerFormSparkline entries={getPlayerFormHistory(career, id, formMode, 5)} />;
 
-  const onSort = (key: keyof MatrixRow, numeric?: boolean) => setSort(sort.key === key ? { key, direction: sort.direction === 'asc' ? 'desc' : 'asc' } : { key, direction: numeric ? 'desc' : 'asc' });
+  const onSort = (key: keyof MatrixRow, numeric?: boolean) => { setRiskSort(false); setSort(sort.key === key ? { key, direction: sort.direction === 'asc' ? 'desc' : 'asc' } : { key, direction: numeric ? 'desc' : 'asc' }); };
+  // SQD-01d: the contract-risk view opens sorted by days left (most urgent first).
+  const pickView = (id: MatrixView) => { setView(id); if (id === 'CONTRACT_RISK') setSort({ key: 'daysLeft', direction: 'asc' }); };
+  const resetFilters = () => { setQuery(''); setPosition('ALL'); setStatus('ALL'); };
+  const roleSelect = (r: MatrixRow) => <select className="hm-select" aria-label={`Trupproll ${r.name}`} value={r.role} onChange={e => updateSquadStatus(r.id, e.target.value as SquadStatusTier)}>{SQUAD_STATUS_TIERS.map(t => <option key={t} value={t}>{SQUAD_STATUS_TIER_LABEL_SV[t]}</option>)}</select>;
+  const availabilityBadge = (r: MatrixRow) => <span className={`hm-badge hm-badge-${r.available ? 'neutral' : 'negative'}`}>{playerAvailabilityLabel(career, r.id)}</span>;
   const toggle = (id: string, on: boolean) => setSelected(prev => on ? [...new Set([...prev, id])] : prev.filter(x => x !== id));
   function tray(action: TrayAction, label: string) {
     const result = applyTrayAction(career, chosen, action);
@@ -86,10 +102,10 @@ export default function SquadPage() {
     switch (c) {
       case 'position': return <span className="hm-position-code">{r.position}</span>;
       case 'age': return r.age ?? '—';
-      case 'role': return <select className="hm-select" aria-label={`Trupproll ${r.name}`} value={r.role} onChange={e => updateSquadStatus(r.id, e.target.value as SquadStatusTier)}>{SQUAD_STATUS_TIERS.map(t => <option key={t} value={t}>{SQUAD_STATUS_TIER_LABEL_SV[t]}</option>)}</select>;
+      case 'role': return roleSelect(r);
       case 'energy': return <span className="hm-roster-energy" data-low={r.energy < 75}>{r.energy}%</span>;
       case 'fitness': return <span className="hm-roster-energy" data-low={r.fitness < 50}>{r.fitness}%</span>;
-      case 'availability': return <span className={`hm-badge hm-badge-${r.available ? 'neutral' : 'negative'}`}>{playerAvailabilityLabel(career, r.id)}</span>;
+      case 'availability': return availabilityBadge(r);
       case 'returnDate': return r.returnDate ?? '—';
       case 'morale': return <span className="pd-morale-badge" data-tone={r.moraleTone}>{r.morale}</span>;
       case 'load': return r.load ?? '—';
@@ -105,7 +121,10 @@ export default function SquadPage() {
       case 'shots': return r.shots;
       case 'shotsFaced': return r.shotsFaced;
       case 'contractEnd': return r.contractEnd ?? '—';
-      case 'daysLeft': return r.daysLeft ?? '—';
+      case 'daysLeft': {
+        const pct = contractCountdownPct(r.daysLeft);
+        return pct == null ? '—' : <span className="sq-countdown" data-urgent={r.daysLeft! <= 180} data-soon={r.daysLeft! <= 365}><i style={{ width: `${pct}%` }} aria-hidden="true" /><b>{r.daysLeft}</b></span>;
+      }
       case 'wage': return formatMoney(r.wage);
       case 'contractStatus': {
         if (!r.contractStatus) return '—';
@@ -113,11 +132,15 @@ export default function SquadPage() {
         const tone = CONTRACT_STATUS_TONE[key] === 'positive' ? 'neutral' : CONTRACT_STATUS_TONE[key];
         return <span className={`hm-badge hm-badge-${tone}`}>{CONTRACT_STATUS_LABEL[key]}</span>;
       }
-      case 'contractAction': return <Link href={`/career/squad/${encodeURIComponent(r.id)}`}>Förläng / profil →</Link>;
+      case 'contractAction': return <span className="sq-contract-actions"><button type="button" className="hm-btn hm-btn-sm hm-btn-primary" onClick={() => setRenewalId(r.id)}>Förläng</button><Link href={`/career/squad/${encodeURIComponent(r.id)}?tab=contract`} aria-label={`Kontrakt i profilen för ${r.name}`}>Profil →</Link></span>;
       case 'current': return <span className="hm-stars" aria-label={`${r.current ?? 0} av 5`}>{stars(r.current)}</span>;
       case 'potential': return <span className="hm-stars" aria-label={`${r.potential ?? 0} av 5`}>{stars(r.potential)}</span>;
       case 'trainingLoad': return LOAD_LABEL[r.trainingLoad] ?? r.trainingLoad;
       case 'focus': return r.focus ?? '—';
+      case 'readiness': return `${r.energy}% / ${r.fitness}%`;
+      case 'output': return r.position === 'MV' ? (r.savePct == null ? '—' : `${r.savePct}%`) : r.goals;
+      case 'goalsPerMatch': return r.goalsPerMatch ?? '—';
+      case 'savesPerMatch': return r.savesPerMatch ?? '—';
     }
   };
 
@@ -143,7 +166,7 @@ export default function SquadPage() {
 
     <section className="hm-matrix-controls" aria-label="Truppmatrisens kontrollpanel">
       <div className="hm-matrix-views" role="tablist" aria-label="Sparade vyer">
-        {MATRIX_VIEWS.map(v => <button key={v.id} role="tab" aria-selected={view === v.id} onClick={() => setView(v.id)}>{v.label}</button>)}
+        {MATRIX_VIEWS.map(v => <button key={v.id} role="tab" aria-selected={spec.id === v.id} onClick={() => pickView(v.id)}>{v.label}</button>)}
       </div>
       <label className="hm-matrix-search">Sök spelare<input className="hm-input" value={query} onChange={e => setQuery(e.target.value)} /></label>
       <div className="hm-matrix-positions" role="group" aria-label="Positionsfilter">
@@ -157,10 +180,16 @@ export default function SquadPage() {
         <button aria-pressed={density === 'COMPACT'} onClick={() => setDensity('COMPACT')}>Kompakt</button>
         <button aria-pressed={density === 'DETAILED'} onClick={() => setDensity('DETAILED')}>Detaljerad</button>
       </div>
-      <button className="hm-btn hm-btn-sm hm-btn-ghost" onClick={() => { setQuery(''); setPosition('ALL'); setStatus('ALL'); }}>Rensa filter</button>
+      <button className="hm-btn hm-btn-sm hm-btn-ghost" onClick={resetFilters}>Rensa filter</button>
       <span className="hm-matrix-count" aria-live="polite">{rows.length} av {squad.length} spelare</span>
     </section>
 
+    {spec.id === 'READINESS' && <ReadinessLegend />}
+    {!rows.length ? <ExplainingEmpty explanation={explainEmpty(all, { query, position, state: status })} onReset={resetFilters} onPick={id => { resetFilters(); setPeekId(id); }} />
+      : spec.id === 'OVERVIEW' ? <OverviewTable rows={rows} sort={sort} onSort={onSort} form={form} role={roleSelect} selected={chosen} onToggle={toggle} onPeek={setPeekId} />
+      : spec.id === 'READINESS' ? <ReadinessStripTable rows={rows} sort={sort} onSort={onSort} riskSort={riskSort} onRiskSort={() => setRiskSort(!riskSort)} availability={availabilityBadge} onLoad={setPlayerTrainingLoad} />
+      : spec.id === 'PERFORMANCE' ? <PerformanceTables rows={rows} sort={sort} onSort={onSort} form={form} />
+      : <>
     <div className="hm-scroll-x hm-matrix-table-wrap">
       <table className="hm-table hm-roster-table hm-matrix-table">
         <thead><tr>
@@ -171,22 +200,22 @@ export default function SquadPage() {
         </tr></thead>
         <tbody>{rows.map(r => <tr key={r.id} data-highlight={chosen.includes(r.id)} data-unavailable={!r.available}>
           <td className="hm-matrix-select"><input type="checkbox" aria-label={`Välj ${r.name}`} checked={chosen.includes(r.id)} onChange={e => toggle(r.id, e.target.checked)} /></td>
-          <td className="hm-matrix-chip"><PlayerChip row={r} form={view === 'READINESS' || view === 'PERFORMANCE' ? form(r.id) : undefined} /></td>
+          <td className="hm-matrix-chip"><PlayerChip row={r} /></td>
           {columns.map(c => <td key={c} data-numeric={COLUMNS[c].numeric} data-col={c}>{cell(c, r)}</td>)}
           <td className="hm-matrix-peek"><button type="button" className="hm-btn hm-btn-sm hm-btn-ghost" onClick={() => setPeekId(r.id)} aria-label={`Snabbtitt ${r.name}`} title="Snabbtitt">⋯</button></td>
         </tr>)}</tbody>
       </table>
-      {!rows.length && <EmptyState>Inga spelare matchar dina filter.</EmptyState>}
     </div>
 
     <ol className="hm-matrix-cards" aria-label={`${spec.label}: spelarkort`}>
       {rows.map(r => <li key={r.id} data-highlight={chosen.includes(r.id)}>
         <label className="hm-matrix-card-select"><input type="checkbox" aria-label={`Välj ${r.name} (kort)`} checked={chosen.includes(r.id)} onChange={e => toggle(r.id, e.target.checked)} /></label>
         <PlayerChip row={r} form={form(r.id)} />
-        <dl>{cardMetrics(view).map(c => <div key={c}><dt>{COLUMNS[c].label}</dt><dd>{cell(c, r)}</dd></div>)}</dl>
+        <dl>{cardMetrics(spec.id).map(c => <div key={c}><dt>{COLUMNS[c].label}</dt><dd>{cell(c, r)}</dd></div>)}</dl>
         <button type="button" className="hm-btn hm-btn-sm hm-btn-ghost" onClick={() => setPeekId(r.id)} aria-label={`Snabbtitt ${r.name} (kort)`}>⋯</button>
       </li>)}
     </ol>
+    </>}
 
     {chosen.length > 0 && <aside className="hm-matrix-tray" aria-label="Valda spelare" aria-live="polite">
       <strong>{chosen.length} {chosen.length === 1 ? 'vald' : 'valda'}</strong>
@@ -203,5 +232,6 @@ export default function SquadPage() {
     </aside>}
 
     {peek && <PlayerPeek row={peek} form={form(peek.id)} onClose={() => setPeekId(null)} />}
+    {renewalId && <RenewalDrawer playerId={renewalId} onClose={closeRenewal} />}
   </div>;
 }

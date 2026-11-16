@@ -1,72 +1,107 @@
 'use client';
+// Arena Nights -- SQD-04 (A) "Head-to-head with delta bars": searchable pickers, two identity headers, rows
+// with a centre-axis delta bar and the better value highlighted, swap, sort by delta and "compare vs squad
+// average". External players are shown as knowledge-gated ranges only (lib/players/compareModel.ts); own
+// players keep their 1-20 role attributes as before. ?left=&right= (right=avg = squad average).
 import { Suspense, useMemo } from 'react';
-import { careerPlayerVisibility } from "@/lib/knowledge/careerVisibility";
 import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useCareer } from '@/lib/career/CareerContext';
-import { managementPlayers, squadEnergy } from '@/lib/career/management';
-import { getCareerPlayerRating } from '@/lib/career/careerRatingNormalization';
-import { getPlayerKnowledgePct } from '@/lib/knowledge/knowledgeIntegration';
+import { managementPlayers } from '@/lib/career/management';
 import { getAttributeLabel } from '@/lib/rating/attributeVocabulary';
 import type { OutcourtAttribute, GoalkeeperAttribute } from '@/lib/rating/types';
-import { playerAgeAtDate } from '@/lib/development/developmentIntegration';
-import { averageRating, emptyPlayerSeasonStats } from '@/lib/career/types';
 import { formatMoney } from '@/lib/economy/currency';
 import { useMoney } from '@/lib/settings/usePreferences';
-import { PlayerLink, ClubLink } from '@/components/entityLinks';
+import { ClubLink, PlayerLink } from '@/components/entityLinks';
 import { getClub } from '@/lib/game-data';
+import { KNOWLEDGE_TIER_LABEL_SV, knowledgeTier } from '@/lib/knowledge/types';
 import PlayerActions from '@/components/manager/PlayerActions';
-import { PageHeading, Panel, EmptyState } from '@/components/manager/Workspace';
+import { PageHeading, EmptyState } from '@/components/manager/Workspace';
+import { ComparePicker } from '@/components/players/ComparePicker';
+import { ageOf, buildCompareRows, buildCompareSide, buildSquadAverageSide, deltaBar, sortCompareRows, type CompareCell, type CompareRow, type CompareSide, type CompareSortMode } from '@/lib/players/compareModel';
 
-const RELEVANT: Record<string, string[]> = {
-  MV: ['GK_POSITIONING', 'REACTION', 'LOW_SAVES', 'HIGH_SAVES', 'ONE_ON_ONE', 'OUTLET_PASSING'],
-  V6: ['FINISHING', 'SHOOTING_PLACEMENT', 'TOP_SPEED', 'ACCELERATION', 'GAME_READING', 'DEFENSIVE_POSITIONING'],
-  H6: ['FINISHING', 'SHOOTING_PLACEMENT', 'TOP_SPEED', 'ACCELERATION', 'GAME_READING', 'DEFENSIVE_POSITIONING'],
-  M6: ['FINISHING', 'BALL_HANDLING', 'CONTACT_ABILITY', 'STRENGTH', 'DEFENSIVE_POSITIONING', 'GAME_READING'],
-  M9: ['PASSING', 'GAME_READING', 'DECISION_MAKING', 'BREAKTHROUGH', 'BALL_HANDLING', 'DEFENSIVE_POSITIONING'],
-  V9: ['SHOOTING_POWER', 'SHOOTING_PLACEMENT', 'BREAKTHROUGH', 'PASSING', 'DECISION_MAKING', 'CONTACT_ABILITY'],
-  H9: ['SHOOTING_POWER', 'SHOOTING_PLACEMENT', 'BREAKTHROUGH', 'PASSING', 'DECISION_MAKING', 'CONTACT_ABILITY'],
-};
 export default function ComparePage() { return <Suspense fallback={<EmptyState>Läser jämförelse…</EmptyState>}><Comparison /></Suspense>; }
+
+function cellText(c: CompareCell, unit?: string): string {
+  if (c.value == null) return '—';
+  if (c.kind === 'num') return `${c.value}${unit ? ` ${unit}` : ''}`;
+  if (c.kind === 'range') return c.value.min === c.value.max ? `${c.value.min} ★` : `${c.value.min}–${c.value.max} ★`;
+  return c.value.min === c.value.max ? formatMoney(c.value.min, { compact: true }) : `${formatMoney(c.value.min, { compact: true })} – ${formatMoney(c.value.max, { compact: true })}`;
+}
+
 function Comparison() {
   useMoney(); // re-render every figure when the display currency changes
   const { career } = useCareer();
   const params = useSearchParams();
   const router = useRouter();
-  const players = useMemo(() => managementPlayers(career).sort((a, b) => a.lastName.localeCompare(b.lastName)), [career]);
-  const left = players.find(p => p.id === params.get('left')) ?? players.find(p => p.clubId === career.playerClubId);
-  const right = players.find(p => p.id === params.get('right'));
-  const sides = [left, right];
-  const values = sides.map(p => {
-    if (!p) return null;
-    const own = p.clubId === career.playerClubId;
-    const rating = getCareerPlayerRating(career, p.id, p.clubId);
-    const knowledge = own ? 100 : getPlayerKnowledgePct(career, p.id, p.clubId);
-    return { player: p, own, rating, knowledge, visibility: rating ? careerPlayerVisibility(career, rating, p.id, knowledge) : null, stats: career.playerSeasonStats[p.id] ?? emptyPlayerSeasonStats(p.id), contract: career.playerContracts[p.id] };
-  });
-  function select(side: string, id: string) { const next = new URLSearchParams(params.toString()); if (id) next.set(side, id); else next.delete(side); router.replace(`/career/compare?${next}`); }
-  const keys = [...new Set(sides.flatMap(p => p ? RELEVANT[p.position] ?? [] : []))];
-  function row(label: string, cells: (string | number | null | undefined)[]) { return <tr key={label}><th scope="row">{label}</th>{cells.map((cell, i) => <td key={i}>{cell ?? '—'}</td>)}</tr>; }
-  return <><PageHeading eyebrow="Beslutsunderlag" title="Jämför spelare" description="Rollrelevanta egenskaper, prestation och avtalskostnad. Externa bedömningar följer scoutingens kännedom." />
-    <div className="hm-comparison-select">{sides.map((p, i) => <label key={i}>{i ? 'Spelare B' : 'Spelare A'}<select className="hm-select" value={p?.id ?? ''} onChange={e => select(i ? 'right' : 'left', e.target.value)}><option value="">Välj spelare</option><optgroup label="Din trupp">{players.filter(p => p.clubId === career.playerClubId).map(p => <option key={p.id} value={p.id}>{p.position} · {p.firstName} {p.lastName}</option>)}</optgroup><optgroup label="Övriga världen">{players.filter(p => p.clubId !== career.playerClubId).map(p => <option key={p.id} value={p.id}>{p.position} · {p.firstName} {p.lastName} · {getClub(p.clubId)?.shortName ?? 'Fri agent'}</option>)}</optgroup></select></label>)}</div>
-    <Panel title="Profil & prestation"><table className="hm-table hm-compare-table"><thead><tr><th>Mått</th>{sides.map((p, i) => <th key={i}>{p ? <PlayerLink playerId={p.id}>{p.firstName} {p.lastName}</PlayerLink> : 'Välj en spelare'}</th>)}</tr></thead><tbody>
-      <tr><th scope="row">Klubb</th>{sides.map((p, i) => <td key={i}>{p?.clubId ? <ClubLink clubId={p.clubId}>{getClub(p.clubId)?.name ?? 'Okänd'}</ClubLink> : p ? 'Fri agent' : '—'}</td>)}</tr>
-      {row('Position', sides.map(p => p?.position))}{row('Ålder', sides.map(p => p ? playerAgeAtDate(p.dateOfBirth, p.birthYear, career.gameDate) : null))}
-      {row('Kännedom', values.map(v => v ? `${Math.round(v.knowledge)}%` : null))}
-      {row('Bedömd nivå', values.map(v => v?.visibility ? `${v.visibility.abilityRange.min}–${v.visibility.abilityRange.max} ★` : null))}
-      {row('Styrkor', values.map(v => v?.visibility?.strengths?.join(', ')))}
-      {row('Utvecklingsområden', values.map(v => v?.visibility?.weaknesses?.join(', ')))}
-      {row('Matcher / starter', values.map(v => v ? `${v.stats.appearances} / ${v.stats.starts}` : null))}
-      {row('Mål / skott', values.map(v => v ? `${v.stats.goals} / ${v.stats.shots}` : null))}
-      {row('Skotteffektivitet', values.map(v => v && v.stats.shots ? `${Math.round(v.stats.goals / v.stats.shots * 100)}% (${v.stats.shots} skott)` : null))}
-      {row('Räddningar', values.map(v => v?.player.position === 'MV' ? v.stats.shotsFaced ? `${Math.round(v.stats.saves / v.stats.shotsFaced * 100)}% (${v.stats.saves}/${v.stats.shotsFaced})` : 'Inga skott mötta' : null))}
-      {row('Snittbetyg', values.map(v => v && v.stats.appearances ? averageRating(v.stats).toFixed(1) : null))}
-      {row('Energi', values.map(v => v?.own ? `${Math.round(squadEnergy(career, v.player))}%` : null))}
-      {row('Avtal till', values.map(v => v?.contract?.contractEndDate))}
-      {row('Lön / månad', values.map(v => v?.contract ? formatMoney(v.contract.wageEurPerMonth) : null))}
-    </tbody></table></Panel>
-    <Panel title={`Egenskaper för ${left?.position ?? 'rollen'}${right && right.position !== left?.position ? ` / ${right.position}` : ''}`}><div className="hm-panel-body hm-text-muted">Egna spelare visar egenskaper på 1–20. Externa spelare jämförs genom scoutens styrkor och utvecklingsområden ovan.</div><table className="hm-table hm-compare-table"><tbody>{keys.map(key => row(getAttributeLabel(key as OutcourtAttribute | GoalkeeperAttribute), values.map(v => v?.own ? (v.rating?.branch.attributes as Record<string, { value: number }> | undefined)?.[key]?.value : null)))}</tbody></table></Panel>
-    <div className="hm-comparison-select">{sides.map((p, i) => <div key={i}>{p && <PlayerActions player={p} />}</div>)}</div>
-    {!right && <EmptyState>Välj spelare B för att jämföra med en lagkamrat eller ett rekryteringsmål. <Link href="/career/players">Sök efter en kandidat →</Link></EmptyState>}
-  </>;
+  const players = useMemo(() => managementPlayers(career), [career]);
+  const left = players.find(p => p.id === params.get('left')) ?? players.find(p => p.clubId === career.playerClubId) ?? null;
+  const vsAvg = params.get('right') === 'avg';
+  const right = vsAvg ? null : players.find(p => p.id === params.get('right')) ?? null;
+  const sortMode: CompareSortMode = params.get('sort') === 'delta' ? 'DELTA' : 'DEFAULT';
+
+  const leftSide = useMemo(() => (left ? buildCompareSide(career, left) : null), [career, left]);
+  const rightSide = useMemo<CompareSide | null>(() => (vsAvg ? buildSquadAverageSide(career, left?.position) : right ? buildCompareSide(career, right) : null), [career, right, vsAvg, left]);
+  const rows = useMemo(() => sortCompareRows(buildCompareRows(leftSide, rightSide, k => getAttributeLabel(k as OutcourtAttribute | GoalkeeperAttribute)), sortMode), [leftSide, rightSide, sortMode]);
+
+  function go(next: Record<string, string | null>) {
+    const q = new URLSearchParams(params.toString());
+    for (const [k, v] of Object.entries(next)) { if (v) q.set(k, v); else q.delete(k); }
+    router.replace(`/career/compare?${q}`);
+  }
+  const swap = () => { if (left && right) go({ left: right.id, right: left.id }); };
+  const groups: CompareRow['group'][] = ['Bedömning', 'Prestation', 'Egenskaper'];
+
+  const header = (side: CompareSide | null, which: 'left' | 'right') => {
+    if (!side) return <div className="hm-compare-id" data-side={which}><p className="hm-dossier-note">{which === 'right' ? 'Välj spelare B -- en lagkamrat, ett rekryteringsmål eller truppsnittet.' : 'Välj spelare A.'}</p></div>;
+    if (side.kind === 'SQUAD_AVG') return <div className="hm-compare-id" data-side={which} data-own="true"><span className="hm-eyebrow">Jämförelsevärde</span><strong>{side.label}</strong><small>Snitt för spelare med speltid; egenskaper från tränarstabens bedömning.</small></div>;
+    const p = side.player!;
+    return <div className="hm-compare-id" data-side={which} data-own={side.own}>
+      <span className="hm-eyebrow">{side.own ? 'Din trupp' : KNOWLEDGE_TIER_LABEL_SV[knowledgeTier(side.knowledge)]}</span>
+      <strong><PlayerLink playerId={p.id}>{p.firstName} {p.lastName}</PlayerLink></strong>
+      <small><span className="hm-position-code">{p.position}</span> · {ageOf(career, p) ?? '—'} år · {p.clubId ? <ClubLink clubId={p.clubId}>{getClub(p.clubId)?.shortName ?? 'Okänd klubb'}</ClubLink> : 'Fri agent'}{side.own ? '' : ` · kännedom ${side.knowledge} %`}</small>
+      <div className="hm-compare-actions"><PlayerActions player={p} /></div>
+    </div>;
+  };
+
+  return <div className="hm-compare">
+    <PageHeading eyebrow="Beslutsunderlag" title="Jämför spelare" description="Rad för rad med skillnaden som stapel från mitten. Bättre värde markeras. Externa spelare visas som scoutingens intervall och jämförs bara när intervallen inte överlappar." actions={<Link className="hm-btn" href="/career/players">Sök kandidat →</Link>} />
+    <div className="hm-compare-pickers">
+      <ComparePicker label="Spelare A" players={players} ownClubId={career.playerClubId} value={left} onPick={id => go({ left: id })} />
+      <div className="hm-compare-tools">
+        <button type="button" className="hm-btn hm-btn-sm" onClick={swap} disabled={!left || !right}>⇄ Byt plats</button>
+        {(!left || !right) && <small className="hm-dossier-note">Byt plats kräver två spelare.</small>}
+        <button type="button" className="hm-btn hm-btn-sm" aria-pressed={vsAvg} onClick={() => go({ right: vsAvg ? null : 'avg' })}>{vsAvg ? 'Sluta jämföra mot truppsnitt' : `Jämför mot truppsnitt${left ? ` (${left.position})` : ''}`}</button>
+        <button type="button" className="hm-btn hm-btn-sm" aria-pressed={sortMode === 'DELTA'} onClick={() => go({ sort: sortMode === 'DELTA' ? null : 'delta' })}>{sortMode === 'DELTA' ? 'Standardordning' : 'Sortera på skillnad'}</button>
+      </div>
+      <ComparePicker label="Spelare B" players={players} ownClubId={career.playerClubId} value={right} onPick={id => go({ right: id })} />
+    </div>
+
+    <div className="hm-compare-heads">{header(leftSide, 'left')}{header(rightSide, 'right')}</div>
+
+    {!leftSide || !rightSide ? <EmptyState>Välj spelare B för att jämföra med en lagkamrat eller ett rekryteringsmål -- eller jämför mot truppsnittet. <Link href="/career/players">Sök efter en kandidat →</Link></EmptyState> :
+      groups.map(g => {
+        const list = rows.filter(r => r.group === g);
+        if (!list.length) return null;
+        return <section key={g} className="hm-compare-group" aria-labelledby={`cmp-${g}`}>
+          <h2 id={`cmp-${g}`}>{g}</h2>
+          {g === 'Egenskaper' && (!leftSide.own || !rightSide.own) && <p className="hm-dossier-note">Egenskaper på skalan 1–20 visas bara för dina egna spelare. Externa spelare jämförs genom scoutingens bedömning ovan.</p>}
+          <ol className="hm-compare-rows">{list.map(r => {
+            const bar = deltaBar(r.delta, r.scale);
+            return <li key={r.key}>
+              <span className="hm-compare-val" data-side="left" data-better={r.better === 'left'}>{cellText(r.left, r.unit)}</span>
+              <span className="hm-compare-mid">
+                <span className="hm-compare-label">{r.label}</span>
+                <span className="hm-compare-axis" role="img" aria-label={r.delta == null ? `${r.label}: ingen jämförbar skillnad` : `${r.label}: ${r.delta > 0 ? 'B' : 'A'} bättre med ${Math.abs(r.delta)}`}>
+                  {bar.dir !== 'none' && <i data-dir={bar.dir} style={{ left: `${bar.left}%`, width: `${bar.width}%` }} />}
+                </span>
+                {r.delta != null && r.delta !== 0 && <small className="hm-compare-delta">{r.delta > 0 ? '+' : '−'}{Math.abs(r.delta)}{r.unit ? ` ${r.unit}` : ''}</small>}
+                {r.delta == null && r.better && <small className="hm-compare-delta">{r.better === 'left' ? 'A' : 'B'} bedöms högre</small>}
+              </span>
+              <span className="hm-compare-val" data-side="right" data-better={r.better === 'right'}>{cellText(r.right, r.unit)}</span>
+            </li>;
+          })}</ol>
+        </section>;
+      })}
+  </div>;
 }

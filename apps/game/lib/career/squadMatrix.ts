@@ -15,21 +15,27 @@ import { getPlayerContractStatus } from "../economy/contractIntegration";
 import { getCareerPlayerRating } from "./careerRatingNormalization";
 import { abilityStarsFromCA, potentialStarsFromPA } from "../development/types";
 import { readinessSummary } from "../training/readinessSummary";
+import { workloadWindow } from "../training/workloadLedger";
+import { MATCH_FITNESS_FULL_EFFECT } from "../players/matchFitness";
 import { setPlayerTrainingLoad } from "../training/trainingSchedule";
 import { setCaptaincy, currentTeamRoles } from "./teamRoles";
 import { listPlayer } from "../players/talks";
 import { updatePlayerSquadStatus, type SquadStatusTier } from "./squadStatus";
 
-export type MatrixView = "READINESS" | "PERFORMANCE" | "CONTRACT_RISK" | "DEVELOPMENT";
+export type MatrixView = "OVERVIEW" | "READINESS" | "PERFORMANCE" | "CONTRACT_RISK" | "DEVELOPMENT";
 export type MatrixDensity = "COMPACT" | "DETAILED";
 export type MatrixColumn =
   | "position" | "age" | "role" | "energy" | "fitness" | "availability" | "returnDate" | "morale" | "load" | "trend" | "recovery"
   | "appearances" | "starts" | "goals" | "shotPct" | "savePct" | "rating" | "form" | "shots" | "shotsFaced"
   | "contractEnd" | "daysLeft" | "wage" | "contractStatus" | "contractAction"
-  | "current" | "potential" | "trainingLoad" | "focus";
+  | "current" | "potential" | "trainingLoad" | "focus"
+  | "readiness" | "output" | "goalsPerMatch" | "savesPerMatch";
 
 export const MATRIX_VIEWS: readonly { id: MatrixView; label: string; columns: readonly MatrixColumn[]; detailed: readonly MatrixColumn[] }[] = [
-  { id: "READINESS", label: "Matchberedskap", columns: ["position", "age", "role", "energy", "fitness", "availability", "returnDate", "morale"], detailed: ["load", "trend", "recovery", "form"] },
+  // SQD-01a (A): curated 8-column summary (chip + 7); every other figure lives in the expandable row band.
+  { id: "OVERVIEW", label: "Översikt", columns: ["position", "role", "readiness", "form", "rating", "output", "contractEnd"], detailed: [] },
+  // SQD-01c (A): the readiness heat-strip (rendered as its own table; these columns drive the phone card fallback).
+  { id: "READINESS", label: "Fysisk status", columns: ["position", "age", "role", "energy", "fitness", "availability", "returnDate", "morale"], detailed: ["load", "trend", "recovery", "form"] },
   { id: "PERFORMANCE", label: "Prestation", columns: ["position", "role", "appearances", "starts", "goals", "shotPct", "savePct", "rating"], detailed: ["shots", "shotsFaced", "form", "age"] },
   { id: "CONTRACT_RISK", label: "Kontraktsrisk", columns: ["position", "age", "role", "contractEnd", "daysLeft", "wage", "contractStatus", "contractAction"], detailed: ["rating", "appearances", "morale"] },
   { id: "DEVELOPMENT", label: "Utveckling", columns: ["position", "age", "role", "current", "potential", "starts", "trainingLoad", "focus"], detailed: ["appearances", "rating", "fitness"] },
@@ -62,6 +68,11 @@ export interface MatrixRow {
   current: number | null; potential: number | null;
   trainingLoad: string; focus: string | null;
   load: number | null; trend: string | null; recovery: string;
+  /** 7-day load against the 28-day weekly average (null until both windows are complete). */
+  loadRatio: number | null;
+  /** Recovery reasons from readinessSummary (plain language, shown as chips -- not tooltips). */
+  reasons: string[];
+  goalsPerMatch: number | null; savesPerMatch: number | null;
   captain: boolean; vice: boolean; penaltyOrder: number | null;
 }
 
@@ -78,6 +89,8 @@ export function buildMatrixRows(state: CareerState): MatrixRow[] {
     const rating = getCareerPlayerRating(state, p.id);
     const readiness = readinessSummary(state, p.id);
     const status = state.playerStatuses[p.id];
+    const month = workloadWindow(state.workloadLedger, p.id, state.gameDate, 28);
+    const loadRatio = readiness.week.complete && month.complete && month.total > 0 ? Math.round((readiness.week.total / (month.total / 4)) * 100) / 100 : null;
     return {
       player: p, id: p.id, name: `${p.firstName} ${p.lastName}`, shirt: p.shirtNumber ?? null, position: p.position, secondaryPosition: p.secondaryPosition ?? null,
       age: playerAgeAtDate(p.dateOfBirth, p.birthYear, state.gameDate),
@@ -95,6 +108,9 @@ export function buildMatrixRows(state: CareerState): MatrixRow[] {
       current: rating ? abilityStarsFromCA(rating.ca) : null, potential: rating ? potentialStarsFromPA(rating.pa) : null,
       trainingLoad: state.playerTrainingAssignments[p.id]?.loadSetting ?? "FULL", focus: state.playerTrainingAssignments[p.id]?.individualFocus ?? null,
       load: readiness.week.complete ? Math.round(readiness.week.total) : null, trend: readiness.trend ?? null, recovery: readiness.outlook,
+      loadRatio, reasons: readiness.reasons,
+      goalsPerMatch: stats.appearances ? Math.round((stats.goals / stats.appearances) * 10) / 10 : null,
+      savesPerMatch: stats.appearances && stats.shotsFaced ? Math.round((stats.saves / stats.appearances) * 10) / 10 : null,
       captain: roles.captainId === p.id, vice: roles.viceCaptainId === p.id, penaltyOrder: roles.penaltyTakers.includes(p.id) ? roles.penaltyTakers.indexOf(p.id) + 1 : null,
     };
   });
@@ -125,7 +141,7 @@ export function filterSortMatrix(rows: readonly MatrixRow[], q: MatrixQuery): Ma
 
 /** Top-3 metrics of a view for the phone card (the chip already carries energy, fitness, morale and form). */
 export function cardMetrics(view: MatrixView): MatrixColumn[] {
-  return MATRIX_VIEWS.find((v) => v.id === view)!.columns.filter((c) => !["position", "role", "energy", "fitness", "morale", "contractAction"].includes(c)).slice(0, 3);
+  return MATRIX_VIEWS.find((v) => v.id === view)!.columns.filter((c) => !["position", "role", "energy", "fitness", "morale", "contractAction", "readiness", "form"].includes(c)).slice(0, 3);
 }
 
 // ---------------------------------------------------------------- tray actions (existing operations, many players)
@@ -152,4 +168,97 @@ export function applyTrayAction(state: CareerState, ids: readonly string[], acti
     next = setCaptaincy(state, action.kind, ids[0]!);
   }
   return { state: next, skipped };
+}
+
+// ---------------------------------------------------------------- SQD-01c readiness heat-strip (bands over existing values)
+export type HeatTone = "ok" | "warn" | "bad" | "info" | "none";
+export interface HeatCell { key: "energy" | "fitness" | "load" | "trend" | "outlook"; label: string; value: string; tone: HeatTone; band: string }
+
+/** Energy bands shown in the legend: Pigg >= 80, Något sliten >= 55, Trött below. */
+export function energyBand(energy: number): { band: string; tone: HeatTone } {
+  return energy >= 80 ? { band: "Pigg", tone: "ok" } : energy >= 55 ? { band: "Något sliten", tone: "warn" } : { band: "Trött", tone: "bad" };
+}
+/** Match fitness against the existing full-effect threshold (MATCH_FITNESS_FULL_EFFECT = 80) and the matrix's 50 % low mark. */
+export function fitnessBand(fitness: number): { band: string; tone: HeatTone } {
+  return fitness >= MATCH_FITNESS_FULL_EFFECT ? { band: "Full effekt", tone: "ok" } : fitness >= 50 ? { band: "Under full effekt", tone: "warn" } : { band: "Låg matchträning", tone: "bad" };
+}
+/** Load ratio uses the same 1.15 / 0.85 limits as readinessSummary's trend. */
+export function loadBand(ratio: number | null): { band: string; tone: HeatTone } {
+  if (ratio == null) return { band: "Historik saknas", tone: "none" };
+  return ratio > 1.15 ? { band: "Över vanan", tone: "warn" } : ratio < 0.85 ? { band: "Under vanan", tone: "info" } : { band: "I nivå", tone: "ok" };
+}
+
+export function heatStrip(r: MatrixRow): HeatCell[] {
+  const e = energyBand(r.energy), f = fitnessBand(r.fitness), l = loadBand(r.loadRatio);
+  const trend = r.trend === "RISING" ? { value: "↑", band: "Ökande", tone: "warn" as HeatTone } : r.trend === "FALLING" ? { value: "↓", band: "Minskande", tone: "ok" as HeatTone } : r.trend === "STABLE" ? { value: "→", band: "Stabil", tone: "ok" as HeatTone } : { value: "—", band: "Historik saknas", tone: "none" as HeatTone };
+  return [
+    { key: "energy", label: "Energi", value: `${r.energy}%`, ...e },
+    { key: "fitness", label: "Matchträning", value: `${r.fitness}%`, ...f },
+    { key: "load", label: "7 d / 28 d", value: r.loadRatio == null ? "—" : `${r.loadRatio.toFixed(2)}×`, ...l },
+    { key: "trend", label: "Trend", ...trend },
+    { key: "outlook", label: "Utsikt", value: r.recovery === "GOOD" ? "God" : r.recovery === "REDUCED" ? "Nedsatt" : "Normal", band: "Återhämtning i natt", tone: r.recovery === "GOOD" ? "ok" : r.recovery === "REDUCED" ? "bad" : "info" },
+  ];
+}
+
+/** Sort order for "sortera på risk": unavailable first, then the count/severity of warning cells. Ordering only -- not a medical score. */
+export function readinessRisk(r: MatrixRow): number {
+  const w: Record<HeatTone, number> = { bad: 3, warn: 1, info: 0, ok: 0, none: 0 };
+  return (r.available ? 0 : 100) + heatStrip(r).reduce((s, c) => s + w[c.tone], 0);
+}
+
+/** Reason chips: readinessSummary's reasons, negative ones first; the first is the "worst" chip on phones. */
+const POSITIVE_REASONS = ["God uthållighet"];
+export function reasonChips(r: MatrixRow): { text: string; tone: "neg" | "pos" | "info" }[] {
+  const rank = { neg: 0, info: 1, pos: 2 } as const;
+  return r.reasons
+    .map((text) => ({ text, tone: POSITIVE_REASONS.includes(text) ? "pos" as const : /kort|Ålder/.test(text) ? "info" as const : "neg" as const }))
+    .sort((a, b) => rank[a.tone] - rank[b.tone]);
+}
+
+/** Plain explanation shown when a reason chip is tapped (touch-accessible replacement for the old title tooltips). */
+export function reasonExplanation(text: string): string {
+  if (/Mer belastning/.test(text)) return "De senaste sju dagarnas belastning ligger över spelarens vana från de senaste fyra veckorna. Återhämtningen går långsammare tills belastningen jämnar ut sig.";
+  if (/Återhämtar till högst/.test(text)) return "Hög belastning sätter ett tak för hur pigg spelaren kan bli. Taket släpper när belastningen sjunker -- en vilodag eller reducerad träning hjälper.";
+  if (/Nyligen spelad match/.test(text)) return "Dagarna närmast efter en match återhämtar sig spelaren långsammare.";
+  if (/rehabilitering/.test(text)) return "Spelaren är under rehabilitering, vilket sänker återhämtningen. Se medicinska avdelningen.";
+  if (/Ålder/.test(text)) return "Äldre spelare återhämtar sig något långsammare.";
+  if (/God uthållighet/.test(text)) return "Spelarens uthållighet gör att han återhämtar sig snabbare än snittet.";
+  if (/Lägre uthållighet/.test(text)) return "Spelarens uthållighet gör att han återhämtar sig långsammare än snittet.";
+  if (/kort/.test(text)) return "Det finns ännu inte fyra veckors belastningshistorik, så jämförelsen mot vanan är osäker.";
+  return text;
+}
+
+// ---------------------------------------------------------------- SQD-01b position-aware performance
+export function splitByRole(rows: readonly MatrixRow[]): { outcourt: MatrixRow[]; goalkeepers: MatrixRow[] } {
+  return { outcourt: rows.filter((r) => r.position !== "MV"), goalkeepers: rows.filter((r) => r.position === "MV") };
+}
+
+// ---------------------------------------------------------------- SQD-01d contract countdown
+/** Share of a 2-year horizon left on the contract (100 = 730+ days), for the countdown bar. */
+export function contractCountdownPct(daysLeft: number | null): number | null {
+  if (daysLeft == null) return null;
+  return Math.max(0, Math.min(100, Math.round((daysLeft / 730) * 100)));
+}
+
+// ---------------------------------------------------------------- SQD-01g explaining empty state
+export interface EmptyExplanation { message: string; nearest: MatrixRow[] }
+const AVAILABILITY_SHORT: Record<string, string> = { INJURED: "skadad", SUSPENDED: "avstängd", RECOVERING: "under återhämtning", LIMITED: "begränsad", ON_PLACEMENT: "hos partnerklubb", NATIONAL_TEAM: "med landslaget" };
+/**
+ * Why a filter combination returned zero rows, and the nearest real matches: the same position without the
+ * state filter and search, or the search without the position. Unavailable players are listed with return dates.
+ */
+export function explainEmpty(rows: readonly MatrixRow[], q: Pick<MatrixQuery, "query" | "position" | "state">): EmptyExplanation {
+  const atPos = q.position === "ALL" ? [...rows] : rows.filter((r) => r.position === q.position || r.secondaryPosition === q.position);
+  const posLabel = q.position === "ALL" ? "spelare" : q.position;
+  const parts: string[] = [];
+  if (q.position !== "ALL" && atPos.length === 0) parts.push(`Truppen har ingen ${posLabel}`);
+  else if (q.state === "AVAILABLE") {
+    const out = atPos.filter((r) => !r.available);
+    parts.push(`0 tillgängliga ${posLabel}` + (out.length ? ` -- ${out.map((r) => `${r.name.split(" ").at(-1)} ${AVAILABILITY_SHORT[r.availability] ?? "inte tillgänglig"}${r.returnDate ? `, åter ${r.returnDate}` : ""}`).join("; ")}` : ""));
+  } else if (q.state === "UNAVAILABLE") parts.push(`Alla ${posLabel} är tillgängliga`);
+  else if (q.state === "TIRED") parts.push(`Ingen ${posLabel === "spelare" ? "spelare" : posLabel} har energi under 75 %`);
+  if (q.query.trim()) parts.push(`ingen träff på "${q.query.trim()}"`);
+  const loose = filterSortMatrix(rows, { query: "", position: q.position, state: "ALL", sortKey: "position", direction: "asc" });
+  const nearest = (loose.length ? loose : filterSortMatrix(rows, { query: q.query, position: "ALL", state: "ALL", sortKey: "position", direction: "asc" })).slice(0, 4);
+  return { message: (parts.join(" · ") || "Inga spelare matchar dina filter") + ".", nearest };
 }

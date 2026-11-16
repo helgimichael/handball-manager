@@ -1,32 +1,31 @@
 "use client";
+// SQD-02 (C) Feature Profile + Arena Nights profile chapters: SQD-02b matches (chart + log), SQD-02c/d/j attributes &
+// development workspace (heat matrix, development curve, editable focus), SQD-02e deal sheet, SQD-02f career ribbon,
+// SQD-02h condition gauges, SQD-02i mood hub, SQD-02k suitability court, SQD-02l range bars (external),
+// SQD-02m scout report timeline, SQD-02p rehab timeline, SQD-02q skeleton + recover. Deep links: ?tab=.
 import PlayerActions from '@/components/manager/PlayerActions';
 import { careerPlayerVisibility } from "@/lib/knowledge/careerVisibility";
-import PlayerPerformance from '@/components/manager/PlayerPerformance';
 import { PlayerHero } from '@/components/game/Identity';
-import { PlayerConditionPanel } from '@/components/game/PlayerCondition';
 import ContractRenewal from '@/components/ContractRenewal';
 import { PlayerTransferCard } from '@/components/transfers/PlayerTransferCard';
 
-import { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import Link from "next/link";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { abilityStars, getClub, potentialStars } from "@/lib/game-data";
 import { playerAgeAtDate } from "@/lib/development/developmentIntegration";
 import { useCareer } from "@/lib/career/CareerContext";
-import { getCareerPlayer } from "@/lib/career/careerWorld";
+import { getCareerPlayer, getCareerSquad } from "@/lib/career/careerWorld";
 import { isFreeAgentClubId } from "@/lib/career/contractExpiry";
 import { isRetiredClubId } from "@/lib/career/playerLifecycle";
-import type { PlayerAvailability } from "@/lib/career/playerStatus";
 import StarRating from "@/components/StarRating";
 import StatValue from "@/components/StatValue";
 import { GameplayAbilityPanel, GameplayAttributesPanel, type GameplayRatingRow } from "@/components/GameplayProfilePanels";
 import { getCareerPlayerRating } from "@/lib/career/careerRatingNormalization";
 import type { GameplayPlayerRating } from "@/lib/gameWorld/gameplayRatingSnapshot";
-import { INJURY_SEVERITY_LABELS, INJURY_TYPE_LABELS, REHAB_PHASE_LABELS } from "@/lib/medical/labels";
-import { getPlayerContract, getPlayerContractStatus, getPlayerMarketValueEur } from "@/lib/economy/contractIntegration";
-import { CONTRACT_STATUS_LABEL, CONTRACT_STATUS_TONE } from "@/lib/economy/labels";
+import { getPlayerContract, getPlayerMarketValueEur } from "@/lib/economy/contractIntegration";
 import { formatMoney } from "@/lib/economy/currency";
 import { useMoney } from "@/lib/settings/usePreferences";
-import { getPlayerClubHistory } from "@/lib/economy/clubHistoryIntegration";
 import { getPlayerTrainingCompensation } from "@/lib/economy/trainingCompensationIntegration";
 import { getPlayerKnowledgePct } from "@/lib/knowledge/knowledgeIntegration";
 import { KnowledgeGatedAbilityPanel, KnowledgeGatedAttributesPanel } from "@/components/KnowledgeGatedProfilePanels";
@@ -35,9 +34,11 @@ import { getClubScouts, getPlayerScoutReports } from "@/lib/career/scouting";
 import { findStaffMember } from "@/lib/staff/staffCareerIntegration";
 import { PlayerDynamicsPanel } from "@/components/players/PlayerDynamicsPanel";
 import { buildPlayerDossier } from "@/lib/players/playerDossier";
+import { buildAttributeMatrix, ownPlayerAttributes, squadAttributeAverage, type AttributeEvent } from "@/lib/players/attributeMatrix";
 import { CareerTimeline, ContractFuture, DevelopmentView, DossierBar, FormTimeline, KeyRatings, Readiness, SeasonLine } from "@/components/players/PlayerDossier";
+import { AttributeHistoryRail, CareerRibbon, ConditionGauges, DealSheet, DevelopmentCurveCard, MatchesView, PlayerNotFound, ProfileSkeleton, RehabTimelinePanel } from "@/components/players/ProfileViews";
 import { playerAvailabilityLabel } from "@/components/game/Identity";
-import { useMemo } from "react";
+import { useWorkspaceState } from "@/components/game/WorkspaceMemory";
 import { ScoutReportPanel, type ScoutReportHistoryEntry } from "@/components/ScoutReportPanel";
 
 // HM-RATINGS-CAREER-1.0 Part 25: every career player (REAL_WORLD, mock or
@@ -58,30 +59,35 @@ function toGameplayRatingRow(rating: GameplayPlayerRating): GameplayRatingRow {
   };
 }
 
+const TAB_IDS = ["overview", "matches", "development", "career", "contract"];
+const TAB_ALIAS: Record<string, string> = { attributes: "development", history: "career" };
+
 export default function PlayerProfilePage() {
+  return <Suspense fallback={<ProfileSkeleton />}><PlayerProfile /></Suspense>;
+}
+
+function PlayerProfile() {
   useMoney(); // re-render every figure when the display currency changes
   const router = useRouter();
   const params = useParams<{ playerId: string }>();
-  const { career } = useCareer();
+  const search = useSearchParams();
+  const { career, setPlayerIndividualFocus } = useCareer();
   const player = getCareerPlayer(career, params.playerId);
 
-  // HM-UX-RATINGS-0.1: real-world players show HM-RATINGS-0.6's
-  // canonical, COMPLETE gameplay rating snapshot -- never the older
-  // sparse HM-RATINGS-0.3 evidence proposal (that view now lives only
-  // in Editor -> Rating Review, where "what do we actually know?" is
-  // the point). `undefined` = not yet fetched, `null` = fetched but
-  // this player has no gameplay rating (an honest failure -- falls
-  // back to the old mock display, same as any non-real-world player;
-  // never fabricated client-side).
-  const [tab, setTab] = useState('overview');
+  // HM-UX-RATINGS-0.1: real-world players show HM-RATINGS-0.6's canonical, COMPLETE gameplay rating snapshot.
+  // `undefined` = not yet fetched, `null` = fetched but this player has no gameplay rating (an honest failure --
+  // falls back to the old mock display, same as any non-real-world player; never fabricated client-side).
+  const initialTab = (() => { const t = search.get("tab") ?? "overview"; const id = TAB_ALIAS[t] ?? t; return TAB_IDS.includes(id) ? id : "overview"; })();
+  const [tab, setTab] = useState(initialTab);
   const [ratingRow, setRatingRow] = useState<GameplayRatingRow | null | undefined>(undefined);
+  const [compareWith, setCompareWith] = useState("");
+  const [selectedAttr, setSelectedAttr] = useState<string | null>(null);
+  const [recent, setRecent] = useWorkspaceState<string[]>("players.recent", []);
 
   useEffect(() => {
     if (!player) return;
     if (getCareerPlayerRating(career, player.id, player.clubId) || player.dataSource !== "REAL_WORLD") {
-      // HM-RATINGS-CAREER-1.0 Part 25: a mock/generated player's rating
-      // already lives in CareerState -- ensureCareerGameplayRatings
-      // guarantees every roster player has one, so no fetch is needed.
+      // HM-RATINGS-CAREER-1.0 Part 25: a mock/generated player's rating already lives in CareerState.
       const rating = getCareerPlayerRating(career, player.id, player.clubId);
       // eslint-disable-next-line react-hooks/set-state-in-effect -- one-shot "no fetch needed for this player" resolution, not a cascading update loop.
       setRatingRow(rating ? toGameplayRatingRow(rating) : null);
@@ -103,16 +109,29 @@ export default function PlayerProfilePage() {
     };
   }, [player, career]);
 
+  // SQD-02q: remember recently opened profiles for the not-found recovery list.
+  const playerId = player?.id;
+  // The workspace setter is a new function each render and always re-renders, so record once per player.
+  const recorded = useRef<string | null>(null);
+  useEffect(() => {
+    if (!playerId || recorded.current === playerId) return;
+    recorded.current = playerId;
+    setRecent((prev) => prev[0] === playerId ? prev : [playerId, ...prev.filter((id) => id !== playerId)].slice(0, 8));
+  }, [playerId, setRecent]);
+
   // Arena Nights Phase 2: the dossier model (pure, read-only, own-player gating inside).
   const dossier = useMemo(() => (player ? buildPlayerDossier(career, player.id) : undefined), [career, player]);
+  const isOwn = !!player && player.clubId === career.playerClubId;
+  const devEvents: AttributeEvent[] = useMemo(() => dossier ? dossier.development.points.map((p) => ({ date: p.date, attribute: p.attribute, from: p.from, to: p.to, source: p.source })) : [], [dossier]);
+  // SQD-02j: heat matrix (own players only); the compare overlay reads own players / the own squad average only.
+  const matrix = useMemo(() => {
+    if (!player || !isOwn || !ratingRow) return null;
+    const branch = ratingRow.branch.branch;
+    const compare = compareWith === "avg" ? squadAttributeAverage(career, branch, player.id) : compareWith ? ownPlayerAttributes(career, compareWith) ?? null : null;
+    return buildAttributeMatrix({ branch, attributes: ratingRow.branch.attributes, position: player.position, events: devEvents, gameDate: career.gameDate, compare });
+  }, [player, isOwn, ratingRow, compareWith, career, devEvents]);
 
-  if (!player || !dossier) {
-    return (
-      <div className="hm-panel">
-        <div className="hm-panel-body hm-text-muted">Spelaren hittades inte.</div>
-      </div>
-    );
-  }
+  if (!player || !dossier) return <PlayerNotFound recent={recent.filter((id) => id !== params.playerId)} career={career} />;
 
   const age = playerAgeAtDate(player.dateOfBirth, player.birthYear, career.gameDate);
   const isWonderkid = age !== null && age <= 19 && potentialStars(player) >= 5;
@@ -120,51 +139,57 @@ export default function PlayerProfilePage() {
   const isRetiredPlayer = isRetiredClubId(player.clubId);
   const club = getClub(player.clubId);
   const hasRatingProfile = Boolean(ratingRow);
-  // HM-DATA-ALLSVENSKAN-1.1B Part 12: TRUE WORLD STATE -> MANAGER
-  // KNOWLEDGE -> PLAYER-FACING VIEW. The manager's own club stays exactly
-  // as before (full stars, full 56/21-attribute grid) -- only an EXTERNAL
-  // player's rating passes through the knowledge-gated resolver, which
-  // never exposes raw CA/PA or the raw 1-20 attribute grid at any tier.
-  const isOwnPlayer = player.clubId === career.playerClubId;
+  // HM-DATA-ALLSVENSKAN-1.1B Part 12: TRUE WORLD STATE -> MANAGER KNOWLEDGE -> PLAYER-FACING VIEW. Only an
+  // EXTERNAL player's rating passes through the knowledge-gated resolver, which never exposes raw CA/PA or the
+  // raw 1-20 attribute grid at any tier.
+  const isOwnPlayer = isOwn;
   const knowledgePct = isOwnPlayer ? 100 : getPlayerKnowledgePct(career, player.id, player.clubId);
   const knowledgeView = !isOwnPlayer && ratingRow ? careerPlayerVisibility(career, ratingRow, player.id, knowledgePct) : null;
   const contract = getPlayerContract(career, player.id);
-  const contractStatus = getPlayerContractStatus(career, player.id);
   const marketValue = getPlayerMarketValueEur(career, player.id);
-  const clubHistory = getPlayerClubHistory(career, player.id);
   const trainingCompensation = getPlayerTrainingCompensation(career, player.id);
 
-  // HM-SCOUTING-1.0: the scout report view IS the "better manager view"
-  // the whole scouting loop exists to produce -- composed here from the
-  // exact same knowledgePct/ratingRow already resolved above, plus this
-  // player's own filed report history (most recent scout's suitability
-  // drives displayed confidence).
+  // HM-SCOUTING-1.0: the scout report view, composed from the same knowledgePct/ratingRow resolved above.
+  // SQD-02m: each filed version is resolved through the SAME gating at that report's own knowledge level, so the
+  // timeline shows how the ranges narrowed (never a true value).
   const playerScoutReports = !isOwnPlayer ? getPlayerScoutReports(career, player.id) : [];
   const latestReport = playerScoutReports[0] ?? null;
   const clubScouts = getClubScouts(career);
   const scoutReportView = !isOwnPlayer && ratingRow ? buildScoutReportView(ratingRow, knowledgePct, marketValue, latestReport?.scoutSuitability ?? null) : null;
-  const scoutReportHistory: ScoutReportHistoryEntry[] = playerScoutReports.map((r) => ({
-    reportId: r.id,
-    createdDate: r.createdDate,
-    scoutDisplayName: findStaffMember(career, r.scoutStaffId)?.displayName ?? "Okänd scout",
-  }));
+  const scoutReportHistory: ScoutReportHistoryEntry[] = playerScoutReports.map((r) => {
+    const v = ratingRow ? buildScoutReportView({ ...ratingRow, playerId: player.id }, r.knowledgePctAtReport, marketValue, r.scoutSuitability) : null;
+    return {
+      reportId: r.id,
+      createdDate: r.createdDate,
+      scoutDisplayName: findStaffMember(career, r.scoutStaffId)?.displayName ?? "Okänd scout",
+      abilityRange: v?.visibility.abilityRange,
+      valueRange: v ? v.marketValueRange : undefined,
+      knowledgePct: r.knowledgePctAtReport,
+    };
+  });
 
-  const attributesContent = <>        {/* Attributes -- HM-RATINGS-0.6 complete gameplay profile where it exists, otherwise the explicitly-marked mock set. External players NEVER see the raw attribute grid, at any knowledge level (Part 12). */}
+  const compareChoices = isOwnPlayer && ratingRow ? getCareerSquad(career).filter((p) => p.id !== player.id && (p.position === "MV") === (ratingRow.branch.branch === "GOALKEEPER")) : [];
+  const compareControl = isOwnPlayer && ratingRow ? <label className="gp-compare">Jämför med<select className="hm-select" value={compareWith} onChange={(e) => setCompareWith(e.target.value)}>
+    <option value="">Ingen jämförelse</option>
+    <option value="avg">Truppsnitt ({ratingRow.branch.branch === "GOALKEEPER" ? "målvakter" : "utespelare"})</option>
+    {compareChoices.map((p) => <option key={p.id} value={p.id}>{p.position} · {p.firstName} {p.lastName}</option>)}
+  </select>{compareWith && compareWith !== "avg" && <Link href={`/career/compare?left=${encodeURIComponent(player.id)}&right=${encodeURIComponent(compareWith)}`}>Full jämförelse →</Link>}</label> : null;
+  const compareLabel = compareWith === "avg" ? "truppsnittet" : compareChoices.find((p) => p.id === compareWith)?.lastName ?? null;
+  const selectedLabel = selectedAttr ? matrix?.families.flatMap((f) => f.tiles).find((t) => t.key === selectedAttr)?.label ?? selectedAttr : null;
+  const attributesContent = <>{/* Attributes -- own players: SQD-02j heat matrix; external players NEVER see the raw attribute grid (Part 12). */}
         {ratingRow === undefined ? (
-          <div className="hm-panel">
-            <div className="hm-panel-body hm-text-muted">Läser in spelarbetyg…</div>
-          </div>
+          <ProfileSkeleton />
         ) : !isOwnPlayer ? (
-          knowledgeView ? <KnowledgeGatedAttributesPanel view={knowledgeView} /> : null
-        ) : hasRatingProfile ? (
-          <GameplayAttributesPanel row={ratingRow!} />
+          knowledgeView ? <KnowledgeGatedAttributesPanel view={knowledgeView} playerId={player.id} hasOwnScout={clubScouts.length > 0} /> : <p className="hm-dossier-empty">Ingen bedömning av spelarens egenskaper finns ännu. <Link href={`/career/scouting?target=${encodeURIComponent(player.id)}`}>Scouta spelaren →</Link></p>
+        ) : hasRatingProfile && matrix ? (
+          <GameplayAttributesPanel matrix={matrix} position={player.position} compareLabel={compareLabel} compareControl={compareControl} selected={selectedAttr} onSelect={(a) => setSelectedAttr(selectedAttr === a ? null : a)} />
         ) : (
           <div className="hm-panel">
             <div className="hm-panel-header">
               <span className="hm-panel-title">Egenskaper</span>
               <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>Tränarstabens bedömning</span>
             </div>
-            <div className="hm-panel-body" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 20 }}>
+            <div className="hm-panel-body pv-legacy-attrs">
               <AttributeGroup title="Tekniska" entries={[
                 ["Skott", player.attributes.technical.skott],
                 ["Passning", player.attributes.technical.passning],
@@ -195,31 +220,22 @@ export default function PlayerProfilePage() {
           </div>
         )}
 </>;
-  const abilityContent = <>        {/* Ability / potential -- HM-RATINGS-0.6 gameplay CA/PA where it exists, otherwise the old star display. External players go through the knowledge-gated resolver (Part 12) -- raw CA/PA never shown, not even at 100% knowledge. */}
+  const abilityContent = <>{/* Ability -- own: SQD-02k suitability court; external: SQD-02l range bars (raw CA/PA never shown). */}
         {ratingRow === undefined && player.dataSource === "REAL_WORLD" ? (
-          <div className="hm-panel">
-            <div className="hm-panel-body hm-text-muted">Läser in spelarbetyg…</div>
-          </div>
+          <ProfileSkeleton />
         ) : !isOwnPlayer ? (
-          knowledgeView ? <KnowledgeGatedAbilityPanel view={knowledgeView} /> : null
+          knowledgeView ? <KnowledgeGatedAbilityPanel view={knowledgeView} playerId={player.id} hasOwnScout={clubScouts.length > 0} /> : null
         ) : hasRatingProfile ? (
-          <GameplayAbilityPanel row={ratingRow!} />
+          <GameplayAbilityPanel row={ratingRow!} secondaryPosition={player.secondaryPosition ?? null} />
         ) : (
           <div className="hm-panel">
             <div className="hm-panel-header">
               <span className="hm-panel-title">Förmåga</span>
             </div>
-            <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <span className="hm-text-secondary" style={{ fontSize: "var(--hm-text-xs)" }}>Nuvarande nivå</span>
-                <StarRating stars={abilityStars(player)} title="Tränarstabens bedömning av nuvarande nivå" />
-              </div>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <span className="hm-text-secondary" style={{ fontSize: "var(--hm-text-xs)" }}>Potential</span>
-                <StarRating stars={potentialStars(player)} title="Scoutingens uppskattning — osäker" />
-              </div>
-              <div className="hm-divider" />
-              <p className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", margin: 0, lineHeight: 1.5 }}>
+            <div className="hm-panel-body pv-legacy-ability">
+              <div><span className="hm-text-secondary">Nuvarande nivå</span><StarRating stars={abilityStars(player)} title="Tränarstabens bedömning av nuvarande nivå" /></div>
+              <div><span className="hm-text-secondary">Potential</span><StarRating stars={potentialStars(player)} title="Scoutingens uppskattning — osäker" /></div>
+              <p className="hm-dossier-note">
                 {isWonderkid
                   ? "En av klubbens mest lovande unga spelare. Scoutingavdelningen ser stor utvecklingspotential, men bedömningen är fortfarande osäker så här tidigt."
                   : "Tränarstabens löpande bedömning baserat på matcher och träning."}
@@ -227,122 +243,45 @@ export default function PlayerProfilePage() {
             </div>
           </div>
         )}
-
 </>;
-  const contractContent = <>        {/* HM-CONTRACTS-1.0 Part: dynamic, persistent contract -- reads
+
+  const contractContent = <>
+        {/* SQD-02e (A) Deal sheet: contract facts, market value (exact for own players, knowledge-gated range for
+            external ones), payroll/budget bar, the renewal flow and the transfer status card. Reads
             career.playerContracts, never the static PlayerMock fields. */}
-        <div className="hm-panel">
-          <div className="hm-panel-header">
-            <span className="hm-panel-title">Kontrakt</span>
-            {contractStatus ? <span className={`hm-badge hm-badge-${CONTRACT_STATUS_TONE[contractStatus]}`}>{CONTRACT_STATUS_LABEL[contractStatus]}</span> : null}
-          </div>
-          <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-            {/* HM-ALPHA2-05C/E: the contract belongs to its owning club, which may differ from the club he plays for during a loan. */}
-            <ContractRow label="Avtalsklubb" value={(contract?.clubId ? getClub(contract.clubId)?.name : club?.name) ?? "Okänd"} />
-            <ContractRow label="Lön / månad" value={contract ? formatMoney(contract.wageEurPerMonth) : "—"} />
-            <ContractRow label="Kontrakt t.o.m." value={contract ? contract.contractEndDate : "—"} />
-            <ContractRow label="Tröjnummer" value={player.shirtNumber !== null ? String(player.shirtNumber) : "Okänt"} />
-            {contract?.clubId === career.playerClubId && <ContractRenewal key={player.id} playerId={player.id} />}
-          </div>
-        </div>
-
-        {/* HM-ALPHA2-05E: ownership vs playing club, loan, promise, interest and the way into the Negotiation Room. */}
-        <PlayerTransferCard playerId={player.id} />
-
-        {/* Market value -- HM-SCOUTING-1.0 Part 8/9: an external player's
-            true canonical value is never shown exactly, only a knowledge-
-            gated range (via scoutReportView.marketValueRange), same
-            consistency rule the ScoutReportPanel below already applies.
-            The manager's own players (always fully known) keep the exact
-            figure. */}
-        <div className="hm-panel">
-          <div className="hm-panel-header">
-            <span className="hm-panel-title">Marknadsvärde</span>
-          </div>
-          <div className="hm-panel-body">
-            {isOwnPlayer ? (
-              <div style={{ fontSize: "var(--hm-text-lg)", fontWeight: 800 }}>{marketValue !== undefined ? formatMoney(marketValue) : "—"}</div>
-            ) : scoutReportView?.marketValueRange ? (
-              <div style={{ fontSize: "var(--hm-text-lg)", fontWeight: 800 }}>
-                {scoutReportView.marketValueRange.min === scoutReportView.marketValueRange.max
-                  ? formatMoney(scoutReportView.marketValueRange.min)
-                  : `${formatMoney(scoutReportView.marketValueRange.min)} – ${formatMoney(scoutReportView.marketValueRange.max)}`}
-              </div>
-            ) : (
-              <div style={{ fontSize: "var(--hm-text-lg)", fontWeight: 800 }}>—</div>
-            )}
-            <p className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", margin: "4px 0 0" }}>
-              {isOwnPlayer
-                ? "Uppskattat värde -- baserat på nuvarande förmåga, potential, ålder, roll och kontraktstid."
-                : "Uppskattat intervall -- osäkerheten minskar med bättre kännedom om spelaren."}
-            </p>
-          </div>
-        </div>
-
+        <DealSheet career={career} player={player} dossier={dossier}
+          contractClubName={(contract?.clubId ? getClub(contract.clubId)?.name : club?.name) ?? "Okänd"}
+          marketValue={isOwnPlayer ? (marketValue !== undefined ? formatMoney(marketValue) : "—")
+            : scoutReportView?.marketValueRange ? (scoutReportView.marketValueRange.min === scoutReportView.marketValueRange.max ? formatMoney(scoutReportView.marketValueRange.min) : `${formatMoney(scoutReportView.marketValueRange.min)} – ${formatMoney(scoutReportView.marketValueRange.max)}`) : "—"}
+          renewal={contract?.clubId === career.playerClubId ? <ContractRenewal key={player.id} playerId={player.id} /> : null}
+          transfer={<PlayerTransferCard playerId={player.id} />} />
 </>;
-  const historyContent = <>        {/* HM-CONTRACTS-1.0A Part: club/youth history + training
-            compensation -- deliberately SEPARATE from market value/
-            contract above (never blended into either number). */}
-        <div className="hm-panel">
-          <div className="hm-panel-header">
-            <span className="hm-panel-title">Klubbhistorik</span>
-          </div>
-          <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-            {clubHistory && clubHistory.entries.length > 0 ? (
-              clubHistory.entries.map((entry, i) => (
-                <ContractRow key={i} label={getClub(entry.clubId)?.name ?? entry.clubId} value={`${entry.fromAge}–${entry.toAge} år`} />
-              ))
-            ) : (
-              <p className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", margin: 0 }}>
-                Ingen tidigare klubb registrerad.
-              </p>
-            )}
-            <div className="hm-divider" />
-            <div className="hm-eyebrow">Utbildningsersättning</div>
-            {trainingCompensation && trainingCompensation.totalEur > 0 ? (
-              <>
-                <ContractRow label="Vid framtida övergång" value={formatMoney(trainingCompensation.totalEur)} />
-                {trainingCompensation.perClub.map((share) => (
-                  <div key={share.clubId} style={{ display: "flex", justifyContent: "space-between", fontSize: "var(--hm-text-2xs)" }}>
-                    <span className="hm-text-muted">
-                      {getClub(share.clubId)?.name ?? share.clubId} ({share.years} år)
-                    </span>
-                    <span style={{ fontWeight: 600 }}>{formatMoney(share.amountEur)}</span>
-                  </div>
-                ))}
-                <p className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", margin: 0 }}>
-                  Separat från marknadsvärde och övergångssumma. Uppskattat belopp.
-                </p>
-              </>
-            ) : (
-              <p className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", margin: 0 }}>
-                Ingen utbildningsersättning (spelaren är över åldersgränsen eller saknar tidigare utbildningsklubb).
-              </p>
-            )}
-          </div>
-        </div>
-
-</>;
-  const bodyContent = <>        {/* Body profile */}
-        <div className="hm-panel">
-          <div className="hm-panel-header">
-            <span className="hm-panel-title">Kroppsprofil</span>
-          </div>
-          <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-            <ContractRow label="Längd" value={player.heightCm !== null ? `${player.heightCm} cm` : "Okänd"} />
-            <ContractRow label="Vikt" value={player.weightKg !== null ? `${player.weightKg} kg` : "Okänd"} />
-            <ContractRow label="Hand" value={player.foot ?? "Okänd"} />
-            <ContractRow label="Ålder" value={age !== null ? `${age} år` : "Okänd"} />
-            <ContractRow label="Född" value={player.dateOfBirth ? new Date(player.dateOfBirth).toLocaleDateString("sv-SE") : player.birthYear ? String(player.birthYear) : "Okänt"} />
-          </div>
-        </div>
-
-</>;
+  const bodyContent = <section className="hm-dossier-section" aria-labelledby="pv-body-h">
+    <header><h2 id="pv-body-h">Kroppsprofil</h2></header>
+    <dl className="pv-kv">
+      <div><dt>Längd</dt><dd>{player.heightCm !== null ? `${player.heightCm} cm` : "Okänd"}</dd></div>
+      <div><dt>Vikt</dt><dd>{player.weightKg !== null ? `${player.weightKg} kg` : "Okänd"}</dd></div>
+      <div><dt>Hand</dt><dd>{player.foot ?? "Okänd"}</dd></div>
+      <div><dt>Ålder</dt><dd>{age !== null ? `${age} år` : "Okänd"}</dd></div>
+      <div><dt>Född</dt><dd>{player.dateOfBirth ? new Date(player.dateOfBirth).toLocaleDateString("sv-SE") : player.birthYear ? String(player.birthYear) : "Okänt"}</dd></div>
+    </dl>
+  </section>;
+  const compensationContent = <section className="hm-dossier-section" aria-labelledby="pv-comp-h">
+    {/* HM-CONTRACTS-1.0A: training compensation stays separate from market value/contract (never blended). */}
+    <header><h2 id="pv-comp-h">Utbildningsersättning</h2></header>
+    {trainingCompensation && trainingCompensation.totalEur > 0 ? <>
+      <table className="hm-table pv-comp"><tbody>
+        {trainingCompensation.perClub.map((share) => <tr key={share.clubId}><td><Link href={`/career/clubs/${encodeURIComponent(share.clubId)}`}>{getClub(share.clubId)?.name ?? share.clubId}</Link></td><td data-numeric="true">{share.years} år</td><td data-numeric="true">{formatMoney(share.amountEur)}</td></tr>)}
+        <tr><th scope="row">Vid framtida övergång</th><td /><td data-numeric="true"><b>{formatMoney(trainingCompensation.totalEur)}</b></td></tr>
+      </tbody></table>
+      <p className="hm-dossier-note">Separat från marknadsvärde och övergångssumma. Uppskattat belopp.</p>
+    </> : <p className="hm-dossier-note">Ingen utbildningsersättning (spelaren är över åldersgränsen eller saknar tidigare utbildningsklubb).</p>}
+  </section>;
   const reportContent = !isOwnPlayer && scoutReportView ? (
     <ScoutReportPanel view={scoutReportView} history={scoutReportHistory} hasOwnScout={clubScouts.length > 0} onStartAssignment={() => router.push(`/career/scouting?target=${player.id}`)} />
   ) : null;
-  // SQD-02 (C) Feature Profile: identity hero + sticky identity bar, then six chapters.
-  const tabs = [["overview", "Översikt"], ["development", "Utveckling"], ["matches", "Matcher"], ["career", "Karriär"], ["contract", "Kontrakt & framtid"], ["attributes", "Egenskaper"]];
+  // SQD-02c: Egenskaper + Utveckling are one chapter (the attributes & development workspace).
+  const tabs = [["overview", "Översikt"], ["matches", "Matcher"], ["development", "Egenskaper & utveckling"], ["career", "Karriär"], ["contract", "Kontrakt & framtid"]];
   const availability = isOwnPlayer ? playerAvailabilityLabel(career, player.id) : isRetiredPlayer ? "Pensionerad" : isFreeAgentPlayer ? "Fri agent" : club?.shortName ?? "Extern";
   const back = <button type="button" className="hm-btn hm-btn-sm" onClick={() =>
     isOwnPlayer ? router.push("/career/squad") : isFreeAgentPlayer ? router.push("/career/transfers") : isRetiredPlayer ? router.push("/career/squad") : router.push(`/career/clubs/${player.clubId}`)
@@ -368,75 +307,35 @@ export default function PlayerProfilePage() {
               <FormTimeline matches={dossier.matches} />
             </section>
             <KeyRatings dossier={dossier} fallback={abilityContent} />
-            {isOwnPlayer && <PlayerConditionPanel career={career} player={player} />}
-            {/* HM-ALPHA3-M05: morale, talks, promises, requests, bids, transfer list and release. */}
+            {isOwnPlayer && <ConditionGauges career={career} player={player} />}
+            {/* HM-ALPHA3-M05 / SQD-02i: morale, talks, promises, requests, bids, transfer list and (risk zone) release. */}
             {isOwnPlayer && <PlayerDynamicsPanel playerId={player.id} />}
           </div>
           <aside className="hm-world-rail" aria-label="Beredskap, tillgänglighet och kontrakt">
             <Readiness dossier={dossier} />
+            {!isOwnPlayer && abilityContent}
             {reportContent}
-            <MedicalPanel playerId={player.id} />
+            <RehabTimelinePanel career={career} playerId={player.id} />
             <ContractFuture dossier={dossier} />
           </aside>
         </div>}
-        {tab === "development" && <div className="hm-profile-split"><div className="hm-profile-main"><DevelopmentView dossier={dossier} />{bodyContent}</div><aside className="hm-world-rail">{abilityContent}<Readiness dossier={dossier} /><MedicalPanel playerId={player.id} /></aside></div>}
-        {tab === "matches" && <div className="hm-stack">
-          <section className="hm-dossier-section" aria-labelledby="dossier-form2-h"><header><h2 id="dossier-form2-h">Prestationskurva</h2><span className="hm-dossier-note">{dossier.season.matchesInArchive} matcher i arkivet · klicka en stapel för matchrapporten</span></header><FormTimeline matches={dossier.matches} limit={15} /></section>
-          <PlayerPerformance playerId={player.id} />
-        </div>}
-        {tab === "career" && <div className="hm-profile-split"><div className="hm-profile-main"><CareerTimeline dossier={dossier} />{historyContent}</div><aside className="hm-world-rail">{bodyContent}</aside></div>}
-        {tab === "contract" && <div className="hm-profile-split"><div className="hm-profile-main"><ContractFuture dossier={dossier} />{contractContent}</div><aside className="hm-world-rail">{historyContent}</aside></div>}
-        {tab === "attributes" && <div className="hm-profile-split"><div className="hm-profile-main">{attributesContent}</div><aside className="hm-world-rail">{abilityContent}{bodyContent}{reportContent}</aside></div>}
-      </div>
-    </div>
-  );
-}
-
-function MedicalPanel({ playerId }: { playerId: string }) {
-  const { career } = useCareer();
-  const injuryState = career.playerInjuries[playerId];
-  const activeInjury = injuryState?.activeInjury ?? null;
-  const availability = career.playerStatuses[playerId]?.availability;
-  const availabilityLabels: Record<PlayerAvailability, string> = { AVAILABLE:'Tillgänglig', INJURED:'Skadad', SUSPENDED:'Avstängd', RECOVERING:'Under återhämtning', LIMITED:'Begränsad återgång', ON_PLACEMENT:'Hos partnerklubb', NATIONAL_TEAM:'Med landslaget' };
-  const statusLabel = availability ? availabilityLabels[availability] : 'Ingen uppgift';
-  const recentHistory = (injuryState?.injuryHistory ?? []).slice(-5).reverse();
-
-  return (
-    <div className="hm-panel">
-      <div className="hm-panel-header">
-        <span className="hm-panel-title">Medicinskt</span>
-      </div>
-      <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-        <ContractRow label="Tillgänglighet" value={statusLabel} />
-        {activeInjury ? (
-          <>
-            <ContractRow label="Skada" value={INJURY_TYPE_LABELS[activeInjury.injuryType]} />
-            <ContractRow label="Allvarlighetsgrad" value={INJURY_SEVERITY_LABELS[activeInjury.severity]} />
-            <ContractRow label="Rehabfas" value={REHAB_PHASE_LABELS[activeInjury.currentPhase]} />
-            <ContractRow label="Beräknad återkomst" value={activeInjury.expectedReturnDate} />
-            <ContractRow label="Rehabframsteg" value={`${Math.round(activeInjury.rehabProgress * 100)}%`} />
-          </>
-        ) : (
-          <p className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", margin: 0 }}>
-            Ingen aktiv skada.
-          </p>
-        )}
-        <div className="hm-divider" />
-        <div className="hm-eyebrow">Skadehistorik</div>
-        {recentHistory.length === 0 ? (
-          <p className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", margin: 0 }}>
-            Ingen tidigare skada registrerad.
-          </p>
-        ) : (
-          recentHistory.map((entry) => (
-            <div key={entry.injuryId} style={{ display: "flex", justifyContent: "space-between", fontSize: "var(--hm-text-2xs)" }}>
-              <span className="hm-text-muted">
-                {INJURY_TYPE_LABELS[entry.injuryType]} ({entry.occurredDate})
-              </span>
-              <span style={{ fontWeight: 600 }}>{INJURY_SEVERITY_LABELS[entry.severity]}</span>
-            </div>
-          ))
-        )}
+        {tab === "development" && (isOwnPlayer ? <div className="hm-stack">
+          <DevelopmentCurveCard dossier={dossier} events={devEvents} goalkeeper={player.position === "MV"} onFocus={(f) => setPlayerIndividualFocus(player.id, f)} />
+          <div className="hm-profile-split pv-workspace">
+            <div className="hm-profile-main">{attributesContent}</div>
+            <aside className="hm-world-rail">
+              <AttributeHistoryRail events={devEvents} selected={selectedAttr} label={selectedLabel} onClear={() => setSelectedAttr(null)} />
+              {abilityContent}
+              {bodyContent}
+            </aside>
+          </div>
+        </div> : <div className="hm-profile-split">
+          <div className="hm-profile-main"><DevelopmentView dossier={dossier} />{attributesContent}</div>
+          <aside className="hm-world-rail">{abilityContent}{reportContent}{bodyContent}</aside>
+        </div>)}
+        {tab === "matches" && <MatchesView dossier={dossier} career={career} playerId={player.id} goalkeeper={player.position === "MV"} />}
+        {tab === "career" && <div className="hm-profile-split"><div className="hm-profile-main"><CareerRibbon career={career} player={player} age={age} /><CareerTimeline dossier={dossier} />{compensationContent}</div><aside className="hm-world-rail">{bodyContent}</aside></div>}
+        {tab === "contract" && <div className="hm-stack"><ContractFuture dossier={dossier} />{contractContent}</div>}
       </div>
     </div>
   );
@@ -452,15 +351,6 @@ function AttributeGroup({ title, entries }: { title: string; entries: [string, n
           <StatValue value={value} />
         </div>
       ))}
-    </div>
-  );
-}
-
-function ContractRow({ label, value }: { label: string; value: string }) {
-  return (
-    <div style={{ display: "flex", justifyContent: "space-between", fontSize: "var(--hm-text-xs)" }}>
-      <span className="hm-text-muted">{label}</span>
-      <span style={{ fontWeight: 600 }}>{value}</span>
     </div>
   );
 }
