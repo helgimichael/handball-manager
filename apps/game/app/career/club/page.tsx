@@ -1,7 +1,6 @@
 "use client";
-import ClubContext from "@/components/manager/ClubContext";
 import { Panel } from "@/components/manager/Workspace";
-import { ClubHero, PlayerCell } from "@/components/game/Identity";
+import { PlayerCell } from "@/components/game/Identity";
 
 import Link from "next/link";
 import { getClub } from "@/lib/game-data";
@@ -16,6 +15,10 @@ import { getClubPartnerships } from "@/lib/career/clubPartnerships";
 import { svOrdinal } from "@/lib/format/ordinal";
 import { clubJournal } from "@/lib/club/clubJournal";
 import { BoardAndEconomy, Briefs, DepthCourt, HistoryStrip } from "@/components/club/ClubJournal";
+import { clubAlmanac } from "@/lib/club/clubAlmanac";
+import { ClubhouseHeader } from "@/components/club/ClubhouseHeader";
+import { ClubAlmanacSection } from "@/components/club/ClubAlmanac";
+import { ClubStory } from "@/components/club/ClubStory";
 
 export default function ClubPage() {
   useMoney(); // re-render every figure when the display currency changes
@@ -30,14 +33,15 @@ export default function ClubPage() {
   const pendingSearch = Object.values(career.partnershipSearches).find((s) => s.clubId === club.id && s.status === "IN_PROGRESS");
   // Arena Nights Phase 3 (CLB-02 C): the club's own front page -- identity, trajectory, what needs attention now.
   const journal = clubJournal(career);
+  // CLB-01 C: Klubbhuset folded in -- tier art header with department hotspots, and the almanac below.
+  const almanac = clubAlmanac(career);
 
   return (
     <div className="hm-world-page">
-      <ClubHero clubId={club.id} career={career}>
+      <ClubhouseHeader clubId={club.id} name={club.name} kicker={journal.kicker} almanac={almanac}>
         <Link className="hm-btn hm-btn-sm" href="/career/squad">Öppna truppen →</Link>
-      </ClubHero>
+      </ClubhouseHeader>
       <div className="cj-journal">
-      {journal.kicker.length > 0 && <p className="cj-kicker">{journal.kicker.join(" · ")}</p>}
       <HistoryStrip history={journal.history} />
       <section className="hm-world-facts" aria-label="Klubben den här säsongen">
         <div><small>Tabellplacering</small><strong>{position > 0 ? `${svOrdinal(position)}` : "—"}</strong></div>
@@ -47,7 +51,6 @@ export default function ClubPage() {
       </section>
       <div className="hm-world-split">
       <div className="hm-world-main">
-        <ClubContext clubId={club.id} />
         <section className="cj-section" aria-labelledby="cj-attention">
           <h2 id="cj-attention">Läget i klubben</h2>
           <Briefs briefs={journal.briefs} />
@@ -55,6 +58,7 @@ export default function ClubPage() {
         <Panel title="Truppens täckning" actions={<Link href="/career/squad">Trupp & lagbygge →</Link>}>
           <DepthCourt depth={journal.depth} />
         </Panel>
+        <ClubStory clubId={club.id} />
         <Panel title="Spelarna bakom säsongen" actions={<Link href="/career/statistics">Alla prestationer →</Link>}>
           <ul className="hm-world-player-list">{[...squad].sort((a,b) => (career.playerSeasonStats[b.id]?.goals ?? 0) - (career.playerSeasonStats[a.id]?.goals ?? 0) || (a.shirtNumber ?? 99) - (b.shirtNumber ?? 99)).slice(0,6).map(player => <li key={player.id}><PlayerCell player={player} /><span className="hm-world-player-score" title="Registrerade mål den här säsongen">{career.playerSeasonStats[player.id]?.goals ?? 0}</span></li>)}</ul>
         </Panel>
@@ -131,6 +135,7 @@ export default function ClubPage() {
       </div>
       </aside>
       </div>
+      <ClubAlmanacSection almanac={almanac} />
       </div>
     </div>
   );
