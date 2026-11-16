@@ -1,0 +1,125 @@
+/* Arena Nights 231 -- WLD-01 Correspondence Desk (Message Desk), WLD-01a
+   segment + chips, WLD-01b thread reader with chain rail. Builds on the
+   existing .game-news-* inbox styles and the .nw-todo tray (club-journal.css);
+   glass message cards, no rotation, club neon only on selection/top item. */
+
+/* Tray: the top item gets the neon edge; each card says what deciding means. */
+.ib-tray li[data-top] button { border-color: var(--club-neon); box-shadow: 0 0 0 1px var(--club-neon), 0 0 18px -6px var(--club-neon); }
+.ib-tray li em { font-style: normal; font-size: 11px; font-weight: 700; color: var(--club-neon); letter-spacing: .02em; }
+.ib-tray-more { justify-self: start; background: none; border: 0; padding: 2px 0; color: var(--club-neon); font: 700 12px/1.2 inherit; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+
+/* WLD-01a: segment (single) + chips (multi, counted). */
+.ib-segment { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px; padding: 3px; margin: 12px 14px 8px; border-radius: 8px; background: var(--arena-solid-2); border: 1px solid var(--arena-line); }
+.ib-segment a { display: flex; justify-content: center; align-items: center; gap: 6px; min-height: 34px; border-radius: 6px; color: var(--arena-muted); font: 800 12px/1 var(--arena-font-display, inherit); text-transform: uppercase; letter-spacing: .06em; text-decoration: none; }
+.ib-segment a[data-active="true"] { background: var(--arena-solid-1); color: var(--arena-ink); box-shadow: inset 0 -2px 0 var(--club-neon); }
+.ib-segment a span { font-size: 11px; padding: 1px 6px; border-radius: 9px; background: var(--club-neon); color: var(--club-neon-ink, #05070b); font-variant-numeric: tabular-nums; }
+.ib-segment a:focus-visible, .ib-chips button:focus-visible, .ib-thread:focus-visible, .ib-option:focus-visible { outline: 2px solid var(--club-neon); outline-offset: 2px; }
+.ib-chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 14px 10px; }
+.ib-chips button { display: inline-flex; align-items: center; gap: 6px; min-height: 30px; padding: 4px 10px; border-radius: 15px; border: 1px solid var(--arena-line); background: transparent; color: var(--arena-ink-2); font: 600 12px/1 inherit; cursor: pointer; }
+.ib-chips button span { font-variant-numeric: tabular-nums; color: var(--arena-faint); font-size: 11px; }
+.ib-chips button[aria-pressed="true"] { border-color: var(--club-neon); background: var(--arena-solid-2); color: var(--arena-ink); }
+.ib-chips button[aria-pressed="true"] span { color: var(--club-neon); }
+.ib-chips button:disabled { opacity: .45; cursor: default; }
+.ib-chips .ib-chip-clear { border-style: dashed; color: var(--arena-muted); }
+
+/* Threads: role emblem + message. */
+.ib-thread { display: grid !important; grid-template-columns: 34px minmax(0, 1fr); gap: 10px; align-items: start; }
+.ib-thread-body { display: grid; gap: 4px; min-width: 0; }
+.ib-thread-body .game-news-item-meta { margin-bottom: 0; }
+.ib-thread-body strong { display: block; font-size: 14px; font-weight: 600; line-height: 1.35; }
+.ib-thread[data-unread="true"] .ib-thread-body strong { font-weight: 800; }
+.ib-thread-preview { font-size: 12px; line-height: 1.5; color: var(--arena-muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.ib-thread-foot { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; font-size: 11px; color: var(--arena-faint); font-variant-numeric: tabular-nums; }
+.ib-thread-foot:empty { display: none; }
+.ib-thread[data-urgent="true"] { border-left-color: var(--arena-warn); }
+.ib-thread[data-active="true"] { border-left-color: var(--club-neon); }
+.ib-emblem { display: inline-grid; place-items: center; width: 32px; height: 32px; flex: none; border-radius: 50%; background: var(--arena-solid-2); border: 1px solid var(--arena-line-strong, var(--arena-line)); color: var(--arena-ink); font: 800 11px/1 var(--arena-font-display, inherit); letter-spacing: .04em; }
+.ib-emblem[data-kind="board"] { border-color: var(--arena-gold); color: var(--arena-gold); }
+.ib-emblem[data-kind="player"] { border-color: var(--arena-info); }
+.ib-emblem[data-kind="fixture"] { border-color: var(--club-neon); }
+.game-news-byline .ib-emblem { width: 26px; height: 26px; font-size: 10px; }
+
+/* WLD-01b: chain rail (3) + letter (9). */
+.ib-reader { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; align-items: start; min-width: 0; }
+.ib-reader:has(> .ib-chain) { grid-template-columns: minmax(170px, 3fr) minmax(0, 9fr); }
+.ib-back { display: none; justify-self: start; }
+.ib-chain { position: sticky; top: 12px; padding: 12px 12px 14px; border-radius: 8px; background: var(--arena-solid-1); border: 1px solid var(--arena-line); min-width: 0; }
+.ib-chain summary { cursor: pointer; display: grid; gap: 2px; font: 800 12px/1.2 var(--arena-font-display, inherit); text-transform: uppercase; letter-spacing: .08em; color: var(--arena-ink); list-style: none; }
+.ib-chain summary::-webkit-details-marker { display: none; }
+.ib-chain summary span { font: 600 11px/1.2 var(--arena-font-ui, inherit); text-transform: none; letter-spacing: 0; color: var(--arena-faint); }
+.ib-chain ol { list-style: none; margin: 12px 0 0; padding: 0 0 0 14px; display: grid; gap: 12px; border-left: 2px solid var(--arena-line); }
+.ib-chain li { position: relative; display: grid; gap: 2px; font-size: 12.5px; line-height: 1.35; color: var(--arena-ink-2); }
+.ib-chain li::before { content: ""; position: absolute; left: -20px; top: 3px; width: 10px; height: 10px; border-radius: 50%; background: var(--arena-solid-2); border: 2px solid var(--arena-line-strong, var(--arena-line)); }
+.ib-chain li[data-step="decision"]::before { border-color: var(--club-neon); background: var(--club-neon); }
+.ib-chain li[data-step="outcome"]::before { border-color: var(--arena-info); }
+.ib-chain li[data-sign="plus"]::before { border-color: var(--arena-pos); background: var(--arena-pos); }
+.ib-chain li[data-sign="minus"]::before { border-color: var(--arena-neg); background: var(--arena-neg); }
+.ib-chain li[data-step="media"]::before { border-radius: 2px; }
+.ib-chain li[data-current]::before { box-shadow: 0 0 0 3px color-mix(in srgb, var(--club-neon) 35%, transparent), 0 0 12px var(--club-neon); border-color: var(--club-neon); }
+.ib-chain time { font-size: 10.5px; color: var(--arena-faint); font-variant-numeric: tabular-nums; }
+.ib-chain small { font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--arena-muted); }
+.ib-chain li button, .ib-chain li a { padding: 0; border: 0; background: none; color: var(--arena-ink); font: inherit; text-align: left; cursor: pointer; text-decoration: underline; text-decoration-color: var(--arena-line-strong, var(--arena-line)); text-underline-offset: 3px; }
+.ib-chain li[data-current] span { color: var(--arena-ink); font-weight: 700; }
+.ib-letter { min-height: 0; }
+.ib-letter h2 { font-family: var(--arena-font-display, inherit); text-transform: uppercase; letter-spacing: .01em; }
+.ib-letter .game-news-byline { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.ib-copy p { font-size: 15px !important; line-height: 1.55 !important; }
+.ib-copy p:first-child { font-size: 16px !important; }
+
+/* Inline decision + outcome. */
+.ib-letter-decision { margin: 6px 24px 14px; }
+.ib-decision { display: grid; gap: 10px; padding: 14px; border-radius: 8px; background: var(--arena-solid-2); border: 1px solid var(--arena-line); border-left: 4px solid var(--club-neon); }
+.ib-decision h3 { margin: 0; font: 800 13px/1.2 var(--arena-font-display, inherit); text-transform: uppercase; letter-spacing: .06em; color: var(--arena-ink); }
+.ib-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: 8px; }
+.ib-option { display: grid; gap: 4px; align-content: start; padding: 10px 12px; border-radius: 6px; border: 1px solid var(--arena-line); background: var(--arena-solid-1); color: var(--arena-ink); font: inherit; text-align: left; text-decoration: none; cursor: pointer; }
+.ib-option:hover { border-color: var(--club-neon); }
+.ib-option[data-primary] { border-color: var(--club-neon); box-shadow: inset 0 0 0 1px var(--club-neon); }
+.ib-option b { font-size: 13.5px; }
+.ib-option small { font-size: 12px; line-height: 1.45; color: var(--arena-muted); }
+.ib-hint { margin: 0; font-size: 12px; color: var(--arena-muted); }
+.ib-decision-note { margin: 0; font-size: 12.5px; color: var(--arena-pos); }
+.ib-decision-note[data-ok="false"] { color: var(--arena-neg); }
+.ib-outcome { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 6px 12px; align-items: start; padding: 12px 14px; border-radius: 8px; background: var(--arena-solid-2); border: 1px solid var(--arena-line); }
+.ib-outcome > :not(.ib-outcome-badge):not(div) { grid-column: 1 / -1; }
+.ib-outcome .hm-btn { justify-self: start; }
+.ib-outcome-badge { padding: 4px 9px; border-radius: 12px; background: var(--arena-info); color: var(--club-neon-ink, #05070b); font: 800 11px/1 var(--arena-font-display, inherit); text-transform: uppercase; letter-spacing: .08em; box-shadow: 0 0 14px -4px var(--arena-info); }
+.ib-outcome[data-sign="plus"] .ib-outcome-badge { background: var(--arena-pos); box-shadow: 0 0 14px -4px var(--arena-pos); }
+.ib-outcome[data-sign="minus"] .ib-outcome-badge { background: var(--arena-neg); box-shadow: 0 0 14px -4px var(--arena-neg); }
+.ib-outcome strong { display: block; font-size: 14px; color: var(--arena-ink); }
+.ib-outcome p { margin: 2px 0 0; font-size: 13px; color: var(--arena-ink-2); }
+.ib-outcome small { font-size: 11px; color: var(--arena-faint); font-variant-numeric: tabular-nums; }
+.ib-effects { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.ib-effects li { display: flex; gap: 8px; font-size: 12.5px; padding: 4px 8px; border-left: 3px solid var(--arena-line); color: var(--arena-ink-2); }
+.ib-effects li[data-sign="plus"] { border-left-color: var(--arena-pos); }
+.ib-effects li[data-sign="minus"] { border-left-color: var(--arena-neg); }
+.ib-effects b { min-width: 104px; font-size: 10.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--arena-muted); }
+
+/* Older messages in the thread, collapsed. */
+.ib-older { margin: 0 24px 12px; border-top: 1px solid var(--arena-line); padding-top: 10px; }
+.ib-older summary { cursor: pointer; font-size: 12px; font-weight: 700; color: var(--arena-muted); }
+.ib-older ol { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 6px; }
+.ib-older button { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 2px 10px; width: 100%; padding: 8px 10px; border-radius: 6px; border: 1px solid var(--arena-line); background: var(--arena-solid-2); color: var(--arena-ink); font: inherit; text-align: left; cursor: pointer; }
+.ib-older time { grid-row: span 2; font-size: 11px; color: var(--arena-faint); font-variant-numeric: tabular-nums; }
+.ib-older strong { font-size: 13px; }
+.ib-older small { font-size: 12px; color: var(--arena-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* Tablet: the chain sits above the letter as a collapsible timeline. */
+@media (max-width: 1100px) {
+  .ib-reader:has(> .ib-chain) { grid-template-columns: minmax(0, 1fr); }
+  .ib-chain { position: static; }
+  .ib-chain ol { grid-auto-flow: row; }
+}
+/* Phone: list, then a full-screen reader with a sticky decision bar. */
+@media (max-width: 900px) {
+  .ib-layout[data-reading] .ib-feed { display: none; }
+  .ib-layout:not([data-reading]) .ib-reader { display: none; }
+  .ib-back { display: inline-flex; }
+  .ib-letter-decision { position: sticky; bottom: 0; z-index: 2; margin: 0; max-height: 55vh; overflow-y: auto; box-shadow: 0 -12px 24px -12px var(--arena-bg, var(--arena-solid-1)); }
+  .ib-letter-decision .ib-decision, .ib-letter-decision .ib-outcome { border-radius: 0; }
+  .ib-older, .ib-letter-decision { margin-left: 0; margin-right: 0; }
+  .ib-segment { margin: 10px 0 8px; }
+  .ib-chips { flex-wrap: nowrap; overflow-x: auto; padding: 0 0 10px; scrollbar-width: thin; }
+  .ib-chips button { flex: none; }
+  .ib-chain:not([open]) ol { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .ib-tray li[data-top] button { box-shadow: 0 0 0 1px var(--club-neon); } }
