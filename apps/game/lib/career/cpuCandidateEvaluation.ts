@@ -120,6 +120,8 @@ export function clubHasScout(state: CareerState, clubId: string): boolean {
 const SCOUTED_JITTER_MAGNITUDE = 6;
 /** Contract length every CPU permanent offer uses (cpuRecruitment.ts submits 3-year deals). */
 export const CPU_OFFER_CONTRACT_YEARS = 3;
+/** HM-TRANSFER-REALISM-1.0: a club in an acute squad emergency stretches its wage discipline this much further. */
+export const EMERGENCY_WAGE_CAP_FACTOR = 1.25;
 const UNSCOUTED_JITTER_MAGNITUDE = 22;
 
 function ageScore(age: number | null): number {
@@ -145,7 +147,7 @@ function contractSituationScore(status: ReturnType<typeof getPlayerContractStatu
  * alternativ ska kunna väljas" implies some candidates are filtered out
  * as too rich for the club's budget, not that one is force-picked anyway).
  */
-export function rankCandidates(state: CareerState, buyerClubId: string, position: HandballPosition, date: string): CandidateScore[] {
+export function rankCandidates(state: CareerState, buyerClubId: string, position: HandballPosition, date: string, options: { emergency?: boolean } = {}): CandidateScore[] {
   const budgets = getClubBudgets(state, buyerClubId);
   if (!budgets) return []; // Part: "Ingen gratis CPU-ekonomi" -- no budget data, no recruitment.
 
@@ -209,7 +211,8 @@ export function rankCandidates(state: CareerState, buyerClubId: string, position
     // a better club abroad) is not a candidate at all, so a weak club never chases him.
     const demand = playerWageDemandAt(state, player.id, buyerClubId, { contractYears: CPU_OFFER_CONTRACT_YEARS });
     if (!demand || demand.demandEurPerMonth === null) return;
-    if (demand.demandEurPerMonth > clubWageCap(state, player.id)) return; // club-side wage discipline: not at that price
+    // Club-side wage discipline: not at that price -- unless the club is in an acute squad emergency, when it pays a crisis premium.
+    if (demand.demandEurPerMonth > clubWageCap(state, player.id) * (options.emergency ? EMERGENCY_WAGE_CAP_FACTOR : 1)) return;
     const estimatedWageEurPerMonth = Math.max(Math.round(demand.demandEurPerMonth / 10) * 10, 10);
 
     const affordability = assessTransferAffordability(state, buyerClubId, estimatedFeeEur, 0, estimatedWageEurPerMonth, 100, { budgets: buyerBudgets, currentWageCostsEurAnnual });
