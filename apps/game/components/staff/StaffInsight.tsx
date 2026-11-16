@@ -5,18 +5,18 @@
 // with whoever does the job today, what the person would change at the
 // club and what they would cost. Deliberately no single overall rating.
 import Link from "next/link";
-import StarRating from "@/components/StarRating";
+import { FitBar } from "@/components/staff/FitBar";
 import type { CareerState } from "@/lib/career/types";
 import { getClubStaffCostsEurAnnual } from "@/lib/economy/clubEconomyIntegration";
 import { useMoney } from "@/lib/settings/usePreferences";
 import { STAFF_ATTRIBUTE_LABEL, STAFF_ROLE_LABEL } from "@/lib/staff/labels";
 import { academyDevelopmentFactor, bestFor, departmentQuality, recruitmentDepartmentFactor } from "@/lib/staff/organisation";
-import { roleSuitabilityStars } from "@/lib/staff/presentation";
+import { staffFitRange } from "@/lib/staff/staffDesk";
 import { ROLE_ATTRIBUTE_WEIGHTS } from "@/lib/staff/roleAttributeMap";
 import { computeRoleSuitability } from "@/lib/staff/roleSuitability";
 import { visibleAttribute } from "@/lib/staff/staffMarket";
 import { compensationDemand, dismissalCost, staffSpendingLimit, vacancyFunding, wageDemand } from "@/lib/staff/staffNegotiation";
-import type { ResolvedStaffMember, StaffAttribute, StaffRole } from "@/lib/staff/types";
+import { STAFF_ROLES, type ResolvedStaffMember, type StaffAttribute, type StaffRole } from "@/lib/staff/types";
 
 const GROUPS: { label: string; attrs: StaffAttribute[] }[] = [
   { label: "Träning", attrs: ["TECHNICAL_COACHING", "TACTICAL_COACHING", "ATTACKING_COACHING", "DEFENSIVE_COACHING", "GOALKEEPER_COACHING", "PHYSICAL_COACHING"] },
@@ -91,21 +91,43 @@ export function StaffAttributes({ member, knowledge, roles, compareWith }: { mem
   );
 }
 
-/** Per-role fit: stars plus the two strengths and the weakness that explain them. */
-export function RoleFit({ member, knowledge, roles }: { member: ResolvedStaffMember; knowledge: number; roles: StaffRole[] }) {
+/**
+ * Arena Nights 231 -- STF-02a A "Range bars with holder delta": fit per role on the 1-20 scale, best role first,
+ * drawn as a range while the club knows the person under 90 % (the same knowledge-gated range as the
+ * attributes), with a marker for whoever does the job at the club today. Tap a role to evaluate the person
+ * for it (the attributes, impact and deal follow); "Pröva en annan roll" evaluates any role.
+ */
+export function RoleFit({ member, knowledge, roles, evalRole, onEval, career }: { member: ResolvedStaffMember; knowledge: number; roles: StaffRole[]; evalRole?: StaffRole; onEval?: (role: StaffRole) => void; career?: CareerState }) {
+  const shown = evalRole && !roles.includes(evalRole) ? [...roles, evalRole] : roles;
+  const rows = shown.map((role) => ({ role, fit: computeRoleSuitability(member, role) })).sort((a, b) => b.fit - a.fit);
   return (
     <section className="si-fit" aria-label="Lämplighet">
-      {roles.map((role) => {
+      {rows.map(({ role, fit }) => {
         const attrs = (Object.keys(ROLE_ATTRIBUTE_WEIGHTS[role]) as StaffAttribute[]).map((a) => ({ a, v: member.profile.attributes[a].value })).sort((x, y) => y.v - x.v);
         const sure = knowledge >= 60;
+        const best = career ? bestFor(career, career.playerClubId, role) : undefined;
+        const holder = best && best.id !== member.id ? best : undefined;
+        const holderFit = holder ? computeRoleSuitability(holder, role) : undefined;
+        const range = staffFitRange(fit, knowledge);
+        const delta = holderFit === undefined ? null : { low: range.low - Math.round(holderFit), high: range.high - Math.round(holderFit) };
+        const sign = (n: number) => `${n > 0 ? "+" : n < 0 ? "−" : "±"}${Math.abs(n)}`;
         return (
-          <div key={role} className="si-fit-row">
-            <span className="si-fit-role">{STAFF_ROLE_LABEL[role]}</span>
-            <StarRating stars={roleSuitabilityStars(computeRoleSuitability(member, role))} title="Lämplighet för rollen, bedömd från rollens egenskaper" />
+          <button key={role} type="button" className="si-fit-row" aria-pressed={evalRole === role} onClick={() => onEval?.(role)} disabled={!onEval}>
+            <span className="si-fit-role">{STAFF_ROLE_LABEL[role]}{!roles.includes(role) && <small> · prövas</small>}</span>
+            <FitBar value={range.low} range={range} marker={holderFit} markerLabel={holder ? `I dag: ${holder.displayName}` : undefined} />
+            <span className="si-fit-delta" data-tone={delta ? (delta.low > 0 ? "up" : delta.high < 0 ? "down" : undefined) : undefined}>{holder ? <>{delta!.low === delta!.high ? sign(delta!.low) : `${sign(delta!.low)} – ${sign(delta!.high)}`} mot {holder.displayName.split(" ")[0]}</> : career && !best ? "Ingen i klubben i dag" : null}</span>
             <p>{sure ? <>Styrkor: <b>{attrs.slice(0, 2).map((x) => STAFF_ATTRIBUTE_LABEL[x.a].toLowerCase()).join(", ")}</b>{attrs.length > 2 ? <> · svagast: {STAFF_ATTRIBUTE_LABEL[attrs.at(-1)!.a].toLowerCase()}</> : null}</> : "Osäker bedömning. Ta referenser för en säkrare bild."}</p>
-          </div>
+          </button>
         );
       })}
+      {onEval && (
+        <label className="si-fit-try">Pröva en annan roll
+          <select className="hm-select" value="" onChange={(e) => e.target.value && onEval(e.target.value as StaffRole)}>
+            <option value="">Välj roll…</option>
+            {STAFF_ROLES.filter((r) => !shown.includes(r)).map((r) => <option key={r} value={r}>{STAFF_ROLE_LABEL[r]}</option>)}
+          </select>
+        </label>
+      )}
     </section>
   );
 }

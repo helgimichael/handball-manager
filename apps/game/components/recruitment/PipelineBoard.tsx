@@ -1,6 +1,6 @@
 'use client';
-// Arena Nights Phase 3 -- REC-02 C unified pipeline board. Rows open the Recruitment Centre's existing dossier;
-// every action stays in that dossier (scouting assignment, shortlist, priority, negotiation entry).
+// Arena Nights Phase 3 -- REC-02 C unified pipeline board. Rows open the Recruitment Peek drawer (REC-02a A);
+// every action stays in that drawer (scouting assignment, shortlist, priority, note, negotiation entry).
 import type { Lane } from '@/lib/recruitment/pipeline';
 import type { StarRange } from '@/lib/knowledge/playerVisibility';
 import { RECRUITMENT_PRIORITY_LABEL_SV } from '@/lib/career/recruitment';

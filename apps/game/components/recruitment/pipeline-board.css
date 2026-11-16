@@ -44,7 +44,7 @@
 .rp-tags em[data-priority="TOP"], .rp-tags em[data-priority="HIGH"] { background: color-mix(in srgb, var(--club-neon) 25%, transparent); color: var(--arena-ink); }
 .rp-tags em[data-deal] { background: color-mix(in srgb, var(--arena-warn) 18%, transparent); color: var(--arena-ink); }
 .rp-empty { margin: 0; padding: 12px; font-size: 12px; color: var(--arena-faint); }
-.game-recruitment-layout[data-mode="PIPELINE"] { grid-template-columns: minmax(0, 1fr) !important; }
+.game-recruitment-layout[data-mode="PIPELINE"], .game-recruitment-layout[data-mode="LIST"] { grid-template-columns: minmax(0, 1fr) !important; } /* REC-02a: the dossier column became the Peek drawer */
 @media (max-width: 760px) {
   .rp-lanes { grid-template-columns: repeat(6, 82vw); }
   .rp-budget { width: 100%; }

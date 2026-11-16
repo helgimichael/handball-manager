@@ -2,9 +2,10 @@
 // HM-ALPHA3-M04: everything the manager can do with one person -- research
 // them, approach them (and their club), negotiate terms, renew or dismiss
 // their contract. One panel, driven by lib/staff/staffNegotiation.ts.
+// Arena Nights 231 -- STF-02b A: stepper + form + a budget bar previewing the deal against the board's staff
+// limit; dismissal is a separate danger action behind a confirm dialog (same dismissStaff, same cost).
 import { useState } from "react";
 import MoneyInput from "@/components/MoneyInput";
-import { DecisionCard } from "@/components/experience/Moment";
 import { ProgressSteps } from "@/components/experience/primitives";
 import { useCareer } from "@/lib/career/CareerContext";
 import { currencySymbol } from "@/lib/economy/currency";
@@ -31,13 +32,13 @@ const PROMISE_OPTIONS: { id: StaffPromise; label: string }[] = [
   { id: "KEY_STAFF_ROLE", label: "Långsiktig nyckelroll i föreningens sportsliga ledning" },
 ];
 
-export function StaffDealPanel({ member, mode }: { member: ResolvedStaffMember; mode: "HIRE" | "OWN" }) {
+export function StaffDealPanel({ member, mode, initialRole }: { member: ResolvedStaffMember; mode: "HIRE" | "OWN"; initialRole?: StaffRole }) {
   const money = useMoney();
   const { career, updateCareer } = useCareer();
   const negotiation = openNegotiationFor(career, member.id);
   const closed = Object.values(career.staffNegotiations ?? {}).filter((n) => n.staffId === member.id && n.stage !== "CLUB" && n.stage !== "TERMS").at(-1);
   const kind = mode === "OWN" ? "RENEW" : "HIRE";
-  const [role, setRole] = useState<StaffRole>(member.roles[0] ?? "SCOUT");
+  const [role, setRole] = useState<StaffRole>(initialRole && initialRole !== "HEAD_COACH" ? initialRole : member.roles[0] ?? "SCOUT");
   const last = negotiation?.rounds.at(-1);
   const counterWage = last?.counter?.wageEurPerMonth;
   const counterComp = last?.counter?.compensationEur;
@@ -93,19 +94,21 @@ export function StaffDealPanel({ member, mode }: { member: ResolvedStaffMember; 
         {(negotiation || mode === "HIRE") && <ProgressSteps surface="paper" label="Förhandlingens steg" steps={steps.map((s) => ({ label: s.label, state: s.state }))} />}
       </header>
 
-      {/* Financial Overview & Budget Guardrails */}
-      <div style={{ margin: "12px 0", padding: "12px", background: "var(--hm-surface-paper, rgba(255,255,255,0.04))", borderRadius: 8, fontSize: "var(--hm-text-xs)" }}>
-        <div style={{ fontWeight: 600, marginBottom: 8, textTransform: "uppercase", letterSpacing: "0.05em", color: "var(--hm-text-muted)" }}>Ekonomisk översikt & styrelseramar</div>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px 12px" }}>
-          <div><span className="hm-text-muted">Kassareserv: </span><b>{money.format(cash)}</b></div>
-          <div><span className="hm-text-muted">Styrelsens personalram: </span><b>{money.format(staffLimit)} / år</b></div>
-          <div><span className="hm-text-muted">Nuvarande personalkostnad: </span><span>{money.format(currentStaffCosts)} / år</span></div>
-          <div><span className="hm-text-muted">Beräknad ny personalkostnad: </span><b style={{ color: isOverBudget ? "var(--hm-tone-loss, #ef4444)" : "inherit" }}>{money.format(projectedStaffAnnual)} / år</b></div>
-          <div><span className="hm-text-muted">Direkt förvärvskostnad: </span><span>{money.format(immediateCost)}</span></div>
-          <div><span className="hm-text-muted">Framtida avtalsåtagande: </span><span>{money.format(wage * 12 * years + signingBonus)} ({years} år)</span></div>
+      {/* STF-02b: the consequence preview -- the staff budget bar with this deal against the board's limit. */}
+      <div className="sf-budget" data-over={isOverBudget || undefined}>
+        <div className="sf-budget-bar" role="img" aria-label={`Personalkostnad efter avtalet ${money.format(projectedStaffAnnual)} av ramen ${money.format(staffLimit)} per år`}>
+          <i data-k="base" style={{ width: `${Math.min(100, ((currentStaffCosts - currentMemberAnnual) / Math.max(staffLimit, projectedStaffAnnual, 1)) * 100)}%` }} />
+          <i data-k="deal" style={{ width: `${Math.min(100, ((wage * 12) / Math.max(staffLimit, projectedStaffAnnual, 1)) * 100)}%` }} />
+          <b data-k="limit" style={{ left: `${Math.min(100, (staffLimit / Math.max(staffLimit, projectedStaffAnnual, 1)) * 100)}%` }} aria-hidden="true" />
         </div>
-        {isOverBudget && <p style={{ color: "var(--hm-tone-loss, #ef4444)", margin: "8px 0 0 0", fontWeight: 600 }}>Varning: Personalkostnaden överskrider styrelsens godkända ram med {money.format(projectedStaffAnnual - staffLimit)}/år.</p>}
-        {isCashInsufficient && <p style={{ color: "var(--hm-tone-loss, #ef4444)", margin: "4px 0 0 0", fontWeight: 600 }}>Varning: Kassareserven räcker inte till omedelbar direktkostnad ({money.format(immediateCost)}).</p>}
+        <dl className="sf-budget-facts">
+          <div><dt>Personalkostnad efter</dt><dd className="sf-num">{money.format(projectedStaffAnnual, { compact: true })}<small> / {money.format(staffLimit, { compact: true })} per år</small></dd></div>
+          <div><dt>{mode === "OWN" ? "Ändring mot i dag" : "Avtalet per år"}</dt><dd className="sf-num">{mode === "OWN" ? `${wage * 12 - currentMemberAnnual >= 0 ? "+" : "−"}${money.format(Math.abs(wage * 12 - currentMemberAnnual), { compact: true })}` : money.format(wage * 12, { compact: true })}</dd></div>
+          <div><dt>Direkt kostnad</dt><dd className="sf-num">{money.format(immediateCost, { compact: true })}<small> · kassa {money.format(cash, { compact: true })}</small></dd></div>
+          <div><dt>Åtagande totalt</dt><dd className="sf-num">{money.format(wage * 12 * years + signingBonus, { compact: true })}<small> · {years} år</small></dd></div>
+        </dl>
+        {isOverBudget && <p className="sf-warn">Över styrelsens ram med {money.format(projectedStaffAnnual - staffLimit)}/år.</p>}
+        {isCashInsufficient && <p className="sf-warn">Kassan räcker inte till den direkta kostnaden ({money.format(immediateCost)}).</p>}
       </div>
 
       {mode === "HIRE" && !researching && (career.staffKnowledge?.[member.id] ?? 0) < 80 && (
@@ -139,14 +142,23 @@ export function StaffDealPanel({ member, mode }: { member: ResolvedStaffMember; 
       {closed && !negotiation && <p className="st-note">Senaste förhandlingen: {closed.stage === "COMPLETED" ? "klar" : closed.stage === "REJECTED" ? "avbruten av motparten" : closed.stage === "EXPIRED" ? "gick ut" : "avbruten"} ({closed.rounds.at(-1)?.date}).</p>}
 
       {mode === "OWN" && (
-        <DecisionCard
-          tone="loss"
-          title="Säg upp avtalet"
-          primary={confirmDismiss ? { label: "Bekräfta uppsägning", consequence: `Avgångsvederlag ${money.format(dismissalCost(career, member.id))} bokförs direkt`, onSelect: () => act(() => updateCareer((s) => dismissStaff(s, member.id))) } : undefined}
-          secondary={confirmDismiss ? <button type="button" className="hm-btn" onClick={() => setConfirmDismiss(false)}>Behåll</button> : <button type="button" className="hm-btn" onClick={() => setConfirmDismiss(true)}>Säg upp…</button>}
-        >
-          {`Personen lämnar direkt och blir fri agent. Klubben betalar resterande lön, högst sex månader: ${money.format(dismissalCost(career, member.id))}.`}
-        </DecisionCard>
+        <div className="sf-danger">
+          <button type="button" className="hm-btn sf-danger-btn" onClick={() => setConfirmDismiss(true)}>Säg upp…</button>
+          <small>Personen lämnar direkt. Avgångsvederlag {money.format(dismissalCost(career, member.id))}.</small>
+        </div>
+      )}
+      {mode === "OWN" && confirmDismiss && (
+        <>
+          <button type="button" className="sf-scrim" aria-label="Avbryt" tabIndex={-1} onClick={() => setConfirmDismiss(false)} />
+          <div className="sf-modal" role="alertdialog" aria-modal="true" aria-labelledby="sf-dismiss-title" aria-describedby="sf-dismiss-desc">
+            <h3 id="sf-dismiss-title">Säga upp {member.displayName}?</h3>
+            <p id="sf-dismiss-desc">Personen lämnar direkt och blir fri agent. Klubben betalar resterande lön, högst sex månader: <b className="sf-num">{money.format(dismissalCost(career, member.id))}</b>, bokfört direkt i Ekonomi. Det går inte att ångra.</p>
+            <div className="sf-modal-actions">
+              <button type="button" className="hm-btn" autoFocus onClick={() => setConfirmDismiss(false)}>Behåll</button>
+              <button type="button" className="hm-btn sf-danger-btn" onClick={() => { act(() => updateCareer((s) => dismissStaff(s, member.id))); setConfirmDismiss(false); }}>Bekräfta uppsägning</button>
+            </div>
+          </div>
+        </>
       )}
       {message && <p className="tc-error" role="alert">{message}</p>}
     </section>
