@@ -223,6 +223,9 @@
 }
 
 /* ---------------------------------------------------------------- ENT-08 C: save files in a ⋯ overflow */
+/* The header (a stacking context through its backdrop blur) must sit above the Week Spine below it, or the
+   positioned spine day cells paint over the open ⋯ menu and swallow its clicks (Spara nu, Exportera…). */
+.hm-header { position: relative; z-index: 30; }
 .game-save-more { position: relative; display: inline-block; }
 .game-save-more > summary { list-style: none; cursor: pointer; min-width: 34px; text-align: center; }
 .game-save-more > summary::-webkit-details-marker { display: none; }

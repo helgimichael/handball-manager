@@ -142,14 +142,18 @@ export function StarkvisAppShell({ appName, appsReturnUrl, previewDestinations, 
       }
       else close(true);
     };
-    const work = (event: PointerEvent) => {
+    const pointer = () => { keyboardRef.current = false; };
+    // Close on click, not pointerdown: closing collapses the revealed navigation and shifts the page up, so a
+    // close on pointerdown moved the target away before mouseup and the click was lost (e.g. title FORTSÄTT).
+    const work = (event: MouseEvent) => {
       keyboardRef.current = false;
       if (event.composedPath().includes(hostRef.current as EventTarget) || event.composedPath().includes(indicatorRef.current as EventTarget)) return;
       close();
     };
     window.addEventListener("keydown", keyboard, true);
-    document.addEventListener("pointerdown", work, true);
-    return () => { window.removeEventListener("keydown", keyboard, true); document.removeEventListener("pointerdown", work, true); };
+    document.addEventListener("pointerdown", pointer, true);
+    document.addEventListener("click", work, true);
+    return () => { window.removeEventListener("keydown", keyboard, true); document.removeEventListener("pointerdown", pointer, true); document.removeEventListener("click", work, true); };
   }, [close, focusInside, shadow]);
   useEffect(() => {
     const timer = window.setTimeout(() => { if (!stateRef.current.appsOpen && !pointerInside() && !focusInside()) close(); }, 3000);

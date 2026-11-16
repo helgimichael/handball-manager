@@ -126,7 +126,8 @@ export default function GameShell({ children }: { children: ReactNode }) {
   const { hub: activeHub } = resolveHubRoute(pathname);
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.ctrlKey || e.metaKey || e.altKey || paletteOpen || isOnLiveMatchRoute) return;
+      // A page that claims the digit keys itself (e.g. the press conference's tone keys 1-6, WLD-03) wins.
+      if (e.defaultPrevented || e.ctrlKey || e.metaKey || e.altKey || paletteOpen || isOnLiveMatchRoute) return;
       const t = e.target as HTMLElement | null;
       if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
       const n = Number(e.key);

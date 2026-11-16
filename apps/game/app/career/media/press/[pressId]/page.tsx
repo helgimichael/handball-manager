@@ -76,8 +76,9 @@ export default function PressPage() {
       const a = Number.isInteger(n) && n >= 1 ? active!.answers[n - 1] : undefined;
       if (a) { e.preventDefault(); setAnswers((x) => ({ ...x, [active!.id]: a.tone })); setHistory((h) => [...h, active!.id]); setPreview(null); }
     }
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    // Capture phase: the tone keys run before the shell's hub keys 1-6 (ENT-07), which skip handled events.
+    window.addEventListener("keydown", onKey, true);
+    return () => window.removeEventListener("keydown", onKey, true);
   }, [active]);
 
   const shown: Record<string, Tone> = press ? (open ? answers : press.answers ?? {}) : {};
