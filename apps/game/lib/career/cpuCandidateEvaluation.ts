@@ -19,6 +19,7 @@ import { projectedSquadSize } from "./cpuSquadNeeds";
 import { FREE_AGENT_CLUB_ID, getFreeAgents } from "./contractExpiry";
 import type { CareerState } from "./types";
 import { SQUAD_PLANNING_SIZE } from "./squadPlanning";
+import { clubWageCap, playerWageDemandAt } from "../transfers/careerDecision/stateAdapter";
 
 /**
  * HM-CPU-SQUAD-BUILDING-1.0C Part 1: squad-size recruitment brake --
@@ -96,6 +97,8 @@ export interface CandidateScore {
   pa: number;
   age: number | null;
   contractStatus: ReturnType<typeof getPlayerContractStatus>;
+  /** HM-TRANSFER-REALISM-1.0: the shared PCDM says this player would join at `estimatedWageEurPerMonth`. Inaccessible players are never ranked. */
+  willingToJoin: boolean;
   estimatedFeeEur: number;
   estimatedWageEurPerMonth: number;
   affordable: boolean;
@@ -117,6 +120,8 @@ export function clubHasScout(state: CareerState, clubId: string): boolean {
 }
 
 const SCOUTED_JITTER_MAGNITUDE = 6;
+/** Contract length every CPU permanent offer uses (cpuRecruitment.ts submits 3-year deals). */
+export const CPU_OFFER_CONTRACT_YEARS = 3;
 const UNSCOUTED_JITTER_MAGNITUDE = 22;
 
 function ageScore(age: number | null): number {
@@ -201,7 +206,14 @@ export function rankCandidates(state: CareerState, buyerClubId: string, position
     const marketValueEur = getPlayerMarketValueEur(state, player.id) ?? 0;
     // Part 6: "Transfer fee: 0" -- a free agent has no selling club to pay, matching submitTransferOffer's own existing isFreeAgent skip of the selling-club payout.
     const estimatedFeeEur = isFreeAgent ? 0 : Math.max(marketValueEur, getSellingClubAskingPriceEur(state, player.id) ?? 0);
-    const estimatedWageEurPerMonth = Math.round(contract.wageEurPerMonth * 1.1) || Math.round(marketValueEur * 0.02); // Part: a modest incentive above their current wage; a true free agent's contract wage is 0 (Part 2), so fall back to a market-value-derived starting offer instead of proposing 0€/month.
+    // HM-TRANSFER-REALISM-1.0: CPU clubs understand who they can realistically sign. The offer is
+    // the wage the player would actually need here (shared Player Career Decision Model -- sporting
+    // level, role, career phase, alternatives); a player no wage can bring here (the sporting floor,
+    // a better club abroad) is not a candidate at all, so a weak club never chases him.
+    const demand = playerWageDemandAt(state, player.id, buyerClubId, { contractYears: CPU_OFFER_CONTRACT_YEARS });
+    if (!demand || demand.demandEurPerMonth === null) return;
+    if (demand.demandEurPerMonth > clubWageCap(state, player.id)) return; // club-side wage discipline: not at that price
+    const estimatedWageEurPerMonth = Math.max(Math.round(demand.demandEurPerMonth / 10) * 10, 10);
 
     const affordability = assessTransferAffordability(state, buyerClubId, estimatedFeeEur, getPlayerTrainingCompensation(state, player.id)?.totalEur ?? 0, estimatedWageEurPerMonth, 100, { budgets: buyerBudgets, currentWageCostsEurAnnual });
     const age = playerAgeAtDate(player.dateOfBirth, player.birthYear, date);
@@ -233,6 +245,7 @@ export function rankCandidates(state: CareerState, buyerClubId: string, position
       pa: rating.pa,
       age,
       contractStatus,
+      willingToJoin: true,
       estimatedFeeEur,
       estimatedWageEurPerMonth,
       affordable: affordability.affordable,

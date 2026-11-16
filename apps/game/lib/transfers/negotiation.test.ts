@@ -2,7 +2,7 @@
 // against a derived demand, never a probability.
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { computePlayerWageDemand, evaluateClubFeeRound, evaluatePlayerTermsRound, expectedRoleFromSquadRank, MAX_CLUB_ROUNDS, packageRatio, responseDelayDays, rivalDecisionDelayDays, type PlayerWageDemandInputs } from "./negotiation";
+import { evaluateClubFeeRound, evaluatePlayerTermsRound, expectedRoleFromSquadRank, MAX_CLUB_ROUNDS, responseDelayDays, rivalDecisionDelayDays, type PlayerWageDemand } from "./negotiation";
 
 test("club accepts a bid at or above its asking price", () => {
   assert.equal(evaluateClubFeeRound({ askingFeeEur: 10_000, offeredFeeEur: 10_000, round: 1 }).response, "ACCEPT");
@@ -25,43 +25,16 @@ test("club sees no movement in a repeated bid and loses patience after the last 
   assert.equal(evaluateClubFeeRound({ askingFeeEur: 10_000, offeredFeeEur: 9_000, round: MAX_CLUB_ROUNDS, previousOfferEur: 8_000 }).response, "BREAK_OFF");
 });
 
-const baseDemand: PlayerWageDemandInputs = {
-  playerId: "p-negotiation-test",
-  age: 26,
-  isFreeAgent: false,
-  currentWageEurPerMonth: 2_000,
-  fairWageEurPerMonth: 2_000,
-  currentClubTier: 1,
-  newClubTier: 1,
-  currentSquadStatus: "Förstaval",
-  currentClubPressure: "NONE",
-  expectedRole: "FIRST_CHOICE",
-  promisedRole: "FIRST_CHOICE",
-  contractYears: 3,
-};
+// HM-TRANSFER-REALISM-1.0: the demand itself now comes from the shared PCDM
+// (lib/transfers/careerDecision, tested there); these rounds only judge an
+// offer against a given demand.
+const demand: PlayerWageDemand = { demandEurPerMonth: 2_310, refusesRole: false, factors: [] };
 
-test("a player under contract wants a raise; moving down a league costs more", () => {
-  const base = computePlayerWageDemand(baseDemand).demandEurPerMonth;
-  assert.ok(base >= 2_000 * 1.1 * 0.95);
-  assert.ok(computePlayerWageDemand({ ...baseDemand, newClubTier: 2 }).demandEurPerMonth > base);
-});
-
-test("a smaller promised role raises the demand; a far smaller one is refused outright", () => {
-  const base = computePlayerWageDemand(baseDemand).demandEurPerMonth;
-  assert.ok(computePlayerWageDemand({ ...baseDemand, promisedRole: "ROTATION" }).demandEurPerMonth > base);
-  assert.ok(computePlayerWageDemand({ ...baseDemand, promisedRole: "KEY_PLAYER" }).demandEurPerMonth < base);
-  const refused = computePlayerWageDemand({ ...baseDemand, expectedRole: "KEY_PLAYER", promisedRole: "SQUAD_PLAYER" });
-  assert.equal(refused.refusesRole, true);
-  assert.equal(evaluatePlayerTermsRound({ demand: refused, offeredWageEurPerMonth: 1_000_000, round: 1 }).response, "REJECT");
-});
-
-test("a veteran asks more for a one-year deal", () => {
-  const vet = { ...baseDemand, age: 32 };
-  assert.ok(computePlayerWageDemand({ ...vet, contractYears: 1 }).demandEurPerMonth > computePlayerWageDemand({ ...vet, contractYears: 3 }).demandEurPerMonth);
+test("a demand the player refuses (role, sporting level) is rejected at any wage", () => {
+  assert.equal(evaluatePlayerTermsRound({ demand: { ...demand, refusesRole: true }, offeredWageEurPerMonth: 1_000_000, round: 1 }).response, "REJECT");
 });
 
 test("player accepts at the demand, counters near it, rejects far below it, breaks off after the last round", () => {
-  const demand = computePlayerWageDemand(baseDemand);
   assert.equal(evaluatePlayerTermsRound({ demand, offeredWageEurPerMonth: demand.demandEurPerMonth, round: 1 }).response, "ACCEPT");
   const counter = evaluatePlayerTermsRound({ demand, offeredWageEurPerMonth: demand.demandEurPerMonth * 0.9, round: 1 });
   assert.equal(counter.response, "COUNTER");
@@ -88,18 +61,11 @@ test("a rival's higher fee becomes the club's floor; a lower one changes nothing
   assert.equal(evaluateClubFeeRound({ askingFeeEur: 10_000, offeredFeeEur: 10_000, round: 1, rival: { clubName: "Rival", feeEur: 8_000 } }).response, "ACCEPT");
 });
 
-test("a better rival package must be matched; a tie or weaker rival leaves the demand alone", () => {
-  const demand = computePlayerWageDemand(baseDemand);
-  const atDemand = demand.demandEurPerMonth;
-  assert.equal(evaluatePlayerTermsRound({ demand, offeredWageEurPerMonth: atDemand, round: 1, rival: { clubName: "Rival", packageRatio: 1.2 } }).response, "COUNTER");
-  assert.equal(evaluatePlayerTermsRound({ demand, offeredWageEurPerMonth: Math.ceil(atDemand * 1.2) + 10, round: 1, rival: { clubName: "Rival", packageRatio: 1.2 } }).response, "ACCEPT");
-  assert.equal(evaluatePlayerTermsRound({ demand, offeredWageEurPerMonth: atDemand, round: 1, rival: { clubName: "Rival", packageRatio: 1 } }).response, "ACCEPT");
-  assert.equal(packageRatio(atDemand * 2, demand), 2);
-  assert.equal(packageRatio(atDemand, { ...demand, refusesRole: true }), 0);
-});
-
-test("a financially strained buying club pays a risk premium", () => {
-  assert.ok(computePlayerWageDemand({ ...baseDemand, newClubPressure: "CRITICAL" }).demandEurPerMonth > computePlayerWageDemand(baseDemand).demandEurPerMonth);
+test("a counter names the rival when a rival package raised the demand", () => {
+  const withRival: PlayerWageDemand = { ...demand, factors: ["Har ett bättre erbjudande från Rival."] };
+  const counter = evaluatePlayerTermsRound({ demand: withRival, offeredWageEurPerMonth: demand.demandEurPerMonth * 0.9, round: 1 });
+  assert.equal(counter.response, "COUNTER");
+  assert.match(counter.reason, /framför Rival/);
 });
 
 test("response and rival delays are fixed per seed and bounded", () => {

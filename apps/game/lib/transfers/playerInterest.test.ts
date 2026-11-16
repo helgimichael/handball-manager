@@ -33,20 +33,21 @@ test("HM-PLAYTEST-IMPROVEMENT-02: Allsvenskan club cannot negotiate with top Han
   const savehofSquad = getCareerClubSquad(state, SAVEHOF_ID);
   assert.ok(savehofSquad.length > 0);
 
-  // Find a top star at Sävehof (CA >= 130)
-  const topStar = savehofSquad.find((p) => caOf(state, p.id) >= 130);
-  if (topStar) {
-    const interest = evaluatePlayerInterest(state, topStar.id, TUMBA_ID);
-    assert.equal(interest.interestLevel, "IMPOSSIBLE");
+  // Sävehof's best player -- a genuine top Handbollsligan star. HM-TRANSFER-REALISM-1.0:
+  // the interest level is the shared PCDM projection; a step down to Allsvenskan is never a
+  // realistic target for him, and when no wage can make it acceptable he will not even talk.
+  // Prime-age only: a 34-year-old star taking a long final contract a level down is realistic veteran behaviour (scenario D).
+  const prime = savehofSquad.filter((p) => (playerAgeAtDate(p.dateOfBirth, p.birthYear, state.gameDate) ?? 99) < 31);
+  const topStar = [...prime].sort((a, b) => caOf(state, b.id) - caOf(state, a.id))[0]!;
+  const interest = evaluatePlayerInterest(state, topStar.id, TUMBA_ID);
+  assert.ok(interest.interestLevel === "IMPOSSIBLE" || interest.interestLevel === "UNLIKELY", `got ${interest.interestLevel}`);
+  assert.equal(matchesInterestFilter(interest, "REALISTIC"), false);
+  if (interest.interestLevel === "IMPOSSIBLE") {
     assert.equal(interest.willEnterNegotiations, false);
-    assert.match(interest.reason, /Allsvenskan/i);
-
-    // Attempting to open talks must refuse
+    assert.match(interest.reason, /Allsvenskan|för låg/i);
     const result = startTransferNegotiation(state, topStar.id, "PERMANENT");
     assert.equal(result.ok, false);
-    if (!result.ok) {
-      assert.match(result.error, /avböjer samtal direkt/i);
-    }
+    if (!result.ok) assert.match(result.error, /avböjer samtal direkt/i);
   }
 });
 

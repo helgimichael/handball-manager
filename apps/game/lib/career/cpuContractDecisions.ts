@@ -21,7 +21,6 @@
 // CareerState glue below" split as every economy module in this
 // codebase) so it stays trivially unit-testable without constructing a
 // full CareerState.
-import { assessRenewalAffordability } from "../transfers/affordability";
 import { intentionRenewalBlocker, intentionWageMultiplier } from "../players/intentions";
 import { hasActivePendingTransfer } from "../transfers/transferIntegration";
 import type { HandballPosition, PlayerMock } from "../game-data";
@@ -37,6 +36,8 @@ import { getCareerPlayerRating } from "./careerRatingNormalization";
 import { getCareerPlayer } from "./careerWorld";
 import type { FinancialPressureLevel } from "../economy/clubEconomyTypes";
 import type { CareerState } from "./types";
+import { clubRenewalWageCap, playerRenewalDecision, renewalWageDemand } from "../transfers/careerDecision/stateAdapter";
+import { assessRenewalAffordability, maxAffordableRenewalWage } from "../transfers/affordability";
 
 export const CPU_CONTRACT_DECISIONS = ["RENEW", "WAIT", "RELEASE"] as const;
 export type CpuContractDecision = (typeof CPU_CONTRACT_DECISIONS)[number];
@@ -242,6 +243,8 @@ const RENEWAL_YEARS_BY_TIER: Partial<Record<SquadStatusTier, number>> = { KEY_PL
 const DEFAULT_RENEWAL_YEARS = 2;
 /** HM-CPU-SQUAD-BUILDING-1.0B Part 9 / HM-CPU-CONTRACT-DECISIONS-1.1: the 1.0A audit found ~23,800 WAIT log rows for one run -- the same stable no-op decision re-logged every single day for as long as a player sits in the EXPIRING_SOON window (up to 365 days). RENEW is a real, self-limiting mutation (pushes the player out of the window) and is always logged immediately. WAIT and RELEASE are both pure no-ops on CareerState -- neither removes the player from tomorrow's evaluation on its own -- so both are throttled to this periodic checkpoint instead of daily. Decision LOGIC itself is unchanged -- this only throttles how often an unchanged verdict gets written down. */
 const NO_ACTION_LOG_REVIEW_INTERVAL_DAYS = 30;
+/** HM-TRANSFER-REALISM-1.0: how often the player is asked about a renewal the club wants (every day in the final DECISION_FORCE_WITHIN_DAYS). */
+const PLAYER_RENEWAL_REVIEW_DAYS = 15;
 
 /** HM-CPU-CONTRACT-DECISIONS-1.1 Part 10: simple age modulation on top of the existing per-tier baseline -- younger key/talent players get a slightly longer commitment, older players a shorter one. Never arbitrary: bounded to [1, 4] years, and the baseline table itself is untouched. */
 function renewalYears(tier: SquadStatusTier, age: number | null): number {
@@ -315,6 +318,7 @@ export function progressCpuContractDecisions(state: CareerState, date: string, c
       .map((loan) => getCareerPlayer(next, loan.playerId))
       .filter((p): p is NonNullable<typeof p> => !!p && isUsable(next, p));
     const squad = [...(next.worldSquads[clubId] ?? []).filter((p) => isUsable(next, p) && !loanedPlayerIds.has(p.id)), ...ownedOnLoan];
+    let clubFinance: { financialPressure: FinancialPressureLevel; wageBillOverBudget: boolean } | undefined;
     for (const player of squad) {
       const status = getPlayerContractStatus(next, player.id);
       if (status !== "EXPIRING_SOON" && status !== "EXPIRING") continue;
@@ -327,9 +331,13 @@ export function progressCpuContractDecisions(state: CareerState, date: string, c
       const ca = rating?.ca ?? player.currentAbility;
       const pa = rating?.pa ?? player.potentialAbility;
       const fairWage = getPlayerFairWageEurPerMonth(next, player.id) ?? contract.wageEurPerMonth;
-      const financialPressure = getClubFinancialHealth(next, clubId)?.pressure ?? "NONE";
-      const wageBudget = getClubBudgets(next, clubId)?.wageBudgetEur;
-      const wageBillOverBudget = wageBudget !== undefined && getClubPlayerWageCostsEurAnnual(next, clubId) > wageBudget;
+      // HM-TRANSFER-REALISM-1.0 performance: the club's financial position is computed once per
+      // club per day (each lookup scans every contract in the world), not once per expiring player.
+      clubFinance ??= (() => {
+        const wageBudget = getClubBudgets(next, clubId)?.wageBudgetEur;
+        return { financialPressure: getClubFinancialHealth(next, clubId)?.pressure ?? "NONE", wageBillOverBudget: wageBudget !== undefined && getClubPlayerWageCostsEurAnnual(next, clubId) > wageBudget };
+      })();
+      const { financialPressure, wageBillOverBudget } = clubFinance;
 
       const positionPeers = squad.filter((p) => p.position === player.position);
       const clubAvgCA = averageCA(next, clubId, squad);
@@ -359,15 +367,46 @@ export function progressCpuContractDecisions(state: CareerState, date: string, c
       const requestHere = request && (request.clubId ?? next.playerClubId) === clubId && ["OPEN", "ACCEPTED"].includes(request.status);
       const blocker = intentionRenewalBlocker(next, player.id);
       const multiplier = intentionWageMultiplier(next, player.id);
-      const renewalWage = multiplier === 1 ? contract.wageEurPerMonth : Math.ceil(contract.wageEurPerMonth * multiplier / 10) * 10;
-      const affordability = assessRenewalAffordability(next, clubId, player.id, renewalWage);
+      // Player intentions (main): the wage the player's own intention asks for is the floor of any renewal.
+      const intentionWage = multiplier === 1 ? contract.wageEurPerMonth : Math.ceil(contract.wageEurPerMonth * multiplier / 10) * 10;
+      const affordability = assessRenewalAffordability(next, clubId, player.id, intentionWage);
       if (decision === "RENEW" && (requestHere || blocker || !affordability.affordable)) {
         decision = "WAIT";
         reasons = [requestHere ? "Spelaren har begärt att få lämna; klubben lyssnar på bud." : blocker ?? affordability.reasons.join(" ")];
       }
       const reason = reasons.join(" ");
 
-      if (decision === "RENEW") {
+      // HM-TRANSFER-REALISM-1.0: a renewal needs BOTH sides. The club decided above; the player
+      // now answers with the shared Player Career Decision Model -- the wage he needs to stay
+      // (vs what the open market offers him), or no wage at all when he has outgrown the club.
+      // The player is asked on a fixed cadence (every PLAYER_RENEWAL_REVIEW_DAYS, and every day in
+      // the final DECISION_FORCE_WITHIN_DAYS); in between the club simply waits for his answer.
+      const daysLeft = daysUntilContractEnd(contract.contractEndDate, date);
+      const playerReview = daysLeft <= DECISION_FORCE_WITHIN_DAYS || daysLeft % PLAYER_RENEWAL_REVIEW_DAYS === 0;
+      let renewalWage = intentionWage;
+      let playerVerdict: "ACCEPTS" | "REFUSES" | "UNAFFORDABLE" | "NOT_ASKED" = "NOT_ASKED";
+      if (decision === "RENEW" && playerReview) {
+        const demand = renewalWageDemand(next, player.id, renewalYears(tier, age));
+        if (demand === null) playerVerdict = "REFUSES";
+        else {
+          renewalWage = Math.max(intentionWage, Math.round(demand / 10) * 10);
+          const cap = Math.max(intentionWage, clubRenewalWageCap(next, player.id));
+          if (renewalWage <= cap && (renewalWage === contract.wageEurPerMonth || assessRenewalAffordability(next, clubId, player.id, renewalWage).affordable)) playerVerdict = "ACCEPTS";
+          else {
+            // The club cannot meet the demand: it offers the most it can afford, and the player decides on that.
+            const offer = Math.max(intentionWage, Math.min(renewalWage, cap, maxAffordableRenewalWage(next, clubId, player.id)));
+            const answer = playerRenewalDecision(next, player.id, { wageEurPerMonth: offer, contractYears: renewalYears(tier, age) });
+            playerVerdict = answer.accept ? "ACCEPTS" : "UNAFFORDABLE";
+            if (answer.accept) renewalWage = offer;
+          }
+        }
+      }
+
+      if (decision === "RENEW" && playerVerdict !== "ACCEPTS") {
+        if (playerVerdict !== "NOT_ASKED" && daysLeft % PLAYER_RENEWAL_REVIEW_DAYS === 0) {
+          log.push({ playerId: player.id, clubId, position: player.position, decision: "WAIT", reason: playerVerdict === "REFUSES" ? "Klubben vill förlänga, men spelaren vill ta ett steg upp i karriären." : "Klubben vill förlänga, men har inte råd med spelarens lönekrav." });
+        }
+      } else if (decision === "RENEW") {
         // The one real, self-limiting mutation: a new contract that pushes
         // the player OUT of the EXPIRING_SOON/EXPIRING window, so they are
         // naturally never re-evaluated tomorrow. Always logged immediately.

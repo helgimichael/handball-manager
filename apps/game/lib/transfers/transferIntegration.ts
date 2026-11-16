@@ -14,9 +14,9 @@ import { getPlayerTrainingCompensation } from "../economy/trainingCompensationIn
 import { getClubFinancialHealth, adjustClubCash } from "../economy/clubEconomyIntegration";
 import { isTransferWindowOpen, nextTransferWindowOpenDate } from "./transferWindow";
 import { computeRequiredLoanWageSharePct, computeSellingClubAskingPriceEur, evaluateSellingClubDecision, evaluateLoanOutDecision, type SellingClubDecisionInputs } from "./clubDecision";
-import { evaluatePlayerDecision } from "./playerDecision";
+import { evaluatePlayerTransferDecision } from "./playerDecision";
 import { assessTransferAffordability } from "./affordability";
-import { computeNewContractEndDate, loanPlayerOut, returnPlayerFromLoan, transferPlayerPermanently, competitionTierForClub } from "./transferExecution";
+import { computeNewContractEndDate, loanPlayerOut, returnPlayerFromLoan, transferPlayerPermanently } from "./transferExecution";
 import { isSameOrBefore } from "../career/dateUtils";
 import type { MatchRole } from "../matchPlan/types";
 import type { LoanRecord, LoanTerms, TransferDealType, TransferOffer } from "./types";
@@ -306,14 +306,17 @@ export function resolveTransferOffer(
     }
   }
 
-  const playerDecision = agreement ? { accept: true, reason: agreement.playerReason } : evaluatePlayerDecision({
+  // HM-TRANSFER-REALISM-1.0: the shared Player Career Decision Model -- the same
+  // answer whether the buyer is a CPU club or the manager. A loan keeps the
+  // player's contract and wage, so his security is his remaining contract.
+  const loanYears = dealType === "LOAN" ? Math.max(0.25, (Date.parse(`${resolvedContract.contractEndDate}T00:00:00Z`) - Date.parse(`${offeredDate}T00:00:00Z`)) / (365 * 86_400_000)) : undefined;
+  const playerDecision = agreement ? { accept: true, reason: agreement.playerReason } : evaluatePlayerTransferDecision(state, {
     playerId,
-    currentWageEurPerMonth: resolvedContract.wageEurPerMonth,
-    offeredWageEurPerMonth: params.newWageEurPerMonth,
-    currentClubTier: competitionTierForClub(fromClubId),
-    newClubTier: competitionTierForClub(toClubId),
-    currentSquadStatus: player.squadStatus,
-    currentClubPressure: getClubFinancialHealth(state, fromClubId)?.pressure ?? "NONE",
+    toClubId,
+    offeredWageEurPerMonth: dealType === "LOAN" ? resolvedContract.wageEurPerMonth : params.newWageEurPerMonth,
+    contractYears: loanYears ?? params.contractYears ?? 3,
+    signingBonusEur: params.signingBonusEur,
+    promisedSquadRole: params.promisedSquadRole,
   });
   if (!playerDecision.accept) return finalize("REJECTED_BY_PLAYER", { playerDecisionReason: playerDecision.reason }, state);
 

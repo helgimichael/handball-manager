@@ -1,55 +1,37 @@
-// HM-TRANSFERS-1.0: simple, deterministic player decision rule (Part:
-// "enkel deterministic logic... Bygg inte personality/morale-agent-
-// system ännu"). A small per-player seeded variance is included -- this
-// is numeric jitter to avoid every player behaving identically under
-// the same inputs, the same precedent lib/economy/clubHistoryGeneration.ts
-// already uses for club-count variance, NOT a personality/morale system
-// (no persisted trait, no stored mood, nothing beyond a one-off
-// deterministic offset keyed on this specific decision).
-import { seededOffset } from "../rating/generation/deterministicVariation";
-import type { SquadStatus } from "../game-data";
-import type { FinancialPressureLevel } from "../economy/clubEconomyTypes";
+// HM-TRANSFER-REALISM-1.0: the player's answer to a concrete transfer offer.
+//
+// Before this milestone this file held its own weighted rule (wage delta 0.5,
+// binary tier delta 0.25, jitter) -- the rule every CPU bid went through. It
+// ignored the player's level and the club's level entirely, and a free agent's
+// recorded wage of 0 made every offer look like a 100% raise, so a free agent
+// accepted ANY CPU bid (audit P1/P2). It is now a thin delegate to the shared
+// Player Career Decision Model, the same model the manager's negotiations,
+// rival bids, incoming offers, renewals and the international market use.
+import type { CareerState } from "../career/types";
+import type { SquadStatusTier } from "../career/squadStatus";
+import { playerDecisionOnMove } from "./careerDecision/stateAdapter";
 
 export interface PlayerDecisionResult {
   accept: boolean;
   reason: string;
 }
 
-export interface PlayerDecisionInputs {
+export interface PlayerTransferDecisionInputs {
   playerId: string;
-  currentWageEurPerMonth: number;
+  toClubId: string;
   offeredWageEurPerMonth: number;
-  currentClubTier: 1 | 2 | undefined;
-  newClubTier: 1 | 2 | undefined;
-  currentSquadStatus: SquadStatus;
-  currentClubPressure: FinancialPressureLevel;
+  contractYears: number;
+  signingBonusEur?: number;
+  promisedSquadRole?: SquadStatusTier;
 }
 
-/**
- * A weighted, bounded score -- wage change matters most, a tier
- * upgrade/downgrade matters, and the player's own current situation
- * (an underused squad member, or a club in real financial trouble)
- * nudges them toward accepting. Never a stored trait -- recomputed
- * fresh from the offer + the player's CURRENT situation every call.
- */
-export function evaluatePlayerDecision(inputs: PlayerDecisionInputs): PlayerDecisionResult {
-  const wageDelta = inputs.currentWageEurPerMonth > 0 ? (inputs.offeredWageEurPerMonth - inputs.currentWageEurPerMonth) / inputs.currentWageEurPerMonth : 1;
-  const currentTierScore = inputs.currentClubTier === 1 ? 1 : 0;
-  const newTierScore = inputs.newClubTier === 1 ? 1 : 0;
-  const tierDelta = newTierScore - currentTierScore;
-
-  let situational = 0;
-  if (inputs.currentSquadStatus === "Rotation" || inputs.currentSquadStatus === "Ungdom") situational += 0.1;
-  else if (inputs.currentSquadStatus === "Förstaval") situational -= 0.05;
-
-  const pressureBonus: Record<FinancialPressureLevel, number> = { NONE: 0, WATCH: 0, PRESSURED: 0.05, SERIOUS: 0.1, CRITICAL: 0.15 };
-
-  const jitter = seededOffset(`${inputs.playerId}:transfer:decision-jitter`, 10) / 100; // deterministic +/-0.10
-
-  const score = wageDelta * 0.5 + tierDelta * 0.25 + situational + pressureBonus[inputs.currentClubPressure] + jitter;
-
-  if (score > -0.05) {
-    return { accept: true, reason: "Spelaren är nöjd med löneerbjudandet och den nya situationen." };
-  }
-  return { accept: false, reason: "Spelaren tackar nej -- erbjudandet väger inte upp mot nuvarande situation." };
+/** Same player + same club + same terms -> the same answer, whoever is buying. */
+export function evaluatePlayerTransferDecision(state: CareerState, inputs: PlayerTransferDecisionInputs): PlayerDecisionResult {
+  const outcome = playerDecisionOnMove(state, inputs.playerId, inputs.toClubId, {
+    wageEurPerMonth: inputs.offeredWageEurPerMonth,
+    contractYears: inputs.contractYears,
+    signingBonusEur: inputs.signingBonusEur,
+    promisedRole: inputs.promisedSquadRole,
+  });
+  return { accept: outcome.accept, reason: outcome.reason };
 }

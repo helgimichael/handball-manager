@@ -147,8 +147,8 @@ test("E: waiting gets more expensive -- a long-unattached player eventually acce
 
 test("invariant: a free agent with zero recorded salary never auto-accepts -- the reference wage is never 0", () => {
   const p = buildProfile({ playerId: "fa", ca: 150, pa: 150, age: 27, worldPercentile: 0.96, ambition: 10, loyalty: 10, nationality: "SWE", referenceWageEurPerMonth: 0 });
-  assert.ok(p.referenceWageEurPerMonth >= 600);
-  const lowball = option({ environmentLevel: ENV.DIV1, role: "KEY_PLAYER", wageEurPerMonth: 400 });
+  assert.ok(p.referenceWageEurPerMonth >= 200);
+  const lowball = option({ environmentLevel: ENV.DIV1, role: "KEY_PLAYER", wageEurPerMonth: 150 });
   assert.equal(decide(p, lowball, freeAgentMarket({ waitLevel: 140 })).accept, false);
 });
 

@@ -85,6 +85,7 @@ import { executeTrainingDay } from "../training/trainingExecution";
 import { applyCpuDailyCondition } from "./cpuCondition";
 import { applyPlacementDevelopmentStimulus, applyTrainingDayDevelopmentStimulus, resolveWeeklyDevelopmentIfDue } from "../development/developmentIntegration";
 import { progressDailyTransfers } from "../transfers/transferIntegration";
+import { progressInternationalMarket } from "../transfers/internationalMarket";
 import { progressClubFinances } from "../economy/financeTick";
 import { progressCompetitions } from "../competition/season";
 import { ensureQualificationOpponentSquads } from "./promotionSquads";
@@ -403,6 +404,23 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
     reason: entry.reason,
   }));
   next = { ...next, cpuDecisionLog: pushCpuDecisionLog(next.cpuDecisionLog, contractLogEntries) };
+  // HM-TRANSFER-REALISM-1.0: the international clubs renew the players they want (when the player
+  // wants to stay) and sign free agents who prefer them -- the same Player Career Decision Model.
+  const international = progressInternationalMarket(next, date);
+  next = international.state;
+  if (international.log.length > 0) {
+    next = {
+      ...next,
+      cpuDecisionLog: pushCpuDecisionLog(next.cpuDecisionLog, international.log.map((entry, i) => ({
+        id: `intl-${entry.kind}-${entry.playerId}-${date}-${i}`,
+        date,
+        clubId: entry.clubId,
+        category: "CONTRACT" as const,
+        summary: `${entry.kind} ${entry.playerId}`,
+        reason: entry.kind === "RENEWED" ? "Förlängde med sin klubb utomlands." : entry.kind === "RENEWAL_REFUSED" ? "Tackade nej till förlängning -- söker en bättre möjlighet." : "Skrev på för en klubb utomlands som kontraktslös.",
+      }))),
+    };
+  }
 
   // --- 6. Fixtures ---------------------------------------------------------
   const playerFixtureToday = getPlayerFixtureOn(next, date);

@@ -13,7 +13,7 @@ import { snapshotGameplayRatings, snapshotWorldSquads } from "../gameWorld/serve
 import { getClubEconomySnapshot } from "../economy/clubEconomyIntegration";
 import { getPlayerContract } from "../economy/contractIntegration";
 import { getPlayerTrainingCompensation } from "../economy/trainingCompensationIntegration";
-import { computeAgentFeeEur, computePlayerWageDemand, effectiveMonthlyWage, roundAskingFeeEur, type PlayerWageDemandInputs } from "./negotiation";
+import { computeAgentFeeEur, effectiveMonthlyWage, roundAskingFeeEur } from "./negotiation";
 import {
   computeNegotiationWageDemand,
   getNegotiationAgentFeeEur,
@@ -43,36 +43,9 @@ function answer(state: CareerState, id: string): CareerState {
   return { ...progressTransferNegotiations(state, date).state, gameDate: date };
 }
 
-const baseDemand: PlayerWageDemandInputs = {
-  playerId: "p-tm",
-  age: 21,
-  isFreeAgent: false,
-  currentWageEurPerMonth: 2_000,
-  fairWageEurPerMonth: 2_000,
-  currentClubTier: 1,
-  newClubTier: 1,
-  currentSquadStatus: "Förstaval",
-  currentClubPressure: "NONE",
-  expectedRole: "FIRST_CHOICE",
-  promisedRole: "ROTATION",
-  contractYears: 3,
-};
-
-test("every demand factor is explained with its effect, and the explained factors reproduce the demand", () => {
-  const demand = computePlayerWageDemand({ ...baseDemand, newClubTier: 2, newClubPressure: "CRITICAL" });
-  const product = (demand.breakdown ?? []).reduce((acc, f) => acc * (1 + f.effectPct / 100), demand.baseEurPerMonth!);
-  assert.ok(Math.abs(product - demand.demandEurPerMonth) <= demand.demandEurPerMonth * 0.02 + 10, `${product} vs ${demand.demandEurPerMonth}`);
-  assert.ok(demand.breakdown!.some((f) => f.effectPct === 15));
-});
-
-test("an ambitious talent weighs a smaller role more heavily; a weaker squad is a sporting step down, a stronger one attracts", () => {
-  const settled = computePlayerWageDemand({ ...baseDemand, potentialGap: 2 }).demandEurPerMonth;
-  const ambitious = computePlayerWageDemand({ ...baseDemand, potentialGap: 25 }).demandEurPerMonth;
-  assert.ok(ambitious > settled);
-  const neutral = computePlayerWageDemand({ ...baseDemand, promisedRole: "FIRST_CHOICE" }).demandEurPerMonth;
-  assert.ok(computePlayerWageDemand({ ...baseDemand, promisedRole: "FIRST_CHOICE", sportingLevel: { playerCa: 120, buyingSquadLevel: 100 } }).demandEurPerMonth > neutral);
-  assert.ok(computePlayerWageDemand({ ...baseDemand, promisedRole: "FIRST_CHOICE", sportingLevel: { playerCa: 100, buyingSquadLevel: 115 } }).demandEurPerMonth < neutral);
-});
+// HM-TRANSFER-REALISM-1.0: demand factors (league, role, ambition, squad level,
+// club finances) now live in the shared PCDM -- see
+// lib/transfers/careerDecision/model.test.ts and integration.test.ts.
 
 test("an agent with a client who has leverage asks more; a signing bonus counts as wage over the contract", () => {
   assert.ok(computeAgentFeeEur(2000, "FREE_AGENT") > computeAgentFeeEur(2000, "EXPIRING"));
@@ -150,6 +123,9 @@ test("a negotiated loan registers once (ticked twice), and a CPU owner renews hi
       const roleDate = ok(submitNegotiationTerms(state, id, { wageEurPerMonth: 0, contractYears: 1, promisedSquadRole: "KEY_PLAYER" })).negotiation.pending!.responseDate;
       state = ok(submitNegotiationTerms(state, id, { wageEurPerMonth: 0, contractYears: 1, promisedSquadRole: "KEY_PLAYER" })).state;
       state = progressTransferNegotiations(progressTransferNegotiations(state, roleDate).state, roleDate).state;
+      // HM-TRANSFER-REALISM-1.0: the player may decline the loan environment (shared PCDM) -- his own choice; try the next one.
+      const lastRound = state.transferNegotiations?.[id]?.rounds.at(-1);
+      if (Object.values(state.loans).filter((l) => l.playerId === player.id).length === 0 && lastRound?.party === "PLAYER" && lastRound.response !== "ACCEPT") continue;
       assert.equal(Object.values(state.loans).filter((l) => l.playerId === player.id).length, 1, "one loan, never two");
       assert.equal(Object.values(state.transferOffers).filter((o) => o.negotiationId === id).length, 1);
       assert.equal(getCareerPlayer(state, player.id)?.clubId, MANAGER);
