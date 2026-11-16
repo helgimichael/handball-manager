@@ -544,6 +544,11 @@ export type CareerState = {
   budgetPlans?: Record<string, BudgetPlan>;
   /** HM-ALPHA3-M03: competition membership after promotion/relegation, keyed by club id. Absent = the static league in lib/game-data. Read through lib/career/competitionMembership.ts. */
   competitionMembership?: Record<string, string>;
+  /** HM-TRANSFER-REALISM-1.0: derived transfer-market memory. Optional and additive: absent on older saves, which simply use live league measurements until the next season rollover. */
+  transferMarket?: {
+    /** Smoothed league sporting levels (CA scale), rolled once per season (lib/transfers/careerDecision/sportingStrength.ts). */
+    leagueStrength?: { seasonKey: string; levels: Record<string, number> };
+  };
   /** HM-ALPHA3-M03: SM-slutspel, kval and Svenska cupen ties of the current season (lib/competition). */
   competitionTies?: Record<string, CompetitionTie>;
   /** HM-ALPHA3-M03: the current season's competitive state -- phase, winners, promotion/relegation, awards. */
