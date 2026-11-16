@@ -26,7 +26,9 @@ function detailLabel(pathname: string, lookups: CrumbLookups): string | null {
   if (club) return lookups.club?.(club) ?? "Klubb";
   const comp = seg(pathname, "/career/competitions/");
   if (comp) return lookups.competition?.(comp) ?? "Tävling";
-  if (seg(pathname, "/career/staff/")) return "Profil";
+  // The staff hub's own sub-pages (StaffNav: Organisation · Rekrytering · Ansvar) are not a staff member's profile.
+  const staff = seg(pathname, "/career/staff/");
+  if (staff) return staff === "recruitment" ? "Rekrytering" : staff === "responsibilities" ? "Ansvar" : "Profil";
   if (pathname.startsWith("/career/media/press/")) return "Presskonferens";
   if (pathname.startsWith("/career/media/story/")) return "Artikel";
   if (pathname.startsWith("/career/fixtures/") || pathname.startsWith("/career/match-day/")) return "Match";

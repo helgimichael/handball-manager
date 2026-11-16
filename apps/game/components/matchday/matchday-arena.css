@@ -73,6 +73,11 @@
 .md-report-head p { margin: 0; color: var(--arena-ink-2); font-size: 13px; }
 
 /* ---------------------------------------------------------------- live environment (MDY-02) */
+/* The stakes / "leads from the bench" banner above the live match (big games and MDY-02k, the suspended manager):
+   matchday.css paints it with --game-ink as the background, which is the light text ink in Arena -- light text on a
+   light bar. A solid dark surface with Arena ink instead. */
+p.mday-banner { background: var(--arena-solid-1); color: var(--arena-ink); border-left-color: var(--arena-warn); }
+p.mday-banner span { color: var(--arena-ink-2); }
 @media (min-width: 761px) {
   /* The live match takes the stage: the rail steps back to icons, the floor turns to floodlight. */
   .hm-shell[data-route="live-match"] { --hm-nav-width: 64px; }
