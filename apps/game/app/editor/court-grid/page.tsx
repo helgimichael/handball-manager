@@ -11,18 +11,26 @@
 // only for calibrating/visualizing the mapping (Part L: not connected to
 // attackZones.ts/courtLayout.ts/StartingUnitEditor/MatchPlan) -- it must
 // never appear in normal gameplay UI.
-import { useState, type CSSProperties } from "react";
+//
+// Arena Nights SYS-02e (A) "Canvas + inspector": court canvas (9) + inspector (3) with mode,
+// coordinates and the snap point (cell centre); arrow keys nudge the inspected cell. UI only --
+// the grid and calibration data are read, never changed.
+import { useState, type CSSProperties, type KeyboardEvent } from "react";
 import { createInitialScene } from "@handball-manager/match-renderer/src/ui/workspaces/tactics-board/scene/TacticsBoardScene.ts";
 import MasterCourtDisplay from "@/components/matchPlan/MasterCourtDisplay";
 import CourtGridOverlay from "@/components/court/CourtGridOverlay";
-import { COURT_GRID_DEFINITION, type GridCell } from "@/lib/court/courtGrid";
+import { DevPageHead } from "@/components/dev/DevShell";
+import { cellBounds, cellCenter, COURT_GRID_DEFINITION, type GridCell } from "@/lib/court/courtGrid";
+import { isNudgeKey, nudgeCell } from "@/lib/editor/courtGridNudge";
 import {
   DEFENCE_FORMATION_IDS,
   getAttackPositionCalibration,
   getDefenceFormationCalibration,
+  getPositionsForCell,
   type CalibrationContext,
   type PositionCalibration,
 } from "@/lib/court/tacticalPositionCalibration";
+import "./court-grid.css";
 
 const FULL_COURT_SCENE = createInitialScene({ courtView: "FULL_COURT", objects: [] });
 
@@ -39,203 +47,191 @@ function positionsForMode(mode: Mode): readonly PositionCalibration[] {
   return getDefenceFormationCalibration(mode).positions;
 }
 
+function modeLabel(mode: Mode): string {
+  return mode === "GRID" ? "GRID" : mode === "ATTACK" ? "ANFALL" : getDefenceFormationCalibration(mode).label;
+}
+
 export default function CourtGridCalibrationPage() {
   const [showGrid, setShowGrid] = useState(true);
   const [showNumbers, setShowNumbers] = useState(true);
   const [mode, setMode] = useState<Mode>("GRID");
-  const [inspected, setInspected] = useState<{ cell: GridCell; positions: readonly PositionCalibration[] } | null>(null);
+  const [inspected, setInspected] = useState<GridCell | null>(null);
 
   const calibrationContext: CalibrationContext | null = mode === "GRID" ? null : mode;
   const tablePositions = positionsForMode(mode);
+  const inspectedPositions = inspected && calibrationContext ? getPositionsForCell(calibrationContext, inspected.cellNumber) : [];
+  const bounds = inspected ? cellBounds(inspected.row, inspected.column) : null;
+  const center = inspected ? cellCenter(inspected.row, inspected.column) : null;
+
+  function onCourtKey(e: KeyboardEvent<HTMLDivElement>) {
+    if (isNudgeKey(e.key)) {
+      e.preventDefault();
+      setInspected(nudgeCell(inspected?.cellNumber ?? null, e.key));
+    } else if (e.key === "Escape") {
+      setInspected(null);
+    }
+  }
 
   return (
-    <div style={{ maxWidth: 1200, margin: "32px auto", padding: "0 20px", display: "flex", gap: 24, flexWrap: "wrap" }}>
-      <div style={{ flex: "1 1 480px", minWidth: 320 }}>
-        <div className="hm-panel-header" style={{ marginBottom: 12 }}>
-          <h1 style={{ margin: 0, fontSize: "var(--hm-text-lg)" }}>CANONICAL HANDBALL COURT GRID</h1>
-          <p style={{ margin: "4px 0 0", opacity: 0.75, fontSize: "var(--hm-text-sm)" }}>
-            {COURT_GRID_DEFINITION.courtLengthMeters}m x {COURT_GRID_DEFINITION.courtWidthMeters}m ·{" "}
-            {COURT_GRID_DEFINITION.columns} x {COURT_GRID_DEFINITION.rows} · {COURT_GRID_DEFINITION.cellLengthMeters}m x{" "}
-            {COURT_GRID_DEFINITION.cellWidthMeters}m cells
-          </p>
-        </div>
-
-        <div style={{ display: "flex", gap: 6, marginBottom: 10, flexWrap: "wrap" }}>
-          {MODES.map(({ mode: m, label }) => (
-            <button
-              key={m}
-              type="button"
-              onClick={() => setMode(m)}
-              style={{
-                padding: "4px 10px",
-                fontSize: "var(--hm-text-2xs)",
-                fontWeight: 600,
-                borderRadius: "var(--hm-radius-sm)",
-                border: mode === m ? "1px solid var(--hm-accent)" : "1px solid var(--hm-border)",
-                background: mode === m ? "var(--hm-accent)" : "var(--hm-surface-2)",
-                color: mode === m ? "#fff" : "var(--hm-text-primary)",
-                cursor: "pointer",
-              }}
+    <>
+      <DevPageHead
+        eyebrow="Data · Court grid"
+        title="Kanonisk handbollsplan"
+        note={
+          <span className="hm-dev-num">
+            {COURT_GRID_DEFINITION.courtLengthMeters} m × {COURT_GRID_DEFINITION.courtWidthMeters} m · {COURT_GRID_DEFINITION.columns} × {COURT_GRID_DEFINITION.rows} celler ·{" "}
+            {COURT_GRID_DEFINITION.cellLengthMeters} m × {COURT_GRID_DEFINITION.cellWidthMeters} m
+          </span>
+        }
+      />
+      <div className="hm-dev-split">
+        <section className="hm-dev-panel">
+          <div className="hm-dev-panel-head">
+            <span className="hm-dev-panel-title">Plan · {modeLabel(mode)}</span>
+            <span className="hm-dev-muted">
+              Klicka/hovra en cell · <span className="hm-dev-kbd">←</span> <span className="hm-dev-kbd">↑</span> <span className="hm-dev-kbd">↓</span>{" "}
+              <span className="hm-dev-kbd">→</span> flyttar · <span className="hm-dev-kbd">Esc</span> rensar
+            </span>
+          </div>
+          <div className="hm-dev-panel-body">
+            <div
+              className="cg-court"
+              tabIndex={0}
+              role="group"
+              aria-label="Planen. Piltangenter flyttar inspekterad cell."
+              onKeyDown={onCourtKey}
+              style={
+                {
+                  // Both `width` and `height` must stay derived (never both definite at once) -- see
+                  // HM-COURT-GRID-0.1: `aspect-ratio` stays the single source of truth for height.
+                  width: "min(100%, 40vh)",
+                  aspectRatio: `${COURT_GRID_DEFINITION.courtWidthMeters} / ${COURT_GRID_DEFINITION.courtLengthMeters}`,
+                } as CSSProperties
+              }
             >
-              {label}
-            </button>
-          ))}
-        </div>
+              <div className="cg-label cg-label--top">
+                TOP GOAL (rad 1)
+                <br />
+                ANFALL — ÖVRE PLANHALVA
+              </div>
+              <div className="cg-label cg-label--bottom">
+                FÖRSVAR — NEDRE PLANHALVA
+                <br />
+                BOTTOM GOAL (rad 20)
+              </div>
+              <div className="cg-label cg-label--left">COACH VIEW VÄNSTER (kolumn 1)</div>
+              <div className="cg-label cg-label--right">COACH VIEW HÖGER (kolumn 10)</div>
 
-        <div style={{ display: "flex", gap: 12, marginBottom: 12, fontSize: "var(--hm-text-sm)" }}>
-          <label style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <input type="checkbox" checked={showGrid} onChange={(e) => setShowGrid(e.target.checked)} />
-            GRID
-          </label>
-          <label style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <input type="checkbox" checked={showNumbers} onChange={(e) => setShowNumbers(e.target.checked)} disabled={!showGrid} />
-            CELL NUMBERS
-          </label>
-        </div>
+              <MasterCourtDisplay scene={FULL_COURT_SCENE} />
+              <CourtGridOverlay
+                showGrid={showGrid}
+                showNumbers={showNumbers}
+                calibrationContext={calibrationContext}
+                inspectedCellNumber={inspected?.cellNumber ?? null}
+                hideInspector
+                onInspect={(cell) => setInspected(cell)}
+              />
+            </div>
+            {!showGrid ? <p className="hm-dev-muted" style={{ textAlign: "center" }}>Rutnätet är dolt -- slå på GRID i inspektören för att inspektera celler.</p> : null}
+          </div>
+        </section>
 
-        <div
-          style={
-            {
-              position: "relative",
-              // Both `width` and `height` must stay derived (never both
-              // definite at once), or a competing maxHeight clamp can win
-              // without the browser recomputing width -- breaking the
-              // required 2:1 court aspect ratio at some viewport sizes.
-              // Bounding width by both maxWidth (900px) and 40vh (= 80vh
-              // worth of height, since height is always 2x width for this
-              // court) keeps `aspect-ratio` the single source of truth for
-              // the other dimension in every case.
-              width: `min(860px, 40vh)`,
-              aspectRatio: `${COURT_GRID_DEFINITION.courtWidthMeters} / ${COURT_GRID_DEFINITION.courtLengthMeters}`,
-              margin: "0 auto",
-              borderRadius: "var(--hm-radius-sm)",
-              overflow: "hidden",
-              "--ds-color-surface": "#0e2e27",
-              "--ds-color-text": "rgba(226, 245, 238, 0.82)",
-            } as CSSProperties
-          }
-        >
-          <div
-            style={{
-              position: "absolute",
-              top: 4,
-              left: "50%",
-              transform: "translateX(-50%)",
-              zIndex: 2,
-              fontSize: "var(--hm-text-2xs)",
-              color: "rgba(226, 245, 238, 0.7)",
-              fontWeight: 600,
-              textAlign: "center",
-            }}
-          >
-            TOP GOAL (row 1)
-            <br />
-            ANFALL — ÖVRE PLANHALVA
-          </div>
-          <div
-            style={{
-              position: "absolute",
-              bottom: 4,
-              left: "50%",
-              transform: "translateX(-50%)",
-              zIndex: 2,
-              fontSize: "var(--hm-text-2xs)",
-              color: "rgba(226, 245, 238, 0.7)",
-              fontWeight: 600,
-              textAlign: "center",
-            }}
-          >
-            FÖRSVAR — NEDRE PLANHALVA
-            <br />
-            BOTTOM GOAL (row 20)
-          </div>
-          <div
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: 4,
-              transform: "translateY(-50%) rotate(-90deg)",
-              transformOrigin: "left center",
-              zIndex: 2,
-              fontSize: "var(--hm-text-2xs)",
-              color: "rgba(226, 245, 238, 0.7)",
-              fontWeight: 600,
-            }}
-          >
-            COACH VIEW LEFT (column 1)
-          </div>
-          <div
-            style={{
-              position: "absolute",
-              top: "50%",
-              right: 4,
-              transform: "translateY(-50%) rotate(90deg)",
-              transformOrigin: "right center",
-              zIndex: 2,
-              fontSize: "var(--hm-text-2xs)",
-              color: "rgba(226, 245, 238, 0.7)",
-              fontWeight: 600,
-            }}
-          >
-            COACH VIEW RIGHT (column 10)
+        <aside className="hm-dev-sticky">
+          <div className="hm-dev-panel">
+            <div className="hm-dev-panel-head">
+              <span className="hm-dev-panel-title">Läge</span>
+            </div>
+            <div className="hm-dev-panel-body">
+              <div className="hm-dev-chips" role="group" aria-label="Kalibreringsläge">
+                {MODES.map(({ mode: m, label }) => (
+                  <button key={m} type="button" className="hm-dev-chip" aria-pressed={mode === m} onClick={() => setMode(m)}>
+                    {label}
+                  </button>
+                ))}
+              </div>
+              <div className="cg-toggles">
+                <label>
+                  <input type="checkbox" checked={showGrid} onChange={(e) => setShowGrid(e.target.checked)} /> GRID
+                </label>
+                <label title={!showGrid ? "Kräver att GRID är på" : undefined}>
+                  <input type="checkbox" checked={showNumbers} onChange={(e) => setShowNumbers(e.target.checked)} disabled={!showGrid} /> Cellnummer
+                </label>
+              </div>
+            </div>
           </div>
 
-          <MasterCourtDisplay scene={FULL_COURT_SCENE} />
-          <CourtGridOverlay
-            showGrid={showGrid}
-            showNumbers={showNumbers}
-            calibrationContext={calibrationContext}
-            onInspect={(cell, positions) => setInspected({ cell, positions })}
-          />
-        </div>
-      </div>
-
-      <div style={{ flex: "0 1 280px", minWidth: 220 }}>
-        <div className="hm-panel">
-          <div className="hm-panel-header">
-            <span className="hm-panel-title">{mode === "GRID" ? "GRID" : mode === "ATTACK" ? "ANFALL" : getDefenceFormationCalibration(mode).label}</span>
+          <div className="hm-dev-panel">
+            <div className="hm-dev-panel-head">
+              <span className="hm-dev-panel-title">Koordinater</span>
+              {inspected ? <span className="hm-dev-num">{inspected.cellId}</span> : null}
+            </div>
+            <div className="hm-dev-panel-body">
+              {inspected && bounds && center ? (
+                <dl className="cg-dl hm-dev-num">
+                  <dt>Cell</dt>
+                  <dd>{inspected.cellNumber}</dd>
+                  <dt>Rad / kolumn</dt>
+                  <dd>
+                    {inspected.row} / {inspected.column}
+                  </dd>
+                  <dt>x</dt>
+                  <dd>
+                    {bounds.minXMeters.toFixed(1)}–{bounds.maxXMeters.toFixed(1)} m
+                  </dd>
+                  <dt>y</dt>
+                  <dd>
+                    {bounds.minYMeters.toFixed(1)}–{bounds.maxYMeters.toFixed(1)} m
+                  </dd>
+                  <dt>Snap (cellcentrum)</dt>
+                  <dd>
+                    {center.xMeters.toFixed(1)}, {center.yMeters.toFixed(1)} m
+                  </dd>
+                </dl>
+              ) : (
+                <p className="hm-dev-muted" style={{ margin: 0 }}>
+                  Ingen cell inspekterad. Klicka på planen, eller fokusera planen och tryck en piltangent för att börja i cell 1.
+                </p>
+              )}
+              {inspected && calibrationContext ? (
+                <div className="cg-cell-positions">
+                  {inspectedPositions.length > 0 ? (
+                    inspectedPositions.map((p) => (
+                      <div key={p.id}>
+                        <strong>{p.label}</strong> <span className="hm-dev-muted">({p.id})</span> -- accepterade celler: <span className="hm-dev-num">{p.acceptedCells.join(", ")}</span>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="hm-dev-muted">Ingen kalibrerad position på denna cell i {modeLabel(mode)}.</div>
+                  )}
+                </div>
+              ) : null}
+            </div>
           </div>
-          <div className="hm-panel-body" style={{ fontSize: "var(--hm-text-xs)" }}>
+
+          <div className="hm-dev-panel">
+            <div className="hm-dev-panel-head">
+              <span className="hm-dev-panel-title">Kalibrerade positioner · {modeLabel(mode)}</span>
+            </div>
             {mode === "GRID" ? (
-              <p className="hm-text-muted">Välj ANFALL eller ett försvarssystem ovan för att se den manuellt kalibrerade positionsmappningen.</p>
+              <p className="hm-dev-panel-body hm-dev-muted" style={{ margin: 0 }}>Välj ANFALL eller ett försvarssystem för att se den manuellt kalibrerade positionsmappningen.</p>
             ) : (
-              <table style={{ width: "100%", borderCollapse: "collapse" }}>
+              <table className="hm-dev-table">
                 <tbody>
-                  {tablePositions.map((p) => (
-                    <tr key={p.id} style={{ borderBottom: "1px solid var(--hm-border)" }}>
-                      <td style={{ padding: "4px 6px 4px 0", fontWeight: 600 }}>{p.label}</td>
-                      <td style={{ padding: "4px 0", textAlign: "right", opacity: 0.85 }}>{p.acceptedCells.join(" / ")}</td>
-                    </tr>
-                  ))}
+                  {tablePositions.map((p) => {
+                    const active = inspectedPositions.some((ip) => ip.id === p.id);
+                    return (
+                      <tr key={p.id} className={active ? "hm-dev-dirty" : undefined}>
+                        <td>{p.label}</td>
+                        <td className="hm-dev-num">{p.acceptedCells.join(" / ")}</td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             )}
           </div>
-        </div>
-
-        {inspected && (
-          <div className="hm-panel" style={{ marginTop: 12 }}>
-            <div className="hm-panel-header">
-              <span className="hm-panel-title">INSPEKTERAD CELL</span>
-            </div>
-            <div className="hm-panel-body" style={{ fontSize: "var(--hm-text-xs)" }}>
-              <div>Cell {inspected.cell.cellNumber} (Row {inspected.cell.row} / Col {inspected.cell.column})</div>
-              {calibrationContext &&
-                (inspected.positions.length > 0 ? (
-                  inspected.positions.map((p) => (
-                    <div key={p.id} style={{ marginTop: 4 }}>
-                      {p.label} ({p.id}) — accepterade celler: {p.acceptedCells.join(", ")}
-                    </div>
-                  ))
-                ) : (
-                  <div className="hm-text-muted" style={{ marginTop: 4 }}>
-                    Ingen kalibrerad position på denna cell i {mode === "ATTACK" ? "ANFALL" : mode}.
-                  </div>
-                ))}
-            </div>
-          </div>
-        )}
+        </aside>
       </div>
-    </div>
+    </>
   );
 }

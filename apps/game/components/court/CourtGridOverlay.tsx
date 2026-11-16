@@ -31,6 +31,8 @@ export default function CourtGridOverlay({
   showNumbers,
   calibrationContext,
   onInspect,
+  inspectedCellNumber,
+  hideInspector = false,
 }: {
   showGrid: boolean;
   showNumbers: boolean;
@@ -38,12 +40,17 @@ export default function CourtGridOverlay({
   calibrationContext: CalibrationContext | null;
   /** Lets the page-level calibration table stay in sync with whichever cell is currently inspected. */
   onInspect?: (cell: GridCell, positions: readonly PositionCalibration[]) => void;
+  /** SYS-02e: when provided, the page controls which cell is highlighted (e.g. keyboard nudge). Omitted = internal state, unchanged behaviour. */
+  inspectedCellNumber?: number | null;
+  /** SYS-02e: hide the floating in-court readout when the page shows its own inspector column. */
+  hideInspector?: boolean;
 }) {
-  const [inspected, setInspected] = useState<GridCell | null>(null);
+  const [ownInspected, setInspected] = useState<GridCell | null>(null);
 
   if (!showGrid) return null;
 
   const cells = allGridCells();
+  const inspected = inspectedCellNumber === undefined ? ownInspected : (cells.find((c) => c.cellNumber === inspectedCellNumber) ?? null);
 
   function inspect(cell: GridCell) {
     setInspected(cell);
@@ -120,7 +127,7 @@ export default function CourtGridOverlay({
           );
         })}
       </div>
-      {inspected && (
+      {inspected && !hideInspector && (
         <div
           className="hm-panel"
           style={{

@@ -9,13 +9,19 @@
 // things this page writes -- and an override always wins for display
 // while the underlying source/model proposal above stays untouched and
 // visible for audit (HM-RATINGS-0.5 Part J).
+//
+// Arena Nights SYS-02d (A) "Sectioned with sticky summary": CA/PA, status and LOCK in a
+// sticky summary; sections collapse; overrides are highlighted against their base values;
+// LOCK and unlock both require an explicit confirm step.
 import { useEffect, useMemo, useState } from "react";
-import type { CSSProperties } from "react";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
+import { useParams, useSearchParams } from "next/navigation";
 import { getAttributeLabel } from "@/lib/rating/attributeVocabulary";
 import { GOALKEEPER_ATTRIBUTES, OUTCOURT_ATTRIBUTES, type GoalkeeperAttribute, type OutcourtAttribute } from "@/lib/rating/types";
 import { GeneratedProfilePreviewPanel } from "@/components/GeneratedProfilePreview";
 import type { GenerationResult } from "@/lib/rating/generation/types";
+import { overrideDiffRows } from "@/lib/editor/ratingQueue";
+import "../ratings.css";
 
 const REVIEW_STATUSES = ["UNASSESSED", "PROPOSED", "REVIEWED", "LOCKED"] as const;
 
@@ -92,12 +98,12 @@ interface RatingRow {
   generatedPreview: GenerationResult;
 }
 
-const CA_SOURCE_LABEL: Record<CASource, { label: string; className: string }> = {
-  CALIBRATED: { label: "KALIBRERAD", className: "hm-badge-positive" },
-  MODEL_ESTIMATE: { label: "SKATTAD (HM-RATINGS-0.5)", className: "hm-badge-warning" },
-  GENERATED_GAME_PRIOR: { label: "GENERERAD SPELDATA (HM-RATINGS-0.6)", className: "hm-badge-neutral" },
-  EDITOR_OVERRIDE: { label: "MANUELLT ÖVERSTYRD", className: "hm-badge-negative" },
-  UNRESOLVED: { label: "EJ FASTSTÄLLD", className: "hm-badge-neutral" },
+const CA_SOURCE_LABEL: Record<CASource, { label: string }> = {
+  CALIBRATED: { label: "KALIBRERAD" },
+  MODEL_ESTIMATE: { label: "SKATTAD (HM-RATINGS-0.5)" },
+  GENERATED_GAME_PRIOR: { label: "GENERERAD SPELDATA (HM-RATINGS-0.6)" },
+  EDITOR_OVERRIDE: { label: "MANUELLT ÖVERSTYRD" },
+  UNRESOLVED: { label: "EJ FASTSTÄLLD" },
 };
 
 interface IdentityRow {
@@ -114,75 +120,68 @@ interface IdentityRow {
 const OUTCOURT_ATTRIBUTE_COUNT = 56;
 const GOALKEEPER_ATTRIBUTE_COUNT = 21;
 
-function AbilityCard({ label, rating }: { label: string; rating: AbilityRating }) {
+function AbilityBlock({ label, rating }: { label: string; rating: AbilityRating }) {
   return (
-    <div className="hm-panel">
-      <div className="hm-panel-header">
-        <span className="hm-panel-title">{label}</span>
-      </div>
-      <div className="hm-panel-body" style={{ display: "flex", gap: 24, alignItems: "baseline" }}>
-        <div style={{ fontSize: "var(--hm-text-lg)", fontWeight: 800 }}>{rating.value ?? "OLÖST"}</div>
+    <div>
+      <div className="hm-dev-eyebrow">{label}</div>
+      <div className="rd-ability">
+        <div className="rd-metric-value">{rating.value ?? "OLÖST"}</div>
         <div>
-          <div className="hm-eyebrow">KONFIDENS</div>
+          <div className="hm-dev-eyebrow">Konfidens</div>
           <div>{rating.confidence}</div>
         </div>
         <div>
-          <div className="hm-eyebrow">TROLIGT INTERVALL</div>
-          <div>
+          <div className="hm-dev-eyebrow">Troligt intervall</div>
+          <div className="hm-dev-num">
             {rating.plausibleRange.min} – {rating.plausibleRange.max}
           </div>
         </div>
       </div>
-      {rating.value === null ? (
-        <div className="hm-panel-body hm-text-muted" style={{ paddingTop: 0, fontSize: "var(--hm-text-2xs)" }}>
-          Inget värde föreslaget -- ingen ersätts automatiskt med ett genomsnitt.
-        </div>
-      ) : null}
+      {rating.value === null ? <p className="hm-dev-muted">Inget värde föreslaget -- ingen ersätts automatiskt med ett genomsnitt.</p> : null}
     </div>
   );
 }
 
 function ClaimTable({ title, claims, emptyText }: { title: string; claims: RatingClaim[]; emptyText: string }) {
   return (
-    <div className="hm-panel">
-      <div className="hm-panel-header">
-        <span className="hm-panel-title">{title}</span>
-      </div>
+    <div style={{ marginBottom: 12 }}>
+      <div className="hm-dev-panel-title" style={{ marginBottom: 4 }}>{title}</div>
       {claims.length === 0 ? (
-        <div className="hm-panel-body hm-text-muted">{emptyText}</div>
+        <p className="hm-dev-muted" style={{ margin: 0 }}>{emptyText}</p>
       ) : (
-        <table className="hm-table">
-          <thead>
-            <tr>
-              <th>Område</th>
-              <th>Nyckel</th>
-              <th>Värde</th>
-              <th>Konfidens</th>
-              <th>Källor</th>
-            </tr>
-          </thead>
-          <tbody>
-            {claims.map((c) => (
-              <tr key={c.id}>
-                <td className="hm-text-muted">{c.domain}</td>
-                <td className="hm-td-strong">{c.key}</td>
-                <td>{String(c.value)}</td>
-                <td className="hm-text-muted">{c.confidence ?? "—"}</td>
-                <td className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
-                  {c.sourceRefs.length ? c.sourceRefs.join(", ") : "—"}
-                  {c.notes ? <div>{c.notes}</div> : null}
-                </td>
+        <div style={{ overflowX: "auto" }}>
+          <table className="hm-dev-table">
+            <thead>
+              <tr>
+                <th>Område</th>
+                <th>Nyckel</th>
+                <th>Värde</th>
+                <th>Konfidens</th>
+                <th>Källor</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {claims.map((c) => (
+                <tr key={c.id}>
+                  <td className="hm-dev-muted">{c.domain}</td>
+                  <td>{c.key}</td>
+                  <td>{String(c.value)}</td>
+                  <td className="hm-dev-muted">{c.confidence ?? "—"}</td>
+                  <td className="hm-dev-muted" style={{ whiteSpace: "normal" }}>
+                    {c.sourceRefs.length ? c.sourceRefs.join(", ") : "—"}
+                    {c.notes ? <div>{c.notes}</div> : null}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );
 }
 
 export default function RatingReviewPlayerPage() {
-  const router = useRouter();
   const params = useParams<{ playerId: string }>();
   const searchParams = useSearchParams();
   const clubId = searchParams.get("clubId") ?? "";
@@ -205,6 +204,7 @@ export default function RatingReviewPlayerPage() {
 
   const [lockState, setLockState] = useState<"idle" | "saving" | "error">("idle");
   const [lockErrors, setLockErrors] = useState<string[]>([]);
+  const [confirm, setConfirm] = useState<"lock" | "unlock" | null>(null);
 
   function load() {
     if (!clubId) return;
@@ -344,14 +344,21 @@ export default function RatingReviewPlayerPage() {
     load();
   }
 
-  if (!row || !identity) {
+  if (!clubId) {
     return (
-      <div style={{ maxWidth: 900, margin: "32px auto", padding: "0 20px" }}>
-        <div className="hm-panel">
-          <div className="hm-panel-body hm-text-muted">Läser in spelare...</div>
+      <div className="hm-dev-panel" style={{ maxWidth: 560, margin: "32px auto" }}>
+        <div className="hm-dev-empty">
+          Ingen klubb angiven för spelaren. Öppna spelaren från granskningskön.
+          <div style={{ marginTop: 8 }}>
+            <Link href="/editor/ratings" className="hm-dev-btn hm-dev-btn--sm">Till betygsgranskning</Link>
+          </div>
         </div>
       </div>
     );
+  }
+
+  if (!row || !identity) {
+    return <div className="hm-dev-empty">Läser in spelare…</div>;
   }
 
   const { profile } = row;
@@ -359,267 +366,326 @@ export default function RatingReviewPlayerPage() {
   const knownAttributes = isGoalkeeper ? profile.goalkeeperAttributes : profile.outcourtAttributes;
   const totalPossible = isGoalkeeper ? GOALKEEPER_ATTRIBUTE_COUNT : OUTCOURT_ATTRIBUTE_COUNT;
   const knownCount = knownAttributes ? Object.keys(knownAttributes).length : 0;
+  const attributeOverrides = row.override?.attributeOverrides ?? {};
+  const diffRows = overrideDiffRows({ override: row.override, caEstimate: row.caProposal?.value ?? null, knownAttributes });
+  const hasCaPaOverride = row.override?.ca !== undefined || row.override?.pa !== undefined;
+  const source = CA_SOURCE_LABEL[row.caSource];
+  const canLock = profile.ca.value !== null;
+  const backHref = `/editor/ratings?clubId=${encodeURIComponent(clubId)}`;
 
   return (
-    <div style={{ maxWidth: 1000, margin: "32px auto", padding: "0 20px", display: "flex", flexDirection: "column", gap: 12 }}>
-      <div className="hm-panel">
-        <div className="hm-panel-header">
-          <span className="hm-panel-title">{identity.fullName}</span>
-          <button type="button" className="hm-btn hm-btn-sm hm-btn-ghost" onClick={() => router.push(`/editor/ratings?clubId=${clubId}`)}>
-            ← Betygsgranskning
-          </button>
-        </div>
-        <div className="hm-panel-body hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
-          SPELAR-ID: {profile.playerId} · KLUBB: {identity.clubName} · POSITION: {profile.position}
-          {profile.secondaryPositions && profile.secondaryPositions.length > 0 ? ` (även: ${profile.secondaryPositions.join(", ")})` : ""}
-          {identity.birthYear ? ` · FÖDD: ${identity.birthYear}` : ""}
-          {identity.nationalities?.length ? ` · NATIONALITET: ${identity.nationalities.join(", ")}` : ""}
-        </div>
-        <div className="hm-panel-body" style={{ paddingTop: 0, display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
-          <span className={`hm-badge ${CA_SOURCE_LABEL[row.caSource].className}`}>{CA_SOURCE_LABEL[row.caSource].label}</span>
-          {row.locked ? <span className="hm-badge hm-badge-positive">LÅST</span> : null}
-          {row.matchedCalibration ? <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>HM-RATINGS-0.2 kalibreringsträff</span> : null}
-          {row.gamePriorArchetype ? (
-            <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
-              Arketyp: {row.gamePriorArchetype} -- ingen forskad profil, en spelbar gameplay-representation.
-            </span>
-          ) : null}
-        </div>
-      </div>
-
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-        <AbilityCard label="FÖRESLAGET CA (1-200)" rating={profile.ca} />
-        <AbilityCard label="FÖRESLAGET PA (1-200)" rating={profile.pa} />
-      </div>
-
-      {row.caProposal?.status === "ESTIMATED" ? (
-        <div className="hm-panel">
-          <div className="hm-panel-header">
-            <span className="hm-panel-title">CA-SKATTNING (HM-RATINGS-0.5)</span>
-            <span className="hm-badge hm-badge-neutral">{row.caProposal.modelVersion}</span>
+    <>
+      <div className="rd-summary">
+        <div style={{ minWidth: 0 }}>
+          <Link href={backHref} className="hm-dev-muted" style={{ textDecoration: "none", fontSize: 12 }}>← Granskningskön</Link>
+          <div className="rd-summary-name">{identity.fullName}</div>
+          <div className="rd-summary-meta">
+            {identity.clubName} · {profile.position}
+            {profile.secondaryPositions && profile.secondaryPositions.length > 0 ? ` (även ${profile.secondaryPositions.join(", ")})` : ""}
+            {identity.birthYear ? ` · född ${identity.birthYear}` : ""}
+            {identity.nationalities?.length ? ` · ${identity.nationalities.join(", ")}` : ""}
+            <span className="hm-dev-num"> · {profile.playerId}</span>
           </div>
-          <div className="hm-panel-body" style={{ fontSize: "var(--hm-text-xs)", display: "flex", flexDirection: "column", gap: 6 }}>
-            <div>
-              Bevispoäng: <strong>{row.caProposal.evidenceScore.toFixed(1)}</strong>
-            </div>
-            <p className="hm-text-muted" style={{ margin: 0, lineHeight: 1.5 }}>
-              {row.caProposal.rationale}
-            </p>
+          <div className="rd-badges">
+            <span className={`rd-badge${row.caSource === "EDITOR_OVERRIDE" ? " rd-badge--override" : ""}`}>{source.label}</span>
+            {row.matchedCalibration ? <span className="rd-badge">HM-RATINGS-0.2 kalibreringsträff</span> : null}
+            {diffRows.length > 0 ? <span className="rd-badge rd-badge--override">{diffRows.length} överstyrning{diffRows.length === 1 ? "" : "ar"}</span> : null}
+            {row.gamePriorArchetype ? <span className="rd-badge" title="Ingen forskad profil, en spelbar gameplay-representation.">Arketyp {row.gamePriorArchetype}</span> : null}
+          </div>
+        </div>
+        <div className="rd-metric">
+          <span className="hm-dev-eyebrow">CA</span>
+          <span className={`rd-metric-value${row.override?.ca !== undefined ? " hm-dev-diff" : ""}`}>{profile.ca.value ?? "—"}</span>
+          <span className="hm-dev-muted hm-dev-num" style={{ fontSize: 11 }}>{profile.ca.confidence} · {profile.ca.plausibleRange.min}–{profile.ca.plausibleRange.max}</span>
+        </div>
+        <div className="rd-metric">
+          <span className="hm-dev-eyebrow">PA</span>
+          <span className={`rd-metric-value${row.override?.pa !== undefined ? " hm-dev-diff" : ""}`}>{profile.pa.value ?? "—"}</span>
+          <span className="hm-dev-muted hm-dev-num" style={{ fontSize: 11 }}>{profile.pa.confidence} · {profile.pa.plausibleRange.min}–{profile.pa.plausibleRange.max}</span>
+        </div>
+        <div className="rd-metric">
+          <span className="hm-dev-eyebrow">Status</span>
+          <span className="hm-dev-num" style={{ fontWeight: 700 }}>{row.status}</span>
+          <span className="hm-dev-muted" style={{ fontSize: 11 }}>{row.reviewedAt ? `granskad ${row.reviewedAt.slice(0, 10)}` : `standard ${row.defaultStatus}`}</span>
+        </div>
+        <div className="rd-metric">
+          <span className="hm-dev-eyebrow">Lås</span>
+          {row.locked ? (
+            <>
+              <span className="rd-locked">LÅST</span>
+              <button type="button" className="hm-dev-btn hm-dev-btn--sm" onClick={() => setConfirm("unlock")} disabled={lockState === "saving"}>Lås upp…</button>
+            </>
+          ) : (
+            <>
+              <span className="hm-dev-muted">Ej låst</span>
+              <button type="button" className="hm-dev-btn hm-dev-btn--sm hm-dev-btn--primary" onClick={() => setConfirm("lock")} disabled={lockState === "saving" || !canLock}>
+                Lås…
+              </button>
+            </>
+          )}
+        </div>
+      </div>
+
+      {confirm ? (
+        <div className="rd-confirm" role="alertdialog" aria-label={confirm === "lock" ? "Bekräfta låsning" : "Bekräfta upplåsning"} style={{ marginTop: 0, marginBottom: 12 }}>
+          {confirm === "lock" ? (
+            <span>
+              Lås <strong>{identity.fullName}</strong> som godkänt spelinnehåll? En ögonblicksbild sparas: CA <span className="hm-dev-num">{profile.ca.value}</span>, PA{" "}
+              <span className="hm-dev-num">{profile.pa.value ?? "—"}</span> och hela attributprofilen{diffRows.length > 0 ? ` med ${diffRows.length} överstyrning(ar)` : ""}. Källunderlag och historik raderas aldrig.
+            </span>
+          ) : (
+            <span>
+              Lås upp <strong>{identity.fullName}</strong>? Den låsta ögonblicksbilden (CA {row.locked?.ca.value}) tas bort från den spelbara databasen.
+            </span>
+          )}
+          <div className="rd-confirm-actions">
+            <button
+              type="button"
+              className="hm-dev-btn hm-dev-btn--primary"
+              disabled={lockState === "saving"}
+              onClick={async () => {
+                if (confirm === "lock") await lockProfile();
+                else await unlockProfile();
+                setConfirm(null);
+              }}
+            >
+              {lockState === "saving" ? "Arbetar…" : confirm === "lock" ? "Ja, lås profilen" : "Ja, lås upp"}
+            </button>
+            <button type="button" className="hm-dev-btn" onClick={() => setConfirm(null)} disabled={lockState === "saving"}>Avbryt</button>
           </div>
         </div>
       ) : null}
+      {!row.locked && !canLock ? <p className="hm-dev-muted" style={{ marginTop: 0 }}>Kan inte låsas -- CA är inte fastställt.</p> : null}
+      {lockErrors.length > 0 ? (
+        <div className="hm-dev-alert" style={{ marginBottom: 12 }}>
+          {lockErrors.map((e, i) => (
+            <div key={i}>{e}</div>
+          ))}
+        </div>
+      ) : null}
+      {row.locked ? (
+        <p className="hm-dev-muted hm-dev-num" style={{ marginTop: 0 }}>
+          Låst {row.locked.lockedAt} · CA {row.locked.ca.value} ({row.locked.ca.source}){row.locked.pa ? ` · PA ${row.locked.pa.value} (${row.locked.pa.source})` : ""}
+        </p>
+      ) : null}
 
-      <div className="hm-panel">
-        <div className="hm-panel-header">
-          <span className="hm-panel-title">MANUELL ÖVERSTYRNING -- CA / PA</span>
-        </div>
-        <div className="hm-panel-body hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", paddingBottom: 0 }}>
-          En manuell överstyrning vinner för den spelbara databasen men skriver aldrig över källunderlaget eller modellens förslag ovan.
-        </div>
-        <div className="hm-panel-body" style={{ display: "flex", gap: 12, alignItems: "flex-end", flexWrap: "wrap" }}>
-          <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-2xs)" }}>
-            CA (1-200)
-            <input type="number" min={1} max={200} value={caOverrideDraft} onChange={(e) => setCaOverrideDraft(e.target.value)} style={{ ...selectStyle, width: 90 }} placeholder="Ej satt" />
-          </label>
-          <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-2xs)" }}>
-            PA (1-200)
-            <input type="number" min={1} max={200} value={paOverrideDraft} onChange={(e) => setPaOverrideDraft(e.target.value)} style={{ ...selectStyle, width: 90 }} placeholder="Ej satt" />
-          </label>
-          <button type="button" className="hm-btn" onClick={saveCAPAOverride} disabled={overrideState === "saving"}>
-            {overrideState === "saving" ? "SPARAR..." : "SPARA ÖVERSTYRNING"}
-          </button>
-          {row.override?.ca !== undefined || row.override?.pa !== undefined ? (
-            <button type="button" className="hm-btn hm-btn-ghost" onClick={clearCAPAOverride}>
-              RENSA ÖVERSTYRNING
-            </button>
-          ) : null}
-          {overrideState === "saved" ? <span className="hm-badge hm-badge-positive">SPARAT</span> : null}
-        </div>
-        {overrideErrors.length > 0 ? (
-          <div className="hm-panel-body" style={{ color: "var(--hm-negative)", fontSize: "var(--hm-text-xs)", paddingTop: 0 }}>
-            {overrideErrors.map((e, i) => (
-              <div key={i}>{e}</div>
-            ))}
-          </div>
-        ) : null}
-      </div>
-
-      <div className="hm-panel">
-        <div className="hm-panel-header">
-          <span className="hm-panel-title">ROLL / POSITION</span>
-        </div>
-        <div className="hm-panel-body" style={{ display: "flex", flexDirection: "column", gap: 6, fontSize: "var(--hm-text-xs)" }}>
-          <div>
-            <span className="hm-eyebrow">ANFALLSROLLER</span>{" "}
-            {profile.attackRoleProficiencies.length ? profile.attackRoleProficiencies.map((r) => r.role).join(", ") : <span className="hm-text-muted">Ingen roll registrerad</span>}
-          </div>
-          <div>
-            <span className="hm-eyebrow">FÖRSVARSROLLER</span>{" "}
-            {profile.defenceRoleProficiencies.length ? profile.defenceRoleProficiencies.map((r) => r.role).join(", ") : <span className="hm-text-muted">Ingen roll registrerad</span>}
-          </div>
-        </div>
-      </div>
-
-      <div className="hm-panel">
-        <div className="hm-panel-header">
-          <span className="hm-panel-title">{isGoalkeeper ? "MÅLVAKTSATTRIBUT" : "UTESPELARATTRIBUT"} (1-20)</span>
-          <span className="hm-badge hm-badge-neutral">
-            {knownCount} av {totalPossible} kända
-          </span>
-        </div>
-        {knownCount === 0 ? (
-          <div className="hm-panel-body hm-text-muted">Inga attribut har stöd i underlaget -- okänt förblir okänt, inte genomsnitt.</div>
-        ) : (
-          <>
-            <table className="hm-table">
+      <details className="hm-dev-panel rd-section" open>
+        <summary>
+          <span className="hm-dev-panel-title">Överstyrningar mot genererat</span>
+          <span className="hm-dev-num hm-dev-muted">{diffRows.length}</span>
+        </summary>
+        <div className="hm-dev-panel-body">
+          <p className="hm-dev-muted" style={{ marginTop: 0 }}>
+            En manuell överstyrning vinner för den spelbara databasen men skriver aldrig över källunderlaget eller modellens förslag.
+          </p>
+          {diffRows.length > 0 ? (
+            <table className="hm-dev-table" style={{ marginBottom: 12 }}>
               <thead>
                 <tr>
-                  <th>Attribut</th>
-                  <th className="hm-table-num">Värde</th>
+                  <th>Värde</th>
+                  <th className="hm-dev-num">Bas</th>
+                  <th>Bas från</th>
+                  <th className="hm-dev-num">Överstyrt</th>
+                  <th className="hm-dev-num">Δ</th>
                 </tr>
               </thead>
               <tbody>
-                {Object.entries(knownAttributes!).map(([name, value]) => (
-                  <tr key={name}>
-                    <td className="hm-td-strong">{getAttributeLabel(name as OutcourtAttribute | GoalkeeperAttribute)}</td>
-                    <td className="hm-table-num">{value}</td>
+                {diffRows.map((d) => (
+                  <tr key={d.key}>
+                    <td>{d.key === "CA" || d.key === "PA" ? d.key : getAttributeLabel(d.key as OutcourtAttribute | GoalkeeperAttribute)}</td>
+                    <td className="hm-dev-num">{d.base ?? "—"}</td>
+                    <td className="hm-dev-muted">{d.baseLabel}</td>
+                    <td className="hm-dev-num hm-dev-dirty"><span className="hm-dev-diff">{d.override}</span></td>
+                    <td className="hm-dev-num">{d.base === null ? "—" : `${d.override - d.base > 0 ? "+" : ""}${d.override - d.base}`}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
-            <div className="hm-panel-body hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
-              Övriga {totalPossible - knownCount} attribut är okända -- de visas inte som ett gissat genomsnitt.
-            </div>
-          </>
-        )}
-      </div>
-
-      <div className="hm-panel">
-        <div className="hm-panel-header">
-          <span className="hm-panel-title">MANUELL ÖVERSTYRNING -- ENSKILT ATTRIBUT</span>
-        </div>
-        <div className="hm-panel-body" style={{ display: "flex", gap: 12, alignItems: "flex-end", flexWrap: "wrap" }}>
-          <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-2xs)" }}>
-            ATTRIBUT
-            <select value={attributeKeyDraft} onChange={(e) => setAttributeKeyDraft(e.target.value)} style={{ ...selectStyle, minWidth: 200 }}>
-              <option value="">Välj attribut...</option>
-              {(isGoalkeeper ? GOALKEEPER_ATTRIBUTES : OUTCOURT_ATTRIBUTES).map((attr) => (
-                <option key={attr} value={attr}>
-                  {getAttributeLabel(attr)}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-2xs)" }}>
-            VÄRDE (1-20)
-            <input type="number" min={1} max={20} value={attributeValueDraft} onChange={(e) => setAttributeValueDraft(e.target.value)} style={{ ...selectStyle, width: 80 }} />
-          </label>
-          <button type="button" className="hm-btn" onClick={saveAttributeOverride} disabled={attributeOverrideState === "saving" || !attributeKeyDraft || !attributeValueDraft}>
-            {attributeOverrideState === "saving" ? "SPARAR..." : "SPARA"}
-          </button>
-          {attributeOverrideState === "saved" ? <span className="hm-badge hm-badge-positive">SPARAT</span> : null}
-        </div>
-        {row.override?.attributeOverrides && Object.keys(row.override.attributeOverrides).length > 0 ? (
-          <div className="hm-panel-body hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", paddingTop: 0 }}>
-            Aktiva attributöverstyrningar:{" "}
-            {Object.entries(row.override.attributeOverrides)
-              .map(([k, v]) => `${getAttributeLabel(k as OutcourtAttribute | GoalkeeperAttribute)}=${v}`)
-              .join(", ")}
-          </div>
-        ) : null}
-      </div>
-
-      <GeneratedProfilePreviewPanel result={row.generatedPreview} />
-
-      <ClaimTable title="EXPERTANKARE" claims={[...claimsByEvidenceClass.anchors, ...claimsByEvidenceClass.projection]} emptyText="Inga expertankare registrerade." />
-      <ClaimTable title="VERIFIERADE KARRIÄRSIGNALER" claims={claimsByEvidenceClass.careerSignals} emptyText="Inga verifierade karriärsignaler bortom truppmedlemskap." />
-      <ClaimTable title="SKADA / TILLGÄNGLIGHET" claims={claimsByEvidenceClass.injury} emptyText="Ingen skadeinformation registrerad." />
-      <ClaimTable title="MOTIVERING (VARFÖR DETTA RESULTAT)" claims={claimsByEvidenceClass.rationale} emptyText="—" />
-      <ClaimTable title="FULLSTÄNDIGT BEVISSPÅR (alla claims)" claims={claimsByEvidenceClass.all} emptyText="Inga claims." />
-
-      <div className="hm-panel">
-        <div className="hm-panel-header">
-          <span className="hm-panel-title">GRANSKNINGSSTATUS</span>
-        </div>
-        <div className="hm-panel-body hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
-          Standard från pipelinen: {row.defaultStatus}. Denna panel sparar endast status och anteckning -- CA/PA/attributvärden ändras via överstyrningspanelerna ovan.
-        </div>
-        <div className="hm-panel-body" style={{ display: "flex", gap: 12, alignItems: "flex-end", flexWrap: "wrap" }}>
-          <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-2xs)" }}>
-            STATUS
-            <select value={statusDraft} onChange={(e) => setStatusDraft(e.target.value)} style={selectStyle}>
-              {REVIEW_STATUSES.map((s) => (
-                <option key={s} value={s}>
-                  {s}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--hm-text-2xs)", flex: 1, minWidth: 260 }}>
-            ANTECKNING (valfritt)
-            <input type="text" value={noteDraft} onChange={(e) => setNoteDraft(e.target.value)} style={selectStyle} placeholder="Granskarens kommentar..." />
-          </label>
-          <button type="button" className="hm-btn hm-btn-primary" onClick={save} disabled={saveState === "saving"}>
-            {saveState === "saving" ? "SPARAR..." : "SPARA GRANSKNING"}
-          </button>
-        </div>
-        {row.reviewedAt ? <div className="hm-panel-body hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)", paddingTop: 0 }}>Senast granskad: {row.reviewedAt}</div> : null}
-        {saveErrors.length > 0 ? (
-          <div className="hm-panel-body" style={{ color: "var(--hm-negative)", fontSize: "var(--hm-text-xs)" }}>
-            {saveErrors.map((e, i) => (
-              <div key={i}>{e}</div>
-            ))}
-          </div>
-        ) : null}
-        {saveState === "saved" ? (
-          <div className="hm-panel-body">
-            <span className="hm-badge hm-badge-positive">SPARAT</span>
-          </div>
-        ) : null}
-      </div>
-
-      <div className="hm-panel">
-        <div className="hm-panel-header">
-          <span className="hm-panel-title">LÅSNING -- SPELBAR DATABAS</span>
-          {row.locked ? <span className="hm-badge hm-badge-positive">LÅST</span> : null}
-        </div>
-        <div className="hm-panel-body hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
-          Låsning sparar en ögonblicksbild av CA, PA och den kompletta attributprofilen (med eventuella överstyrningar) som godkänt spelinnehåll. Källunderlag, modellförslag och granskningshistorik raderas aldrig -- allt förblir granskningsbart.
-          {profile.ca.value === null ? " Kan inte låsas -- CA är inte fastställt." : ""}
-        </div>
-        <div className="hm-panel-body" style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
-          {row.locked ? (
-            <button type="button" className="hm-btn hm-btn-ghost" onClick={unlockProfile} disabled={lockState === "saving"}>
-              {lockState === "saving" ? "LÅSER UPP..." : "LÅS UPP"}
-            </button>
           ) : (
-            <button type="button" className="hm-btn hm-btn-primary" onClick={lockProfile} disabled={lockState === "saving" || profile.ca.value === null}>
-              {lockState === "saving" ? "LÅSER..." : "LÅS PROFIL"}
-            </button>
+            <p className="hm-dev-muted">Inga överstyrningar -- allt kommer från pipelinen.</p>
           )}
-          {row.locked ? (
-            <span className="hm-text-muted" style={{ fontSize: "var(--hm-text-2xs)" }}>
-              Låst {row.locked.lockedAt} · CA {row.locked.ca.value} ({row.locked.ca.source}) {row.locked.pa ? `· PA ${row.locked.pa.value} (${row.locked.pa.source})` : ""}
-            </span>
+          <div className="rd-form">
+            <label>
+              CA (1-200)
+              <input type="number" min={1} max={200} value={caOverrideDraft} onChange={(e) => setCaOverrideDraft(e.target.value)} style={{ width: 90 }} placeholder="Ej satt" />
+            </label>
+            <label>
+              PA (1-200)
+              <input type="number" min={1} max={200} value={paOverrideDraft} onChange={(e) => setPaOverrideDraft(e.target.value)} style={{ width: 90 }} placeholder="Ej satt" />
+            </label>
+            <button type="button" className="hm-dev-btn" onClick={saveCAPAOverride} disabled={overrideState === "saving"}>
+              {overrideState === "saving" ? "Sparar…" : "Spara CA/PA-överstyrning"}
+            </button>
+            {hasCaPaOverride ? (
+              <button type="button" className="hm-dev-btn hm-dev-btn--danger" onClick={clearCAPAOverride}>
+                Rensa överstyrning
+              </button>
+            ) : null}
+            {overrideState === "saved" ? <span className="hm-dev-pos">Sparat</span> : null}
+          </div>
+          {overrideErrors.length > 0 ? (
+            <div className="rd-errors">
+              {overrideErrors.map((e, i) => (
+                <div key={i}>{e}</div>
+              ))}
+            </div>
+          ) : null}
+          <div className="rd-form" style={{ marginTop: 12 }}>
+            <label>
+              Attribut
+              <select value={attributeKeyDraft} onChange={(e) => setAttributeKeyDraft(e.target.value)} style={{ minWidth: 200 }}>
+                <option value="">Välj attribut…</option>
+                {(isGoalkeeper ? GOALKEEPER_ATTRIBUTES : OUTCOURT_ATTRIBUTES).map((attr) => (
+                  <option key={attr} value={attr}>
+                    {getAttributeLabel(attr)}
+                    {attributeOverrides[attr] !== undefined ? ` (överstyrt ${attributeOverrides[attr]})` : ""}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label>
+              Värde (1-20)
+              <input type="number" min={1} max={20} value={attributeValueDraft} onChange={(e) => setAttributeValueDraft(e.target.value)} style={{ width: 80 }} />
+            </label>
+            <button type="button" className="hm-dev-btn" onClick={saveAttributeOverride} disabled={attributeOverrideState === "saving" || !attributeKeyDraft || !attributeValueDraft}>
+              {attributeOverrideState === "saving" ? "Sparar…" : "Spara attribut"}
+            </button>
+            {!attributeKeyDraft || !attributeValueDraft ? <span className="hm-dev-muted">Välj attribut och värde för att spara.</span> : null}
+            {attributeOverrideState === "saved" ? <span className="hm-dev-pos">Sparat</span> : null}
+            {attributeOverrideState === "error" ? <span className="hm-dev-neg">Kunde inte spara attributet.</span> : null}
+          </div>
+        </div>
+      </details>
+
+      <details className="hm-dev-panel rd-section" open>
+        <summary>
+          <span className="hm-dev-panel-title">Granskningsstatus</span>
+          <span className="hm-dev-num hm-dev-muted">{row.status}</span>
+        </summary>
+        <div className="hm-dev-panel-body">
+          <p className="hm-dev-muted" style={{ marginTop: 0 }}>
+            Standard från pipelinen: {row.defaultStatus}. Här sparas endast status och anteckning -- CA/PA/attribut ändras via överstyrningarna.
+          </p>
+          <div className="rd-form">
+            <label>
+              Status
+              <select value={statusDraft} onChange={(e) => setStatusDraft(e.target.value)}>
+                {REVIEW_STATUSES.map((s) => (
+                  <option key={s} value={s}>
+                    {s}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label style={{ flex: 1, minWidth: 260 }}>
+              Anteckning (valfritt)
+              <input type="text" value={noteDraft} onChange={(e) => setNoteDraft(e.target.value)} placeholder="Granskarens kommentar…" />
+            </label>
+            <button type="button" className="hm-dev-btn hm-dev-btn--primary" onClick={save} disabled={saveState === "saving"}>
+              {saveState === "saving" ? "Sparar…" : "Spara granskning"}
+            </button>
+            {saveState === "saved" ? <span className="hm-dev-pos">Sparat</span> : null}
+          </div>
+          {row.reviewedAt ? <p className="hm-dev-muted hm-dev-num" style={{ marginBottom: 0 }}>Senast granskad: {row.reviewedAt}</p> : null}
+          {saveErrors.length > 0 ? (
+            <div className="rd-errors">
+              {saveErrors.map((e, i) => (
+                <div key={i}>{e}</div>
+              ))}
+            </div>
           ) : null}
         </div>
-        {lockErrors.length > 0 ? (
-          <div className="hm-panel-body" style={{ color: "var(--hm-negative)", fontSize: "var(--hm-text-xs)" }}>
-            {lockErrors.map((e, i) => (
-              <div key={i}>{e}</div>
-            ))}
+      </details>
+
+      <details className="hm-dev-panel rd-section" open={row.caProposal?.status === "ESTIMATED"}>
+        <summary>
+          <span className="hm-dev-panel-title">CA/PA-förslag{row.caProposal?.status === "ESTIMATED" ? " · CA-skattning (HM-RATINGS-0.5)" : ""}</span>
+          {row.caProposal?.status === "ESTIMATED" ? <span className="hm-dev-num hm-dev-muted">{row.caProposal.modelVersion}</span> : null}
+        </summary>
+        <div className="hm-dev-panel-body">
+          <div className="hm-dev-split hm-dev-split--6-6">
+            <AbilityBlock label="Föreslaget CA (1-200)" rating={profile.ca} />
+            <AbilityBlock label="Föreslaget PA (1-200)" rating={profile.pa} />
           </div>
-        ) : null}
-      </div>
-    </div>
+          {row.caProposal?.status === "ESTIMATED" ? (
+            <div style={{ marginTop: 12 }}>
+              <div>
+                Bevispoäng: <strong className="hm-dev-num">{row.caProposal.evidenceScore.toFixed(1)}</strong> · modellskattning{" "}
+                <strong className="hm-dev-num">{row.caProposal.value ?? "—"}</strong>
+              </div>
+              <p className="hm-dev-muted" style={{ marginBottom: 0 }}>{row.caProposal.rationale}</p>
+            </div>
+          ) : null}
+        </div>
+      </details>
+
+      <details className="hm-dev-panel rd-section">
+        <summary>
+          <span className="hm-dev-panel-title">{isGoalkeeper ? "Målvaktsattribut" : "Utespelarattribut"} (1-20) · roller</span>
+          <span className="hm-dev-num hm-dev-muted">{knownCount} av {totalPossible} kända</span>
+        </summary>
+        <div className="hm-dev-panel-body">
+          <div style={{ marginBottom: 10 }}>
+            <span className="hm-dev-eyebrow">Anfallsroller</span>{" "}
+            {profile.attackRoleProficiencies.length ? profile.attackRoleProficiencies.map((r) => r.role).join(", ") : <span className="hm-dev-muted">Ingen roll registrerad</span>}
+            <br />
+            <span className="hm-dev-eyebrow">Försvarsroller</span>{" "}
+            {profile.defenceRoleProficiencies.length ? profile.defenceRoleProficiencies.map((r) => r.role).join(", ") : <span className="hm-dev-muted">Ingen roll registrerad</span>}
+          </div>
+          {knownCount === 0 ? (
+            <p className="hm-dev-muted">Inga attribut har stöd i underlaget -- okänt förblir okänt, inte genomsnitt.</p>
+          ) : (
+            <>
+              <table className="hm-dev-table">
+                <thead>
+                  <tr>
+                    <th>Attribut</th>
+                    <th className="hm-dev-num">Källvärde</th>
+                    <th className="hm-dev-num">Överstyrt</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {Object.entries(knownAttributes!).map(([name, value]) => {
+                    const overridden = attributeOverrides[name];
+                    return (
+                      <tr key={name}>
+                        <td>{getAttributeLabel(name as OutcourtAttribute | GoalkeeperAttribute)}</td>
+                        <td className="hm-dev-num">{value}</td>
+                        <td className={`hm-dev-num${overridden !== undefined ? " hm-dev-dirty" : ""}`}>{overridden !== undefined ? <span className="hm-dev-diff">{overridden}</span> : "—"}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+              <p className="hm-dev-muted">Övriga {totalPossible - knownCount} attribut är okända -- de visas inte som ett gissat genomsnitt.</p>
+            </>
+          )}
+        </div>
+      </details>
+
+      <details className="hm-dev-panel rd-section">
+        <summary>
+          <span className="hm-dev-panel-title">Genererad attributprofil (förhandsvisning, HM-RATINGS-0.4)</span>
+          {Object.keys(attributeOverrides).length > 0 ? <span className="hm-dev-warn">inkl. {Object.keys(attributeOverrides).length} överstyrda</span> : null}
+        </summary>
+        <div className="hm-dev-panel-body">
+          <GeneratedProfilePreviewPanel result={row.generatedPreview} />
+        </div>
+      </details>
+
+      <details className="hm-dev-panel rd-section">
+        <summary>
+          <span className="hm-dev-panel-title">Bevis och motivering</span>
+          <span className="hm-dev-num hm-dev-muted">{claimsByEvidenceClass.all.length} claims</span>
+        </summary>
+        <div className="hm-dev-panel-body">
+          <ClaimTable title="Expertankare" claims={[...claimsByEvidenceClass.anchors, ...claimsByEvidenceClass.projection]} emptyText="Inga expertankare registrerade." />
+          <ClaimTable title="Verifierade karriärsignaler" claims={claimsByEvidenceClass.careerSignals} emptyText="Inga verifierade karriärsignaler bortom truppmedlemskap." />
+          <ClaimTable title="Skada / tillgänglighet" claims={claimsByEvidenceClass.injury} emptyText="Ingen skadeinformation registrerad." />
+          <ClaimTable title="Motivering (varför detta resultat)" claims={claimsByEvidenceClass.rationale} emptyText="—" />
+          <ClaimTable title="Fullständigt bevisspår (alla claims)" claims={claimsByEvidenceClass.all} emptyText="Inga claims." />
+        </div>
+      </details>
+    </>
   );
 }
-
-const selectStyle: CSSProperties = {
-  background: "var(--hm-surface-2)",
-  border: "1px solid var(--hm-border)",
-  borderRadius: "var(--hm-radius-sm)",
-  color: "var(--hm-text-primary)",
-  padding: "7px 10px",
-  fontSize: "var(--hm-text-xs)",
-};

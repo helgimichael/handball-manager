@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { notFound } from "next/navigation";
 import { isEditorEnabled } from "@/lib/editor/env";
+import { DevShell } from "@/components/dev/DevShell";
 import { EditorModeGate } from "./EditorModeGate";
 
 // Forces every /editor/* route to be server-rendered per-request rather
@@ -23,8 +24,8 @@ export default function EditorLayout({ children }: { children: ReactNode }) {
     notFound();
   }
   return (
-    <div className="hm-editor-root">
+    <DevShell>
       <EditorModeGate>{children}</EditorModeGate>
-    </div>
+    </DevShell>
   );
 }

@@ -7,34 +7,36 @@
 // every /api/editor/* route -- flipping this toggle off/on can only
 // ever hide/show already-server-permitted content, never grant access
 // a disabled build wouldn't already allow.
-import { useEffect, useState } from "react";
-import { readEditorToggle } from "@/lib/editor/editorToggle";
+// Arena Nights SYS-06: the toggle now lives in the DEV ribbon; this gate offers it inline too.
+import { usePathname } from "next/navigation";
+import { useEditorMode } from "@/components/dev/useEditorMode";
+import { DEV_CONSOLE_HREF } from "@/lib/editor/devTools";
 
 export function EditorModeGate({ children }: { children: React.ReactNode }) {
-  // null = "haven't read localStorage yet" -- avoids a one-frame flash
-  // of the wrong state on mount (SSR has no localStorage to read at all).
-  const [enabled, setEnabled] = useState<boolean | null>(null);
+  const pathname = usePathname();
+  const { hydrated, enabled, setEnabled } = useEditorMode();
 
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- one-shot client-only localStorage read, matches editor/players/page.tsx's own rationale.
-    setEnabled(readEditorToggle());
-  }, []);
+  // The console home (SYS-02) is the hub for every dev tool, labs included, so it is never hidden by the toggle.
+  if (pathname === DEV_CONSOLE_HREF) return <>{children}</>;
 
-  if (enabled === null) {
-    return null;
-  }
+  // Not hydrated yet: render nothing rather than a one-frame flash of the wrong state.
+  if (!hydrated) return null;
 
   if (!enabled) {
     return (
-      <div style={{ maxWidth: 640, margin: "48px auto", padding: "0 20px" }}>
-        <div className="hm-panel">
-          <div className="hm-panel-header">
-            <span className="hm-panel-title">EDITOR MODE ÄR AVSTÄNGT</span>
-            <span className="hm-badge hm-badge-warning">UTVECKLING</span>
-          </div>
-          <div className="hm-panel-body hm-text-muted" style={{ fontSize: "var(--hm-text-xs)" }}>
-            Aktivera Editor Mode via växlingsknappen (nedre högra hörnet) för att fortsätta.
-          </div>
+      <div className="hm-dev-panel" style={{ maxWidth: 560, margin: "32px auto" }}>
+        <div className="hm-dev-panel-head">
+          <span className="hm-dev-panel-title">Editor Mode är avstängt</span>
+          <span className="hm-dev-badge">DEV</span>
+        </div>
+        <div className="hm-dev-panel-body">
+          <p className="hm-dev-muted" style={{ marginTop: 0 }}>
+            Dataverktygen skriver till den verkliga databasen och visas bara när Editor Mode är på i den här webbläsaren.
+            Motorlabben fungerar utan Editor Mode.
+          </p>
+          <button type="button" className="hm-dev-btn hm-dev-btn--primary" onClick={() => setEnabled(true)}>
+            Aktivera Editor Mode
+          </button>
         </div>
       </div>
     );

@@ -2,6 +2,10 @@
 
 // HUMAN QA GATE 1: the Match 2D QA harness.
 //
+// Arena Nights SYS-04 (A) "Gated QA harness with control panel": gated by app/match-qa/layout.tsx
+// (isEditorEnabled, 404 otherwise) and rendered in the dev shell -- court (9) + a right control
+// panel grouped Uppspelning / Scenario / Växlar, then the read-outs. Only the UI shell changed.
+//
 // One dev-only page where a human can deliberately reach the behaviours M1-M25
 // built, instead of waiting for a lucky random match.
 //
@@ -53,6 +57,7 @@ import {
   type DefenceSystemId,
   type QaSettings,
 } from "../../lib/matchQa/qaHarness";
+import "./match-qa.css";
 
 function noop() {}
 
@@ -94,15 +99,6 @@ function describeEvent(event: CanonicalMatchEvent): string {
   }
 }
 
-const panel: React.CSSProperties = {
-  background: "var(--hm-surface-2)",
-  border: "1px solid var(--hm-border-subtle)",
-  borderRadius: 6,
-  padding: "8px 10px",
-  fontSize: 12,
-  fontVariantNumeric: "tabular-nums",
-};
-
 export default function MatchQaPage() {
   const [settings, setSettings] = useState<QaSettings>(DEFAULT_QA_SETTINGS);
   const [clock, setClock] = useState(0);
@@ -138,10 +134,10 @@ export default function MatchQaPage() {
     const target = preset.seek ? preset.seek(events, match) : null;
     if (preset.seek && target === null) {
       setClock(0);
-      setSeekNote("This seed produced no such moment — try another seed.");
+      setSeekNote("Den här seeden gav inget sådant ögonblick – prova en annan seed.");
     } else {
       setClock(target ?? 0);
-      setSeekNote(target === null ? null : `Sought to ${formatMatchClock(target)}.`);
+      setSeekNote(target === null ? null : `Hoppade till ${formatMatchClock(target)}.`);
     }
   };
 
@@ -246,11 +242,12 @@ export default function MatchQaPage() {
     return () => cancelAnimationFrame(raf);
   }, [playing, speed, built.duration]);
 
-  if (!frame || !scene) return <div style={{ padding: 24 }}>No match to play back.</div>;
+  if (!frame || !scene) return <p className="hm-dev-empty">Ingen match att spela upp. Byt seed eller välj ett preset.</p>;
 
   const possessorId = frame.snapshot.ball.possessorPlayerId;
   const possessor = possessorId ? frame.snapshot.players.find((p) => p.id === possessorId) : undefined;
   const possessionTeam = possessorId ? teams.find((t) => built.match.finalState.rosters[t.team].includes(possessorId)) : undefined;
+  const atEnd = clock >= built.duration;
 
   return (
     // QA GATE 1: a FIXED viewport height, not a percentage one.
@@ -261,110 +258,20 @@ export default function MatchQaPage() {
     // The event list and the condition list grow as a match runs, that made the
     // sidebar taller, the row taller and the stage taller -- and the court is
     // fitted to the stage, so it scaled up with it. Pinning the page to the
-    // viewport and letting only the inner lists scroll makes the court's size a
-    // function of the window and nothing else.
-    <div style={{ display: "flex", flexDirection: "column", height: "100vh", minHeight: 0, overflow: "hidden" }}>
-      {/* ---------------- controls ---------------- */}
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 12, alignItems: "center", padding: "8px 12px", borderBottom: "1px solid var(--hm-border-subtle)", background: "var(--hm-surface-2)" }}>
-        <strong style={{ fontSize: 13, letterSpacing: 0.5 }}>MATCH 2D — QA</strong>
-
-        <button type="button" className="hm-btn hm-btn-primary" onClick={() => setPlaying((p) => !p)}>
-          {playing ? "PAUSE" : "PLAY"}
-        </button>
-        <button type="button" className="hm-btn" onClick={() => { setPlaying(false); setClock(0); setSeekNote(null); }}>
-          RESTART
-        </button>
-        <span style={{ display: "flex", gap: 4 }}>
-          {PLAYBACK_SPEEDS.map((s) => (
-            <button key={s} type="button" className={s === speed ? "hm-btn hm-btn-primary" : "hm-btn"} onClick={() => setSpeed(s)}>
-              {s}x
-            </button>
-          ))}
-        </span>
-
-        <label style={{ display: "flex", gap: 6, alignItems: "center", fontSize: 12 }}>
-          seed
-          <input
-            type="number"
-            value={settings.seed}
-            onChange={(e) => apply({ seed: Number(e.target.value) || 0 })}
-            style={{ width: 74 }}
-          />
-        </label>
-
-        {(["home", "away"] as const).map((side) => (
-          <span key={side} style={{ display: "flex", gap: 4, alignItems: "center", fontSize: 12 }}>
-            <span style={{ opacity: 0.7, textTransform: "uppercase" }}>{side} def</span>
-            {DEFENCE_SYSTEMS.map((system) => (
-              <button
-                key={system.id}
-                type="button"
-                className={settings[side] === system.id ? "hm-btn hm-btn-primary" : "hm-btn"}
-                onClick={() => apply({ [side]: system.id as DefenceSystemId } as Partial<QaSettings>)}
-              >
-                {system.label}
-              </button>
-            ))}
+    // viewport (minus the dev ribbon, see match-qa.css) and letting only the
+    // right column scroll makes the court's size a function of the window.
+    <div className="mqa">
+      {/* ---------------- court (9) ---------------- */}
+      <section className="mqa-court hm-dev-panel" aria-label="Plan">
+        <div className="hm-dev-panel-head">
+          <span className="hm-dev-panel-title">Match 2D · QA</span>
+          <span className="hm-dev-num">
+            <strong>HOME {frame.score.HOME} – {frame.score.AWAY} AWAY</strong>
+            <span className="hm-dev-muted"> · {formatMatchClock(frame.matchSeconds)} · halvlek {frame.half}</span>
           </span>
-        ))}
-
-        <span style={{ display: "flex", gap: 4, alignItems: "center", fontSize: 12 }}>
-          <span style={{ opacity: 0.7 }}>FATIGUE</span>
-          <button type="button" className={!settings.fatigue ? "hm-btn hm-btn-primary" : "hm-btn"} onClick={() => apply({ fatigue: false })}>OFF</button>
-          <button type="button" className={settings.fatigue ? "hm-btn hm-btn-primary" : "hm-btn"} onClick={() => apply({ fatigue: true })}>ON</button>
-        </span>
-
-        <span style={{ display: "flex", gap: 4, alignItems: "center", fontSize: 12 }}>
-          <span style={{ opacity: 0.7 }}>HOME 7v6</span>
-          <button type="button" className={!settings.sevenOut ? "hm-btn hm-btn-primary" : "hm-btn"} onClick={() => apply({ sevenOut: false })}>OFF</button>
-          <button type="button" className={settings.sevenOut ? "hm-btn hm-btn-primary" : "hm-btn"} onClick={() => apply({ sevenOut: true })}>ON</button>
-        </span>
-      </div>
-
-      {/* ---------------- presets ---------------- */}
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center", padding: "6px 12px", borderBottom: "1px solid var(--hm-border-subtle)" }}>
-        <span style={{ fontSize: 11, opacity: 0.6, marginRight: 4 }}>PRESETS</span>
-        {QA_PRESETS.map((preset) => (
-          <button key={preset.id} type="button" className="hm-btn" onClick={() => runPreset(preset)} title={preset.hint}>
-            {preset.label}
-          </button>
-        ))}
-        <span style={{ fontSize: 11, opacity: 0.7, marginLeft: 8 }}>
-          {presetHint}
-          {seekNote ? ` — ${seekNote}` : ""}
-        </span>
-      </div>
-
-      {/* ---------------- seek ---------------- */}
-      <div style={{ padding: "6px 12px", borderBottom: "1px solid var(--hm-border-subtle)" }}>
-        <input
-          type="range"
-          min={0}
-          max={Math.max(1, Math.round(built.duration))}
-          value={Math.round(clock)}
-          onChange={(e) => setClock(Number(e.target.value))}
-          style={{ width: "100%" }}
-          aria-label="Seek"
-        />
-      </div>
-
-      <div style={{ display: "flex", flex: 1, minHeight: 0, overflow: "hidden" }}>
-        {/* ---------------- court ---------------- */}
-        <div
-          ref={stageRef}
-          style={{ flex: 1, minWidth: 0, position: "relative", overflow: "hidden", ...designSystemTheme, background: "var(--ds-color-background)" }}
-        >
-          <div
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              width: courtPixels.width,
-              height: courtPixels.height,
-              transform: "translate(-50%, -50%) rotate(-90deg)",
-              transformOrigin: "center center",
-            }}
-          >
+        </div>
+        <div ref={stageRef} className="mqa-stage" style={designSystemTheme}>
+          <div className="mqa-court-rotor" style={{ width: courtPixels.width, height: courtPixels.height }}>
             <MasterCourt
               scene={scene}
               activeTool={"SELECT" as ToolId}
@@ -432,96 +339,194 @@ export default function MatchQaPage() {
             />
           </div>
         </div>
+        <div className="mqa-seek">
+          <span className="hm-dev-num">{formatMatchClock(clock)}</span>
+          <input
+            type="range"
+            min={0}
+            max={Math.max(1, Math.round(built.duration))}
+            value={Math.round(clock)}
+            onChange={(e) => setClock(Number(e.target.value))}
+            aria-label="Spola"
+          />
+          <span className="hm-dev-num hm-dev-muted">{formatMatchClock(built.duration)}</span>
+        </div>
+      </section>
 
-        {/* ---------------- debug ---------------- */}
-        <div style={{ width: 340, flexShrink: 0, minHeight: 0, borderLeft: "1px solid var(--hm-border-subtle)", overflowY: "auto", padding: 10, display: "flex", flexDirection: "column", gap: 10 }}>
-          <div style={panel}>
-            <div style={{ fontSize: 18, fontWeight: 600 }}>
-              HOME {frame.score.HOME} – {frame.score.AWAY} AWAY
+      {/* ---------------- control panel (3) ---------------- */}
+      <aside className="mqa-side" aria-label="Kontrollpanel">
+        <section className="hm-dev-panel">
+          <div className="hm-dev-panel-head"><span className="hm-dev-panel-title">Uppspelning</span></div>
+          <div className="hm-dev-panel-body mqa-stack">
+            <div className="mqa-row">
+              <button type="button" className="hm-dev-btn hm-dev-btn--primary" onClick={() => setPlaying((p) => !p)} disabled={atEnd && !playing}>
+                {playing ? "Pausa" : "Spela"}
+              </button>
+              <button type="button" className="hm-dev-btn" onClick={() => { setPlaying(false); setClock(0); setSeekNote(null); }}>
+                Börja om
+              </button>
             </div>
-            <div>{formatMatchClock(frame.matchSeconds)} · half {frame.half}</div>
-            <div>phase: <strong>{phaseAt(built.match, frame.matchSeconds)}</strong></div>
-            <div>
-              possession: <strong>{possessionTeam?.team ?? "—"}</strong>
-              {possessor ? ` · ${possessor.id}` : ""} · ball {frame.snapshot.ball.status}
+            {atEnd && !playing ? <span className="hm-dev-muted">Slutsignal – börja om eller spola bakåt för att spela igen.</span> : null}
+            <div className="mqa-field">
+              <span className="mqa-label">Hastighet</span>
+              <div className="hm-dev-chips" role="group" aria-label="Hastighet">
+                {PLAYBACK_SPEEDS.map((s) => (
+                  <button key={s} type="button" className="hm-dev-chip" aria-pressed={s === speed} onClick={() => setSpeed(s)}>
+                    {s}×
+                  </button>
+                ))}
+              </div>
             </div>
-            <div>seed {settings.seed} · fatigue {settings.fatigue ? "ON" : "OFF"} · sim {frame.simulationTime.toFixed(1)}s</div>
           </div>
+        </section>
 
-          {teams.map((t) => (
-            <div key={t.team} style={panel}>
-              <div style={{ fontWeight: 600 }}>{t.team}</div>
-              <div>defence: <strong>{DEFENCE_SYSTEMS.find((s) => s.id === t.defenceSystem)?.label ?? t.defenceSystem}</strong></div>
-              <div>
-                on court: <strong>{t.onCourt}</strong> ({t.fieldPlayers} outfield
-                {t.goalkeeperOnCourt ? " + GK" : ", NO GK"})
+        <section className="hm-dev-panel">
+          <div className="hm-dev-panel-head"><span className="hm-dev-panel-title">Scenario</span></div>
+          <div className="hm-dev-panel-body mqa-stack">
+            <label className="mqa-field">
+              <span className="mqa-label">Seed</span>
+              <input type="number" value={settings.seed} onChange={(e) => apply({ seed: Number(e.target.value) || 0 })} style={{ width: 110 }} />
+            </label>
+            <div className="mqa-field">
+              <span className="mqa-label">Presets</span>
+              <div className="mqa-presets">
+                {QA_PRESETS.map((preset) => (
+                  <button key={preset.id} type="button" className="hm-dev-btn hm-dev-btn--sm" onClick={() => runPreset(preset)} title={preset.hint}>
+                    {preset.label}
+                  </button>
+                ))}
               </div>
-              <div style={{ color: t.goalGuarded ? undefined : "var(--hm-danger, #e66)" }}>
-                goal: <strong>{t.goalGuarded ? "guarded" : "EMPTY"}</strong>
-                {t.goalkeeperOnCourt && !t.goalGuarded ? " (GK on court, not yet in goal)" : ""}
-                {t.fieldPlayers === 7 ? " · playing 7v6" : ""}
+              <span className="hm-dev-muted">
+                {presetHint}
+                {seekNote ? ` — ${seekNote}` : ""}
+              </span>
+            </div>
+          </div>
+        </section>
+
+        <section className="hm-dev-panel">
+          <div className="hm-dev-panel-head"><span className="hm-dev-panel-title">Växlar</span><span className="hm-dev-muted">bygger om matchen</span></div>
+          <div className="hm-dev-panel-body mqa-stack">
+            {(["home", "away"] as const).map((side) => (
+              <div key={side} className="mqa-field">
+                <span className="mqa-label">Försvar {side === "home" ? "HOME" : "AWAY"}</span>
+                <div className="hm-dev-chips" role="group" aria-label={`Försvar ${side === "home" ? "HOME" : "AWAY"}`}>
+                  {DEFENCE_SYSTEMS.map((system) => (
+                    <button
+                      key={system.id}
+                      type="button"
+                      className="hm-dev-chip"
+                      aria-pressed={settings[side] === system.id}
+                      onClick={() => apply({ [side]: system.id as DefenceSystemId } as Partial<QaSettings>)}
+                    >
+                      {system.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ))}
+            <div className="mqa-field">
+              <span className="mqa-label">Trötthet</span>
+              <div className="hm-dev-chips" role="group" aria-label="Trötthet">
+                <button type="button" className="hm-dev-chip" aria-pressed={!settings.fatigue} onClick={() => apply({ fatigue: false })}>AV</button>
+                <button type="button" className="hm-dev-chip" aria-pressed={settings.fatigue} onClick={() => apply({ fatigue: true })}>PÅ</button>
               </div>
             </div>
-          ))}
+            <div className="mqa-field">
+              <span className="mqa-label">HOME 7 mot 6</span>
+              <div className="hm-dev-chips" role="group" aria-label="HOME 7 mot 6">
+                <button type="button" className="hm-dev-chip" aria-pressed={!settings.sevenOut} onClick={() => apply({ sevenOut: false })}>AV</button>
+                <button type="button" className="hm-dev-chip" aria-pressed={settings.sevenOut} onClick={() => apply({ sevenOut: true })}>PÅ</button>
+              </div>
+            </div>
+          </div>
+        </section>
 
-          {/*
-            QA instrumentation, not a model. The decision trace names defenders
-            by ROLE and roles are reassigned by lane at every change of
-            possession, so "R2 has the ball" is unverifiable on screen unless a
-            human can see which marker is R2 right now. This table is that, and
-            nothing else: ids, roles and the coordinates already in the frame.
-          */}
-          <div style={panel}>
-            <div style={{ fontWeight: 600, marginBottom: 4 }}>WHO IS WHO (defending side)</div>
-            <div style={{ opacity: 0.65, marginBottom: 4 }}>{defenceSummaryAt(built.match, frame.matchSeconds)}</div>
-            <div style={{ display: "grid", gridTemplateColumns: "auto auto 1fr", gap: "2px 8px", fontVariantNumeric: "tabular-nums" }}>
+        {/* ---------------- read-outs ---------------- */}
+        <section className="hm-dev-panel">
+          <div className="hm-dev-panel-head"><span className="hm-dev-panel-title">Läge</span></div>
+          <div className="hm-dev-panel-body hm-dev-num mqa-readout">
+            <div>fas: <strong>{phaseAt(built.match, frame.matchSeconds)}</strong></div>
+            <div>
+              bollinnehav: <strong>{possessionTeam?.team ?? "—"}</strong>
+              {possessor ? ` · ${possessor.id}` : ""} · boll {frame.snapshot.ball.status}
+            </div>
+            <div>seed {settings.seed} · trötthet {settings.fatigue ? "PÅ" : "AV"} · sim {frame.simulationTime.toFixed(1)} s</div>
+            {teams.map((t) => (
+              <div key={t.team} className="mqa-team">
+                <strong>{t.team}</strong> · försvar {DEFENCE_SYSTEMS.find((s) => s.id === t.defenceSystem)?.label ?? t.defenceSystem}
+                <div>
+                  på plan: <strong>{t.onCourt}</strong> ({t.fieldPlayers} utespelare{t.goalkeeperOnCourt ? " + MV" : ", INGEN MV"})
+                </div>
+                <div className={t.goalGuarded ? undefined : "hm-dev-neg"}>
+                  mål: <strong>{t.goalGuarded ? "bevakat" : "TOMT"}</strong>
+                  {t.goalkeeperOnCourt && !t.goalGuarded ? " (MV på plan, inte i mål än)" : ""}
+                  {t.fieldPlayers === 7 ? " · spelar 7 mot 6" : ""}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/*
+          QA instrumentation, not a model. The decision trace names defenders
+          by ROLE and roles are reassigned by lane at every change of
+          possession, so "R2 has the ball" is unverifiable on screen unless a
+          human can see which marker is R2 right now. This table is that, and
+          nothing else: ids, roles and the coordinates already in the frame.
+        */}
+        <details className="hm-dev-panel mqa-details" open>
+          <summary className="hm-dev-panel-head"><span className="hm-dev-panel-title">Vem är vem (försvarande lag)</span></summary>
+          <div className="hm-dev-panel-body">
+            <div className="hm-dev-muted mqa-sub">{defenceSummaryAt(built.match, frame.matchSeconds)}</div>
+            <div className="mqa-who hm-dev-num">
               {defenders.map((d) => (
                 <Fragment key={d.playerId}>
-                  <div style={{ fontWeight: 600 }}>{d.role}</div>
-                  <div style={{ opacity: 0.7 }}>…{d.shortId}</div>
-                  <div style={{ opacity: 0.7 }}>
-                    ({d.x.toFixed(1)}, {d.y.toFixed(1)})
-                  </div>
+                  <strong>{d.role}</strong>
+                  <span className="hm-dev-muted">…{d.shortId}</span>
+                  <span className="hm-dev-muted">({d.x.toFixed(1)}, {d.y.toFixed(1)})</span>
                 </Fragment>
               ))}
-              {defenders.length === 0 ? <div style={{ opacity: 0.6 }}>—</div> : null}
+              {defenders.length === 0 ? <span className="hm-dev-muted">—</span> : null}
             </div>
           </div>
+        </details>
 
-          <div style={panel}>
-            <div style={{ fontWeight: 600, marginBottom: 4 }}>CANONICAL EVENTS</div>
-            <div style={{ opacity: 0.65, marginBottom: 4 }}>latest: {latestEvent ? describeEvent(latestEvent) : "—"}</div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 2, maxHeight: 200, overflowY: "auto" }}>
+        <details className="hm-dev-panel mqa-details" open>
+          <summary className="hm-dev-panel-head"><span className="hm-dev-panel-title">Kanoniska händelser</span></summary>
+          <div className="hm-dev-panel-body">
+            <div className="hm-dev-muted mqa-sub">senaste: {latestEvent ? describeEvent(latestEvent) : "—"}</div>
+            <div className="mqa-list hm-dev-num">
+              {recentEvents.length === 0 ? <span className="hm-dev-muted">Inga händelser än – tryck Spela.</span> : null}
               {recentEvents.map((e, i) => (
-                <div key={`${e.sequence}-${i}`} style={{ opacity: i === 0 ? 1 : 0.7 }}>
+                <div key={`${e.sequence}-${i}`} className={i === 0 ? undefined : "hm-dev-muted"}>
                   {describeEvent(e)}
                 </div>
               ))}
             </div>
           </div>
+        </details>
 
-          {/*
-            Kept visibly separate from the canonical events above. This is the
-            engine's own development note for the frame on screen -- what it
-            says it is doing -- so a human can compare it with what the court
-            shows. It is never a data source.
-          */}
-          <div style={panel}>
-            <div style={{ fontWeight: 600, marginBottom: 4 }}>DECISION TRACE (not canonical)</div>
-            <div style={{ opacity: 0.8, minHeight: 32 }}>{frame.note || "—"}</div>
-          </div>
+        {/*
+          Kept visibly separate from the canonical events above. This is the
+          engine's own development note for the frame on screen -- what it
+          says it is doing -- so a human can compare it with what the court
+          shows. It is never a data source.
+        */}
+        <details className="hm-dev-panel mqa-details" open>
+          <summary className="hm-dev-panel-head"><span className="hm-dev-panel-title">Beslutsspår (ej kanoniskt)</span></summary>
+          <div className="hm-dev-panel-body mqa-trace">{frame.note || "—"}</div>
+        </details>
 
-          {settings.fatigue ? (
-            <div style={panel}>
-              <div style={{ fontWeight: 600, marginBottom: 4 }}>CONDITION (full time)</div>
-              <div style={{ opacity: 0.6, marginBottom: 4 }}>player · condition · max speed · acceleration</div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 2, maxHeight: 260, overflowY: "auto" }}>
+        {settings.fatigue ? (
+          <details className="hm-dev-panel mqa-details" open>
+            <summary className="hm-dev-panel-head"><span className="hm-dev-panel-title">Kondition (slutsignal)</span></summary>
+            <div className="hm-dev-panel-body">
+              <div className="hm-dev-muted mqa-sub">spelare · kondition · maxfart · acceleration</div>
+              <div className="mqa-list mqa-list--tall hm-dev-num">
                 {conditions.map((c) => (
-                  <div key={c.playerId} style={{ display: "flex", gap: 6, opacity: c.onCourt ? 1 : 0.6 }}>
-                    <span style={{ flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                      {c.onCourt ? "" : "🪑 "}
-                      {c.playerId}
-                    </span>
+                  <div key={c.playerId} className={c.onCourt ? "mqa-cond" : "mqa-cond hm-dev-muted"}>
+                    <span className="mqa-cond-id">{c.onCourt ? "" : "(bänk) "}{c.playerId}</span>
                     <span>{c.condition.toFixed(3)}</span>
                     <span>{c.maxSpeed.toFixed(2)} m/s</span>
                     <span>{c.acceleration.toFixed(2)} m/s²</span>
@@ -529,9 +534,9 @@ export default function MatchQaPage() {
                 ))}
               </div>
             </div>
-          ) : null}
-        </div>
-      </div>
+          </details>
+        ) : null}
+      </aside>
     </div>
   );
 }
