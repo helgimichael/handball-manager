@@ -146,7 +146,7 @@ test("(7) Division 1 candidate: an Allsvenskan CPU club can see and rank real Di
   assert.ok(div1ClubId, "expected at least one Division 1 club in game-data");
   const div1Position = state.worldSquads[div1ClubId!]?.[0]?.position;
   assert.ok(div1Position);
-  const candidates = rankCandidates(state, clubId, div1Position!, state.gameDate);
+  const candidates = rankCandidates(state, clubId, div1Position!, state.gameDate, { exhaustive: true });
   assert.ok(candidates.some((c) => c.clubId === div1ClubId), "expected at least one Division 1 candidate to be visible to an Allsvenskan buyer");
 });
 
