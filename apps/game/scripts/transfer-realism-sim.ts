@@ -143,12 +143,47 @@ interface SeasonRow {
   swedishClubCashMedianEur: number;
   leagueLevel: Record<string, number>;
   named: Record<string, { club: string; group: Group; age: number | null; ca: number }>;
+  /** HM-TRANSFER-REALISM M8: ecosystem metrics added for the sustainability sprint (observation only). */
+  m8: M8Row;
+}
+interface M8Row {
+  intlPopulation: number;
+  intlSquadMean: number;
+  intlYouthPromoted: number;
+  intlYouthActive: number;
+  intlYouthEstablished: number;
+  retired: number;
+  retiredByGroup: Record<string, number>;
+  retireAgeMedian: number;
+  intlBoughtFromSweden: number;
+  intlToIntl: number;
+  foreignToSweden: number;
+  eliteByGroup: Record<string, number>;
+  ageMedianByGroup: Record<string, number>;
+  activeAged34Plus: number;
+  activeAged38Plus: number;
+  maxActiveAge: number;
+  ca36PlusMedian: number;
+  seasonSeconds: number;
+  /** M8E: where each Swedish league's quality change came from this season. */
+  leagueFlow: Record<string, LeagueFlow>;
+}
+interface LeagueFlow {
+  stayers: number;
+  stayerMeanDeltaCA: number;
+  stayerU24MeanDeltaCA: number;
+  stayer30PlusMeanDeltaCA: number;
+  arrivals: Record<string, { n: number; meanCA: number }>;
+  departures: Record<string, { n: number; meanCA: number }>;
+  topSevenMeanAge: number;
+  topSevenShare30Plus: number;
 }
 const rows: SeasonRow[] = [];
 
 const swedishClubIds = () => careerWorldClubIds(state).filter((id) => id !== state.playerClubId);
 
 for (let season = 1; season <= seasons; season++) {
+  const seasonStarted = Date.now();
   const before = snapshot(state, date);
   let emergencyClubWeeks = 0;
   let swedishClubWeeks = 0;
@@ -213,6 +248,93 @@ for (let season = 1; season <= seasons; season++) {
     if (s) named[s.name] = { club: getClub(s.clubId)?.shortName ?? s.clubId, group: s.group, age: s.age, ca: Math.round(s.ca) };
   }
 
+  // --- M8 ecosystem metrics ---
+  const isEuro = (g: Group) => g === "EURO_ELITE" || g === "EURO_OTHER";
+  const isSwedish = (g: Group) => g === "HBL" || g === "ALLSV" || g === "DIV1";
+  const active = [...after.values()].filter((s) => s.group !== "FA" && s.group !== "RETIRED");
+  const euroPlayers = active.filter((s) => isEuro(s.group));
+  const euroClubs = new Set(euroPlayers.map((s) => s.clubId));
+  const retiredNow = [...after.entries()].filter(([id, s]) => s.group === "RETIRED" && before.get(id) && before.get(id)!.group !== "RETIRED");
+  const retiredByGroup: Record<string, number> = {};
+  for (const [id] of retiredNow) { const g = before.get(id)!.group; retiredByGroup[g] = (retiredByGroup[g] ?? 0) + 1; }
+  let intlBoughtFromSweden = 0, intlToIntl = 0, foreignToSweden = 0;
+  for (const [id, now] of after) {
+    const was = before.get(id);
+    if (!was || was.clubId === now.clubId) continue;
+    if (isEuro(now.group) && isSwedish(was.group)) intlBoughtFromSweden++;
+    if (isEuro(now.group) && isEuro(was.group)) intlToIntl++;
+    if (isSwedish(now.group) && isEuro(was.group)) foreignToSweden++;
+  }
+  const eliteByGroup: Record<string, number> = {};
+  const ageMedianByGroup: Record<string, number> = {};
+  for (const g of GROUPS) {
+    eliteByGroup[g] = [...after.values()].filter((s) => s.group === g && s.ca >= ELITE_CA).length;
+    ageMedianByGroup[g] = r1(quantile([...after.values()].filter((s) => s.group === g && s.age !== null).map((s) => s.age!), 0.5));
+  }
+  const intlYouth = [...after.entries()].filter(([id]) => id.startsWith("intl-youth-"));
+  const leagueFlow: Record<string, LeagueFlow> = {};
+  for (const L of ["HBL", "ALLSV", "DIV1"] as Group[]) {
+    const deltas: number[] = [], youngDeltas: number[] = [], oldDeltas: number[] = [];
+    const arrivals: Record<string, number[]> = {};
+    const departures: Record<string, number[]> = {};
+    for (const [id, now] of after) {
+      const was = before.get(id);
+      if (now.group === L && was && was.group === L) {
+        const d = now.ca - was.ca;
+        deltas.push(d);
+        if ((was.age ?? 0) < 24) youngDeltas.push(d);
+        if ((was.age ?? 0) >= 30) oldDeltas.push(d);
+      } else if (now.group === L) {
+        const from = was ? was.group : "NEW_YOUTH";
+        (arrivals[from] ??= []).push(now.ca);
+      }
+    }
+    for (const [id, was] of before) {
+      if (was.group !== L) continue;
+      const now = after.get(id);
+      if (now && now.group === L) continue;
+      (departures[now ? now.group : "GONE"] ??= []).push(was.ca);
+    }
+    const mean = (xs: number[]) => (xs.length ? r1(xs.reduce((a, b) => a + b, 0) / xs.length) : NaN);
+    const pack = (m: Record<string, number[]>) => Object.fromEntries(Object.entries(m).map(([k, v]) => [k, { n: v.length, meanCA: mean(v) }]));
+    // The seven best players of each club in L: the core the level measure reads.
+    const cores: { age: number }[] = [];
+    const byClub = new Map<string, Snap[]>();
+    for (const sn of after.values()) if (sn.group === L) (byClub.get(sn.clubId) ?? byClub.set(sn.clubId, []).get(sn.clubId)!).push(sn);
+    for (const list of byClub.values()) for (const sn of [...list].sort((a, b) => b.ca - a.ca).slice(0, 7)) cores.push({ age: sn.age ?? 0 });
+    leagueFlow[L] = {
+      stayers: deltas.length,
+      stayerMeanDeltaCA: mean(deltas),
+      stayerU24MeanDeltaCA: mean(youngDeltas),
+      stayer30PlusMeanDeltaCA: mean(oldDeltas),
+      arrivals: pack(arrivals),
+      departures: pack(departures),
+      topSevenMeanAge: mean(cores.map((c) => c.age)),
+      topSevenShare30Plus: r1((100 * cores.filter((c) => c.age >= 30).length) / Math.max(1, cores.length)),
+    };
+  }
+  const m8: M8Row = {
+    intlPopulation: euroPlayers.length,
+    intlSquadMean: r1(euroPlayers.length / Math.max(1, euroClubs.size)),
+    intlYouthPromoted: intlYouth.filter(([id]) => !before.has(id)).length,
+    intlYouthActive: intlYouth.filter(([, s]) => s.group !== "RETIRED").length,
+    intlYouthEstablished: intlYouth.filter(([, s]) => s.group !== "RETIRED" && s.ca >= 130).length,
+    retired: retiredNow.length,
+    retiredByGroup,
+    retireAgeMedian: r1(quantile(retiredNow.map(([, s]) => s.age ?? NaN).filter((a) => Number.isFinite(a)), 0.5)),
+    intlBoughtFromSweden,
+    intlToIntl,
+    foreignToSweden,
+    eliteByGroup,
+    ageMedianByGroup,
+    activeAged34Plus: active.filter((s) => (s.age ?? 0) >= 34).length,
+    activeAged38Plus: active.filter((s) => (s.age ?? 0) >= 38).length,
+    maxActiveAge: Math.max(0, ...active.map((s) => s.age ?? 0)),
+    ca36PlusMedian: r1(quantile(active.filter((s) => (s.age ?? 0) >= 36).map((s) => s.ca), 0.5)),
+    seasonSeconds: Math.round((Date.now() - seasonStarted) / 1000),
+    leagueFlow,
+  };
+
   const row: SeasonRow = {
     season,
     endDate: date,
@@ -239,6 +361,7 @@ for (let season = 1; season <= seasons; season++) {
     swedishClubCashMedianEur: Math.round(quantile(cash, 0.5)),
     leagueLevel,
     named,
+    m8,
   };
   rows.push(row);
   const n = Object.entries(named).map(([k, v]) => `${k.split(" ").slice(-1)[0]}=${v.group}/${v.club}(${v.age})`).join(" ");
@@ -249,6 +372,21 @@ for (let season = 1; season <= seasons; season++) {
       ` | FA ${row.faPoolStart}->${row.faPoolEnd} reemp ${faReemployed} | renew ${renewals} (wp ${renewalsWorldPool}) exp ${contractExpiries}` +
       ` | sq med ${row.swedishSquadMedian} <14:${row.swedishSquadsUnder14} emerg ${r1((100 * emergencyClubWeeks) / Math.max(1, swedishClubWeeks))}% press ${pressured} | ${n}`,
   );
+  console.log(
+    `    M8 intl ${m8.intlPopulation} (sq ${m8.intlSquadMean}) youth +${m8.intlYouthPromoted} act ${m8.intlYouthActive} est ${m8.intlYouthEstablished}` +
+      ` | retired ${m8.retired} (med age ${m8.retireAgeMedian}) | buySE ${m8.intlBoughtFromSweden} intl2intl ${m8.intlToIntl} intl2SE ${m8.foreignToSweden}` +
+      ` | elite E${m8.eliteByGroup.EURO_ELITE}/O${m8.eliteByGroup.EURO_OTHER}/H${m8.eliteByGroup.HBL}/A${m8.eliteByGroup.ALLSV}/D${m8.eliteByGroup.DIV1}` +
+      ` | age34+ ${m8.activeAged34Plus} 38+ ${m8.activeAged38Plus} max ${m8.maxActiveAge} ca36+ ${m8.ca36PlusMedian} | ${m8.seasonSeconds}s`,
+  );
+  for (const L of ["HBL", "ALLSV"]) {
+    const f = m8.leagueFlow[L]!;
+    const fmt = (m: Record<string, { n: number; meanCA: number }>) => Object.entries(m).map(([k, v]) => `${k}:${v.n}@${v.meanCA}`).join(" ");
+    console.log(`    M8E ${L} stay ${f.stayers} dCA ${f.stayerMeanDeltaCA} (u24 ${f.stayerU24MeanDeltaCA}, 30+ ${f.stayer30PlusMeanDeltaCA}) top7 age ${f.topSevenMeanAge} 30+ ${f.topSevenShare30Plus}% | in ${fmt(f.arrivals)} | out ${fmt(f.departures)}`);
+  }
+  if (outDir) {
+    fs.mkdirSync(outDir, { recursive: true });
+    fs.writeFileSync(path.join(outDir, `transfer-realism-${seed}.partial.json`), JSON.stringify({ seed, seasonsDone: season, managerClub, rows }, null, 2));
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -280,6 +418,23 @@ const metrics = {
   runtimeSeconds: Math.round((Date.now() - started) / 1000),
 };
 
+// HM-TRANSFER-REALISM M8: additional ecosystem metrics. Reported alongside the
+// original acceptance criteria, which are deliberately left unchanged.
+const m8Metrics = {
+  intlPopulationStart: rows[0]?.m8.intlPopulation,
+  intlPopulationMin: Math.min(...rows.map((r) => r.m8.intlPopulation)),
+  intlPopulationFinal: last.m8.intlPopulation,
+  intlYouthPromotedTotal: sum((r) => r.m8.intlYouthPromoted),
+  intlYouthEstablishedFinal: last.m8.intlYouthEstablished,
+  retiredTotal: sum((r) => r.m8.retired),
+  intlBoughtFromSwedenTotal: sum((r) => r.m8.intlBoughtFromSweden),
+  intlToIntlTotal: sum((r) => r.m8.intlToIntl),
+  foreignToSwedenTotal: sum((r) => r.m8.foreignToSweden),
+  maxActiveAge: Math.max(...rows.map((r) => r.m8.maxActiveAge)),
+  maxActiveAged38Plus: Math.max(...rows.map((r) => r.m8.activeAged38Plus)),
+  meanSeasonSeconds: r1(sum((r) => r.m8.seasonSeconds) / Math.max(1, rows.length)),
+};
+
 const ACCEPTANCE: { name: string; ok: boolean; detail: string }[] = [
   { name: "No world-class (top 3%) player under 33 in Division 1 at any season end", ok: metrics.maxWorldClassUnder33InDiv1 === 0, detail: String(metrics.maxWorldClassUnder33InDiv1) },
   { name: "Elite (top 10%) under-31 moves into Division 1 <= 1 over the whole run", ok: metrics.eliteDowngradeToDiv1Total <= 1, detail: String(metrics.eliteDowngradeToDiv1Total) },
@@ -295,11 +450,13 @@ const ACCEPTANCE: { name: string; ok: boolean; detail: string }[] = [
 
 console.log("\n=== METRICS ===");
 console.log(JSON.stringify(metrics, null, 2));
+console.log("\n=== M8 METRICS ===");
+console.log(JSON.stringify(m8Metrics, null, 2));
 console.log("\n=== ACCEPTANCE ===");
 for (const a of ACCEPTANCE) console.log(`${a.ok ? "PASS" : "FAIL"}  ${a.name}  [${a.detail}]`);
 
 if (outDir) {
   fs.mkdirSync(outDir, { recursive: true });
-  fs.writeFileSync(path.join(outDir, `transfer-realism-${seed}.json`), JSON.stringify({ seed, seasons, managerClub, metrics, acceptance: ACCEPTANCE, rows }, null, 2));
+  fs.writeFileSync(path.join(outDir, `transfer-realism-${seed}.json`), JSON.stringify({ seed, seasons, managerClub, metrics, m8Metrics, acceptance: ACCEPTANCE, rows }, null, 2));
 }
 if (check && ACCEPTANCE.some((a) => !a.ok)) process.exitCode = 1;
