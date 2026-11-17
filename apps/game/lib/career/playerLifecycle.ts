@@ -82,6 +82,7 @@ import { applyResolvedAttributeChanges, caNudgePerAttributePoint } from "../deve
 import { deriveDefaultSquadStatusTier, type SquadStatusTier } from "./squadStatus";
 import { daysBetween } from "./dateUtils";
 import { careerWorldClubIds } from "./worldCompetitions";
+import { worldPoolCareerClubIds } from "./careerWorld";
 import { FREE_AGENT_CLUB_ID, isFreeAgentClubId } from "./contractExpiry";
 import { buildPlayerRetiredEvent, type CareerEvent } from "./careerEvents";
 import { computeProfessionalCareerExitProbability, professionalCareerExitRoll } from "./professionalCareerExit";
@@ -548,7 +549,10 @@ export function progressPlayerLifecycle(state: CareerState, date: string): Playe
   // competition, per that module's own doc). Before this milestone these
   // two were conflated because they happened to be identical in a
   // single-competition world.
-  const clubIds = [...careerWorldClubIds(next), FREE_AGENT_CLUB_ID];
+  // HM-TRANSFER-REALISM M8A: ageing, decline and retirement are world rules --
+  // world-pool players were exempt (they could only leave through contract
+  // expiry), so a 39-year-old could keep a contract abroad indefinitely.
+  const clubIds = [...careerWorldClubIds(next), ...worldPoolCareerClubIds(next), FREE_AGENT_CLUB_ID];
 
   for (const clubId of clubIds) {
     const squad = next.worldSquads[clubId] ?? [];

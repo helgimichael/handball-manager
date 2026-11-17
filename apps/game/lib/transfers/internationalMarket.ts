@@ -34,7 +34,8 @@ import { computeNewContractEndDate, transferPlayerPermanently } from "./transfer
 import { activePendingTransferPlayerIds } from "./transferIntegration";
 import { clubRenewalWageCap, internationalClubWants, playerChoosesBetween, playerCareerProfile, renewalWageDemand } from "./careerDecision/stateAdapter";
 import { MARKET_MOVE_PREMIUM } from "./careerDecision/model";
-import { environmentLevelOf, rollLeagueStrength, worldPoolClubIds } from "./careerDecision/sportingStrength";
+import { clubLeagueId, environmentLevelOf, leagueLevelOf, rollLeagueStrength, worldPoolClubIds } from "./careerDecision/sportingStrength";
+import { progressInternationalYouthIntake } from "../career/internationalYouthIntake";
 
 /** Renewal reviews happen on these days-before-expiry (and every day in the final month). */
 const RENEWAL_REVIEW_EVERY_DAYS = 15;
@@ -50,9 +51,16 @@ export interface InternationalMarketLogEntry {
   date: string;
   playerId: string;
   clubId: string;
-  kind: "RENEWED" | "RENEWAL_REFUSED" | "SIGNED_FREE_AGENT";
+  kind: "RENEWED" | "RENEWAL_REFUSED" | "SIGNED_FREE_AGENT" | "YOUTH_PROMOTED";
   wageEurPerMonth?: number;
 }
+
+export const INTERNATIONAL_MARKET_LOG_REASON: Record<InternationalMarketLogEntry["kind"], string> = {
+  RENEWED: "Förlängde med sin klubb utomlands.",
+  RENEWAL_REFUSED: "Tackade nej till förlängning -- söker en bättre möjlighet.",
+  SIGNED_FREE_AGENT: "Skrev på för en klubb utomlands som kontraktslös.",
+  YOUTH_PROMOTED: "Uppflyttad från klubbens ungdomsverksamhet till A-truppen.",
+};
 
 function renewalYears(age: number | null): number {
   if (age === null) return 2;
@@ -132,6 +140,12 @@ export function progressInternationalMarket(state: CareerState, date: string): {
   // Season rollover: smooth the league levels once, at the start of July.
   if (date.slice(5) === "07-01") next = rollLeagueStrength(next, date.slice(0, 4));
   if (worldPoolClubIds(next).length === 0) return { state: next, log };
+  // M8A: once a year, clubs with free slots promote prospects from their country's youth system.
+  const intake = progressInternationalYouthIntake(next, date, (clubId) => leagueLevelOf(next, clubLeagueId(next, clubId)));
+  if (intake.state !== next) {
+    for (const [clubId, ids] of Object.entries(intake.generated)) for (const playerId of ids) log.push({ date, playerId, clubId, kind: "YOUTH_PROMOTED" });
+    next = intake.state;
+  }
   next = progressInternationalRenewals(next, date, log);
   if (RECRUITMENT_DAYS_OF_MONTH.has(date.slice(8, 10))) next = progressInternationalFreeAgents(next, date, log);
   return { state: next, log };

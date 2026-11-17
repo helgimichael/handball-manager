@@ -83,7 +83,7 @@ import { executeTrainingDay } from "../training/trainingExecution";
 import { applyCpuDailyCondition } from "./cpuCondition";
 import { applyPlacementDevelopmentStimulus, applyTrainingDayDevelopmentStimulus, resolveWeeklyDevelopmentIfDue } from "../development/developmentIntegration";
 import { progressDailyTransfers } from "../transfers/transferIntegration";
-import { progressInternationalMarket } from "../transfers/internationalMarket";
+import { INTERNATIONAL_MARKET_LOG_REASON, progressInternationalMarket } from "../transfers/internationalMarket";
 import { progressClubFinances } from "../economy/financeTick";
 import { progressCompetitions } from "../competition/season";
 import { progressStaff } from "../staff/staffLifecycle";
@@ -389,7 +389,7 @@ export function processDay(state: CareerState, date: string): DailyTickResult {
         clubId: entry.clubId,
         category: "CONTRACT" as const,
         summary: `${entry.kind} ${entry.playerId}`,
-        reason: entry.kind === "RENEWED" ? "Förlängde med sin klubb utomlands." : entry.kind === "RENEWAL_REFUSED" ? "Tackade nej till förlängning -- söker en bättre möjlighet." : "Skrev på för en klubb utomlands som kontraktslös.",
+        reason: INTERNATIONAL_MARKET_LOG_REASON[entry.kind],
       }))),
     };
   }

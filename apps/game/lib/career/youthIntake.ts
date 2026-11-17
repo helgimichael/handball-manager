@@ -497,7 +497,7 @@ function generateYouthNationality(seedKey: string): NationCode {
 // in this codebase already uses for that field).
 // ---------------------------------------------------------------------------
 
-function legacyAttributesFromCA(ca: number): PlayerMockAttributes {
+export function legacyAttributesFromCA(ca: number): PlayerMockAttributes {
   const v = clamp(Math.round(ca / 10), 1, 20);
   return {
     technical: { skott: v, passning: v, spelforstaelse: v, genombrott: v, mottagning: v, fint: v, spelUtanBoll: v },
@@ -519,7 +519,7 @@ function gamePriorRationaleClaim(playerId: string, archetype: string): PlayerRat
 }
 
 /** Mirrors careerFallbackRating.ts's own generateFallbackGameplayRating internal structure exactly, substituting the youth-specific CA/PA generated above in place of the (wrong-shaped-for-youth) adult game-prior CA/PA. Same underlying generatePlayerRatingProfile/assignArchetypeForPosition/unassessedAbilityRating building blocks -- never a second rating system. */
-function generateYouthGameplayRating(playerId: string, position: HandballPosition, ca: number, pa: number): GameplayPlayerRating {
+export function generateYouthGameplayRating(playerId: string, position: HandballPosition, ca: number, pa: number): GameplayPlayerRating {
   const ratingPosition = mapHandballPositionToMatchPlanPosition(position);
   let profile: PlayerRatingProfile = {
     playerId,

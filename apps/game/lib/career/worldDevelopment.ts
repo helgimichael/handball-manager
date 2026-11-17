@@ -29,6 +29,7 @@
 import { getCompetition } from "../game-data/competitions";
 import { getClub } from "../game-data";
 import { careerWorldClubIds } from "./worldCompetitions";
+import { worldPoolCareerClubIds } from "./careerWorld";
 import { FREE_AGENT_CLUB_ID, isFreeAgentClubId, isRetiredClubId } from "./contractExpiry";
 import { deriveDefaultSquadStatusTier } from "./squadStatus";
 import { playerAgeAtDate } from "../development/developmentIntegration";
@@ -132,7 +133,12 @@ export function progressWorldDevelopment(state: CareerState, date: string): Care
   const periodId = worldDevelopmentPeriodId(date);
   if (!periodId) return state;
 
-  const clubIds = [...careerWorldClubIds(state), FREE_AGENT_CLUB_ID];
+  // HM-TRANSFER-REALISM M8A: world-pool players develop like everyone else.
+  // They were outside careerWorldClubIds (which is also the CPU-recruiter
+  // scope), so they never improved -- a promoted prospect could never become a
+  // professional. They are added here explicitly rather than by widening
+  // careerWorldClubIds, which would also make them economic CPU clubs.
+  const clubIds = [...careerWorldClubIds(state), ...worldPoolCareerClubIds(state), FREE_AGENT_CLUB_ID];
   let periods = state.worldDevelopmentPeriods ?? {};
   let developmentState = state.playerDevelopmentState;
   let ratingsByClub = state.gameplayRatings;
