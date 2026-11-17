@@ -11,7 +11,7 @@ import { snapshotGameplayRatings, snapshotWorldSquads } from "../lib/gameWorld/s
 import { snapshotAllClubsStaff } from "../lib/gameWorld/staffIdentitySnapshot";
 import { continueCareerRhythm } from "../lib/career/continueController";
 import { playManagerFixtureLegacy } from "../lib/career/legacy/matchday";
-import { rolloverSeason } from "../lib/career/seasonRollover";
+import { rolloverCareerSeason } from "../lib/career/careerTransitionEvidence";
 import { CURRENT_SAVE_SCHEMA_VERSION, type CareerSave } from "../lib/save/saveRepository";
 import type { CareerState } from "../lib/career/types";
 
@@ -38,7 +38,7 @@ function advance(stop: (s: CareerState) => boolean): void {
 if (until === "SEASON_END" || until === "NEXT_SEASON_END") {
   advance((s) => s.seasonComplete);
   if (until === "NEXT_SEASON_END") {
-    state = rolloverSeason(state);
+    state = rolloverCareerSeason(state);
     advance((s) => s.seasonComplete);
   }
 } else {

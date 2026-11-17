@@ -17,7 +17,7 @@ import { useCareer } from "@/lib/career/CareerContext";
 import { getCareerPlayer } from "@/lib/career/careerWorld";
 import { formatGameDate } from "@/lib/career/dateUtils";
 import type { CareerState } from "@/lib/career/types";
-import { ALLSVENSKAN, CUP_RULES, HANDBOLLSLIGAN, KVAL_ALLSVENSKAN, KVAL_HBL, LEAGUE_RULES, SHOOTOUT_ASSUMPTION, SM_SLUTSPEL, SM_SLUTSPEL_RULES, SVENSKA_CUPEN, ALLSVENSKAN_RULES, PLAYOFF_BONUS_PROVENANCE } from "@/lib/competition/rules";
+import { ALLSVENSKAN, CUP_RULES, HANDBOLLSLIGAN, KVAL_ALLSVENSKAN, KVAL_HBL, LEAGUE_RULES, SHOOTOUT_ASSUMPTION, SM_SLUTSPEL, SM_SLUTSPEL_RULES, SVENSKA_CUPEN, ALLSVENSKAN_RULES, ALLSVENSKAN_DIVISION1_BOUNDARY, PLAYOFF_BONUS_PROVENANCE } from "@/lib/competition/rules";
 import { competitionTable, hasLeagueCalendar } from "@/lib/competition/tables";
 import { cupGroupTable } from "@/lib/competition/season";
 import type { CompetitionTie } from "@/lib/competition/types";
@@ -26,7 +26,8 @@ import { svOrdinal } from "@/lib/format/ordinal";
 type Zone = { zone: string; label: string };
 const ZONES: Record<string, (pos: number) => Zone | null> = {
   [HANDBOLLSLIGAN]: (p) => (p <= 8 ? { zone: "playoff", label: "SM-slutspel" } : p === 14 ? { zone: "down", label: "Nedflyttning" } : p >= 11 ? { zone: "kval", label: "Kval" } : null),
-  [ALLSVENSKAN]: (p) => (p === 1 ? { zone: "up", label: "Uppflyttning" } : p <= 4 ? { zone: "kval-up", label: "Kval uppåt" } : p >= 13 ? { zone: "down", label: "Nedflyttning" } : p >= 11 ? { zone: "kval", label: "Kval nedåt" } : null),
+  // HM-M9 D1: no relegation zones below Allsvenskan while the Division 1 boundary is closed.
+  [ALLSVENSKAN]: (p) => (p === 1 ? { zone: "up", label: "Uppflyttning" } : p <= 4 ? { zone: "kval-up", label: "Kval uppåt" } : ALLSVENSKAN_DIVISION1_BOUNDARY === "CLOSED" ? null : p >= 13 ? { zone: "down", label: "Nedflyttning" } : p >= 11 ? { zone: "kval", label: "Kval nedåt" } : null),
 };
 const LEAGUE_NAME = (id: string) => (id === HANDBOLLSLIGAN ? "Handbollsligan" : id === ALLSVENSKAN ? "Allsvenskan" : "Division 1");
 const nextSeasonOf = (seasonId: string) => { const y = Number(seasonId.slice(0, 4)) + 1; return `${y}/${String((y + 1) % 100).padStart(2, "0")}`; };

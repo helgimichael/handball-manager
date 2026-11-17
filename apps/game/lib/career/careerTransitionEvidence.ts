@@ -30,6 +30,7 @@ import { snapshotCompetitionTransitionInput } from "../competition/transition/ca
 import { managerModeRules, type ManagerModePackageOptions } from "../competition/transition/careerRules";
 import type { CompetitionRules, EligibilityDecision, QualificationFixture, RankingDecision } from "../competition/transition/types";
 import { attemptSeasonTransition, type SeasonTransitionRequest, type SeasonTransitionResult } from "./seasonTransition";
+import { SeasonTransitionBlockedError } from "./seasonRollover";
 import { clubCompetitionId } from "./competitionMembership";
 import { CLUBS } from "../game-data";
 
@@ -208,5 +209,20 @@ export function buildCareerTransitionRequest(state: CareerState): SeasonTransiti
  */
 export function transitionCareerSeason(state: CareerState): SeasonTransitionResult {
   if (!state.seasonComplete) return attemptSeasonTransition(state);
-  return attemptSeasonTransition(state, buildCareerTransitionRequest(state));
+  let request: SeasonTransitionRequest;
+  try {
+    request = buildCareerTransitionRequest(state);
+  } catch (error) {
+    // Never a partial write: an evidence failure is a recoverable, explicit block on the untouched career.
+    return { status: "BLOCKED", state, blockers: [{ code: "CAREER_EVIDENCE_FAILED", ref: state.seasonId, status: "BLOCKED", message: error instanceof Error ? error.message : "Transition evidence could not be built from this season." }] };
+  }
+  return attemptSeasonTransition(state, request);
+}
+
+/** Script API: the manager-mode rollover, throwing the structured blockers when the season cannot advance. */
+export function rolloverCareerSeason(state: CareerState): CareerState {
+  if (!state.seasonComplete || state.productionMatch || state.activeMatchSession) return state;
+  const result = transitionCareerSeason(state);
+  if (result.status === "BLOCKED") throw new SeasonTransitionBlockedError(result);
+  return result.state;
 }

@@ -88,7 +88,7 @@ export const ALLSVENSKAN_RULES = {
    * that meet Allsvenskan 11-12 are chosen from Division 1 clubs ranked by
    * squad strength, with a seeded tiebreak -- the semi-kval itself is not played.
    */
-  division1Assumption: { verified: false, assumption: "Division 1 not simulated: promoted clubs and kval opponents are ranked by squad strength." } as Provenance,
+  division1Assumption: { verified: false, assumption: "Division 1 simuleras inte. Gränsen Allsvenskan–Division 1 är tills vidare stängd i managerläget: ingen upp- eller nedflyttning sker över den, och ingen klubb väljs efter truppstyrka." } as Provenance,
 };
 
 /** Draws in series games: 2x5 min overtime, a second 2x5, then a shootout. [THB §2:13] VERIFIED. */

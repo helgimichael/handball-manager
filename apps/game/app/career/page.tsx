@@ -6,7 +6,7 @@ import { getCareerClub, getCareerSquad } from '@/lib/career/careerWorld';
 import { getNextPlayerFixture } from '@/lib/career/calendar';
 import { getLiveStandings } from '@/lib/career/standings';
 import { managementAttention, squadEnergy } from '@/lib/career/management';
-import { attemptSeasonTransition } from '@/lib/career/seasonRollover';
+import { transitionCareerSeason } from '@/lib/career/careerTransitionEvidence';
 import type { Dependency } from '@/lib/competition/transition/types';
 import { getClub, COMPETITIONS } from '@/lib/game-data';
 import { getClubEconomySnapshot } from '@/lib/economy/clubEconomyIntegration';
@@ -32,7 +32,8 @@ export default function HomePage() {
   const { career, updateCareer } = useCareer();
   const [transitionBlockers, setTransitionBlockers] = useState<readonly Dependency[]>([]);
   function startNextSeason() {
-    const result = attemptSeasonTransition(career);
+    // HM-M9D: manager mode -- the completed season itself is the transition evidence.
+    const result = transitionCareerSeason(career);
     setTransitionBlockers(result.blockers);
     if (result.status === 'APPLIED') updateCareer((current) => current === career ? result.state : current);
   }
