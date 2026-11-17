@@ -8,6 +8,7 @@ import { validatePlannerInput } from '../competition/transition/validation';
 import type { CompetitionRules, Dependency, PlannerInput, RankingDecision } from '../competition/transition/types';
 import { buildNewSeasonCalendar } from '../competition/seasonCalendar';
 import { recordSeasonQuietly } from '../manager/managerCareer';
+import { compactCareerHistory } from './historyCompaction';
 import { emptyMatchFitnessLedger, PRESEASON_MATCH_FITNESS } from '../players/matchFitness';
 
 export type SeasonTransitionEvidence = Pick<PlannerInput, 'eligibility' | 'qualificationResults' | 'qualificationFixtures' | 'externalEntrants' | 'groupAllocations'> & {
@@ -111,7 +112,13 @@ export function attemptSeasonTransition(input: CareerState, request: SeasonTrans
     if (blockers.length) return blocked();
 
     // Construct a candidate; expose it only after final fixture validation succeeds.
-    const state = recordSeasonQuietly(input);
+    // HM-M9E: bounded save growth, restored. The pre-M1.2D rollover trimmed the
+    // working records (old inbox, events, bids, stories, training weeks,
+    // development history, idle workload) once a season; the atomic rewrite
+    // dropped the call. It runs on the candidate only, so a blocked attempt
+    // still returns the untouched career. Season archives, tables, ties,
+    // contracts, finances and histories are never trimmed (historyCompaction.ts).
+    const state = compactCareerHistory(recordSeasonQuietly(input), input.gameDate);
     const claims = [...preview.proposal.directPromotions, ...preview.proposal.directRelegations, ...preview.proposal.qualificationMovements, ...preview.proposal.remaining];
     const outcome = state.seasonOutcome?.seasonId === state.seasonId ? {
       ...state.seasonOutcome, nextMembership: Object.fromEntries([...seen].sort().map((id) => [id, membership[id]])),
