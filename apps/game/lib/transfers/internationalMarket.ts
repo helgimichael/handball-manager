@@ -32,9 +32,15 @@ import { getPlayerContract, getPlayerContractStatus } from "../economy/contractI
 import { daysUntilContractEnd } from "../economy/contractLifecycle";
 import { computeNewContractEndDate, transferPlayerPermanently } from "./transferExecution";
 import { activePendingTransferPlayerIds } from "./transferIntegration";
-import { clubRenewalWageCap, internationalClubWants, playerChoosesBetween, playerCareerProfile, renewalWageDemand } from "./careerDecision/stateAdapter";
-import { MARKET_MOVE_PREMIUM } from "./careerDecision/model";
-import { clubLeagueId, environmentLevelOf, leagueLevelOf, rollLeagueStrength, worldPoolClubIds } from "./careerDecision/sportingStrength";
+import { CLUB_WAGE_CAP_MULTIPLE, INTERNATIONAL_PURCHASES_PER_SEASON, INTERNATIONAL_SIGNING_FIT_BELOW_CA, INTERNATIONAL_SQUAD_CAPACITY, clubRenewalWageCap, clubWageCap, internationalBuyerWants, internationalClubWants, internationalFeeCapacityEur, internationalPurchasesThisSeason, playerChoosesBetween, playerCareerProfile, playerDecisionOnMove, playerWageDemandAt, recordInternationalPurchase, renewalWageDemand } from "./careerDecision/stateAdapter";
+import { MARKET_MOVE_PREMIUM, contractYearsCapForAge } from "./careerDecision/model";
+import { isTransferWindowOpen } from "./transferWindow";
+import { getActiveLoanForPlayer, sellingClubDecisionOnFee } from "./transferIntegration";
+import { careerWorldClubIds } from "../career/worldCompetitions";
+import { endActivePlacementForPlayer } from "../career/playerPlacements";
+import { adjustClubCash } from "../economy/clubEconomyIntegration";
+import { getPlayerMarketValueEur } from "../economy/contractIntegration";
+import { clubLeagueId, clubLevelOf, environmentLevelOf, leagueLevelOf, rollLeagueStrength, worldPoolClubIds } from "./careerDecision/sportingStrength";
 import { progressInternationalYouthIntake } from "../career/internationalYouthIntake";
 
 /** Renewal reviews happen on these days-before-expiry (and every day in the final month). */
@@ -51,8 +57,10 @@ export interface InternationalMarketLogEntry {
   date: string;
   playerId: string;
   clubId: string;
-  kind: "RENEWED" | "RENEWAL_REFUSED" | "SIGNED_FREE_AGENT" | "YOUTH_PROMOTED";
+  kind: "RENEWED" | "RENEWAL_REFUSED" | "SIGNED_FREE_AGENT" | "YOUTH_PROMOTED" | "BOUGHT_CONTRACTED" | "BID_REJECTED_BY_CLUB" | "BID_DECLINED_BY_PLAYER";
   wageEurPerMonth?: number;
+  feeEur?: number;
+  fromClubId?: string;
 }
 
 export const INTERNATIONAL_MARKET_LOG_REASON: Record<InternationalMarketLogEntry["kind"], string> = {
@@ -60,6 +68,9 @@ export const INTERNATIONAL_MARKET_LOG_REASON: Record<InternationalMarketLogEntry
   RENEWAL_REFUSED: "Tackade nej till förlängning -- söker en bättre möjlighet.",
   SIGNED_FREE_AGENT: "Skrev på för en klubb utomlands som kontraktslös.",
   YOUTH_PROMOTED: "Uppflyttad från klubbens ungdomsverksamhet till A-truppen.",
+  BOUGHT_CONTRACTED: "Köpt av en klubb utomlands -- säljande klubb och spelare sa ja.",
+  BID_REJECTED_BY_CLUB: "Säljande klubb avvisade ett bud från utlandet.",
+  BID_DECLINED_BY_PLAYER: "Spelaren tackade nej till en flytt utomlands.",
 };
 
 function renewalYears(age: number | null): number {
@@ -97,6 +108,81 @@ function progressInternationalRenewals(state: CareerState, date: string, log: In
       }
       next = { ...next, playerContracts: { ...next.playerContracts, [player.id]: { ...contract, wageEurPerMonth: wage, contractEndDate: computeNewContractEndDate(player.id, contract.contractEndDate, years) } } };
       log.push({ date, playerId: player.id, clubId, kind: "RENEWED", wageEurPerMonth: wage });
+    }
+  }
+  return next;
+}
+
+/**
+ * M8B: world-pool clubs buy contracted players -- from Swedish CPU clubs and
+ * from weaker world-pool clubs -- during an open transfer window. Selective:
+ * the shared buyer rule (internationalBuyerWants: visibility, fit, age, a real
+ * step up, position balance, a per-season limit), a fee within the club's
+ * derived capacity, the selling club's own verdict on that fee, and the
+ * player's own PCDM decision. The manager's players are not in this pass: bids
+ * for them arrive as incoming offers through the same buyer rule
+ * (players/market.ts), and the manager is the selling club.
+ */
+const PURCHASE_DAYS_OF_MONTH = new Set(["03", "17"]);
+/** Bid over market value a buyer is prepared to make (capped by its capacity). */
+const PURCHASE_BID_PREMIUM = 1.2;
+/** Candidates a club considers per pass (strongest first). */
+const PURCHASE_TARGETS_PER_CLUB = 4;
+
+function progressInternationalPurchases(state: CareerState, date: string, log: InternationalMarketLogEntry[]): CareerState {
+  if (!isTransferWindowOpen(date) || !PURCHASE_DAYS_OF_MONTH.has(date.slice(8, 10))) return state;
+  let next = state;
+  const pending = activePendingTransferPlayerIds(state);
+  const sellers = [...careerWorldClubIds(state).filter((id) => id !== state.playerClubId), ...worldPoolClubIds(state)];
+  const pool: { id: string; ca: number }[] = [];
+  for (const clubId of sellers) {
+    for (const p of state.worldSquads[clubId] ?? []) {
+      if (pending.has(p.id) || getActiveLoanForPlayer(state, p.id)) continue;
+      const contract = getPlayerContract(state, p.id);
+      if (!contract || contract.clubId !== clubId) continue;
+      pool.push({ id: p.id, ca: playerCareerProfile(state, p.id)?.ca ?? 0 });
+    }
+  }
+  pool.sort((a, b) => b.ca - a.ca || a.id.localeCompare(b.id));
+  const taken = new Set<string>();
+  const buyers = [...worldPoolClubIds(state)].sort((a, b) => environmentLevelOf(state, b) - environmentLevelOf(state, a) || a.localeCompare(b));
+  for (const buyer of buyers) {
+    if (internationalPurchasesThisSeason(next, buyer) >= INTERNATIONAL_PURCHASES_PER_SEASON) continue;
+    if ((next.worldSquads[buyer]?.length ?? 0) >= INTERNATIONAL_SQUAD_CAPACITY) continue;
+    const capacity = internationalFeeCapacityEur(next, buyer);
+    const floor = clubLevelOf(next, buyer) - INTERNATIONAL_SIGNING_FIT_BELOW_CA;
+    let considered = 0;
+    for (const c of pool) {
+      if (c.ca < floor) break;
+      if (taken.has(c.id) || !internationalBuyerWants(next, buyer, c.id)) continue;
+      if (++considered > PURCHASE_TARGETS_PER_CLUB) break;
+      const contract = getPlayerContract(next, c.id)!;
+      const value = getPlayerMarketValueEur(next, c.id) ?? 0;
+      if (value <= 0) continue;
+      const bid = Math.round(Math.min(capacity, value * PURCHASE_BID_PREMIUM) / 500) * 500;
+      const club = sellingClubDecisionOnFee(next, c.id, bid);
+      if (!club.accept) {
+        log.push({ date, playerId: c.id, clubId: buyer, fromClubId: contract.clubId, kind: "BID_REJECTED_BY_CLUB", feeEur: bid });
+        continue;
+      }
+      const profile = playerCareerProfile(next, c.id);
+      const years = Math.min(3, contractYearsCapForAge(profile?.age ?? null));
+      const demand = playerWageDemandAt(next, c.id, buyer, { contractYears: years });
+      const wage = demand?.demandEurPerMonth != null ? Math.round(Math.max(demand.demandEurPerMonth, contract.wageEurPerMonth) / 10) * 10 : null;
+      const decision = wage !== null && wage <= Math.max(contract.wageEurPerMonth * CLUB_WAGE_CAP_MULTIPLE, clubWageCap(next, c.id)) ? playerDecisionOnMove(next, c.id, buyer, { wageEurPerMonth: wage, contractYears: years }) : null;
+      if (!decision?.accept || wage === null) {
+        log.push({ date, playerId: c.id, clubId: buyer, fromClubId: contract.clubId, kind: "BID_DECLINED_BY_PLAYER", feeEur: bid });
+        continue;
+      }
+      const seller = contract.clubId;
+      let moved = transferPlayerPermanently(next, c.id, seller, buyer, wage, computeNewContractEndDate(c.id, date, years));
+      if (moved === next) continue;
+      moved = endActivePlacementForPlayer(moved, c.id, date, "EXPIRED");
+      moved = adjustClubCash(moved, seller, bid, { category: "TRANSFER_FEES", label: `Försäljning utomlands: ${c.id}`, date });
+      next = recordInternationalPurchase(moved, buyer);
+      taken.add(c.id);
+      log.push({ date, playerId: c.id, clubId: buyer, fromClubId: seller, kind: "BOUGHT_CONTRACTED", feeEur: bid, wageEurPerMonth: wage });
+      break; // one signing per club per pass
     }
   }
   return next;
@@ -147,6 +233,7 @@ export function progressInternationalMarket(state: CareerState, date: string): {
     next = intake.state;
   }
   next = progressInternationalRenewals(next, date, log);
+  next = progressInternationalPurchases(next, date, log);
   if (RECRUITMENT_DAYS_OF_MONTH.has(date.slice(8, 10))) next = progressInternationalFreeAgents(next, date, log);
   return { state: next, log };
 }

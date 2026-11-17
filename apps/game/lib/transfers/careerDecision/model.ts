@@ -292,6 +292,19 @@ export function evaluateCareerOption(profile: PlayerCareerProfile, option: ClubO
  */
 export const MARKET_MOVE_PREMIUM = 1.1;
 
+/**
+ * HM-TRANSFER-REALISM M8D: the longest contract a club offers at a given age.
+ * A three-year deal for a 36-year-old (the CPU's old fixed offer) assumes a
+ * career he does not have left; the cap shortens smoothly from 31.
+ */
+export function contractYearsCapForAge(age: number | null): number {
+  if (age === null) return 3;
+  if (age <= 28) return 4;
+  if (age <= 30) return 3;
+  if (age <= 32) return 2;
+  return 1;
+}
+
 /** The role a player of `ca` can expect at a club of `clubLevel`: his ability relative to its best seven. */
 export function roleForLevelGap(ca: number, clubLevel: number): SquadStatusTier {
   const gap = ca - clubLevel;

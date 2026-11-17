@@ -548,6 +548,8 @@ export type CareerState = {
   transferMarket?: {
     /** Smoothed league sporting levels (CA scale), rolled once per season (lib/transfers/careerDecision/sportingStrength.ts). */
     leagueStrength?: { seasonKey: string; levels: Record<string, number> };
+    /** HM-TRANSFER-REALISM M8B: paid signings per world-pool club in the current transfer season. */
+    internationalPurchases?: { seasonKey: string; byClub: Record<string, number> };
   };
   /** HM-ALPHA3-M03: SM-slutspel, kval and Svenska cupen ties of the current season (lib/competition). */
   competitionTies?: Record<string, CompetitionTie>;
