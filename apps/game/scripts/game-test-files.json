@@ -285,5 +285,8 @@
   "lib/career/internationalYouthIntake.test.ts",
   "lib/transfers/internationalPurchases.test.ts",
   "lib/career/ageingModel.test.ts",
-  "lib/transfers/careerDecision/underpaidReference.test.ts"
+  "lib/transfers/careerDecision/underpaidReference.test.ts",
+  "lib/career/careerSeasonTransition.test.ts",
+  "lib/career/careerSeasonLegacy.test.ts",
+  "lib/career/seasonLifecycle.integration.test.ts"
 ]
