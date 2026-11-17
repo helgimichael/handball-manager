@@ -519,7 +519,7 @@ function gamePriorRationaleClaim(playerId: string, archetype: string): PlayerRat
 }
 
 /** Mirrors careerFallbackRating.ts's own generateFallbackGameplayRating internal structure exactly, substituting the youth-specific CA/PA generated above in place of the (wrong-shaped-for-youth) adult game-prior CA/PA. Same underlying generatePlayerRatingProfile/assignArchetypeForPosition/unassessedAbilityRating building blocks -- never a second rating system. */
-function generateYouthGameplayRating(playerId: string, position: HandballPosition, ca: number, pa: number): GameplayPlayerRating {
+export function generateYouthGameplayRating(playerId: string, position: HandballPosition, ca: number, pa: number): GameplayPlayerRating {
   const ratingPosition = mapHandballPositionToMatchPlanPosition(position);
   let profile: PlayerRatingProfile = {
     playerId,

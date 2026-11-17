@@ -29,7 +29,7 @@ import { getClub, getClubsByCompetition, getCompetition } from "../../game-data"
 import { clubCompetitionId } from "../../career/competitionMembership";
 import { ownLevelScore } from "../../career/cpuCandidateEvaluation";
 import { SWEDISH_WORLD_COMPETITION_IDS } from "../../career/worldCompetitions";
-import { WORLD_POOL_COMPETITION_IDS } from "../../career/careerWorld";
+import { WORLD_POOL_COMPETITION_IDS, worldPoolCareerClubIds } from "../../career/careerWorld";
 import type { CareerState } from "../../career/types";
 
 /**
@@ -229,7 +229,7 @@ export function clubNation(state: CareerState, clubId: string): string | undefin
 
 /** Every world-pool club that currently exists in the career world. */
 export function worldPoolClubIds(state: CareerState): string[] {
-  return WORLD_POOL_COMPETITION_IDS.flatMap((id) => getClubsByCompetition(id)).map((c) => c.id).filter((id) => state.worldSquads[id] !== undefined);
+  return worldPoolCareerClubIds(state);
 }
 
 /**

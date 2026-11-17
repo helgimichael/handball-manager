@@ -365,5 +365,6 @@
   "lib/editor/courtGridNudge.test.ts",
   "lib/scouting/scoutDesk.test.ts",
   "lib/staff/staffDesk.test.ts",
-  "lib/medical/returnToPlay.test.ts"
+  "lib/medical/returnToPlay.test.ts",
+  "lib/career/internationalYouthIntake.test.ts"
 ]

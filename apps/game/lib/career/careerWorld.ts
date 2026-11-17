@@ -24,6 +24,18 @@ export const WORLD_POOL_COMPETITION_IDS = [
 ] as const;
 
 /**
+ * HM-TRANSFER-REALISM M8A: every world-pool club that exists in this career
+ * (`worldSquads` key present). Kept separate from careerWorldClubIds on
+ * purpose: world-pool clubs have no economy and are never CPU recruiters or
+ * contract-decision clubs, but they ARE part of the player population that
+ * develops, ages, retires and receives youth (the world rules).
+ */
+export function worldPoolCareerClubIds(state: CareerState): string[] {
+  // Season-aware (Club Identity C3): a foreign club follows its effective membership, like every other enumeration.
+  return WORLD_POOL_COMPETITION_IDS.flatMap((id) => careerClubsInCompetition(state, id)).map((c) => c.id).filter((id) => state.worldSquads[id] !== undefined);
+}
+
+/**
  * HM-MULTI-COMPETITION-WORLD-FOUNDATION-1.0: every club whose squad is a
  * valid Scouting/Transfers candidate source for this career -- every
  * club across every Swedish world competition (Handbollsligan,
