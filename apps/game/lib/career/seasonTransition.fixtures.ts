@@ -3,7 +3,10 @@ import type { FastMatchResult, TeamMatchStats } from '@handball-manager/game-sim
 import { createNewCareerState } from './newCareer';
 import { migrateCareerState } from './saveMigration';
 import { snapshotGameplayRatings, snapshotWorldSquads } from '../gameWorld/serverSnapshot';
-import type { CareerState } from './types';
+import type { CareerFixture, CareerState } from './types';
+import type { CompetitionTie } from '../competition/types';
+import { KVAL_HBL, KVAL_HBL_RULES } from '../competition/rules';
+import { competitionTable } from '../competition/tables';
 import { CLUBS } from '../game-data';
 import { SWEDISH_2026_RULES, SWEDISH_FAMILIES as F, SWEDISH_LEAGUES as L } from '../competition/transition/sweden2026';
 import type { CompetitionRules, QualificationFixture } from '../competition/transition/types';
@@ -55,3 +58,36 @@ export function syntheticTransitionRequest(state: CareerState): SeasonTransition
   }));
   return { fromSeasonId: state.seasonId, rules, evidence: { eligibility, qualificationFixtures }, nextSeason: { rules: syntheticClosedRules(year+1), kickoffDate: `${year+1}-09-20`, evidence: 'Synthetic complete next-season calendar profile only.' } };
 }
+
+// HM-M9: KVAL_HBL series in exactly the live engine's format (competition/season.ts tieFixtures).
+const kvalStats = (goals: number): TeamMatchStats => ({ goals, shots: 40, shootingPct: goals / 40, saves: 10, shotsFaced: 40, turnovers: 5, twoMinuteSuspensions: 0, sevenMetreGoals: 0, sevenMetreAttempts: 0 });
+const kvalResult = (f: CareerFixture, homeGoals: number, awayGoals: number, decider?: FastMatchResult["decider"]): FastMatchResult => ({ fixtureId: f.id, seed: 1, homeClubId: f.homeClubId, awayClubId: f.awayClubId, homeGoals, awayGoals, homeStats: kvalStats(homeGoals), awayStats: kvalStats(awayGoals), events: [], homePlayerContributions: [], awayPlayerContributions: [], ...(decider ? { decider } : {}) });
+
+/**
+ * Adds the three KVAL_HBL series as the live engine would have played them:
+ * HBL 11-13 (high) v Allsvenskan 4-2 (low), home pattern LOW,HIGH,HIGH,...
+ * `challengersWin` decides every series 3-0 for one side. Game 1 of K1 is a
+ * level score settled by a shoot-out, to exercise the decider path.
+ */
+export function withSyntheticLiveKval(state: CareerState, challengersWin: boolean): CareerState {
+  const hbl = competitionTable(state, L.hbl).map((r) => r.clubId);
+  const allsv = competitionTable(state, L.allsvenskan).map((r) => r.clubId);
+  let next = state;
+  KVAL_HBL_RULES.pairs.forEach(([h, a], i) => {
+    const high = hbl[h - 1]!, low = allsv[a - 1]!;
+    const winner = challengersWin ? low : high;
+    const tieId = `${state.seasonId}:kval-hbl:K${i + 1}`;
+    const fixtures: CareerFixture[] = KVAL_HBL_RULES.series.homePattern.slice(0, 3).map((side, k) => {
+      const home = side === "HIGH" ? high : low;
+      return { id: `2027-kval-K${i + 1}-g${k + 1}`, competitionId: KVAL_HBL, round: k + 1, date: `2027-04-${10 + k}`, homeClubId: home, awayClubId: home === high ? low : high, type: "QUALIFIER", stage: { tieId, game: k + 1, mustDecide: true } };
+    });
+    const results = Object.fromEntries(fixtures.map((f, k) => {
+      if (i === 0 && k === 0) return [f.id, kvalResult(f, 25, 25, { overtime: { home: 2, away: 2 } as never, shootout: { home: 3, away: 2, kicks: [] } as never, winnerClubId: winner, method: "SHOOTOUT" } as never)];
+      return [f.id, f.homeClubId === winner ? kvalResult(f, 28, 24) : kvalResult(f, 24, 28)];
+    }));
+    const tie: CompetitionTie = { id: tieId, seasonId: state.seasonId, competitionId: KVAL_HBL, stage: "KVAL_HBL", label: `Kval ${i + 1}`, highClubId: high, lowClubId: low, format: { kind: "SERIES", series: KVAL_HBL_RULES.series }, fixtureIds: fixtures.map((f) => f.id), key: `K${i + 1}`, winnerClubId: winner, loserClubId: winner === high ? low : high, stakes: { highCompetitionId: L.hbl, lowCompetitionId: L.allsvenskan } } as CompetitionTie;
+    next = { ...next, fixtures: [...next.fixtures, ...fixtures], results: { ...next.results, ...results }, competitionTies: { ...next.competitionTies, [tie.id]: tie } };
+  });
+  return next;
+}
+
