@@ -14,6 +14,8 @@ import { personalityOf } from "../../players/dynamicsState";
 import { seededOffset } from "../../rating/generation/deterministicVariation";
 import { FREE_AGENT_CLUB_ID, RETIRED_CLUB_ID } from "../../career/contractExpiry";
 import { getClub, type PlayerMock } from "../../game-data";
+import { computePlayerMarketValueEur } from "../../economy/marketValue";
+import { mapHandballPositionToMatchPlanPosition } from "../../matchPlan/careerSquadBridge";
 import {
   buildProfile,
   chooseBetweenOptions,
@@ -282,6 +284,67 @@ export function internationalClubWants(state: CareerState, clubId: string, playe
   const home = clubNation(state, clubId) === player.nationality;
   if (!home && worldPercentileOf(state, rating.ca) < INTERNATIONAL_VISIBILITY_PERCENTILE) return false;
   return rating.ca >= clubLevelOf(state, clubId) - INTERNATIONAL_SIGNING_FIT_BELOW_CA;
+}
+
+// ---------------------------------------------------------------------------
+// HM-TRANSFER-REALISM M8B: international clubs buying contracted players.
+// One buyer rule for every seller: the CPU purchase pass (internationalMarket.ts)
+// and the bids the manager receives (players/market.ts findBuyer) both use it.
+// ---------------------------------------------------------------------------
+
+/** A paid transfer abroad is for players with their best years ahead or at hand... */
+export const INTERNATIONAL_PURCHASE_MAX_AGE = 30;
+/** ...that are a real sporting step up from where the player plays now... */
+export const INTERNATIONAL_PURCHASE_STEP_UP = 4;
+/** ...and that keep the club's visible slice balanced across positions. */
+export const INTERNATIONAL_POSITION_LIMIT = 2;
+/** Paid signings per world-pool club per transfer season. */
+export const INTERNATIONAL_PURCHASES_PER_SEASON = 2;
+
+/** Transfer season of a date: summer window and the following winter window share one season. */
+export function transferSeasonKey(date: string): string {
+  return date.slice(5) >= "06-01" ? date.slice(0, 4) : String(Number(date.slice(0, 4)) - 1);
+}
+
+export function internationalPurchasesThisSeason(state: CareerState, buyerClubId: string): number {
+  const record = state.transferMarket?.internationalPurchases;
+  return record && record.seasonKey === transferSeasonKey(state.gameDate) ? record.byClub[buyerClubId] ?? 0 : 0;
+}
+
+export function recordInternationalPurchase(state: CareerState, buyerClubId: string): CareerState {
+  const seasonKey = transferSeasonKey(state.gameDate);
+  const record = state.transferMarket?.internationalPurchases;
+  const byClub = record && record.seasonKey === seasonKey ? { ...record.byClub } : {};
+  byClub[buyerClubId] = (byClub[buyerClubId] ?? 0) + 1;
+  return { ...state, transferMarket: { ...state.transferMarket, internationalPurchases: { seasonKey, byClub } } };
+}
+
+/** Would this world-pool club bid for this contracted player? Selective by design. */
+export function internationalBuyerWants(state: CareerState, buyerClubId: string, playerId: string): boolean {
+  const sellerClubId = getPlayerContract(state, playerId)?.clubId;
+  if (!sellerClubId || sellerClubId === buyerClubId || sellerClubId === FREE_AGENT_CLUB_ID) return false;
+  if (internationalPurchasesThisSeason(state, buyerClubId) >= INTERNATIONAL_PURCHASES_PER_SEASON) return false;
+  if (!internationalClubWants(state, buyerClubId, playerId)) return false;
+  const player = playerOf(state, playerId);
+  if (!player) return false;
+  const age = playerAgeAtDate(player.dateOfBirth, player.birthYear, state.gameDate) ?? 26;
+  if (age > INTERNATIONAL_PURCHASE_MAX_AGE) return false;
+  if (environmentLevelOf(state, buyerClubId) < environmentLevelOf(state, sellerClubId) + INTERNATIONAL_PURCHASE_STEP_UP) return false;
+  const samePosition = (state.worldSquads[buyerClubId] ?? []).filter((p) => p.position === player.position).length;
+  return samePosition < INTERNATIONAL_POSITION_LIMIT;
+}
+
+/**
+ * What a world-pool club can pay for one player. Foreign clubs carry no
+ * modelled economy, so the capacity is derived from their sporting level on
+ * the game's own valuation scale: the market value of a prime-age key player a
+ * little above the club's level. A weaker club therefore simply cannot afford
+ * the players a stronger one can.
+ */
+export function internationalFeeCapacityEur(state: CareerState, buyerClubId: string): number {
+  const level = Math.round(clubLevelOf(state, buyerClubId) + 10);
+  const end = `${Number(state.gameDate.slice(0, 4)) + 3}${state.gameDate.slice(4)}`;
+  return computePlayerMarketValueEur({ ca: level, pa: level, age: 26, position: mapHandballPositionToMatchPlanPosition("M9"), role: "KEY_PLAYER", competitionTier: 1 }, end, state.gameDate);
 }
 
 /** The best concrete international option at the player's market wage, or undefined. */

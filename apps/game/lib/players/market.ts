@@ -10,7 +10,7 @@ import { releasePlayerToFreeAgency } from "../career/contractExpiry";
 import { clubCompetitionId } from "../career/competitionMembership";
 import { careerWorldCatalogClubs } from "../career/worldCompetitions";
 import type { CareerState } from "../career/types";
-import { acceptanceEstimate, internationalClubWants, playerDecisionOnMove, playerWageDemandAt } from "../transfers/careerDecision/stateAdapter";
+import { acceptanceEstimate, internationalBuyerWants, internationalFeeCapacityEur, playerDecisionOnMove, playerWageDemandAt, recordInternationalPurchase } from "../transfers/careerDecision/stateAdapter";
 import { clubLevelOf, environmentLevelOf, worldPoolClubIds } from "../transfers/careerDecision/sportingStrength";
 import { assessPositionNeed } from "../career/cpuSquadNeeds";
 import { adjustClubCash, getClubEconomyBaseline } from "../economy/clubEconomyIntegration";
@@ -93,7 +93,8 @@ export function findBuyer(state: CareerState, playerId: string, salt: string, bu
   if (pickForeign) {
     // A real world-pool club (season-aware membership) that wants him and that he would join -- never a random name.
     const pool = worldPoolClubIds(state)
-      .filter((id) => internationalClubWants(state, id, playerId))
+      // M8B: the same selective buyer rule the international clubs apply to every other seller.
+      .filter((id) => internationalBuyerWants(state, id, playerId))
       .map((id) => ({ id, terms: buyerTerms(state, playerId, id) }))
       .filter((x): x is { id: string; terms: NonNullable<typeof x.terms> } => x.terms !== null)
       .sort((a, b) => environmentLevelOf(state, b.id) - environmentLevelOf(state, a.id) || a.id.localeCompare(b.id))
@@ -171,6 +172,12 @@ function buildOffer(state: CareerState, playerId: string, buyer: Buyer, date: st
   let fee = listing ? Math.max(value * 0.8, listing.askingEur * 0.82) : value * (0.82 + hash(`${salt}:fee`) * 0.18);
   if (monthsLeft(state, playerId) <= 12) fee *= 0.75;
   let maxFee = value * (1.1 + hash(`${salt}:max`) * 0.3) * (buyer.foreign ? 1.25 : 1);
+  if (buyer.foreign && worldPoolClubIds(state).includes(buyer.clubId)) {
+    // M8B: a foreign club pays within its derived capacity, exactly as when it buys from a CPU club.
+    const capacity = internationalFeeCapacityEur(state, buyer.clubId);
+    if (fee > capacity) return null;
+    maxFee = Math.min(maxFee, capacity);
+  }
   if (!buyer.foreign) {
     // A domestic buyer never goes beyond what its board allows.
     const wage = buyer.wageEurPerMonth;
@@ -353,6 +360,7 @@ export function completeSale(state: CareerState, offerId: string, date: string, 
   if (next === state) return put(state, { ...offer, status: 'WITHDRAWN', closedOn: date });
   next = adjustClubCash(next, me, offer.feeEur, { category: "TRANSFER_FEES", label: `Försäljning: ${name} till ${buyerName}`, date });
   if (getClubEconomyBaseline(next, offer.fromClubId)) next = adjustClubCash(next, offer.fromClubId, -offer.feeEur, { category: "TRANSFER_FEES", label: `Köp: ${name}`, date });
+  if (worldPoolClubIds(next).includes(offer.fromClubId)) next = recordInternationalPurchase(next, offer.fromClubId);
   next = breakNotSellPromises(next, offer.playerId, date);
   next = closePlayerDynamics(next, offer.playerId);
   next = recordDeparture(next, { playerId: offer.playerId, playerName: name, toClubId: offer.fromClubId, date, kind: "SALE", feeEur: offer.feeEur });

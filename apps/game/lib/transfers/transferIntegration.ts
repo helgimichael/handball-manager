@@ -136,6 +136,13 @@ function buildSellingClubContext(state: CareerState, playerId: string): Omit<Sel
   };
 }
 
+/** HM-TRANSFER-REALISM M8B: the selling club's verdict on a concrete fee -- the same evaluation every permanent bid gets. */
+export function sellingClubDecisionOnFee(state: CareerState, playerId: string, feeEur: number): { accept: boolean; reason: string } {
+  const context = buildSellingClubContext(state, playerId);
+  if (!context) return { accept: false, reason: "Spelaren kunde inte hittas." };
+  return evaluateSellingClubDecision({ ...context, offerTransferFeeEur: feeEur });
+}
+
 /** HM-ALPHA2-05A: the selling club's minimum fee right now (undefined for an unknown player). */
 export function getSellingClubAskingPriceEur(state: CareerState, playerId: string): number | undefined {
   const context = buildSellingClubContext(state, playerId);
