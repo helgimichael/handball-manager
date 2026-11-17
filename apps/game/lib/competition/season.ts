@@ -26,7 +26,7 @@ import { adjustClubCash } from "../economy/clubEconomyIntegration";
 import { EUR_TO_SEK_REFERENCE_RATE } from "../economy/currency";
 import { getClub, CLUBS } from "../game-data";
 import {
-  ALLSVENSKAN, ALLSVENSKAN_RULES, CUP_RULES, DIVISION_1, HANDBOLLSLIGAN, KVAL_ALLSVENSKAN, KVAL_HBL, KVAL_HBL_RULES, PLAYOFF_BONUS_EUR, SERIES_OVERTIME_ROUNDS, SM_SLUTSPEL, SM_SLUTSPEL_RULES, SVENSKA_CUPEN, type SeriesFormat,
+  ALLSVENSKAN, ALLSVENSKAN_DIVISION1_BOUNDARY, ALLSVENSKAN_RULES, CUP_RULES, DIVISION_1, HANDBOLLSLIGAN, KVAL_ALLSVENSKAN, KVAL_HBL, KVAL_HBL_RULES, PLAYOFF_BONUS_EUR, SERIES_OVERTIME_ROUNDS, SM_SLUTSPEL, SM_SLUTSPEL_RULES, SVENSKA_CUPEN, type SeriesFormat,
 } from "./rules";
 import { competitionClubIds, competitionTable, hasLeagueCalendar, remainingLeagueFixtures } from "./tables";
 import { nationalBreaks } from "../nationalTeam/nationalTeam";
@@ -253,7 +253,8 @@ function startPostseason(state: CareerState, date: string, emit: Emit): CareerSt
     if (outcome.bothTiersSimulated) {
       for (const pos of ALLSVENSKAN_RULES.directPromotion) { nextMembership[allsv[pos - 1]!] = HANDBOLLSLIGAN; promoted.push(allsv[pos - 1]!); }
     }
-    const div1 = rankDivision1(next);
+    // HM-M9 D1: no Division 1 movement while that boundary is closed (rules.ts).
+    const div1 = ALLSVENSKAN_DIVISION1_BOUNDARY === "OPEN" ? rankDivision1(next) : [];
     if (div1.length >= 4) {
       // Group winners up directly; the next two meet Allsvenskan 11-12 (assumption: ranked by strength).
       // HM-ALPHA3-M10: a club's Division 1 group is its CURRENT membership. The static catalogue league

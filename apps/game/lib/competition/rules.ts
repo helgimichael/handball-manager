@@ -63,6 +63,16 @@ export const KVAL_HBL_RULES = {
   provenance: { verified: true, source: "THB 2025/26 & 2026/27 §3:3" } as Provenance,
 };
 
+/**
+ * HM-M9 owner decision D1: Allsvenskan <-> Division 1 is CLOSED until Division 1
+ * is a properly simulated league. While closed, the postseason creates no
+ * Division 1 kval and no direct moves across that boundary -- the old path
+ * picked Division 1 clubs by squad strength (division1Assumption below), which
+ * is an invented sporting result. Flip to "OPEN" only together with a played
+ * Division 1 season and a manager-mode package that models it.
+ */
+export const ALLSVENSKAN_DIVISION1_BOUNDARY: "OPEN" | "CLOSED" = "CLOSED";
+
 export const ALLSVENSKAN_RULES = {
   directPromotion: [1],
   toHblKval: [2, 3, 4],

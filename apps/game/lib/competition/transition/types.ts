@@ -42,6 +42,13 @@ export type QualificationStage = {
 };
 export type CompetitionRules = {
   readonly id: string;
+  /**
+   * HM-M9: who stands behind the package. Absent = an official/externally
+   * verified package (the planner's original contract). "MANAGER_MODE" = the
+   * game itself is the organizer and its own simulated season is the
+   * sporting evidence (careerRules.ts). Validation is identical for both.
+   */
+  readonly authority?: "OFFICIAL" | "MANAGER_MODE";
   readonly seasonId: string;
   readonly nextSeasonId: string;
   readonly verifiedOn: string;
