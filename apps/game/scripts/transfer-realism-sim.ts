@@ -150,6 +150,9 @@ interface M8Row {
   intlPopulation: number;
   intlSquadMean: number;
   intlYouthPromoted: number;
+  eliteToDiv1FromHigher: number;
+  eliteToDiv1Lateral: number;
+  eliteToDiv1FromFA: number;
   intlYouthActive: number;
   intlYouthEstablished: number;
   retired: number;
@@ -209,6 +212,7 @@ for (let season = 1; season <= seasons; season++) {
   }
   const wcU33 = [...after.values()].filter((s) => s.ca >= WORLD_CLASS_CA && (s.age ?? 99) < 33);
 
+  let eliteToDiv1Lateral = 0, eliteToDiv1FromFA = 0, eliteToDiv1FromHigher = 0;
   let moves = 0, movesInternational = 0, eliteDowngrades = 0, eliteDowngradesToDiv1 = 0, signedFromFA = 0, renewals = 0, renewalsWorldPool = 0, contractExpiries = 0, faReemployed = 0;
   for (const [id, now] of after) {
     const was = before.get(id);
@@ -224,7 +228,13 @@ for (let season = 1; season <= seasons; season++) {
           // Reference level: where he was, or for a free agent the best level he held at season start.
           const fromRank = was.group === "FA" ? GROUP_RANK.HBL : GROUP_RANK[was.group];
           if (fromRank - GROUP_RANK[now.group] >= 2) eliteDowngrades++;
-          if (now.group === "DIV1") eliteDowngradesToDiv1++;
+          if (now.group === "DIV1") {
+            eliteDowngradesToDiv1++;
+            // M8C: the original criterion counts all three; reported apart so they can be told apart.
+            if (was.group === "DIV1") eliteToDiv1Lateral++;
+            else if (was.group === "FA") eliteToDiv1FromFA++;
+            else eliteToDiv1FromHigher++;
+          }
         }
       }
     } else if (was.contractEnd && now.contractEnd && now.contractEnd > was.contractEnd && now.group !== "FA" && now.group !== "RETIRED") {
@@ -317,6 +327,9 @@ for (let season = 1; season <= seasons; season++) {
     intlPopulation: euroPlayers.length,
     intlSquadMean: r1(euroPlayers.length / Math.max(1, euroClubs.size)),
     intlYouthPromoted: intlYouth.filter(([id]) => !before.has(id)).length,
+    eliteToDiv1FromHigher,
+    eliteToDiv1Lateral,
+    eliteToDiv1FromFA,
     intlYouthActive: intlYouth.filter(([, s]) => s.group !== "RETIRED").length,
     intlYouthEstablished: intlYouth.filter(([, s]) => s.group !== "RETIRED" && s.ca >= 130).length,
     retired: retiredNow.length,
@@ -374,6 +387,7 @@ for (let season = 1; season <= seasons; season++) {
   );
   console.log(
     `    M8 intl ${m8.intlPopulation} (sq ${m8.intlSquadMean}) youth +${m8.intlYouthPromoted} act ${m8.intlYouthActive} est ${m8.intlYouthEstablished}` +
+      ` | toD1 higher ${m8.eliteToDiv1FromHigher} lateral ${m8.eliteToDiv1Lateral} FA ${m8.eliteToDiv1FromFA}` +
       ` | retired ${m8.retired} (med age ${m8.retireAgeMedian}) | buySE ${m8.intlBoughtFromSweden} intl2intl ${m8.intlToIntl} intl2SE ${m8.foreignToSweden}` +
       ` | elite E${m8.eliteByGroup.EURO_ELITE}/O${m8.eliteByGroup.EURO_OTHER}/H${m8.eliteByGroup.HBL}/A${m8.eliteByGroup.ALLSV}/D${m8.eliteByGroup.DIV1}` +
       ` | age34+ ${m8.activeAged34Plus} 38+ ${m8.activeAged38Plus} max ${m8.maxActiveAge} ca36+ ${m8.ca36PlusMedian} | ${m8.seasonSeconds}s`,
@@ -427,6 +441,9 @@ const m8Metrics = {
   intlYouthPromotedTotal: sum((r) => r.m8.intlYouthPromoted),
   intlYouthEstablishedFinal: last.m8.intlYouthEstablished,
   retiredTotal: sum((r) => r.m8.retired),
+  eliteToDiv1FromHigherTotal: sum((r) => r.m8.eliteToDiv1FromHigher),
+  eliteToDiv1LateralTotal: sum((r) => r.m8.eliteToDiv1Lateral),
+  eliteToDiv1FromFATotal: sum((r) => r.m8.eliteToDiv1FromFA),
   intlBoughtFromSwedenTotal: sum((r) => r.m8.intlBoughtFromSweden),
   intlToIntlTotal: sum((r) => r.m8.intlToIntl),
   foreignToSwedenTotal: sum((r) => r.m8.foreignToSweden),
