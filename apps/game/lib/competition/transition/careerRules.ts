@@ -68,7 +68,7 @@ export function managerModeRules(startYear: number, options: ManagerModePackageO
   const closed = options.closedLeagues ?? [];
 
   const familyIds = new Set<string>(interchange.map((id) => (id === L.hbl ? F.hbl : F.allsvenskan)));
-  for (const league of closed) familyIds.add(F.division1);
+  if (closed.length > 0) familyIds.add(F.division1);
   const families: FamilyDefinition[] = official.families.filter((f) => familyIds.has(f.id)).map((f) => ({ ...f, boundary: false }));
 
   const leagues: LeagueDefinition[] = [

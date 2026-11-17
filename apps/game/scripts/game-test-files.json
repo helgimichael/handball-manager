@@ -288,5 +288,6 @@
   "lib/transfers/careerDecision/underpaidReference.test.ts",
   "lib/career/careerSeasonTransition.test.ts",
   "lib/career/careerSeasonLegacy.test.ts",
-  "lib/career/seasonLifecycle.integration.test.ts"
+  "lib/career/seasonLifecycle.integration.test.ts",
+  "lib/career/m9ReleaseQa.test.ts"
 ]

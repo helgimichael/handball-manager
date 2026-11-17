@@ -46,8 +46,9 @@ test("M9F: a save round-trip (JSON + migration) transitions identically and need
   assert.equal(b.status, "APPLIED");
   assert.deepEqual(b.state.competitionMembership, a.state.competitionMembership);
   // An older save without a transition receipt is accepted as-is.
-  const { lastSeasonTransition: _drop, ...legacy } = reloaded;
-  assert.equal(transitionCareerSeason(legacy as CareerState).status, "APPLIED");
+  const legacy: CareerState = { ...reloaded };
+  delete legacy.lastSeasonTransition;
+  assert.equal(transitionCareerSeason(legacy).status, "APPLIED");
 });
 
 test("M9F: a legacy season that simulated only its own league moves nobody, and season 2 gets both tiers", () => {

@@ -88,7 +88,7 @@ test("M9G: a full HBL + Allsvenskan career plays season 1, transitions with genu
   assert.equal(m(relegatedClub), ALLSV, "the HBL 14th is relegated");
   // The planner's result IS the live season's result: identical moves between the two tiers.
   for (const id of [...hblTable, ...allsvTable]) {
-    const live = one.seasonOutcome!.nextMembership[id];
+    const live: string | undefined = one.seasonOutcome!.nextMembership[id];
     if (live) assert.equal(m(id), live, `${id}: planner follows the live postseason`);
     else assert.equal(m(id), clubCompetitionId(one, id), `${id}: unchanged`);
   }

@@ -52,7 +52,8 @@ export type ManagerModeLicenceStatus = EligibilityDecision["status"];
  * club is licensed for every division it can reach. A future licensing system
  * replaces this function; a missing decision never blocks a transition.
  */
-export function managerModeLicence(_state: CareerState, _clubId: string, _targetFamilyId: string): { status: ManagerModeLicenceStatus; evidence: string } {
+export function managerModeLicence(state: CareerState, clubId: string, targetFamilyId: string): { status: ManagerModeLicenceStatus; evidence: string } {
+  void state; void clubId; void targetFamilyId; // the inputs a future licensing system decides on
   return { status: "ELIGIBLE", evidence: "Manager mode (owner decision D3): every active club is licensed." };
 }
 
