@@ -284,5 +284,6 @@
   "lib/media/pressContinuity.test.ts",
   "lib/career/internationalYouthIntake.test.ts",
   "lib/transfers/internationalPurchases.test.ts",
-  "lib/career/ageingModel.test.ts"
+  "lib/career/ageingModel.test.ts",
+  "lib/transfers/careerDecision/underpaidReference.test.ts"
 ]

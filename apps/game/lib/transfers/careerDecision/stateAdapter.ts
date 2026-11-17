@@ -162,6 +162,9 @@ function playsAbroad(state: CareerState, playerId: string): boolean {
   return nation !== undefined && nation !== player.nationality;
 }
 
+/** M8C: below this share of his market wage a contracted player counts as clearly underpaid. */
+export const UNDERPAID_REFERENCE_FLOOR = 0.75;
+
 export function playerCareerProfile(state: CareerState, playerId: string): PlayerCareerProfile | undefined {
   memoCheck(state);
   if (profileMemo.has(playerId)) return profileMemo.get(playerId) ?? undefined;
@@ -178,7 +181,12 @@ export function playerCareerProfile(state: CareerState, playerId: string): Playe
   // HM-TRANSFER-REALISM-1.0: a contracted player measures money against what he earns. A free agent's
   // recorded wage is 0, so his reference is the market's: the formula wage, scaled to the wages the
   // world's clubs actually pay (never 0 -- the root of the audit's P1 bug).
-  const referenceWage = currentWage > 0 ? currentWage : (getPlayerFairWageEurPerMonth(state, playerId) ?? 0) * marketWageFactor(state);
+  const marketWage = (getPlayerFairWageEurPerMonth(state, playerId) ?? 0) * marketWageFactor(state);
+  // HM-TRANSFER-REALISM M8C: a player who has clearly outgrown his contract (developed on a frozen
+  // wage) measures money against what the market pays a player of his level, not against his own
+  // stale wage -- otherwise a 60 EUR raise on a 240 EUR contract reads as +25% and buys a CA-153
+  // player into Division 1 (diagnosed in docs/audits/TRANSFER-REALISM-M8-COMPLETION-REPORT.md).
+  const referenceWage = currentWage > 0 ? Math.max(currentWage, UNDERPAID_REFERENCE_FLOOR * marketWage) : marketWage;
   const profile = buildProfile({
     playerId,
     ca: rating.ca,
@@ -298,8 +306,8 @@ export const INTERNATIONAL_PURCHASE_MAX_AGE = 30;
 export const INTERNATIONAL_PURCHASE_STEP_UP = 4;
 /** ...and that keep the club's visible slice balanced across positions. */
 export const INTERNATIONAL_POSITION_LIMIT = 2;
-/** Paid signings per world-pool club per transfer season. */
-export const INTERNATIONAL_PURCHASES_PER_SEASON = 2;
+/** Paid signings per world-pool club per transfer season (M8 probe: 2 let the empty start-of-career slots pull 61 Swedish players abroad in season 1). */
+export const INTERNATIONAL_PURCHASES_PER_SEASON = 1;
 
 /** Transfer season of a date: summer window and the following winter window share one season. */
 export function transferSeasonKey(date: string): string {

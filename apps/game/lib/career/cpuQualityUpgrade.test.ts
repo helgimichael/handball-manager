@@ -16,6 +16,7 @@ import {
   CPU_RECRUITMENT_MAX_ACTIVE_PURSUITS,
 } from "./cpuRecruitment";
 import { CLEARLY_REPLACED_CA_GAP } from "./cpuContractDecisions";
+import { getPlayerFairWageEurPerMonth } from "../economy/contractIntegration";
 import { assessSquadNeeds, projectedSquadSize } from "./cpuSquadNeeds";
 import { createHarnessCareer } from "../../scripts/simulate-player-development";
 import { getClubsByCompetition, type PlayerMock } from "../game-data";
@@ -50,12 +51,22 @@ function fullSquad(state: CareerState, clubId: string, perPosition: number, ca: 
   const contracts = { ...state.playerContracts };
   const source = state.playerContracts[templatePlayer.id];
   if (source) for (const p of squad) contracts[p.id] = { ...source, playerId: p.id, clubId };
-  return {
+  const built = {
     ...state,
     worldSquads: { ...state.worldSquads, [clubId]: squad },
     gameplayRatings: { ...state.gameplayRatings, [clubId]: ratings },
     playerContracts: contracts,
   } as CareerState;
+  // HM-TRANSFER-REALISM M8C: the synthetic squad is paid what its own level is worth. Copying the
+  // template player's contract paid CA-145 players a weaker player's wage, and since M8C a clearly
+  // underpaid player measures money against his market wage -- the fixture would then describe a
+  // squad that wants to leave, not a stable strong one.
+  const paid = { ...built.playerContracts };
+  for (const p of squad) {
+    const fair = getPlayerFairWageEurPerMonth(built, p.id);
+    if (paid[p.id] && fair) paid[p.id] = { ...paid[p.id], wageEurPerMonth: Math.round(fair / 10) * 10 };
+  }
+  return { ...built, playerContracts: paid };
 }
 
 function harnessWorld(seed: string): CareerState {
