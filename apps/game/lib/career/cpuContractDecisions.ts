@@ -34,6 +34,7 @@ import { getCareerPlayer } from "./careerWorld";
 import type { FinancialPressureLevel } from "../economy/clubEconomyTypes";
 import type { CareerState } from "./types";
 import { clubRenewalWageCap, playerRenewalDecision, renewalWageDemand } from "../transfers/careerDecision/stateAdapter";
+import { contractYearsCapForAge } from "../transfers/careerDecision/model";
 import { assessRenewalAffordability, maxAffordableRenewalWage } from "../transfers/affordability";
 
 export const CPU_CONTRACT_DECISIONS = ["RENEW", "WAIT", "RELEASE"] as const;
@@ -250,7 +251,8 @@ function renewalYears(tier: SquadStatusTier, age: number | null): number {
     if (age <= 23 && (tier === "KEY_PLAYER" || tier === "TALENT")) years += 1;
     else if (age >= OLD_AGE_THRESHOLD) years -= 1;
   }
-  return Math.max(1, Math.min(4, years));
+  // HM-TRANSFER-REALISM M8D: never longer than the remaining career warrants.
+  return Math.max(1, Math.min(4, contractYearsCapForAge(age), years));
 }
 
 /** Average CA across `players` from `clubId`'s own gameplayRatings -- same small helper cpuSquadNeeds.ts keeps private for its own quality-adjustment rule; duplicated here (a few lines) rather than exported, since the two use slightly different player sets (usable squad here vs. positionPlayers there) and neither needs the other's shape. */

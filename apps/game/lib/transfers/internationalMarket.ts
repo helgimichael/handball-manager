@@ -74,10 +74,7 @@ export const INTERNATIONAL_MARKET_LOG_REASON: Record<InternationalMarketLogEntry
 };
 
 function renewalYears(age: number | null): number {
-  if (age === null) return 2;
-  if (age <= 27) return 3;
-  if (age <= 31) return 2;
-  return 1;
+  return Math.min(3, contractYearsCapForAge(age ?? 30));
 }
 
 /** World-pool clubs renew the players they want, when the player wants to stay. */

@@ -18,6 +18,7 @@ import { FREE_AGENT_CLUB_ID, getFreeAgents } from "./contractExpiry";
 import type { CareerState } from "./types";
 import { SQUAD_PLANNING_SIZE } from "./squadPlanning";
 import { clubWageCap, playerWageDemandAt } from "../transfers/careerDecision/stateAdapter";
+import { contractYearsCapForAge } from "../transfers/careerDecision/model";
 
 /**
  * HM-CPU-SQUAD-BUILDING-1.0C Part 1: squad-size recruitment brake --
@@ -99,6 +100,8 @@ export interface CandidateScore {
   willingToJoin: boolean;
   estimatedFeeEur: number;
   estimatedWageEurPerMonth: number;
+  /** M8D: the contract length this club offers him (age-dependent). */
+  contractYears: number;
   affordable: boolean;
   score: number;
   reason: string;
@@ -120,6 +123,10 @@ export function clubHasScout(state: CareerState, clubId: string): boolean {
 const SCOUTED_JITTER_MAGNITUDE = 6;
 /** Contract length every CPU permanent offer uses (cpuRecruitment.ts submits 3-year deals). */
 export const CPU_OFFER_CONTRACT_YEARS = 3;
+/** HM-TRANSFER-REALISM M8D: the CPU's offer is never longer than the player's age warrants. */
+export function cpuOfferContractYears(age: number | null): number {
+  return Math.min(CPU_OFFER_CONTRACT_YEARS, contractYearsCapForAge(age));
+}
 /** HM-TRANSFER-REALISM-1.0: a club in an acute squad emergency stretches its wage discipline this much further. */
 export const EMERGENCY_WAGE_CAP_FACTOR = 1.25;
 /** rankCandidates stops asking the PCDM once this many willing, affordable candidates are found (callers use the top three). */
@@ -232,7 +239,8 @@ export function rankCandidates(state: CareerState, buyerClubId: string, position
     // the wage the player would actually need here (shared Player Career Decision Model -- sporting
     // level, role, career phase, alternatives); a player no wage can bring here (the sporting floor,
     // a better club abroad) is not a candidate at all, so a weak club never chases him.
-    const demand = playerWageDemandAt(state, player.id, buyerClubId, { contractYears: CPU_OFFER_CONTRACT_YEARS });
+    const contractYears = cpuOfferContractYears(age);
+    const demand = playerWageDemandAt(state, player.id, buyerClubId, { contractYears });
     if (!demand || demand.demandEurPerMonth === null) return null;
     // Club-side wage discipline: not at that price -- unless the club is in an acute squad emergency, when it pays a crisis premium.
     if (demand.demandEurPerMonth > clubWageCap(state, player.id) * (options.emergency ? EMERGENCY_WAGE_CAP_FACTOR : 1)) return null;
@@ -258,6 +266,7 @@ export function rankCandidates(state: CareerState, buyerClubId: string, position
       willingToJoin: true,
       estimatedFeeEur,
       estimatedWageEurPerMonth,
+      contractYears,
       affordable: affordability.affordable,
       score,
       reason: reasonParts.join(", ") + ".",

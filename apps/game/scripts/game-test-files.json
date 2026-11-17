@@ -283,5 +283,6 @@
   "lib/career/contextualContinueAction.test.ts",
   "lib/media/pressContinuity.test.ts",
   "lib/career/internationalYouthIntake.test.ts",
-  "lib/transfers/internationalPurchases.test.ts"
+  "lib/transfers/internationalPurchases.test.ts",
+  "lib/career/ageingModel.test.ts"
 ]
