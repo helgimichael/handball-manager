@@ -480,7 +480,7 @@ function pursuePosition(state: CareerState, clubId: string, position: HandballPo
     toClubId: clubId,
     transferFeeEur: chosen.estimatedFeeEur,
     newWageEurPerMonth: chosen.estimatedWageEurPerMonth,
-    contractYears: 3,
+    contractYears: chosen.contractYears,
   });
 
   const succeeded = offer.status === "COMPLETED" || offer.status === "AGREED_AWAITING_WINDOW";

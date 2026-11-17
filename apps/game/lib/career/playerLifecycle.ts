@@ -86,7 +86,7 @@ import { worldPoolCareerClubIds } from "./careerWorld";
 import { FREE_AGENT_CLUB_ID, isFreeAgentClubId } from "./contractExpiry";
 import { buildPlayerRetiredEvent, type CareerEvent } from "./careerEvents";
 import { computeProfessionalCareerExitProbability, professionalCareerExitRoll } from "./professionalCareerExit";
-import { ATTRIBUTE_MAX, ATTRIBUTE_MIN, GOALKEEPER_ATTRIBUTES, OUTCOURT_ATTRIBUTES } from "../rating/types";
+import { ATTRIBUTE_MAX, ATTRIBUTE_MIN, GOALKEEPER_ATTRIBUTE_FAMILIES, OUTCOURT_ATTRIBUTE_FAMILIES } from "../rating/types";
 import type { DevelopableAttribute } from "../development/types";
 import type { ContractStatus } from "../economy/types";
 import type { CareerState } from "./types";
@@ -274,6 +274,22 @@ export interface RetirementProbabilityInputs {
   tier: SquadStatusTier;
   contractStatus: ContractStatus | undefined;
   daysUnattached: number;
+  /**
+   * HM-TRANSFER-REALISM M8D: how far below his club's core the player now is
+   * (median CA of the club's best 14 minus his CA; negative when he is above
+   * it). Optional -- absent means no opportunity signal (free agents, tests).
+   */
+  abilityGapToSquadCore?: number;
+}
+
+/**
+ * M8D: from 30, a player who has dropped out of his club's core (little
+ * playing time ahead) is more likely to stop, and one who is still among its
+ * best is less likely -- a gentle, bounded factor on top of age and contract.
+ */
+export function opportunityRetirementMultiplier(age: number, abilityGapToSquadCore: number | undefined): number {
+  if (abilityGapToSquadCore === undefined || age < 30) return 1;
+  return clamp(1 + abilityGapToSquadCore / 40, 0.75, 1.6);
 }
 
 // ---------------------------------------------------------------------------
@@ -349,10 +365,11 @@ export function computeRetirementProbability(inputs: RetirementProbabilityInputs
   const tierMult = TIER_RETIREMENT_MULTIPLIER[inputs.tier];
   const contractMult = contractSituationMultiplier(inputs.contractStatus);
   const faMult = isFreeAgentStatus(inputs.contractStatus) ? freeAgentDurationMultiplier(inputs.daysUnattached) : 1.0;
+  const opportunityMult = opportunityRetirementMultiplier(inputs.age, inputs.abilityGapToSquadCore);
   // PHASE 1: the multiplier path stays exactly as it was -- the floor only ever
   // RAISES the result, and is 0 below age 38, so no ordinary career changes.
   const floor = extremeAgeRetirementFloor(inputs.age, inputs.isGoalkeeper);
-  return clamp(Math.max(base * tierMult * contractMult * faMult, floor), 0, 0.98);
+  return clamp(Math.max(base * tierMult * contractMult * faMult * opportunityMult, floor), 0, 0.98);
 }
 
 function isFreeAgentStatus(status: ContractStatus | undefined): boolean {
@@ -363,47 +380,112 @@ function isFreeAgentStatus(status: ContractStatus | undefined): boolean {
 // Part 9/10/11: decline model.
 // ---------------------------------------------------------------------------
 
-/** Part 9/11: expected (fractional) decline POINTS by effective age -- interpolated smoothly, then probabilistically rounded (Part 3-style anchors, reused for decline). Conservative magnitude (Part 11): stays within [0,3] even at extreme ages. */
-const DECLINE_AGE_ANCHORS: readonly (readonly [number, number])[] = [
-  [31, 0],
-  [34, 0.3],
-  [37, 1.0],
-  [40, 2.0],
-  [43, 2.8],
-];
+// ---------------------------------------------------------------------------
+// HM-TRANSFER-REALISM M8D: GRADUAL, POSITION-SENSITIVE AGEING.
+//
+// THE DEFECT THIS REPLACES. Decline used to remove at most THREE attribute
+// points a season, picked at random from the whole branch. An outcourt CA point
+// is spread over 63 attributes (caNudgePerAttributePoint = 199/19/63 = 0.166),
+// so the old ceiling was ~0.5 CA a year for an outcourt player even at 43 -- in
+// practice no decline at all. A 20-season simulation measured players of CA 159
+// at 40 on three-year contracts, kept the world's top level filled with
+// veterans, and was one cause of the league-strength drift.
+//
+// THE MODEL. Each attribute FAMILY ages on its own smooth curve: physical
+// qualities fade first (from the late twenties), defensive and technical ones
+// later, game reading, tactics and mentality last and least. The expected loss
+// per attribute per season is interpolated from the family's anchors and
+// rounded probabilistically per attribute (deterministic seeds), so a season
+// takes a few points from many attributes rather than three random ones.
+//   * Position: wings and pivots lean on their physique more than a centre back
+//     does, so their physical decline is a little steeper; a centre back keeps
+//     his game longer.
+//   * Individual: every player has a lifelong seeded ageing rate (0.7-1.3) and
+//     onset shift (+-1.5 years), so players do not all decline at the same age.
+//   * Goalkeepers keep the existing effective-age discount on every curve.
+// Physical decline is a small share of overall ability, so an ageing player
+// loses pace before he loses his game: overall CA falls gently in the early
+// thirties (~1-2 a season) and faster after 35 (~4-6 a season). PA is never
+// touched (applyResolvedAttributeChanges has no PA parameter).
+// ---------------------------------------------------------------------------
 
-function expectedDeclinePoints(age: number, isGoalkeeper: boolean): number {
-  return interpolate(DECLINE_AGE_ANCHORS, effectiveAge(age, isGoalkeeper));
-}
+type Anchors = readonly (readonly [number, number])[];
 
-/** Deterministic probabilistic rounding of a fractional expected value into an integer point count -- e.g. expected=1.4 rounds down to 1 with 60% (seeded) probability, up to 2 with 40%. */
-function declinePointsForPlayer(seedKey: string, age: number, isGoalkeeper: boolean): number {
-  const expected = expectedDeclinePoints(age, isGoalkeeper);
-  const floor = Math.floor(expected);
-  const fractional = expected - floor;
-  const roll = seededProbability(`${seedKey}:decline-magnitude`);
-  const points = roll < fractional ? floor + 1 : floor;
-  return clamp(points, 0, 3);
-}
+const OUTCOURT_FAMILY_DECLINE: Record<keyof typeof OUTCOURT_ATTRIBUTE_FAMILIES, Anchors> = {
+  PHYSICAL: [[28, 0], [31, 0.3], [34, 0.7], [37, 1.1], [40, 1.4]],
+  DEFENSIVE: [[29, 0], [32, 0.22], [35, 0.55], [38, 0.9], [41, 1.1]],
+  TECHNICAL: [[30, 0], [33, 0.15], [36, 0.45], [39, 0.8], [42, 1.0]],
+  PERCEPTION_DECISION: [[32, 0], [35, 0.08], [38, 0.3], [41, 0.6]],
+  TACTICAL: [[33, 0], [36, 0.06], [39, 0.25], [42, 0.5]],
+  MENTAL: [[34, 0], [37, 0.04], [40, 0.2], [43, 0.4]],
+};
 
-/** Deterministically picks up to `count` DISTINCT attributes from the player's own branch vocabulary that are still above ATTRIBUTE_MIN (a maxed-out floor attribute cannot decline further -- same "already at cap, no-op" precedent resolveAttributeForWeek's own growth path already uses, just the floor side). */
-function pickDeclineAttributes(seedKey: string, branch: "OUTCOURT" | "GOALKEEPER", count: number, attributes: Record<string, { value: number; origin: string }>): DevelopableAttribute[] {
-  const pool = branch === "GOALKEEPER" ? GOALKEEPER_ATTRIBUTES : OUTCOURT_ATTRIBUTES;
-  const eligible = pool.filter((attr) => (attributes[attr]?.value ?? ATTRIBUTE_MIN) > ATTRIBUTE_MIN);
-  if (eligible.length === 0) return [];
-  const chosen: DevelopableAttribute[] = [];
-  const chosenSet = new Set<string>();
-  let attempt = 0;
-  const target = Math.min(count, eligible.length);
-  while (chosen.length < target && attempt < eligible.length * 4) {
-    const candidate = eligible[seededIndex(`${seedKey}:decline-attr:${attempt}`, eligible.length)];
-    if (!chosenSet.has(candidate)) {
-      chosenSet.add(candidate);
-      chosen.push(candidate);
-    }
-    attempt++;
+const GOALKEEPER_FAMILY_DECLINE: Record<keyof typeof GOALKEEPER_ATTRIBUTE_FAMILIES, Anchors> = {
+  SHOT_STOPPING: [[29, 0], [32, 0.2], [35, 0.55], [38, 0.9], [41, 1.2]],
+  TRANSITION: [[30, 0], [33, 0.15], [36, 0.45], [39, 0.8], [42, 1.0]],
+  PERCEPTION_DECISION: [[32, 0], [35, 0.08], [38, 0.3], [41, 0.6]],
+  MENTAL: [[34, 0], [37, 0.04], [40, 0.2], [43, 0.4]],
+};
+
+/** Position emphasis on the physical (and, for pivots, defensive) curves. */
+function positionFamilyFactor(position: string, family: string): number {
+  if (family === "PHYSICAL") {
+    if (position === "V6" || position === "H6") return 1.2;
+    if (position === "M6") return 1.1;
+    if (position === "M9") return 0.9;
   }
-  return chosen;
+  if (family === "DEFENSIVE" && position === "M6") return 1.1;
+  if (family === "TECHNICAL" && position === "M9") return 0.9;
+  return 1;
+}
+
+/** Lifelong individual ageing traits, seeded on the player alone. */
+export function individualAgeingTraits(playerId: string): { rate: number; onsetShift: number } {
+  const rate = 0.7 + seededProbability(`${playerId}:ageing-rate:v1`) * 0.6;
+  const onsetShift = (seededProbability(`${playerId}:ageing-onset:v1`) * 2 - 1) * 1.5;
+  return { rate, onsetShift };
+}
+
+/** Expected attribute points lost this season per attribute of `family` (before rounding). */
+export function expectedFamilyDecline(family: string, branch: "OUTCOURT" | "GOALKEEPER", position: string, age: number, playerId: string): number {
+  const anchors = branch === "GOALKEEPER"
+    ? GOALKEEPER_FAMILY_DECLINE[family as keyof typeof GOALKEEPER_FAMILY_DECLINE]
+    : OUTCOURT_FAMILY_DECLINE[family as keyof typeof OUTCOURT_FAMILY_DECLINE];
+  if (!anchors) return 0;
+  const { rate, onsetShift } = individualAgeingTraits(playerId);
+  const x = effectiveAge(age, branch === "GOALKEEPER") - onsetShift;
+  return Math.max(0, interpolate(anchors, x)) * rate * positionFamilyFactor(position, family);
+}
+
+/**
+ * The attribute changes one season of ageing applies to a rating (empty when
+ * the player is too young to decline). Pure and deterministic.
+ */
+export function ageingDeclineChanges(
+  playerId: string,
+  year: string,
+  age: number,
+  position: string,
+  branch: "OUTCOURT" | "GOALKEEPER",
+  attributes: Record<string, { value: number }>,
+): { attribute: DevelopableAttribute; newValue: number; caDelta: number }[] {
+  const families = branch === "GOALKEEPER" ? GOALKEEPER_ATTRIBUTE_FAMILIES : OUTCOURT_ATTRIBUTE_FAMILIES;
+  const nudge = caNudgePerAttributePoint(branch);
+  const changes: { attribute: DevelopableAttribute; newValue: number; caDelta: number }[] = [];
+  for (const [family, list] of Object.entries(families)) {
+    const expected = expectedFamilyDecline(family, branch, position, age, playerId);
+    if (expected <= 0) continue;
+    for (const attribute of list as readonly string[]) {
+      const current = attributes[attribute]?.value;
+      if (current === undefined || current <= ATTRIBUTE_MIN) continue;
+      const whole = Math.floor(expected);
+      const points = whole + (seededProbability(`${playerId}:${year}:decline:${attribute}`) < expected - whole ? 1 : 0);
+      if (points <= 0) continue;
+      const newValue = clamp(current - points, ATTRIBUTE_MIN, ATTRIBUTE_MAX);
+      changes.push({ attribute: attribute as DevelopableAttribute, newValue, caDelta: (newValue - current) * nudge });
+    }
+  }
+  return changes;
 }
 
 /**
@@ -418,27 +500,14 @@ function pickDeclineAttributes(seedKey: string, branch: "OUTCOURT" | "GOALKEEPER
  * season (young player, already-floor attributes, or a zero magnitude
  * roll).
  */
-function applyPlayerDecline(state: CareerState, playerId: string, clubId: string, date: string, age: number, isGoalkeeper: boolean): CareerState {
+function applyPlayerDecline(state: CareerState, playerId: string, clubId: string, date: string, age: number, position: string): CareerState {
   const rating = state.gameplayRatings[clubId]?.find((r) => r.playerId === playerId);
   if (!rating) return state;
-
-  const seedKey = `${playerId}:${date.slice(0, 4)}:decline`;
-  const points = declinePointsForPlayer(seedKey, age, isGoalkeeper);
-  if (points === 0) return state;
-
-  const attributes = rating.branch.attributes as unknown as Record<string, { value: number; origin: string }>;
-  const chosenAttrs = pickDeclineAttributes(seedKey, rating.branch.branch, points, attributes);
-  if (chosenAttrs.length === 0) return state;
-
-  const nudge = caNudgePerAttributePoint(rating.branch.branch);
-  const changes = chosenAttrs.map((attribute) => {
-    const current = attributes[attribute]?.value ?? ATTRIBUTE_MIN;
-    const newValue = clamp(current - 1, ATTRIBUTE_MIN, ATTRIBUTE_MAX);
-    return { attribute, newValue, caDelta: (newValue - current) * nudge };
-  });
+  const attributes = rating.branch.attributes as unknown as Record<string, { value: number }>;
+  const changes = ageingDeclineChanges(playerId, date.slice(0, 4), age, position, rating.branch.branch, attributes);
+  if (changes.length === 0) return state;
   const updated = applyResolvedAttributeChanges(rating, changes);
   if (updated === rating) return state;
-
   const nextRatings = (state.gameplayRatings[clubId] ?? []).map((r) => (r.playerId === playerId ? updated : r));
   return { ...state, gameplayRatings: { ...state.gameplayRatings, [clubId]: nextRatings } };
 }
@@ -556,6 +625,9 @@ export function progressPlayerLifecycle(state: CareerState, date: string): Playe
 
   for (const clubId of clubIds) {
     const squad = next.worldSquads[clubId] ?? [];
+    // M8D: the club's core level (median CA of its best 14), read once per club.
+    const clubCas = isFreeAgentClubId(clubId) ? [] : (next.gameplayRatings[clubId] ?? []).map((r) => r.ca).sort((a, b) => b - a).slice(0, 14);
+    const squadCore = clubCas.length >= 7 ? clubCas[Math.floor(clubCas.length / 2)] : undefined;
     for (const player of squad) {
       if (next.playerLifecycleYears[player.id] === year) continue; // idempotent -- already evaluated this year.
 
@@ -602,7 +674,9 @@ export function progressPlayerLifecycle(state: CareerState, date: string): Playe
         const tier = deriveDefaultSquadStatusTier(player);
         const status = getPlayerContractStatus(next, player.id);
         const daysUnattached = isFreeAgentClubId(player.clubId) ? Math.max(0, daysBetween(contract.contractEndDate, date)) : 0;
-        const probability = computeRetirementProbability({ age, isGoalkeeper, tier, contractStatus: status, daysUnattached });
+        const ownCa = squadCore === undefined ? undefined : next.gameplayRatings[clubId]?.find((r) => r.playerId === player.id)?.ca;
+        const abilityGapToSquadCore = squadCore === undefined || ownCa === undefined ? undefined : squadCore - ownCa;
+        const probability = computeRetirementProbability({ age, isGoalkeeper, tier, contractStatus: status, daysUnattached, abilityGapToSquadCore });
         const seedKey = retirementSeedKey(player.id, year);
         const roll = seededProbability(seedKey);
 
@@ -638,7 +712,7 @@ export function progressPlayerLifecycle(state: CareerState, date: string): Playe
       }
 
       const beforeDecline = next;
-      next = applyPlayerDecline(next, player.id, clubId, date, age, isGoalkeeper);
+      next = applyPlayerDecline(next, player.id, clubId, date, age, player.position);
       if (next !== beforeDecline) declinedPlayerIds.push(player.id);
     }
   }
