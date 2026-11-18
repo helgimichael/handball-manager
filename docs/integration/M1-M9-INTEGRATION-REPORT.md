@@ -101,7 +101,7 @@
 
 - Hela sviten: 3 290 tester, 3 279 pass, **11 fel**. Alla 11 felar även på `main` `58c55efe` (jämförelse per testnamn). **Inga fel finns bara i integrationen.** Två fel finns bara på `main` och är lösta här (IMPOSSIBLE gate, overfull weak squad).
 - Tvåsäsongstestet: **pass** på 19 min 15 s. Aranäs upp, Hallby ned, 11 + 11 flyttar i hela pyramiden, 20 internationella händelser, världspoolen växer 100 → 105, och säsong 3 är 2028/29.
-- Loggar: `C:\DEV\QA\logs\m1-m9-integrationull-integration-final.log`, `two-season-final.log` och `full-main-baseline.fails.txt`.
+- Loggar: `C:\DEV\QA\logs\m1-m9-integration\full-integration-final.log`, `two-season-final.log` och `full-main-baseline.fails.txt`.
 
 ## 7. Kända begränsningar
 
