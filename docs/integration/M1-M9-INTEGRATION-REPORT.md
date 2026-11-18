@@ -142,5 +142,5 @@
 
 ## 11. Git
 
-- **Branch:** `integration/m1-m9-playable-qa`, pushad till `origin/integration/m1-m9-playable-qa` (se slutrapporten i chatten för fjärr-HEAD).
+- **Branch:** `integration/m1-m9-playable-qa`, pushad till `origin/integration/m1-m9-playable-qa` (fjärr-HEAD verifierad lika med lokal HEAD efter push).
 - **Commits ovanpå `main`:** 13 överförda M1–M8-commits (med `-x`-referenser till originalen), 3 integrationscommits och denna rapport.
