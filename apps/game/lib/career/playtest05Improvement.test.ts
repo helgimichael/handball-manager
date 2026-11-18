@@ -71,6 +71,13 @@ test("Pillar 1: Manager consent workflow for incoming transfer offers", () => {
     motive: "Important signing",
   };
 
+  // M1-M9 integration: fund the buyer explicitly (main's marketHotfix pattern). With the shared
+  // player decision model the player accepts these terms, so the sale now reaches completion --
+  // where main's own buyer-affordability revalidation applies. This test isolates the consent
+  // workflow, not the buyer's budget.
+  const BUYER = "swe2-guif";
+  s = { ...s, clubEconomies: { ...s.clubEconomies, [BUYER]: { ...s.clubEconomies[BUYER]!, cashEur: 1_000_000, revenue: { ...s.clubEconomies[BUYER]!.revenue, commercialRevenueEur: 1_000_000 } } }, clubFinances: s.clubFinances?.[BUYER] ? { ...s.clubFinances, [BUYER]: { ...s.clubFinances[BUYER]!, bridgeEurAnnual: 0 } } : s.clubFinances };
+
   s = {
     ...s,
     incomingOffers: { [offer.id]: offer },
