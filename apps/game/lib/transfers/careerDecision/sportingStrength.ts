@@ -25,7 +25,7 @@
 //                old save without it simply uses the live measurement).
 // Prestige     = LEAGUE_PRESTIGE below: small, documented, sporting-context
 //                adjustments only.
-import { getClub, getClubsByCompetition, getCompetition } from "../../game-data";
+import { getClub, getCompetition } from "../../game-data";
 import { clubCompetitionId } from "../../career/competitionMembership";
 import { ownLevelScore } from "../../career/cpuCandidateEvaluation";
 import { SWEDISH_WORLD_COMPETITION_IDS } from "../../career/worldCompetitions";

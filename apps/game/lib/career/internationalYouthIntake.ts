@@ -29,7 +29,7 @@
 // Ownership, contract and identity go through the canonical records exactly as
 // youthIntake.ts does: one owner, one contract, a unique playerId
 // (`intl-youth-<club>-<year>-<i>`), deterministic draws from the save seed.
-import { getClub, getCompetition, type HandballPosition, type NationCode, type PlayerMock } from "../game-data";
+import { getCompetition, type HandballPosition, type NationCode, type PlayerMock } from "../game-data";
 import { seededOffset } from "../rating/generation/deterministicVariation";
 import { PA_MAX } from "../rating/types";
 import { mapHandballPositionToMatchPlanPosition } from "../matchPlan/careerSquadBridge";
@@ -40,6 +40,7 @@ import type { PlayerContract } from "../economy/types";
 import { generateYouthGameplayRating, legacyAttributesFromCA } from "./youthIntake";
 import { generateInternationalYouthName } from "./internationalYouthNames";
 import { worldPoolCareerClubIds } from "./careerWorld";
+import { clubCompetitionId } from "./competitionMembership";
 import type { CareerState } from "./types";
 
 export const INTERNATIONAL_YOUTH_INTAKE_MMDD = "07-01";
@@ -92,10 +93,10 @@ function pickPosition(seedKey: string, squad: readonly PlayerMock[]): HandballPo
 
 function pickNationality(state: CareerState, seedKey: string, clubId: string, homeNation: string): NationCode {
   if (unit(`${seedKey}:intl-home`) < HOME_NATION_SHARE) return homeNation as NationCode;
-  const competitionId = getClub(clubId)?.competitionId;
+  const competitionId = clubCompetitionId(state, clubId);
   const others = new Set<string>();
   for (const id of worldPoolCareerClubIds(state)) {
-    if (getClub(id)?.competitionId !== competitionId) continue;
+    if (clubCompetitionId(state, id) !== competitionId) continue;
     for (const p of state.worldSquads[id] ?? []) if (p.nationality !== homeNation) others.add(p.nationality);
   }
   const list = [...others].sort();
@@ -137,7 +138,7 @@ function generateProspect(state: CareerState, clubId: string, year: number, inde
   const contractYears = 3;
   const contractEndYear = year + contractYears;
   const contractEndSeasonHint = `${contractEndYear - 1}/${String(contractEndYear).slice(-2)}`;
-  const competitionTier = getCompetition(getClub(clubId)?.competitionId ?? "")?.tier;
+  const competitionTier = getCompetition(clubCompetitionId(state, clubId) ?? "")?.tier;
   const economyInputs: EconomyProfileInputs = { ca, pa, age, position: mapHandballPositionToMatchPlanPosition(position), role: "DEVELOPMENT", competitionTier };
   const contract = generateInitialContract(playerId, clubId, contractEndSeasonHint, contractEndYear, economyInputs);
   const player: PlayerMock = {
@@ -170,7 +171,7 @@ export function progressInternationalYouthIntake(state: CareerState, date: strin
     const squad = next.worldSquads[clubId] ?? [];
     const size = internationalIntakeSize(next.saveSeed, clubId, year, INTERNATIONAL_YOUTH_SQUAD_CAPACITY - squad.length);
     const level = leagueLevelOfClub(clubId);
-    const homeNation = getCompetition(getClub(clubId)?.competitionId ?? "")?.nation ?? "GER";
+    const homeNation = getCompetition(clubCompetitionId(next, clubId) ?? "")?.nation ?? "GER";
     const players: PlayerMock[] = [];
     const ratings: GameplayPlayerRating[] = [];
     let contracts = next.playerContracts;
